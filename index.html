@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>index</title>
+	<meta name="generator" content="TextMate http://macromates.com/">
+	<meta name="author" content="Javier Cerviño Arriba">
+	<!-- Date: 2012-03-13 -->
+	
+	<link href='css/style.css' media='screen' rel='stylesheet' />
+	
+	<script id="logged_in" type="text/html">
+	    You're logged in.
+	</script>
+	
+	<script id="not_logged_in" type="text/html">
+		<div id="login_wrapper">
+			<div class='large-rounded' id='login'>
+				<% if (has('error_msg')) { %>
+					<div id="message_box" class="message_box error">
+						<h2>Error</h2>
+						<p><%= get('error_msg') %></p>
+				    </div>
+				<% } %>
+				<form class="credentials">
+		  			<fieldset>
+						<input type="hidden" name="method" value="Login" id="id_method" />
+						<label for="id_username">User Name</label>
+						<input id="id_username" type="text" name="username" maxlength="20" value="admin"/>
+						<label for="id_password">Password</label>
+						<input id="id_password" type="password" name="password" maxlength="20" value="password"/>
+						<input type="hidden" name="next" value="/" />
+						<div class="button">
+							<input id="home_login_btn" type="submit" value="Sign In">
+						</div>
+					</fieldset>
+				</form>
+				<ul id='alternate_links'>
+				          <li>&nbsp;</li>
+				          <li>&nbsp;</li>
+		        </ul>
+		        <div class="clear"></div>
+		      	</div>
+		    </div>
+	</script>
+	
+	
+
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script type="text/javascript" src="js/underscore.js"></script>
+	
+	<script type="text/javascript" src="js/backbone.js"></script>
+	<script type="text/javascript" src="js/jstack.js"></script>
+
+	<script type="text/javascript" src="js/fiware-utils.js"></script>
+
+	<script type="text/javascript" src="js/fiware-models.js"></script>
+	<script type="text/javascript" src="js/fiware-views.js"></script>
+	<script type="text/javascript" src="js/fiware-routes.js"></script>
+
+	<script type="text/javascript" src="js/fiware.js"></script>
+	
+</head>
+<body id="standalone">
+</body>
+</html>
