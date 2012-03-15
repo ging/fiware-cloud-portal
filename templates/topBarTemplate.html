@@ -1,0 +1,10 @@
+<script id="topBarTemplate" type="text/html">
+<div id="user_info" class="pull-right">
+  <span>Logged in as: <%= get('username') %></span>
+  <a href="#settings/">Settings</a>
+  <a href="#auth/logout">Sign Out</a>
+</div>
+  <div class='page-header'>
+    <h2><%= get('title') %> <% if (has('subtitle')) { %><small><%= get('subtitle') %></small><% } %></h2>
+  </div>
+</script>

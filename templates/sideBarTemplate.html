@@ -1,0 +1,13 @@
+<script id="sideBarTemplate" type="text/html">
+<h4 id="sideBarTitle"></h4>
+<ul class="main_nav">
+	<% for (var index in models) { 
+		var model = models[index];
+		%>
+	<li>
+		<a href="<%= model.get('url') %>" <% if(model.get('active')) { %> class="active" <% } %> tabindex='1'><%= model.get('name') %></a>
+	</li>
+	<% } %>
+</ul>
+
+</script>

@@ -1,0 +1,253 @@
+<script id="novaImagesAndSnapshotsTemplate" type="text/html">
+<div class="images">
+    <form action="/nova/images_and_snapshots/" method="POST"><div style='display:none'><input type='hidden' name='csrfmiddlewaretoken' value='13de1d539e7690548408d1be1856eb9c' /></div>
+<div class='table_header'>
+  <h3 class='table_title'>Images</h3>
+  <div class="table_actions clearfix">
+
+
+    
+        
+            <button class='btn btn-small btn-danger' name="action" value="images__delete" type="submit">Delete Images</button>
+        
+    
+
+</div>
+
+</div>
+
+<table id="images" class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      
+        <th class="multi_select_column"></th>
+      
+        <th class="">Name</th>
+      
+        <th class="">Type</th>
+      
+        <th class="">Status</th>
+      
+        <th class="">Public</th>
+      
+        <th class="">Container Format</th>
+      
+        <th class="actions_column">Actions</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr id="images__row__4" class="">
+  <td class="multi_select_column"><input type="checkbox" name="object_ids" value="4" /></td><td class="">test2</td><td class="">Image</td><td class="">Queued</td><td class="">Yes</td><td class="">AMI</td><td class="actions_column">
+
+
+<div class="btn-group">
+    
+        
+          
+  <a href='/nova/images_and_snapshots/4/launch/'  class="ajax-modal btn btn-small">Launch</a>
+
+
+          <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu row_actions clearfix">
+        
+        
+    
+        
+          <li class="clearfix">
+              
+  <a href='/nova/images_and_snapshots/4/update/'  class="ajax-modal btn btn-small">Edit</a>
+
+
+          </li>
+        
+        
+          </ul>
+        
+    
+</div>
+
+
+</td>
+</tr>
+
+  
+    <tr id="images__row__2" class="">
+  <td class="multi_select_column"><input type="checkbox" name="object_ids" value="2" /></td><td class="">ubuntu-10.04.2</td><td class="">Image</td><td class="">Active</td><td class="">Yes</td><td class="">AMI</td><td class="actions_column">
+
+
+<div class="btn-group">
+    
+        
+          
+  <a href='/nova/images_and_snapshots/2/launch/'  class="ajax-modal btn btn-small">Launch</a>
+
+
+          <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu row_actions clearfix">
+        
+        
+    
+        
+          <li class="clearfix">
+              
+  <a href='/nova/images_and_snapshots/2/update/'  class="ajax-modal btn btn-small">Edit</a>
+
+
+          </li>
+        
+        
+    
+        
+          <li class="clearfix">
+              
+  <button  class="btn btn-small btn-danger" name="action" value="images__delete__2" type="submit">Delete Image</button>
+
+
+          </li>
+        
+        
+          </ul>
+        
+    
+</div>
+
+
+</td>
+</tr>
+
+  
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="7">
+        <span>Displaying 2 items</span>
+        
+      </td>
+    </td>
+  </tfoot>
+</table>
+
+</form>
+
+  </div>
+  <div class="snapshots">
+    <form action="/nova/images_and_snapshots/" method="POST"><div style='display:none'><input type='hidden' name='csrfmiddlewaretoken' value='13de1d539e7690548408d1be1856eb9c' /></div>
+<div class='table_header'>
+  <h3 class='table_title'>Instance Snapshots</h3>
+  <div class="table_actions clearfix">
+
+
+    
+        
+            <button class='btn btn-small btn-danger' name="action" value="snapshots__delete" type="submit">Delete Snapshots</button>
+        
+    
+
+</div>
+
+</div>
+
+<table id="snapshots" class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      
+        <th class="multi_select_column"></th>
+      
+        <th class="">Name</th>
+      
+        <th class="">Type</th>
+      
+        <th class="">Status</th>
+      
+        <th class="">Public</th>
+      
+        <th class="">Container Format</th>
+      
+        <th class="actions_column">Actions</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+  
+  <tr class="odd empty">
+    <td colspan="7">No items to display.</td>
+  </tr>
+  
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="7">
+        <span>Displaying 0 items</span>
+        
+      </td>
+    </td>
+  </tfoot>
+</table>
+
+</form>
+
+  </div>
+  <div class="volume_snapshots">
+    <form action="/nova/images_and_snapshots/" method="POST"><div style='display:none'><input type='hidden' name='csrfmiddlewaretoken' value='13de1d539e7690548408d1be1856eb9c' /></div>
+<div class='table_header'>
+  <h3 class='table_title'>Volume Snapshots</h3>
+  <div class="table_actions clearfix">
+
+
+    
+        
+            <button class='btn btn-small btn-danger' name="action" value="volume_snapshots__delete" type="submit">Delete Volume Snaphots</button>
+        
+    
+
+</div>
+
+</div>
+
+<table id="volume_snapshots" class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      
+        <th class="multi_select_column"></th>
+      
+        <th class="">Name</th>
+      
+        <th class="">Description</th>
+      
+        <th class="">Size</th>
+      
+        <th class="">Status</th>
+      
+        <th class="">Volume ID</th>
+      
+        <th class="actions_column">Actions</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+  
+  <tr class="odd empty">
+    <td colspan="7">No items to display.</td>
+  </tr>
+  
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="7">
+        <span>Displaying 0 items</span>
+        
+      </td>
+    </td>
+  </tfoot>
+</table>
+
+</form>
+
+  </div>
+</script>

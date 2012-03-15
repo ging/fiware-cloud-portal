@@ -1,0 +1,11 @@
+<script id="navTabTemplate" type="text/html">
+	<ul class="nav nav-tabs">
+		<% for (var index in models) { 
+			var model = models[index];
+			%>
+		<li <% if (model.get('active')) { %> class="active" <% } %> >
+			<a href="<%= model.get('url') %>" tabindex='1'><%= model.get('name') %></a>
+		</li>
+		<% } %>
+	</ul>
+</script>

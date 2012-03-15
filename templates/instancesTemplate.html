@@ -1,0 +1,175 @@
+<script id="instancesTemplate" type="text/html">
+<form action="/syspanel/instances/" method="POST"><div style='display:none'><input type='hidden' name='csrfmiddlewaretoken' value='13de1d539e7690548408d1be1856eb9c' /></div>
+<div class='table_header'>
+  <h3 class='table_title'>Instances</h3>
+  <div class="table_actions clearfix">
+
+
+    
+        
+            <a href='/nova/images_and_snapshots/'  class="btn btn-small">Launch Instance</a>
+        
+    
+
+    
+        
+            <button class='btn btn-small btn-danger' name="action" value="instances__terminate" type="submit">Terminate Instances</button>
+        
+    
+
+</div>
+
+</div>
+
+<table id="instances" class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      
+        <th class="multi_select_column"></th>
+      
+        <th class="">Name</th>
+      
+        <th class="">IP Address</th>
+      
+        <th class="">Size</th>
+      
+        <th class="">Status</th>
+      
+        <th class="">Task</th>
+      
+        <th class="">Power State</th>
+      
+        <th class="actions_column">Actions</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr id="instances__row__3" class="status_up">
+  <td class="multi_select_column"><input type="checkbox" name="object_ids" value="3" /></td><td class=""><a href="/nova/instances_and_volumes/instances/3/detail">servidor chulo</a></td><td class="">
+    
+    <ul>
+    
+      <li>10.0.0.2</li>
+    
+    </ul>
+
+</td><td class="">512MB RAM | 1 VCPU | 0 Disk</td><td class="">Active</td><td class="status_up">None</td><td class="">No State</td><td class="actions_column">
+
+
+<div class="btn-group">
+    
+        
+          
+  <a href='/nova/instances_and_volumes/instances/3/update'  class="ajax-modal btn btn-small">Edit Instance</a>
+
+
+          <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu row_actions clearfix">
+        
+        
+    
+        
+          <li class="clearfix">
+              
+  <a href='/nova/instances_and_volumes/instances/3/vnc'  class="btn btn-small">VNC Console</a>
+
+
+          </li>
+        
+        
+    
+        
+          <li class="clearfix">
+              
+  <a href='/nova/instances_and_volumes/instances/3/console'  class="btn btn-small">View Log</a>
+
+
+          </li>
+        
+        
+    
+        
+          <li class="clearfix">
+              
+  <a href='/nova/images_and_snapshots/3/create'  class="ajax-modal btn btn-small">Snapshot</a>
+
+
+          </li>
+        
+        
+    
+        
+          <li class="clearfix">
+              
+  <button  class="btn btn-small" name="action" value="instances__pause__3" type="submit">Pause Instance</button>
+
+
+          </li>
+        
+        
+    
+        
+          <li class="clearfix">
+              
+  <button  class="btn btn-small" name="action" value="instances__suspend__3" type="submit">Suspend Instance</button>
+
+
+          </li>
+        
+        
+    
+        
+          <li class="clearfix">
+              
+  <button  class="btn btn-small btn-danger" name="action" value="instances__reboot__3" type="submit">Reboot Instance</button>
+
+
+          </li>
+        
+        
+    
+        
+          <li class="clearfix">
+              
+  <button  class="btn btn-small btn-danger" name="action" value="instances__terminate__3" type="submit">Terminate Instance</button>
+
+
+          </li>
+        
+        
+    
+        
+          <li class="clearfix">
+              
+  <a href='/syspanel/instances/?action=update&amp;table=instances&amp;obj_id=3'  data-update-interval="2500" class="btn btn-small ajax-update hide">Update</a>
+
+
+          </li>
+        
+        
+          </ul>
+        
+    
+</div>
+
+
+</td>
+</tr>
+
+  
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="8">
+        <span>Displaying 1 item</span>
+        
+      </td>
+    </td>
+  </tfoot>
+</table>
+
+</form>
+</script>

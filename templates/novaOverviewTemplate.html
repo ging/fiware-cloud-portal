@@ -1,0 +1,86 @@
+<script id="novaOverviewTemplate" type="text/html">
+<form action="" method="get" id="date_form" class="form-horizontal">
+  <h3>Select a month to query its usage: </h3>
+  <div class="form-row">
+    <select name="month" id="id_month">
+<option value="1">January</option>
+<option value="2">February</option>
+<option value="3" selected="selected">March</option>
+<option value="4">April</option>
+<option value="5">May</option>
+<option value="6">June</option>
+<option value="7">July</option>
+<option value="8">August</option>
+<option value="9">September</option>
+<option value="10">October</option>
+<option value="11">November</option>
+<option value="12">December</option>
+</select>
+    <select name="year" id="id_year">
+<option value="2012" selected="selected">2012</option>
+<option value="2011">2011</option>
+<option value="2010">2010</option>
+<option value="2009">2009</option>
+</select>
+    <input class="btn btn-small" type="submit"/>
+  </div>
+</form>
+
+<p id="activity">
+  <span><strong>Active Instances:</strong> -</span>
+  <span><strong>Active Memory:</strong> -</span>
+  <span><strong>This Month's VCPU-Hours:</strong> 0</span>
+  <span><strong>This Month's GB-Hours:</strong> 0</span>
+</p>
+
+  <form action="/nova/" method="POST"><div style='display:none'><input type='hidden' name='csrfmiddlewaretoken' value='13de1d539e7690548408d1be1856eb9c' /></div>
+<div class='table_header'>
+  <h3 class='table_title'>Usage Summary</h3>
+  <div class="table_actions clearfix">
+
+
+    
+        
+            <a href='?date_month=2012-03-01&amp;date_year=2012-03-16&amp;format=csv'  class="btn btn-small">Download CSV Summary</a>
+        
+    
+
+</div>
+
+</div>
+
+<table id="tenant_usage" class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      
+        <th class="">Name</th>
+      
+        <th class="">VCPUs</th>
+      
+        <th class="">Disk</th>
+      
+        <th class="">RAM</th>
+      
+        <th class="">Uptime</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+  
+  <tr class="odd empty">
+    <td colspan="5">No items to display.</td>
+  </tr>
+  
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="5">
+        <span>Displaying 0 items</span>
+        
+      </td>
+    </td>
+  </tfoot>
+</table>
+
+</form>
+</script>

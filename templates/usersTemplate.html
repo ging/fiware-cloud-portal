@@ -1,0 +1,194 @@
+<script id="usersTemplate" type="text/html">
+<form action="/syspanel/users/" method="POST"><div style='display:none'><input type='hidden' name='csrfmiddlewaretoken' value='13de1d539e7690548408d1be1856eb9c' /></div>
+<div class='table_header'>
+  <h3 class='table_title'>Users</h3>
+  <div class="table_actions clearfix">
+
+    <div class="table_search">
+        <input class="span3 example" value="" type="text" name="users__filter__q" />
+        <button type="submit" class="btn btn-small filter">Filter</button>
+    </div>
+
+
+    
+
+    
+        
+            <a href='/syspanel/users/create/'  class="btn btn-small ajax-modal">Create User</a>
+        
+    
+
+    
+        
+            <button class='btn btn-small btn-danger' name="action" value="users__delete" type="submit">Delete Users</button>
+        
+    
+
+</div>
+
+</div>
+
+<table id="users" class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      
+        <th class="multi_select_column"></th>
+      
+        <th class="">Id</th>
+      
+        <th class="">Name</th>
+      
+        <th class="">Email</th>
+      
+        <th class="">Enabled</th>
+      
+        <th class="actions_column">Actions</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr id="users__row__1" class="">
+  <td class="multi_select_column"><input type="checkbox" name="object_ids" value="1" /></td><td class="">1</td><td class="">admin</td><td class="">None</td><td class="status_up">True</td><td class="actions_column">
+
+
+<div class="btn-group">
+    
+        
+          
+  <a href='/syspanel/users/1/update/'  class="btn btn-small ajax-modal">Edit</a>
+
+
+          <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu row_actions clearfix">
+        
+        
+    
+        
+          <li class="clearfix">
+              
+  <button  class="btn btn-small" name="action" value="users__disable__1" type="submit">Disable</button>
+
+
+          </li>
+        
+        
+          </ul>
+        
+    
+</div>
+
+
+</td>
+</tr>
+
+  
+    <tr id="users__row__2" class="">
+  <td class="multi_select_column"><input type="checkbox" name="object_ids" value="2" /></td><td class="">2</td><td class="">demo</td><td class="">None</td><td class="status_up">True</td><td class="actions_column">
+
+
+<div class="btn-group">
+    
+        
+          
+  <a href='/syspanel/users/2/update/'  class="btn btn-small ajax-modal">Edit</a>
+
+
+          <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu row_actions clearfix">
+        
+        
+    
+        
+          <li class="clearfix">
+              
+  <button  class="btn btn-small" name="action" value="users__disable__2" type="submit">Disable</button>
+
+
+          </li>
+        
+        
+    
+        
+          <li class="clearfix">
+              
+  <button  class="btn btn-small btn-danger" name="action" value="users__delete__2" type="submit">Delete User</button>
+
+
+          </li>
+        
+        
+          </ul>
+        
+    
+</div>
+
+
+</td>
+</tr>
+
+  
+    <tr id="users__row__3" class="">
+  <td class="multi_select_column"><input type="checkbox" name="object_ids" value="3" /></td><td class="">3</td><td class="">javi</td><td class="">jcervino@dit.upm.es</td><td class="status_up">True</td><td class="actions_column">
+
+
+<div class="btn-group">
+    
+        
+          
+  <a href='/syspanel/users/3/update/'  class="btn btn-small ajax-modal">Edit</a>
+
+
+          <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu row_actions clearfix">
+        
+        
+    
+        
+          <li class="clearfix">
+              
+  <button  class="btn btn-small" name="action" value="users__disable__3" type="submit">Disable</button>
+
+
+          </li>
+        
+        
+    
+        
+          <li class="clearfix">
+              
+  <button  class="btn btn-small btn-danger" name="action" value="users__delete__3" type="submit">Delete User</button>
+
+
+          </li>
+        
+        
+          </ul>
+        
+    
+</div>
+
+
+</td>
+</tr>
+
+  
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="6">
+        <span>Displaying 3 items</span>
+        
+      </td>
+    </td>
+  </tfoot>
+</table>
+
+</form>
+</script>

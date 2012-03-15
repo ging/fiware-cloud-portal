@@ -15,10 +15,28 @@ UTILS.Auth = (function(U, undefined) {
     function initialize(url) {
         JSTACK.Keystone.init(url);
     }
+    
+    function getToken() {
+        return JSTACK.Keystone.params.token;
+    }
+    
+    function getName() {
+        return JSTACK.Keystone.params.access.user.name;
+    }
+    
+    function isAuthenticated() {
+        return JSTACK.Keystone.params.currentstate == JSTACK.Keystone.STATES.AUTHENTICATED;
+    }
 
-    function authenticate(username, password, tenant, callback, error) {
+    function authenticate(username, password, tenant, token, callback, error) {
         
         var _authenticatedWithTenant = function (resp) {
+            console.log("Authenticated");
+            console.log(JSON.stringify(resp));
+            callback();
+        }
+        
+        var _authenticatedWithToken = function (resp) {
             console.log("Authenticated");
             callback();
         }
@@ -46,6 +64,10 @@ UTILS.Auth = (function(U, undefined) {
             error("No tenant")
         }
         
+        var getToken = function() {
+            return JSTACK.Keystone.params.token;
+        }
+        
         var onError = function(msg) {
             error(msg);
         }
@@ -65,15 +87,39 @@ UTILS.Auth = (function(U, undefined) {
         } else if (username != password) {
             success = _authenticatedWithoutTenant;
             console.log("Authenticating without tenant");
+        } else if (token != undefined) {
+            success = _authenticatedWithoutTenant;
+            console.log("Authenticating with token");
         }
-
-        JSTACK.Keystone.authenticate(username, password, undefined, tenant, success, _credError);
+        JSTACK.Keystone.authenticate(username, password, token, tenant, success, _credError);
     };
     
     return {
         initialize: initialize,
-        authenticate: authenticate
+        authenticate: authenticate,
+        getToken: getToken,
+        getName: getName,
+        isAuthenticated: isAuthenticated,
+
     }
 
 })(UTILS);
 
+UTILS.Render = (function(U, undefined) {
+    
+    function animateRender(el, template, model) {
+         $(el).animate( {
+                        marginLeft: "+=1250px",
+                        marginRight: "-=1250px",
+                      }, 200, function() {
+            $(el).empty().html(template(model)).css('marginLeft', '1250px').css('marginRight', '-1250px').animate( {
+                        marginLeft: "-=1250px",
+                        marginRight: "+=1250px",
+                      }, 200);
+            });
+    };
+    
+    return {
+        animateRender: animateRender
+    }
+})(UTILS);

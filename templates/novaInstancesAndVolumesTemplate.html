@@ -1,0 +1,131 @@
+<script id="novaInstancesAndVolumesTemplate" type="text/html">
+<div id="instances">
+      <form action="/nova/instances_and_volumes/" method="POST"><div style='display:none'><input type='hidden' name='csrfmiddlewaretoken' value='13de1d539e7690548408d1be1856eb9c' /></div>
+<div class='table_header'>
+  <h3 class='table_title'>Instances</h3>
+  <div class="table_actions clearfix">
+
+
+    
+        
+            <a href='/nova/images_and_snapshots/'  class="btn btn-small">Launch Instance</a>
+        
+    
+
+    
+        
+            <button class='btn btn-small btn-danger' name="action" value="instances__terminate" type="submit">Terminate Instances</button>
+        
+    
+
+</div>
+
+</div>
+
+<table id="instances" class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      
+        <th class="multi_select_column"></th>
+      
+        <th class="">Name</th>
+      
+        <th class="">IP Address</th>
+      
+        <th class="">Size</th>
+      
+        <th class="">Status</th>
+      
+        <th class="">Task</th>
+      
+        <th class="">Power State</th>
+      
+        <th class="actions_column">Actions</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+  
+  <tr class="odd empty">
+    <td colspan="8">No items to display.</td>
+  </tr>
+  
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="8">
+        <span>Displaying 0 items</span>
+        
+      </td>
+    </td>
+  </tfoot>
+</table>
+
+</form>
+
+  </div>
+
+  <div id="volumes">
+      <form action="/nova/instances_and_volumes/" method="POST"><div style='display:none'><input type='hidden' name='csrfmiddlewaretoken' value='13de1d539e7690548408d1be1856eb9c' /></div>
+<div class='table_header'>
+  <h3 class='table_title'>Volumes</h3>
+  <div class="table_actions clearfix">
+
+
+    
+        
+            <a href='/nova/instances_and_volumes/volumes/create/'  class="btn btn-small ajax-modal">Create Volume</a>
+        
+    
+
+    
+        
+            <button class='btn btn-small btn-danger' name="action" value="volumes__delete" type="submit">Delete Volumes</button>
+        
+    
+
+</div>
+
+</div>
+
+<table id="volumes" class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      
+        <th class="multi_select_column"></th>
+      
+        <th class="">Name</th>
+      
+        <th class="">Description</th>
+      
+        <th class="">Size</th>
+      
+        <th class="">Status</th>
+      
+        <th class="">Attachments</th>
+      
+        <th class="actions_column">Actions</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+  
+  <tr class="odd empty">
+    <td colspan="7">No items to display.</td>
+  </tr>
+  
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="7">
+        <span>Displaying 0 items</span>
+        
+      </td>
+    </td>
+  </tfoot>
+</table>
+
+</form>
+
+  </div>
+</script>
