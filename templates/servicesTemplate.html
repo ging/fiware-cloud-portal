@@ -31,27 +31,23 @@
     </tr>
   </thead>
   <tbody>
-  
-    <tr id="services__row__0" class="status_up">
-  <td class="hide">-</td><td class="">compute</td><td class="">138.4.24.120</td><td class="status_up">Enabled</td>
-</tr>
-
-  
-    <tr id="services__row__1" class="status_up">
-  <td class="hide">1</td><td class="">image</td><td class="">138.4.24.120</td><td class="status_up">Enabled</td>
-</tr>
-
-  
-    <tr id="services__row__2" class="status_up">
-  <td class="hide">2</td><td class="">identity</td><td class="">138.4.24.120</td><td class="status_up">Enabled</td>
-</tr>
-
+	<% for (var index in models) { 
+		var service = models[index];
+		console.log(JSON.stringify(service));
+		%>
+    <tr id="services__row__" class="status_up">
+  		<td class="hide">-</td>
+  		<td class=""><%= service.get('type')%></td>
+  		<td class="">138.4.24.120</td>
+  		<td class="status_up">Enabled</td>
+	</tr>
+<% } %>
   
   </tbody>
   <tfoot>
     <tr>
       <td colspan="4">
-        <span>Displaying 3 items</span>
+        <span>Displaying <%= models.length%> items</span>
         
       </td>
     </td>

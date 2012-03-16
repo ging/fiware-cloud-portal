@@ -4,6 +4,12 @@ var Flavor = Backbone.Model.extend({
                case "read":
                    JSTACK.Nova.getflavordetail(model.get("id"), options.success);
                    break;
+               case "delete":
+                   JSTACK.Nova.deleteflavors(model.get("id"), options.success);
+               		break;
+               case "create":
+                   JSTACK.Nova.createflavor(model.get("id"), options.success);
+                   break;
            }
    }
 });

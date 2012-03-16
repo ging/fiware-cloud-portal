@@ -36,98 +36,45 @@
         <th class="">Memory</th>
       
         <th class="">Disk</th>
+        
+        <th class="">Ephemeral Disk</th>
       
         <th class="actions_column">Actions</th>
       
     </tr>
   </thead>
   <tbody>
-  
-    <tr id="flavors__row__5" class="">
-  <td class="multi_select_column"><input type="checkbox" name="object_ids" value="5" /></td><td class="">5</td><td class="">m1.xlarge</td><td class="">8</td><td class="">16384</td><td class="">160</td><td class="actions_column">
+  <% for (var index in models) { 
+		var flavor = models[index];
+		console.log(JSON.stringify(flavor));
+		%>
+    <tr id="flavors__row__<%= models.length %>" class="">
+  <td class="multi_select_column"><input type="checkbox" name="object_ids" value="5" /></td>
+  <td class=""><%= flavor.get('id')%></td>
+  <td class=""><%= flavor.get('name')%></td>
+  <td class=""><%= flavor.get('vcpus')%></td>
+  <td class=""><%= flavor.get('ram')%></td>
+  <td class=""><%= flavor.get('disk')%></td>
+  <td class="">-</td>
+  <td class="actions_column">
 
 
-
-  
-    
-  <button  class="btn btn-small btn-danger" name="action" value="flavors__delete__5" type="submit">Delete Flavor</button>
-
-
-  
-
-</td>
-</tr>
-
-  
-    <tr id="flavors__row__4" class="">
-  <td class="multi_select_column"><input type="checkbox" name="object_ids" value="4" /></td><td class="">4</td><td class="">m1.large</td><td class="">4</td><td class="">8192</td><td class="">80</td><td class="actions_column">
-
-
-
-  
-    
-  <button  class="btn btn-small btn-danger" name="action" value="flavors__delete__4" type="submit">Delete Flavor</button>
+  <button  class="btn btn-small btn-danger" name="action" value="flavors__delete__<%= flavor.get('id') %>" type="submit">Delete Flavor</button>
 
 
   
 
 </td>
 </tr>
+<% } %>
 
-  
-    <tr id="flavors__row__3" class="">
-  <td class="multi_select_column"><input type="checkbox" name="object_ids" value="3" /></td><td class="">3</td><td class="">m1.medium</td><td class="">2</td><td class="">4096</td><td class="">40</td><td class="actions_column">
-
-
-
-  
-    
-  <button  class="btn btn-small btn-danger" name="action" value="flavors__delete__3" type="submit">Delete Flavor</button>
-
-
-  
-
-</td>
-</tr>
-
-  
-    <tr id="flavors__row__2" class="">
-  <td class="multi_select_column"><input type="checkbox" name="object_ids" value="2" /></td><td class="">2</td><td class="">m1.small</td><td class="">1</td><td class="">2048</td><td class="">20</td><td class="actions_column">
-
-
-
-  
-    
-  <button  class="btn btn-small btn-danger" name="action" value="flavors__delete__2" type="submit">Delete Flavor</button>
-
-
-  
-
-</td>
-</tr>
-
-  
-    <tr id="flavors__row__1" class="">
-  <td class="multi_select_column"><input type="checkbox" name="object_ids" value="1" /></td><td class="">1</td><td class="">m1.tiny</td><td class="">1</td><td class="">512</td><td class="">-</td><td class="actions_column">
-
-
-
-  
-    
-  <button  class="btn btn-small btn-danger" name="action" value="flavors__delete__1" type="submit">Delete Flavor</button>
-
-
-  
-
-</td>
-</tr>
 
   
   </tbody>
   <tfoot>
     <tr>
-      <td colspan="7">
-        <span>Displaying 5 items</span>
+      <td colspan="8">
+        <span>Displaying <%= models.length%> items</span>
         
       </td>
     </td>

@@ -99,7 +99,8 @@ var FiwareRouter = Backbone.Router.extend({
 	
 	sys_overview: function(self) {
 	    self.showSysRoot(self, 'Overview');
-	    var view = new SysOverviewView({el: '#content'});
+	    var overview = new Overview();
+	    var view = new SysOverviewView({model: overview, el: '#content'});
         view.render();
 	},
 	
@@ -112,25 +113,29 @@ var FiwareRouter = Backbone.Router.extend({
 	
 	sys_instances: function(self) {
 	    self.showSysRoot(self, 'Instances');
-	    var view = new InstanceView({el: '#content'});
+	    var instances = new Instances();
+	    var view = new InstanceView({model: instances, el: '#content'});
         view.render();
 	},
 	
 	sys_services: function(self) {
 	    self.showSysRoot(self, 'Services');
-	    var view = new ServiceView({el: '#content'});
+	    var services = new Services();
+	    var view = new ServiceView({model: services, el: '#content'});
         view.render();
 	},
 	
 	sys_flavors: function(self) {
 	    self.showSysRoot(self, 'Flavors');
-	    var view = new FlavorView({el: '#content'});
+	    var flavors = new Flavors();
+	    var view = new FlavorView({model: flavors, el: '#content'});
         view.render();
 	},
 	
 	sys_projects: function(self) {
 	    self.showSysRoot(self, 'Projects');
-	    var view = new ProjectView({el: '#content'});
+	    var projects = new Projects();
+	    var view = new ProjectView({model:projects, el: '#content'});
         view.render();
 	},
 	
@@ -142,7 +147,8 @@ var FiwareRouter = Backbone.Router.extend({
 	
 	sys_quotas: function(self) {
 	    self.showSysRoot(self, 'Quotas');
-	    var view = new QuotaView({el: '#content'});
+	    var quotas = new Quotas();
+	    var view = new QuotaView({model:quotas, el: '#content'});
         view.render();
 	},
 	
