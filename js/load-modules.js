@@ -1,3 +1,14 @@
+function custom_require(urls, callback) {
+    var total = urls.length;
+    var amount = 0;
+    for (var index in urls) {
+        var url = urls[index];
+        if (navigator.userAgent.indexOf("MSIE") !=-1) {
+           url += "?random=" + Math.random()*99999;
+        }        
+    }
+    require(urls, callback);
+}
 
 var loadFiware = function() {
     $(document).ready(function(){
@@ -12,14 +23,14 @@ var loadFiware = function() {
 }
 
 var loadRoutes = function() {
-    require([   "js/routes/fiware-routes.js"
+    custom_require([   "js/routes/fiware-routes.js"
             ], function(someModule) {
                 loadFiware();
         });
 }
 
 var loadViews = function() {
-    require([   "js/views/LoginView.js",
+    custom_require([   "js/views/LoginView.js",
                 "js/views/NavTabView.js",
                 "js/views/TopBarView.js",
                 "js/views/SideBarView.js",
@@ -42,7 +53,7 @@ var loadViews = function() {
 }
 
 var loadModels = function() {
-    require([   "js/models/FlavorModel.js",
+    custom_require([   "js/models/FlavorModel.js",
                 "js/models/ImageModel.js",
                 "js/models/KeypairModel.js",
                 "js/models/LoginModel.js",
@@ -55,7 +66,7 @@ var loadModels = function() {
 }
 
 var loadUtils = function() {
-    require([   "js/fiware-utils.js"
+    custom_require([   "js/fiware-utils.js"
             ], function(someModule) {
                 loadModels();
         });
@@ -70,14 +81,34 @@ var loadLibraries = function() {
 }
 
 var loadTemplates = function() {
-    require(["js/load-templates.js"
+    custom_require(["js/load-templates.js"
             ], function(someModule) {
-                loadLibraries();
+                loadTemplates([
+                    'templates/notLoggedInTemplate.html',
+                    'templates/imagesTemplate.html',
+                    'templates/rootTemplate.html',
+                    'templates/navTabTemplate.html',
+                    'templates/topBarTemplate.html',
+                    'templates/sideBarTemplate.html',
+                    'templates/sysOverviewTemplate.html',
+                    'templates/instancesTemplate.html',
+                    'templates/servicesTemplate.html',
+                    'templates/flavorsTemplate.html',
+                    'templates/projectsTemplate.html',
+                    'templates/usersTemplate.html',
+                    'templates/quotasTemplate.html',
+                    'templates/novaOverviewTemplate.html',
+                    'templates/novaAccessAndSecurityTemplate.html',
+                    'templates/novaImagesAndSnapshotsTemplate.html',
+                    'templates/novaInstancesAndVolumesTemplate.html'
+                ], function(){
+                    loadLibraries();
+                });
     });
 }
 
-var loadJQuery = function() {
-    require([   "http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js",
+var loadModules = function() {
+    custom_require([   "http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js",
                 "lib/underscore.js"
             ], function(someModule) {
                 loadTemplates();
@@ -85,4 +116,4 @@ var loadJQuery = function() {
 }
 
 
-loadJQuery();
+loadModules();  

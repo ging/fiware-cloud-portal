@@ -20,10 +20,10 @@ var LoginStatus = Backbone.Model.extend({
         model.trigger('auth-error', error.msg);
     },
     
-    onCredentialsChange: function (status, password) {
+    onCredentialsChange: function (model, password) {
         var self = this;
-        if (this.get("username") != '' && this.get("password") != '') {
-            UTILS.Auth.authenticate(this.get("username"), this.get("password"), undefined, undefined, function() {
+        if (self.get("username") != '' && self.get("password") != '') {
+            UTILS.Auth.authenticate(self.get("username"), self.get("password"), undefined, undefined, function() {
                 console.log("Authenticated with credentials");
                 self.setToken();
                 self.set({'loggedIn': true});
@@ -33,16 +33,18 @@ var LoginStatus = Backbone.Model.extend({
             });
         } else {
             var msg = "Username and password are mandatory.";
-            this.set({'error_msg': msg});
-            this.trigger('auth-error', msg);
+            self.set({'error_msg': msg});
+            self.trigger('auth-error', msg);
         }
     },
     
-    onTokenChange: function (status, token) {
-        self = this;
+    onTokenChange: function (context, token) {
+        var self = context;
+        console.log(self);
         if (!UTILS.Auth.isAuthenticated() && token != '') {
             UTILS.Auth.authenticate(undefined, undefined, undefined, token, function() {
                 console.log("Authenticated with token");
+                console.log(self);
                 self.set({username: UTILS.Auth.getName()});
                 self.set({'loggedIn': true});
             }, function(msg) {
