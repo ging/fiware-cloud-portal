@@ -44,6 +44,9 @@ var loadViews = function() {
 var loadModels = function() {
     require([   "js/models/FlavorModel.js",
                 "js/models/ImageModel.js",
+                "js/models/ProjectModel.js",
+                "js/models/InstanceModel.js",
+                "js/models/ServiceModel.js",
                 "js/models/KeypairModel.js",
                 "js/models/LoginModel.js",
                 "js/models/ServerModel.js",
