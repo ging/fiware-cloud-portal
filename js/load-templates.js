@@ -1,32 +1,19 @@
-function loadTemplates(urls) {
+function loadTemplates(urls, callback) {
+    var total = urls.length;
+    var amount = 0;
     for (var index in urls) {
-        url = urls[index];
+        var url = urls[index];
+        
         $.ajax({
-            url: url,
+            url: url + "?random=" + Math.random()*99999,
             asynx: false, // synchonous call in case code tries to use template before it's loaded
             success: function (response) {
                 $('head').append(response);
+                amount++;
+                if (amount == total) {
+                    callback();
+                }
             }
         });
     }
 }
-
-loadTemplates([
-    'templates/notLoggedInTemplate.html',
-    'templates/imagesTemplate.html',
-    'templates/rootTemplate.html',
-    'templates/navTabTemplate.html',
-    'templates/topBarTemplate.html',
-    'templates/sideBarTemplate.html',
-    'templates/sysOverviewTemplate.html',
-    'templates/instancesTemplate.html',
-    'templates/servicesTemplate.html',
-    'templates/flavorsTemplate.html',
-    'templates/projectsTemplate.html',
-    'templates/usersTemplate.html',
-    'templates/quotasTemplate.html',
-    'templates/novaOverviewTemplate.html',
-    'templates/novaAccessAndSecurityTemplate.html',
-    'templates/novaImagesAndSnapshotsTemplate.html',
-    'templates/novaInstancesAndVolumesTemplate.html'
-]);

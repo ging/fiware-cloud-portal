@@ -34,8 +34,6 @@ var RootView = Backbone.View.extend({
         }
     },
     
-    showing: false,
-    
     renderAuth: function () {
         var self = this;
         self.$el = $(self.options.auth_el);
@@ -64,7 +62,7 @@ var RootView = Backbone.View.extend({
     },
     
     renderAuthonerror: function() {
-        $(this.options.auth_el).empty().html(this._template(this.model));
+        $(this.options.auth_el).empty().html(this._authtemplate(this.model));
         return this;
     }
     
