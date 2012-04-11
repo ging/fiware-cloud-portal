@@ -17,7 +17,6 @@ var Services = Backbone.Collection.extend({
     sync: function(method, model, options) {
         switch(method) {
             case "read":
-                console.log("Trying to get services");
                 var resp = JSTACK.Keystone.getservicelist();
                 options.success(resp);
                 break;
