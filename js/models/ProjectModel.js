@@ -11,7 +11,7 @@ var Project = Backbone.Model.extend({
                    JSTACK.Keystone.createtenant(model.get("id"), options.success);
                    break;
                case "filter":
-                   JSTACK.Keystone.createtenant(model.get("id"), options.success);
+                   JSTACK.Keystone.filtertenant(model.get("id"), options.success);
                    break;
            }
    }

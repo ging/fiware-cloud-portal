@@ -1,0 +1,97 @@
+<script id="flavorsCreateTemplate" type="text/html">
+<form action="/syspanel/flavors/create/" method="POST">
+	<div style='display:none'>
+		<input type='hidden' name='csrfmiddlewaretoken' value='13de1d539e7690548408d1be1856eb9c' />
+	</div>
+	
+	
+<div id="create_flavor_modal" class="modal hide in" style="display: block; ">
+  <div class="modal-header">
+    <a href="#" class="close" data-dismiss="modal">&times;</a>
+    <h3>Create Flavor</h3>
+  </div>
+  
+  
+  <form id="create_flavor_form" class="" action="/syspanel/flavors/create/" method="POST" >
+  	<div style='display:none'>
+  		<input type='hidden' name='csrfmiddlewaretoken' value='e978fe1a207ade683fcab683c129f280' />
+  	</div>
+    <div class="modal-body clearfix">
+    
+	<div class="left">
+    	<fieldset>
+    
+  		<input type="hidden" name="method" value="CreateFlavor" id="id_method" />
+
+  <div class="control-group form-field clearfix">
+    <label for="id_flavor_id">Flavor ID</label>
+    
+    <span class="help-block"></span>
+    <div class="input">
+      <input type="text" name="flavor_id" value="6" id="id_flavor_id" />
+    </div>
+  </div>
+
+  <div class="control-group form-field clearfix">
+    <label for="id_name">Name</label>
+    
+    <span class="help-block"></span>
+    <div class="input">
+      <input id="id_name" type="text" name="name" maxlength="25" />
+    </div>
+  </div>
+
+  <div class="control-group form-field clearfix">
+    <label for="id_vcpus">VCPUs</label>
+    
+    <span class="help-block"></span>
+    <div class="input">
+      <input id="id_vcpus" type="text" name="vcpus" maxlength="5" />
+    </div>
+  </div>
+
+  <div class="control-group form-field clearfix">
+    <label for="id_memory_mb">Memory MB</label>
+    
+    <span class="help-block"></span>
+    <div class="input">
+      <input id="id_memory_mb" type="text" name="memory_mb" maxlength="5" />
+    </div>
+  </div>
+
+  <div class="control-group form-field clearfix">
+    <label for="id_disk_gb">Root Disk GB</label>
+    
+    <span class="help-block"></span>
+    <div class="input">
+      <input id="id_disk_gb" type="text" name="disk_gb" maxlength="5" />
+    </div>
+  </div>
+
+  <div class="control-group form-field clearfix">
+    <label for="id_eph_gb">Ephemeral Disk GB</label>
+    
+    <span class="help-block"></span>
+    <div class="input">
+      <input id="id_eph_gb" type="text" name="eph_gb" maxlength="5" />
+    </div>
+  </div>
+
+
+    </fieldset>
+</div>
+<div class="right">
+    <h3>Description:</h3>
+    <p>From here you can define the sizing of a new flavor.</p>
+</div>
+
+    </div>
+    <div class="modal-footer">
+  <input class="btn btn-primary pull-right" href="#syspanel/flavors/" type="submit" id ="submit" value="Create Flavor" />
+  <a href="#syspanel/flavors/" class="btn secondary cancel close">Cancel</a>
+  <% console.log("Create Flavor"); %>
+</div>
+  </form>
+</div>
+</script>
+

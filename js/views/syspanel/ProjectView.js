@@ -13,5 +13,4 @@ var ProjectView = Backbone.View.extend({
     rerender: function() {
         $(this.el).empty().html(this._template(this.model));
     } 
-    
 });

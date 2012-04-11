@@ -8,31 +8,34 @@ var Flavor = Backbone.Model.extend({
             return xhr;
     },
          
-    delete_flavor: function(soft, options) {
+    create: function(soft, options) {
        options.soft = soft;
-       return _action("delete_flavor", options);
+       return _action("create", options);
     },
 	
-	deleteFlavor: function(flavor_id) {
+	submitForm: function(flavor_id, name, vcpus, memory_mb, disk_gb, eph_gb) {
 	    
-	    console.log("deleteFlavor called");
+	    console.log("submitForm called");
 	    
         this.set({'flavor_id': flavor_id});
+        this.set({'name': name});
+        this.set({'vcpus': vcpus});
+        this.set({'memory_mb': memory_mb});
+        this.set({'disk_gb': disk_gb});
+        this.set({'eph_gb': eph_gb});
         
         this.save();
 
    },
-   
+    
+	
     sync: function(method, model, options) {
            switch(method) {
                case "read":
                    JSTACK.Nova.getflavordetail(model.get("id"), options.success);
                    break;
-               case "delete_flavors":
+               case "delete":
                    JSTACK.Nova.deleteflavors(model.get("id"), options.success);
-               		break;
-               case "delete_flavor":
-                   JSTACK.Nova.deleteflavor(model.get("id"), options.success);
                		break;
                case "create":
                    JSTACK.Nova.createflavor(model.get("flavor_id"), model.get("name"), model.get("vcpus"), 
@@ -42,19 +45,3 @@ var Flavor = Backbone.Model.extend({
    }
 });
 
-var Flavors = Backbone.Collection.extend({
-    model: Flavor,
-    
-    sync: function(method, model, options) {
-        switch(method) {
-            case "read":
-                JSTACK.Nova.getflavorlist(true, options.success);
-                break;
-        }
-    },
-    
-    parse: function(resp) {
-        return resp.flavors;
-    }
-    
-});
