@@ -3,6 +3,8 @@ var ServiceView = Backbone.View.extend({
     _template: _.template($('#servicesTemplate').html()),
     
     initialize: function() {
+        this.model.fetch();
+        this.model.bind("reset", this.rerender, this);
     },
     
     render: function () {

@@ -3,9 +3,10 @@ function custom_require(urls, callback) {
     var amount = 0;
     for (var index in urls) {
         var url = urls[index];
-        if (navigator.userAgent.indexOf("MSIE") !=-1) {
+        if (navigator.userAgent.indexOf("MSIE") !=-1 || true) {
            url += "?random=" + Math.random()*99999;
-        }        
+           urls[index] = url;
+        }
     }
     require(urls, callback);
 }
@@ -13,7 +14,7 @@ function custom_require(urls, callback) {
 var loadFiware = function() {
     $(document).ready(function(){
 
-        UTILS.Auth.initialize("http://138.4.24.120:5000/");
+        UTILS.Auth.initialize("http://hpcm.dit.upm.es:5000/v2.0/");
 
         var fiRouter = new FiwareRouter();
 
@@ -54,6 +55,7 @@ var loadViews = function() {
 }
 
 var loadModels = function() {
+
     custom_require([   "js/models/FlavorModel.js",
     			"js/models/OverviewModel.js",
                 "js/models/ImageModel.js",
@@ -67,6 +69,7 @@ var loadModels = function() {
                 "js/models/ServerModel.js",
                 "js/models/NavTabModel.js",
                 "js/models/TopBarModel.js"
+
             ], function(someModule) {
                 loadViews();
         });

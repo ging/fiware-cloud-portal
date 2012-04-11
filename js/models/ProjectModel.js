@@ -23,13 +23,14 @@ var Projects = Backbone.Collection.extend({
     sync: function(method, model, options) {
         switch(method) {
             case "read":
-                JSTACK.Keystone.gettenants(true, options.success);
+                JSTACK.Keystone.gettenants(options.success);
                 break;
         }
     },
     
     parse: function(resp) {
-        return resp.projects;
+        console.log(resp.tenants);
+        return resp.tenants;
     }
     
 });

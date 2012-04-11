@@ -107,6 +107,7 @@ var FiwareRouter = Backbone.Router.extend({
 	
 	sys_images: function(self) {
 	    self.showSysRoot(self, 'Images');
+	    console.log("Images");
 	    var images = new Images();
 	    var view = new ImagesView({model: images, el: '#content'});
         view.render();
@@ -121,6 +122,7 @@ var FiwareRouter = Backbone.Router.extend({
 	
 	sys_services: function(self) {
 	    self.showSysRoot(self, 'Services');
+	    console.log("Services");
 	    var services = new Services();
 	    var view = new ServiceView({model: services, el: '#content'});
         view.render();
