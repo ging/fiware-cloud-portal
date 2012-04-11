@@ -46,7 +46,7 @@ UTILS.Auth = (function(U, undefined) {
             console.log("Retrieving tenants...");
 
             var ok = function (resp) {
-                tenants = resp.tenants.values;
+                tenants = resp.tenants;
                 _tryTenant();
             }
 
@@ -54,14 +54,15 @@ UTILS.Auth = (function(U, undefined) {
         }
         
         function _tryTenant() {
+            console.log(JSON.stringify(tenants));
             if (tenants.length > 0) {
                 var tenant = tenants.pop();
                 console.log("Authenticating for tenant " + JSON.stringify(tenant.id));
                 JSTACK.Keystone.authenticate(undefined, undefined, JSTACK.Keystone.params.token, tenant.id, _authenticatedWithTenant, _error);
-                return;
+            } else {
+                console.log("Error authenticating");
+                error("No tenant")
             }
-            console.log("Error authenticating");
-            error("No tenant")
         }
         
         var getToken = function() {
