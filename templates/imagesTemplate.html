@@ -39,10 +39,11 @@
   <tbody>
 	<% for (var index in models) { 
 		var image = models[index];
+		console.log("Images");
 		console.log(JSON.stringify(image));
 		%>
     <tr id="images__row__" class="">
-  		<td class="multi_select_column"><input type="checkbox" name="object_ids" value="4" /></td>
+  		<td class="multi_select_column"><input type="checkbox" name="object_ids" value="<%= models.length %>" /></td>
 		<td class=""><%= image.get('name')%></td>
 		<td class="">Image</td>
 		<td class=""><%=image.get('status').toLowerCase()%></td>
@@ -50,7 +51,7 @@
 		<td class="">AMI</td>
 		<td class="actions_column">
 			<div class="btn-group">
-	 			<a href='/nova/images_and_snapshots/4/launch/'  class="ajax-modal btn btn-small">Launch</a>
+	 			<a href='/nova/images_and_snapshots/<%= image.get('id')%>/launch/'  class="ajax-modal btn btn-small">Launch</a>
 				<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
 					<span class="caret"></span>
 				</a>

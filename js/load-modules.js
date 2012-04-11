@@ -6,7 +6,7 @@ function custom_require(urls, callback) {
         if (navigator.userAgent.indexOf("MSIE") !=-1 || true) {
            url += "?random=" + Math.random()*99999;
            urls[index] = url;
-        }        
+        }
     }
     require(urls, callback);
 }
@@ -41,6 +41,7 @@ var loadViews = function() {
                 "js/views/syspanel/InstanceView.js",
                 "js/views/syspanel/ServiceView.js",
                 "js/views/syspanel/FlavorView.js",
+                "js/views/syspanel/FlavorCreateView.js",
                 "js/views/syspanel/ProjectView.js",
                 "js/views/syspanel/UserView.js",
                 "js/views/syspanel/QuotaView.js",
@@ -54,18 +55,19 @@ var loadViews = function() {
 }
 
 var loadModels = function() {
-    custom_require([   "js/models/FlavorModel.js",
-    			"js/models/OverviewModel.js",
-                "js/models/ImageModel.js",
-                "js/models/ProjectModel.js",
-                "js/models/InstanceModel.js",
-                "js/models/ServiceModel.js",
-                "js/models/QuotaModel.js",
-                "js/models/KeypairModel.js",
-                "js/models/LoginModel.js",
-                "js/models/ServerModel.js",
-                "js/models/NavTabModel.js",
-                "js/models/TopBarModel.js"
+    custom_require([    "js/models/FlavorModel.js",
+            			"js/models/OverviewModel.js",
+                        "js/models/ImageModel.js",
+                        "js/models/ProjectModel.js",
+                        "js/models/InstanceModel.js",
+                        "js/models/ServiceModel.js",
+                        "js/models/UserModel.js",
+                        "js/models/QuotaModel.js",
+                        "js/models/KeypairModel.js",
+                        "js/models/LoginModel.js",
+                        "js/models/ServerModel.js",
+                        "js/models/NavTabModel.js",
+                        "js/models/TopBarModel.js"
             ], function(someModule) {
                 loadViews();
         });
@@ -100,6 +102,7 @@ var loadTemplates = function() {
                     'templates/instancesTemplate.html',
                     'templates/servicesTemplate.html',
                     'templates/flavorsTemplate.html',
+                    'templates/flavorsCreateTemplate.html',
                     'templates/projectsTemplate.html',
                     'templates/usersTemplate.html',
                     'templates/quotasTemplate.html',

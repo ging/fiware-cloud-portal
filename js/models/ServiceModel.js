@@ -17,12 +17,15 @@ var Services = Backbone.Collection.extend({
     sync: function(method, model, options) {
         switch(method) {
             case "read":
-                JSTACK.Keystone.getservice(true, options.success);
+                console.log("Trying to get services");
+                var resp = JSTACK.Keystone.getservicelist();
+                options.success(resp);
                 break;
         }
     },
     
     parse: function(resp) {
+        console.log(resp);
         return resp.services;
     }
     

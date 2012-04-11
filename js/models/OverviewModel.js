@@ -5,7 +5,7 @@ var Overview = Backbone.Model.extend({
                    JSTACK.Nova.getimagedetail(model.get("id"), options.success);
                    break;
                case "downloadSummary":
-                   JSTACK.Nova.deleteimage(model.get("id"), options.success);
+                   JSTACK.Nova.getimagedetail(model.get("id"), options.success);
                    break;
            }
    }

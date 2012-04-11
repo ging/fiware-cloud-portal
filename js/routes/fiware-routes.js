@@ -34,6 +34,7 @@ var FiwareRouter = Backbone.Router.extend({
 	    this.route('syspanel/instances/', 'instances',  _.wrap(this.sys_instances, this.checkAuth));
 	    this.route('syspanel/services/', 'services',  _.wrap(this.sys_services, this.checkAuth));
 	    this.route('syspanel/flavors/', 'flavors',  _.wrap(this.sys_flavors, this.checkAuth));
+	    this.route('syspanel/flavors/create/', 'create_flavors',  _.wrap(this.sys_create_flavors, this.checkAuth));
 	    this.route('syspanel/projects/', 'projects',  _.wrap(this.sys_projects, this.checkAuth));
 	    this.route('syspanel/users/', 'users',  _.wrap(this.sys_users, this.checkAuth));
 	    this.route('syspanel/quotas/', 'quotas',  _.wrap(this.sys_quotas, this.checkAuth));
@@ -106,6 +107,7 @@ var FiwareRouter = Backbone.Router.extend({
 	
 	sys_images: function(self) {
 	    self.showSysRoot(self, 'Images');
+	    console.log("Images");
 	    var images = new Images();
 	    var view = new ImagesView({model: images, el: '#content'});
         view.render();
@@ -120,16 +122,23 @@ var FiwareRouter = Backbone.Router.extend({
 	
 	sys_services: function(self) {
 	    self.showSysRoot(self, 'Services');
+	    console.log("Services");
 	    var services = new Services();
 	    var view = new ServiceView({model: services, el: '#content'});
         view.render();
 	},
 	
 	sys_flavors: function(self) {
-	    self.showSysRoot(self, 'Flavors');
+	    self.showSysRoot(self, 'Flavors');	
 	    var flavors = new Flavors();
 	    var view = new FlavorView({model: flavors, el: '#content'});
         view.render();
+	},
+
+	sys_create_flavors: function(self) {
+	    var flavor = new Flavor();
+	    var view = new FlavorCreateView({model: flavor, el: '#content'});
+        view.rerender();
 	},
 	
 	sys_projects: function(self) {
@@ -141,7 +150,8 @@ var FiwareRouter = Backbone.Router.extend({
 	
 	sys_users: function(self) {
 	    self.showSysRoot(self, 'Users');
-	    var view = new UserView({el: '#content'});
+	    var users = new Users();
+	    var view = new UserView({model:users, el: '#content'});
         view.render();
 	},
 	

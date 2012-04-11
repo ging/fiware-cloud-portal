@@ -102,6 +102,7 @@ html, #splash{
   margin-left: -195px;  /*accounts for splash's non-standard width */
 }
 
+
 #splash .help-block {
   display: none;
 }

@@ -7,6 +7,20 @@ var FlavorView = Backbone.View.extend({
         this.model.bind("reset", this.rerender, this);
     },
     
+    events: {
+        'click #flavor_delete': 'onDeleteFlavor'
+    },
+
+    onDeleteFlavor: function(e){
+    	console.log("onDeleteFlavor called");
+        e.preventDefault();
+        flavor_id = this.$('input[name=object_ids]').val();
+                
+        console.log(flavor_id);             
+        
+        this.model.deleteFlavor(flavor_id);
+    },
+    
     render: function () {
         UTILS.Render.animateRender(this.el, this._template, this.model);
         return this;
