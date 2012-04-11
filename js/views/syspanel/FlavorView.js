@@ -15,13 +15,15 @@ var FlavorView = Backbone.View.extend({
 
         e.preventDefault();
                         
-       var flavor_to_delete_id =  this.model.get(this.$('input[name=object_ids]').val());
+       var flavor =  this.model.get(e.target.value);
         
-        console.log("Flavor id = "); 
+        console.log(e.target.value); 
                 
-        console.log(flavor_to_delete_id );             
+        console.log( flavor);       
         
-        this.model.destroy();
+        flavor.destroy();      
+        
+     
     },	
     
     render: function () {
