@@ -50,7 +50,7 @@
 		console.log(JSON.stringify(flavor));
 		%>
     <tr id="flavors__row__<%= models.length %>" class="">
-  <td class="multi_select_column"><input type="checkbox" name="object_ids" value="<%= flavor.get('id')%>" /></td>
+  <td class="multi_select_column"><input type="checkbox" name="object_ids" value="<%= flavor.get('id') ? 'checked="checked"' : '' %>" /></td>
   <td class=""><%= flavor.get('id')%></td>
   <td class=""><%= flavor.get('name')%></td>
   <td class=""><%= flavor.get('vcpus')%></td>

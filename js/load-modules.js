@@ -55,7 +55,6 @@ var loadViews = function() {
 
 var loadModels = function() {
     custom_require([   "js/models/FlavorModel.js",
-    			"js/models/FlavorCreateModel.js",
     			"js/models/OverviewModel.js",
                 "js/models/ImageModel.js",
                 "js/models/ProjectModel.js",
