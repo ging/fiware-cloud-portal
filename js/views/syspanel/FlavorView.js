@@ -18,8 +18,6 @@ var FlavorView = Backbone.View.extend({
        var flavor =  this.model.get(e.target.value);
         
         console.log(e.target.value); 
-                
-        console.log( flavor);       
         
         flavor.destroy();      
         

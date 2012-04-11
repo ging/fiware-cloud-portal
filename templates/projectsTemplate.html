@@ -47,9 +47,20 @@
     </tr>
   </thead>
   <tbody>
-  
+    <% for (var index in models) { 
+		var project = models[index];
+		console.log("Projects");
+		console.log(JSON.stringify(project));
+		%>
     <tr id="tenants__row__4" class="">
-  <td class="multi_select_column"><input type="checkbox" name="object_ids" value="4" /></td><td class="">4</td><td class="">titi</td><td class="">dadsadsadad</td><td class="status_up">True</td><td class="actions_column">
+  	<td class="multi_select_column">
+  		<input type="checkbox" name="object_ids" value="<%= project.get('id') %>" />
+  	</td>
+  	<td class=""><%= project.get('id')%></td>
+  	<td class=""><%= project.get('name')%></td>
+  	<td class=""><%= project.get('description')%></td>
+  	<td class="satus_up"><%= project.get('enabled')%></td>
+  	<td class="actions_column">
 
 
 <div class="btn-group">
@@ -113,214 +124,13 @@
 
 </td>
 </tr>
-
-  
-    <tr id="tenants__row__3" class="">
-  <td class="multi_select_column"><input type="checkbox" name="object_ids" value="3" /></td><td class="">3</td><td class="">test</td><td class="">test</td><td class="status_up">True</td><td class="actions_column">
-
-
-<div class="btn-group">
-    
-        
-          
-  <a href='/syspanel/projects/3/update/'  class="ajax-modal btn btn-small">Edit Project</a>
-
-
-          <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-            <span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu row_actions clearfix">
-        
-        
-    
-        
-          <li class="clearfix">
-              
-  <a href='/syspanel/projects/3/usage/'  class="btn btn-small">View Usage</a>
-
-
-          </li>
-        
-        
-    
-        
-          <li class="clearfix">
-              
-  <a href='/syspanel/projects/3/users/'  class="btn btn-small">Modify Users</a>
-
-
-          </li>
-        
-        
-    
-        
-          <li class="clearfix">
-              
-  <a href='/syspanel/projects/3/quotas/'  class="ajax-modal btn btn-small">Modify Quotas</a>
-
-
-          </li>
-        
-        
-    
-        
-          <li class="clearfix">
-              
-  <button  class="btn btn-small btn-danger" name="action" value="tenants__delete__3" type="submit">Delete Project</button>
-
-
-          </li>
-        
-        
-          </ul>
-        
-    
-</div>
-
-
-</td>
-</tr>
-
-  
-    <tr id="tenants__row__2" class="">
-  <td class="multi_select_column"><input type="checkbox" name="object_ids" value="2" /></td><td class="">2</td><td class="">demo</td><td class="">None</td><td class="status_up">True</td><td class="actions_column">
-
-
-<div class="btn-group">
-    
-        
-          
-  <a href='/syspanel/projects/2/update/'  class="ajax-modal btn btn-small">Edit Project</a>
-
-
-          <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-            <span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu row_actions clearfix">
-        
-        
-    
-        
-          <li class="clearfix">
-              
-  <a href='/syspanel/projects/2/usage/'  class="btn btn-small">View Usage</a>
-
-
-          </li>
-        
-        
-    
-        
-          <li class="clearfix">
-              
-  <a href='/syspanel/projects/2/users/'  class="btn btn-small">Modify Users</a>
-
-
-          </li>
-        
-        
-    
-        
-          <li class="clearfix">
-              
-  <a href='/syspanel/projects/2/quotas/'  class="ajax-modal btn btn-small">Modify Quotas</a>
-
-
-          </li>
-        
-        
-    
-        
-          <li class="clearfix">
-              
-  <button  class="btn btn-small btn-danger" name="action" value="tenants__delete__2" type="submit">Delete Project</button>
-
-
-          </li>
-        
-        
-          </ul>
-        
-    
-</div>
-
-
-</td>
-</tr>
-
-  
-    <tr id="tenants__row__1" class="">
-  <td class="multi_select_column"><input type="checkbox" name="object_ids" value="1" /></td><td class="">1</td><td class="">admin</td><td class="">None</td><td class="status_up">True</td><td class="actions_column">
-
-
-<div class="btn-group">
-    
-        
-          
-  <a href='/syspanel/projects/1/update/'  class="ajax-modal btn btn-small">Edit Project</a>
-
-
-          <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-            <span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu row_actions clearfix">
-        
-        
-    
-        
-          <li class="clearfix">
-              
-  <a href='/syspanel/projects/1/usage/'  class="btn btn-small">View Usage</a>
-
-
-          </li>
-        
-        
-    
-        
-          <li class="clearfix">
-              
-  <a href='/syspanel/projects/1/users/'  class="btn btn-small">Modify Users</a>
-
-
-          </li>
-        
-        
-    
-        
-          <li class="clearfix">
-              
-  <a href='/syspanel/projects/1/quotas/'  class="ajax-modal btn btn-small">Modify Quotas</a>
-
-
-          </li>
-        
-        
-    
-        
-          <li class="clearfix">
-              
-  <button  class="btn btn-small btn-danger" name="action" value="tenants__delete__1" type="submit">Delete Project</button>
-
-
-          </li>
-        
-        
-          </ul>
-        
-    
-</div>
-
-
-</td>
-</tr>
-
+<% } %>
   
   </tbody>
   <tfoot>
     <tr>
       <td colspan="6">
-        <span>Displaying 4 items</span>
+        <span>Displaying <%= models.length%> items</span>
         
       </td>
     </td>

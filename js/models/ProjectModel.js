@@ -29,6 +29,7 @@ var Projects = Backbone.Collection.extend({
     },
     
     parse: function(resp) {
+    	console.log("Projects");
         console.log(resp.tenants);
         return resp.tenants;
     }

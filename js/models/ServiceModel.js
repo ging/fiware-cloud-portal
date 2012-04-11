@@ -26,7 +26,7 @@ var Services = Backbone.Collection.extend({
     
     parse: function(resp) {
         console.log(resp);
-        return resp.services;
+        return resp;
     }
     
 });

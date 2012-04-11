@@ -21,42 +21,102 @@
 
 </div>
 
-<table id="instances" class="table table-bordered table-striped">
-  <thead>
-    <tr>
-      
-        <th class="multi_select_column"></th>
-      
-        <th class="">Name</th>
-      
-        <th class="">IP Address</th>
-      
-        <th class="">Size</th>
-      
-        <th class="">Status</th>
-      
-        <th class="">Task</th>
-      
-        <th class="">Power State</th>
-      
-        <th class="actions_column">Actions</th>
-      
-    </tr>
-  </thead>
-  <tbody>
-
-
-
-  </tbody>
-  <tfoot>
-    <tr>
-      <td colspan="8">
-        <span>Displaying 0 item</span>
+  <table id="instances" class="table table-bordered table-striped">
+    <thead>
+      <tr>
         
+          <th class="multi_select_column"></th>
+        
+          <th class="">Tenant</th>
+        
+          <th class="">User</th>
+        
+          <th class="">Instance ID</th>
+        
+          <th class="">Host</th>
+        
+          <th class="">Instance Name</th>
+        
+          <th class="">IP Address</th>
+        
+          <th class="">Size</th>
+        
+          <th class="">Status</th>
+        
+          <th class="">Task</th>
+        
+          <th class="">Power State</th>
+        
+          <th class="actions_column">Actions</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+       <% 
+   	console.log(models);
+   	for (var index in models) { 
+		var instance = models[index];
+		console.log("Instance");
+		console.log(JSON.stringify(instance));
+		%> 
+		
+      <tr  data-update-interval="2500" data-update-url="/syspanel/instances/?action=row_update&amp;table=instances&amp;obj_id=99020a59-e076-4ffb-8b7e-5fbc287b7165" id="instances__row__99020a59-e076-4ffb-8b7e-5fbc287b7165" class="ajax-update status_down">
+  <td class="multi_select_column"><input type="checkbox" name="object_ids" value="99020a59-e076-4ffb-8b7e-5fbc287b7165" /></td>
+  <td class=""><%= instance.get('tenant_id')%></td>
+  <td class=""><%= instance.get('user_id')%></td>
+  <td class=""><%= instance.get('id')%></td>
+  <td class="">-</td>
+  <td class=""><a href="/nova/instances_and_volumes/instances/99020a59-e076-4ffb-8b7e-5fbc287b7165/detail">test instance</a></td>
+  <td class=""></td>
+  <td class="">2GB RAM | 1 VCPU | 10.0GB Disk</td>
+  <td class="status_down"><%= instance.get('status')%></td>
+  <td class="status_unknown">Scheduling</td>
+  <td class="">No State</td>
+  <td class="actions_column">
+
+
+<div class="btn-group">
+    
+        
+          
+  <a href='/nova/instances_and_volumes/instances/99020a59-e076-4ffb-8b7e-5fbc287b7165/update'  id="instances__action_edit__0" class="btn btn-small ajax-modal btn-edit">Edit Instance</a>
+
+
+          <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu row_actions clearfix">
+        
+        
+    
+        
+          <li class="clearfix">
+              
+  <button  id="instances__action_terminate__4" class="btn btn-small btn-danger btn-terminate" name="action" value="instances__terminate__99020a59-e076-4ffb-8b7e-5fbc287b7165" type="submit">Terminate Instance</button>
+
+
+          </li>
+        
+        
+          </ul>
+        
+    
+</div>
+
+
+</td>
+</tr>
+    <% } %>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="12">
+          <span>Displaying 0 items</span>
+          
+        </td>
       </td>
-    </td>
-  </tfoot>
-</table>
+    </tfoot>
+  </table>
 
 </form>
 </script>
