@@ -8,20 +8,25 @@ var FlavorView = Backbone.View.extend({
     },
     
     events: {
-        'click #flavor_delete': 'onDeleteFlavor'
+        'click #flavor_delete': 'onDeleteFlavor',
+        'change #checkbox':'enableDisableDeleteButton',
     },
-
+  	    
+  	enableDisableDeleteButton: function (e) {
+  		//$("#instances_terminate").attr("disabled", false);
+  		console.log("enableDisableDeleteButton called");
+  		if($("#flavors_delete").attr("disabled") == 'disabled'){ 
+   		   $("#flavors_delete").attr("disabled", false);
+		} else { 
+   		   $("#flavors_delete").attr("disabled", true);
+		}
+    },   
+    
     onDeleteFlavor: function(e){
-
-        e.preventDefault();
-                        
-       var flavor =  this.model.get(e.target.value);
-        
-        console.log(e.target.value); 
-        
-        flavor.destroy();      
-        
-     
+       	e.preventDefault();                        
+       	var flavor =  this.model.get(e.target.value);        
+        console.log(e.target.value);         
+        flavor.destroy();        
     },	
     
     render: function () {

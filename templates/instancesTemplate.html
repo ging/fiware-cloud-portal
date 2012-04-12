@@ -3,28 +3,12 @@
 <div class='table_header'>
   <h3 class='table_title'>Instances</h3>
   <div class="table_actions clearfix">
-
-
-    
-        
-            <a href='/nova/images_and_snapshots/'  class="btn btn-small">Launch Instance</a>
-        
-    
-
-    
-        
-            <button class='btn btn-small btn-danger' name="action" value="instances__terminate" type="submit">Terminate Instances</button>
-        
-    
-
+    <button  id="instances_terminate" class="btn btn-small btn-danger btn-terminate" disabled="disabled" name="action" value="instances_terminate" type="submit">Terminate Instances</button>
+  </div>
 </div>
-
-</div>
-
   <table id="instances" class="table table-bordered table-striped">
     <thead>
-      <tr>
-        
+      <tr>       
           <th class="multi_select_column"></th>
         
           <th class="">Tenant</th>
@@ -47,76 +31,66 @@
         
           <th class="">Power State</th>
         
-          <th class="actions_column">Actions</th>
-        
+          <th class="actions_column">Actions</th>        
       </tr>
     </thead>
     <tbody>
-       <% 
-   	console.log(models);
-   	for (var index in models) { 
+       <%console.log(models);
+   		for (var index in models) { 
 		var instance = models[index];
 		console.log("Instance");
 		console.log(JSON.stringify(instance));
-		%> 
-		
-      <tr  data-update-interval="2500" data-update-url="/syspanel/instances/?action=row_update&amp;table=instances&amp;obj_id=99020a59-e076-4ffb-8b7e-5fbc287b7165" id="instances__row__99020a59-e076-4ffb-8b7e-5fbc287b7165" class="ajax-update status_down">
-  <td class="multi_select_column"><input type="checkbox" name="object_ids" value="99020a59-e076-4ffb-8b7e-5fbc287b7165" /></td>
+	   %> 
+ <tr  data-update-interval="2500" data-update-url="/syspanel/instances/?action=row_update&amp;table=instances&amp;obj_id=<%= instance.get('id')%>" id="instances__row__<%= instance.get('id')%>" class="ajax-update status_down">
+  <td class="multi_select_column"><input type="checkbox" name="object_ids" id="checkbox_<%= instance.get('id')%>" class="checkbox" value="<%= instance.get('id')%>" /></td>
   <td class=""><%= instance.get('tenant_id')%></td>
   <td class=""><%= instance.get('user_id')%></td>
   <td class=""><%= instance.get('id')%></td>
   <td class="">-</td>
-  <td class=""><a href="/nova/instances_and_volumes/instances/99020a59-e076-4ffb-8b7e-5fbc287b7165/detail">test instance</a></td>
+  <td class=""><a href="/nova/instances_and_volumes/instances/99020a59-e076-4ffb-8b7e-5fbc287b7165/detail"></a><%= instance.get('name')%></td>
   <td class=""></td>
   <td class="">2GB RAM | 1 VCPU | 10.0GB Disk</td>
   <td class="status_down"><%= instance.get('status')%></td>
-  <td class="status_unknown">Scheduling</td>
+  <td class="status_unknown"><%= instance.get('OS-EXT-STS:task_state')%></td>
   <td class="">No State</td>
   <td class="actions_column">
-
-
-<div class="btn-group">
-    
-        
-          
-  <a href='/nova/instances_and_volumes/instances/99020a59-e076-4ffb-8b7e-5fbc287b7165/update'  id="instances__action_edit__0" class="btn btn-small ajax-modal btn-edit">Edit Instance</a>
-
-
-          <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-            <span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu row_actions clearfix">
-        
-        
-    
-        
-          <li class="clearfix">
-              
-  <button  id="instances__action_terminate__4" class="btn btn-small btn-danger btn-terminate" name="action" value="instances__terminate__99020a59-e076-4ffb-8b7e-5fbc287b7165" type="submit">Terminate Instance</button>
-
-
-          </li>
-        
-        
-          </ul>
-        
-    
+	<div class="btn-group">
+	  <a href='/nova/instances_and_volumes/instances/<%= instance.get('id')%>/update'  id="instances__action_edit__0" class="btn btn-small ajax-modal btn-edit">Edit Instance</a>
+      <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+       <span class="caret"></span>
+      </a>
+       <ul class="dropdown-menu row_actions clearfix">        
+          <li class="clearfix">             
+ 			 <button  id="instance__action_terminate" class="btn btn-small btn-danger btn-terminate" name="action" value="instances__terminate__<%= instance.get('id')%>" type="submit">Terminate Instance</button>
+		  </li> 
+       </ul>  
+	</div>
+  </td>
+ </tr>
+  <% } %>
+  
+<div class="modal hide" style="display: none; ">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal">×</a>
+    <h3>Confirm Delete Flavors</h3>
+  </div>
+  <div class="modal-body">
+    Please confirm your selection. This action cannot be undone.
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn btn-primary">Delete Flavors</a>
+    <a href="#" class="btn cancel" data-dismiss="modal">Cancel</a>
+  </div>
 </div>
 
-
-</td>
-</tr>
-    <% } %>
     </tbody>
     <tfoot>
       <tr>
         <td colspan="12">
-          <span>Displaying 0 items</span>
-          
+          <span>Displaying <%= models.length%> items</span>          
         </td>
       </td>
     </tfoot>
   </table>
-
 </form>
 </script>
