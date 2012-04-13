@@ -3,6 +3,7 @@ var InstanceView = Backbone.View.extend({
     _template: _.template($('#instancesTemplate').html()),
     
     initialize: function() {
+        this.model.unbind("reset");
         this.model.bind("reset", this.rerender, this);
         this.model.fetch();
     },
@@ -22,7 +23,6 @@ var InstanceView = Backbone.View.extend({
 						return;				}
 		}
 		$("#instances_terminate").attr("disabled", true);
-			
     },
     
     displayTerminatePage: function (e) {

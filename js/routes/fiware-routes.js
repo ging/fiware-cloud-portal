@@ -5,17 +5,21 @@ var FiwareRouter = Backbone.Router.extend({
     tabs: new NavTabModels([{name: 'Project', active: false, url: '#nova'}, {name: 'Admin', active: true, url: '#syspanel'}]),
     top: new TopBarModel({title:'Overview:', subtitle: ''}),
     navs:  new NavTabModels([]),
+    next: undefined,
     
-
+    loginModel: undefined,
+    instancesModel: undefined,
+    
+    timers: [],
     
     routes: {
         'auth/login': 'login',
-        'auth/login/next=*next': 'login',
         'auth/logout': 'logout'
     },
 	
 	initialize: function() {
 	    this.loginModel = new LoginStatus();
+	    this.instancesModel = new Instances();
 	    this.rootView = new RootView({model:this.loginModel, auth_el: '#auth', root_el: '#root'});
 	    this.route('', 'init', this.wrap(this.init, this.checkAuth));
 	    this.route('#', 'init', this.wrap(this.init, this.checkAuth));
@@ -39,9 +43,11 @@ var FiwareRouter = Backbone.Router.extend({
 	    this.route('syspanel/users/', 'users',  _.wrap(this.sys_users, this.checkAuth));
 	    this.route('syspanel/quotas/', 'quotas',  _.wrap(this.sys_quotas, this.checkAuth));
 	    
+	    this.route('nova/instances_and_volumes/instances/:id/update', 'update_instance', this.wrap(this.update_instance, this.checkAuth));
+	    
 	},
 	
-	wrap: function(func, wrapper) {
+	wrap: function(func, wrapper, arguments) {
 	    var ArrayProto = Array.prototype;
         var slice = ArrayProto.slice;
         return function() {
@@ -50,19 +56,20 @@ var FiwareRouter = Backbone.Router.extend({
         };
     },
 	
-	checkAuth: function(next) {
+	checkAuth: function(next, args) {
         if (!this.loginModel.get("loggedIn")) {
+            this.rootView.options.next_view = Backbone.history.fragment; 
             window.location.href = "#auth/login";
             return;
         }
-	    next(this);
+	    next(this, args);
 	},
 		
 	init: function() {
         window.location.href = "#syspanel";
 	},
 	
-	login: function(next) {
+	login: function() {
         this.rootView.renderAuth();
 	},
 	
@@ -84,6 +91,7 @@ var FiwareRouter = Backbone.Router.extend({
 	},
 	
 	showSysRoot: function(self, option) {
+	    this.clear_fetch();
         self.navs = new NavTabModels([{name: 'Overview', active: true, url: '#syspanel/'}, 
                                     {name: 'Instances', active: false, url: '#syspanel/instances/'},
                                     {name: 'Services', active: false, url: '#syspanel/services/'},
@@ -115,8 +123,9 @@ var FiwareRouter = Backbone.Router.extend({
 	
 	sys_instances: function(self) {
 	    self.showSysRoot(self, 'Instances');
-	    var instances = new Instances();
-	    var view = new InstanceView({model: instances, el: '#content'});
+	    self.instancesModel.unbind("change");
+	    self.add_fetch(self.instancesModel, 4);
+	    var view = new InstanceView({model: self.instancesModel, el: '#content'});
         view.render();
 	},
 	
@@ -163,7 +172,7 @@ var FiwareRouter = Backbone.Router.extend({
 	},
 	
 	showNovaRoot: function(self, option) {
-
+        this.clear_fetch();
         self.navs = new NavTabModels([   {name: 'Overview', active: true, url: '#nova/'}, 
                             {name: 'Instances &amp; Volumes', active: false, url: '#nova/instances_and_volumes/'},
                             {name: 'Access &amp; Security', active: false, url: '#nova/access_and_security/'},
@@ -194,9 +203,35 @@ var FiwareRouter = Backbone.Router.extend({
 	
 	nova_instances_and_volumes: function(self) {
 	    self.showNovaRoot(self, 'Instances &amp; Volumes');
-	    var view = new InstancesAndVolumesView({el: '#content'});
-        view.render();
-	}
+	    self.add_fetch(self.instancesModel, 4);
+	    var view = new InstancesAndVolumesView({model:self.instancesModel, el: '#content'});
+        //view.render();
+	},
 	
+	update_instance: function(self, id) {
+	    console.log("Received update: " + id);
+	    var instance = new Instance();
+	    instance.set({"id": id});
+        var view = new UpdateInstanceView({model:instance, el: 'body'});
+        self.navigate('#nova/instances_and_volumes/', {trigger: false, replace: true});
+	},
+	
+	clear_fetch: function() {
+	    var self = this;
+	    for (var index in this.timers) {
+	        var timer_id = this.timers[index];
+	        clearInterval(timer_id);
+	    }
+	    this.timers = [];
+	},
+	
+	add_fetch: function(model, seconds) {
+	    console.log("Starging timer for " + model);
+        var id = setInterval(function() {
+            model.fetch();
+        }, seconds*1000);
+        
+        this.timers.push(id);
+	}
 });
 

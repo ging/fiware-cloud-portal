@@ -43,12 +43,15 @@ var Instance = Backbone.Model.extend({
                     model.get("availability_zone"), options.success);
                 break;
             case "delete":
-                JSTACK.Nova.deleteServer(model.get("id"), options.success);
+                JSTACK.Nova.deleteserver(model.get("id"), options.success);
                 break;
             case "update":
-                JSTACK.Nova.updateServer(model.get("id"), model.get("name"), options.success);
+                console.log("Updating Instance: " + model.get("name"));
+                JSTACK.Nova.updateserver(model.get("id"), model.get("name"), options.success);
                 break;
             case "read":
+                console.log("Reading Instance: " + model.get("id"));
+                JSTACK.Nova.getserverdetail(model.get("id"), options.success);
                 break;
             case "reboot":
                 if (options.soft != undefined && options.soft) {
@@ -73,6 +76,14 @@ var Instance = Backbone.Model.extend({
                 JSTACK.Nova.createimage(model.get("id"), options.success);
                 break;
 
+        }
+    },
+    
+    parse: function(resp) {
+        if (resp.server != undefined) {
+            return resp.server;
+        } else {
+            return resp;
         }
     }
 });

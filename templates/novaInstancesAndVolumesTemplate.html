@@ -1,131 +1,114 @@
 <script id="novaInstancesAndVolumesTemplate" type="text/html">
 <div id="instances">
-      <form action="/nova/instances_and_volumes/" method="POST"><div style='display:none'><input type='hidden' name='csrfmiddlewaretoken' value='13de1d539e7690548408d1be1856eb9c' /></div>
-<div class='table_header'>
-  <h3 class='table_title'>Instances</h3>
-  <div class="table_actions clearfix">
-
-
-    
-        
-            <a href='/nova/images_and_snapshots/'  class="btn btn-small">Launch Instance</a>
-        
-    
-
-    
-        
-            <button class='btn btn-small btn-danger' name="action" value="instances__terminate" type="submit">Terminate Instances</button>
-        
-    
-
+    <div class="table_wrapper">
+        <form action="#nova/instances_and_volumes/" method="POST"><div style='display:none'>
+            <input type='hidden' name='csrfmiddlewaretoken' value='194da7366428c03ba39e02e4799e4b5d' /></div>
+            <div class='table_header'>
+                <h3 class='table_title'>Instances</h3>
+                <div class="table_actions clearfix">
+                    <a href='/nova/images_and_snapshots/'  id="instances__action_launch__1" class="btn btn-small btn-launch">Launch Instance</a>
+                    <button  id="instances_terminate" disabled=true class="btn btn-small btn-danger btn-terminate" name="action" value="instances__terminate" class="instances_terminate" type="submit">Terminate Instances</button>
+                </div>
+            </div>
+            <table id="instances" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th class="multi_select_column"></th>
+                        <th class="">Instance Name</th>
+                        <th class="">IP Address</th>
+                        <th class="">Size</th>
+                        <th class="">Status</th>
+                        <th class="">Task</th>
+                        <th class="">Power State</th>
+                        <th class="actions_column">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <% 
+                for (var index in models) { 
+                    var instance = models[index];
+                %> 
+             
+                <tr data-update-interval="2500" 
+                    data-update-url="/nova/instances_and_volumes/?action=row_update&amp;table=instances&amp;obj_id=<%= instance.id %>" 
+                    id="instances__row__<%= instance.id %>" 
+                    class="ajax-update status_down">
+                    <td class="multi_select_column">
+                        <input id="checkbox_<%= instance.get('id')%>" type="checkbox" name="object_ids" class="checkbox"  value="<%= instance.get('id') %>" />
+                    </td>
+                    <td class="">
+                        <a href="/nova/instances_and_volumes/instances/<%= instance.id %>/detail"><%= instance.get("name") %></a>
+                    </td>
+                    <td class="">
+                    </td>
+                    <td class="">2GB RAM | 1 VCPU | 10.0GB Disk</td>
+                    <td class="status_down"><%= instance.get("status") %></td>
+                    <td class="status_unknown"><%= instance.get("OS-EXT-STS:task_state")%></td>
+                    <td class="">No State</td>
+                    <td class="actions_column">
+                        <div id="dropdown_<%= instance.get('id') %>" class="btn-group">
+                            <a value='<%= instance.id %>'  href="#nova/instances_and_volumes/instances/<%= instance.id %>/update" id="instances__action_edit__0" class="btn btn-small ajax-modal btn-edit">Edit Instance</a>
+                            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu row_actions clearfix">
+                                <li class="clearfix">
+                                    <button  id="instances__action_terminate__4" class="btn btn-small btn-danger btn-terminate" name="action" value="instances__terminate__99020a59-e076-4ffb-8b7e-5fbc287b7165" type="submit">Terminate Instance</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                
+                <% } %>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="8">
+                      <span>Displaying <%= models.length %> item</span>
+                      
+                    </td>
+                  </td>
+                </tfoot>
+            </table>
+        </form>
+    </div>
 </div>
-
+<div id="volumes">
+    <div class="table_wrapper">
+        <form action="/nova/instances_and_volumes/" method="POST"><div style='display:none'><input type='hidden' name='csrfmiddlewaretoken' value='194da7366428c03ba39e02e4799e4b5d' /></div>
+            <div class='table_header'>
+                <h3 class='table_title'>Volumes</h3>
+                <div class="table_actions clearfix">
+                    <a href='/nova/instances_and_volumes/volumes/create/'  id="volumes__action_create__0" class="btn btn-small ajax-modal btn-create">Create Volume</a>
+                </div>
+            </div>
+            <table id="volumes" class="table table-bordered table-striped">
+            <thead>
+              <tr>
+              <th class="multi_select_column"></th>
+              <th class="">Name</th>
+              <th class="">Description</th>
+              <th class="">Size</th>
+              <th class="">Status</th>
+              <th class="">Attachments</th>
+              <th class="actions_column">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr class="odd empty">
+                    <td colspan="7">No items to display.</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                <td colspan="7">
+                  <span>Displaying 0 items</span>
+                  
+                </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
 </div>
-
-<table id="instances" class="table table-bordered table-striped">
-  <thead>
-    <tr>
-      
-        <th class="multi_select_column"></th>
-      
-        <th class="">Name</th>
-      
-        <th class="">IP Address</th>
-      
-        <th class="">Size</th>
-      
-        <th class="">Status</th>
-      
-        <th class="">Task</th>
-      
-        <th class="">Power State</th>
-      
-        <th class="actions_column">Actions</th>
-      
-    </tr>
-  </thead>
-  <tbody>
-  
-  <tr class="odd empty">
-    <td colspan="8">No items to display.</td>
-  </tr>
-  
-  </tbody>
-  <tfoot>
-    <tr>
-      <td colspan="8">
-        <span>Displaying 0 items</span>
-        
-      </td>
-    </td>
-  </tfoot>
-</table>
-
-</form>
-
-  </div>
-
-  <div id="volumes">
-      <form action="/nova/instances_and_volumes/" method="POST"><div style='display:none'><input type='hidden' name='csrfmiddlewaretoken' value='13de1d539e7690548408d1be1856eb9c' /></div>
-<div class='table_header'>
-  <h3 class='table_title'>Volumes</h3>
-  <div class="table_actions clearfix">
-
-
-    
-        
-            <a href='/nova/instances_and_volumes/volumes/create/'  class="btn btn-small ajax-modal">Create Volume</a>
-        
-    
-
-    
-        
-            <button class='btn btn-small btn-danger' name="action" value="volumes__delete" type="submit">Delete Volumes</button>
-        
-    
-
-</div>
-
-</div>
-
-<table id="volumes" class="table table-bordered table-striped">
-  <thead>
-    <tr>
-      
-        <th class="multi_select_column"></th>
-      
-        <th class="">Name</th>
-      
-        <th class="">Description</th>
-      
-        <th class="">Size</th>
-      
-        <th class="">Status</th>
-      
-        <th class="">Attachments</th>
-      
-        <th class="actions_column">Actions</th>
-      
-    </tr>
-  </thead>
-  <tbody>
-  
-  <tr class="odd empty">
-    <td colspan="7">No items to display.</td>
-  </tr>
-  
-  </tbody>
-  <tfoot>
-    <tr>
-      <td colspan="7">
-        <span>Displaying 0 items</span>
-        
-      </td>
-    </td>
-  </tfoot>
-</table>
-
-</form>
-
-  </div>
 </script>
