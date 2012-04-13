@@ -22,10 +22,9 @@ var FlavorCreateView = Backbone.View.extend({
         new_flavor.set({'memory_mb': this.$('input[name=memory_mb]').val()});
         new_flavor.set({'disk_gb': this.$('input[name=disk_gb]').val()});
         new_flavor.set({'eph_gb': this.$('input[name=eph_gb]').val()});
-        
-        console.log(new_flavor.get('name'));
-       
+            
     	new_flavor.save();
+    	this.model.fetch();
 
     },
            

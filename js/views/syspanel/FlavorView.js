@@ -3,30 +3,56 @@ var FlavorView = Backbone.View.extend({
     _template: _.template($('#flavorsTemplate').html()),
     
     initialize: function() {
-    	this.model.fetch();
         this.model.bind("reset", this.rerender, this);
+        this.model.fetch();
     },
     
     events: {
         'click #flavor_delete': 'onDeleteFlavor',
-        'change #checkbox':'enableDisableDeleteButton',
+        'click #confirm_delete': 'onDeleteFlavors',
+        'click #flavors_delete': 'displayDeletePage',
+        'change .checkbox':'enableDisableDeleteButton',
     },
-  	    
+
+   
   	enableDisableDeleteButton: function (e) {
-  		//$("#instances_terminate").attr("disabled", false);
   		console.log("enableDisableDeleteButton called");
-  		if($("#flavors_delete").attr("disabled") == 'disabled'){ 
-   		   $("#flavors_delete").attr("disabled", false);
-		} else { 
-   		   $("#flavors_delete").attr("disabled", true);
+  		for (var index = 0; index < this.model.length; index++) { 
+			var instanceId = this.model.models[index].get('id');	 
+			if($("#checkbox_"+instanceId).is(':checked'))
+				{
+   		   	   			$("#flavors_delete").attr("disabled", false);
+						return;
+				}
 		}
-    },   
-    
+		$("#flavors_delete").attr("disabled", true);
+			
+    },
+       
     onDeleteFlavor: function(e){
        	e.preventDefault();                        
        	var flavor =  this.model.get(e.target.value);        
         console.log(e.target.value);         
-        flavor.destroy();        
+        flavor.destroy();  
+        this.model.fetch();      
+    },	
+    
+    displayDeletePage: function(e){
+       	$('.modal_hide_in ').show();
+    },	
+    
+    onDeleteFlavors: function(e){
+    	e.preventDefault();          	
+  		for (var index = 0; index < this.model.length; index++) { 
+		var flavorId = this.model.models[index].get('id');	 		
+		if($("#checkbox_"+flavorId).is(':checked'))
+				{
+				var flavor =  this.model.models[index];      
+        		console.log("Flavor to delete = " +this.model.models[index].get('id'));
+        		flavor.destroy();      
+				}
+      	}  
+      	this.model.fetch();  
     },	
     
     render: function () {

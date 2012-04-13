@@ -3,22 +3,9 @@
 <div class='table_header'>
   <h3 class='table_title'>Flavors</h3>
   <div class="table_actions clearfix">
-
-
-    
-        
             <a href='#syspanel/flavors/create/'  class="btn btn-small ajax-modal">Create Flavor</a>
-        
-    
-
-    
-        
-            <button class='btn btn-small btn-danger' name="action" id= "flavors_delete" disabled="disabled" value="flavors__delete" type="submit">Delete Flavors</button>
-        
-    
-
-</div>
-
+            <a class='btn btn-small btn-danger' name="action" id= "flavors_delete" disabled=true "flavors__delete" type="submit">Delete Flavors</a>
+  </div>
 </div>
 
 <table id="flavors" class="table table-bordered table-striped">
@@ -50,7 +37,7 @@
 		console.log(JSON.stringify(flavor));
 		%>
     <tr id="flavors__row__<%= models.length %>" class="">
-  <td class="multi_select_column"><input type="checkbox" id= "checkbox" name="object_ids" value="<%= flavor.get('id') %>" /></td>
+  <td class="multi_select_column"><input type="checkbox" id="checkbox_<%= flavor.get('id')%>" class="checkbox" name="object_ids" value="<%= flavor.get('id') %>" /></td>
   <td class=""><%= flavor.get('id')%></td>
   <td class=""><%= flavor.get('name')%></td>
   <td class=""><%= flavor.get('vcpus')%></td>
@@ -59,16 +46,26 @@
   <td class="">-</td> 
   <td class="actions_column">
 
-
   <button  class="btn btn-small btn-danger" name="action" id= "flavor_delete" value="<%= flavor.get('id') %>" type="submit">Delete Flavor</button>
-
-
-  
 
 </td>
 </tr>
 <% } %>
- 
+
+<div class="modal_hide_in" style="display: none; ">
+  <div class="modal-header">
+    <a class="close" href="#syspanel/flavors" data-dismiss="modal">×</a>
+    <h3>Confirm Delete Flavors</h3>
+  </div>
+  <div class="modal-body">
+    Please confirm your selection. This action cannot be undone.
+  </div>
+  <div class="modal-footer">
+    <a href="#syspanel/flavors" id= "confirm_delete" class="btn btn-primary">Delete Flavors</a>
+    <a href="#syspanel/flavors" class="btn cancel" data-dismiss="modal">Cancel</a>
+  </div>
+</div>
+
   </tbody>
   <tfoot>
     <tr>
