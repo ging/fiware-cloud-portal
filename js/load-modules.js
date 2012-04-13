@@ -48,7 +48,8 @@ var loadViews = function() {
                 "js/views/nova/OverviewView.js",
                 "js/views/nova/AccessAndSecurityView.js",
                 "js/views/nova/InstancesAndVolumesView.js",
-                "js/views/nova/ImagesAndSnapshotsView.js"
+                "js/views/nova/ImagesAndSnapshotsView.js",
+                "js/views/forms/UpdateInstanceView.js"
             ], function(someModule) {
                 loadRoutes();
         });
@@ -83,7 +84,8 @@ var loadUtils = function() {
 
 var loadLibraries = function() {
     require([   "lib/backbone.js",
-                "lib/jstack.js"
+                "lib/jstack.js",
+                "lib/bootstrap.min.js"
             ], function(someModule) {
                 loadUtils();
         });
@@ -110,7 +112,8 @@ var loadTemplates = function() {
                     'templates/novaOverviewTemplate.html',
                     'templates/novaAccessAndSecurityTemplate.html',
                     'templates/novaImagesAndSnapshotsTemplate.html',
-                    'templates/novaInstancesAndVolumesTemplate.html'
+                    'templates/novaInstancesAndVolumesTemplate.html',
+                    'templates/updateInstanceFormTemplate.html'
                 ], function(){
                     loadLibraries();
                 });

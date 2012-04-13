@@ -3,6 +3,7 @@ var InstanceView = Backbone.View.extend({
     _template: _.template($('#instancesTemplate').html()),
     
     initialize: function() {
+        this.model.unbind("reset");
         this.model.bind("reset", this.rerender, this);
         this.model.fetch();
     },
@@ -12,48 +13,28 @@ var InstanceView = Backbone.View.extend({
    		'click #instances_terminate':'displayTerminatePage',
   	},
   	
-  	enableDisableTerminateButton: function () {
+  	/*enableDisableTerminateButton: function () {
   		console.log("Alo called");
   		if($("#instances_terminate").attr("disabled") == 'disabled'){ 
    		   $("#instances_terminate").attr("disabled", false);
 		} else { 
    		   $("#instances_terminate").attr("disabled", true);
 		}
-    },
-  	
-  	/*enableDisableTerminateButton: function (e) {
-  		console.log("enableDisableTerminateButton called");
-  		var numChecked = 0;
-  		
-  		var instanceId =  e.target.value;
-  		console.log(this.model.get('id'));
-  		console.log(e);   
-  		console.log(instanceId);
-  		
-  		
-  		for (var index in instances) { 
-		var instance = instances[index];	
-		var instanceId = instance.get('id');	
-			if($("#checkbox_").is(':checked'))
-				{
-					//console.log(checked);
-					numChecked++;
-				}
-		}	
-		if (numChecked == 0) { 
-  		//$("#instances_terminate").attr("disabled", false);
-  			if($("#instances_terminate").attr("disabled") == ''){ 
-   		   	   $("#instances_terminate").attr("disabled", true);
-			} 
-		} else {
-  			if($("#instances_terminate").attr("disabled") == 'disabled'){ 
-   		   	   $("#instances_terminate").attr("disabled", false);
-			} else { 
-   		   	   $("#instances_terminate").attr("disabled", true);
-			}		
-		}
-			
     },*/
+  	
+  	enableDisableTerminateButton: function () {
+  		for (var index in this.model.models) { 
+    		var instance = this.model.models[index];
+    		var instanceId = instance.get('id');
+			if($("#checkbox_"+instanceId).is(':checked'))
+				{
+					console.log("checked");
+					$("#instances_terminate").attr("disabled", false);
+					return;
+		    }
+		}
+		$("#instances_terminate").attr("disabled", true);
+    },
     
     displayTerminatePage: function () {
   		console.log("displayTerminatePage called");
