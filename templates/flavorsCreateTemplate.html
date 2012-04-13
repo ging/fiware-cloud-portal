@@ -27,7 +27,7 @@
     
     <span class="help-block"></span>
     <div class="input">
-      <input type="text" name="flavor_id" value="6" id="id_flavor_id" required/>
+      <input type="text" name="flavor_id" value="6" id="id_flavor_id" required placeholder="This field is required."/>
     </div>
   </div>
 
@@ -36,7 +36,7 @@
     
     <span class="help-block"></span>
     <div class="input">
-      <input id="id_name" type="text" name="name" maxlength="25" />
+      <input id="id_name" type="text" name="name" maxlength="25" required placeholder="This field is required."/>
     </div>
   </div>
 
@@ -45,7 +45,7 @@
     
     <span class="help-block"></span>
     <div class="input">
-      <input id="id_vcpus" type="text" name="vcpus" maxlength="5" />
+      <input id="id_vcpus" type="text" name="vcpus" maxlength="5" required placeholder="This field is required."/>
     </div>
   </div>
 
@@ -54,7 +54,7 @@
     
     <span class="help-block"></span>
     <div class="input">
-      <input id="id_memory_mb" type="text" name="memory_mb" maxlength="5" />
+      <input id="id_memory_mb" type="text" name="memory_mb" maxlength="5" required placeholder="This field is required."/>
     </div>
   </div>
 
@@ -63,7 +63,7 @@
     
     <span class="help-block"></span>
     <div class="input">
-      <input id="id_disk_gb" type="text" name="disk_gb" maxlength="5" />
+      <input id="id_disk_gb" type="text" name="disk_gb" maxlength="5" required placeholder="This field is required."/>
     </div>
   </div>
 
@@ -72,7 +72,7 @@
     
     <span class="help-block"></span>
     <div class="input">
-      <input id="id_eph_gb" type="text" name="eph_gb" maxlength="5" />
+      <input id="id_eph_gb" type="text" name="eph_gb" maxlength="5" required placeholder="This field is required."/>
     </div>
   </div>
 
@@ -86,7 +86,7 @@
 
     </div>
     <div class="modal-footer">
-  <a href="#syspanel/flavors/" id= "submit" class="btn btn-primary pull-right">Create Flavor</a>
+  <button  id="submit" class="btn btn-primary pull-right" name="action" value="create_flavor" type="submit">Create Flavor</button>
   <a href="#syspanel/flavors/" class="btn secondary cancel close">Cancel</a>
   <% console.log("Create Flavor"); %>
 </div>

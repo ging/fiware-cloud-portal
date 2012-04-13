@@ -37,12 +37,12 @@ var FiwareRouter = Backbone.Router.extend({
 	    this.route('syspanel/images/images/', 'images',  _.wrap(this.sys_images, this.checkAuth));
 	    this.route('syspanel/instances/', 'instances',  _.wrap(this.sys_instances, this.checkAuth));
 	    this.route('syspanel/services/', 'services',  _.wrap(this.sys_services, this.checkAuth));
-	    this.route('syspanel/flavors/', 'flavors',  _.wrap(this.sys_flavors, this.checkAuth));
-	    this.route('syspanel/flavors/create/', 'create_flavors',  _.wrap(this.sys_create_flavors, this.checkAuth));
+	    this.route('syspanel/flavors/', 'flavors',  _.wrap(this.sys_flavors, this.checkAuth));	    
 	    this.route('syspanel/projects/', 'projects',  _.wrap(this.sys_projects, this.checkAuth));
 	    this.route('syspanel/users/', 'users',  _.wrap(this.sys_users, this.checkAuth));
 	    this.route('syspanel/quotas/', 'quotas',  _.wrap(this.sys_quotas, this.checkAuth));
 	    
+	    this.route('syspanel/flavors/create/', 'create_flavors',  _.wrap(this.sys_create_flavors, this.checkAuth));
 	    this.route('nova/instances_and_volumes/instances/:id/update', 'update_instance', this.wrap(this.update_instance, this.checkAuth));
 	    
 	},
