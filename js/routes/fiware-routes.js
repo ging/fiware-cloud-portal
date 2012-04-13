@@ -9,6 +9,7 @@ var FiwareRouter = Backbone.Router.extend({
     
     loginModel: undefined,
     instancesModel: undefined,
+    keypairsModel: undefined,
     
     timers: [],
     
@@ -20,6 +21,7 @@ var FiwareRouter = Backbone.Router.extend({
 	initialize: function() {
 	    this.loginModel = new LoginStatus();
 	    this.instancesModel = new Instances();
+	    this.keypairsModel = new Keypairs();
 	    this.rootView = new RootView({model:this.loginModel, auth_el: '#auth', root_el: '#root'});
 	    this.route('', 'init', this.wrap(this.init, this.checkAuth));
 	    this.route('#', 'init', this.wrap(this.init, this.checkAuth));
@@ -191,8 +193,8 @@ var FiwareRouter = Backbone.Router.extend({
 	
 	nova_access_and_security: function(self) {
 	    self.showNovaRoot(self, 'Access &amp; Security');
-	    var view = new AccessAndSecurityView({el: '#content'});
-        view.render();
+	    var view = new AccessAndSecurityView({el: '#content', model: self.keypairsModel});
+        //view.render();
 	},
 	
 	nova_images_and_snapshots: function(self) {

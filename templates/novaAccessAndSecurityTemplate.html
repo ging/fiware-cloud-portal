@@ -97,18 +97,13 @@
     </tr>
   </thead>
   <tbody>
-  
-    <tr id="security_groups__row__2" class="">
-  <td class="multi_select_column"><input type="checkbox" name="object_ids" value="2" /></td><td class="">default</td><td class="">default</td><td class="actions_column">
-
-
-
-  
     
+    <tr id="security_groups__row__2" class="">
+  <td class="multi_select_column"><input type="checkbox" name="object_ids" value="2" /></td>
+  <td class="">default</td><td class="">default</td><td class="actions_column">
+
   <a href='/nova/access_and_security/security_groups/2/edit_rules/'  class="ajax-modal btn btn-small">Edit Rules</a>
 
-
-  
 
 </td>
 </tr>
@@ -130,7 +125,6 @@
   </div>
 
   <div id="keypairs">
-      <form action="/nova/access_and_security/" method="POST"><div style='display:none'><input type='hidden' name='csrfmiddlewaretoken' value='13de1d539e7690548408d1be1856eb9c' /></div>
 <div class='table_header'>
   <h3 class='table_title'>Keypairs</h3>
   <div class="table_actions clearfix">
@@ -173,51 +167,35 @@
     </tr>
   </thead>
   <tbody>
-  
-    <tr id="keypairs__row__nubeblog" class="">
-  <td class="multi_select_column"><input type="checkbox" name="object_ids" value="nubeblog" /></td><td class="">nubeblog</td><td class="">7c:ca:d9:7b:b6:37:a7:3a:c3:cb:e5:2d:01:27:19:08</td><td class="actions_column">
-
-
-
-  
-    
-  <button  class="btn btn-small btn-danger" name="action" value="keypairs__delete__nubeblog" type="submit">Delete Keypair</button>
-
-
-  
-
-</td>
+  <%
+        for (var index in models) { 
+        var keypair = models[index];
+        console.log("KeyPair");
+        console.log(JSON.stringify(keypair));
+     %> 
+    <tr id="keypairs__row__<%=keypair.get('name')%>" class="">
+  <td class="multi_select_column">
+      <input type="checkbox" name="object_ids" value="nubeblog" />
+  </td>
+  <td class=""><%=keypair.get('name')%></td>
+  <td class=""><%=keypair.get('fingerprint')%></td>
+  <td class="actions_column">
+      <button class="btn btn-small btn-danger delete_keypair" name="action" value="<%=keypair.get('name')%>" type="submit">Delete Keypair</button>
+  </td>
 </tr>
 
-  
-    <tr id="keypairs__row__test" class="">
-  <td class="multi_select_column"><input type="checkbox" name="object_ids" value="test" /></td><td class="">test</td><td class="">7c:82:90:5a:05:62:8d:8a:9f:35:01:3a:fb:d7:3f:7f</td><td class="actions_column">
-
-
-
-  
-    
-  <button  class="btn btn-small btn-danger" name="action" value="keypairs__delete__test" type="submit">Delete Keypair</button>
-
-
-  
-
-</td>
-</tr>
-
-  
+  <% } %>
   </tbody>
   <tfoot>
     <tr>
       <td colspan="4">
-        <span>Displaying 2 items</span>
+        <span>Displaying <%=models.length%> items</span>
         
       </td>
     </td>
   </tfoot>
 </table>
 
-</form>
 
   </div>
 </script>
