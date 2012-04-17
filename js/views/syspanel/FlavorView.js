@@ -1,25 +1,25 @@
 var FlavorView = Backbone.View.extend({
     
     _template: _.template($('#flavorsTemplate').html()),
+
     
     initialize: function() {
-        this.model.bind("reset", this.rerender, this);
+    	console.log("Initialize called");
+    	this.model.unbind("reset");
+        this.model.bind("reset", this.render, this);
         this.model.fetch();
     },
     
     events: {
-        'click #flavor_delete': 'onDeleteFlavor',
-        'click #confirm_delete': 'onDeleteFlavors',
-        'click #flavors_delete': 'displayDeletePage',
-        'change .checkbox':'enableDisableDeleteButton',
+        'change .checkbox_flavor':'enableDisableDeleteButton',
     },
 
    
   	enableDisableDeleteButton: function (e) {
   		console.log("enableDisableDeleteButton called");
   		for (var index = 0; index < this.model.length; index++) { 
-			var instanceId = this.model.models[index].get('id');	 
-			if($("#checkbox_"+instanceId).is(':checked'))
+			var flavorId = this.model.models[index].get('id');	 
+			if($("#checkbox_"+flavorId).is(':checked'))
 				{
    		   	   			$("#flavors_delete").attr("disabled", false);
 						return;
@@ -28,39 +28,30 @@ var FlavorView = Backbone.View.extend({
 		$("#flavors_delete").attr("disabled", true);
 			
     },
-       
-    onDeleteFlavor: function(e){
-       	e.preventDefault();                        
-       	var flavor =  this.model.get(e.target.value);        
-        console.log(e.target.value);         
-        flavor.destroy();  
-        this.model.fetch();      
-    },	
-    
-    displayDeletePage: function(e){
-       	$('.modal_hide_in ').show();
-    },	
-    
-    onDeleteFlavors: function(e){
-    	e.preventDefault();          	
-  		for (var index = 0; index < this.model.length; index++) { 
-		var flavorId = this.model.models[index].get('id');	 		
-		if($("#checkbox_"+flavorId).is(':checked'))
-				{
-				var flavor =  this.model.models[index];      
-        		console.log("Flavor to delete = " +this.model.models[index].get('id'));
-        		flavor.destroy();      
-				}
-      	}  
-      	this.model.fetch();  
-    },	
-    
-    render: function () {
-        UTILS.Render.animateRender(this.el, this._template, this.model);
+             
+	render: function () {
+        if ($("#flavors").html() == null) {
+            UTILS.Render.animateRender(this.el, this._template, this.model);
+        } else {
+            var new_template = this._template(this.model);
+            var checkboxes = [];
+            for (var index in this.model.models) { 
+                var flavorId = this.model.models[index].id;
+                if ($("#checkbox_"+flavorId).is(':checked')) {
+                    checkboxes.push(flavorId);
+                }
+            }
+            $(this.el).html(new_template);
+            for (var index in checkboxes) { 
+                var flavorId = checkboxes[index];
+                var check = $("#checkbox_"+flavorId);
+                if (check.html() != null) {
+                    check.prop("checked", true);
+                }
+            }           
+        }
+        this.enableDisableDeleteButton();
         return this;
     },
-    
-    rerender: function() {
-        $(this.el).empty().html(this._template(this.model));
-    }    
+
 });

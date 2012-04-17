@@ -1,0 +1,23 @@
+<script id="deleteFlavorFormTemplate" type="text/html">
+<div id="delete_flavor" class="modal hide ">
+	<div class="modal-header">
+		<a class="close" id= "close" href="#" data-dismiss="modal">&times;</a>
+		<h3>Confirm Delete Flavor</h3>
+	</div>
+	<form id="delete_flavor_form" action="/syspanel/flavor/delete" method="POST">
+		<div style='display:none'>
+			<input type='hidden' name='csrfmiddlewaretoken' value='13de1d539e7690548408d1be1856eb9c' />
+		</div>
+		<div class="modal-body">
+	    	Please confirm your selection. This action cannot be undone.
+		</div>
+		<div class="modal-footer">
+	   		<a id="flavor_delete" class="btn btn-primary pull-right" data-dismiss="modal">Delete Flavor</a>
+	   		<a href="#syspanel/flavors" id="cancelBtn" class="btn cancel" data-dismiss="modal">Cancel</a>
+		</div>
+	</form>
+</div>
+</script>			
+
+
+

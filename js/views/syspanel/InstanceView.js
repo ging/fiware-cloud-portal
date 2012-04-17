@@ -9,7 +9,7 @@ var InstanceView = Backbone.View.extend({
     },
     
     events:{
-   		'change .checkbox':'enableDisableTerminateButton',
+   		'change .checkbox_instance':'enableDisableTerminateButton',
    		'click #instances_terminate':'displayTerminatePage',
   	},
   	

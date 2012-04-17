@@ -40,7 +40,6 @@ var loadViews = function() {
                 "js/views/syspanel/ImageView.js",
                 "js/views/syspanel/InstanceView.js",
                 "js/views/syspanel/FlavorView.js",
-                "js/views/syspanel/FlavorCreateView.js",
                 "js/views/syspanel/ProjectView.js",
                 "js/views/syspanel/ServiceView.js",
                 "js/views/syspanel/UserView.js",
@@ -49,7 +48,10 @@ var loadViews = function() {
                 "js/views/nova/AccessAndSecurityView.js",
                 "js/views/nova/InstancesAndVolumesView.js",
                 "js/views/nova/ImagesAndSnapshotsView.js",
-                "js/views/forms/UpdateInstanceView.js"
+                "js/views/forms/UpdateInstanceView.js",
+                "js/views/forms/CreateFlavorView.js",
+                "js/views/forms/DeleteFlavorsView.js",
+                "js/views/forms/DeleteFlavorView.js"
             ], function(someModule) {
                 loadRoutes();
         });
@@ -105,7 +107,6 @@ var loadTemplates = function() {
                     'templates/instancesTemplate.html',
                     'templates/servicesTemplate.html',
                     'templates/flavorsTemplate.html',
-                    'templates/flavorsCreateTemplate.html',
                     'templates/projectsTemplate.html',
                     'templates/usersTemplate.html',
                     'templates/quotasTemplate.html',
@@ -113,7 +114,10 @@ var loadTemplates = function() {
                     'templates/novaAccessAndSecurityTemplate.html',
                     'templates/novaImagesAndSnapshotsTemplate.html',
                     'templates/novaInstancesAndVolumesTemplate.html',
-                    'templates/updateInstanceFormTemplate.html'
+                    'templates/updateInstanceFormTemplate.html',
+                    'templates/createFlavorFormTemplate.html',
+                    'templates/deleteFlavorsFormTemplate.html',
+                    'templates/deleteFlavorFormTemplate.html'
                 ], function(){
                     loadLibraries();
                 });

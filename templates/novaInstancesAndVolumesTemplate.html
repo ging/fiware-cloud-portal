@@ -1,8 +1,10 @@
 <script id="novaInstancesAndVolumesTemplate" type="text/html">
 <div id="instances">
     <div class="table_wrapper">
-        <form action="#nova/instances_and_volumes/" method="POST"><div style='display:none'>
-            <input type='hidden' name='csrfmiddlewaretoken' value='194da7366428c03ba39e02e4799e4b5d' /></div>
+        <form action="#nova/instances_and_volumes/" method="POST">
+        	<div style='display:none'>
+            	<input type='hidden' name='csrfmiddlewaretoken' value='194da7366428c03ba39e02e4799e4b5d' />
+            </div>
             <div class='table_header'>
                 <h3 class='table_title'>Instances</h3>
                 <div class="table_actions clearfix">
@@ -58,15 +60,13 @@
                             </ul>
                         </div>
                     </td>
-                </tr>
-                
+                </tr>                
                 <% } %>
                 </tbody>
                 <tfoot>
                   <tr>
                     <td colspan="8">
-                      <span>Displaying <%= models.length %> item</span>
-                      
+                      <span>Displaying <%= models.length %> item</span>                      
                     </td>
                   </td>
                 </tfoot>
@@ -103,8 +103,7 @@
             <tfoot>
                 <tr>
                 <td colspan="7">
-                  <span>Displaying 0 items</span>
-                  
+                  <span>Displaying 0 items</span>                  
                 </td>
                 </tr>
             </tfoot>

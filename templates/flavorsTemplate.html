@@ -1,81 +1,63 @@
 <script id="flavorsTemplate" type="text/html">
-<form action="/syspanel/flavors/" method="POST"><div style='display:none'><input type='hidden' name='csrfmiddlewaretoken' value='13de1d539e7690548408d1be1856eb9c' /></div>
-<div class='table_header'>
-  <h3 class='table_title'>Flavors</h3>
-  <div class="table_actions clearfix">
-            <a href='#syspanel/flavors/create/'  class="btn btn-small ajax-modal">Create Flavor</a>
-            <a class='btn btn-small btn-danger' name="action" id= "flavors_delete" disabled=true "flavors__delete" type="submit">Delete Flavors</a>
-  </div>
+<div id="flavors">
+	<div class="table_wrapper">
+		<form action="#syspanel/flavors/" method="POST">
+			<div style='display:none'>
+				<input type='hidden' name='csrfmiddlewaretoken' value='13de1d539e7690548408d1be1856eb9c' />
+			</div>
+			<div class='table_header'>
+  				<h3 class='table_title'>Flavors</h3>
+  				<div class="table_actions clearfix">
+            		<a href="#syspanel/flavors/create"  id="flavors__action_create__0" class="btn btn-small ajax-modal">Create Flavor</a>
+           	 		<a href="#syspanel/flavors/delete" class='btn btn-small btn-danger' name="action" id= "flavors_delete" disabled=true "flavors__delete" type="submit">Delete Flavors</a>
+  				</div>
+			</div>
+			<table id="flavors" class="table table-bordered table-striped">
+			  	<thead>
+			    	<tr>			      
+				        <th class="multi_select_column"></th>				      
+				        <th class="">ID</th>				      
+				        <th class="">Flavor Name</th>				      
+				        <th class="">VCPUs</th>				      
+				        <th class="">Memory</th>				      
+				        <th class="">Disk</th>				        
+				        <th class="">Ephemeral Disk</th>				      
+				        <th class="actions_column">Actions</th>			      
+			    	</tr>
+			  	</thead>
+			  	<tbody>
+			  	<% 
+			  		for (var index in models) { 
+					var flavor = models[index];
+					console.log(JSON.stringify(flavor));
+				%>
+				<tr 
+                    id="flavors__row__<%= models.length %>"
+                    class="ajax-update status_down">
+					<td class="multi_select_column">
+						<input type="checkbox" id="checkbox_<%= flavor.get('id')%>" class="checkbox_flavor" name="object_ids" value="<%= flavor.get('id') %>" />
+					</td>
+					<td class=""><%= flavor.get('id')%></td>
+					<td class=""><%= flavor.get('name')%></td>
+					<td class=""><%= flavor.get('vcpus')%></td>
+					<td class=""><%= flavor.get('ram')%></td>
+					<td class=""><%= flavor.get('disk')%></td>
+					<td class="">-</td> 
+					<td class="actions_column">		
+						<a href="#syspanel/flavor/delete/<%= flavor.get('id') %>" class='btn btn-small btn-danger' name="action" value="<%= flavor.get('id') %>" id= "flavor_delete" type="submit">Delete Flavor</a>						
+					</td>
+				</tr>
+				<% } %>					
+			  	</tbody>
+			  	<tfoot>
+			    	<tr>
+			      		<td colspan="8">
+			       			<span>Displaying <%= models.length%> items</span>			        
+			      		</td>
+			    	</td>
+			  	</tfoot>
+			</table>
+		</form>
+	</div>
 </div>
-
-<table id="flavors" class="table table-bordered table-striped">
-  <thead>
-    <tr>
-      
-        <th class="multi_select_column"></th>
-      
-        <th class="">ID</th>
-      
-        <th class="">Flavor Name</th>
-      
-        <th class="">VCPUs</th>
-      
-        <th class="">Memory</th>
-      
-        <th class="">Disk</th>
-        
-        <th class="">Ephemeral Disk</th>
-      
-        <th class="actions_column">Actions</th>
-      
-    </tr>
-  </thead>
-  <tbody>
-  <% for (var index in models) { 
-		var flavor = models[index];
-		console.log("Flavors");
-		console.log(JSON.stringify(flavor));
-		%>
-    <tr id="flavors__row__<%= models.length %>" class="">
-  <td class="multi_select_column"><input type="checkbox" id="checkbox_<%= flavor.get('id')%>" class="checkbox" name="object_ids" value="<%= flavor.get('id') %>" /></td>
-  <td class=""><%= flavor.get('id')%></td>
-  <td class=""><%= flavor.get('name')%></td>
-  <td class=""><%= flavor.get('vcpus')%></td>
-  <td class=""><%= flavor.get('ram')%></td>
-  <td class=""><%= flavor.get('disk')%></td>
-  <td class="">-</td> 
-  <td class="actions_column">
-
-  <button  class="btn btn-small btn-danger" name="action" id= "flavor_delete" value="<%= flavor.get('id') %>" type="submit">Delete Flavor</button>
-
-</td>
-</tr>
-<% } %>
-
-<div class="modal_hide_in" style="display: none; ">
-  <div class="modal-header">
-    <a class="close" href="#syspanel/flavors" data-dismiss="modal">×</a>
-    <h3>Confirm Delete Flavors</h3>
-  </div>
-  <div class="modal-body">
-    Please confirm your selection. This action cannot be undone.
-  </div>
-  <div class="modal-footer">
-    <a href="#syspanel/flavors" id= "confirm_delete" class="btn btn-primary">Delete Flavors</a>
-    <a href="#syspanel/flavors" class="btn cancel" data-dismiss="modal">Cancel</a>
-  </div>
-</div>
-
-  </tbody>
-  <tfoot>
-    <tr>
-      <td colspan="8">
-        <span>Displaying <%= models.length%> items</span>
-        
-      </td>
-    </td>
-  </tfoot>
-</table>
-
-</form>
 </script>

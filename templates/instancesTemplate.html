@@ -31,7 +31,7 @@
 		console.log(JSON.stringify(instance));
 	 %> 
 	 <tr  data-update-interval="2500" data-update-url="/syspanel/instances/?action=row_update&amp;table=instances&amp;obj_id=<%= instance.get('id')%>" id="instances__row__<%= instance.get('id')%>" class="ajax-update status_down">
-	  <td class="multi_select_column"><input type="checkbox" name="object_ids" id="checkbox_<%= instance.get('id')%>" class="checkbox" value="<%= instance.get('id')%>" /></td>
+	  <td class="multi_select_column"><input type="checkbox" name="object_ids" id="checkbox_<%= instance.get('id')%>" class="checkbox_instance" value="<%= instance.get('id')%>" /></td>
 	  <td class=""><%= instance.get('tenant_id')%></td>
 	  <td class=""><%= instance.get('user_id')%></td>
 	  <td class=""><%= instance.get('id')%></td>

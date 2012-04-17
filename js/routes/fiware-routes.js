@@ -9,6 +9,7 @@ var FiwareRouter = Backbone.Router.extend({
     
     loginModel: undefined,
     instancesModel: undefined,
+    flavors: undefined,
     keypairsModel: undefined,
     
     timers: [],
@@ -21,6 +22,7 @@ var FiwareRouter = Backbone.Router.extend({
 	initialize: function() {
 	    this.loginModel = new LoginStatus();
 	    this.instancesModel = new Instances();
+	    this.flavors = new Flavors();
 	    this.keypairsModel = new Keypairs();
 	    this.rootView = new RootView({model:this.loginModel, auth_el: '#auth', root_el: '#root'});
 	    this.route('', 'init', this.wrap(this.init, this.checkAuth));
@@ -44,7 +46,9 @@ var FiwareRouter = Backbone.Router.extend({
 	    this.route('syspanel/users/', 'users',  _.wrap(this.sys_users, this.checkAuth));
 	    this.route('syspanel/quotas/', 'quotas',  _.wrap(this.sys_quotas, this.checkAuth));
 	    
-	    this.route('syspanel/flavors/create/', 'create_flavors',  _.wrap(this.sys_create_flavors, this.checkAuth));
+	    this.route('syspanel/flavors/create', 'create_flavor',  _.wrap(this.create_flavor, this.checkAuth));
+	    this.route('syspanel/flavors/delete', 'delete_flavors',  _.wrap(this.delete_flavors, this.checkAuth));
+	    this.route('syspanel/flavor/delete/:id', 'delete_flavor',  _.wrap(this.delete_flavor, this.checkAuth));
 	    this.route('nova/instances_and_volumes/instances/:id/update', 'update_instance', this.wrap(this.update_instance, this.checkAuth));
 	    
 	},
@@ -141,15 +145,34 @@ var FiwareRouter = Backbone.Router.extend({
 	
 	sys_flavors: function(self) {
 	    self.showSysRoot(self, 'Flavors');	
-	    var flavors = new Flavors();
-	    var view = new FlavorView({model: flavors, el: '#content'});
-        view.render();
+	    self.flavors.unbind("change");
+	    self.add_fetch(self.flavors, 4);
+	    var view = new FlavorView({model: self.flavors, el: '#content'});
+        //view.render();
 	},
-
-	sys_create_flavors: function(self) {
+	
+	create_flavor: function(self) {
 	    var flavor = new Flavor();
-	    var view = new FlavorCreateView({model: flavor, el: '#content'});
-        view.rerender();
+        var view = new CreateFlavorView({model: flavor, el: 'body'});
+        view.render();
+        self.navigate('#syspanel/flavors/', {trigger: false, replace: true});
+	},
+	
+	delete_flavors: function(self) {
+		//console.log("View disabled: " + disabled);
+        var view = new DeleteFlavorsView({model: self.flavors, el: 'body'});
+        view.render();
+        self.navigate('#syspanel/flavors/', {trigger: false, replace: true});
+	},
+	
+	delete_flavor: function(self, id) {
+	    console.log("Received delete for flavor: " + id);
+	    var flavor = new Flavor();
+	    flavor.set({"id": id});
+	    console.log(flavor.get("id"));
+        var flavor = new DeleteFlavorView({model: flavor, el: 'body'});
+        flavor.render();
+        self.navigate('#syspanel/flavors/', {trigger: false, replace: true});
 	},
 	
 	sys_projects: function(self) {
