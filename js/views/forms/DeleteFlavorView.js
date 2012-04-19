@@ -2,16 +2,17 @@ var DeleteFlavorView = Backbone.View.extend({
     
     _template: _.template($('#deleteFlavorFormTemplate').html()),
     
-   	initialize: function() {
-        this.model.bind("change", this.render, this);
-        this.model.fetch();
-
-    },
-    
     events: {
         'click #flavor_delete': 'onDeleteFlavor',
         'click #cancelBtn': 'close',
       	'click #close': 'close',
+      	'click .modal-backdrop': 'close'
+    },
+    
+   	initialize: function() {
+        this.model.bind("change", this.render, this);
+        this.model.fetch();
+
     },
     
    	render: function () {
@@ -35,6 +36,7 @@ var DeleteFlavorView = Backbone.View.extend({
        	this.model.destroy();   
        	$('#delete_flavor').remove();
         $('.modal-backdrop').remove();  
+        this.model.fetch();  
     },		
     
     close: function(e) {

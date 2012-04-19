@@ -5,49 +5,37 @@
     <h3>Update Instance</h3>
   </div>  
   <form id="update_instance_form" class="" action="/nova/instances_and_volumes/instances/99020a59-e076-4ffb-8b7e-5fbc287b7165/update" method="POST" ><div style='display:none'><input type='hidden' name='csrfmiddlewaretoken' value='194da7366428c03ba39e02e4799e4b5d' /></div>
-    <div class="modal-body clearfix">
-    
-<div class="left">
-    <fieldset>
-    
-  <input type="hidden" name="method" value="UpdateInstance" id="id_method" />
-
-  <input type="hidden" name="tenant_id" value="cbcde8eaae154316a9c9406693d4c1d1" id="id_tenant_id" />
-
-
-
-  <div class="control-group form-field clearfix">
-    <label for="id_instance">Instance</label>
-    
-    <span class="help-block"></span>
-    <div class="input">
-      <input readonly="readonly" type="text" name="instance" value="<%= model.id %>" id="id_instance" />
-    </div>
-  </div>
-
-  <div class="control-group form-field clearfix">
-    <label for="id_name">Name</label>
-    
-    <span class="help-block"></span>
-    <div class="input">
-      <input type="text" name="name" value="<%= model.get('name') %>" id="id_name" />
-    </div>
-  </div>
-
-
-    </fieldset>
-</div>
-<div class="right">
-    <h3>Description:</h3>
-    <p>Update the name of your instance</p>
-</div>
-
+    <div class="modal-body clearfix">  
+		<div class="left">
+    		<fieldset>  
+  				<input type="hidden" name="method" value="UpdateInstance" id="id_method" />
+  				<input type="hidden" name="tenant_id" value="cbcde8eaae154316a9c9406693d4c1d1" id="id_tenant_id" />
+  					<div class="control-group form-field clearfix">
+    					<label for="id_instance">Instance</label>
+    					<span class="help-block"></span>
+    					<div class="input">
+      						<input readonly="readonly" type="text" name="instance" value="<%= model.id %>" id="id_instance" />
+    					</div>
+  					</div>
+					<div class="control-group form-field clearfix">
+						<label for="id_name">Name</label>					    
+					    <span class="help-block"></span>
+					    <div class="input">
+					      <input type="text" name="name" value="<%= model.get('name') %>" id="id_name" />
+					    </div>
+					</div>
+    		</fieldset>
+		</div>
+		<div class="right">
+		    <h3>Description:</h3>
+		    <p>Update the name of your instance</p>
+		</div>
     </div>
     <div class="modal-footer">
-  <a id="updateBtn" class="btn btn-primary pull-right" data-dismiss="modal">Update Instance</a>
-  <a id="cancelBtn" class="close btn seconday cancel close" data-dismiss="modal">Cancel</a>
-  <!--<a id="cancelBtn" class="btn secondary cancel close">Cancel</a>-->
-</div>
+	  <a id="updateBtn" class="btn btn-primary pull-right" data-dismiss="modal">Update Instance</a>
+	  <a id="cancelBtn" class="close btn seconday cancel close" data-dismiss="modal">Cancel</a>
+  	  <!--<a id="cancelBtn" class="btn secondary cancel close">Cancel</a>-->
+	</div>
   </form>
 </div>
 </script>

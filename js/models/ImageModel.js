@@ -7,6 +7,10 @@ var Image = Backbone.Model.extend({
                case "delete":
                    JSTACK.Nova.deleteimage(model.get("id"), options.success);
                    break;
+               case "update":
+                	console.log("Updating Image: " + model.get("name"));
+                	JSTACK.Nova.updateimage(model.get("id"), model.get("name"), options.success);
+                	break;
            }
    }
 });

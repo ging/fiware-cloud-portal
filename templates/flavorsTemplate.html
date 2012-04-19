@@ -9,7 +9,7 @@
   				<h3 class='table_title'>Flavors</h3>
   				<div class="table_actions clearfix">
             		<a href="#syspanel/flavors/create"  id="flavors__action_create__0" class="btn btn-small ajax-modal">Create Flavor</a>
-           	 		<a href="#syspanel/flavors/delete" class='btn btn-small btn-danger' name="action" id= "flavors_delete" disabled=true "flavors__delete" type="submit">Delete Flavors</a>
+           	 		<a class='btn btn-small btn-danger' name="action" id= "flavors_delete" disabled=true "flavors__delete" type="submit">Delete Flavors</a>
   				</div>
 			</div>
 			<table id="flavors" class="table table-bordered table-striped">
@@ -44,7 +44,7 @@
 					<td class=""><%= flavor.get('disk')%></td>
 					<td class="">-</td> 
 					<td class="actions_column">		
-						<a href="#syspanel/flavor/delete/<%= flavor.get('id') %>" class='btn btn-small btn-danger' name="action" value="<%= flavor.get('id') %>" id= "flavor_delete" type="submit">Delete Flavor</a>						
+						<a href="#syspanel/flavor/<%= flavor.get('id') %>/delete" class='btn btn-small btn-danger' value="<%= flavor.get('id') %>" id= "flavor_delete">Delete Flavor </a>						
 					</td>
 				</tr>
 				<% } %>					

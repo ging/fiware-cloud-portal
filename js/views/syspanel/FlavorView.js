@@ -4,7 +4,6 @@ var FlavorView = Backbone.View.extend({
 
     
     initialize: function() {
-    	console.log("Initialize called");
     	this.model.unbind("reset");
         this.model.bind("reset", this.render, this);
         this.model.fetch();
@@ -12,11 +11,21 @@ var FlavorView = Backbone.View.extend({
     
     events: {
         'change .checkbox_flavor':'enableDisableDeleteButton',
+        'click #flavors_delete': 'checkIfDisabled'
+    },
+    
+    checkIfDisabled: function (e) {
+  		for (var index = 0; index < this.model.length; index++) { 
+			var flavorId = this.model.models[index].get('id');	 
+			if($("#checkbox_"+flavorId).is(':checked'))
+				{
+					$("#flavors_delete").attr("href", "#syspanel/flavors/delete");
+				}
+		}	console.log("Button disabled");		
     },
 
    
   	enableDisableDeleteButton: function (e) {
-  		console.log("enableDisableDeleteButton called");
   		for (var index = 0; index < this.model.length; index++) { 
 			var flavorId = this.model.models[index].get('id');	 
 			if($("#checkbox_"+flavorId).is(':checked'))

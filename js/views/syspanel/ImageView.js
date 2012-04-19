@@ -1,26 +1,36 @@
 var ImagesView = Backbone.View.extend({
     
-        _template: _.template($('#imagesTemplate').html()),
+    _template: _.template($('#imagesTemplate').html()),
         
-        initialize: function() {
-            this.model.fetch();
-            this.model.bind("reset", this.rerender, this);
-        },
+   	initialize: function() {
+         this.model.unbind("reset");
+         this.model.bind("reset", this.render, this);
+         this.model.fetch();
+    },
         
-		events: {
-        	'click #image_delete': 'onDeleteImage',
-        	'click #confirm_delete': 'onDeleteImages',
-        	'click #images_delete': 'displayDeletePage',
-        	'change .checkbox':'enableDisableDeleteButton',
-    	},
-    	
+	events: {
+        'change .checkbox_image':'enableDisableDeleteButton',
+        'click #images_delete': 'checkIfDisabled'
+    },  
+    
+    checkIfDisabled: function (e) {
+  		for (var index = 0; index < this.model.length; index++) { 
+			var imageId = this.model.models[index].get('id');	 
+			if($("#checkbox_"+imageId).is(':checked'))
+				{
+					$("#images_delete").attr("href", "#syspanel/images/delete");
+				}
+		}	console.log("Button disabled");		
+    },  	
 		
-		enableDisableDeleteButton: function (e) {
+	enableDisableDeleteButton: function (e) {
   		console.log("enableDisableDeleteButton called");
   		for (var index = 0; index < this.model.length; index++) { 
-			var instanceId = this.model.models[index].get('id');	 
-			if($("#checkbox_"+instanceId).is(':checked'))
+			var imageId = this.model.models[index].get('id');	
+			console.log(imageId); 
+			if($("#checkbox_"+imageId).is(':checked'))
 				{
+						
    		   	   			$("#images_delete").attr("disabled", false);
 						return;
 				}
@@ -28,41 +38,42 @@ var ImagesView = Backbone.View.extend({
 		$("#images_delete").attr("disabled", true);
 			
     },
-       
-	    onDeleteImage: function(e){
-	       	e.preventDefault();                        
-	       	var flavor =  this.model.get(e.target.value);        
-	        console.log(e.target.value);         
-	        flavor.destroy();  
-	        this.model.fetch();      
-	    },	
-	    
-	    displayDeletePage: function(e){
-	       	$('.modal_hide_in ').show();
-	    },	
-	    
-	    onDeleteImages: function(e){
-	    	e.preventDefault(); 
-	    	console.log("Enter images delete"); 
-	           	
-	  		for (var index = 0; index < this.model.length; index++) { 
-			var imageId = this.model.models[index].get('id');	 		
-			if($("#checkbox_"+imageId).is(':checked'))
-					{
-					var image =  this.model.models[index];      
-	        		console.log("Image to delete = " +this.model.models[index].get('id'));
-	        		image.destroy();      
-					}
-	      	}  
-	      	this.model.fetch();  
-	    },	
 	
-        render: function () {
+    render: function () {
+        if ($("#images").html() == null) {
             UTILS.Render.animateRender(this.el, this._template, this.model);
-            return this;
-        },
-        
-        rerender: function() {
-            $(this.el).empty().html(this._template(this.model));
+        } else {
+            var new_template = this._template(this.model);
+            var checkboxes = [];
+            var dropdowns = [];
+            for (var index in this.model.models) { 
+                var imageId = this.model.models[index].id;
+                if ($("#checkbox_"+imageId).is(':checked')) {
+                    checkboxes.push(imageId);
+                }
+                if ($("#dropdown_"+imageId).hasClass('open')) {
+                    dropdowns.push(imageId);
+                }
+            }
+            $(this.el).html(new_template);
+            for (var index in checkboxes) { 
+                var imageId = checkboxes[index];
+                var check = $("#checkbox_"+imageId);
+                if (check.html() != null) {
+                    check.prop("checked", true);
+                }
+            }
+            
+            for (var index in dropdowns) { 
+                var imageId = dropdowns[index];
+                var drop = $("#dropdown_"+imageId);
+                if (drop.html() != null) {
+                    drop.addClass("open");
+                }
+            }           
         }
-    });
+        this.enableDisableDeleteButton();
+        return this;
+    },
+    
+});

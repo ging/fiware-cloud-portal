@@ -10,6 +10,7 @@ var FiwareRouter = Backbone.Router.extend({
     loginModel: undefined,
     instancesModel: undefined,
     flavors: undefined,
+    images: undefined,
     keypairsModel: undefined,
     
     timers: [],
@@ -23,6 +24,7 @@ var FiwareRouter = Backbone.Router.extend({
 	    this.loginModel = new LoginStatus();
 	    this.instancesModel = new Instances();
 	    this.flavors = new Flavors();
+	    this.images = new Images();
 	    this.keypairsModel = new Keypairs();
 	    this.rootView = new RootView({model:this.loginModel, auth_el: '#auth', root_el: '#root'});
 	    this.route('', 'init', this.wrap(this.init, this.checkAuth));
@@ -48,9 +50,12 @@ var FiwareRouter = Backbone.Router.extend({
 	    
 	    this.route('syspanel/flavors/create', 'create_flavor',  _.wrap(this.create_flavor, this.checkAuth));
 	    this.route('syspanel/flavors/delete', 'delete_flavors',  _.wrap(this.delete_flavors, this.checkAuth));
-	    this.route('syspanel/flavor/delete/:id', 'delete_flavor',  _.wrap(this.delete_flavor, this.checkAuth));
+	    this.route('syspanel/flavor/:id/delete', 'delete_flavor',  _.wrap(this.delete_flavor, this.checkAuth));
 	    this.route('nova/instances_and_volumes/instances/:id/update', 'update_instance', this.wrap(this.update_instance, this.checkAuth));
-	    
+	    this.route('syspanel/images/delete', 'delete_images',  _.wrap(this.delete_images, this.checkAuth));
+	    this.route('nova/images_and_snapshots/:id/delete', 'delete_image',  this.wrap(this.delete_image, this.checkAuth));
+	    this.route('nova/images_and_snapshots/:id/update', 'edit_image',  _.wrap(this.edit_image, this.checkAuth));
+	    this.route('nova/images_and_snapshots/:id', 'consult_image',  this.wrap(this.consult_image, this.checkAuth));
 	},
 	
 	wrap: function(func, wrapper, arguments) {
@@ -122,9 +127,45 @@ var FiwareRouter = Backbone.Router.extend({
 	sys_images: function(self) {
 	    self.showSysRoot(self, 'Images');
 	    console.log("Images");
-	    var images = new Images();
-	    var view = new ImagesView({model: images, el: '#content'});
+	    self.unbind("change");
+	    self.add_fetch(self.images, 4);
+	    var view = new ImagesView({model: self.images, el: '#content'});
+        //view.render();
+	},
+	
+	delete_images: function(self) {
+		//console.log("View disabled: " + disabled);
+        var view = new DeleteImagesView({model: self.images, el: 'body'});
         view.render();
+        self.navigate('#syspanel/images/images/', {trigger: false, replace: true});
+	},
+	
+	delete_image: function(self, id) {
+	    console.log("Received delete for image: " + id);
+	    var image = new Image();
+	    image.set({"id": id});
+	    console.log(image.get("id"));
+        var view = new DeleteImageView({model: image, el: 'body'});
+        view.render();
+        self.navigate('#syspanel/images/images/', {trigger: false, replace: true});
+	},
+	
+	edit_image: function(self, id) {
+	    console.log("Received update for image: " + id);
+	    var image = new Image();
+	    image.set({"id": id});
+        var view = new UpdateImageView({model: image, el: 'body'});
+        //view.render();
+        self.navigate('#syspanel/images/images/', {trigger: false, replace: true});
+	},
+	
+	consult_image: function(self, id) {
+	    console.log("Received consult for image: " + id);
+	    var image = new Image();
+	    image.set({"id": id});
+        var view = new ConsultImageDetailView({model: image, el: 'body'});
+        //view.render();
+        self.navigate('#nova/images_and_snapshots/'+id, {trigger: false, replace: true});
 	},
 	
 	sys_instances: function(self) {
@@ -132,7 +173,7 @@ var FiwareRouter = Backbone.Router.extend({
 	    self.instancesModel.unbind("change");
 	    self.add_fetch(self.instancesModel, 4);
 	    var view = new InstanceView({model: self.instancesModel, el: '#content'});
-        view.render();
+        //view.render();
 	},
 	
 	sys_services: function(self) {
@@ -145,7 +186,7 @@ var FiwareRouter = Backbone.Router.extend({
 	
 	sys_flavors: function(self) {
 	    self.showSysRoot(self, 'Flavors');	
-	    self.flavors.unbind("change");
+	    //self.flavors.unbind("change");
 	    self.add_fetch(self.flavors, 4);
 	    var view = new FlavorView({model: self.flavors, el: '#content'});
         //view.render();
@@ -170,8 +211,8 @@ var FiwareRouter = Backbone.Router.extend({
 	    var flavor = new Flavor();
 	    flavor.set({"id": id});
 	    console.log(flavor.get("id"));
-        var flavor = new DeleteFlavorView({model: flavor, el: 'body'});
-        flavor.render();
+        var view = new DeleteFlavorView({model: flavor, el: 'body'});
+        view.render();
         self.navigate('#syspanel/flavors/', {trigger: false, replace: true});
 	},
 	
