@@ -55,7 +55,8 @@ var loadViews = function() {
                 "js/views/forms/DeleteImagesView.js",
                 "js/views/forms/DeleteImageView.js",
                 "js/views/forms/UpdateImageView.js",
-                "js/views/forms/ConsultImageDetailView.js"
+                "js/views/forms/ConsultImageDetailView.js",
+                "js/views/forms/TerminateInstancesView.js"
             ], function(someModule) {
                 loadRoutes();
         });
@@ -125,7 +126,8 @@ var loadTemplates = function() {
                     'templates/deleteImagesFormTemplate.html',
                     'templates/deleteImageFormTemplate.html',
                     'templates/updateImageFormTemplate.html',
-                    'templates/consultImageDetailFormTemplate.html'
+                    'templates/consultImageDetailFormTemplate.html',
+                    'templates/terminateInstancesFormTemplate.html'
                 ], function(){
                     loadLibraries();
                 });

@@ -56,6 +56,8 @@ var FiwareRouter = Backbone.Router.extend({
 	    this.route('nova/images_and_snapshots/:id/delete', 'delete_image',  this.wrap(this.delete_image, this.checkAuth));
 	    this.route('nova/images_and_snapshots/:id/update', 'edit_image',  _.wrap(this.edit_image, this.checkAuth));
 	    this.route('nova/images_and_snapshots/:id', 'consult_image',  this.wrap(this.consult_image, this.checkAuth));
+		//this.route('syspanel/instances/delete', 'terminate_instance',  _.wrap(this.terminate_instance, this.checkAuth));
+		this.route('syspanel/instances/delete', 'terminate_instance',  _.wrap(this.terminate_instances, this.checkAuth));
 	},
 	
 	wrap: function(func, wrapper, arguments) {
@@ -176,6 +178,23 @@ var FiwareRouter = Backbone.Router.extend({
         //view.render();
 	},
 	
+	/*terminate_instance: function(self, id) {
+	    console.log("Received terminate for instance: " + id);
+	    var instance = new Instance();
+	    instance.set({"id": id});
+	    console.log(instance.get("id"));
+        var view = new TerminateInstanceView({model: instance, el: 'body'});
+        view.render();
+        self.navigate('#syspanel/instances/', {trigger: false, replace: true});
+	},*/
+	
+	terminate_instances: function(self) {
+	    console.log("Received terminate for instances");
+        var view = new TerminateInstancesView({model: self.instancesModel, el: 'body'});
+        view.render();
+        self.navigate('#syspanel/instances/', {trigger: false, replace: true});
+	},
+	
 	sys_services: function(self) {
 	    self.showSysRoot(self, 'Services');
 	    console.log("Services");
@@ -194,7 +213,7 @@ var FiwareRouter = Backbone.Router.extend({
 	
 	create_flavor: function(self) {
 	    var flavor = new Flavor();
-        var view = new CreateFlavorView({model: flavor, el: 'body'});
+        var view = new CreateFlavorView({model: flavor, el: 'body'}, {model: flavors, el: '#content'});
         view.render();
         self.navigate('#syspanel/flavors/', {trigger: false, replace: true});
 	},
