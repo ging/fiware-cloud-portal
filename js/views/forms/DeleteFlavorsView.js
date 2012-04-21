@@ -18,7 +18,6 @@ var DeleteFlavorsView = Backbone.View.extend({
    	render: function () {
         console.log("Rendering delete flavors");
         if ($('#delete_flavors').html() != null) {
-            //return;
             $('#delete_flavors').remove();
         	$('.modal-backdrop').remove();
         }
@@ -28,7 +27,6 @@ var DeleteFlavorsView = Backbone.View.extend({
     },
     
     onDeleteFlavors: function(e){
-    	console.log(this.model.models);
     	e.preventDefault();	
   		for (var index = 0; index < this.model.length; index++) { 
 		var flavorId = this.model.models[index].get('id');	 		

@@ -18,7 +18,7 @@ var InstanceView = Backbone.View.extend({
 			var instanceId = this.model.models[index].get('id');	 
 			if($("#checkbox_"+instanceId).is(':checked'))
 				{
-					$("#terminate_instances").attr("href", "#syspanel/instances/delete");
+					$("#terminate_instances").attr("href", "#syspanel/instances/terminate");
 				}
 		}	console.log("Button disabled");		
     },

@@ -9,13 +9,10 @@ var CreateFlavorView = Backbone.View.extend({
     },
 
    	render: function () {
-   		console.log("Rendering create flavor");
-   		console.log(this.models.length);
    		for (var index = 0; index < this.model.length; index++) { 
 			console.log("Flavor id = "+this.model.models[index].get('id'));
 		}	
         if ($('#create_flavor').html() != null) {
-            //return;
           	$('#create_flavor').remove();
         	$('.modal-backdrop').remove();
         }

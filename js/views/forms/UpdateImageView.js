@@ -15,7 +15,6 @@ var UpdateImageView = Backbone.View.extend({
     },
     
    	render: function () {
-        console.log("Rendering update image");
         if ($('#update_image').html() != null) {        	
             //return;
             $('#update_image').remove();
@@ -28,10 +27,8 @@ var UpdateImageView = Backbone.View.extend({
     },
     
     onUpdateImage: function(e){
-       	e.preventDefault();   
-       	//console.log("Image to update = "+this.model.get("name"));                   
+       	e.preventDefault();                     
        	this.model.set({"name": this.$('input[name=name]').val()});
-        //console.log($('input[name=name]').val());
         this.model.save();
         this.close(); 
        	$('#update_image').remove();

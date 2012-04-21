@@ -3,10 +3,10 @@ var TerminateInstancesView = Backbone.View.extend({
     _template: _.template($('#terminateInstancesFormTemplate').html()),
     
     events: {
-        'click #confirm_terminate': ' onTerminateInstance',
         'click #cancelBtn': 'close',
       	'click #close': 'close',
-      	'click .modal-backdrop': 'close'
+      	'click .modal-backdrop': 'close',
+      	'click #confirm_terminate': 'onTerminateInstance'
     },
     
    	initialize: function() {
@@ -16,10 +16,9 @@ var TerminateInstancesView = Backbone.View.extend({
     },
     
    	render: function () {
-        console.log("Rendering terminate instances");
         if ($('#instances_terminate').html() != null) {
             $('#instances_terminate').remove();
-        	$('.instances_terminate').remove();
+        	$('.modal-backdrop').remove();
         }
         $(this.el).append(this._template({model:this.model}));
         $('.modal:last').modal();
@@ -27,7 +26,6 @@ var TerminateInstancesView = Backbone.View.extend({
     },
     
     onTerminateInstance: function(e){
-    	console.log("Terminating instances");
     	e.preventDefault();	
   		for (var index = 0; index < this.model.length; index++) { 
 		var instanceId = this.model.models[index].get('id');	 		
@@ -36,6 +34,7 @@ var TerminateInstancesView = Backbone.View.extend({
 				var instance =  this.model.models[index];      
         		console.log("Instances to terminate = " +this.model.models[index].get('id'));
         		//instance.destroy(); 
+        		console.log("For the moment not terminating");
         		$('#instances_terminate').remove();
         		$('.modal-backdrop').remove();     
 				}

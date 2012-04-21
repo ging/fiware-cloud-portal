@@ -38,7 +38,7 @@
 			  <td class=""><%= instance.get('user_id')%></td>
 			  <td class=""><%= instance.get('id')%></td>
 			  <td class="">-</td>
-			  <td class=""><a href="/nova/instances_and_volumes/instances/99020a59-e076-4ffb-8b7e-5fbc287b7165/detail"></a><%= instance.get('name')%></td>
+			  <td class=""><a href="/nova/instances_and_volumes/instances/99020a59-e076-4ffb-8b7e-5fbc287b7165/detail"><%= instance.get('name')%></a></td>
 			  <td class=""></td>
 			  <td class="">2GB RAM | 1 VCPU | 10.0GB Disk</td>
 			  <td class="status_down"><%= instance.get('status')%></td>
@@ -52,7 +52,7 @@
 			      </a>
 			       <ul class="dropdown-menu row_actions clearfix">        
 			          <li class="clearfix">             
-			 			 <a href="#syspanel/instances/delete"  id="terminate_instance" class="btn btn-small btn-danger btn-terminate" name="action" value="<%= instance.get('id')%>" type="submit">Terminate Instance</a>
+			 			 <a href="#syspanel/instances/terminate"  id="terminate_instance" class="btn btn-small btn-danger btn-terminate" name="action" value="<%= instance.get('id')%>" type="submit">Terminate Instance</a>
 					  </li> 
 			       </ul>  
 				</div>
