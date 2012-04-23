@@ -64,6 +64,6 @@ var InstancesAndVolumesView = Backbone.View.extend({
         }
         this.enableDisableTerminateButton();
         return this;
-    },
+    }
     
 });

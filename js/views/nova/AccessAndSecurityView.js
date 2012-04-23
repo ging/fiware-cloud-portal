@@ -3,6 +3,7 @@ var AccessAndSecurityView = Backbone.View.extend({
     _template: _.template($('#novaAccessAndSecurityTemplate').html()),
     
     initialize: function() {
+        this.model.unbind("reset");
         this.model.bind("reset", this.render, this);
         this.model.fetch();
     },
@@ -18,7 +19,6 @@ var AccessAndSecurityView = Backbone.View.extend({
     },
     
     render: function () {
-        console.log(this.model.models);
         if ($("#floating_ips").html() == null) {
             UTILS.Render.animateRender(this.el, this._template, this.model);
         } else {

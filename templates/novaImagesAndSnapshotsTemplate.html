@@ -38,89 +38,47 @@
   </thead>
   <tbody>
   
-    <tr id="images__row__4" class="">
-  <td class="multi_select_column"><input type="checkbox" name="object_ids" value="4" /></td><td class="">test2</td><td class="">Image</td><td class="">Queued</td><td class="">Yes</td><td class="">AMI</td><td class="actions_column">
-
-
-<div class="btn-group">
+    <% for (var index in models) { 
+        var image = models[index];
+        console.log("Images");
+        console.log(JSON.stringify(image));
+        %>
+    <tr id="images__row__" class="">
+        <td class="multi_select_column"><input type="checkbox" name="object_ids" class="checkbox" id="checkbox_<%= image.get('id')%>" value="<%= models.length %>" /></td>
+        <td class=""><%= image.get('name')%></td>
+        <td class="">Image</td>
+        <td class=""><%=image.get('status').toLowerCase()%></td>
+        <td class="">Yes</td>
+        <td class="">AMI</td>
+        <td class="actions_column">
+            <div class="btn-group">
+                <a href='#nova/images_and_snapshots/<%= image.get('id')%>/launch/'  class="ajax-modal btn btn-small">Launch</a>
+                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu row_actions clearfix">
+                    <li class="clearfix">
+                        <a href='#nova/images_and_snapshots/<%=image.get('id') %>/update/'  class="ajax-modal btn btn-small">Edit</a>
+                    </li>
+                </ul>
+            </div>
+        </td>
+    </tr>
+    <% } %>
     
-        
-          
-  <a href='/nova/images_and_snapshots/4/launch/'  class="ajax-modal btn btn-small">Launch</a>
-
-
-          <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-            <span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu row_actions clearfix">
-        
-        
-    
-        
-          <li class="clearfix">
-              
-  <a href='/nova/images_and_snapshots/4/update/'  class="ajax-modal btn btn-small">Edit</a>
-
-
-          </li>
-        
-        
-          </ul>
-        
-    
+<div class="modal_hide_in" style="display: none; ">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal">×</a>
+    <h3>Confirm Delete Images</h3>
+  </div>
+  <div class="modal-body">
+    Please confirm your selection. This action cannot be undone.
+  </div>
+  <div class="modal-footer">
+    <a href="#syspanel/images/images" id= "confirm_delete" class="btn btn-primary">Delete Images</a>
+    <a href="#syspanel/images/images" class="btn cancel" data-dismiss="modal">Cancel</a>
+  </div>
 </div>
-
-
-</td>
-</tr>
-
-  
-    <tr id="images__row__2" class="">
-  <td class="multi_select_column"><input type="checkbox" name="object_ids" value="2" /></td><td class="">ubuntu-10.04.2</td><td class="">Image</td><td class="">Active</td><td class="">Yes</td><td class="">AMI</td><td class="actions_column">
-
-
-<div class="btn-group">
-    
-        
-          
-  <a href='/nova/images_and_snapshots/2/launch/'  class="ajax-modal btn btn-small">Launch</a>
-
-
-          <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-            <span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu row_actions clearfix">
-        
-        
-    
-        
-          <li class="clearfix">
-              
-  <a href='/nova/images_and_snapshots/2/update/'  class="ajax-modal btn btn-small">Edit</a>
-
-
-          </li>
-        
-        
-    
-        
-          <li class="clearfix">
-              
-  <button  class="btn btn-small btn-danger" name="action" value="images__delete__2" type="submit">Delete Image</button>
-
-
-          </li>
-        
-        
-          </ul>
-        
-    
-</div>
-
-
-</td>
-</tr>
-
   
   </tbody>
   <tfoot>

@@ -69,7 +69,7 @@ var LoginStatus = Backbone.Model.extend({
     
     setCredentials: function(username, password) {
         console.log("Setting credentials");
-        this.set({'username': username, 'password': password, 'error_msg':null});
+        this.set({'username': username, 'password': password, 'error_msg':undefined});
         this.trigger('credentials', this);
     },
     

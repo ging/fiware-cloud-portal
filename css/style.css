@@ -94,14 +94,13 @@ html, #splash{
   background: #fafafa;
 }
 
-#splash .modal {
+#splashdiv {
   background: #fff url(../images/logo.png) no-repeat center 35px;
   width: 390px;
   padding-top: 170px;
   border: 1px solid #e1e1e1;
   margin-left: -195px;  /*accounts for splash's non-standard width */
 }
-
 
 #splash .help-block {
   display: none;

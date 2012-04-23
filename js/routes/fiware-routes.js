@@ -300,4 +300,3 @@ var FiwareRouter = Backbone.Router.extend({
         this.timers.push(id);
 	}
 });
-

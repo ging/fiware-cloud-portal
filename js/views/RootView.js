@@ -36,11 +36,17 @@ var RootView = Backbone.View.extend({
     
     renderAuth: function () {
         var self = this;
+        console.log(self.model.get("token"));
+        
+        
         self.$el = $(self.options.auth_el);
         self.delegateEvents({
             'submit .credentials': 'onCredentialsSubmit',
             'click .close': 'onCloseErrorMsg'
         });
+        
+        if (self.model.get("token") != "" && self.model.get("error_msg") == null) return;
+        
         console.log("Rendering auth");
         console.log($(self.options.root_el).css('display'));
         if ($(self.options.root_el).css('display') != 'None')
@@ -63,6 +69,7 @@ var RootView = Backbone.View.extend({
     
     renderAuthonerror: function() {
         $(this.options.auth_el).empty().html(this._authtemplate(this.model));
+        $('body').attr("id", "splash");
         return this;
     }
     

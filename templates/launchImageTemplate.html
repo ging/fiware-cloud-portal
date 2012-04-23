@@ -1,0 +1,163 @@
+<script id="launchImageTemplate" type="text/html">
+<div id="launch_image" class="modal hide  in" style="display: block; ">
+  <div class="modal-header">
+    <a id="close" href="#" class="close" data-dismiss="modal">&times;</a>
+    <h3>Launch Instances</h3>
+  </div>
+  
+  <form id="launch_image_form" class="" action="/nova/images_and_snapshots/5959efbc-b839-41b3-98e5-a552b8f37a3c/launch/" method="POST"><div style="display:none"><input type="hidden" name="csrfmiddlewaretoken" value="194da7366428c03ba39e02e4799e4b5d"></div>
+    <div class="modal-body clearfix">
+    
+<div class="left">
+  <fieldset>
+  
+  <input type="hidden" name="method" value="LaunchForm" id="id_method">
+
+  <input type="hidden" name="image_id" value="5959efbc-b839-41b3-98e5-a552b8f37a3c" id="id_image_id">
+
+  <input type="hidden" name="tenant_id" value="9fdc9579934b4735915f85e024ad8a09" id="id_tenant_id">
+
+
+
+  <div class="control-group form-field clearfix">
+    <label for="id_name">Server Name</label>
+    
+    <span class="help-block" style="display: none; "></span>
+    <div class="input">
+      <input id="id_name" type="text" name="name" maxlength="80">
+    </div>
+  </div>
+
+  <div class="control-group form-field clearfix">
+    <label for="id_user_data">User Data</label>
+    
+    <span class="help-block" style="display: none; "></span>
+    <div class="input">
+      <textarea id="id_user_data" rows="10" cols="40" name="user_data"></textarea>
+    </div>
+  </div>
+
+  <div class="control-group form-field clearfix">
+    <label for="id_flavor">Flavor</label>
+    
+    <span class="help-block" style="display: none; ">Size of image to launch.</span>
+    <div class="input">
+      <select name="flavor" id="id_flavor">
+<option value="1">m1.tiny (1VCPU / 0GB Disk / 512MB Ram )</option>
+<option value="2">m1.small (1VCPU / 10GB Disk / 2048MB Ram )</option>
+<option value="3">m1.medium (2VCPU / 10GB Disk / 4096MB Ram )</option>
+<option value="4">m1.large (4VCPU / 10GB Disk / 8192MB Ram )</option>
+<option value="5">m1.xlarge (8VCPU / 10GB Disk / 16384MB Ram )</option>
+</select>
+    </div>
+  </div>
+
+  <div class="control-group form-field clearfix">
+    <label for="id_keypair">Keypair</label>
+    
+    <span class="help-block" style="display: none; ">Which keypair to use for authentication.</span>
+    <div class="input">
+      <select name="keypair" id="id_keypair">
+<option value="" selected="selected">No keypairs available.</option>
+</select>
+    </div>
+  </div>
+
+  <div class="control-group form-field clearfix">
+    <label for="id_count">Instance Count</label>
+    
+    <span class="help-block" style="display: none; ">Number of instances to launch.</span>
+    <div class="input">
+      <input type="text" name="count" value="1" id="id_count">
+    </div>
+  </div>
+
+  <div class="control-group form-field clearfix">
+    <label for="id_security_groups_0">Security Groups</label>
+    
+    <span class="help-block" style="display: none; ">Launch instance in these security groups.</span>
+    <div class="input">
+      <ul>
+<li><label for="id_security_groups_0"><input checked="checked" type="checkbox" name="security_groups" value="default" id="id_security_groups_0"> default</label></li>
+</ul>
+    </div>
+  </div>
+
+  <div class="control-group form-field clearfix hide">
+    <label for="id_volume">Volume or Volume Snapshot</label>
+    
+    <span class="help-block" style="display: none; ">Volume to boot from.</span>
+    <div class="input">
+      <select name="volume" id="id_volume">
+<option value="" selected="selected">Select Volume</option>
+</select>
+    </div>
+  </div>
+
+  <div class="control-group form-field clearfix hide">
+    <label for="id_device_name">Device Name</label>
+    
+    <span class="help-block" style="display: none; ">Volume mount point (e.g. 'vda' mounts at '/dev/vda').</span>
+    <div class="input">
+      <input type="text" name="device_name" value="vda" id="id_device_name">
+    </div>
+  </div>
+
+  <div class="control-group form-field clearfix hide">
+    <label for="id_delete_on_terminate">Delete on Terminate</label>
+    
+    <span class="help-block" style="display: none; ">Delete volume on instance terminate</span>
+    <div class="input">
+      <input type="checkbox" name="delete_on_terminate" id="id_delete_on_terminate">
+    </div>
+  </div>
+
+
+  </fieldset>
+</div>
+<div class="right">
+  <h3>Description:</h3>
+  <p>Specify the details for launching an instance. The chart below shows the resources used by this project in relation to the project's quotas.</p>
+  <h3>Project Quotas</h3>
+
+  <div class="quota_title">
+    <strong>Instance Count <span>(0)</span></strong>
+    <p>10 Available</p>
+  </div>
+  <div class="clearfix"></div>
+  <div class="quota_bar"><div class="progress_bar"><div class="progress_bar_fill" style="width: 0%"></div></div>
+</div>
+
+  <div class="quota_title">
+    <strong>VCPUs <span>(0)</span></strong>
+    <p>20 Available</p>
+  </div>
+  <div class="clearfix"></div>
+  <div class="quota_bar"><div class="progress_bar"><div class="progress_bar_fill" style="width: 0%"></div></div>
+</div>
+
+  <div class="quota_title">
+    <strong>Disk <span>(0 GB)</span></strong>
+    <p>1000 GB Available</p>
+  </div>
+  <div class="clearfix"></div>
+  <div class="quota_bar"><div class="progress_bar"><div class="progress_bar_fill" style="width: 0%"></div></div>
+</div>
+
+  <div class="quota_title">
+    <strong>Memory <span>(0 MB)</span></strong>
+    <p>51200 MB Available</p>
+  </div>
+  <div class="clearfix"></div>
+  <div class="quota_bar"><div class="progress_bar"><div class="progress_bar_fill" style="width: 0%"></div></div>
+</div>
+</div>
+
+    </div>
+    <div class="modal-footer">
+  <input class="btn btn-primary pull-right" type="submit" value="Launch Instance">
+  <a href="#nova/images_and_snapshots/" class="btn secondary cancel close">Cancel</a>
+</div>
+  </form>
+</div>
+</script>
