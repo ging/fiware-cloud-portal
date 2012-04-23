@@ -9,9 +9,10 @@ var CreateFlavorView = Backbone.View.extend({
     },
 
    	render: function () {
-        console.log("Rendering create flavor");
+   		for (var index = 0; index < this.model.length; index++) { 
+			console.log("Flavor id = "+this.model.models[index].get('id'));
+		}	
         if ($('#create_flavor').html() != null) {
-            //return;
           	$('#create_flavor').remove();
         	$('.modal-backdrop').remove();
         }
@@ -52,6 +53,15 @@ var CreateFlavorView = Backbone.View.extend({
 	        } 
 	       }
       });  */
+    
+     
+       /* for (var index = 0; index < this.model.length; index++) { 
+				var flavorId = this.model.models[index].get('id');	 
+				if($("#checkbox_"+flavorId).is(':checked'))
+				{
+					$("#flavors_delete").attr("href", "#syspanel/flavors/delete");
+				}
+		}	*/
      
      //Check if the fields are not empty, and the numbers are not negative nor decimal
      	if ( (this.$('input[name=flavor_id]').val()=="") ||
@@ -69,8 +79,9 @@ var CreateFlavorView = Backbone.View.extend({
      		 (this.$('input[name=vcpus]').val()%1!=0) ||
      		 (this.$('input[name=memory_mb]').val()%1!=0) ||
      		 (this.$('input[name=disk_gb]').val()%1!=0) ||
-     		 (this.$('input[name=eph_gb]').val()%1!=0)      		 
-     		 )
+     		 (this.$('input[name=eph_gb]').val()%1!=0)   
+     		 )   		    		 	
+		
      	{
      		console.log("Wrong values entered, no flavor is created");
      		return;

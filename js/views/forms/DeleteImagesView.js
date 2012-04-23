@@ -8,7 +8,6 @@ var DeleteImagesView = Backbone.View.extend({
     },
     
     events: {
-    	'click #image_delete': 'onDeleteImage',
         'click #confirm_delete': 'onDeleteImages',
         'click #cancelBtn': 'close',
       	'click #close': 'close',
@@ -25,19 +24,9 @@ var DeleteImagesView = Backbone.View.extend({
         $('.modal:last').modal();
         return this;
     },
-    
-    onDeleteImage: function(e){
-	       	e.preventDefault();                        
-	       	var flavor =  this.model.get(e.target.value);        
-	        console.log(e.target.value);         
-	        flavor.destroy();  
-	        this.model.fetch();      
-	    },
        
     onDeleteImages: function(e){
-	    	e.preventDefault(); 
-	    	console.log("Enter images delete"); 
-	           	
+	    	e.preventDefault(); 	           	
 	  		for (var index = 0; index < this.model.length; index++) { 
 			var imageId = this.model.models[index].get('id');	 		
 			if($("#checkbox_"+imageId).is(':checked'))

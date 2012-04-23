@@ -263,7 +263,7 @@ var FiwareRouter = Backbone.Router.extend({
 	
 	nova_images_and_snapshots: function(self) {
 	    self.showNovaRoot(self, 'Images &amp; Snapshots');
-	    var view = new ImagesAndSnapshotsView({el: '#content'});
+	    var view = new ImagesAndSnapshotsView({el: '#content', model:self.images});
         view.render();
 	},
 	

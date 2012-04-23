@@ -23,7 +23,6 @@ var FlavorView = Backbone.View.extend({
 				}
 		}	console.log("Button disabled");		
     },
-
    
   	enableDisableDeleteButton: function (e) {
   		for (var index = 0; index < this.model.length; index++) { 
