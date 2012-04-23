@@ -56,6 +56,8 @@ var FiwareRouter = Backbone.Router.extend({
 	    this.route('nova/images_and_snapshots/:id/delete', 'delete_image',  this.wrap(this.delete_image, this.checkAuth));
 	    this.route('nova/images_and_snapshots/:id/update', 'edit_image',  _.wrap(this.edit_image, this.checkAuth));
 	    this.route('nova/images_and_snapshots/:id', 'consult_image',  this.wrap(this.consult_image, this.checkAuth));
+	    this.route('nova/images_and_snapshots/:name/update', 'edit_image',  _.wrap(this.edit_image, this.checkAuth));		
+	    this.route('syspanel/images/delete', 'delete_images',  _.wrap(this.delete_images, this.checkAuth));	    
 	},
 	
 	wrap: function(func, wrapper, arguments) {
@@ -130,11 +132,10 @@ var FiwareRouter = Backbone.Router.extend({
 	    self.unbind("change");
 	    self.add_fetch(self.images, 4);
 	    var view = new ImagesView({model: self.images, el: '#content'});
-        //view.render();
 	},
 	
 	delete_images: function(self) {
-		//console.log("View disabled: " + disabled);
+		console.log("Delete images");
         var view = new DeleteImagesView({model: self.images, el: 'body'});
         view.render();
         self.navigate('#syspanel/images/images/', {trigger: false, replace: true});
@@ -155,7 +156,6 @@ var FiwareRouter = Backbone.Router.extend({
 	    var image = new Image();
 	    image.set({"id": id});
         var view = new UpdateImageView({model: image, el: 'body'});
-        //view.render();
         self.navigate('#syspanel/images/images/', {trigger: false, replace: true});
 	},
 	
@@ -164,7 +164,6 @@ var FiwareRouter = Backbone.Router.extend({
 	    var image = new Image();
 	    image.set({"id": id});
         var view = new ConsultImageDetailView({model: image, el: 'body'});
-        //view.render();
         self.navigate('#nova/images_and_snapshots/'+id, {trigger: false, replace: true});
 	},
 	
@@ -173,7 +172,20 @@ var FiwareRouter = Backbone.Router.extend({
 	    self.instancesModel.unbind("change");
 	    self.add_fetch(self.instancesModel, 4);
 	    var view = new InstanceView({model: self.instancesModel, el: '#content'});
-        //view.render();
+	},
+
+	terminate_instances: function(self) {
+	    console.log("Received terminate for instances");
+        var view = new TerminateInstancesView({model: self.instancesModel, el: 'body'});
+        view.render();
+        self.navigate('#syspanel/instances/', {trigger: false, replace: true});
+	},
+	
+	reboot_instances: function(self) {
+	    console.log("Received reboot");
+        var view = new RebootInstancesView({model: self.instancesModel, el: 'body'});
+        view.render();
+        self.navigate('#syspanel/instances/', {trigger: false, replace: true});
 	},
 	
 	sys_services: function(self) {
@@ -186,10 +198,9 @@ var FiwareRouter = Backbone.Router.extend({
 	
 	sys_flavors: function(self) {
 	    self.showSysRoot(self, 'Flavors');	
-	    //self.flavors.unbind("change");
+	    self.flavors.unbind("change");
 	    self.add_fetch(self.flavors, 4);
 	    var view = new FlavorView({model: self.flavors, el: '#content'});
-        //view.render();
 	},
 	
 	create_flavor: function(self) {
@@ -200,7 +211,6 @@ var FiwareRouter = Backbone.Router.extend({
 	},
 	
 	delete_flavors: function(self) {
-		//console.log("View disabled: " + disabled);
         var view = new DeleteFlavorsView({model: self.flavors, el: 'body'});
         view.render();
         self.navigate('#syspanel/flavors/', {trigger: false, replace: true});
