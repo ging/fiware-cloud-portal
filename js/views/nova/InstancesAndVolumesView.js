@@ -12,7 +12,35 @@ var InstancesAndVolumesView = Backbone.View.extend({
     
     events:{
         'change .checkbox':'enableDisableTerminateButton',
+        'click .btn-password':'onChangePassword',
+        'click .btn-reboot':'onReboot',
+        'click .btn-terminate':'onTerminate'
     },
+    
+    onChangePassword: function(evt) {
+        var instance = evt.target.value;
+        var subview = new ChangePasswordView({el: 'body', model: this.model.get(instance)});
+        subview.render();
+    },
+    
+    onReboot: function(evt) {
+        var instance = evt.target.value;
+        var inst = this.model.get(instance);
+        var subview = new ConfirmView({el: 'body', title: "Reboot Instance", btn_message: "Reboot Instance", onAccept: function() {
+            inst.reboot(false);
+        }});
+        subview.render();
+    },
+    
+    onTerminate: function(evt) {
+        var instance = evt.target.value;
+        var inst = this.model.get(instance);
+        var subview = new ConfirmView({el: 'body', title: "Terminate Instance", btn_message: "Terminate Instance", onAccept: function() {
+            inst.destroy();
+        }});
+        subview.render();
+    },
+    
     
     enableDisableTerminateButton: function () {
         for (var index in this.model.models) { 

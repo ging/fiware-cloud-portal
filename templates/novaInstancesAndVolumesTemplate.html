@@ -1,10 +1,6 @@
 <script id="novaInstancesAndVolumesTemplate" type="text/html">
 <div id="instances">
     <div class="table_wrapper">
-        <form action="#nova/instances_and_volumes/" method="POST">
-        	<div style='display:none'>
-            	<input type='hidden' name='csrfmiddlewaretoken' value='194da7366428c03ba39e02e4799e4b5d' />
-            </div>
             <div class='table_header'>
                 <h3 class='table_title'>Instances</h3>
                 <div class="table_actions clearfix">
@@ -27,7 +23,9 @@
                 </thead>
                 <tbody>
                 <% 
-                for (var index in models) { 
+                var i = 0;
+                for (var index in models) {
+                    i++; 
                     var instance = models[index];
                 %> 
              
@@ -49,13 +47,22 @@
                     <td class="">No State</td>
                     <td class="actions_column">
                         <div id="dropdown_<%= instance.get('id') %>" class="btn-group">
-                            <a value='<%= instance.id %>'  href="#nova/instances_and_volumes/instances/<%= instance.id %>/update" id="instances__action_edit__0" class="btn btn-small ajax-modal btn-edit">Edit Instance</a>
+                            <a value='<%= instance.id %>'  href="#nova/instances_and_volumes/instances/<%= instance.id %>/update" id="instances__action_edit__<%=i%>" class="btn btn-small ajax-modal btn-edit">Edit Instance</a>
                             <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
                                 <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu row_actions clearfix">
                                 <li class="clearfix">
-                                    <button  id="instances__action_terminate__4" class="btn btn-small btn-danger btn-terminate" name="action" value="instances__terminate__99020a59-e076-4ffb-8b7e-5fbc287b7165" type="submit">Terminate Instance</button>
+                                    <button  id="instances__action_password__<%=i%>" class="btn btn-small btn-danger btn-password" name="action" value="<%= instance.id %>" type="submit">Change Password</button>
+                                </li>
+                                <li class="clearfix">
+                                    <button  id="instances__action_snapshot__<%=i%>" class="btn btn-small btn-danger btn-snapshot" name="action" value="<%= instance.id %>" type="submit">Create Snapshot</button>
+                                </li>
+                                <li class="clearfix">
+                                    <button  id="instances__action_reboot__<%=i%>" class="btn btn-small btn-danger btn-reboot" name="action" value="<%= instance.id %>" type="submit">Reboot Instance</button>
+                                </li>
+                                <li class="clearfix">
+                                    <button  id="instances__action_terminate__<%=i%>" class="btn btn-small btn-danger btn-terminate" name="action" value="<%= instance.id %>" type="submit">Terminate Instance</button>
                                 </li>
                             </ul>
                         </div>
@@ -71,9 +78,9 @@
                   </td>
                 </tfoot>
             </table>
-        </form>
     </div>
 </div>
+<!--
 <div id="volumes">
     <div class="table_wrapper">
         <form action="/nova/instances_and_volumes/" method="POST"><div style='display:none'><input type='hidden' name='csrfmiddlewaretoken' value='194da7366428c03ba39e02e4799e4b5d' /></div>
@@ -110,4 +117,5 @@
         </table>
     </form>
 </div>
+-->
 </script>

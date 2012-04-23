@@ -34,7 +34,6 @@ var InstanceView = Backbone.View.extend({
 		}
 		$("#terminate_instances").attr("disabled", true);
     },
-   
     
     render: function () {
         if ($("#instances").html() == null) {

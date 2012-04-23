@@ -114,11 +114,11 @@ UTILS.Render = (function(U, undefined) {
                         marginRight: "-1250px",
                       }, 200, function() {
             $(el).empty().html(template(model)).css('marginLeft', '1250px').css('marginRight', '-1250px').animate( {
-                        marginLeft: "-=1250px",
-                        marginRight: "+=1250px",
+                marginLeft: "-=1250px",
+                marginRight: "+=1250px",
                       }, 200);
             });
-    };
+    }
     
     return {
         animateRender: animateRender

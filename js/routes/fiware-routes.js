@@ -56,6 +56,7 @@ var FiwareRouter = Backbone.Router.extend({
 	    this.route('nova/images_and_snapshots/:id/delete', 'delete_image',  this.wrap(this.delete_image, this.checkAuth));
 	    this.route('nova/images_and_snapshots/:id/update', 'edit_image',  _.wrap(this.edit_image, this.checkAuth));
 	    this.route('nova/images_and_snapshots/:id', 'consult_image',  this.wrap(this.consult_image, this.checkAuth));
+	    this.route('nova/images_and_snapshots/:id/launch/', 'launch_image',  this.wrap(this.launch_image, this.checkAuth));
 	    this.route('nova/images_and_snapshots/:name/update', 'edit_image',  _.wrap(this.edit_image, this.checkAuth));		
 	    this.route('syspanel/images/delete', 'delete_images',  _.wrap(this.delete_images, this.checkAuth));	    
 	},
@@ -128,8 +129,6 @@ var FiwareRouter = Backbone.Router.extend({
 	
 	sys_images: function(self) {
 	    self.showSysRoot(self, 'Images');
-	    console.log("Images");
-	    self.unbind("change");
 	    self.add_fetch(self.images, 4);
 	    var view = new ImagesView({model: self.images, el: '#content'});
 	},
@@ -160,12 +159,19 @@ var FiwareRouter = Backbone.Router.extend({
 	},
 	
 	consult_image: function(self, id) {
-	    console.log("Received consult for image: " + id);
+	    self.showNovaRoot(self, 'Images &amp; Snapshots');
 	    var image = new Image();
 	    image.set({"id": id});
-        var view = new ConsultImageDetailView({model: image, el: 'body'});
-        self.navigate('#nova/images_and_snapshots/'+id, {trigger: false, replace: true});
+        var view = new ConsultImageDetailView({model: image, el: '#content'});
 	},
+	
+	launch_image: function(self, id) {
+        console.log("Received launch for image: " + id);
+        var image = new Image();
+        image.set({"id": id});
+        var view = new LaunchImageView({model: image, el: 'body'});
+        self.navigate('#nova/images_and_snapshots/', {trigger: false, replace: true});
+    },
 	
 	sys_instances: function(self) {
 	    self.showSysRoot(self, 'Instances');
@@ -274,7 +280,6 @@ var FiwareRouter = Backbone.Router.extend({
 	nova_images_and_snapshots: function(self) {
 	    self.showNovaRoot(self, 'Images &amp; Snapshots');
 	    var view = new ImagesAndSnapshotsView({el: '#content', model:self.images});
-        view.render();
 	},
 	
 	nova_instances_and_volumes: function(self) {

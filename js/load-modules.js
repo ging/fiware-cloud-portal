@@ -53,9 +53,12 @@ var loadViews = function() {
                 "js/views/forms/DeleteFlavorsView.js",
                 "js/views/forms/DeleteImagesView.js",
                 "js/views/forms/UpdateImageView.js",
+                "js/views/forms/LaunchImageView.js",
                 "js/views/forms/ConsultImageDetailView.js",
                 "js/views/forms/TerminateInstancesView.js",
-                "js/views/forms/RebootInstancesView.js"
+                "js/views/forms/RebootInstancesView.js",
+                "js/views/forms/ChangePasswordView.js",
+                "js/views/forms/ConfirmView.js"
             ], function(someModule) {
                 loadRoutes();
         });
@@ -123,9 +126,12 @@ var loadTemplates = function() {
                     'templates/deleteFlavorsFormTemplate.html',
                     'templates/deleteImagesFormTemplate.html',
                     'templates/updateImageFormTemplate.html',
+                    'templates/launchImageTemplate.html',
                     'templates/consultImageDetailFormTemplate.html',
                     'templates/terminateInstancesFormTemplate.html',
-                    'templates/rebootInstancesFormTemplate.html'
+                    'templates/rebootInstancesFormTemplate.html',
+                    'templates/changePasswordFormTemplate.html',
+                    'templates/confirmTemplate.html'
                 ], function(){
                     loadLibraries();
                 });

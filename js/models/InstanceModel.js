@@ -1,38 +1,42 @@
 var Instance = Backbone.Model.extend({
     
     _action:function(method, options) {
-         options.success = function(resp) {
-                model.trigger('sync', model, resp, options);
-            }
-            var xhr = (this.sync || Backbone.sync).call(this, _method, this, options);
-            return xhr;
+        options.success = function(resp) {
+            model.trigger('sync', model, resp, options);
+        }
+        var xhr = (this.sync || Backbone.sync).call(this, method, this, options);
+        return xhr;
     },
          
     reboot: function(soft, options) {
+        options = options || {}; 
+        
        	options.soft = soft;
-      	return _action("reboot", options);
+      	return this._action("reboot", options);
     },
     
     resize: function(flavor, options) {
+        options = options || {};
         options.flavor = flavor;
-        return _action('resize', options);
+        return this._action('resize', options);
     },
     
     confirmresize: function(options) {
-        return _action('confirm-resize', options);
+        return this._action('confirm-resize', options);
     },
     
     revertresize: function(options) {
-        return _action('revert-resize', options);
+        return this._action('revert-resize', options);
     },
     
     changepassword: function(adminPass, options) {
+        options = options || {};
         options.adminPass = adminPass;
-        return _action('change-password', options);
+        return this._action('change-password', options);
     },
     
     createimage: function(options) {
-        return _action('create-image', options);        
+        return this._action('create-image', options);        
     },
     
     sync: function(method, model, options) {
