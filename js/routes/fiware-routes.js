@@ -52,8 +52,9 @@ var FiwareRouter = Backbone.Router.extend({
 	    this.route('syspanel/flavors/delete', 'delete_flavors',  _.wrap(this.delete_flavors, this.checkAuth));
 	    this.route('nova/instances_and_volumes/instances/:id/update', 'update_instance', this.wrap(this.update_instance, this.checkAuth));
 	    this.route('syspanel/instances/terminate', 'terminate_instance',  _.wrap(this.terminate_instances, this.checkAuth));
+	    this.route('syspanel/instances/reboot', 'reboot_instances',  _.wrap(this.reboot_instances, this.checkAuth));
 	    this.route('nova/images_and_snapshots/:id', 'consult_image',  this.wrap(this.consult_image, this.checkAuth));
-	    this.route('nova/images_and_snapshots/:id/update', 'edit_image',  _.wrap(this.edit_image, this.checkAuth));		
+	    this.route('nova/images_and_snapshots/:name/update', 'edit_image',  _.wrap(this.edit_image, this.checkAuth));		
 	    this.route('syspanel/images/delete', 'delete_images',  _.wrap(this.delete_images, this.checkAuth));	    
 	},
 	
@@ -168,6 +169,13 @@ var FiwareRouter = Backbone.Router.extend({
         self.navigate('#syspanel/instances/', {trigger: false, replace: true});
 	},
 	
+	reboot_instances: function(self) {
+	    console.log("Received reboot");
+        var view = new RebootInstancesView({model: self.instancesModel, el: 'body'});
+        view.render();
+        self.navigate('#syspanel/instances/', {trigger: false, replace: true});
+	},
+	
 	sys_services: function(self) {
 	    self.showSysRoot(self, 'Services');
 	    console.log("Services");
@@ -185,7 +193,7 @@ var FiwareRouter = Backbone.Router.extend({
 	
 	create_flavor: function(self) {
 	    var flavor = new Flavor();
-        var view = new CreateFlavorView({model: flavor, el: 'body'}, {model: flavors, el: '#content'});
+        var view = new CreateFlavorView({model: flavor, el: 'body'});
         view.render();
         self.navigate('#syspanel/flavors/', {trigger: false, replace: true});
 	},

@@ -9,8 +9,8 @@ var Instance = Backbone.Model.extend({
     },
          
     reboot: function(soft, options) {
-       options.soft = soft;
-       return _action("reboot", options);
+       	options.soft = soft;
+      	return _action("reboot", options);
     },
     
     resize: function(flavor, options) {
