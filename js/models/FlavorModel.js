@@ -18,7 +18,13 @@ var Flavor = Backbone.Model.extend({
            }
    },
     
-   
+    parse: function(resp) {
+        if (resp.flavor != undefined) {
+            return resp.flavor;
+        } else {
+            return resp;
+        }
+    }
 });
 
 var Flavors = Backbone.Collection.extend({

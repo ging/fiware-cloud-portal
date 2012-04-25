@@ -183,7 +183,7 @@ a.current_item:hover h3, a.current_item:hover h4 {
     border: 1px solid #c0d9e4;
     margin-left: 14px;
     margin-bottom: 15px;
-    background-image: url(../img/drop_arrow.png);
+    background-image: url(../images/drop_arrow.png);
     background-repeat: no-repeat;
     background-position: 170px 20px;
 }
@@ -789,7 +789,7 @@ a.view_full {
   font-weight: bold;
   color: #555;
   cursor: pointer;
-  background-image: url(../img/right_droparrow.png);
+  background-image: url(../images/right_droparrow.png);
   background-repeat: no-repeat;
   background-position: 130px center;
 }
@@ -798,7 +798,7 @@ a.view_full {
   width: 334px;
   margin-bottom: 10px;
   border-bottom: solid 1px #E1E1E1;
-  background-image: url(../img/drop_arrow.png);
+  background-image: url(../images/drop_arrow.png);
 }
 
 form div.clearfix.error {
@@ -833,7 +833,7 @@ form div.clearfix.error {
 }
 
 #region_selector li:first-child p{
-  background: #EDEDED url(../img/drop_arrow.png) no-repeat 106px 9px !important;
+  background: #EDEDED url(../images/drop_arrow.png) no-repeat 106px 9px !important;
   display: block;
   border: 1px solid #e1e1e1;
   padding: 5px;

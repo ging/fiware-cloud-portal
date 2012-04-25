@@ -10,20 +10,44 @@ var ImagesAndSnapshotsView = Backbone.View.extend({
     
     events:{
         'change .checkbox':'enableDisableTerminateButton',
+        'click #images_delete':'onDelete',
+        'click .editBtn' : 'onEdit',
+        'click .launchBtn' : 'onLaunch'
     },
     
     enableDisableTerminateButton: function () {
-        for (var index in this.model.models) { 
-            var instance = this.model.models[index];
-            var instanceId = instance.get('id');
-            if($("#checkbox_"+instanceId).is(':checked'))
-            {
-                    console.log("checked");
-                    $("#instances_terminate").attr("disabled", false);
-                    return;
-            }
+        if ($(".checkbox:checked").size() > 0) { 
+            $("#images_delete").attr("disabled", false);
+        } else {
+            $("#images_delete").attr("disabled", true);
         }
-        $("#images_delete").attr("disabled", true);
+        
+    },
+    
+    onDelete: function() {
+        var self = this;
+        var subview = new ConfirmView({el: 'body', title: "Delete Images", btn_message: "Delete Images", onAccept: function() {
+            $(".checkbox:checked").each(function () {
+                    var instance = $(this).val(); 
+                    console.log("Image to delete: " + instance);
+                    var inst = self.model.get(instance);
+                    inst.destroy();
+            });
+        }});
+        subview.render();
+    },
+    
+    onLaunch: function(evt) {
+        console.log(this.options.flavors);
+        var image = this.model.get(evt.target.value);
+        var subview = new LaunchImageView({model: image, el: 'body', flavors: this.options.flavors, keypairs: this.options.keypairs});
+        subview.render();
+    },
+    
+    onEdit: function(evt) {
+        var image = this.model.get(evt.target.value);
+        var subview = new UpdateImageView({model: image, el: 'body'});
+        subview.render();
     },
     
     render: function () {

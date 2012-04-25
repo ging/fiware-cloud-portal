@@ -17,6 +17,7 @@ var FiwareRouter = Backbone.Router.extend({
     
     routes: {
         'auth/login': 'login',
+        'auth/switch/:id/': 'switchTenant',
         'auth/logout': 'logout'
     },
 	
@@ -51,14 +52,20 @@ var FiwareRouter = Backbone.Router.extend({
 	    this.route('syspanel/flavors/create', 'create_flavor',  _.wrap(this.create_flavor, this.checkAuth));
 	    this.route('syspanel/flavors/delete', 'delete_flavors',  _.wrap(this.delete_flavors, this.checkAuth));
 	    this.route('syspanel/flavor/:id/delete', 'delete_flavor',  _.wrap(this.delete_flavor, this.checkAuth));
+	    
+	    this.route('syspanel/images/delete', 'delete_images',  _.wrap(this.delete_images, this.checkAuth));        
+
 	    this.route('nova/instances_and_volumes/instances/:id/update', 'update_instance', this.wrap(this.update_instance, this.checkAuth));
-	    this.route('syspanel/images/delete', 'delete_images',  _.wrap(this.delete_images, this.checkAuth));
+	    
 	    this.route('nova/images_and_snapshots/:id/delete', 'delete_image',  this.wrap(this.delete_image, this.checkAuth));
 	    this.route('nova/images_and_snapshots/:id/update', 'edit_image',  _.wrap(this.edit_image, this.checkAuth));
 	    this.route('nova/images_and_snapshots/:id', 'consult_image',  this.wrap(this.consult_image, this.checkAuth));
 	    this.route('nova/images_and_snapshots/:id/launch/', 'launch_image',  this.wrap(this.launch_image, this.checkAuth));
 	    this.route('nova/images_and_snapshots/:name/update', 'edit_image',  _.wrap(this.edit_image, this.checkAuth));		
-	    this.route('syspanel/images/delete', 'delete_images',  _.wrap(this.delete_images, this.checkAuth));	    
+	    
+	    this.route('nova/instances_and_volumes/instances/:id/detail', 'consult_instance',  _.wrap(this.consult_instance, this.checkAuth));
+	    
+	    
 	},
 	
 	wrap: function(func, wrapper, arguments) {
@@ -71,16 +78,20 @@ var FiwareRouter = Backbone.Router.extend({
     },
 	
 	checkAuth: function(next, args) {
+        this.rootView.options.next_view = Backbone.history.fragment;
         if (!this.loginModel.get("loggedIn")) {
-            this.rootView.options.next_view = Backbone.history.fragment; 
             window.location.href = "#auth/login";
             return;
         }
 	    next(this, args);
 	},
 		
-	init: function() {
-        window.location.href = "#syspanel";
+	init: function(self) {
+	    if (self.loginModel.isAdmin()) {
+            window.location.href = "#syspanel";
+        } else {
+            window.location.href = "#nova";
+        }
 	},
 	
 	login: function() {
@@ -92,15 +103,20 @@ var FiwareRouter = Backbone.Router.extend({
         window.location.href = "#auth/login";
 	},
 	
+	switchTenant: function(id) {
+	    this.loginModel.switchTenant(id);
+	},
+	
 	showRoot: function(self,option) {
         self.rootView.renderRoot();
-        var navTabView = new NavTabView({el: '#navtab', model: self.tabs});
+        var navTabView = new NavTabView({el: '#navtab', model: self.tabs, loginModel: self.loginModel});
         navTabView.render();
 
         var topBarView = new TopBarView({el: '#topbar', model: self.top, loginModel: self.loginModel});
         topBarView.render();
-
-        var sideBarView = new SideBarView({el: '#sidebar', model: self.navs, title: option});
+        
+        var showTenants = (self.tabs.getActive() != 'Admin');
+        var sideBarView = new SideBarView({el: '#sidebar', model: self.navs, title: option, showTenants: showTenants, tenants: self.loginModel.get("tenants"), tenant: self.loginModel.get("tenant")});
         sideBarView.render();
 	},
 	
@@ -169,13 +185,14 @@ var FiwareRouter = Backbone.Router.extend({
         console.log("Received launch for image: " + id);
         var image = new Image();
         image.set({"id": id});
-        var view = new LaunchImageView({model: image, el: 'body'});
+        var view = new LaunchImageView({model: image, flavors: self.flavors, keypairs: self.keypairsModel, el: 'body'});
         self.navigate('#nova/images_and_snapshots/', {trigger: false, replace: true});
     },
 	
 	sys_instances: function(self) {
 	    self.showSysRoot(self, 'Instances');
 	    self.instancesModel.unbind("change");
+	    self.instancesModel.alltenants = true;
 	    self.add_fetch(self.instancesModel, 4);
 	    var view = new InstanceView({model: self.instancesModel, el: '#content'});
 	},
@@ -257,7 +274,7 @@ var FiwareRouter = Backbone.Router.extend({
         this.clear_fetch();
         self.navs = new NavTabModels([   {name: 'Overview', active: true, url: '#nova/'}, 
                             {name: 'Instances &amp; Volumes', active: false, url: '#nova/instances_and_volumes/'},
-                            {name: 'Access &amp; Security', active: false, url: '#nova/access_and_security/'},
+                            /*{name: 'Access &amp; Security', active: false, url: '#nova/access_and_security/'},*/
                             {name: 'Images &amp; Snapshots', active: false, url: '#nova/images_and_snapshots/'}
                             ]);
         self.navs.setActive(option);
@@ -279,14 +296,23 @@ var FiwareRouter = Backbone.Router.extend({
 	
 	nova_images_and_snapshots: function(self) {
 	    self.showNovaRoot(self, 'Images &amp; Snapshots');
-	    var view = new ImagesAndSnapshotsView({el: '#content', model:self.images});
+	    self.add_fetch(self.images, 4);
+	    var view = new ImagesAndSnapshotsView({el: '#content', model:self.images, flavors: self.flavors, keypairs: self.keypairsModel});
 	},
 	
 	nova_instances_and_volumes: function(self) {
 	    self.showNovaRoot(self, 'Instances &amp; Volumes');
 	    self.add_fetch(self.instancesModel, 4);
+	    self.instancesModel.alltenants = false;
 	    var view = new InstancesAndVolumesView({model:self.instancesModel, el: '#content'});
         //view.render();
+	},
+	
+	consult_instance: function(self, id) {
+	    self.showNovaRoot(self, 'Instances &amp; Volumes');
+        var instance = new Instance();
+        instance.set({"id": id});
+        var view = new InstanceDetailView({model: instance, el: '#content'});
 	},
 	
 	update_instance: function(self, id) {

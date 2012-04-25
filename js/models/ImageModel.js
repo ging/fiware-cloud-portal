@@ -12,7 +12,15 @@ var Image = Backbone.Model.extend({
                 	JSTACK.Nova.updateimage(model.get("id"), model.get("name"), options.success);
                 	break;
            }
-   }
+   },
+   
+   parse: function(resp) {
+        if (resp.image != undefined) {
+            return resp.image;
+        } else {
+            return resp;
+        }
+    }
 });
 
 var Images = Backbone.Collection.extend({
@@ -27,7 +35,6 @@ var Images = Backbone.Collection.extend({
     },
     
     parse: function(resp) {
-        console.log(resp);
         return resp.images;
     }
     

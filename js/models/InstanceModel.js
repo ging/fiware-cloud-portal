@@ -42,7 +42,7 @@ var Instance = Backbone.Model.extend({
     sync: function(method, model, options) {
         switch(method) {
             case "create":
-                JSTACK.Nova.createServer(model.get("name"), model.get("imageReg"), model.get("flavorReg"), model.get("key_name"), 
+                JSTACK.Nova.createserver(model.get("name"), model.get("imageReg"), model.get("flavorReg"), model.get("key_name"), 
                     model.get("user_data"), model.get("security_groups"), model.get("min_count"), model.get("max_count"), 
                     model.get("availability_zone"), options.success);
                 break;
@@ -99,7 +99,7 @@ var Instances = Backbone.Collection.extend({
     sync: function(method, model, options) {
         switch(method) {
             case "read":
-                JSTACK.Nova.getserverlist(true, options.success);
+                JSTACK.Nova.getserverlist(true, this.alltenants, options.success);
                 break;
         }
     },

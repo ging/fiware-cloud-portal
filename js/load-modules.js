@@ -58,7 +58,8 @@ var loadViews = function() {
                 "js/views/forms/TerminateInstancesView.js",
                 "js/views/forms/RebootInstancesView.js",
                 "js/views/forms/ChangePasswordView.js",
-                "js/views/forms/ConfirmView.js"
+                "js/views/forms/ConfirmView.js",
+                "js/views/nova/instanceDetailView.js"
             ], function(someModule) {
                 loadRoutes();
         });
@@ -131,7 +132,8 @@ var loadTemplates = function() {
                     'templates/terminateInstancesFormTemplate.html',
                     'templates/rebootInstancesFormTemplate.html',
                     'templates/changePasswordFormTemplate.html',
-                    'templates/confirmTemplate.html'
+                    'templates/confirmTemplate.html',
+                    'templates/instanceDetailTemplate.html'
                 ], function(){
                     loadLibraries();
                 });

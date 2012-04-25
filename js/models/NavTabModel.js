@@ -23,5 +23,14 @@ var NavTabModels = Backbone.Collection.extend({
                 
         }
         this.trigger("change:actives", "Changes");
+    },
+    
+    getActive: function() {
+        for (var index in this.models) {
+            var tab = this.models[index];
+            if (tab.get('active')) {
+                return tab.get('name');
+            }       
+        }
     }
 });

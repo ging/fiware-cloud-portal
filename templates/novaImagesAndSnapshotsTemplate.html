@@ -1,14 +1,9 @@
 <script id="novaImagesAndSnapshotsTemplate" type="text/html">
 <div class="images">
-    <form action="/nova/images_and_snapshots/" method="POST"><div style='display:none'><input type='hidden' name='csrfmiddlewaretoken' value='13de1d539e7690548408d1be1856eb9c' /></div>
 <div class='table_header'>
   <h3 class='table_title'>Images</h3>
   <div class="table_actions clearfix">
-
-
-    
-        
-            <button class='btn btn-small btn-danger' name="action" value="images__delete" type="submit">Delete Images</button>
+            <button id="images_delete" disabled=true class='btn btn-small btn-danger' name="action" value="images__delete" type="submit">Delete Images</button>
         
     
 
@@ -40,46 +35,32 @@
   
     <% for (var index in models) { 
         var image = models[index];
-        console.log("Images");
-        console.log(JSON.stringify(image));
         %>
     <tr id="images__row__" class="">
-        <td class="multi_select_column"><input type="checkbox" name="object_ids" class="checkbox" id="checkbox_<%= image.get('id')%>" value="<%= models.length %>" /></td>
-        <td class=""><%= image.get('name')%></td>
+        <td class="multi_select_column"><input type="checkbox" name="object_ids" class="checkbox" id="checkbox_<%= image.get('id')%>" value="<%= image.get('id')%>" /></td>
+        <td class=""><a href="#nova/images_and_snapshots/<%= image.get('id')%>">
+                            <%= image.get('name')%>
+                        </a></td>
         <td class="">Image</td>
         <td class=""><%=image.get('status').toLowerCase()%></td>
         <td class="">Yes</td>
         <td class="">AMI</td>
         <td class="actions_column">
             <div class="btn-group">
-                <a href='#nova/images_and_snapshots/<%= image.get('id')%>/launch/'  class="ajax-modal btn btn-small">Launch</a>
+                <button class="ajax-modal btn btn-small launchBtn" value="<%= image.get('id')%>">Launch</button>
                 <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
                     <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu row_actions clearfix">
                     <li class="clearfix">
-                        <a href='#nova/images_and_snapshots/<%=image.get('id') %>/update/'  class="ajax-modal btn btn-small">Edit</a>
+                        <button class="ajax-modal btn btn-small editBtn" value="<%= image.get('id')%>" name="action" type="submit">Edit</button>
                     </li>
                 </ul>
             </div>
         </td>
     </tr>
     <% } %>
-    
-<div class="modal_hide_in" style="display: none; ">
-  <div class="modal-header">
-    <a class="close" data-dismiss="modal">×</a>
-    <h3>Confirm Delete Images</h3>
-  </div>
-  <div class="modal-body">
-    Please confirm your selection. This action cannot be undone.
-  </div>
-  <div class="modal-footer">
-    <a href="#syspanel/images/images" id= "confirm_delete" class="btn btn-primary">Delete Images</a>
-    <a href="#syspanel/images/images" class="btn cancel" data-dismiss="modal">Cancel</a>
-  </div>
-</div>
-  
+
   </tbody>
   <tfoot>
     <tr>
@@ -91,9 +72,9 @@
   </tfoot>
 </table>
 
-</form>
 
   </div>
+  <!--
   <div class="snapshots">
     <form action="/nova/images_and_snapshots/" method="POST"><div style='display:none'><input type='hidden' name='csrfmiddlewaretoken' value='13de1d539e7690548408d1be1856eb9c' /></div>
 <div class='table_header'>
@@ -208,4 +189,5 @@
 </form>
 
   </div>
+  -->
 </script>

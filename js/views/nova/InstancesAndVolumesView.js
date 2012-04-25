@@ -14,7 +14,8 @@ var InstancesAndVolumesView = Backbone.View.extend({
         'change .checkbox':'enableDisableTerminateButton',
         'click .btn-password':'onChangePassword',
         'click .btn-reboot':'onReboot',
-        'click .btn-terminate':'onTerminate'
+        'click .btn-terminate':'onTerminate',
+        'click .btn-terminate-group':'onTerminateGroup'
     },
     
     onChangePassword: function(evt) {
@@ -41,19 +42,26 @@ var InstancesAndVolumesView = Backbone.View.extend({
         subview.render();
     },
     
+    onTerminateGroup: function(evt) {
+        var self = this;
+        var subview = new ConfirmView({el: 'body', title: "Terminate Instances", btn_message: "Terminate Instances", onAccept: function() {
+            $(".checkbox:checked").each(function () {
+                    var instance = $(this).val(); 
+                    console.log("Instance to delete: " + instance);
+                    var inst = self.model.get(instance);
+                    inst.destroy();
+            });
+        }});
+        subview.render();
+    },
     
     enableDisableTerminateButton: function () {
-        for (var index in this.model.models) { 
-            var instance = this.model.models[index];
-            var instanceId = instance.get('id');
-            if($("#checkbox_"+instanceId).is(':checked'))
-            {
-                    console.log("checked");
-                    $("#instances_terminate").attr("disabled", false);
-                    return;
-            }
+        if ($(".checkbox:checked").size() > 0) { 
+            $("#instances_terminate").attr("disabled", false);
+        } else {
+            $("#instances_terminate").attr("disabled", true);
         }
-        $("#instances_terminate").attr("disabled", true);
+        
     },
     
     render: function () {

@@ -24,8 +24,32 @@ UTILS.Auth = (function(U, undefined) {
         return JSTACK.Keystone.params.access.user.name;
     }
     
-    function isAuthenticated() {
+    function getTenants(callback) {
+        return JSTACK.Keystone.gettenants(function(resp) {
+            callback(resp.tenants);
+        });
+    }
+    
+    var getCurrentTenant = function() {
+        return JSTACK.Keystone.params.access.token.tenant;
+    }
+    
+    var isAuthenticated = function() {
         return JSTACK.Keystone.params.currentstate == JSTACK.Keystone.STATES.AUTHENTICATED;
+    }
+    
+    var isAdmin = function() {
+        var roles = JSTACK.Keystone.params.access.user.roles;
+        for (var index in roles) {
+            var rol = roles[index];
+            if (rol.name == "admin")
+            return true;
+        }
+        return false;
+    }
+    
+    var switchTenant = function(tenant, callback, error) {
+        JSTACK.Keystone.authenticate(undefined, undefined, JSTACK.Keystone.params.token, tenant, callback, error);
     }
 
     function authenticate(username, password, tenant, token, callback, error) {
@@ -53,10 +77,9 @@ UTILS.Auth = (function(U, undefined) {
             JSTACK.Keystone.gettenants(ok);
         }
         
-        function _tryTenant() {
-            console.log(JSON.stringify(tenants));
+        var _tryTenant = function(tenant) {
             if (tenants.length > 0) {
-                var tenant = tenants.pop();
+                tenant = tenant || tenants.pop();
                 console.log("Authenticating for tenant " + JSON.stringify(tenant.id));
                 JSTACK.Keystone.authenticate(undefined, undefined, JSTACK.Keystone.params.token, tenant.id, _authenticatedWithTenant, _error);
             } else {
@@ -64,6 +87,7 @@ UTILS.Auth = (function(U, undefined) {
                 error("No tenant")
             }
         }
+        
         
         var getToken = function() {
             return JSTACK.Keystone.params.token;
@@ -82,6 +106,7 @@ UTILS.Auth = (function(U, undefined) {
         }
         
         var success;
+        
         if (tenant != undefined) {
             success = _authenticatedWithTenant;
             console.log("Authenticating with tenant");
@@ -101,7 +126,10 @@ UTILS.Auth = (function(U, undefined) {
         getToken: getToken,
         getName: getName,
         isAuthenticated: isAuthenticated,
-
+        getCurrentTenant: getCurrentTenant,
+        getTenants: getTenants,
+        switchTenant: switchTenant,
+        isAdmin: isAdmin
     }
 
 })(UTILS);

@@ -5,7 +5,9 @@ var LoginStatus = Backbone.Model.extend({
         username: null,
         password: null,
         error_msg: null,
-        token: ''
+        token: '',
+        tenant: undefined,
+        tenants: undefined
     },
 
     initialize: function () {
@@ -26,7 +28,11 @@ var LoginStatus = Backbone.Model.extend({
             UTILS.Auth.authenticate(self.get("username"), self.get("password"), undefined, undefined, function() {
                 console.log("Authenticated with credentials");
                 self.setToken();
-                self.set({'loggedIn': true});
+                self.set({username: UTILS.Auth.getName(), tenant: UTILS.Auth.getCurrentTenant()});
+                UTILS.Auth.getTenants(function(tenants) {
+                    self.set({tenants: tenants});
+                    self.set({'loggedIn': true});
+                });
             }, function(msg) {
                 self.set({'error_msg': msg});
                 self.trigger('auth-error', msg);
@@ -44,9 +50,13 @@ var LoginStatus = Backbone.Model.extend({
         if (!UTILS.Auth.isAuthenticated() && token != '') {
             UTILS.Auth.authenticate(undefined, undefined, undefined, token, function() {
                 console.log("Authenticated with token");
-                console.log(self);
-                self.set({username: UTILS.Auth.getName()});
-                self.set({'loggedIn': true});
+                self.set({username: UTILS.Auth.getName(), tenant: UTILS.Auth.getCurrentTenant()});
+                console.log("New tenant: " + self.get("name"));
+                UTILS.Auth.getTenants(function(tenants) {
+                    self.set({tenants: tenants});
+                    self.set({'loggedIn': true});
+                });
+                
             }, function(msg) {
                 console.log("Error authenticating with token");
                 self.set({'error_msg': msg});
@@ -62,6 +72,10 @@ var LoginStatus = Backbone.Model.extend({
         this.set({'token': UTILS.Auth.getToken()});
     },
     
+    isAdmin: function() {
+        return UTILS.Auth.isAdmin();  
+    },
+    
     removeToken: function() {
         localStorage.setItem('token', '');
         this.set({'token': ''});
@@ -71,6 +85,16 @@ var LoginStatus = Backbone.Model.extend({
         console.log("Setting credentials");
         this.set({'username': username, 'password': password, 'error_msg':undefined});
         this.trigger('credentials', this);
+    },
+    
+    switchTenant: function(tenantID) {
+        var self = this;
+        console.log("Tenant: " + tenantID);
+        UTILS.Auth.switchTenant(tenantID, function(resp) {
+            console.log(resp);
+            self.set({username: UTILS.Auth.getName(), tenant: UTILS.Auth.getCurrentTenant()});
+            self.trigger('switch-tenant');
+        });
     },
     
     clearAll: function() {

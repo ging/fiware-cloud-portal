@@ -4,8 +4,8 @@
             <div class='table_header'>
                 <h3 class='table_title'>Instances</h3>
                 <div class="table_actions clearfix">
-                    <a href='/nova/images_and_snapshots/'  id="instances__action_launch__1" class="btn btn-small btn-launch">Launch Instance</a>
-                    <button  id="instances_terminate" disabled=true class="btn btn-small btn-danger btn-terminate" name="action" value="instances__terminate" class="instances_terminate" type="submit">Terminate Instances</button>
+                    <a href='#nova/images_and_snapshots/'  id="instances__action_launch__1" class="btn btn-small btn-launch">Launch Instance</a>
+                    <button  id="instances_terminate" disabled=true class="btn btn-small btn-danger btn-terminate-group" name="action" value="instances__terminate" class="instances_terminate" type="submit">Terminate Instances</button>
                 </div>
             </div>
             <table id="instances" class="table table-bordered table-striped">
@@ -37,7 +37,7 @@
                         <input id="checkbox_<%= instance.get('id')%>" type="checkbox" name="object_ids" class="checkbox"  value="<%= instance.get('id') %>" />
                     </td>
                     <td class="">
-                        <a href="/nova/instances_and_volumes/instances/<%= instance.id %>/detail"><%= instance.get("name") %></a>
+                        <a href="#nova/instances_and_volumes/instances/<%= instance.id %>/detail"><%= instance.get("name") %></a>
                     </td>
                     <td class="">
                     </td>

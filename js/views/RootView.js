@@ -8,6 +8,7 @@ var RootView = Backbone.View.extend({
         $(this.options.auth_el).empty().html(this._authtemplate(this.model)).css('display', 'None');
         $(this.options.root_el).empty().html(this._roottemplate()).css('display', 'None');
         this.model.bind('change:loggedIn', this.onLogin, this);
+        this.model.bind('switch-tenant', this.onSwitch, this);
         this.model.bind('auth-error', this.renderAuthonerror, this);
         this.onLogin();
     },
@@ -23,6 +24,18 @@ var RootView = Backbone.View.extend({
     },
     
     onLogin: function() {
+        if (this.model.get('loggedIn')) {
+            console.log("Next view:" + this.options.next_view);
+
+            if (this.options.next_view != undefined) {
+                window.location.href = "#" + this.options.next_view;
+            } else {
+                window.location.href = "#syspanel";
+            }
+        }
+    },
+    
+    onSwitch: function() {
         if (this.model.get('loggedIn')) {
             console.log("Next view:" + this.options.next_view);
 

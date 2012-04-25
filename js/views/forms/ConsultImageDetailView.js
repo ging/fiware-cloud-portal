@@ -8,7 +8,7 @@ var ConsultImageDetailView = Backbone.View.extend({
     },
     
     render: function () {
-        if ($("#consult_image").html() == null) {
+        if ($("#instance_details").html() == null) {
             UTILS.Render.animateRender(this.el, this._template, {model:this.model});
         } else {
             $(this.el).html(this._template({model:this.model}));

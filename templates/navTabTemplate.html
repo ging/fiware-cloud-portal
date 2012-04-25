@@ -2,6 +2,8 @@
 	<ul class="nav nav-tabs">
 		<% for (var index in models) { 
 			var model = models[index];
+			if (model.get('name') == 'Admin' && showAdmin == false)
+			     continue;
 			%>
 		<li <% if (model.get('active')) { %> class="active" <% } %> >
 			<a href="<%= model.get('url') %>" tabindex='1'><%= model.get('name') %></a>
