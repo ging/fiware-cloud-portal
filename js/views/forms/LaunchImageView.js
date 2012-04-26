@@ -9,26 +9,18 @@ var LaunchImageView = Backbone.View.extend({
     },
     
     initialize: function() {
-        console.log("Flavors: ");
-        console.log(this.options.flavors);
-        this.options.flavors.bind("reset", this.render);
+        this.options.flavors.bind("reset", this.render, this);
         this.options.flavors.fetch();
         this.options.keypairs.fetch();
     },
     
     render: function () {
         var flavors = this.options.flavors;
-        console.log("Flavors");
-        for (var ele in flavors) {
-            console.log(ele);
-        }
-        console.log(flavors);
-        console.log(flavors.length);
+        console.log($('#launch_image').html() != null);
         if ($('#launch_image').html() != null) {
             return;
         }
         $(this.el).append(this._template({model:this.model.models, flavors: flavors, keypairs: this.options.keypairs}));
-        //$('.modal span.help-block').hide();
         $('.modal:last').modal();
         return this;
     },

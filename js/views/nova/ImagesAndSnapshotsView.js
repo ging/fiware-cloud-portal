@@ -41,7 +41,6 @@ var ImagesAndSnapshotsView = Backbone.View.extend({
         console.log(this.options.flavors);
         var image = this.model.get(evt.target.value);
         var subview = new LaunchImageView({model: image, el: 'body', flavors: this.options.flavors, keypairs: this.options.keypairs});
-        subview.render();
     },
     
     onEdit: function(evt) {

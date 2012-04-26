@@ -61,7 +61,6 @@ var RootView = Backbone.View.extend({
         if (self.model.get("token") != "" && self.model.get("error_msg") == null) return;
         
         console.log("Rendering auth");
-        console.log($(self.options.root_el).css('display'));
         if ($(self.options.root_el).css('display') != 'None')
             $(self.options.root_el).fadeOut();
         $(self.options.auth_el).fadeIn();
@@ -81,6 +80,10 @@ var RootView = Backbone.View.extend({
     },
     
     renderAuthonerror: function() {
+        console.log($(this.options.auth_el).css('display'));
+        
+        if ($(this.options.auth_el).css('display') == 'none') 
+            $(this.options.auth_el).fadeIn();
         $(this.options.auth_el).empty().html(this._authtemplate(this.model));
         $('body').attr("id", "splash");
         return this;
