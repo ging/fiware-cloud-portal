@@ -46,7 +46,7 @@ var LoginStatus = Backbone.Model.extend({
     
     onTokenChange: function (context, token) {
         var self = context;
-        console.log(self);
+        console.log(token);
         if (!UTILS.Auth.isAuthenticated() && token != '') {
             UTILS.Auth.authenticate(undefined, undefined, undefined, token, function() {
                 console.log("Authenticated with token");

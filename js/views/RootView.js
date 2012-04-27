@@ -49,7 +49,7 @@ var RootView = Backbone.View.extend({
     
     renderAuth: function () {
         var self = this;
-        console.log(self.model.get("token"));
+        console.log("Token: " + self.model.get("token"));
         
         
         self.$el = $(self.options.auth_el);
