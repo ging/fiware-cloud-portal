@@ -1,4 +1,4 @@
-# A JavaScript implementation of OpenStack Horizon component
+# A JavaScript implementation of OpenStack Horizon component 
 
 This is a web portal developed using only in JavaScript, based on OpenStack Horizon.
 
