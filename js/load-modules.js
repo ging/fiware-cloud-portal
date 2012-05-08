@@ -59,7 +59,7 @@ var loadViews = function() {
                 "js/views/forms/RebootInstancesView.js",
                 "js/views/forms/ChangePasswordView.js",
                 "js/views/forms/ConfirmView.js",
-                "js/views/nova/instanceDetailView.js"
+                "js/views/nova/InstanceDetailView.js"
             ], function(someModule) {
                 loadRoutes();
         });
