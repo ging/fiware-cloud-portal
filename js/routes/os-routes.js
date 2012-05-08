@@ -1,4 +1,4 @@
-var FiwareRouter = Backbone.Router.extend({
+var OSRouter = Backbone.Router.extend({
     
     rootView: undefined,
     

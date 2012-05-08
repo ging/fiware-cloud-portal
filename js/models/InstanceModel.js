@@ -1,8 +1,12 @@
 var Instance = Backbone.Model.extend({
     
     _action:function(method, options) {
+        var model = this;
         options.success = function(resp) {
             model.trigger('sync', model, resp, options);
+            if (options.callback!=undefined) {
+                options.callback(resp);
+            }
         }
         var xhr = (this.sync || Backbone.sync).call(this, method, this, options);
         return xhr;
@@ -37,6 +41,20 @@ var Instance = Backbone.Model.extend({
     
     createimage: function(options) {
         return this._action('create-image', options);        
+    },
+    
+    vncconsole: function(options) {
+        return this._action('get-vncconsole', options);
+    },
+    
+    consoleoutput: function(options) {
+        if (options == undefined) {
+            options = {};
+        }
+        if (options.length == undefined) {
+            options.length = 35;
+        }
+        return this._action('consoleoutput', options);
     },
     
     sync: function(method, model, options) {
@@ -79,7 +97,12 @@ var Instance = Backbone.Model.extend({
             case "create-image":
                 JSTACK.Nova.createimage(model.get("id"), options.success);
                 break;
-
+            case "get-vncconsole":
+                JSTACK.Nova.getvncconsole(model.get("id"), "novnc", options.success);
+                break;
+            case "consoleoutput":
+                JSTACK.Nova.getconsoleoutput(model.get("id"), options.length, options.success);
+                break;
         }
     },
     

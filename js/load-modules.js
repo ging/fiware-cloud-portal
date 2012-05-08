@@ -11,12 +11,12 @@ function custom_require(urls, callback) {
     require(urls, callback);
 }
 
-var loadFiware = function() {
+var loadOS = function() {
     $(document).ready(function(){
 
-        UTILS.Auth.initialize("http://hpcm.dit.upm.es:5000/v2.0/");
+        UTILS.Auth.initialize("http://mcu5.dit.upm.es:5000/v2.0/");
 
-        var fiRouter = new FiwareRouter();
+        var fiRouter = new OSRouter();
 
         Backbone.history.start();
 
@@ -24,9 +24,9 @@ var loadFiware = function() {
 }
 
 var loadRoutes = function() {
-    custom_require([   "js/routes/fiware-routes.js"
+    custom_require([   "js/routes/os-routes.js"
             ], function(someModule) {
-                loadFiware();
+                loadOS();
         });
 }
 
@@ -86,14 +86,14 @@ var loadModels = function() {
 }
 
 var loadUtils = function() {
-    custom_require([   "js/fiware-utils.js"
+    custom_require([   "js/os-utils.js"
             ], function(someModule) {
                 loadModels();
         });
 }
 
 var loadLibraries = function() {
-    require([   "lib/backbone.js",
+    custom_require([   "lib/backbone.js",
                 "lib/jstack.js",
                 "lib/bootstrap.min.js"
             ], function(someModule) {
