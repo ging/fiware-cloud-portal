@@ -7,7 +7,7 @@ var InstancesAndVolumesView = Backbone.View.extend({
     initialize: function() {
         this.model.unbind("reset");
         this.model.bind("reset", this.render, this);
-        this.model.fetch();
+        this.renderFirst();
     },
     
     events:{
@@ -64,11 +64,13 @@ var InstancesAndVolumesView = Backbone.View.extend({
         
     },
     
+    renderFirst: function() {
+        UTILS.Render.animateRender(this.el, this._template, {models:this.model.models, flavors:this.options.flavors});
+    },
+        
     render: function () {
-        if ($("#instances").html() == null) {
-            UTILS.Render.animateRender(this.el, this._template, this.model);
-        } else {
-            var new_template = this._template(this.model);
+        if ($("#instances").html() != null) {
+            var new_template = this._template({models:this.model.models, flavors:this.options.flavors});
             var checkboxes = [];
             var dropdowns = [];
             for (var index in this.model.models) { 

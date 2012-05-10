@@ -6,7 +6,7 @@ var FlavorView = Backbone.View.extend({
     initialize: function() {
     	this.model.unbind("reset");
         this.model.bind("reset", this.render, this);
-        this.model.fetch();
+        this.renderFirst();
     },
     
     events: {
@@ -37,10 +37,13 @@ var FlavorView = Backbone.View.extend({
 			
     },
              
+    renderFirst: function() {
+        UTILS.Render.animateRender(this.el, this._template, this.model);
+        this.enableDisableDeleteButton();
+    },
+    
 	render: function () {
-        if ($("#flavors").html() == null) {
-            UTILS.Render.animateRender(this.el, this._template, this.model);
-        } else {
+        if ($("#flavors").html() != null) {
             var new_template = this._template(this.model);
             var checkboxes = [];
             for (var index in this.model.models) { 
@@ -56,9 +59,10 @@ var FlavorView = Backbone.View.extend({
                 if (check.html() != null) {
                     check.prop("checked", true);
                 }
-            }           
+            }    
+            this.enableDisableDeleteButton();       
         }
-        this.enableDisableDeleteButton();
+        
         return this;
     },
 

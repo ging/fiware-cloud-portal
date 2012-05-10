@@ -21,6 +21,18 @@
   font-style: normal;
 }
 
+.nowrap-col {
+    white-space: nowrap;
+}
+
+td.actions_column {
+  width: 150px;
+  padding: 10px;
+  position: relative;
+  min-width: 140px;
+  min-height: 20px;
+}
+
 a {
   color: #43a1d6;
 }

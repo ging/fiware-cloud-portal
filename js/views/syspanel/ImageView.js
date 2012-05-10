@@ -5,7 +5,7 @@ var ImagesView = Backbone.View.extend({
    	initialize: function() {
          this.model.unbind("reset");
          this.model.bind("reset", this.render, this);
-         this.model.fetch();
+         this.renderFirst();
     },
         
 	events: {
@@ -24,7 +24,6 @@ var ImagesView = Backbone.View.extend({
     },  	
 		
 	enableDisableDeleteButton: function (e) {
-  		console.log("enableDisableDeleteButton called");
   		for (var index = 0; index < this.model.length; index++) { 
 			var imageId = this.model.models[index].get('id');	
 			console.log(imageId); 
@@ -39,10 +38,13 @@ var ImagesView = Backbone.View.extend({
 			
     },
 	
+	renderFirst: function() {
+        UTILS.Render.animateRender(this.el, this._template, this.model);
+        this.enableDisableDeleteButton();
+    },
+	
     render: function () {
-        if ($("#images").html() == null) {
-            UTILS.Render.animateRender(this.el, this._template, this.model);
-        } else {
+        if ($("#images").html() != null) {
             var new_template = this._template(this.model);
             var checkboxes = [];
             var dropdowns = [];
@@ -71,8 +73,8 @@ var ImagesView = Backbone.View.extend({
                     drop.addClass("open");
                 }
             }           
+            this.enableDisableDeleteButton();
         }
-        this.enableDisableDeleteButton();
         return this;
     },
     

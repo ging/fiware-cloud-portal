@@ -11,15 +11,15 @@
         			<a class='btn btn-small btn-danger' name="action" id= "images_delete" disabled=true type="submit">Delete Images</a>
 				</div>
 			</div>
-			<table id="images" class="table table-bordered table-striped">
+			<table id="images_tbl" class="table table-bordered table-striped">
 			  <thead>
 			    <tr>		      
 			        <th class="multi_select_column"></th>			      
-			        <th class="">Image Name</th>			      
-			        <th class="">Type</th>		      
-			        <th class="">Status</th>			      
-			        <th class="">Public</th>			      
-			        <th class="">Container Format</th>			      
+			        <th class="">Image Name</th>
+			        <th class="">Type</th> 			      
+			        <th class="">Status</th>
+			        <th class="">Public</th>
+			        <th class="">Container Format</th>      			      
 			        <th class="actions_column">Actions</th>			      
 			    </tr>
 			  </thead>
@@ -27,8 +27,6 @@
 			 	<% 
 					for (var index in models) { 
 					var image = models[index];
-					console.log("Images");
-					console.log(JSON.stringify(image));
 				%>
 			  <tr 
 			    	id="images__row__<%= models.length %>" 
