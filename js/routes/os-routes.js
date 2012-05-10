@@ -136,6 +136,7 @@ var OSRouter = Backbone.Router.extend({
 	
 	showSysRoot: function(self, option) {
 	    //this.clear_fetch();
+	    self.top.set({"title":option});
         self.navs = new NavTabModels([{name: 'Overview', active: true, url: '#syspanel/'}, 
                                     {name: 'Instances', active: false, url: '#syspanel/instances/'},
                                     {name: 'Services', active: false, url: '#syspanel/services/'},
@@ -284,6 +285,7 @@ var OSRouter = Backbone.Router.extend({
 	
 	showNovaRoot: function(self, option) {
         //this.clear_fetch();
+        self.top.set({"title":option});
         self.navs = new NavTabModels([   {name: 'Overview', active: true, url: '#nova/'}, 
                             {name: 'Instances &amp; Volumes', active: false, url: '#nova/instances_and_volumes/'},
                             /*{name: 'Access &amp; Security', active: false, url: '#nova/access_and_security/'},*/
