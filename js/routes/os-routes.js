@@ -23,6 +23,7 @@ var OSRouter = Backbone.Router.extend({
     },
 	
 	initialize: function() {
+	    UTILS.i18n.setlang('en');
 	    this.loginModel = new LoginStatus();
 	    this.instancesModel = new Instances();
 	    this.flavors = new Flavors();
@@ -35,6 +36,8 @@ var OSRouter = Backbone.Router.extend({
 	    this.route('#', 'init', this.wrap(this.init, this.checkAuth));
 	    this.route('syspanel', 'syspanel', this.wrap(this.sys_overview, this.checkAuth));
 	    this.route('syspanel/', 'syspanel', this.wrap(this.sys_overview, this.checkAuth));
+	    
+	    this.route('settings/', 'settings', this.wrap(this.showSettings, this.checkAuth));
 
 	    this.route('nova', 'nova', this.wrap(this.nova_overview, this.checkAuth));
 	    this.route('nova/', 'nova', this.wrap(this.nova_overview, this.checkAuth));
@@ -67,8 +70,6 @@ var OSRouter = Backbone.Router.extend({
 	    this.route('nova/images_and_snapshots/:name/update', 'edit_image',  _.wrap(this.edit_image, this.checkAuth));		
 	    
 	    this.route('nova/instances_and_volumes/instances/:id/detail', 'consult_instance',  _.wrap(this.consult_instance, this.checkAuth));
-	    
-	    
 	},
 	
 	wrap: function(func, wrapper, arguments) {
@@ -95,8 +96,6 @@ var OSRouter = Backbone.Router.extend({
                 }
             }
         }
-        
-        
 	    next(this, args);
 	},
 		
@@ -121,6 +120,19 @@ var OSRouter = Backbone.Router.extend({
 	    this.loginModel.switchTenant(id);
 	},
 	
+	showSettings: function(self) {
+	    
+	    self.top.set({"title":'Dashboard Settings'});
+        self.navs = new NavTabModels([{name: 'User Settings', active: true, url: '#settings/'}
+                ]);
+                
+        self.tabs.setActive('');
+        
+        self.showRoot(self, '');
+        var view = new SettingsView({el:'#content'});
+        view.render();
+	},
+	
 	showRoot: function(self,option) {
         self.rootView.renderRoot();
         var navTabView = new NavTabView({el: '#navtab', model: self.tabs, loginModel: self.loginModel});
@@ -129,7 +141,7 @@ var OSRouter = Backbone.Router.extend({
         var topBarView = new TopBarView({el: '#topbar', model: self.top, loginModel: self.loginModel});
         topBarView.render();
         
-        var showTenants = (self.tabs.getActive() != 'Admin');
+        var showTenants = (self.tabs.getActive() == 'Project');
         var sideBarView = new SideBarView({el: '#sidebar', model: self.navs, title: option, showTenants: showTenants, tenants: self.loginModel.get("tenants"), tenant: self.loginModel.get("tenant")});
         sideBarView.render();
 	},

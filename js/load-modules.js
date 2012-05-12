@@ -59,7 +59,8 @@ var loadViews = function() {
                 "js/views/forms/RebootInstancesView.js",
                 "js/views/forms/ChangePasswordView.js",
                 "js/views/forms/ConfirmView.js",
-                "js/views/nova/InstanceDetailView.js"
+                "js/views/nova/InstanceDetailView.js",
+                "js/views/SettingsView.js"
             ], function(someModule) {
                 loadRoutes();
         });
@@ -79,7 +80,6 @@ var loadModels = function() {
                 "js/models/ServiceModel.js",
                 "js/models/NavTabModel.js",
                 "js/models/TopBarModel.js"
-
             ], function(someModule) {
                 loadViews();
         });
@@ -88,6 +88,7 @@ var loadModels = function() {
 var loadUtils = function() {
     custom_require([   "js/os-utils.js"
             ], function(someModule) {
+                UTILS.i18n.init();
                 loadModels();
         });
 }
@@ -133,7 +134,8 @@ var loadTemplates = function() {
                     'templates/rebootInstancesFormTemplate.html',
                     'templates/changePasswordFormTemplate.html',
                     'templates/confirmTemplate.html',
-                    'templates/instanceDetailTemplate.html'
+                    'templates/instanceDetailTemplate.html',
+                    'templates/settingsTemplate.html'
                 ], function(){
                     loadLibraries();
                 });

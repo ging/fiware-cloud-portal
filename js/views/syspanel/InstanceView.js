@@ -1,6 +1,6 @@
 var InstanceView = Backbone.View.extend({
     
-    _template: _.template($('#instancesTemplate').html()),
+    _template: _.itemplate($('#instancesTemplate').html()),
     
     initialize: function() {
         this.model.unbind("reset");
@@ -29,7 +29,8 @@ var InstanceView = Backbone.View.extend({
 			if($("#checkbox_"+instanceId).is(':checked'))
 				{
    		   	   			$("#terminate_instances").attr("disabled", false);
-						return;				}
+						return;
+				}
 		}
 		$("#terminate_instances").attr("disabled", true);
     },

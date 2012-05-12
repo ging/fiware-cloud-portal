@@ -860,3 +860,13 @@ form .error {
   color: #b94a48;
   border: 1px solid #E9B1B0;
 }
+
+.static_page {
+  float: left;
+  width: 700px;
+  background-color: #FFF;
+  border: 1px solid #DDD;
+}
+.static_page > form {
+  margin-bottom: 0;
+}
