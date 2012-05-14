@@ -1,6 +1,6 @@
 var TopBarView = Backbone.View.extend({
     
-    _template: _.template($('#topBarTemplate').html()),
+    _template: _.itemplate($('#topBarTemplate').html()),
     
     initialize: function() {
         this.model.bind('change:title', this.render, this);

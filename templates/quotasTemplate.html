@@ -1,12 +1,12 @@
 <script id="quotasTemplate" type="text/html">
 <form action="/syspanel/quotas/" method="POST"><div style='display:none'><input type='hidden' name='csrfmiddlewaretoken' value='13de1d539e7690548408d1be1856eb9c' /></div>
 <div class='table_header'>
-  <h3 class='table_title'>Quotas</h3>
+  <h3 class='table_title' data-i18n="Quotas">Quotas</h3>
   <div class="table_actions clearfix">
 
     <div class="table_search">
         <input class="span3 example" value="" type="text" name="quotas__filter__q" />
-        <button type="submit" class="btn btn-small filter">Filter</button>
+        <button type="submit" class="btn btn-small filter" data-i18n="Filter">Filter</button>
     </div>
 
 
@@ -20,9 +20,9 @@
   <thead>
     <tr>
       
-        <th class="">Quota Name</th>
+        <th class="" data-i18n="Quota Name">Quota Name</th>
       
-        <th class="">Limit</th>
+        <th class="" data-i18n="Limit">Limit</th>
       
     </tr>
   </thead>
@@ -77,7 +77,7 @@
   <tfoot>
     <tr>
       <td colspan="2">
-        <span>Displaying 9 items</span>
+        <span><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", 9)%></span>
         
       </td>
     </td>

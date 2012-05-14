@@ -1,6 +1,6 @@
 var LoginView = Backbone.View.extend({
 
-    _template: _.template($('#not_logged_in').html()),
+    _template: _.itemplate($('#not_logged_in').html()),
     
     initialize: function () {
         this.model.bind('change:loggedIn', this.onLogin, this);
@@ -9,7 +9,7 @@ var LoginView = Backbone.View.extend({
     },
 
     events: {
-        'submit .credentials': 'onCredentialsSubmit',
+        'click #home_loginbtn': 'onCredentialsSubmit',
         'click .close': 'onCloseErrorMsg'
     },
     

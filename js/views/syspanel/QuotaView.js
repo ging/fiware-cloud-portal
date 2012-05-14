@@ -1,6 +1,6 @@
 var QuotaView = Backbone.View.extend({
     
-    _template: _.template($('#quotasTemplate').html()),
+    _template: _.itemplate($('#quotasTemplate').html()),
     
     initialize: function() {
     },

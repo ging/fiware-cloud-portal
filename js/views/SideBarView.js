@@ -1,6 +1,6 @@
 var SideBarView = Backbone.View.extend({
     
-    _template: _.template($('#sideBarTemplate').html()),
+    _template: _.itemplate($('#sideBarTemplate').html()),
     
     initialize: function() {
         this.model.bind('change:actives', this.render, this);
@@ -8,8 +8,7 @@ var SideBarView = Backbone.View.extend({
     
     render: function () {
         var self = this;
-        $(self.el).empty().html(self._template({models: self.model.models, showTenants: self.options.showTenants, tenants: this.options.tenants, tenant: this.options.tenant}));
-        $('#sideBarTitle').empty().html(self.options.title);
+        $(self.el).empty().html(self._template({models: self.model.models, showTenants: self.options.showTenants, tenants: this.options.tenants, tenant: this.options.tenant, title: self.options.title}));
     }
     
 });

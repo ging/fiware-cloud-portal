@@ -23,7 +23,6 @@ var OSRouter = Backbone.Router.extend({
     },
 	
 	initialize: function() {
-	    UTILS.i18n.setlang('en');
 	    this.loginModel = new LoginStatus();
 	    this.instancesModel = new Instances();
 	    this.flavors = new Flavors();

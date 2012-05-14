@@ -1,6 +1,6 @@
 var TerminateInstancesView = Backbone.View.extend({
     
-    _template: _.template($('#terminateInstancesFormTemplate').html()),
+    _template: _.itemplate($('#terminateInstancesFormTemplate').html()),
     
     events: {
         'click #cancelBtn': 'close',

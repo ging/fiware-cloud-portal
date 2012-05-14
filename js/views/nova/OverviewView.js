@@ -1,6 +1,6 @@
 var NovaOverviewView = Backbone.View.extend({
     
-    _template: _.template($('#novaOverviewTemplate').html()),
+    _template: _.itemplate($('#novaOverviewTemplate').html()),
     
     initialize: function() {
     },

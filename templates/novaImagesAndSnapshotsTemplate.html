@@ -1,9 +1,9 @@
 <script id="novaImagesAndSnapshotsTemplate" type="text/html">
 <div class="images">
 <div class='table_header'>
-  <h3 class='table_title'>Images</h3>
+  <h3 class='table_title' data-i18n="Images">Images</h3>
   <div class="table_actions clearfix">
-            <button id="images_delete" disabled=true class='btn btn-small btn-danger' name="action" value="images__delete" type="submit">Delete Images</button>
+            <button id="images_delete" disabled=true class='btn btn-small btn-danger' name="action" value="images__delete" type="submit" data-i18n="Delete Images">Delete Images</button>
         
     
 
@@ -17,17 +17,17 @@
       
         <th class="multi_select_column"></th>
       
-        <th class="">Name</th>
+        <th class="" data-i18n="Name">Name</th>
       
-        <th class="">Type</th>
+        <th class="" data-i18n="Type">Type</th>
       
-        <th class="">Status</th>
+        <th class="" data-i18n="Status">Status</th>
       
-        <th class="">Public</th>
+        <th class="" data-i18n="Public">Public</th>
       
-        <th class="">Container Format</th>
+        <th class="" data-i18n="Container Format">Container Format</th>
       
-        <th class="actions_column">Actions</th>
+        <th class="actions_column" data-i18n="Actions">Actions</th>
       
     </tr>
   </thead>
@@ -43,17 +43,17 @@
                         </a></td>
         <td class="">Image</td>
         <td class=""><%=image.get('status').toLowerCase()%></td>
-        <td class="">Yes</td>
+        <td class="" data-i18n="Yes">Yes</td>
         <td class="">AMI</td>
         <td class="actions_column">
             <div id="dropdown_<%= image.get('id') %>" class="btn-group">
-                <button class="ajax-modal btn btn-small launchBtn" value="<%= image.get('id')%>">Launch</button>
+                <button class="ajax-modal btn btn-small launchBtn" value="<%= image.get('id')%>" data-i18n="Launch">Launch</button>
                 <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
                     <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu row_actions clearfix">
                     <li class="clearfix">
-                        <button class="ajax-modal btn btn-small editBtn" value="<%= image.get('id')%>" name="action" type="submit">Edit</button>
+                        <button class="ajax-modal btn btn-small editBtn" value="<%= image.get('id')%>" name="action" type="submit" data-i18n="Edit">Edit</button>
                     </li>
                 </ul>
             </div>
@@ -65,7 +65,7 @@
   <tfoot>
     <tr>
       <td colspan="7">
-        <span>Displaying <%= models.length %> items</span>
+        <span><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", models.length)%></span>
         
       </td>
     </td>

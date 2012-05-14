@@ -1,6 +1,6 @@
 var CreateFlavorView = Backbone.View.extend({
     
-    _template: _.template($('#createKeyPairFormTemplate').html()),
+    _template: _.itemplate($('#createKeyPairFormTemplate').html()),
     
     events: {
         'click #submit': 'onSubmit',

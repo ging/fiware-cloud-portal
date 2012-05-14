@@ -1,20 +1,20 @@
 <script id="sysOverviewTemplate" type="text/html">
 <form action="" method="get" id="date_form" class="form-horizontal">
-  <h3>Select a month to query its usage: </h3>
+  <h3 data-i18n="Select a month to query its usage:">Select a month to query its usage:</h3>
   <div class="form-row">
     <select name="month" id="id_month">
-<option value="1">January</option>
-<option value="2">February</option>
-<option value="3" selected="selected">March</option>
-<option value="4">April</option>
-<option value="5">May</option>
-<option value="6">June</option>
-<option value="7">July</option>
-<option value="8">August</option>
-<option value="9">September</option>
-<option value="10">October</option>
-<option value="11">November</option>
-<option value="12">December</option>
+<option value="1" data-i18n="January">January</option>
+<option value="2" data-i18n="February">February</option>
+<option value="3" selected="selected" data-i18n="March">March</option>
+<option value="4" data-i18n="April">April</option>
+<option value="5" data-i18n="May">May</option>
+<option value="6" data-i18n="June">June</option>
+<option value="7" data-i18n="July">July</option>
+<option value="8" data-i18n="August">August</option>
+<option value="9" data-i18n="September">September</option>
+<option value="10" data-i18n="October">October</option>
+<option value="11" data-i18n="November">November</option>
+<option value="12" data-i18n="December">December</option>
 </select>
     <select name="year" id="id_year">
 <option value="2012" selected="selected">2012</option>
@@ -27,28 +27,28 @@
 </form>
 
 <p id="activity">
-  <span><strong>Active Instances:</strong> 1</span>
-  <span><strong>Active Memory:</strong> 512MB</span>
-  <span><strong>This Month's VCPU-Hours:</strong> 336.6</span>
-  <span><strong>This Month's GB-Hours:</strong> 0</span>
+  <span><strong data-i18n="Active Instances:">Active Instances:</strong> 1</span>
+  <span><strong data-i18n="Active Memory:">Active Memory:</strong> 512MB</span>
+  <span><strong data-i18n="This Month's VCPU-Hours:">This Month's VCPU-Hours:</strong> 336.6</span>
+  <span><strong data-i18n="This Month's GB-Hours:">This Month's GB-Hours:</strong> 0</span>
 </p>
 
   <form action="#syspanel/" method="POST"><div style='display:none'><input type='hidden' name='csrfmiddlewaretoken' value='13de1d539e7690548408d1be1856eb9c' /></div>
 <div class='table_header'>
-  <h3 class='table_title'>Usage Summary</h3>
+  <h3 class='table_title' data-i18n="Usage Summary">Usage Summary</h3>
   <div class="table_actions clearfix">
-            <a href='?date_month=2012-03-01&amp;date_year=2012-03-15&amp;format=csv'  class="btn btn-small">Download CSV Summary</a>
+            <a href='?date_month=2012-03-01&amp;date_year=2012-03-15&amp;format=csv'  class="btn btn-small" data-i18n="Download CSV Summary">Download CSV Summary</a>
 </div>
 </div>
 <table id="global_usage" class="table table-bordered table-striped">
   <thead>
     <tr>
-        <th class="">Project ID</th>
-        <th class="">VCPUs</th>
-        <th class="">Disk</th>
-        <th class="">RAM</th>
-        <th class="">VCPU Hours</th>
-        <th class="">Disk GB Hours</th>
+        <th class="" data-i18n="Project ID">Project ID</th>
+        <th class="" data-i18n="VCPUs">VCPUs</th>
+        <th class="" data-i18n="Disk">Disk</th>
+        <th class="" data-i18n="RAM">RAM</th>
+        <th class="" data-i18n="VCPU Hours">VCPU Hours</th>
+        <th class="" data-i18n="Disk GB Hours">Disk GB Hours</th>
     </tr>
   </thead>
   <tbody>
@@ -59,7 +59,7 @@
   <tfoot>
     <tr>
       <td colspan="6">
-        <span>Displaying 1 item</span>
+        <span><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", 1)%></span>
       </td>
     </td>
   </tfoot>

@@ -12,7 +12,10 @@ var SettingsView = Backbone.View.extend({
     changeLang: function(evt) {
         $("select option:selected").each(function () {
             var lang = $(this).attr('value');
-            UTILS.i18n.setlang(lang);
+            UTILS.i18n.setlang(lang, function() {
+                window.location.href="";
+            });
+            
         });
     },
     

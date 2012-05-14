@@ -1,6 +1,6 @@
 var InstancesAndVolumesView = Backbone.View.extend({
     
-    _template: _.template($('#novaInstancesAndVolumesTemplate').html()),
+    _template: _.itemplate($('#novaInstancesAndVolumesTemplate').html()),
     
     dropdownId: undefined,
     

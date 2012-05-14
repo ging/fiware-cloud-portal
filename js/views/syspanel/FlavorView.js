@@ -1,6 +1,6 @@
 var FlavorView = Backbone.View.extend({
     
-    _template: _.template($('#flavorsTemplate').html()),
+    _template: _.itemplate($('#flavorsTemplate').html()),
 
     
     initialize: function() {

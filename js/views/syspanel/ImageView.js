@@ -1,6 +1,6 @@
 var ImagesView = Backbone.View.extend({
     
-    _template: _.template($('#imagesTemplate').html()),
+    _template: _.itemplate($('#imagesTemplate').html()),
         
    	initialize: function() {
          this.model.unbind("reset");

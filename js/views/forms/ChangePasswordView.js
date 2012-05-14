@@ -1,6 +1,6 @@
 var ChangePasswordView = Backbone.View.extend({
     
-    _template: _.template($('#changePasswordFormTemplate').html()),
+    _template: _.itemplate($('#changePasswordFormTemplate').html()),
 
     events: {
       'click #cancelBtn': 'close',

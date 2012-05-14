@@ -1,6 +1,6 @@
 var UserView = Backbone.View.extend({
     
-    _template: _.template($('#usersTemplate').html()),
+    _template: _.itemplate($('#usersTemplate').html()),
     
     initialize: function() {
     },

@@ -1,6 +1,6 @@
 var LaunchImageView = Backbone.View.extend({
     
-    _template: _.template($('#launchImageTemplate').html()),
+    _template: _.itemplate($('#launchImageTemplate').html()),
 
     events: {
       'click #cancelBtn': 'close',

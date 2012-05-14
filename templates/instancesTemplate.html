@@ -4,7 +4,7 @@
 		<div class='table_header'>
 		  <h3 class='table_title' data-i18n='Instances'>Instances</h3>
 		  <div class="table_actions clearfix">
-		    <a  id="terminate_instances" class="btn btn-small btn-danger btn-terminate" disabled=true name="action" value="terminate_instances" type="submit">Terminate Instances</a>
+		    <a  id="terminate_instances" class="btn btn-small btn-danger btn-terminate" disabled=true name="action" value="terminate_instances" type="submit" data-i18n="Terminate Instance">Terminate Instances</a>
 		  </div>
 		</div>
 		  <table id="instances" class="table table-bordered table-striped">
@@ -13,13 +13,13 @@
 		          <th class="multi_select_column"></th>        
 		          <th class="" data-i18n="Tenant">Tenant</th>        
 		          <th class="" data-i18n="Host">Host</th>        
-		          <th class="">Instance Name</th>        
-		          <th class="">IP Address</th>        
-		          <th class="">Size</th>        
-		          <th class="">Status</th>        
-		          <th class="">Task</th>        
-		          <th class="">Power State</th>        
-		          <th class="actions_column">Actions</th>        
+		          <th class="" data-i18n="Instance Name">Instance Name</th>        
+		          <th class="" data-i18n="IP Address">IP Address</th>        
+		          <th class="" data-i18n="Size">Size</th>        
+		          <th class="" data-i18n="Status">Status</th>        
+		          <th class="" data-i18n="Task">Task</th>        
+		          <th class="" data-i18n="Power State">Power State</th>        
+		          <th class="actions_column" data-i18n="Actions">Actions</th>        
 		      </tr>
 		    </thead>
 		    <tbody>
@@ -77,16 +77,16 @@
 			  <td class=""><%= POWER_STATES[instance.get("OS-EXT-STS:power_state")]%></td>
 			  <td class="actions_column">
 				<div class="btn-group">
-				  <a href='#nova/instances_and_volumes/instances/<%= instance.get('id')%>/update'  id="instances__action_edit__0" class="btn btn-small ajax-modal btn-edit">Edit Instance</a>
+				  <a href='#nova/instances_and_volumes/instances/<%= instance.get('id')%>/update'  id="instances__action_edit__0" class="btn btn-small ajax-modal btn-edit" data-i18n="Edit Instance">Edit Instance</a>
 			      <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
 			       <span class="caret"></span>
 			      </a>
 			       <ul class="dropdown-menu row_actions clearfix">        
 			          <li class="clearfix">             
-			 			 <a href="#syspanel/instances/terminate"  id="terminate_instance" class="btn btn-small btn-danger btn-terminate" name="action" value="<%= instance.get('id')%>" type="submit">Terminate Instance</a>
+			 			 <a href="#syspanel/instances/terminate"  id="terminate_instance" class="btn btn-small btn-danger btn-terminate" name="action" value="<%= instance.get('id')%>" type="submit" data-i18n="Terminate Instance">Terminate Instance</a>
 					  </li> 
 					  <li class="clearfix">             
-			 			 <a href="#syspanel/instances/reboot"  id="reboot_instance" class="btn btn-small btn-danger btn-terminate" name="action" value="<%= instance.get('id')%>" type="submit">Reboot Instance</a>
+			 			 <a href="#syspanel/instances/reboot"  id="reboot_instance" class="btn btn-small btn-danger btn-terminate" name="action" value="<%= instance.get('id')%>" type="submit" data-i18n="Reboot Instance">Reboot Instance</a>
 					  </li>
 			       </ul>  
 				</div>
@@ -97,7 +97,7 @@
 		    <tfoot>
 		      <tr>
 		        <td colspan="12">
-		          <span>Displaying <%= models.length%> items</span>          
+		          <span><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", models.length)%></span>          
 		        </td>
 		      </td>
 		    </tfoot>

@@ -1,6 +1,6 @@
 var SysOverviewView = Backbone.View.extend({
     
-    _template: _.template($('#sysOverviewTemplate').html()),
+    _template: _.itemplate($('#sysOverviewTemplate').html()),
     
     initialize: function() {
     },

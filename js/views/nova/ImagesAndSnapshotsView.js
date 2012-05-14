@@ -1,6 +1,6 @@
 var ImagesAndSnapshotsView = Backbone.View.extend({
     
-    _template: _.template($('#novaImagesAndSnapshotsTemplate').html()),
+    _template: _.itemplate($('#novaImagesAndSnapshotsTemplate').html()),
     
     initialize: function() {
         this.model.unbind("reset");
