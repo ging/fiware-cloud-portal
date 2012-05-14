@@ -6,23 +6,23 @@
 				<input type='hidden' name='csrfmiddlewaretoken' value='13de1d539e7690548408d1be1856eb9c' />
 			</div>
 			<div class='table_header'>
-  				<h3 class='table_title'>Flavors</h3>
+  				<h3 class='table_title' data-i18n="Flavors">Flavors</h3>
   				<div class="table_actions clearfix">
-            		<a href="#syspanel/flavors/create"  id="flavors__action_create__0" class="btn btn-small ajax-modal">Create Flavor</a>
-           	 		<a class='btn btn-small btn-danger' name="action" id= "flavors_delete" disabled=true "flavors__delete" type="submit">Delete Flavors</a>
+            		<a href="#syspanel/flavors/create"  id="flavors__action_create__0" class="btn btn-small ajax-modal" data-i18n="Create Flavor">Create Flavor</a>
+           	 		<a class='btn btn-small btn-danger' name="action" id= "flavors_delete" disabled=true "flavors__delete" type="submit" data-i18n="Delete Flavors">Delete Flavors</a>
   				</div>
 			</div>
 			<table id="flavors" class="table table-bordered table-striped">
 			  	<thead>
 			    	<tr>			      
 				        <th class="multi_select_column"></th>				      
-				        <th class="">ID</th>				      
-				        <th class="">Flavor Name</th>				      
-				        <th class="">VCPUs</th>				      
-				        <th class="">Memory</th>				      
-				        <th class="">Disk</th>				        
-				        <th class="">Ephemeral Disk</th>				      
-				        <th class="actions_column">Actions</th>			      
+				        <th class="" data-i18n="Id">Id</th>				      
+				        <th class="" data-i18n="Flavor Name">Flavor Name</th>				      
+				        <th class="" data-i18n="VCPUs">VCPUs</th>				      
+				        <th class="" data-i18n="Memory">Memory</th>				      
+				        <th class="" data-i18n="Disk">Disk</th>				        
+				        <th class="" data-i18n="Ephemeral Disk">Ephemeral Disk</th>				      
+				        <th class="actions_column" data-i18n="Actions">Actions</th>			      
 			    	</tr>
 			  	</thead>
 			  	<tbody>
@@ -43,7 +43,7 @@
 					<td class=""><%= flavor.get('disk')%></td>
 					<td class="">-</td> 
 					<td class="actions_column">		
-						<a href="#syspanel/flavors/delete" class='btn btn-small btn-danger' value="<%= flavor.get('id') %>" id= "flavor_delete">Delete Flavor </a>						
+						<a href="#syspanel/flavors/delete" class='btn btn-small btn-danger' value="<%= flavor.get('id') %>" id= "flavor_delete" data-i18n="Delete Flavor">Delete Flavor </a>						
 					</td>
 				</tr>
 				<% } %>					
@@ -51,7 +51,7 @@
 			  	<tfoot>
 			    	<tr>
 			      		<td colspan="8">
-			       			<span>Displaying <%= models.length%> items</span>			        
+			       			<span><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", models.length)%></span>			        
 			      		</td>
 			    	</td>
 			  	</tfoot>

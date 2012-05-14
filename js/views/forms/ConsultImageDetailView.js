@@ -1,6 +1,6 @@
 var ConsultImageDetailView = Backbone.View.extend({
     
-    _template: _.template($('#consultImageDetailFormTemplate').html()),
+    _template: _.itemplate($('#consultImageDetailFormTemplate').html()),
     
    	initialize: function() {
         this.model.bind("change", this.render, this);

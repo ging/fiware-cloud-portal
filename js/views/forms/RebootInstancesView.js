@@ -1,6 +1,6 @@
 var RebootInstancesView = Backbone.View.extend({
     
-    _template: _.template($('#rebootInstancesFormTemplate').html()),
+    _template: _.itemplate($('#rebootInstancesFormTemplate').html()),
     
     events: {
         'click #cancelBtn': 'close',

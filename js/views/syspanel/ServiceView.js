@@ -1,6 +1,6 @@
 var ServiceView = Backbone.View.extend({
     
-    _template: _.template($('#servicesTemplate').html()),
+    _template: _.itemplate($('#servicesTemplate').html()),
     
     initialize: function() {
     	this.model.bind("reset", this.rerender, this);

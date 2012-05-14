@@ -1,6 +1,6 @@
 var ConfirmView = Backbone.View.extend({
     
-    _template: _.template($('#confirmTemplate').html()),
+    _template: _.itemplate($('#confirmTemplate').html()),
     
     events: {
         'click #confirm_btn': 'onAccept',

@@ -1,6 +1,6 @@
 var UpdateInstanceView = Backbone.View.extend({
     
-    _template: _.template($('#updateInstanceFormTemplate').html()),
+    _template: _.itemplate($('#updateInstanceFormTemplate').html()),
 
     events: {
       'click #cancelBtn': 'close',

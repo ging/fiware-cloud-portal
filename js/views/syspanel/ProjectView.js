@@ -1,6 +1,6 @@
 var ProjectView = Backbone.View.extend({
     
-    _template: _.template($('#projectsTemplate').html()),
+    _template: _.itemplate($('#projectsTemplate').html()),
     
     initialize: function() {
         this.model.bind("reset", this.rerender, this);

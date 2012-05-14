@@ -1,6 +1,6 @@
 var UpdateImageView = Backbone.View.extend({
     
-    _template: _.template($('#updateImageFormTemplate').html()),
+    _template: _.itemplate($('#updateImageFormTemplate').html()),
     
    	initialize: function() {
         this.model.bind("change", this.render, this);

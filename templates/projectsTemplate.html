@@ -1,12 +1,12 @@
 <script id="projectsTemplate" type="text/html">
 <form action="/syspanel/projects/" method="POST"><div style='display:none'><input type='hidden' name='csrfmiddlewaretoken' value='13de1d539e7690548408d1be1856eb9c' /></div>
 <div class='table_header'>
-  <h3 class='table_title'>Projects</h3>
+  <h3 class='table_title' data-i18n="Projects">Projects</h3>
   <div class="table_actions clearfix">
 
     <div class="table_search">
         <input class="span3 example" value="" type="text" name="tenants__filter__q" />
-        <button type="submit" class="btn btn-small filter">Filter</button>
+        <button type="submit" class="btn btn-small filter" data-i18n="Filter">Filter</button>
     </div>
 
 
@@ -14,13 +14,13 @@
 
     
         
-            <a href='/syspanel/projects/create'  class="btn btn-small ajax-modal">Create New Project</a>
+            <a href='/syspanel/projects/create'  class="btn btn-small ajax-modal" data-i18n="Create New Project">Create New Project</a>
         
     
 
     
         
-            <button class='btn btn-small btn-danger' name="action" value="tenants__delete" type="submit">Delete Projects</button>
+            <button class='btn btn-small btn-danger' name="action" value="tenants__delete" type="submit" data-i18n="Delete Projects">Delete Projects</button>
         
     
 
@@ -34,15 +34,15 @@
       
         <th class="multi_select_column"></th>
       
-        <th class="">Id</th>
+        <th class="" data-i18n="Id">Id</th>
       
-        <th class="">Name</th>
+        <th class="" data-i18n="Name">Name</th>
       
-        <th class="">Description</th>
+        <th class="" data-i18n="Description">Description</th>
       
-        <th class="">Enabled</th>
+        <th class="" data-i18n="Enabled">Enabled</th>
       
-        <th class="actions_column">Actions</th>
+        <th class="actions_column" data-i18n="Actions">Actions</th>
       
     </tr>
   </thead>
@@ -67,7 +67,7 @@
     
         
           
-  <a href='/syspanel/projects/4/update/'  class="ajax-modal btn btn-small">Edit Project</a>
+  <a href='/syspanel/projects/4/update/'  class="ajax-modal btn btn-small" data-i18n="Edit Project">Edit Project</a>
 
 
           <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
@@ -80,7 +80,7 @@
         
           <li class="clearfix">
               
-  <a href='/syspanel/projects/4/usage/'  class="btn btn-small">View Usage</a>
+  <a href='/syspanel/projects/4/usage/'  class="btn btn-small" data-i18n="View Usage">View Usage</a>
 
 
           </li>
@@ -90,7 +90,7 @@
         
           <li class="clearfix">
               
-  <a href='/syspanel/projects/4/users/'  class="btn btn-small">Modify Users</a>
+  <a href='/syspanel/projects/4/users/'  class="btn btn-small" data-i18n="Modify Users">Modify Users</a>
 
 
           </li>
@@ -100,7 +100,7 @@
         
           <li class="clearfix">
               
-  <a href='/syspanel/projects/4/quotas/'  class="ajax-modal btn btn-small">Modify Quotas</a>
+  <a href='/syspanel/projects/4/quotas/'  class="ajax-modal btn btn-small" data-i18n="Modify Quotas">Modify Quotas</a>
 
 
           </li>
@@ -110,7 +110,7 @@
         
           <li class="clearfix">
               
-  <button  class="btn btn-small btn-danger" name="action" value="tenants__delete__4" type="submit">Delete Project</button>
+  <button  class="btn btn-small btn-danger" name="action" value="tenants__delete__4" type="submit" data-i18n="Delete Project">Delete Project</button>
 
 
           </li>
@@ -130,7 +130,7 @@
   <tfoot>
     <tr>
       <td colspan="6">
-        <span>Displaying <%= models.length%> items</span>
+        <span><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", models.length)%></span>
         
       </td>
     </td>

@@ -1,6 +1,6 @@
 var NavTabView = Backbone.View.extend({
     
-    _template: _.template($('#navTabTemplate').html()),
+    _template: _.itemplate($('#navTabTemplate').html()),
     
     initialize: function() {
         this.model.bind('change:actives', this.render, this);

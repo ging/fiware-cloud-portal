@@ -1,6 +1,6 @@
 var DeleteImagesView = Backbone.View.extend({
     
-    _template: _.template($('#deleteImagesFormTemplate').html()),
+    _template: _.itemplate($('#deleteImagesFormTemplate').html()),
     
    	initialize: function() {
         this.model.bind("change", this.render, this);

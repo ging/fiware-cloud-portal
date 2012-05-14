@@ -1,8 +1,8 @@
 var RootView = Backbone.View.extend({
     
-    _roottemplate: _.template($('#rootTemplate').html()),
+    _roottemplate: _.itemplate($('#rootTemplate').html()),
     
-    _authtemplate: _.template($('#not_logged_in').html()),
+    _authtemplate: _.itemplate($('#not_logged_in').html()),
     
     initialize: function () {
         $(this.options.auth_el).empty().html(this._authtemplate(this.model)).css('display', 'None');
@@ -54,7 +54,7 @@ var RootView = Backbone.View.extend({
         
         self.$el = $(self.options.auth_el);
         self.delegateEvents({
-            'submit .credentials': 'onCredentialsSubmit',
+            'click #home_loginbtn': 'onCredentialsSubmit',
             'click .close': 'onCloseErrorMsg'
         });
         

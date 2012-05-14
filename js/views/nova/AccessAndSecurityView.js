@@ -1,6 +1,6 @@
 var AccessAndSecurityView = Backbone.View.extend({
     
-    _template: _.template($('#novaAccessAndSecurityTemplate').html()),
+    _template: _.itemplate($('#novaAccessAndSecurityTemplate').html()),
     
     initialize: function() {
         this.model.unbind("reset");

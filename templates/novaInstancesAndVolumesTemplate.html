@@ -2,23 +2,23 @@
 <div id="instances">
     <div class="table_wrapper">
             <div class='table_header'>
-                <h3 class='table_title'>Instances</h3>
+                <h3 class='table_title' data-i18n="Instances">Instances</h3>
                 <div class="table_actions clearfix">
-                    <a href='#nova/images_and_snapshots/'  id="instances__action_launch__1" class="btn btn-small btn-launch">Launch Instance</a>
-                    <button  id="instances_terminate" disabled=true class="btn btn-small btn-danger btn-terminate-group" name="action" value="instances__terminate" class="instances_terminate" type="submit">Terminate Instances</button>
+                    <a href='#nova/images_and_snapshots/'  id="instances__action_launch__1" class="btn btn-small btn-launch" data-i18n="Launch Instance">Launch Instance</a>
+                    <button  id="instances_terminate" disabled=true class="btn btn-small btn-danger btn-terminate-group" name="action" value="instances__terminate" class="instances_terminate" type="submit" data-i18n="Terminate Instance">Terminate Instances</button>
                 </div>
             </div>
             <table id="instances" class="table table-bordered table-striped">
                 <thead>
                     <tr>
                         <th class="multi_select_column"></th>
-                        <th class="">Instance Name</th>
-                        <th class="">IP Address</th>
-                        <th class="">Size</th>
-                        <th class="">Status</th>
-                        <th class="">Task</th>
-                        <th class="">Power State</th>
-                        <th class="actions_column">Actions</th>
+                        <th class="" data-i18n="Instance Name">Instance Name</th>
+                        <th class="" data-i18n="IP Address">IP Address</th>
+                        <th class="" data-i18n="Size">Size</th>
+                        <th class="" data-i18n="Status">Status</th>
+                        <th class="" data-i18n="Task">Task</th>
+                        <th class="" data-i18n="Power State">Power State</th>
+                        <th class="actions_column" data-i18n="Actions">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -80,7 +80,7 @@
                     <td class=""><%= POWER_STATES[instance.get("OS-EXT-STS:power_state")]%></td>
                     <td class="actions_column">
                         <div id="dropdown_<%= instance.get('id') %>" class="btn-group">
-                            <a value='<%= instance.id %>'  href="#nova/instances_and_volumes/instances/<%= instance.id %>/update" id="instances__action_edit__<%=i%>" class="btn btn-small ajax-modal btn-edit">Edit Instance</a>
+                            <a value='<%= instance.id %>'  href="#nova/instances_and_volumes/instances/<%= instance.id %>/update" id="instances__action_edit__<%=i%>" class="btn btn-small ajax-modal btn-edit" data-i18n="Edit Instance">Edit Instance</a>
                             <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
                                 <span class="caret"></span>
                             </a>
@@ -88,17 +88,17 @@
                                 <% 
                                 if (instance.get("status") != "ERROR") { %>
                                     <li class="clearfix">
-                                        <button  id="instances__action_password__<%=i%>" class="btn btn-small btn-danger btn-password" name="action" value="<%= instance.id %>" type="submit">Change Password</button>
+                                        <button  id="instances__action_password__<%=i%>" class="btn btn-small btn-danger btn-password" name="action" value="<%= instance.id %>" type="submit" data-i18n="Change Password">Change Password</button>
                                     </li>
                                     <li class="clearfix">
-                                        <button  id="instances__action_snapshot__<%=i%>" class="btn btn-small btn-danger btn-snapshot" name="action" value="<%= instance.id %>" type="submit">Create Snapshot</button>
+                                        <button  id="instances__action_snapshot__<%=i%>" class="btn btn-small btn-danger btn-snapshot" name="action" value="<%= instance.id %>" type="submit" data-i18n="Create Snapshot">Create Snapshot</button>
                                     </li>
                                     <li class="clearfix">
-                                        <button  id="instances__action_reboot__<%=i%>" class="btn btn-small btn-danger btn-reboot" name="action" value="<%= instance.id %>" type="submit">Reboot Instance</button>
+                                        <button  id="instances__action_reboot__<%=i%>" class="btn btn-small btn-danger btn-reboot" name="action" value="<%= instance.id %>" type="submit" data-i18n="Reboot Instance">Reboot Instance</button>
                                     </li>
                                 <% } %>
                                 <li class="clearfix">
-                                    <button  id="instances__action_terminate__<%=i%>" class="btn btn-small btn-danger btn-terminate" name="action" value="<%= instance.id %>" type="submit">Terminate Instance</button>
+                                    <button  id="instances__action_terminate__<%=i%>" class="btn btn-small btn-danger btn-terminate" name="action" value="<%= instance.id %>" type="submit" data-i18n="Terminate Instance">Terminate Instance</button>
                                 </li>
                             </ul>
                         </div>
@@ -109,7 +109,7 @@
                 <tfoot>
                   <tr>
                     <td colspan="8">
-                      <span>Displaying <%= models.length %> item</span>                      
+                      <span><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", models.length)%></span>                      
                     </td>
                   </td>
                 </tfoot>

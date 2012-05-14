@@ -1,6 +1,6 @@
 var DeleteFlavorsView = Backbone.View.extend({
     
-    _template: _.template($('#deleteFlavorsFormTemplate').html()),
+    _template: _.itemplate($('#deleteFlavorsFormTemplate').html()),
     
     events: {
         'click #confirm_delete': 'onDeleteFlavors',
