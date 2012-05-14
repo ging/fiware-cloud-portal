@@ -21,6 +21,18 @@
   font-style: normal;
 }
 
+.nowrap-col {
+    white-space: nowrap;
+}
+
+td.actions_column {
+  width: 150px;
+  padding: 10px;
+  position: relative;
+  min-width: 140px;
+  min-height: 20px;
+}
+
 a {
   color: #43a1d6;
 }
@@ -847,4 +859,14 @@ form .error {
   background: #fce6e6;
   color: #b94a48;
   border: 1px solid #E9B1B0;
+}
+
+.static_page {
+  float: left;
+  width: 700px;
+  background-color: #FFF;
+  border: 1px solid #DDD;
+}
+.static_page > form {
+  margin-bottom: 0;
 }

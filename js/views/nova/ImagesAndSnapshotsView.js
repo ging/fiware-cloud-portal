@@ -5,7 +5,7 @@ var ImagesAndSnapshotsView = Backbone.View.extend({
     initialize: function() {
         this.model.unbind("reset");
         this.model.bind("reset", this.render, this);
-        this.model.fetch();
+        this.renderFirst();
     },
     
     events:{
@@ -49,10 +49,12 @@ var ImagesAndSnapshotsView = Backbone.View.extend({
         subview.render();
     },
     
+    renderFirst: function() {
+        UTILS.Render.animateRender(this.el, this._template, this.model);
+    },
+    
     render: function () {
-        if ($("#images").html() == null) {
-            UTILS.Render.animateRender(this.el, this._template, this.model);
-        } else {
+        if ($("#images").html() != null) {
             var new_template = this._template(this.model);
             var checkboxes = [];
             var dropdowns = [];

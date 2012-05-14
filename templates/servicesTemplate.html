@@ -21,6 +21,8 @@
     <tr>
       
         <th class="hide">Id</th>
+        
+        <th class="">Name</th>
       
         <th class="">Service</th>
       
@@ -32,16 +34,15 @@
   </thead>
   <tbody>
    <% 
-   	console.log(models);
+   var re = new RegExp('^(?:f|ht)tp(?:s)?\://([^/:]+)', 'im');
    	for (var index in models) { 
 		var service = models[index];
-		console.log("Service");
-		console.log(JSON.stringify(service));
 		%> 
     <tr id="services__row__0" class="status_up">
   <td class="hide">-</td>
+  <td class=""><%= service.get('name')%></td>
   <td class=""><%= service.get('type')%></td>
-  <td class="">138.4.24.120</td>
+  <td class=""><%= service.get('endpoints')[0].publicURL.match(re)[1].toString()%></td>
   <td class="status_up">Enabled</td>
 </tr>
 <%}%>  

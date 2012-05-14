@@ -152,3 +152,76 @@ UTILS.Render = (function(U, undefined) {
         animateRender: animateRender
     }
 })(UTILS);
+
+UTILS.i18n = (function(U, undefined) {
+    
+    var dict = {
+    };
+    
+    var params = {
+        lang : "en",
+        dict: dict
+    };
+    
+    function init() {
+        _.extend(_, {itemplate : function(html) {
+	        var simple = _.template(html);
+	        var func = function(args) {
+	            var init = simple(args)
+
+	            init = U.i18n.translate(init);
+	            return init;
+	        }
+	        return func;
+	    }});
+        
+    };
+    
+    function setlang(lang, callback) {
+        var url = "locales/"+lang+".json?random=" + Math.random()*99999;
+        $.ajax({
+            url: url,
+            success: function(data, status, xhr) {
+                console.log('loaded: ' + url);
+                U.i18n.params.dict = data;
+                if (callback != undefined)
+                    callback();
+            },
+            error : function(xhr, status, error) {
+                console.log('failed loading: ' + url);
+                console.log(error);
+                console.log(status);
+                if (callback != undefined)
+                    callback();
+            },
+            dataType: "json"
+        });
+    }
+    
+    function translateNodes(el) {
+        var html = $(el);
+        var items = html.find("*[data-i18n]");
+        items.each(function(index, item) {
+            var item = $(items[index], el);
+            var newItem = U.i18n.params.dict[item.attr("data-i18n")];
+            if (newItem != undefined) {
+                var copy = item.clone();
+                item.text(newItem);
+                html.find(copy).replaceWith(item);
+            }
+        });
+        return html;
+    };
+    
+    function translate(html) {
+        html = translateNodes(html);
+        return html;
+    }
+    
+    return {
+        params      :     params,
+        init        :     init,
+        setlang     :     setlang,
+        translate   :     translate
+    }
+})(UTILS);

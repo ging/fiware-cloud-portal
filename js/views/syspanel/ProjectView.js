@@ -3,8 +3,8 @@ var ProjectView = Backbone.View.extend({
     _template: _.template($('#projectsTemplate').html()),
     
     initialize: function() {
-        this.model.fetch();
         this.model.bind("reset", this.rerender, this);
+        this.render();
     },
     
     render: function () {
@@ -13,6 +13,8 @@ var ProjectView = Backbone.View.extend({
     },
     
     rerender: function() {
-        $(this.el).empty().html(this._template(this.model));
+        if ($("#tenants").html() != null) {
+            $(this.el).empty().html(this._template(this.model));
+        }
     } 
 });

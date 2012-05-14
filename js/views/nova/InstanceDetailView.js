@@ -19,7 +19,7 @@ var InstanceDetailView = Backbone.View.extend({
     },
     
     onVNC: function(resp) {
-        $('#instance_details__vnc').html('<h3>Instance VNC Console</h3><p class="alert alert-info">If VNC console is not responding to keyboard input: click the grey status bar below.</p><iframe src="' + resp.console.url + '" width="720" height="430"></iframe>');
+        $('#instance_details__vnc').html('<h3>Instance VNC Console</h3><p class="alert alert-info">If VNC console is not responding to keyboard input: click the grey status bar below.</p><iframe src="' + resp.console.url + '" width="720" height="450"></iframe>');
     },
     
     showLogs: function() {

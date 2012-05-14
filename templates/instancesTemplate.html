@@ -1,9 +1,8 @@
 <script id="instancesTemplate" type="text/html">
-<div id="instances">
-	<div class="table_wrapper">
+<div id="instances" class="table_wrapper">
 		<form action="/syspanel/instances/" method="POST"><div style='display:none'><input type='hidden' name='csrfmiddlewaretoken' value='13de1d539e7690548408d1be1856eb9c' /></div>
 		<div class='table_header'>
-		  <h3 class='table_title'>Instances</h3>
+		  <h3 class='table_title' data-i18n='Instances'>Instances</h3>
 		  <div class="table_actions clearfix">
 		    <a  id="terminate_instances" class="btn btn-small btn-danger btn-terminate" disabled=true name="action" value="terminate_instances" type="submit">Terminate Instances</a>
 		  </div>
@@ -12,10 +11,8 @@
 		    <thead>
 		      <tr>       
 		          <th class="multi_select_column"></th>        
-		          <th class="">Tenant</th>        
-		          <th class="">User</th>        
-		          <th class="">Instance ID</th>        
-		          <th class="">Host</th>        
+		          <th class="" data-i18n="Tenant">Tenant</th>        
+		          <th class="" data-i18n="Host">Host</th>        
 		          <th class="">Instance Name</th>        
 		          <th class="">IP Address</th>        
 		          <th class="">Size</th>        
@@ -26,24 +23,58 @@
 		      </tr>
 		    </thead>
 		    <tbody>
-		     <%console.log(models);
+		     <%
+		        var tenants = {};
+		        var flavorlist = {};
+		        for (var index in projects.models) {
+		            var project = projects.models[index];
+		            tenants[project.id] = project.get("name");
+		        }
+		        for (var index in flavors.models) {
+                    var flavor = flavors.models[index];
+                    flavorlist[flavor.id] = flavor.get("ram") + " MB RAM | " + flavor.get("vcpus") + " VCPU | " + flavor.get("disk") + "GB Disk";
+                }
+		        
+                var POWER_STATES = {
+                    0: "NO STATE",
+                    1: "RUNNING",
+                    2: "BLOCKED",
+                    3: "PAUSED",
+                    4: "SHUTDOWN",
+                    5: "SHUTOFF",
+                    6: "CRASHED",
+                    7: "SUSPENDED",
+                    8: "FAILED",
+                    9: "BUILDING"
+                };
 		   		for (var index in models) { 
 				var instance = models[index];
-				console.log("Instance");
-				console.log(JSON.stringify(instance));
 			 %> 
 			 <tr  data-update-interval="2500" data-update-url="/syspanel/instances/?action=row_update&amp;table=instances&amp;obj_id=<%= instance.get('id')%>" id="instances__row__<%= instance.get('id')%>" class="ajax-update status_down">
 			  <td class="multi_select_column"><input type="checkbox" name="object_ids" id="checkbox_<%= instance.get('id')%>" class="checkbox_instance" value="<%= instance.get('id')%>" /></td>
-			  <td class=""><%= instance.get('tenant_id')%></td>
-			  <td class=""><%= instance.get('user_id')%></td>
-			  <td class=""><%= instance.get('id')%></td>
-			  <td class="">-</td>
-			  <td class=""><a href="#nova/instances_and_volumes/instances/<%=instance.id%>/detail"><%= instance.get('name')%></a></td>
-			  <td class=""></td>
-			  <td class="">2GB RAM | 1 VCPU | 10.0GB Disk</td>
-			  <td class="status_down"><%= instance.get('status')%></td>
-			  <td class="status_unknown"><%= instance.get('OS-EXT-STS:task_state')%></td>
-			  <td class="">No State</td>
+			  <td class=""><%= tenants[instance.get("tenant_id")]%></td>
+			  <td class=""><%= instance.get('OS-EXT-SRV-ATTR:host')%></td>
+              <td class=""><a href="#nova/instances_and_volumes/instances/<%=instance.id%>/detail"><%= instance.get('name')%></a></td>
+			  <td class="">
+                    <ul>
+                        <% 
+                        
+    
+                        if (instance.get("addresses") != null && instance.get("addresses").public != null) {
+                            var addresses = instance.get("addresses").public;
+                            var i = 0;
+                            for (var index in addresses) {
+                                i++; 
+                                var address = addresses[index];
+                        %>
+                        <li><%= address.addr %></li>
+                        <% }} %>
+                    </ul>
+                </td>
+			  <td class="nowrap-col"><%=flavorlist[instance.get("flavor").id]%></td>
+			  <td class="status_up"><%= instance.get('status')%></td>
+			  <td class="status_up"><%= instance.get("OS-EXT-STS:task_state") ? instance.get("OS-EXT-STS:task_state") : "None"%></td>
+			  <td class=""><%= POWER_STATES[instance.get("OS-EXT-STS:power_state")]%></td>
 			  <td class="actions_column">
 				<div class="btn-group">
 				  <a href='#nova/instances_and_volumes/instances/<%= instance.get('id')%>/update'  id="instances__action_edit__0" class="btn btn-small ajax-modal btn-edit">Edit Instance</a>
@@ -72,6 +103,5 @@
 		    </tfoot>
 		  </table>
 		</form>
-	</div>
 </div>
 </script>

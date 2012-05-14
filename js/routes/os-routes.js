@@ -12,6 +12,7 @@ var OSRouter = Backbone.Router.extend({
     flavors: undefined,
     images: undefined,
     keypairsModel: undefined,
+    projects: undefined,
     
     timers: [],
     
@@ -22,16 +23,21 @@ var OSRouter = Backbone.Router.extend({
     },
 	
 	initialize: function() {
+	    UTILS.i18n.setlang('en');
 	    this.loginModel = new LoginStatus();
 	    this.instancesModel = new Instances();
 	    this.flavors = new Flavors();
 	    this.images = new Images();
 	    this.keypairsModel = new Keypairs();
+	    this.projects = new Projects();
+	    
 	    this.rootView = new RootView({model:this.loginModel, auth_el: '#auth', root_el: '#root'});
 	    this.route('', 'init', this.wrap(this.init, this.checkAuth));
 	    this.route('#', 'init', this.wrap(this.init, this.checkAuth));
 	    this.route('syspanel', 'syspanel', this.wrap(this.sys_overview, this.checkAuth));
 	    this.route('syspanel/', 'syspanel', this.wrap(this.sys_overview, this.checkAuth));
+	    
+	    this.route('settings/', 'settings', this.wrap(this.showSettings, this.checkAuth));
 
 	    this.route('nova', 'nova', this.wrap(this.nova_overview, this.checkAuth));
 	    this.route('nova/', 'nova', this.wrap(this.nova_overview, this.checkAuth));
@@ -64,8 +70,6 @@ var OSRouter = Backbone.Router.extend({
 	    this.route('nova/images_and_snapshots/:name/update', 'edit_image',  _.wrap(this.edit_image, this.checkAuth));		
 	    
 	    this.route('nova/instances_and_volumes/instances/:id/detail', 'consult_instance',  _.wrap(this.consult_instance, this.checkAuth));
-	    
-	    
 	},
 	
 	wrap: function(func, wrapper, arguments) {
@@ -82,6 +86,15 @@ var OSRouter = Backbone.Router.extend({
         if (!this.loginModel.get("loggedIn")) {
             window.location.href = "#auth/login";
             return;
+        } else {
+            if (this.timers.length == 0) {
+                this.add_fetch(this.instancesModel, 4);
+                this.add_fetch(this.images, 4);
+                this.add_fetch(this.flavors, 4);
+                if (this.loginModel.isAdmin()) {
+                    this.add_fetch(this.projects, 4);
+                }
+            }
         }
 	    next(this, args);
 	},
@@ -107,6 +120,19 @@ var OSRouter = Backbone.Router.extend({
 	    this.loginModel.switchTenant(id);
 	},
 	
+	showSettings: function(self) {
+	    
+	    self.top.set({"title":'Dashboard Settings'});
+        self.navs = new NavTabModels([{name: 'User Settings', active: true, url: '#settings/'}
+                ]);
+                
+        self.tabs.setActive('');
+        
+        self.showRoot(self, '');
+        var view = new SettingsView({el:'#content'});
+        view.render();
+	},
+	
 	showRoot: function(self,option) {
         self.rootView.renderRoot();
         var navTabView = new NavTabView({el: '#navtab', model: self.tabs, loginModel: self.loginModel});
@@ -115,13 +141,14 @@ var OSRouter = Backbone.Router.extend({
         var topBarView = new TopBarView({el: '#topbar', model: self.top, loginModel: self.loginModel});
         topBarView.render();
         
-        var showTenants = (self.tabs.getActive() != 'Admin');
+        var showTenants = (self.tabs.getActive() == 'Project');
         var sideBarView = new SideBarView({el: '#sidebar', model: self.navs, title: option, showTenants: showTenants, tenants: self.loginModel.get("tenants"), tenant: self.loginModel.get("tenant")});
         sideBarView.render();
 	},
 	
 	showSysRoot: function(self, option) {
-	    this.clear_fetch();
+	    //this.clear_fetch();
+	    self.top.set({"title":option});
         self.navs = new NavTabModels([{name: 'Overview', active: true, url: '#syspanel/'}, 
                                     {name: 'Instances', active: false, url: '#syspanel/instances/'},
                                     {name: 'Services', active: false, url: '#syspanel/services/'},
@@ -145,7 +172,7 @@ var OSRouter = Backbone.Router.extend({
 	
 	sys_images: function(self) {
 	    self.showSysRoot(self, 'Images');
-	    self.add_fetch(self.images, 4);
+	    //self.add_fetch(self.images, 4);
 	    var view = new ImagesView({model: self.images, el: '#content'});
 	},
 	
@@ -193,8 +220,8 @@ var OSRouter = Backbone.Router.extend({
 	    self.showSysRoot(self, 'Instances');
 	    self.instancesModel.unbind("change");
 	    self.instancesModel.alltenants = true;
-	    self.add_fetch(self.instancesModel, 4);
-	    var view = new InstanceView({model: self.instancesModel, el: '#content'});
+	    //self.add_fetch(self.instancesModel, 4);
+	    var view = new InstanceView({model: self.instancesModel, projects: self.projects, flavors: self.flavors, el: '#content'});
 	},
 
 	terminate_instances: function(self) {
@@ -222,7 +249,7 @@ var OSRouter = Backbone.Router.extend({
 	sys_flavors: function(self) {
 	    self.showSysRoot(self, 'Flavors');	
 	    self.flavors.unbind("change");
-	    self.add_fetch(self.flavors, 4);
+	    //self.add_fetch(self.flavors, 4);
 	    var view = new FlavorView({model: self.flavors, el: '#content'});
 	},
 	
@@ -251,9 +278,7 @@ var OSRouter = Backbone.Router.extend({
 	
 	sys_projects: function(self) {
 	    self.showSysRoot(self, 'Projects');
-	    var projects = new Projects();
-	    var view = new ProjectView({model:projects, el: '#content'});
-        view.render();
+	    var view = new ProjectView({model:self.projects, el: '#content'});
 	},
 	
 	sys_users: function(self) {
@@ -271,7 +296,8 @@ var OSRouter = Backbone.Router.extend({
 	},
 	
 	showNovaRoot: function(self, option) {
-        this.clear_fetch();
+        //this.clear_fetch();
+        self.top.set({"title":option});
         self.navs = new NavTabModels([   {name: 'Overview', active: true, url: '#nova/'}, 
                             {name: 'Instances &amp; Volumes', active: false, url: '#nova/instances_and_volumes/'},
                             /*{name: 'Access &amp; Security', active: false, url: '#nova/access_and_security/'},*/
@@ -296,15 +322,15 @@ var OSRouter = Backbone.Router.extend({
 	
 	nova_images_and_snapshots: function(self) {
 	    self.showNovaRoot(self, 'Images &amp; Snapshots');
-	    self.add_fetch(self.images, 4);
+	    //self.add_fetch(self.images, 4);
 	    var view = new ImagesAndSnapshotsView({el: '#content', model:self.images, flavors: self.flavors, keypairs: self.keypairsModel});
 	},
 	
 	nova_instances_and_volumes: function(self) {
 	    self.showNovaRoot(self, 'Instances &amp; Volumes');
-	    self.add_fetch(self.instancesModel, 4);
+	    //self.add_fetch(self.instancesModel, 4);
 	    self.instancesModel.alltenants = false;
-	    var view = new InstancesAndVolumesView({model:self.instancesModel, el: '#content'});
+	    var view = new InstancesAndVolumesView({model: self.instancesModel, flavors: self.flavors, el: '#content'});
         //view.render();
 	},
 	
@@ -333,7 +359,7 @@ var OSRouter = Backbone.Router.extend({
 	},
 	
 	add_fetch: function(model, seconds) {
-	    console.log("Starging timer for " + model);
+	    model.fetch();
         var id = setInterval(function() {
             model.fetch();
         }, seconds*1000);

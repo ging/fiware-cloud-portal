@@ -1,11 +1,11 @@
 var InstanceView = Backbone.View.extend({
     
-    _template: _.template($('#instancesTemplate').html()),
+    _template: _.itemplate($('#instancesTemplate').html()),
     
     initialize: function() {
         this.model.unbind("reset");
         this.model.bind("reset", this.render, this);
-        this.model.fetch();
+        this.renderFirst();
     },
     
     events:{
@@ -24,22 +24,25 @@ var InstanceView = Backbone.View.extend({
     },
     
   	enableDisableTerminateButton: function (e) {
-  		console.log("enableDisableTerminateButton called");
   		for (var index = 0; index < this.model.length; index++) { 
 			var instanceId = this.model.models[index].get('id');	 
 			if($("#checkbox_"+instanceId).is(':checked'))
 				{
    		   	   			$("#terminate_instances").attr("disabled", false);
-						return;				}
+						return;
+				}
 		}
 		$("#terminate_instances").attr("disabled", true);
     },
     
+    renderFirst: function() {
+        UTILS.Render.animateRender(this.el, this._template, {models:this.model.models, projects:this.options.projects, flavors:this.options.flavors});
+        this.enableDisableTerminateButton();
+    },
+    
     render: function () {
-        if ($("#instances").html() == null) {
-            UTILS.Render.animateRender(this.el, this._template, this.model);
-        } else {
-            var new_template = this._template(this.model);
+        if ($("#instances").html() != null) {
+            var new_template = this._template({models:this.model.models, projects:this.options.projects, flavors:this.options.flavors});
             var checkboxes = [];
             var dropdowns = [];
             for (var index in this.model.models) { 
@@ -66,9 +69,10 @@ var InstanceView = Backbone.View.extend({
                 if (drop.html() != null) {
                     drop.addClass("open");
                 }
-            }           
+            }
+            this.enableDisableTerminateButton();           
         }
-        this.enableDisableTerminateButton();
+        
         return this;
     },
 });
