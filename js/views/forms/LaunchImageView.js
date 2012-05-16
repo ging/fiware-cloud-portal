@@ -5,12 +5,11 @@ var LaunchImageView = Backbone.View.extend({
     events: {
       'click #cancelBtn': 'close',
       'click #close': 'close',
-      'click #launchBtn': 'launch'   
+      'click .modal-backdrop': 'close',
+      'click #launchBtn': 'launch'
     },
     
     initialize: function() {
-        this.options.flavors.bind("reset", this.render, this);
-        this.options.flavors.fetch();
         this.options.keypairs.fetch();
     },
     

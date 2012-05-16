@@ -14,6 +14,8 @@ var OSRouter = Backbone.Router.extend({
     keypairsModel: undefined,
     projects: undefined,
     
+    currentView: undefined,
+    
     timers: [],
     
     routes: {
@@ -29,6 +31,14 @@ var OSRouter = Backbone.Router.extend({
 	    this.images = new Images();
 	    this.keypairsModel = new Keypairs();
 	    this.projects = new Projects();
+	    
+	    Backbone.View.prototype.close = function(){
+          //this.remove();
+          this.unbind();
+          if (this.onClose){
+            this.onClose();
+          }
+        }
 	    
 	    this.rootView = new RootView({model:this.loginModel, auth_el: '#auth', root_el: '#root'});
 	    this.route('', 'init', this.wrap(this.init, this.checkAuth));
@@ -97,6 +107,16 @@ var OSRouter = Backbone.Router.extend({
         }
 	    next(this, args);
 	},
+	
+	newContentView: function (self, view) {
+
+        if (self.currentView != undefined){
+           self.currentView.close();
+        }
+    
+        self.currentView = view;
+    
+    },
 		
 	init: function(self) {
 	    if (self.loginModel.isAdmin()) {
@@ -129,6 +149,7 @@ var OSRouter = Backbone.Router.extend({
         
         self.showRoot(self, '');
         var view = new SettingsView({el:'#content'});
+         self.newContentView(self,view);
         view.render();
 	},
 	
@@ -166,6 +187,7 @@ var OSRouter = Backbone.Router.extend({
 	    self.showSysRoot(self, 'Overview');
 	    var overview = new Overview();
 	    var view = new SysOverviewView({model: overview, el: '#content'});
+	     self.newContentView(self,view);
         view.render();
 	},
 	
@@ -173,6 +195,7 @@ var OSRouter = Backbone.Router.extend({
 	    self.showSysRoot(self, 'Images');
 	    //self.add_fetch(self.images, 4);
 	    var view = new ImagesView({model: self.images, el: '#content'});
+	     self.newContentView(self,view);
 	},
 	
 	delete_images: function(self) {
@@ -205,6 +228,7 @@ var OSRouter = Backbone.Router.extend({
 	    var image = new Image();
 	    image.set({"id": id});
         var view = new ConsultImageDetailView({model: image, el: '#content'});
+         self.newContentView(self,view);
 	},
 	
 	launch_image: function(self, id) {
@@ -221,6 +245,7 @@ var OSRouter = Backbone.Router.extend({
 	    self.instancesModel.alltenants = true;
 	    //self.add_fetch(self.instancesModel, 4);
 	    var view = new InstanceView({model: self.instancesModel, projects: self.projects, flavors: self.flavors, el: '#content'});
+	     self.newContentView(self,view);
 	},
 
 	terminate_instances: function(self) {
@@ -242,6 +267,7 @@ var OSRouter = Backbone.Router.extend({
 	    console.log("Services");
 	    var services = new Services();
 	    var view = new ServiceView({model: services, el: '#content'});
+	     self.newContentView(self,view);
         view.render();
 	},
 	
@@ -250,6 +276,7 @@ var OSRouter = Backbone.Router.extend({
 	    self.flavors.unbind("change");
 	    //self.add_fetch(self.flavors, 4);
 	    var view = new FlavorView({model: self.flavors, el: '#content'});
+	     self.newContentView(self,view);
 	},
 	
 	create_flavor: function(self) {
@@ -278,12 +305,14 @@ var OSRouter = Backbone.Router.extend({
 	sys_projects: function(self) {
 	    self.showSysRoot(self, 'Projects');
 	    var view = new ProjectView({model:self.projects, el: '#content'});
+	     self.newContentView(self,view);
 	},
 	
 	sys_users: function(self) {
 	    self.showSysRoot(self, 'Users');
 	    var users = new Users();
 	    var view = new UserView({model:users, el: '#content'});
+	     self.newContentView(self,view);
         view.render();
 	},
 	
@@ -291,6 +320,7 @@ var OSRouter = Backbone.Router.extend({
 	    self.showSysRoot(self, 'Quotas');
 	    var quotas = new Quotas();
 	    var view = new QuotaView({model:quotas, el: '#content'});
+	     self.newContentView(self,view);
         view.render();
 	},
 	
@@ -310,12 +340,14 @@ var OSRouter = Backbone.Router.extend({
 	nova_overview: function(self) {
 	    self.showNovaRoot(self, 'Overview');
 	    var view = new NovaOverviewView({el: '#content'});
+	     self.newContentView(self,view);
         view.render();
 	},
 	
 	nova_access_and_security: function(self) {
 	    self.showNovaRoot(self, 'Access &amp; Security');
 	    var view = new AccessAndSecurityView({el: '#content', model: self.keypairsModel});
+	     self.newContentView(self,view);
         //view.render();
 	},
 	
@@ -323,6 +355,7 @@ var OSRouter = Backbone.Router.extend({
 	    self.showNovaRoot(self, 'Images &amp; Snapshots');
 	    //self.add_fetch(self.images, 4);
 	    var view = new ImagesAndSnapshotsView({el: '#content', model:self.images, flavors: self.flavors, keypairs: self.keypairsModel});
+	     self.newContentView(self,view);
 	},
 	
 	nova_instances_and_volumes: function(self) {
@@ -330,6 +363,7 @@ var OSRouter = Backbone.Router.extend({
 	    //self.add_fetch(self.instancesModel, 4);
 	    self.instancesModel.alltenants = false;
 	    var view = new InstancesAndVolumesView({model: self.instancesModel, flavors: self.flavors, el: '#content'});
+	     self.newContentView(self,view);
         //view.render();
 	},
 	
@@ -338,6 +372,7 @@ var OSRouter = Backbone.Router.extend({
         var instance = new Instance();
         instance.set({"id": id});
         var view = new InstanceDetailView({model: instance, el: '#content'});
+         self.newContentView(self,view);
 	},
 	
 	update_instance: function(self, id) {

@@ -2,19 +2,24 @@ var InstanceDetailView = Backbone.View.extend({
     
     _template: _.itemplate($('#instanceDetailTemplate').html()),
     
-    events: {
-        'click #instance_vnc': 'showVNC',
-        'click #instance_logs': 'showLogs'
-    },
-    
     initialize: function() {
+        this.delegateEvents({
+            'click #instance_vnc': 'showVNC',
+            'click #instance_logs': 'showLogs'
+        });
         this.model.bind("change", this.onInstanceDetail, this);
         this.model.fetch();
+    },
+    
+    onClose: function() {
+        this.undelegateEvents();
+        this.unbind();
     },
     
     showVNC: function() {
         var options = {};
         options.callback = this.onVNC;
+        
         this.model.vncconsole(options);
     },
     
@@ -25,6 +30,7 @@ var InstanceDetailView = Backbone.View.extend({
     showLogs: function() {
         var options = {};
         options.callback = this.onLogs;
+        console.log("Showing logs for " + this.model.id);
         this.model.consoleoutput(options);
     },
     
@@ -48,6 +54,10 @@ var InstanceDetailView = Backbone.View.extend({
         } else {
             $(this.el).html(this._template({model:this.model, flavor:this.options.flavor, image:this.options.image}));
         }
+        $("#instance_vnc").unbind();
+        $("#instance_logs").unbind();
+        $("#instance_vnc").bind("click", this.showVNC);
+        $("#instance_logs").bind("click", this.showLogs);
         return this;
     },
 });
