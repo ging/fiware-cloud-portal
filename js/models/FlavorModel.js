@@ -16,7 +16,7 @@ var Flavor = Backbone.Model.extend({
                    			undefined, options.success);
                    break;
            }
-   },
+    },
     
     parse: function(resp) {
         if (resp.flavor != undefined) {
@@ -36,6 +36,10 @@ var Flavors = Backbone.Collection.extend({
                 JSTACK.Nova.getflavorlist(true, options.success);
                 break;
         }
+    },
+    
+    comparator: function(flavor) {
+        return flavor.get("id");
     },
     
     parse: function(resp) {
