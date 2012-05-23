@@ -14,7 +14,7 @@
     "Language Settings": "Подесување на Јазик",
     "From here you can modify different settings for your dashboard.": "Тука можеш да ги измениш различните подесувања за твојот dashboard.",
     
-    "Instances & Volumes": "Инстанци и Волумени",
+    "Instances & Volumes": "Инстанци и Простори",
     "Images & Snapshots": "Слики и Снимки",
     
     "System Panel": "Систем Панел",
@@ -25,8 +25,8 @@
     "Instance": "Инстанца",
     "Services": "Сервиси",
     "Service": "Сервис",
-    "Flavors": "Вкусови",
-    "Flavor": "Вкус",
+    "Flavors": "Врста",
+    "Flavor": "Врсти",
     "Images": "Слики",
     "Image": "Слика",
     "Projects": "Проекти",
@@ -91,14 +91,14 @@
     "Modify Quotas": "Модифицирајте Квоти",
     "Delete Project": "Избришете Проекти",
     
-    "Create Flavor": "Креирајте Вкус",
-    "Delete Flavors": "Избришете Вкусови",
-    "Flavor Name": "Име на Вкус",
+    "Create Flavor": "Креирајте Врста",
+    "Delete Flavors": "Избришете Врсти",
+    "Flavor Name": "Име на Врста",
     "VCPUs": "VCPUs",
     "Memory": "Меморија",
     "Disk": "Диск",
     "Ephemeral Disk": "Ефемерни диск",
-    "Delete Flavor": "Избришете Вкус",
+    "Delete Flavor": "Избришете Врста",
     
     "Quota Name": "Име на Квота",
     "Limit": "Ограничување",

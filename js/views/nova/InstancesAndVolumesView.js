@@ -34,6 +34,7 @@ var InstancesAndVolumesView = Backbone.View.extend({
     },
     
     onTerminate: function(evt) {
+    	console.log("Event target = "+evt.target.value);
         var instance = evt.target.value;
         var inst = this.model.get(instance);
         var subview = new ConfirmView({el: 'body', title: "Terminate Instance", btn_message: "Terminate Instance", onAccept: function() {

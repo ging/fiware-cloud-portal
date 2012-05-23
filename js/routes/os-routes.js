@@ -64,10 +64,7 @@ var OSRouter = Backbone.Router.extend({
 	    this.route('syspanel/users/', 'users',  _.wrap(this.sys_users, this.checkAuth));
 	    this.route('syspanel/quotas/', 'quotas',  _.wrap(this.sys_quotas, this.checkAuth));
 	    
-	    this.route('syspanel/flavors/create', 'create_flavor',  _.wrap(this.create_flavor, this.checkAuth));
-	    this.route('syspanel/flavors/delete', 'delete_flavors',  _.wrap(this.delete_flavors, this.checkAuth));
-	    this.route('syspanel/flavor/:id/delete', 'delete_flavor',  _.wrap(this.delete_flavor, this.checkAuth));
-	    
+	    this.route('syspanel/flavors/create', 'create_flavor',  _.wrap(this.create_flavor, this.checkAuth));    
 	    this.route('syspanel/images/delete', 'delete_images',  _.wrap(this.delete_images, this.checkAuth));        
 
 	    this.route('nova/instances_and_volumes/instances/:id/update', 'update_instance', this.wrap(this.update_instance, this.checkAuth));
@@ -245,29 +242,15 @@ var OSRouter = Backbone.Router.extend({
 	    self.instancesModel.alltenants = true;
 	    //self.add_fetch(self.instancesModel, 4);
 	    var view = new InstanceView({model: self.instancesModel, projects: self.projects, flavors: self.flavors, el: '#content'});
-	     self.newContentView(self,view);
+	    self.newContentView(self,view);
 	},
 
-	terminate_instances: function(self) {
-	    console.log("Received terminate for instances");
-        var view = new TerminateInstancesView({model: self.instancesModel, el: 'body'});
-        view.render();
-        self.navigate('#syspanel/instances/', {trigger: false, replace: true});
-	},
-	
-	reboot_instances: function(self) {
-	    console.log("Received reboot");
-        var view = new RebootInstancesView({model: self.instancesModel, el: 'body'});
-        view.render();
-        self.navigate('#syspanel/instances/', {trigger: false, replace: true});
-	},
-	
 	sys_services: function(self) {
 	    self.showSysRoot(self, 'Services');
 	    console.log("Services");
 	    var services = new Services();
 	    var view = new ServiceView({model: services, el: '#content'});
-	     self.newContentView(self,view);
+	    self.newContentView(self,view);
         view.render();
 	},
 	
@@ -276,28 +259,12 @@ var OSRouter = Backbone.Router.extend({
 	    self.flavors.unbind("change");
 	    //self.add_fetch(self.flavors, 4);
 	    var view = new FlavorView({model: self.flavors, el: '#content'});
-	     self.newContentView(self,view);
+	    self.newContentView(self,view);
 	},
 	
 	create_flavor: function(self) {
 	    var flavor = new Flavor();
         var view = new CreateFlavorView({model: flavor, el: 'body'});
-        view.render();
-        self.navigate('#syspanel/flavors/', {trigger: false, replace: true});
-	},
-	
-	delete_flavors: function(self) {
-        var view = new DeleteFlavorsView({model: self.flavors, el: 'body'});
-        view.render();
-        self.navigate('#syspanel/flavors/', {trigger: false, replace: true});
-	},
-	
-	delete_flavor: function(self, id) {
-	    console.log("Received delete for flavor: " + id);
-	    var flavor = new Flavor();
-	    flavor.set({"id": id});
-	    console.log(flavor.get("id"));
-        var view = new DeleteFlavorView({model: flavor, el: 'body'});
         view.render();
         self.navigate('#syspanel/flavors/', {trigger: false, replace: true});
 	},

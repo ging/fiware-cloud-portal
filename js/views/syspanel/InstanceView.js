@@ -2,37 +2,67 @@ var InstanceView = Backbone.View.extend({
     
     _template: _.itemplate($('#instancesTemplate').html()),
     
+    dropdownId: undefined,
+    
     initialize: function() {
         this.model.unbind("reset");
         this.model.bind("reset", this.render, this);
         this.renderFirst();
     },
     
-    events:{
-   		'change .checkbox_instance':'enableDisableTerminateButton',
-   		'click #terminate_instances': 'checkIfDisabled'
+    events:{ 		
+   		'change .checkbox':'enableDisableTerminateButton',
+        'click .btn-password':'onChangePassword',
+        'click .btn-reboot':'onReboot',
+        'click .btn-terminate':'onTerminate',
+        'click .btn-terminate-group':'onTerminateGroup'
   	},
-  	
-  	checkIfDisabled: function (e) {
-  		for (var index = 0; index < this.model.length; index++) { 
-			var instanceId = this.model.models[index].get('id');	 
-			if($("#checkbox_"+instanceId).is(':checked'))
-				{
-					$("#terminate_instances").attr("href", "#syspanel/instances/terminate");
-				}
-		}	console.log("Button disabled");		
+    
+    onChangePassword: function(evt) {
+        var instance = evt.target.value;
+        var subview = new ChangePasswordView({el: 'body', model: this.model.get(instance)});
+        subview.render();
     },
     
-  	enableDisableTerminateButton: function (e) {
-  		for (var index = 0; index < this.model.length; index++) { 
-			var instanceId = this.model.models[index].get('id');	 
-			if($("#checkbox_"+instanceId).is(':checked'))
-				{
-   		   	   			$("#terminate_instances").attr("disabled", false);
-						return;
-				}
-		}
-		$("#terminate_instances").attr("disabled", true);
+    onReboot: function(evt) {
+        var instance = evt.target.value;
+        var inst = this.model.get(instance);
+        var subview = new ConfirmView({el: 'body', title: "Reboot Instance", btn_message: "Reboot Instance", onAccept: function() {
+            inst.reboot(false);
+        }});
+        subview.render();
+    },
+    
+    onTerminate: function(evt) {
+    	console.log("Event target = "+evt.target.value);
+        var instance = evt.target.value;
+        var inst = this.model.get(instance);
+        var subview = new ConfirmView({el: 'body', title: "Terminate Instance", btn_message: "Terminate Instance", onAccept: function() {
+            inst.destroy();
+        }});
+        subview.render();
+    },
+    
+    onTerminateGroup: function(evt) {
+        var self = this;
+        var subview = new ConfirmView({el: 'body', title: "Terminate Instances", btn_message: "Terminate Instances", onAccept: function() {
+            $(".checkbox:checked").each(function () {
+                    var instance = $(this).val(); 
+                    console.log("Instance to delete: " + instance);
+                    var inst = self.model.get(instance);
+                    inst.destroy();
+            });
+        }});
+        subview.render();
+    },
+    
+    enableDisableTerminateButton: function () {
+        if ($(".checkbox:checked").size() > 0) { 
+            $("#instances_terminate").attr("disabled", false);
+        } else {
+            $("#instances_terminate").attr("disabled", true);
+        }
+        
     },
     
     renderFirst: function() {

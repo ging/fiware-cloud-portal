@@ -87,11 +87,23 @@
                             <ul class="dropdown-menu row_actions clearfix">
                                 <% 
                                 if (instance.get("status") != "ERROR") { %>
+                                	<li class="clearfix">
+                                		<button  id="instances__action_vnc__<%=i%>" class="btn btn-small btn-vnc" name="action" value="<%= instance.id %>" type="submit" data-i18n="VNC Console">VNC Console</button>
+                            		</li>
+                      				<li class="clearfix">
+                                		<button  id="instances__action_log__<%=i%>" class="btn btn-small btn-log" name="action" value="<%= instance.id %>" type="submit" data-i18n="View Log">View Log</button>
+                            		</li>
+                            		<li class="clearfix">
+                                		<button  id="instances__action_snapshot__<%=i%>" class="btn btn-small btn-snapshot" name="action" value="<%= instance.id %>" type="submit" data-i18n="Snapshot">Snapshot</button>
+                            		</li>
+                            		<li class="clearfix">
+                                		<button  id="instances__action_pause__<%=i%>" class="btn btn-small btn-pause" name="action" value="<%= instance.id %>" type="submit" data-i18n="Pause Instance">Pause Instance</button>
+                            		</li>
+                            		<li class="clearfix">
+                                		<button  id="instances__action_suspend__<%=i%>" class="btn btn-small btn-suspend" name="action" value="<%= instance.id %>" type="submit" data-i18n="Suspend Instance">Suspend Instance</button>
+                            		</li>
                                     <li class="clearfix">
                                         <button  id="instances__action_password__<%=i%>" class="btn btn-small btn-danger btn-password" name="action" value="<%= instance.id %>" type="submit" data-i18n="Change Password">Change Password</button>
-                                    </li>
-                                    <li class="clearfix">
-                                        <button  id="instances__action_snapshot__<%=i%>" class="btn btn-small btn-danger btn-snapshot" name="action" value="<%= instance.id %>" type="submit" data-i18n="Create Snapshot">Create Snapshot</button>
                                     </li>
                                     <li class="clearfix">
                                         <button  id="instances__action_reboot__<%=i%>" class="btn btn-small btn-danger btn-reboot" name="action" value="<%= instance.id %>" type="submit" data-i18n="Reboot Instance">Reboot Instance</button>

@@ -1,10 +1,9 @@
 <script id="instancesTemplate" type="text/html">
-<div id="instances" class="table_wrapper">
-		<form action="/syspanel/instances/" method="POST"><div style='display:none'><input type='hidden' name='csrfmiddlewaretoken' value='13de1d539e7690548408d1be1856eb9c' /></div>
+	<div id="instances" class="table_wrapper">
 		<div class='table_header'>
 		  <h3 class='table_title' data-i18n='Instances'>Instances</h3>
 		  <div class="table_actions clearfix">
-		    <a  id="terminate_instances" class="btn btn-small btn-danger btn-terminate" disabled=true name="action" value="terminate_instances" type="submit" data-i18n="Terminate Instance">Terminate Instances</a>
+		    <button  id="instances_terminate" disabled=true class="btn btn-small btn-danger btn-terminate-group" name="action" value="instances__terminate" class="instances_terminate" type="submit" data-i18n="Terminate Instance">Terminate Instances</button>
 		  </div>
 		</div>
 		  <table id="instances" class="table table-bordered table-striped">
@@ -33,8 +32,7 @@
 		        for (var index in flavors.models) {
                     var flavor = flavors.models[index];
                     flavorlist[flavor.id] = flavor.get("ram") + " MB RAM | " + flavor.get("vcpus") + " VCPU | " + flavor.get("disk") + "GB Disk";
-                }
-		        
+                }		        
                 var POWER_STATES = {
                     0: "NO STATE",
                     1: "RUNNING",
@@ -51,15 +49,13 @@
 				var instance = models[index];
 			 %> 
 			 <tr  data-update-interval="2500" data-update-url="/syspanel/instances/?action=row_update&amp;table=instances&amp;obj_id=<%= instance.get('id')%>" id="instances__row__<%= instance.get('id')%>" class="ajax-update status_down">
-			  <td class="multi_select_column"><input type="checkbox" name="object_ids" id="checkbox_<%= instance.get('id')%>" class="checkbox_instance" value="<%= instance.get('id')%>" /></td>
+			  <td class="multi_select_column"><input type="checkbox" name="object_ids" id="checkbox_<%= instance.get('id')%>" class="checkbox" value="<%= instance.get('id')%>" /></td>
 			  <td class=""><%= tenants[instance.get("tenant_id")]%></td>
 			  <td class=""><%= instance.get('OS-EXT-SRV-ATTR:host')%></td>
               <td class=""><a href="#nova/instances_and_volumes/instances/<%=instance.id%>/detail"><%= instance.get('name')%></a></td>
 			  <td class="">
                     <ul>
-                        <% 
-                        
-    
+                        <%               
                         if (instance.get("addresses") != null && instance.get("addresses").public != null) {
                             var addresses = instance.get("addresses").public;
                             var i = 0;
@@ -81,13 +77,34 @@
 			      <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
 			       <span class="caret"></span>
 			      </a>
-			       <ul class="dropdown-menu row_actions clearfix">        
-			          <li class="clearfix">             
-			 			 <a href="#syspanel/instances/terminate"  id="terminate_instance" class="btn btn-small btn-danger btn-terminate" name="action" value="<%= instance.get('id')%>" type="submit" data-i18n="Terminate Instance">Terminate Instance</a>
-					  </li> 
-					  <li class="clearfix">             
-			 			 <a href="#syspanel/instances/reboot"  id="reboot_instance" class="btn btn-small btn-danger btn-terminate" name="action" value="<%= instance.get('id')%>" type="submit" data-i18n="Reboot Instance">Reboot Instance</a>
-					  </li>
+			       <ul class="dropdown-menu row_actions clearfix">    
+						<% 
+                     	if (instance.get("status") != "ERROR") { %>
+                     		<li class="clearfix">
+                                <button  id="instances__action_vnc__<%=i%>" class="btn btn-small btn-vnc" name="action" value="<%= instance.id %>" type="submit" data-i18n="VNC Console">VNC Console</button>
+                            </li>
+                      		<li class="clearfix">
+                                <button  id="instances__action_log__<%=i%>" class="btn btn-small btn-log" name="action" value="<%= instance.id %>" type="submit" data-i18n="View Log">View Log</button>
+                            </li>
+                            <li class="clearfix">
+                                <button  id="instances__action_snapshot__<%=i%>" class="btn btn-small btn-snapshot" name="action" value="<%= instance.id %>" type="submit" data-i18n="Snapshot">Snapshot</button>
+                            </li>
+                            <li class="clearfix">
+                                <button  id="instances__action_pause__<%=i%>" class="btn btn-small btn-pause" name="action" value="<%= instance.id %>" type="submit" data-i18n="Pause Instance">Pause Instance</button>
+                            </li>
+                            <li class="clearfix">
+                                <button  id="instances__action_suspend__<%=i%>" class="btn btn-small btn-suspend" name="action" value="<%= instance.id %>" type="submit" data-i18n="Suspend Instance">Suspend Instance</button>
+                            </li>
+                            <li class="clearfix">
+                                <button  id="instances__action_password__<%=i%>" class="btn btn-small btn-danger btn-password" name="action" value="<%= instance.id %>" type="submit" data-i18n="Change Password">Change Password</button>
+                            </li>
+                            <li class="clearfix">
+                                <button  id="instances__action_reboot__<%=i%>" class="btn btn-small btn-danger btn-reboot" name="action" value="<%= instance.id %>" type="submit" data-i18n="Reboot Instance">Reboot Instance</button>
+                            </li>
+                        <% } %>
+                       	<li class="clearfix">
+                     		<button  id="instances__action_terminate__<%=i%>" class="btn btn-small btn-danger btn-terminate" name="action" value="<%= instance.id %>" type="submit" data-i18n="Terminate Instance">Terminate Instance</button>
+                    	</li>
 			       </ul>  
 				</div>
 			  </td>
@@ -102,6 +119,5 @@
 		      </td>
 		    </tfoot>
 		  </table>
-		</form>
-</div>
+	</div>
 </script>
