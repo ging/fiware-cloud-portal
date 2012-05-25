@@ -56,26 +56,28 @@ var OSRouter = Backbone.Router.extend({
 	    this.route('nova/images_and_snapshots/', 'images_and_snapshots', this.wrap(this.nova_images_and_snapshots, this.checkAuth));
 
 	    this.route('home/', 'home', this.wrap(this.init, this.checkAuth));
-	    this.route('syspanel/images/images/', 'images',  _.wrap(this.sys_images, this.checkAuth));
-	    this.route('syspanel/instances/', 'instances',  _.wrap(this.sys_instances, this.checkAuth));
-	    this.route('syspanel/services/', 'services',  _.wrap(this.sys_services, this.checkAuth));
-	    this.route('syspanel/flavors/', 'flavors',  _.wrap(this.sys_flavors, this.checkAuth));	    
-	    this.route('syspanel/projects/', 'projects',  _.wrap(this.sys_projects, this.checkAuth));
-	    this.route('syspanel/users/', 'users',  _.wrap(this.sys_users, this.checkAuth));
-	    this.route('syspanel/quotas/', 'quotas',  _.wrap(this.sys_quotas, this.checkAuth));
+	    this.route('syspanel/images/images/', 'images',  this.wrap(this.sys_images, this.checkAuth));
+	    this.route('syspanel/instances/', 'instances',  this.wrap(this.sys_instances, this.checkAuth));
+	    this.route('syspanel/services/', 'services',  this.wrap(this.sys_services, this.checkAuth));
+	    this.route('syspanel/flavors/', 'flavors',  this.wrap(this.sys_flavors, this.checkAuth));	    
+	    this.route('syspanel/projects/', 'projects',  this.wrap(this.sys_projects, this.checkAuth));
+	    this.route('syspanel/users/', 'users',  this.wrap(this.sys_users, this.checkAuth));
+	    this.route('syspanel/quotas/', 'quotas',  this.wrap(this.sys_quotas, this.checkAuth));
 	    
-	    this.route('syspanel/flavors/create', 'create_flavor',  _.wrap(this.create_flavor, this.checkAuth));    
-	    this.route('syspanel/images/delete', 'delete_images',  _.wrap(this.delete_images, this.checkAuth));        
+	    this.route('syspanel/flavors/create', 'create_flavor',  this.wrap(this.create_flavor, this.checkAuth));    
+	    this.route('syspanel/images/delete', 'delete_images',  this.wrap(this.delete_images, this.checkAuth));        
 
 	    this.route('nova/instances_and_volumes/instances/:id/update', 'update_instance', this.wrap(this.update_instance, this.checkAuth));
 	    
 	    this.route('nova/images_and_snapshots/:id/delete', 'delete_image',  this.wrap(this.delete_image, this.checkAuth));
-	    this.route('nova/images_and_snapshots/:id/update', 'edit_image',  _.wrap(this.edit_image, this.checkAuth));
+	    this.route('nova/images_and_snapshots/:id/update', 'edit_image',  this.wrap(this.edit_image, this.checkAuth));
 	    this.route('nova/images_and_snapshots/:id', 'consult_image',  this.wrap(this.consult_image, this.checkAuth));
 	    this.route('nova/images_and_snapshots/:id/launch/', 'launch_image',  this.wrap(this.launch_image, this.checkAuth));
-	    this.route('nova/images_and_snapshots/:name/update', 'edit_image',  _.wrap(this.edit_image, this.checkAuth));		
+	    this.route('nova/images_and_snapshots/:name/update', 'edit_image',  this.wrap(this.edit_image, this.checkAuth));		
 	    
-	    this.route('nova/instances_and_volumes/instances/:id/detail', 'consult_instance',  _.wrap(this.consult_instance, this.checkAuth));
+	    //this.route('nova/instances_and_volumes/instances/:id/detail', 'consult_instance',  _.wrap(this.consult_instance, this.checkAuth));
+	    this.route('nova/instances_and_volumes/instances/:id/detail?view=:subview', 'consult_instance',  this.wrap(this.consult_instance, this.checkAuth));
+	    this.route('nova/instances_and_volumes/instances/:id/detail', 'consult_instance',  this.wrap(this.consult_instance, this.checkAuth));
 	},
 	
 	wrap: function(func, wrapper, arguments) {
@@ -87,7 +89,9 @@ var OSRouter = Backbone.Router.extend({
         };
     },
 	
-	checkAuth: function(next, args) {
+	checkAuth: function() {
+		
+		var next = arguments[0];
         this.rootView.options.next_view = Backbone.history.fragment;
         if (!this.loginModel.get("loggedIn")) {
             window.location.href = "#auth/login";
@@ -102,7 +106,8 @@ var OSRouter = Backbone.Router.extend({
                 }
             }
         }
-	    next(this, args);
+        var args = [this].concat(Array.prototype.slice.call(arguments, 1));
+	    next.apply(this, args);
 	},
 	
 	newContentView: function (self, view) {
@@ -334,7 +339,7 @@ var OSRouter = Backbone.Router.extend({
         //view.render();
 	},
 	
-	consult_instance: function(self, id) {
+	consult_instance: function(self, id, subview) {
 	    self.showNovaRoot(self, 'Instances &amp; Volumes');
         var instance = new Instance();
         instance.set({"id": id});

@@ -2,6 +2,7 @@ var InstanceDetailView = Backbone.View.extend({
     
     _template: _.itemplate($('#instanceDetailTemplate').html()),
     
+    
     initialize: function() {
         this.delegateEvents({
             'click #instance_vnc': 'showVNC',

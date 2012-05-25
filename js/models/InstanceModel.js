@@ -2,6 +2,7 @@ var Instance = Backbone.Model.extend({
     
     _action:function(method, options) {
         var model = this;
+        if (options == null) options = {};
         options.success = function(resp) {
             model.trigger('sync', model, resp, options);
             if (options.callback!=undefined) {
@@ -10,6 +11,23 @@ var Instance = Backbone.Model.extend({
         }
         var xhr = (this.sync || Backbone.sync).call(this, method, this, options);
         return xhr;
+    },
+    
+    pauseserver: function(options) {
+    	console.log("Enter pause server");
+    	return this._action('pause', options);
+    },
+    
+    unpauseserver: function(options) {
+    	return this._action('unpause', options);
+    },
+    
+    suspendserver: function(options) {
+    	return this._action('suspend', options);
+    },
+    
+    resumserver: function(options) {
+    	return this._action('resume', options);
     },
          
     reboot: function(soft, options) {
@@ -90,6 +108,18 @@ var Instance = Backbone.Model.extend({
                 break;
             case "revert-resize":
                 JSTACK.Nova.revertresizedserver(nmodel.get("id"), options.success);
+                break;
+            case "pause":
+                JSTACK.Nova.pauseserver(model.get("id"), options.success);
+                break;
+            case "unpause":
+                JSTACK.Nova.unpauseserver(model.get("id"), options.success);
+                break;
+            case "suspend":
+                JSTACK.Nova.suspendserver(model.get("id"), options.success);
+                break;
+            case "resume":
+                JSTACK.Nova.resumeserver(nmodel.get("id"), options.success);
                 break;
             case "change-password":
                 JSTACK.Nova.changepasswordserver(model.get("id"), options.adminPass, options.success);

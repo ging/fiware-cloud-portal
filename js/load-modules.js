@@ -55,6 +55,7 @@ var loadViews = function() {
                 "js/views/forms/LaunchImageView.js",
                 "js/views/forms/ConsultImageDetailView.js",
                 "js/views/forms/ChangePasswordView.js",
+                "js/views/forms/CreateSnapshotView.js",
                 "js/views/forms/ConfirmView.js",
                 "js/views/nova/InstanceDetailView.js",
                 "js/views/SettingsView.js"
@@ -128,6 +129,7 @@ var loadTemplates = function() {
                     'templates/consultImageDetailFormTemplate.html',
                     'templates/rebootInstancesFormTemplate.html',
                     'templates/changePasswordFormTemplate.html',
+                    'templates/createSnapshotFormTemplate.html',
                     'templates/confirmTemplate.html',
                     'templates/instanceDetailTemplate.html',
                     'templates/settingsTemplate.html'
