@@ -12,29 +12,17 @@ var InstanceView = Backbone.View.extend({
     
     events:{ 		
    		'change .checkbox':'enableDisableTerminateButton',
-   		//'click .btn-vnc':'onVNC',
-   		//'click .btn-log':'onLog',
    		'click .btn-snapshot':'onSnapshot',
    		'click .btn-pause':'onPause',
+   		'click .btn-unpause':'onUnpause',
    		'click .btn-suspend':'onSuspend',
+   		'click .btn-resume':'onResume',
         'click .btn-password':'onChangePassword',
         'click .btn-reboot':'onReboot',
         'click .btn-terminate':'onTerminate',
         'click .btn-terminate-group':'onTerminateGroup'
   	},
-  	
-  	/*onVNC: function(evt) {
-        var instance = $('.btn-vnc').attr('value');
-        console.log("Event target value="+instance);
-		$(".btn-vnc").attr("href", "#nova/instances_and_volumes/instances/"+instance+"/detail");    
-	},
-	
-	onLog: function(evt) {
-        var instance = $('.btn-log').attr('value');
-        console.log("Event target value="+instance);
-		$(".btn-log").attr("href", "#nova/instances_and_volumes/instances/"+instance+"/detail");
-	},*/
-	
+  		
 	onSnapshot: function(evt) {
     	console.log("Event target value="+evt.target.value);
     	console.log("Instance= "+this.model.get(evt.target.value));
@@ -49,6 +37,14 @@ var InstanceView = Backbone.View.extend({
         console.log("Instance= "+instance);
         console.log("Pausing instance");
         inst.pauseserver(); 
+    },
+    
+    onUnpause: function(evt) {
+        var instance = evt.target.value;
+        var inst = this.model.get(instance);
+        console.log("Instance= "+instance);
+        console.log("Unpausing instance");
+        inst.unpauseserver(); 
     },    
     
     onSuspend: function(evt) {
@@ -56,6 +52,13 @@ var InstanceView = Backbone.View.extend({
         var inst = this.model.get(instance);
         console.log("Suspending instance");
         inst.suspendserver(); 
+    },
+    
+    onResume: function(evt) {
+        var instance = evt.target.value;
+        var inst = this.model.get(instance);
+        console.log("Resuming instance");
+        inst.resumeserver(); 
     },
     
     onChangePassword: function(evt) {

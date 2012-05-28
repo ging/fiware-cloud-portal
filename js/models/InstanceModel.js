@@ -19,14 +19,17 @@ var Instance = Backbone.Model.extend({
     },
     
     unpauseserver: function(options) {
+    	console.log("Enter unpause server");
     	return this._action('unpause', options);
     },
     
     suspendserver: function(options) {
+    	console.log("Enter suspend server");
     	return this._action('suspend', options);
     },
     
-    resumserver: function(options) {
+    resumeserver: function(options) {
+    	console.log("Enter resume server");
     	return this._action('resume', options);
     },
          
@@ -119,7 +122,7 @@ var Instance = Backbone.Model.extend({
                 JSTACK.Nova.suspendserver(model.get("id"), options.success);
                 break;
             case "resume":
-                JSTACK.Nova.resumeserver(nmodel.get("id"), options.success);
+                JSTACK.Nova.resumeserver(model.get("id"), options.success);
                 break;
             case "change-password":
                 JSTACK.Nova.changepasswordserver(model.get("id"), options.adminPass, options.success);

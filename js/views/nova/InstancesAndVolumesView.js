@@ -12,13 +12,58 @@ var InstancesAndVolumesView = Backbone.View.extend({
     
     events:{
         'change .checkbox':'enableDisableTerminateButton',
+        'click .btn-snapshot':'onSnapshot',
+   		'click .btn-pause':'onPause',
+   		'click .btn-unpause':'onUnpause',
+   		'click .btn-suspend':'onSuspend',
+   		'click .btn-resume':'onResume',
         'click .btn-password':'onChangePassword',
         'click .btn-reboot':'onReboot',
         'click .btn-terminate':'onTerminate',
         'click .btn-terminate-group':'onTerminateGroup'
     },
     
+    onSnapshot: function(evt) {
+    	console.log("Event target value="+evt.target.value);
+    	console.log("Instance= "+this.model.get(evt.target.value));
+        var instance = evt.target.value;
+        var subview = new CreateSnapshotView({el: 'body', model: this.model.get(instance)});
+        subview.render();
+    },
+    
+    onPause: function(evt) {
+        var instance = evt.target.value;
+        var inst = this.model.get(instance);
+        console.log("Instance= "+instance);
+        console.log("Pausing instance");
+        inst.pauseserver(); 
+    },
+    
+    onUnpause: function(evt) {
+        var instance = evt.target.value;
+        var inst = this.model.get(instance);
+        console.log("Instance= "+instance);
+        console.log("Unpausing instance");
+        inst.unpauseserver(); 
+    },    
+    
+    onSuspend: function(evt) {
+        var instance = evt.target.value;
+        var inst = this.model.get(instance);
+        console.log("Suspending instance");
+        inst.suspendserver(); 
+    },
+    
+    onResume: function(evt) {
+        var instance = evt.target.value;
+        var inst = this.model.get(instance);
+        console.log("Resuming instance");
+        inst.resumeserver(); 
+    },
+    
     onChangePassword: function(evt) {
+    	console.log("Event target value="+evt.target.value);
+    	console.log("Instance= "+this.model.get(evt.target.value));
         var instance = evt.target.value;
         var subview = new ChangePasswordView({el: 'body', model: this.model.get(instance)});
         subview.render();

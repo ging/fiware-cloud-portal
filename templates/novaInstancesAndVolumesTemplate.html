@@ -86,7 +86,8 @@
                             </a>
                             <ul class="dropdown-menu row_actions clearfix">
                                 <% 
-                                if (instance.get("status") != "ERROR") { %>
+                                if (instance.get("status") != "ERROR") { 
+                                	if (instance.get("status") != "PAUSED" && instance.get("status") != "SUSPENDED") {%>
                                 	<li class="clearfix">
                                 		<button  id="instances__action_vnc__<%=i%>" class="btn btn-small btn-vnc" name="action" value="<%= instance.id %>" type="submit" data-i18n="VNC Console">VNC Console</button>
                             		</li>
@@ -108,6 +109,15 @@
                                     <li class="clearfix">
                                         <button  id="instances__action_reboot__<%=i%>" class="btn btn-small btn-danger btn-reboot" name="action" value="<%= instance.id %>" type="submit" data-i18n="Reboot Instance">Reboot Instance</button>
                                     </li>
+                                     <% } else if (instance.get("status") == "PAUSED") { %>
+                            		<li class="clearfix">
+                     					<button  id="instances__action_unpause__<%=i%>" class="btn btn-small btn-unpause" name="action" value="<%= instance.id %>" type="submit" data-i18n="Unpause Instance">Unpause Instance</button>
+                    				</li>    
+                    				<% } else { %>
+                    				<li class="clearfix">
+                     					<button  id="instances__action_resume__<%=i%>" class="btn btn-small btn-resume" name="action" value="<%= instance.id %>" type="submit" data-i18n="Resume Instance">Resume Instance</button>
+                    				</li> 
+                    				<% } %>  
                                 <% } %>
                                 <li class="clearfix">
                                     <button  id="instances__action_terminate__<%=i%>" class="btn btn-small btn-danger btn-terminate" name="action" value="<%= instance.id %>" type="submit" data-i18n="Terminate Instance">Terminate Instance</button>
