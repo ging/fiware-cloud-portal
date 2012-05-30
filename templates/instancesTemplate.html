@@ -73,7 +73,8 @@
 			  <td class=""><%= POWER_STATES[instance.get("OS-EXT-STS:power_state")]%></td>
 			  <td class="actions_column">
 				<div id="dropdown_<%= instance.get('id') %>" class="btn-group">
-				  <a href='#nova/instances_and_volumes/instances/<%= instance.get('id')%>/update'  id="instances__action_edit__0" class="btn btn-small ajax-modal btn-edit" data-i18n="Edit Instance">Edit Instance</a>
+
+			      <button  id="instances__action_e__<%=i%>" class="btn btn-small btn-edit" name="action" value="<%= instance.id %>" type="submit" data-i18n="Edit Instance">Edit Instance</button>
 			      <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
 			       <span class="caret"></span>
 			      </a>

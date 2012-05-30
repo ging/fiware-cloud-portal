@@ -2,41 +2,46 @@ var UpdateInstanceView = Backbone.View.extend({
     
     _template: _.itemplate($('#updateInstanceFormTemplate').html()),
 
-    events: {
-      'click #cancelBtn': 'close',
-      'click #close': 'close',
-      'click #updateBtn': 'update',
-      'click .modal-backdrop': 'close'   
-    },
-    
+	events: {
+		'click #cancelBtn': 'close',
+		'click #close': 'close',
+		'click #updateBtn': 'update',
+		'click .modal-backdrop': 'close'
+	},
+
     initialize: function() {
         this.model.bind("change", this.render, this);
         this.model.fetch();
     },
     
+    onClose: function() {
+        this.undelegateEvents();
+        this.unbind();
+    },
+    
     render: function () {
-        console.log("Rendering update instance");
         if ($('#update_instance').html() != null) {
             return;
         }
         $(this.el).append(this._template({model:this.model}));
-        //$('.modal span.help-block').hide();
         $('.modal:last').modal();
         return this;
     },
     
     close: function(e) {
         this.model.unbind("change", this.render, this);
-        console.log("Closing update instance");
         $('#update_instance').remove();
-        $('.modal-backdrop').remove();
+        $('.modal-backdrop').remove();      
+        this.onClose();  	
     },
     
     update: function(e) {
         console.log("Starting update");
         this.model.set({"name": this.$('input[name=name]').val()});
-        console.log($('input[name=name]').val());
+        var newName = $('input[name=name]').val();
         this.model.save();
+        var subview = new MessagesView({el: '.topbar', state: "Success", title: "Instance "+newName+" updated."});     
+        subview.render();
         this.close();
     }
     

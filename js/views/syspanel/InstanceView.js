@@ -12,6 +12,7 @@ var InstanceView = Backbone.View.extend({
     
     events:{ 		
    		'change .checkbox':'enableDisableTerminateButton',
+   		'click .btn-edit':'onEditInstance',
    		'click .btn-snapshot':'onSnapshot',
    		'click .btn-pause':'onPause',
    		'click .btn-unpause':'onUnpause',
@@ -22,10 +23,19 @@ var InstanceView = Backbone.View.extend({
         'click .btn-terminate':'onTerminate',
         'click .btn-terminate-group':'onTerminateGroup'
   	},
+  	
+  	onClose: function() {
+        this.undelegateEvents();
+        this.unbind();
+    },
+  	
+  	onEditInstance: function(evt) {
+        var instance = evt.target.value;
+        var subview = new UpdateInstanceView({el: 'body', model: this.model.get(instance)});
+        subview.render();
+    },
   		
 	onSnapshot: function(evt) {
-    	console.log("Event target value="+evt.target.value);
-    	console.log("Instance= "+this.model.get(evt.target.value));
         var instance = evt.target.value;
         var subview = new CreateSnapshotView({el: 'body', model: this.model.get(instance)});
         subview.render();
@@ -34,36 +44,36 @@ var InstanceView = Backbone.View.extend({
     onPause: function(evt) {
         var instance = evt.target.value;
         var inst = this.model.get(instance);
-        console.log("Instance= "+instance);
-        console.log("Pausing instance");
         inst.pauseserver(); 
+        var subview = new MessagesView({el: '.topbar', state: "Success", title: "Instance "+inst.get("name")+" paused."});     
+        subview.render();
     },
     
     onUnpause: function(evt) {
         var instance = evt.target.value;
         var inst = this.model.get(instance);
-        console.log("Instance= "+instance);
-        console.log("Unpausing instance");
-        inst.unpauseserver(); 
+        inst.unpauseserver();
+        var subview = new MessagesView({el: '.topbar', state: "Success", title: "Instance "+inst.get("name")+" unpaused."});     
+        subview.render(); 
     },    
     
     onSuspend: function(evt) {
         var instance = evt.target.value;
         var inst = this.model.get(instance);
-        console.log("Suspending instance");
         inst.suspendserver(); 
+        var subview = new MessagesView({el: '.topbar', state: "Success", title: "Instance "+inst.get("name")+" suspended."});     
+        subview.render();
     },
     
     onResume: function(evt) {
         var instance = evt.target.value;
         var inst = this.model.get(instance);
-        console.log("Resuming instance");
         inst.resumeserver(); 
+        var subview = new MessagesView({el: '.topbar', state: "Success", title: "Instance "+inst.get("name")+" resumed."});     
+        subview.render();
     },
     
     onChangePassword: function(evt) {
-    	console.log("Event target value="+evt.target.value);
-    	console.log("Instance= "+this.model.get(evt.target.value));
         var instance = evt.target.value;
         var subview = new ChangePasswordView({el: 'body', model: this.model.get(instance)});
         subview.render();
@@ -74,6 +84,8 @@ var InstanceView = Backbone.View.extend({
         var inst = this.model.get(instance);
         var subview = new ConfirmView({el: 'body', title: "Reboot Instance", btn_message: "Reboot Instance", onAccept: function() {
             inst.reboot(false);
+            var subview = new MessagesView({el: '.topbar', state: "Success", title: "Instance "+inst.get("name")+" rebooted."});     
+            subview.render();
         }});
         subview.render();
     },
@@ -83,7 +95,10 @@ var InstanceView = Backbone.View.extend({
         var inst = this.model.get(instance);
         var subview = new ConfirmView({el: 'body', title: "Terminate Instance", btn_message: "Terminate Instance", onAccept: function() {
             inst.destroy();
+            var subview = new MessagesView({el: '.topbar', state: "Success", title: "Instance "+inst.get("name")+" terminated."});     
+            subview.render();
         }});
+        
         subview.render();
     },
     
@@ -92,9 +107,10 @@ var InstanceView = Backbone.View.extend({
         var subview = new ConfirmView({el: 'body', title: "Terminate Instances", btn_message: "Terminate Instances", onAccept: function() {
             $(".checkbox:checked").each(function () {
                     var instance = $(this).val(); 
-                    console.log("Instance to delete: " + instance);
                     var inst = self.model.get(instance);
                     inst.destroy();
+                    var subview = new MessagesView({el: '.topbar', state: "Success", title: "Instances "+inst.get("name")+" terminated."});     
+        			subview.render();
             });
         }});
         subview.render();
@@ -111,7 +127,7 @@ var InstanceView = Backbone.View.extend({
     
     renderFirst: function() {
         UTILS.Render.animateRender(this.el, this._template, {models:this.model.models, projects:this.options.projects, flavors:this.options.flavors});
-        this.enableDisableTerminateButton();
+        this.enableDisableTerminateButton();    
     },
     
     render: function () {

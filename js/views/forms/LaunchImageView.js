@@ -15,7 +15,6 @@ var LaunchImageView = Backbone.View.extend({
     
     render: function () {
         var flavors = this.options.flavors;
-        console.log($('#launch_image').html() != null);
         if ($('#launch_image').html() != null) {
             return;
         }
@@ -24,18 +23,20 @@ var LaunchImageView = Backbone.View.extend({
         return this;
     },
     
+    onClose: function() {
+        this.undelegateEvents();
+        this.unbind();
+    },
+    
     close: function(e) {
         this.model.unbind("reset", this.render, this);
-        console.log("Closing launch instance");
         $('#launch_image').remove();
         $('.modal-backdrop').remove();
+        this.onClose();
     },
     
     launch: function(e) {
         var instance = new Instance();
-        
-        console.log("Starting launch");
-        
         var name = $('input[name=name]').val();
         var imageReg = this.model.id;
         var flavorReg = undefined;
@@ -68,6 +69,8 @@ var LaunchImageView = Backbone.View.extend({
         instance.set({"max_count": max_count});
         instance.set({"availability_zone": availability_zone});
         instance.save();
+        var subview = new MessagesView({el: '.topbar', state: "Success", title: "Instance "+instance.get("name")+" launched."});     
+        subview.render();
         this.close();
     }
     

@@ -23,16 +23,16 @@ var Image = Backbone.Model.extend({
     }
 });
 
-var Images = Backbone.Collection.extend({
-    model: Image,
+	var Images = Backbone.Collection.extend({
+    	model: Image,
     
-    sync: function(method, model, options) {
-        switch(method) {
-            case "read":
-                JSTACK.Nova.getimagelist(true, options.success);
-                break;
-        }
-    },
+	    sync: function(method, model, options) {
+	        switch(method) {
+	            case "read":
+	                JSTACK.Nova.getimagelist(true, options.success);
+	                break;
+	        }
+	    },
     
     parse: function(resp) {
         return resp.images;

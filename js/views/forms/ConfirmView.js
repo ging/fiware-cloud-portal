@@ -23,7 +23,6 @@ var ConfirmView = Backbone.View.extend({
             $('#confirm').remove();
             $('.modal-backdrop').remove();
         }
-        console.log(this);
         $(this.el).append(this._template({title:this.options.title, btn_message: this.options.btn_message}));
         $('.modal:last').modal();
         return this;

@@ -50,7 +50,6 @@ var loadViews = function() {
                 "js/views/nova/ImagesAndSnapshotsView.js",
                 "js/views/forms/UpdateInstanceView.js",
                 "js/views/forms/CreateFlavorView.js",
-                "js/views/forms/DeleteImagesView.js",
                 "js/views/forms/UpdateImageView.js",
                 "js/views/forms/LaunchImageView.js",
                 "js/views/forms/ConsultImageDetailView.js",
@@ -58,7 +57,8 @@ var loadViews = function() {
                 "js/views/forms/CreateSnapshotView.js",
                 "js/views/forms/ConfirmView.js",
                 "js/views/nova/InstanceDetailView.js",
-                "js/views/SettingsView.js"
+                "js/views/SettingsView.js",
+                "js/views/forms/MessagesView.js"
             ], function(someModule) {
                 loadRoutes();
         });
@@ -123,7 +123,6 @@ var loadTemplates = function() {
                     'templates/novaInstancesAndVolumesTemplate.html',
                     'templates/updateInstanceFormTemplate.html',
                     'templates/createFlavorFormTemplate.html',
-                    'templates/deleteImagesFormTemplate.html',
                     'templates/updateImageFormTemplate.html',
                     'templates/launchImageTemplate.html',
                     'templates/consultImageDetailFormTemplate.html',
@@ -132,7 +131,8 @@ var loadTemplates = function() {
                     'templates/createSnapshotFormTemplate.html',
                     'templates/confirmTemplate.html',
                     'templates/instanceDetailTemplate.html',
-                    'templates/settingsTemplate.html'
+                    'templates/settingsTemplate.html',
+                    'templates/messagesTemplate.html'
                 ], function(){
                     loadLibraries();
                 });

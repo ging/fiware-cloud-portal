@@ -1,0 +1,7 @@
+<script id="messagesTemplate" type="text/html">
+	<div class="messages">
+		<div class="alert alert-block <%= (state == "Success") ? "alert-success" : "alert-error" %> fade in">
+			<p><strong><%= state %>: </strong><%= title %></p>
+		</div>
+	</div>
+</script>  

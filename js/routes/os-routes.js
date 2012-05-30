@@ -65,9 +65,9 @@ var OSRouter = Backbone.Router.extend({
 	    this.route('syspanel/quotas/', 'quotas',  this.wrap(this.sys_quotas, this.checkAuth));
 	    
 	    this.route('syspanel/flavors/create', 'create_flavor',  this.wrap(this.create_flavor, this.checkAuth));    
-	    this.route('syspanel/images/delete', 'delete_images',  this.wrap(this.delete_images, this.checkAuth));        
+	   // this.route('syspanel/images/delete', 'delete_images',  this.wrap(this.delete_images, this.checkAuth));        
 
-	    this.route('nova/instances_and_volumes/instances/:id/update', 'update_instance', this.wrap(this.update_instance, this.checkAuth));
+	    //this.route('nova/instances_and_volumes/instances/:id/update', 'update_instance', this.wrap(this.update_instance, this.checkAuth));
 	    
 	    this.route('nova/images_and_snapshots/:id/delete', 'delete_image',  this.wrap(this.delete_image, this.checkAuth));
 	    this.route('nova/images_and_snapshots/:id/update', 'edit_image',  this.wrap(this.edit_image, this.checkAuth));
@@ -320,12 +320,10 @@ var OSRouter = Backbone.Router.extend({
 	    self.showNovaRoot(self, 'Access &amp; Security');
 	    var view = new AccessAndSecurityView({el: '#content', model: self.keypairsModel});
 	     self.newContentView(self,view);
-        //view.render();
 	},
 	
 	nova_images_and_snapshots: function(self) {
 	    self.showNovaRoot(self, 'Images &amp; Snapshots');
-	    //self.add_fetch(self.images, 4);
 	    var view = new ImagesAndSnapshotsView({el: '#content', model:self.images, flavors: self.flavors, keypairs: self.keypairsModel});
 	     self.newContentView(self,view);
 	},
@@ -336,23 +334,19 @@ var OSRouter = Backbone.Router.extend({
 	    self.instancesModel.alltenants = false;
 	    var view = new InstancesAndVolumesView({model: self.instancesModel, flavors: self.flavors, el: '#content'});
 	     self.newContentView(self,view);
-        //view.render();
 	},
 	
 	consult_instance: function(self, id, subview) {
+		console.log("Subview="+subview);
 	    self.showNovaRoot(self, 'Instances &amp; Volumes');
         var instance = new Instance();
         instance.set({"id": id});
-        var view = new InstanceDetailView({model: instance, el: '#content'});
-         self.newContentView(self,view);
-	},
-	
-	update_instance: function(self, id) {
-	    console.log("Received update: " + id);
-	    var instance = new Instance();
-	    instance.set({"id": id});
-        var view = new UpdateInstanceView({model:instance, el: 'body'});
-        self.navigate('#nova/instances_and_volumes/', {trigger: false, replace: true});
+        if (subview == undefined) {
+        	subview = 'overview';
+        }	
+        console.log("Subview1="+subview);
+        var view = new InstanceDetailView({model: instance, subview: subview, el: '#content'});
+        self.newContentView(self,view);
 	},
 	
 	clear_fetch: function() {

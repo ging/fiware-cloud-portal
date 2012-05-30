@@ -9,32 +9,48 @@ var ImagesView = Backbone.View.extend({
     },
         
 	events: {
-        'change .checkbox_image':'enableDisableDeleteButton',
-        'click #images_delete': 'checkIfDisabled'
+        'change .checkbox':'enableDisableDeleteButton',
+   		'click .btn-delete':'onDelete',
+   		'click .btn-delete-group':'onDeleteGroup'
     },  
     
-    checkIfDisabled: function (e) {
-  		for (var index = 0; index < this.model.length; index++) { 
-			var imageId = this.model.models[index].get('id');	 
-			if($("#checkbox_"+imageId).is(':checked'))
-				{
-					$("#images_delete").attr("href", "#syspanel/images/delete");
-				}
-		}	console.log("Button disabled");		
-    },  	
+    onClose: function() {
+        this.undelegateEvents();
+        this.unbind();
+    },
+    
+    onDelete: function(evt) {
+        var image = evt.target.value;
+        var img = this.model.get(image);
+        var subview = new ConfirmView({el: 'body', title: "Delete Image", btn_message: "Delete Image", onAccept: function() {
+            img.destroy();
+            var subview = new MessagesView({el: '.topbar', state: "Success", title: "Image "+img.get("name")+" deleted."});     
+        	subview.render();
+        }});
+        subview.render();
+    },
+    
+    onDeleteGroup: function(evt) {
+        var self = this;
+        var subview = new ConfirmView({el: 'body', title: "Delete Images", btn_message: "Delete Images", onAccept: function() {
+            $(".checkbox:checked").each(function () {
+                    var image = $(this).val(); 
+                    var img = self.model.get(image);
+                    img.destroy();
+                    var subview = new MessagesView({el: '.topbar', state: "Success", title: "Images "+img.get("name")+" deleted."});     
+        			subview.render();
+            });
+        }});
+        subview.render();
+    },
+	
 		
 	enableDisableDeleteButton: function (e) {
-  		for (var index = 0; index < this.model.length; index++) { 
-			var imageId = this.model.models[index].get('id');	
-			console.log(imageId); 
-			if($("#checkbox_"+imageId).is(':checked'))
-				{
-						
-   		   	   			$("#images_delete").attr("disabled", false);
-						return;
-				}
-		}
-		$("#images_delete").attr("disabled", true);
+  		if ($(".checkbox:checked").size() > 0) { 
+            $("#images_delete").attr("disabled", false);
+        } else {
+            $("#images_delete").attr("disabled", true);
+        }
 			
     },
 	

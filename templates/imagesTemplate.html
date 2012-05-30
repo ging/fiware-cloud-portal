@@ -1,14 +1,10 @@
 <script id="imagesTemplate" type="text/html">   
-<div id="images">
-	<div class="table_wrapper">
-  		<form action="#syspanel/images/images/" method="POST"><div style='display:none'><input type='hidden' name='csrfmiddlewaretoken' value='13de1d539e7690548408d1be1856eb9c' /></div>
-			<div style='display:none'>
-				<input type='hidden' name='csrfmiddlewaretoken' value='13de1d539e7690548408d1be1856eb9c' />
-			</div>
+	<div id="images">
+		<div class="table_wrapper">
 			<div class='table_header'>
   				<h3 class='table_title' data-i18n="Images">Images</h3>
   				<div class="table_actions clearfix">
-        			<a class='btn btn-small btn-danger' name="action" id= "images_delete" disabled=true type="submit" data-i18n="Delete Images">Delete Images</a>
+  					<button  id="images_delete" disabled=true class="btn btn-small btn-danger btn-delete-group" name="action" value="images_delete" class="images_delete" type="submit" data-i18n="Delete Images">Delete Images</button>
 				</div>
 			</div>
 			<table id="images_tbl" class="table table-bordered table-striped">
@@ -24,15 +20,16 @@
 			    </tr>
 			  </thead>
 			  <tbody>
-			 	<% 
+			 	<% 	var i = 0;
 					for (var index in models) { 
 					var image = models[index];
+					i++;
 				%>
 			  <tr 
 			    	id="images__row__<%= models.length %>" 
 			    	class="ajax-update status_down">
 			  		<td class="multi_select_column">
-			  			<input type="checkbox" name="object_ids" class="checkbox_image" id="checkbox_<%= image.get('id')%>" value="<%= image.get('id')%>" />
+			  			<input type="checkbox" name="object_ids" class="checkbox" id="checkbox_<%= image.get('id')%>" value="<%= image.get('id')%>" />
 			  		</td>
 					<td class="">
 						<a href="#nova/images_and_snapshots/<%= image.get('id')%>">
@@ -50,8 +47,8 @@
 								<span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu row_actions clearfix">
-								<li class="clearfix">									
-									<a href='#syspanel/images/delete' id= "image_delete" name="action" type="submit"  class="btn btn-small btn-danger btn-delete"  data-i18n="Delete">Delete</a>
+								<li class="clearfix">	
+									<button  id="images__action_delete__<%=i%>" class="btn btn-small btn-danger btn-delete" name="action" value="<%= image.id %>" type="submit" data-i18n="Delete">Delete</button>								
 								</li>
 							</ul>
 						</div>
@@ -67,7 +64,6 @@
 			    </td>
 			  </tfoot>
 			</table>
-		</form>
+		</div>
 	</div>
-</div>
 </script>

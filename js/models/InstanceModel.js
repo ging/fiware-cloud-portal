@@ -13,6 +13,11 @@ var Instance = Backbone.Model.extend({
         return xhr;
     },
     
+    createsnapshot: function(options) {
+    	console.log("Enter snapshot");
+    	return this._action('snapshot', options);
+    },
+    
     pauseserver: function(options) {
     	console.log("Enter pause server");
     	return this._action('pause', options);
@@ -89,11 +94,9 @@ var Instance = Backbone.Model.extend({
                 JSTACK.Nova.deleteserver(model.get("id"), options.success);
                 break;
             case "update":
-                console.log("Updating Instance: " + model.get("name"));
                 JSTACK.Nova.updateserver(model.get("id"), model.get("name"), options.success);
                 break;
             case "read":
-                console.log("Reading Instance: " + model.get("id"));
                 JSTACK.Nova.getserverdetail(model.get("id"), options.success);
                 break;
             case "reboot":
@@ -105,6 +108,9 @@ var Instance = Backbone.Model.extend({
                 break;
             case "resize":
                 JSTACK.Nova.resizeserver(model.get("id"), options.flavor.id, options.success);
+                break;
+            case "snapshot":
+                JSTACK.Nova.createsnapshot(model.get("id"), model.get("name"), options.success);
                 break;
             case "confirm-resize":
                 JSTACK.Nova.confirmresizedserver(model.get("id"), options.success);

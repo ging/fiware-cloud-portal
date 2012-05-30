@@ -10,9 +10,14 @@ var ImagesAndSnapshotsView = Backbone.View.extend({
     
     events:{
         'change .checkbox':'enableDisableTerminateButton',
-        'click #images_delete':'onDelete',
+        'click #images_delete':'onDeleteGroup',
         'click .editBtn' : 'onEdit',
         'click .launchBtn' : 'onLaunch'
+    },
+    
+    onClose: function() {
+        this.undelegateEvents();
+        this.unbind();
     },
     
     enableDisableTerminateButton: function () {
@@ -20,25 +25,24 @@ var ImagesAndSnapshotsView = Backbone.View.extend({
             $("#images_delete").attr("disabled", false);
         } else {
             $("#images_delete").attr("disabled", true);
-        }
-        
+        }        
     },
     
-    onDelete: function() {
+    onDeleteGroup: function() {
         var self = this;
         var subview = new ConfirmView({el: 'body', title: "Delete Images", btn_message: "Delete Images", onAccept: function() {
             $(".checkbox:checked").each(function () {
                     var instance = $(this).val(); 
-                    console.log("Image to delete: " + instance);
                     var inst = self.model.get(instance);
                     inst.destroy();
+                    var subview = new MessagesView({el: '.topbar', state: "Success", title: "Images "+inst.get("name")+" deleted."});     
+        			subview.render();
             });
         }});
         subview.render();
     },
     
     onLaunch: function(evt) {
-        console.log(this.options.flavors);
         var image = this.model.get(evt.target.value);
         var subview = new LaunchImageView({model: image, el: 'body', flavors: this.options.flavors, keypairs: this.options.keypairs});
         subview.render();

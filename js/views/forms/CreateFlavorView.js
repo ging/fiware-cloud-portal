@@ -7,10 +7,26 @@ var CreateFlavorView = Backbone.View.extend({
         'click #cancelBtn': 'close',
       	'click #close': 'close',
     },
+    
+    initialize: function() {
+        this.model.bind("change", this.render, this);
+    },
+    
+    close: function(e) {
+        this.model.unbind("change", this.render, this);
+        $('#create_flavor').remove();
+        $('.modal-backdrop').remove();
+        this.onClose();
+    },
+    
+    onClose: function() {
+        this.undelegateEvents();
+        this.unbind();
+    },
 
    	render: function () {
+   		
    		for (var index = 0; index < this.model.length; index++) { 
-			console.log("Flavor id = "+this.model.models[index].get('id'));
 		}	
         if ($('#create_flavor').html() != null) {
           	$('#create_flavor').remove();
@@ -22,48 +38,9 @@ var CreateFlavorView = Backbone.View.extend({
     },
     
     onSubmit: function(e){
-    	console.log("onSubmit called");
-        e.preventDefault();
-        
-      	/*$("#create_flavor_form").validate({ 
-	     	rules: { 
-	          tenant_id: "required",
-	          name: { 
-	          required: true 
-	          }, 
-	          vcpus: {
-	          	required: true
-	          },
-	          memory_mb: {
-	          	required: true
-	          },
-	          disk_gb: {
-	          	required: true
-	          },	 
-	          eph_gb: {
-	          	required: true
-	          },         	
-        	messages: { 
-	          tenant_id: "This field is required.",
-	          name: "This field is required.", 
-	          vcpus: "This field is required.",
-	          memory_mb: "This field is required.",
-	          disk_gb: "This field is required.",
-	          eph_gb: "This field is required."
-	        } 
-	       }
-      });  */
-    
-     
-       /* for (var index = 0; index < this.model.length; index++) { 
-				var flavorId = this.model.models[index].get('id');	 
-				if($("#checkbox_"+flavorId).is(':checked'))
-				{
-					$("#flavors_delete").attr("href", "#syspanel/flavors/delete");
-				}
-		}	*/
-     
-     //Check if the fields are not empty, and the numbers are not negative nor decimal
+        e.preventDefault();         
+     	//Check if the fields are not empty, and the numbers are not negative nor decimal
+     	this.close();
      	if ( (this.$('input[name=flavor_id]').val()=="") ||
      		 (this.$('input[name=name]').val()=="") ||
      		 (this.$('input[name=vcpus]').val()=="") ||
@@ -79,35 +56,24 @@ var CreateFlavorView = Backbone.View.extend({
      		 (this.$('input[name=vcpus]').val()%1!=0) ||
      		 (this.$('input[name=memory_mb]').val()%1!=0) ||
      		 (this.$('input[name=disk_gb]').val()%1!=0) ||
-     		 (this.$('input[name=eph_gb]').val()%1!=0)   
-     		 )   		    		 	
+     		 (this.$('input[name=eph_gb]').val()%1!=0) )   		 		 	
 		
-     	{
-     		console.log("Wrong values entered, no flavor is created");
-     		return;
+     	{ var subview = new MessagesView({el: '.topbar', state: "Error", title: "Wrong input values for flavor. Please try again."});     
+          subview.render(); 
+     	  return;
      	} else {
      
-        var new_flavor = new Flavor();
-        
-        new_flavor.set({'flavor_id': this.$('input[name=flavor_id]').val()});
-        new_flavor.set({'name': this.$('input[name=name]').val()});
-        new_flavor.set({'vcpus': this.$('input[name=vcpus]').val()});
-        new_flavor.set({'memory_mb': this.$('input[name=memory_mb]').val()});
-        new_flavor.set({'disk_gb': this.$('input[name=disk_gb]').val()});
-        new_flavor.set({'eph_gb': this.$('input[name=eph_gb]').val()});
-            
-    	new_flavor.save();
-    	}
-    	
-    	$('#create_flavor').remove();
-        $('.modal-backdrop').remove();
-
+        var newFlavor = new Flavor();        
+        newFlavor.set({'flavor_id': this.$('input[name=flavor_id]').val()});
+        newFlavor.set({'name': this.$('input[name=name]').val()});
+        newFlavor.set({'vcpus': this.$('input[name=vcpus]').val()});
+        newFlavor.set({'memory_mb': this.$('input[name=memory_mb]').val()});
+        newFlavor.set({'disk_gb': this.$('input[name=disk_gb]').val()});
+        newFlavor.set({'eph_gb': this.$('input[name=eph_gb]').val()});            
+    	newFlavor.save();
+    	var subview = new MessagesView({el: '.topbar', state: "Success", title: "Flavor "+newFlavor.get('name')+" created."});     
+        subview.render();
+    	}    	
     },
-    
-    close: function(e) {
-        this.model.unbind("change", this.render, this);
-        $('#create_flavor').remove();
-        $('.modal-backdrop').remove();
-    },
-   
+           
 });

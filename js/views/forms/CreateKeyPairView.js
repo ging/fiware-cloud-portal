@@ -23,38 +23,6 @@ var CreateFlavorView = Backbone.View.extend({
     onSubmit: function(e){
         console.log("onSubmit called");
         e.preventDefault();
-        
-        /*$("#create_flavor_form").validate({ 
-            rules: { 
-              tenant_id: "required",
-              name: { 
-              required: true 
-              }, 
-              vcpus: {
-                required: true
-              },
-              memory_mb: {
-                required: true
-              },
-              disk_gb: {
-                required: true
-              },     
-              eph_gb: {
-                required: true
-              },            
-            messages: { 
-              tenant_id: "This field is required.",
-              name: "This field is required.", 
-              vcpus: "This field is required.",
-              memory_mb: "This field is required.",
-              disk_gb: "This field is required.",
-              eph_gb: "This field is required."
-            } 
-           }
-      });  */
-     
-     //Check if the fields are not empty, and the numbers are not negative nor decimal
-
         $('#create_keypair').remove();
         $('.modal-backdrop').remove();
 

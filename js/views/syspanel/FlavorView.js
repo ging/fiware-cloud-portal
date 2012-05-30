@@ -9,39 +9,18 @@ var FlavorView = Backbone.View.extend({
         this.renderFirst();
     },
     
-    events: {
-    	
+    events: {    	
         'change .checkbox':'enableDisableDeleteButton',
-        //'click #flavors_delete': 'checkIfDisabled',
         'click .btn-delete':'onDelete',
         'click .btn-delete-group':'onDeleteGroup'
     },
     
-    /*checkIfDisabled: function (e) {
-  		for (var index = 0; index < this.model.length; index++) { 
-			var flavorId = this.model.models[index].get('id');	 
-			if($("#checkbox_"+flavorId).is(':checked'))
-				{
-					$("#flavors_delete").attr("href", "#syspanel/flavors/"+flavorId+"/delete");
-				}
-		}	console.log("Button disabled");		
-    },*/
-   
-  	/*enableDisableDeleteButton: function (e) {
-  		for (var index = 0; index < this.model.length; index++) { 
-			var flavorId = this.model.models[index].get('id');	 
-			if($("#checkbox_"+flavorId).is(':checked'))
-				{
-   		   	   			$("#flavors_delete").attr("disabled", false);
-						return;
-				}
-		}
-		$("#flavors_delete").attr("disabled", true);
-			
-    },*/
-    
+    onClose: function() {
+        this.undelegateEvents();
+        this.unbind();
+    },
+      
     enableDisableDeleteButton: function () {
-    	console.log("Checkbox size = "+$(".checkbox:checked").size());
         if ($(".checkbox:checked").size() > 0) { 
             $("#flavors_delete").attr("disabled", false);
         } else {
@@ -52,10 +31,11 @@ var FlavorView = Backbone.View.extend({
     
     onDelete: function(evt) {
         var flavor = evt.target.value;
-        console.log("Event target = "+evt.target);
         var flav = this.model.get(flavor);
         var subview = new ConfirmView({el: 'body', title: "Delete Flavor", btn_message: "Delete Flavor", onAccept: function() {
             flav.destroy();
+            var subview = new MessagesView({el: '.topbar', state: "Success", title: "Flavor "+flav.get("name")+" deleted."});     
+        	subview.render();
         }});
         subview.render();
     },
@@ -65,9 +45,10 @@ var FlavorView = Backbone.View.extend({
         var subview = new ConfirmView({el: 'body', title: "Delete Flavors", btn_message: "Delete Flavor", onAccept: function() {
             $(".checkbox:checked").each(function () {
                     var flavor = $(this).val(); 
-                    console.log("Flavor to delete: " + flavor);
                     var flav = self.model.get(flavor);
                     flav.destroy();
+                    var subview = new MessagesView({el: '.topbar', state: "Success", title: "Flavors "+flav.get("name")+" deleted."});     
+        			subview.render();
             });
         }});
         subview.render();
@@ -79,6 +60,9 @@ var FlavorView = Backbone.View.extend({
     },
     
 	render: function () {
+		if ($('.messages').html() != null) {
+        	$('.messages').remove();
+        }
         if ($("#flavors").html() != null) {
             var new_template = this._template(this.model);
             var checkboxes = [];

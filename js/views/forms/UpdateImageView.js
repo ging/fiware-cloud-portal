@@ -30,6 +30,8 @@ var UpdateImageView = Backbone.View.extend({
        	e.preventDefault();                     
        	this.model.set({"name": this.$('input[name=name]').val()});
         this.model.save();
+        var subview = new MessagesView({el: '.topbar', state: "Success", title: "Image "+this.model.get('name')+" updated."});     
+        subview.render();
         this.close(); 
        	$('#update_image').remove();
         $('.modal-backdrop').remove();  
@@ -39,6 +41,12 @@ var UpdateImageView = Backbone.View.extend({
         this.model.unbind("change", this.render, this);
         $('#update_image').remove();
         $('.modal-backdrop').remove();
+        this.onClose();
+    },
+    
+    onClose: function() {
+        this.undelegateEvents();
+        this.unbind();
     },
    
 });

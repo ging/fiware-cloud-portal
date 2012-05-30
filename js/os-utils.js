@@ -221,7 +221,7 @@ UTILS.i18n = (function(U, undefined) {
         var initTime = new Date().getTime();
         html = translateNodes(html);
         var duration = new Date().getTime()-initTime;
-        console.log("Internationalization duration: " + duration);
+        //console.log("Internationalization duration: " + duration);
         return html;
     }
     

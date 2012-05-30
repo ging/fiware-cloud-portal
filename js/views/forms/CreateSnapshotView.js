@@ -13,7 +13,6 @@ var CreateSnapshotView = Backbone.View.extend({
     },
     
     render: function () {
-        console.log("Creating snapshot");
         if ($('#create_snapshot').html() != null) {
             return;
         }
@@ -24,15 +23,15 @@ var CreateSnapshotView = Backbone.View.extend({
     
     close: function(e) {
         this.model.unbind("change", this.render, this);
-        console.log("Closing create shapshot");
         $('#create_snapshot').remove();
         $('.modal-backdrop').remove();
     },
     
     update: function(e) {
-        console.log("Starting create snapshot");
         var name = $('input[name=snapshot_name]').val();
         this.model.createsnapshot(name); 
+        var subview = new MessagesView({el: '.topbar', state: "Success", title: "Snapshot "+name+" created."});     
+        subview.render();
         this.close();
     }
     
