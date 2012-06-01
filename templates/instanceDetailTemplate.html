@@ -5,15 +5,15 @@
 
   <ul id="instance_details" class="nav nav-tabs ajax-tabs">
     
-    <li id="overview" class="active">
+    <li id="overview" class="<%= (subview == 'overview') ? 'active':'' %>">
       <a id="overviewBtn" data-toggle="tab" data-target="#instance_details__overview" data-loaded="true" data-i18n="Overview">Overview</a>
     </li>
     
-    <li id="log" class="">
+    <li id="log" class="<%= (subview == 'logs') ? 'active':'' %>">
       <a id="instance_logs" data-toggle="tab" data-target="#instance_details__log" data-loaded="false">Log</a>
     </li>
     
-    <li id="vnc" class="">
+    <li id="vnc" class="<%= (subview == 'vnc') ? 'active':'' %>">
       <a id="instance_vnc" data-toggle="tab" data-target="#instance_details__vnc" data-loaded="false">VNC</a>
     </li>
     
@@ -22,7 +22,7 @@
   
   <div class="tab-content">
     
-    <div id="instance_details__overview" class="tab-pane active">
+    <div id="instance_details__overview" class="tab-pane <%= (subview == 'overview') ? 'active':'' %>">
       
 
 <h3>Instance Overview</h3>
@@ -101,12 +101,17 @@
 
     </div>
     
-    <div id="instance_details__log" class="tab-pane">
-      
+    <div id="instance_details__log" class="tab-pane <%= (subview == 'logs') ? 'active':'' %>">
+        <div class="clearfix">
+            <h3 class="pull-left">Instance Console Log</h3>
+        </div>
+        <pre class="logs"><%= logs %></pre>
     </div>
     
-    <div id="instance_details__vnc" class="tab-pane">
-      
+    <div id="instance_details__vnc" class="tab-pane <%= (subview == 'vnc') ? 'active':'' %>">
+        <h3>Instance VNC Console</h3>
+        <p class="alert alert-info">If VNC console is not responding to keyboard input: click the grey status bar below.</p>
+        <iframe src="<%= vncUrl %>" width="720" height="450"></iframe>
     </div>
     
   </div>
