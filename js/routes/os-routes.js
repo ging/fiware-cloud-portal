@@ -9,6 +9,7 @@ var OSRouter = Backbone.Router.extend({
     
     loginModel: undefined,
     instancesModel: undefined,
+    volumesModel: undefined,
     flavors: undefined,
     images: undefined,
     keypairsModel: undefined,
@@ -27,6 +28,7 @@ var OSRouter = Backbone.Router.extend({
 	initialize: function() {
 	    this.loginModel = new LoginStatus();
 	    this.instancesModel = new Instances();
+	    this.volumesModel = new Volumes();
 	    this.flavors = new Flavors();
 	    this.images = new Images();
 	    this.keypairsModel = new Keypairs();
@@ -78,6 +80,7 @@ var OSRouter = Backbone.Router.extend({
 	    //this.route('nova/instances_and_volumes/instances/:id/detail', 'consult_instance',  _.wrap(this.consult_instance, this.checkAuth));
 	    this.route('nova/instances_and_volumes/instances/:id/detail?view=:subview', 'consult_instance',  this.wrap(this.consult_instance, this.checkAuth));
 	    this.route('nova/instances_and_volumes/instances/:id/detail', 'consult_instance',  this.wrap(this.consult_instance, this.checkAuth));
+	    this.route('nova/instances_and_volumes/volumes/:id/detail', 'consult_volume',  this.wrap(this.consult_volume, this.checkAuth));
 	},
 	
 	wrap: function(func, wrapper, arguments) {
@@ -99,6 +102,7 @@ var OSRouter = Backbone.Router.extend({
         } else {
             if (this.timers.length == 0) {
                 this.add_fetch(this.instancesModel, 4);
+                this.add_fetch(this.volumesModel, 4);
                 this.add_fetch(this.images, 4);
                 this.add_fetch(this.flavors, 4);
                 if (this.loginModel.isAdmin()) {
@@ -332,8 +336,8 @@ var OSRouter = Backbone.Router.extend({
 	    self.showNovaRoot(self, 'Instances &amp; Volumes');
 	    //self.add_fetch(self.instancesModel, 4);
 	    self.instancesModel.alltenants = false;
-	    var view = new InstancesAndVolumesView({model: self.instancesModel, flavors: self.flavors, el: '#content'});
-	     self.newContentView(self,view);
+	    var view = new InstancesAndVolumesView({instancesModel: self.instancesModel, volumesModel: self.volumesModel, flavors: self.flavors, el: '#content'});
+	    self.newContentView(self,view);
 	},
 	
 	consult_instance: function(self, id, subview) {
@@ -344,10 +348,17 @@ var OSRouter = Backbone.Router.extend({
         if (subview == undefined) {
         	subview = 'overview';
         }	
-        console.log("Subview1="+subview);
         var view = new InstanceDetailView({model: instance, subview: subview, el: '#content'});
         self.newContentView(self,view);
 	},
+	
+	consult_volume: function(self, id) {
+        self.showNovaRoot(self, 'Instances &amp; Volumes');
+        var volume = new Volume();
+        volume.set({"id": id});
+        var view = new VolumeDetailView({model: volume, el: '#content'});
+        self.newContentView(self,view);
+    },
 	
 	clear_fetch: function() {
 	    var self = this;

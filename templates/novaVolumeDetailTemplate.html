@@ -1,0 +1,68 @@
+<script id="volumeDetailTemplate" type="text/html">
+    <div class="row-fluid">
+  <div class="span12">
+  
+  <ul id="volume_details" class="nav nav-tabs ajax-tabs">
+    
+    <li class="active">
+      <a href="" data-toggle="tab" data-target="#volume_details__overview" data-loaded="true">Overview</a>
+    </li>
+    
+  </ul>
+
+  
+  <div class="tab-content">
+    
+    <div id="volume_details__overview" class="tab-pane active">
+      
+
+<h3>Volume Overview: <%= model.get("display_name") %></h3>
+
+<div class="info row-fluid">
+  <h4>Info</h4>
+  <hr class="header_rule">
+  <dl>
+    <dt>Name</dt>
+    <dd><%= model.get("display_name") %></dd>
+    <dt>ID</dt>
+    <dd><%= model.get("id") %></dd>
+    
+    <dt>Description</dt>
+    <dd><%= model.get("display_description") %></dd>
+    
+    <dt>Status</dt>
+    <dd><%= model.get("status") %></dd>
+  </dl>
+</div>
+
+<div class="specs row-fluid">
+  <h4>Specs</h4>
+  <hr class="header_rule">
+  <dl>
+    <dt>Size</dt>
+    <dd><%= model.get("size") %> GB</dd>
+    <dt>Created</dt>
+    <dd><%= model.get("created") %></dd>
+  </dl>
+</div>
+
+<div class="status row-fluid">
+  <h4>Attachments</h4>
+  <hr class="header_rule">
+  
+    <ul>
+      <li><em>Not attached</em></li>
+    </ul>
+  
+</div>
+
+    </div>
+    
+  </div>
+
+
+
+
+  </div>
+</div>
+</script>

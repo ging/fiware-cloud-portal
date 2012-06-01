@@ -136,16 +136,25 @@ UTILS.Auth = (function(U, undefined) {
 
 UTILS.Render = (function(U, undefined) {
     
-    function animateRender(el, template, model) {
-         $(el).animate( {
+    function animateRender(el, template, model, callback) {
+        var temp = template(model);
+        $(el).append(temp);
+        $(temp).hide();
+        $(el).animate( {
                         marginLeft: "+1250px",
                         marginRight: "-1250px",
                       }, 200, function() {
-            $(el).empty().html(template(model)).css('marginLeft', '1250px').css('marginRight', '-1250px').animate( {
+            $(temp).show();
+            $(el).empty().html(temp).css('marginLeft', '1250px').css('marginRight', '-1250px').animate( {
                 marginLeft: "-=1250px",
                 marginRight: "+=1250px",
-                      }, 200);
+                      }, 200, function() {
+                          if (callback != undefined) {
+                              callback();
+                          }
+                      });
             });
+       return temp;
     }
     
     return {
