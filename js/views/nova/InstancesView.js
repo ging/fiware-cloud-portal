@@ -12,7 +12,7 @@ var NovaInstancesView = Backbone.View.extend({
     
     events:{
         'change .checkbox_instances':'enableDisableTerminateButton',
-        'click .btn-edit':'onEditInstance',
+        'click .btn-edit-instances':'onEditInstance',
         'click .btn-snapshot':'onSnapshot',
         'click .btn-pause':'onPause',
         'click .btn-unpause':'onUnpause',

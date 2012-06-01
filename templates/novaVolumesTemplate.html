@@ -28,7 +28,7 @@
                     i++; 
                     var volume = models[index];
                 %>     
-                <tr id="volumes__row__<%=volume.id%>" class="status_unknown">
+                <tr id="volumes__row__<%=volume.id%>" class="status_up">
                     <td class="multi_select_column">
                         <input id="checkbox_<%= volume.get('id')%>" type="checkbox" name="object_ids" class="checkbox checkbox_volumes"  value="<%= volume.get('id') %>" />
                     </td>
@@ -36,7 +36,22 @@
                     <td class=""><%= volume.get("display_description")%></td>
                     <td class=""><%= volume.get("size")%> GB</td>
                     <td class="status_unknown"><i class="icon-updating ajax-updating"></i><%= volume.get("status")%></td>
-                    <td class=""><%= (volume.get("attachments").length == 0) ? "-": volume.get("attachments").length%></td><td class="actions_column">
+                    <td class=""><%= (volume.get("attachments").length == 0) ? "-": volume.get("attachments").length%></td>
+                    <td class="actions_column">
+                        <div class="btn-group">
+                            <a id="volumes__row_<%= volume.get("id")%>__action_attachments" value="<%= volume.id %>" class="btn btn-small ajax-modal btn-edit btn-edit-volumes">Edit Attachments</a>
+                            <a class="btn dropdown-toggle ajax-modal btn-edit" data-toggle="dropdown" href="#">
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu row_actions clearfix">
+                                <li class="clearfix">
+                                    <a href="#nova/instances_and_volumes/volumes/<%= volume.get("id")%>/create_snapshot/" id="volumes__row_<%= volume.get("id")%>__action_snapshots" class="btn btn-small ajax-modal btn-camera">Create Snapshot</a>
+                                </li>
+                                <li class="clearfix">
+                                    <button id="volumes__row_<%= volume.get("id")%>__action_delete" class="btn btn-small btn-danger btn-delete" name="action" value="volumes__delete__<%= volume.get("id")%>" type="submit">Delete Volume</button>
+                                </li>
+                            </ul>
+                        </div>
                     </td>
                 </tr>
                 <% 

@@ -1,12 +1,13 @@
 var NovaVolumesView = Backbone.View.extend({
     
-    _template: _.itemplate($('#novaInstancesTemplate').html()),
     _template: _.itemplate($('#novaVolumesTemplate').html()),
     
     dropdownId: undefined,
     
     events: {
         'change .checkbox_volumes':'enableDisableDeleteButton',
+        'click .btn-create':'onCreate',
+        'click .btn-edit-volumes':'onEdit',
         'click .btn-create':'onCreate',
         'click .btn-terminate':'onDelete',
         'click .btn-terminate-group':'onDeleteGroup'
@@ -26,6 +27,13 @@ var NovaVolumesView = Backbone.View.extend({
     onCreate: function(evt) {
         var instance = evt.target.value;
         var subview = new CreateVolumeView({el: 'body'});
+        subview.render();
+    },
+    
+    onEdit: function(evt) {
+        var vol = evt.target.getAttribute("value");;
+        var volume = this.model.get(vol);
+        var subview = new EditVolumeAttachmentsView({el: 'body', model: volume, instances: this.options.instances});
         subview.render();
     },
     
@@ -65,6 +73,8 @@ var NovaVolumesView = Backbone.View.extend({
     },
     
     renderFirst: function() {
+        this.undelegateEvents();
+        this.delegateEvents(this.events);
         $(this.el).html(this._template({models:this.model.models, flavors:this.options.flavors}));
         this.undelegateEvents();
         this.delegateEvents(this.events);

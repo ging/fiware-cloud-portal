@@ -83,6 +83,27 @@ var Instance = Backbone.Model.extend({
         return this._action('consoleoutput', options);
     },
     
+    attachvolume: function(options) {
+        if (options == undefined) {
+            options = {};
+        }
+        return this._action('attachvolume', options);
+    },
+    
+    detachvolume: function(options) {
+        if (options == undefined) {
+            options = {};
+        }
+        return this._action('detachvolume', options);
+    },
+    
+    attachedvolumes: function(options) {
+        if (options == undefined) {
+            options = {};
+        }
+        return this._action('attachedvolumes', options);
+    },
+    
     sync: function(method, model, options) {
         switch(method) {
             case "create":
@@ -141,6 +162,16 @@ var Instance = Backbone.Model.extend({
                 break;
             case "consoleoutput":
                 JSTACK.Nova.getconsoleoutput(model.get("id"), options.length, options.success);
+                break;
+            case "attachvolume":
+                JSTACK.Nova.attachvolume(model.get("id"), options.volume_id, options.device, options.success);
+                break;
+            case "detachvolume":
+                console.log("Detaching " + options.volume_id + " from " + model.get("id"));
+                JSTACK.Nova.detachvolume(model.get("id"), options.volume_id, options.success);
+                break;
+            case "attachedvolumes":
+                JSTACK.Nova.getattachedvolumes(model.get("id"), options.success);
                 break;
         }
     },
