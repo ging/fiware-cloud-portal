@@ -10,6 +10,7 @@ var OSRouter = Backbone.Router.extend({
     loginModel: undefined,
     instancesModel: undefined,
     volumesModel: undefined,
+    volumeSnapshotModel: undefined,
     flavors: undefined,
     images: undefined,
     keypairsModel: undefined,
@@ -29,6 +30,7 @@ var OSRouter = Backbone.Router.extend({
 	    this.loginModel = new LoginStatus();
 	    this.instancesModel = new Instances();
 	    this.volumesModel = new Volumes();
+	    this.volumeSnapshotModel = new VolumeSnapshots();
 	    this.flavors = new Flavors();
 	    this.images = new Images();
 	    this.keypairsModel = new Keypairs();
@@ -67,10 +69,7 @@ var OSRouter = Backbone.Router.extend({
 	    this.route('syspanel/quotas/', 'quotas',  this.wrap(this.sys_quotas, this.checkAuth));
 	    
 	    this.route('syspanel/flavors/create', 'create_flavor',  this.wrap(this.create_flavor, this.checkAuth));    
-	   // this.route('syspanel/images/delete', 'delete_images',  this.wrap(this.delete_images, this.checkAuth));        
 
-	    //this.route('nova/instances_and_volumes/instances/:id/update', 'update_instance', this.wrap(this.update_instance, this.checkAuth));
-	    
 	    this.route('nova/images_and_snapshots/:id/delete', 'delete_image',  this.wrap(this.delete_image, this.checkAuth));
 	    this.route('nova/images_and_snapshots/:id/update', 'edit_image',  this.wrap(this.edit_image, this.checkAuth));
 	    this.route('nova/images_and_snapshots/:id', 'consult_image',  this.wrap(this.consult_image, this.checkAuth));
@@ -328,8 +327,8 @@ var OSRouter = Backbone.Router.extend({
 	
 	nova_images_and_snapshots: function(self) {
 	    self.showNovaRoot(self, 'Images &amp; Snapshots');
-	    var view = new ImagesAndSnapshotsView({el: '#content', model:self.images, flavors: self.flavors, keypairs: self.keypairsModel});
-	     self.newContentView(self,view);
+	    var view = new ImagesAndSnapshotsView({images: self.images, volumeSnapshotsModel: self.volumeSnapshotModel, flavors: self.flavors, keypairs: self.keypairsModel, el: '#content'});
+	    self.newContentView(self,view);
 	},
 	
 	nova_instances_and_volumes: function(self) {

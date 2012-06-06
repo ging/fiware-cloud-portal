@@ -21,14 +21,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                <% 
-                
+                <%                 
                 var flavorlist = {};
                 for (var index in flavors.models) {
                     var flavor = flavors.models[index];
                     flavorlist[flavor.id] = flavor.get("ram") + " MB RAM | " + flavor.get("vcpus") + " VCPU | " + flavor.get("disk") + "GB Disk";
-                }
-                
+                }                
                 var i = 0;
                 var POWER_STATES = {
                     0: "NO STATE",
@@ -45,8 +43,7 @@
                 for (var index in models) {
                     i++; 
                     var instance = models[index];
-                %> 
-             
+                %>              
                 <tr data-update-interval="2500" 
                     data-update-url="/nova/instances_and_volumes/?action=row_update&amp;table=instances&amp;obj_id=<%= instance.id %>" 
                     id="instances__row__<%= instance.id %>" 
@@ -59,9 +56,7 @@
                     </td>
                     <td class="">
                         <ul>
-                            <% 
-                            
-
+                            <%                      
                             if (instance.get("addresses") != null && instance.get("addresses").public != null) {
                                 var addresses = instance.get("addresses").public;
                                 var i = 0;
