@@ -16,6 +16,7 @@ var VolumeSnapshot = Backbone.Model.extend({
     sync: function(method, model, options) {
         switch(method) {
             case "create": 
+            console.log('Creating volume snapshot');
             	JSTACK.Nova.Volume.createsnapshot(model.get("id"), model.get("name"), model.get("description"), options.success);
                 break;
             case "delete":

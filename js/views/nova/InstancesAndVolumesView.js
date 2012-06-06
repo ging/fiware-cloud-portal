@@ -8,7 +8,7 @@ var InstancesAndVolumesView = Backbone.View.extend({
     initialize: function() {
         this.render();
         this.instancesView = new NovaInstancesView({model: this.options.instancesModel, flavors: this.options.flavors, el: '#instances'});
-        this.volumesView = new NovaVolumesView({model: this.options.volumesModel, instances: this.options.instancesModel,el: '#volumes'});
+        this.volumesView = new NovaVolumesView({model: this.options.volumesModel, volumeSnapshotsModel: this.options.volumeSnapshotModel, instances: this.options.instancesModel,el: '#volumes'});
     },
     
   	onClose: function() {

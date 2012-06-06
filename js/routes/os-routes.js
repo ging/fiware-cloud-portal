@@ -335,7 +335,7 @@ var OSRouter = Backbone.Router.extend({
 	    self.showNovaRoot(self, 'Instances &amp; Volumes');
 	    //self.add_fetch(self.instancesModel, 4);
 	    self.instancesModel.alltenants = false;
-	    var view = new InstancesAndVolumesView({instancesModel: self.instancesModel, volumesModel: self.volumesModel, flavors: self.flavors, el: '#content'});
+	    var view = new InstancesAndVolumesView({instancesModel: self.instancesModel, volumesModel: self.volumesModel, volumeSnapshotsModel: self.volumeSnapshotModel, flavors: self.flavors, el: '#content'});
 	    self.newContentView(self,view);
 	},
 	

@@ -1,7 +1,6 @@
 <script id="novaVolumesTemplate" type="text/html">
     <div class="table_wrapper">
-        <div style='display:none'>
-            </div>
+        <div style='display:none'></div>
             <div class='table_header'>
                 <h3 class='table_title'>Volumes</h3>
                 <div class="table_actions clearfix">
@@ -45,7 +44,7 @@
                             </a>
                             <ul class="dropdown-menu row_actions clearfix">
                                 <li class="clearfix">
-                                    <a href="#nova/instances_and_volumes/volumes/<%= volume.get("id")%>/create_snapshot/" id="volumes__row_<%= volume.get("id")%>__action_snapshots" class="btn btn-small ajax-modal btn-camera">Create Snapshot</a>
+                                    <button value="<%= volume.id %>" id="volumes__row_<%= volume.get("id")%>__action_snapshots" class="btn btn-small ajax-modal btn-camera">Create Snapshot</button>
                                 </li>
                                 <li class="clearfix">
                                     <button id="volumes__row_<%= volume.get("id")%>__action_delete" class="btn btn-small btn-danger btn-delete" name="action" value="volumes__delete__<%= volume.get("id")%>" type="submit">Delete Volume</button>

@@ -20,32 +20,31 @@
     		</tr>
   		</thead>
   		<tbody>  
-    <% for (var index in models) { 
-        var volSnapshot = models[index];
-        console.log("Volume snapshot = "+JSON.stringify(volSnapshot));
-        console.log(lalala);
-        %>
-    <tr id="volume_snapshots__row__<%= models.length %>" class="">
-        <td class="multi_select_column"><input type="checkbox" name="object_ids" class="checkbox" id="checkbox_<%= image.get('id')%>" value="<%= image.get('id')%>" /></td>
-        <td class=""><a href="#nova/images_and_snapshots/<%= image.get('id')%>"><%= image.get('name')%></a></td>
-        <td class="">Snapshot</td>
-        <td class=""><%=image.get('status').toLowerCase()%></td>
-        <td class="" data-i18n="Yes">No</td>
-        <td class="">BARE</td>
-        <td class="actions_column">
-        	<button id="volume_snapshot__action_delete" class="ajax-modal btn btn-small btn-delete" value="<%= image.get('id')%>" name="action" type="submit" data-i18n="Delete Volume Snapshot">Delete Volume Snapshot</button>
-        </td>
-    </tr>
-    <% } %>
-  </tbody>
-  <tfoot>
-    <tr>
-      <td colspan="7">
-        <span><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", models.length)%></span>       
-      </td>
-    </td>
-  </tfoot>
-</table>
-   </div>
-
+		    <% 	var volSnapshot = models[index];	    
+		    	for (var index in models) { 
+		        var volSnapshot = models[index];
+		        console.log("Volume snapshot = "+JSON.stringify(volSnapshot));		        
+		    %>
+		    <tr id="volume_snapshots__row__<%= models.length %>" class="">
+		        <td class="multi_select_column"><input type="checkbox" name="object_ids" class="checkbox checkbox_volumes" id="checkbox_<%= image.get('id')%>" value="<%= image.get('id')%>" /></td>
+		        <td class=""><a href="#nova/images_and_snapshots/<%= image.get('id')%>"><%= image.get('name')%></a></td>
+		        <td class="">Snapshot</td>
+		        <td class=""><%=image.get('status').toLowerCase()%></td>
+		        <td class="" data-i18n="Yes">No</td>
+		        <td class="">BARE</td>
+		        <td class="actions_column">
+		        	<button id="volume_snapshot__action_delete" class="ajax-modal btn btn-small btn-delete" value="<%= image.get('id')%>" name="action" type="submit" data-i18n="Delete Volume Snapshot">Delete Volume Snapshot</button>
+		        </td>
+		    </tr>
+		    <% } %>
+  		</tbody>
+		  <tfoot>
+		    <tr>
+		      <td colspan="7">
+		        <span><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", models.length)%></span>       
+		      </td>
+		    </td>
+		  </tfoot>
+		</table>
+   	</div>
    </script>

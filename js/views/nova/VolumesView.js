@@ -8,8 +8,8 @@ var NovaVolumesView = Backbone.View.extend({
         'change .checkbox_volumes':'enableDisableDeleteButton',
         'click .btn-create':'onCreate',
         'click .btn-edit-volumes':'onEdit',
-        'click .btn-create':'onCreate',
         'click .btn-terminate':'onDelete',
+        'click .btn-camera':'onSnapshot',
         'click .btn-terminate-group':'onDeleteGroup'
     },
     
@@ -30,8 +30,14 @@ var NovaVolumesView = Backbone.View.extend({
         subview.render();
     },
     
+    onSnapshot: function(evt) {
+        var volume = evt.target.getAttribute("value");
+        var subview = new CreateVolumeSnapshotView({el: 'body', model: volume, volumeSnapshotsModel:this.options.volumeSnapshotsModel, instances: this.options.instances});
+        subview.render();
+    },
+    
     onEdit: function(evt) {
-        var vol = evt.target.getAttribute("value");;
+        var vol = evt.target.getAttribute("value");
         var volume = this.model.get(vol);
         var subview = new EditVolumeAttachmentsView({el: 'body', model: volume, instances: this.options.instances});
         subview.render();
@@ -75,7 +81,7 @@ var NovaVolumesView = Backbone.View.extend({
     renderFirst: function() {
         this.undelegateEvents();
         this.delegateEvents(this.events);
-        $(this.el).html(this._template({models:this.model.models, flavors:this.options.flavors}));
+        $(this.el).html(this._template({models:this.model.models, volumeSnapshotsModel:this.options.volumeSnapshotModel, flavors:this.options.flavors}));
         this.undelegateEvents();
         this.delegateEvents(this.events);
     },
@@ -84,7 +90,7 @@ var NovaVolumesView = Backbone.View.extend({
         this.undelegateEvents();
         this.delegateEvents(this.events);
         if ($(this.el).html() != null) {
-            var new_template = this._template({models:this.model.models, flavors:this.options.flavors});
+            var new_template = this._template({models:this.model.models, volumeSnapshotsModel: this.options.volumeSnapshotModel, flavors:this.options.flavors});
             var checkboxes = [];
             var dropdowns = [];
             for (var index in this.model.models) { 

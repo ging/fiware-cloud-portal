@@ -1,0 +1,132 @@
+<script id="novaImagesAndInstanceSnapshotsTemplate" type="text/html">
+	<div class="table_wrapper">
+		<div class='table_header'>
+  			<h3 class='table_title' data-i18n="Images">Images</h3>
+  			<div class="table_actions clearfix">
+            	<button id="images_delete" disabled=true class='btn btn-small btn-danger btn-delete-group-images' name="action" value="images__delete" type="submit" data-i18n="Delete Images">Delete Images</button>
+			</div>
+		</div>
+		<table id="images" class="table table-bordered table-striped">
+  			<thead>
+    			<tr>      
+			        <th class="multi_select_column"></th>      
+			        <th class="" data-i18n="Name">Name</th>      
+			        <th class="" data-i18n="Type">Type</th>      
+			        <th class="" data-i18n="Status">Status</th>      
+			        <th class="" data-i18n="Public">Public</th>      
+			        <th class="" data-i18n="Container Format">Container Format</th>      
+			        <th class="actions_column" data-i18n="Actions">Actions</th>      
+    			</tr>
+  			</thead>
+  			<tbody>  
+		    <% 	var num_images=0;
+		    	for (var index in models) {
+		        var image = models[index];
+		        var image_type = image.get('metadata').image_type;
+		        if (image_type != "snapshot") {
+		        num_images++;
+		        %>
+		    <tr data-update-interval="2500" 
+                data-update-url="/nova/images_and_snapshots/?action=row_update&amp;table=images&amp;obj_id=<%= image.id %>" 
+		    	id="images__row__<%= models.length %>"  
+		    	class="ajax-update status_down">
+		        <td class="multi_select_column">
+		        	<input type="checkbox" name="object_ids" class="checkbox_images" id="checkbox_<%= image.get('id')%>" value="<%= image.get('id')%>" />
+		        </td>
+		        <td class=""><a href="#nova/images_and_snapshots/<%= image.get('id')%>"><%= image.get('name')%></a></td>
+		        <td class="">Instance</td>
+		        <td class=""><%=image.get('status').toLowerCase()%></td>
+		        <td class="" data-i18n="Yes">Yes</td>
+		        <td class="">AMI</td>
+		        <td class="actions_column">
+		            <div id="dropdown_<%= image.get('id') %>" class="btn-group">
+		                <button id="image__action_launch" class="ajax-modal btn btn-small btn-launch-images" value="<%= image.get('id')%>" data-i18n="Launch">Launch</button>
+		                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+		                    <span class="caret"></span>
+		                </a>
+		                <ul class="dropdown-menu row_actions clearfix">
+		                    <li class="clearfix">
+		                        <button id="image__action_edit" class="ajax-modal btn btn-small btn-edit-images" value="<%= image.get('id')%>" name="action" type="submit" data-i18n="Edit">Edit</button>
+		                    </li>
+		                </ul>
+		            </div>
+		        </td>
+		    </tr>
+		    <% } } %>
+			</tbody>
+			<tfoot>
+			    <tr>
+			    	<td colspan="7">
+			    		<span><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", num_images)%></span>			        
+			    	</td>
+			    </tr>
+  			</tfoot>
+		</table>
+  	</div>
+  	
+  		<div class="table_wrapper">
+		<div style='display:none'></div>
+		<div class='table_header'>
+		  <h3 class='table_title'>Instance Snapshots</h3>
+		  <div class="table_actions clearfix"> 
+			<button id='instance_delete' class='btn btn-small btn-danger btn-delete-group-instances' disabled=true name="action" value="snapshots__delete" type="submit">Delete Snapshots</button>
+		  </div>
+		</div>
+		<table id="instance_snapshots" class="table table-bordered table-striped">
+		  <thead>
+		    <tr>	      
+		        <th class="multi_select_column"></th>	      
+		        <th class="">Name</th>	      
+		        <th class="">Type</th>	      
+		        <th class="">Status</th>	      
+		        <th class="">Public</th>	      
+		        <th class="">Container Format</th>	      
+		        <th class="actions_column">Actions</th>	      
+		    </tr>
+		  </thead>
+		  <tbody>  
+			    <% 	var num_snapshots=0;
+			    	for (var index in models) { 
+			        var image = models[index];		        
+		        	var image_type = image.get('metadata').image_type;
+		        	if (image_type == "snapshot") {
+		        	num_snapshots++;
+			    %>
+			    <tr id="images__row__<%= models.length %>" class="">
+			        <td class="multi_select_column"><input type="checkbox" name="object_ids" class="checkbox_instances" id="checkbox_<%= image.get('id')%>" value="<%= image.get('id')%>" /></td>
+			        <td class=""><a href="#nova/images_and_snapshots/<%= image.get('id')%>"><%= image.get('name')%></a></td>
+			        <td class="">Snapshot</td>
+			        <td class=""><%=image.get('status').toLowerCase()%></td>
+			        <td class="" data-i18n="Yes">Yes</td>
+			        <td class="">AMI</td>
+			        <td class="actions_column">
+			            <div id="dropdown_<%= image.get('id') %>" class="btn-group">
+			                <button class="ajax-modal btn btn-small btn-launch-instances" value="<%= image.get('id')%>" data-i18n="Launch">Launch</button>
+			                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+			                    <span class="caret"></span>
+			                </a>
+			                <ul class="dropdown-menu row_actions clearfix">
+			                    <li class="clearfix">
+			                        <button id="instance_snapshot__action_edit"  class="ajax-modal btn btn-small btn-edit-instances" value="<%= image.get('id')%>" name="action" type="submit" data-i18n="Edit">Edit</button>
+			                    </li>
+			                </ul>
+			                <ul class="dropdown-menu row_actions clearfix">
+			                    <li class="clearfix">
+			                        <button id="instance_snapshot__action_delete"  class="ajax-modal btn btn-danger btn-delete-instances" value="<%= image.get('id')%>" name="action" type="submit" data-i18n="Delete Snapshot">Delete Snapshot</button>
+			                    </li>
+			                </ul>
+			            </div>
+			        </td>
+			    </tr>
+			    <% } } %>
+				</tbody>
+				<tfoot>
+				    <tr>
+				    	<td colspan="7">
+				    		<span><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", num_snapshots)%></span>			        
+				    	</td>
+				    </tr>
+	  			</tfoot>
+		</table>
+	</div>
+</script>
