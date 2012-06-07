@@ -5,7 +5,7 @@ var CreateVolumeView = Backbone.View.extend({
     events: {
       'click #cancelBtn': 'close',
       'click #close': 'close',
-      'click #updateBtn': 'update',
+      'click #createBtn': 'create',
       'click .modal-backdrop': 'close'   
     },
     
@@ -32,11 +32,11 @@ var CreateVolumeView = Backbone.View.extend({
         this.onClose();
     },
     
-    update: function(e) {
+    create: function(e) {
         var name = $('input[name=name]').val();
         var description = $('textarea[name=description]').val();
         var size= $('input[name=size]').val();
-        this.model = new Volume();
+        this.model = new Volume();        
         this.model.set({name: name, description: description, size: size});
         this.model.save();
         var subview = new MessagesView({el: '.topbar', state: "Success", title: "Volume "+name+" created."});     
