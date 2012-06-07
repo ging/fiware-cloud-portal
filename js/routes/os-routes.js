@@ -10,7 +10,7 @@ var OSRouter = Backbone.Router.extend({
     loginModel: undefined,
     instancesModel: undefined,
     volumesModel: undefined,
-    volumeSnapshotModel: undefined,
+    volumeSnapshotsModel: undefined,
     flavors: undefined,
     images: undefined,
     keypairsModel: undefined,
@@ -30,7 +30,7 @@ var OSRouter = Backbone.Router.extend({
 	    this.loginModel = new LoginStatus();
 	    this.instancesModel = new Instances();
 	    this.volumesModel = new Volumes();
-	    this.volumeSnapshotModel = new VolumeSnapshots();
+	    this.volumeSnapshotsModel = new VolumeSnapshots();
 	    this.flavors = new Flavors();
 	    this.images = new Images();
 	    this.keypairsModel = new Keypairs();
@@ -104,6 +104,7 @@ var OSRouter = Backbone.Router.extend({
                 this.add_fetch(this.volumesModel, 4);
                 this.add_fetch(this.images, 4);
                 this.add_fetch(this.flavors, 4);
+                this.add_fetch(this.volumeSnapshotsModel,4);
                 if (this.loginModel.isAdmin()) {
                     this.add_fetch(this.projects, 4);
                 }
@@ -327,7 +328,8 @@ var OSRouter = Backbone.Router.extend({
 	
 	nova_images_and_snapshots: function(self) {
 	    self.showNovaRoot(self, 'Images &amp; Snapshots');
-	    var view = new ImagesAndSnapshotsView({images: self.images, volumeSnapshotsModel: self.volumeSnapshotModel, instancesModel: self.instancesModel, volumesModel: self.volumesModel, flavors: self.flavors, keypairs: self.keypairsModel, el: '#content'});
+	    self.instancesModel.alltenants = false;
+	    var view = new ImagesAndSnapshotsView({images: self.images, volumeSnapshotsModel: self.volumeSnapshotsModel, instancesModel: self.instancesModel, volumesModel: self.volumesModel, flavors: self.flavors, keypairs: self.keypairsModel, el: '#content'});
 	    self.newContentView(self,view);
 	},
 	

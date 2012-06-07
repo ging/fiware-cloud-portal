@@ -8,7 +8,7 @@ var NovaVolumesView = Backbone.View.extend({
         'change .checkbox_volumes':'enableDisableDeleteButton',
         'click .btn-create':'onCreate',
         'click .btn-edit-volumes':'onEdit',
-        'click .btn-terminate':'onDelete',
+        'click .btn-delete-volume':'onDelete',
         'click .btn-camera':'onSnapshot',
         'click .btn-delete-group':'onDeleteGroup'
     },
@@ -44,11 +44,11 @@ var NovaVolumesView = Backbone.View.extend({
     },
     
     onDelete: function(evt) {
-        var instance = evt.target.value;
-        var inst = this.model.get(instance);
-        var subview = new ConfirmView({el: 'body', title: "Terminate Instance", btn_message: "Terminate Instance", onAccept: function() {
-            inst.destroy();
-            var subview = new MessagesView({el: '.topbar', state: "Success", title: "Instance "+inst.get("name")+" terminated."});     
+        var volume = evt.target.value;
+        var vol = this.model.get(volume);
+        var subview = new ConfirmView({el: 'body', title: "Delete Volume", btn_message: "Delete Volume", onAccept: function() {
+            vol.destroy();
+            var subview = new MessagesView({el: '.topbar', state: "Success", title: "Volume "+vol.get("display_name")+" deleted."});     
             subview.render();
         }});
         
@@ -81,8 +81,8 @@ var NovaVolumesView = Backbone.View.extend({
     renderFirst: function() {
         this.undelegateEvents();
         this.delegateEvents(this.events);
-        console.log(this.model.models);
-        $(this.el).html(this._template({models:this.model.models, volumeSnapshotsModel:this.options.volumeSnapshotModel, flavors:this.options.flavors}));
+        console.log("render volumes "+this.model.models);
+        $(this.el).html(this._template({models:this.model.models, volumeSnapshotsModel:this.options.volumeSnapshotModel, instances: this.options.instancesModel}));
         this.undelegateEvents();
         this.delegateEvents(this.events);
     },

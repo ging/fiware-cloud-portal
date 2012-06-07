@@ -59,9 +59,9 @@ var NovaVolumeSnapshotsView = Backbone.View.extend({
     renderFirst: function() {
     	this.undelegateEvents();
         this.delegateEvents(this.events);
-        console.log("Rendering "+this.model.models);
-        $(this.el).html(this._template({models:this.model.models, volumeSnapshotsModel:this.options.volumeSnapshotsModel, instancesModel:this.options.instancesModel, volumesModel:this.options.volumesModel, flavors:this.options.flavors}));
-       //UTILS.Render.animateRender(this.el, this._template, this.model);
+        console.log("Rendering "+this.model.models[0]);
+        $(this.el).html(this._template({models:this.model.models, instancesModel:this.options.instancesModel, volumesModel:this.options.volumesModel, flavors:this.options.flavors}));
+        //UTILS.Render.animateRender(this.el, this._template, this.model);
         this.undelegateEvents();
         this.delegateEvents(this.events);
     },

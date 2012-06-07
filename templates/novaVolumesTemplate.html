@@ -48,12 +48,12 @@
                                     <button value="<%= volume.id %>" id="volumes__row_<%= volume.get("id")%>__action_snapshots" class="btn btn-small ajax-modal btn-camera">Create Snapshot</button>
                                 </li>
                                 <li class="clearfix">
-                                    <button id="volumes__row_<%= volume.get("id")%>__action_delete" class="btn btn-small btn-danger btn-delete" name="action" value="volumes__delete__<%= volume.get("id")%>" type="submit">Delete Volume</button>
+                                    <button id="volumes__row_<%= volume.get("id")%>__action_delete" class="btn btn-small btn-danger btn-delete-volume" name="action" value="<%= volume.get("id")%>" type="submit">Delete Volume</button>
                                 </li>
                             </ul>
                         </div>
                     <% } else { %>	
-						<button "volumes__row_<%= volume.get("id")%>__action_delete" class="btn btn-small btn-danger btn-delete" name="action" value="volumes__delete__<%= volume.get("id")%>" type="submit" data-i18n="Delete Volume">Delete Volume</button>						
+						<button "volumes__row_<%= volume.get("id")%>__action_delete" class="btn btn-small btn-danger btn-delete-volume" name="action" value="<%= volume.get("id")%>" type="submit" data-i18n="Delete Volume">Delete Volume</button>						
 					<%}%>                    
                     </td>                    
                 </tr>
