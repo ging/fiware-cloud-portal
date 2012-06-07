@@ -10,7 +10,7 @@ var NovaVolumesView = Backbone.View.extend({
         'click .btn-edit-volumes':'onEdit',
         'click .btn-terminate':'onDelete',
         'click .btn-camera':'onSnapshot',
-        'click .btn-terminate-group':'onDeleteGroup'
+        'click .btn-delete-group':'onDeleteGroup'
     },
     
     initialize: function() {
@@ -81,6 +81,7 @@ var NovaVolumesView = Backbone.View.extend({
     renderFirst: function() {
         this.undelegateEvents();
         this.delegateEvents(this.events);
+        console.log(this.model.models);
         $(this.el).html(this._template({models:this.model.models, volumeSnapshotsModel:this.options.volumeSnapshotModel, flavors:this.options.flavors}));
         this.undelegateEvents();
         this.delegateEvents(this.events);

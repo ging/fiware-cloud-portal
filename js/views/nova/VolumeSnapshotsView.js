@@ -2,17 +2,20 @@ var NovaVolumeSnapshotsView = Backbone.View.extend({
     
     _template: _.itemplate($('#novaVolumeSnapshotsTemplate').html()),
     
-    initialize: function() {
-        this.model.unbind("reset");
-        this.model.bind("reset", this.render, this);
-        this.renderFirst();
-    },
+    dropdownId: undefined,
     
     events:{
         'change .checkbox':'enableDisableDeleteButton',
         'click .btn-delete':'onDelete',
         'click .btn-delete-group':'onDeleteGroup',
     },
+    
+    initialize: function() {
+        this.model.unbind("reset");
+        this.model.bind("reset", this.render, this);
+        this.renderFirst();
+    },    
+    
     
     onClose: function() {
         this.undelegateEvents();
@@ -54,10 +57,18 @@ var NovaVolumeSnapshotsView = Backbone.View.extend({
     },
     
     renderFirst: function() {
-        UTILS.Render.animateRender(this.el, this._template, this.model);
+    	this.undelegateEvents();
+        this.delegateEvents(this.events);
+        console.log("Rendering "+this.model.models);
+        $(this.el).html(this._template({models:this.model.models, volumeSnapshotsModel:this.options.volumeSnapshotsModel, instancesModel:this.options.instancesModel, volumesModel:this.options.volumesModel, flavors:this.options.flavors}));
+       //UTILS.Render.animateRender(this.el, this._template, this.model);
+        this.undelegateEvents();
+        this.delegateEvents(this.events);
     },
     
     render: function () {
+    	this.undelegateEvents();
+        this.delegateEvents(this.events);
         if ($("#volume_snapshots").html() != null) {
             var new_template = this._template(this.model);
             var checkboxes = [];

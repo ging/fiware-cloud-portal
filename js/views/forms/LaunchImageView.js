@@ -6,7 +6,7 @@ var LaunchImageView = Backbone.View.extend({
       'click #cancelBtn': 'close',
       'click #close': 'close',
       'click .modal-backdrop': 'close',
-      'click #launch-btn': 'launch'
+      'click .btn-launch': 'launch'
     },
     
     initialize: function() {

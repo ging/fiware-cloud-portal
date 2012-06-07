@@ -327,7 +327,7 @@ var OSRouter = Backbone.Router.extend({
 	
 	nova_images_and_snapshots: function(self) {
 	    self.showNovaRoot(self, 'Images &amp; Snapshots');
-	    var view = new ImagesAndSnapshotsView({images: self.images, volumeSnapshotsModel: self.volumeSnapshotModel, flavors: self.flavors, keypairs: self.keypairsModel, el: '#content'});
+	    var view = new ImagesAndSnapshotsView({images: self.images, volumeSnapshotsModel: self.volumeSnapshotModel, instancesModel: self.instancesModel, volumesModel: self.volumesModel, flavors: self.flavors, keypairs: self.keypairsModel, el: '#content'});
 	    self.newContentView(self,view);
 	},
 	

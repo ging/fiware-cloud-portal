@@ -45,7 +45,7 @@ var NovaImagesAndInstanceSnapshotsView = Backbone.View.extend({
                     var image = $(this).val(); 
                     console.log("Image = "+image);
                     var img = self.model.get(image);
-                    //img.destroy();
+                    img.destroy();
                     var subview = new MessagesView({el: '.topbar', state: "Success", title: "Images "+img.get("name")+" deleted."});     
         			subview.render();
             });
@@ -55,7 +55,7 @@ var NovaImagesAndInstanceSnapshotsView = Backbone.View.extend({
     
     onLaunchImages: function(evt) {
         var image = this.model.get(evt.target.value);
-        var subview = new LaunchImageView({model: image, el: 'body', flavors: this.options.flavors, keypairs: this.options.keypairs});
+        var subview = new LaunchImageView({model: image, flavors: this.options.flavors, keypairs: this.options.keypairs, el: 'body'});
         subview.render();
     },
     
@@ -77,11 +77,10 @@ var NovaImagesAndInstanceSnapshotsView = Backbone.View.extend({
     
     onDeleteInstances: function(evt) {
      	var self = this;
-        var instanceSnapshot = $(this).val(); 
-        console.log('Instance snapshot = '+instanceSnapshot);
+        var instanceSnapshot = this.model.get(evt.target.value);
         var instSnapshot = self.model.get(instanceSnapshot);
         var subview = new ConfirmView({el: 'body', title: "Delete Instance Snapshot", btn_message: "Delete Instance Snapshot", onAccept: function() {
-            //instSnapshot.destroy();
+            instSnapshot.destroy();
             var subview = new MessagesView({el: '.topbar', state: "Success", title: "Instance snapshot "+instSnapshot.get("name")+" deleted."});     
             subview.render();
         }});        
@@ -95,7 +94,7 @@ var NovaImagesAndInstanceSnapshotsView = Backbone.View.extend({
                     var instanceSnapshot = $(this).val(); 
                     console.log('Instance snapshot = '+instanceSnapshot);
         			var instSnapshot = self.model.get(instanceSnapshot);
-                   // instSnapshot.destroy();
+                   	instSnapshot.destroy();
                     var subview = new MessagesView({el: '.topbar', state: "Success", title: "Instance snapshot "+instSnapshot.get("name")+" deleted."});     
         			subview.render();
             });
@@ -105,13 +104,13 @@ var NovaImagesAndInstanceSnapshotsView = Backbone.View.extend({
     
     onLaunchInstances: function(evt) {
         var instanceSnapshot = this.model.get(evt.target.value);
-        var subview = new LaunchImageView({model: instanceSnapshot, el: 'body', flavors: this.options.flavors, keypairs: this.options.keypairs});
+        var subview = new LaunchImageView({model: instanceSnapshot, flavors: this.options.flavors, keypairs: this.options.keypairs, el: 'body'});
         subview.render();
     },
     
     onEditInstances: function(evt) {
         var image = this.model.get(evt.target.value);
-        var subview = new UpdateInstanceSnapshotView({model: image, el: 'body'});
+        var subview = new UpdateImageView({model: image, el: 'body'});
         subview.render();
     },
     
@@ -130,26 +129,26 @@ var NovaImagesAndInstanceSnapshotsView = Backbone.View.extend({
             var checkboxes = [];
             var dropdowns = [];
             for (var index in this.model.models) { 
-                var instanceId = this.model.models[index].id;
-                if ($("#checkbox_"+instanceId).is(':checked')) {
-                    checkboxes.push(instanceId);
+                var imageId = this.model.models[index].id;
+                if ($("#checkbox_images_"+imageId).is(':checked')) {
+                    checkboxes.push(imageId);
                 }
-                if ($("#dropdown_"+instanceId).hasClass('open')) {
-                    dropdowns.push(instanceId);
+                if ($("#dropdown_images_"+imageId).hasClass('open')) {
+                    dropdowns.push(imageId);
                 }
             }
             $(this.el).html(new_template);
             for (var index in checkboxes) { 
-                var instanceId = checkboxes[index];
-                var check = $("#checkbox_"+instanceId);
+                var imageId = checkboxes[index];
+                var check = $("#checkbox_images_"+imageId);
                 if (check.html() != null) {
                     check.prop("checked", true);
                 }
             }
             
             for (var index in dropdowns) { 
-                var instanceId = dropdowns[index];
-                var drop = $("#dropdown_"+instanceId);
+                var imageId = dropdowns[index];
+                var drop = $("#dropdown_images_"+imageId);
                 if (drop.html() != null) {
                     drop.addClass("open");
                 }
@@ -162,17 +161,17 @@ var NovaImagesAndInstanceSnapshotsView = Backbone.View.extend({
             var dropdowns = [];
             for (var index in this.model.models) { 
                 var instanceId = this.model.models[index].id;
-                if ($("#checkbox_"+instanceId).is(':checked')) {
+                if ($("#checkbox_instances_"+instanceId).is(':checked')) {
                     checkboxes.push(instanceId);
                 }
-                if ($("#dropdown_"+instanceId).hasClass('open')) {
+                if ($("#dropdown_instances_"+instanceId).hasClass('open')) {
                     dropdowns.push(instanceId);
                 }
             }
             $(this.el).html(new_template);
             for (var index in checkboxes) { 
                 var instanceId = checkboxes[index];
-                var check = $("#checkbox_"+instanceId);
+                var check = $("#checkbox_instances_"+instanceId);
                 if (check.html() != null) {
                     check.prop("checked", true);
                 }
@@ -180,7 +179,7 @@ var NovaImagesAndInstanceSnapshotsView = Backbone.View.extend({
             
             for (var index in dropdowns) { 
                 var instanceId = dropdowns[index];
-                var drop = $("#dropdown_"+instanceId);
+                var drop = $("#dropdown_instances_"+instanceId);
                 if (drop.html() != null) {
                     drop.addClass("open");
                 }

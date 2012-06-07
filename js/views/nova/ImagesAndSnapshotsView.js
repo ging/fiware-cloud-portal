@@ -7,8 +7,8 @@ var ImagesAndSnapshotsView = Backbone.View.extend({
     
     initialize: function() {
         this.render();
-        this.imagesAndInstanceSnapshotsView = new NovaImagesAndInstanceSnapshotsView({model: this.options.images, flavors: this.options.flavors, el: '#images_snapshots'});;
-        this.volumeSnapshotsView = new NovaVolumeSnapshotsView({model: this.options.volumeSnapshotsModel, el: '#volume_snapshots'});
+        this.imagesAndInstanceSnapshotsView = new NovaImagesAndInstanceSnapshotsView({model: this.options.images, flavors: this.options.flavors, keypairs: this.options.keypairs, el: '#images_snapshots'});;
+        this.volumeSnapshotsView = new NovaVolumeSnapshotsView({model: this.options.volumeSnapshotsModel, instancesModel: this.options.instancesModel, volumesModel: this.options.volumesModel, flavors: this.options.flavors, el: '#volume_snapshots'});
     },
     
   	onClose: function() {

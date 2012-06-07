@@ -5,7 +5,7 @@
                 <h3 class='table_title'>Volumes</h3>
                 <div class="table_actions clearfix">
                     <a id="volumes_create" class="btn btn-small ajax-modal btn-create">Create Volume</a>
-                    <button id="volumes_delete" disabled=true class="btn btn-small btn-danger btn-terminate-group" name="action" value="volumes__delete" class="volumes_delete" type="submit" data-i18n="Delete Volume">Delete Volumes</button>
+                    <button id="volumes_delete" disabled=true class="btn btn-small btn-danger btn-delete-group" name="action" value="volumes__delete" class="volumes_delete" type="submit" data-i18n="Delete Volume">Delete Volumes</button>
                 </div>
             </div>
             <table id="volumes" class="table table-bordered table-striped">
@@ -37,6 +37,7 @@
                     <td class="status_unknown"><i class="icon-updating ajax-updating"></i><%= volume.get("status")%></td>
                     <td class=""><%= (volume.get("attachments").length == 0) ? "-": volume.get("attachments").length%></td>
                     <td class="actions_column">
+                    <% if (volume.get("status") != "error") {%>                    
                         <div class="btn-group">
                             <a id="volumes__row_<%= volume.get("id")%>__action_attachments" value="<%= volume.id %>" class="btn btn-small ajax-modal btn-edit btn-edit-volumes">Edit Attachments</a>
                             <a class="btn dropdown-toggle ajax-modal btn-edit" data-toggle="dropdown" href="#">
@@ -51,11 +52,12 @@
                                 </li>
                             </ul>
                         </div>
-                    </td>
+                    <% } else { %>	
+						<button "volumes__row_<%= volume.get("id")%>__action_delete" class="btn btn-small btn-danger btn-delete" name="action" value="volumes__delete__<%= volume.get("id")%>" type="submit" data-i18n="Delete Volume">Delete Volume</button>						
+					<%}%>                    
+                    </td>                    
                 </tr>
-                <% 
-                }
-                %>
+                <% } %>
             </tbody>
             <tfoot>
                 <tr>
@@ -65,4 +67,5 @@
                 </tr>
             </tfoot>
         </table>
+    </div>
 </script>
