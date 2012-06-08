@@ -32,7 +32,7 @@ var NovaVolumesView = Backbone.View.extend({
     onSnapshot: function(evt) {
         var volumeSnapshot = evt.target.value;
         var volumeSnap = this.model.get(volumeSnapshot);
-        var subview = new CreateVolumeSnapshotView({el: 'body'});
+        var subview = new CreateVolumeSnapshotView({el: 'body', model: volumeSnap});
         subview.render();
     },
     

@@ -138,6 +138,7 @@ UTILS.Render = (function(U, undefined) {
     
     function animateRender(el, template, model, callback) {
         var temp = template(model);
+        console.log(temp);
         $(el).append(temp);
         $(temp).hide();
         $(el).animate( {
@@ -145,7 +146,7 @@ UTILS.Render = (function(U, undefined) {
                         marginRight: "-1250px",
                       }, 200, function() {
             $(temp).show();
-            $(el).empty().html(temp).css('marginLeft', '1250px').css('marginRight', '-1250px').animate( {
+            $(el).html(temp).css('marginLeft', '1250px').css('marginRight', '-1250px').animate( {
                 marginLeft: "-=1250px",
                 marginRight: "+=1250px",
                       }, 200, function() {

@@ -23,7 +23,6 @@
 		    <%  var volSnapshot = models[index];	    
 		    	for (var index in models) { 
 		        var volSnapshot = models[index];
-		        console.log("Volume snapshot = "+JSON.stringify(volSnapshot));		        
 		    %>
 		    <tr id="volume_snapshots__row__<%= models.length %>" class="">
 		        <td class="multi_select_column"><input type="checkbox" name="object_ids" class="checkbox checkbox_volumes" id="checkbox_<%= volSnapshot.get('id')%>" value="<%= volSnapshot.get('id')%>" /></td>

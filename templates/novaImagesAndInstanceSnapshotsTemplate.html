@@ -31,7 +31,7 @@
 		    	id="images__row__<%= models.length %>"  
 		    	class="ajax-update status_down">
 		        <td class="multi_select_column">
-		        	<input type="checkbox" name="object_ids" class="checkbox_images" id="checkbox_instances_<%= image.get('id')%>" value="<%= image.get('id')%>" />
+		        	<input type="checkbox" name="object_ids" class="checkbox_images" id="checkbox_images_<%= image.get('id')%>" value="<%= image.get('id')%>" />
 		        </td>
 		        <td class=""><a href="#nova/images_and_snapshots/<%= image.get('id')%>"><%= image.get('name')%></a></td>
 		        <td class="">Instance</td>
@@ -93,7 +93,9 @@
 		        	num_snapshots++;
 			    %>
 			    <tr id="images__row__<%= models.length %>" class="">
-			        <td class="multi_select_column"><input type="checkbox" name="object_ids" class="checkbox_instances" id="checkbox_instances_<%= image.get('id')%>" value="<%= image.get('id')%>" /></td>
+			        <td class="multi_select_column">
+			            <input type="checkbox" name="object_ids" class="checkbox_instances" id="checkbox_instances_<%= image.get('id')%>" value="<%= image.get('id')%>" />
+		            </td>
 			        <td class=""><a href="#nova/images_and_snapshots/<%= image.get('id')%>"><%= image.get('name')%></a></td>
 			        <td class="">Snapshot</td>
 			        <td class=""><%=image.get('status').toLowerCase()%></td>

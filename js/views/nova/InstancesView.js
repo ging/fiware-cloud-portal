@@ -119,7 +119,7 @@ var NovaInstancesView = Backbone.View.extend({
     },
     
     enableDisableTerminateButton: function () {
-        if ($(".checkbox:checked").size() > 0) { 
+        if ($(".checkbox_instances:checked").size() > 0) { 
             $("#instances_terminate").attr("disabled", false);
         } else {
             $("#instances_terminate").attr("disabled", true);

@@ -20,7 +20,6 @@ var InstancesAndVolumesView = Backbone.View.extend({
   	
     render: function() {
         var self = this;
-        
         UTILS.Render.animateRender(this.el, this._template);
         
         

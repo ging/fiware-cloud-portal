@@ -126,65 +126,59 @@ var NovaImagesAndInstanceSnapshotsView = Backbone.View.extend({
         
         if ($("#images").html() != null) {
             var new_template = this._template(this.model);
-            var checkboxes = [];
-            var dropdowns = [];
+            var checkboxes_images = [];
+            var dropdowns_images = [];
+            var checkboxes_instances = [];
+            var dropdowns_instances = [];
             for (var index in this.model.models) { 
                 var imageId = this.model.models[index].id;
                 if ($("#checkbox_images_"+imageId).is(':checked')) {
-                    checkboxes.push(imageId);
+                    checkboxes_images.push(imageId);
                 }
                 if ($("#dropdown_images_"+imageId).hasClass('open')) {
-                    dropdowns.push(imageId);
+                    dropdowns_images.push(imageId);
+                }
+            }
+            for (var index in this.model.models) { 
+                var instanceId = this.model.models[index].id;
+                if ($("#checkbox_instances_"+instanceId).is(':checked')) {
+                    checkboxes_instances.push(instanceId);
+                }
+                if ($("#dropdown_instances_"+instanceId).hasClass('open')) {
+                    dropdowns_instances.push(instanceId);
                 }
             }
             $(this.el).html(new_template);
-            for (var index in checkboxes) { 
-                var imageId = checkboxes[index];
+            for (var index in checkboxes_images) { 
+                var imageId = checkboxes_images[index];
                 var check = $("#checkbox_images_"+imageId);
                 if (check.html() != null) {
                     check.prop("checked", true);
                 }
             }
             
-            for (var index in dropdowns) { 
-                var imageId = dropdowns[index];
+            for (var index in dropdowns_images) { 
+                var imageId = dropdowns_images[index];
                 var drop = $("#dropdown_images_"+imageId);
                 if (drop.html() != null) {
                     drop.addClass("open");
                 }
             }
-            
-        }
-        if ($("#instance_snapshots").html() != null) {
-            var new_template = this._template(this.model);
-            var checkboxes = [];
-            var dropdowns = [];
-            for (var index in this.model.models) { 
-                var instanceId = this.model.models[index].id;
-                if ($("#checkbox_instances_"+instanceId).is(':checked')) {
-                    checkboxes.push(instanceId);
-                }
-                if ($("#dropdown_instances_"+instanceId).hasClass('open')) {
-                    dropdowns.push(instanceId);
-                }
-            }
-            $(this.el).html(new_template);
-            for (var index in checkboxes) { 
-                var instanceId = checkboxes[index];
+            for (var index in checkboxes_instances) { 
+                var instanceId = checkboxes_instances[index];
                 var check = $("#checkbox_instances_"+instanceId);
                 if (check.html() != null) {
                     check.prop("checked", true);
                 }
             }
             
-            for (var index in dropdowns) { 
-                var instanceId = dropdowns[index];
+            for (var index in dropdowns_instances) { 
+                var instanceId = dropdowns_instances[index];
                 var drop = $("#dropdown_instances_"+instanceId);
                 if (drop.html() != null) {
                     drop.addClass("open");
                 }
             }
-            
         }
         this.enableDisableDeleteButtonImages();
         this.enableDisableDeleteButtonInstances();

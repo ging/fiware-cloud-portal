@@ -36,7 +36,7 @@ var NovaVolumeSnapshotsView = Backbone.View.extend({
         var volumeSnapshot = this.model.get(evt.target.value);
         var volSnapshot = self.model.get(volumeSnapshot);
         var subview = new ConfirmView({el: 'body', title: "Delete Volume Snapshot", btn_message: "Delete Volume Snapshot", onAccept: function() {
-            //volSnapshot.destroy();
+            volSnapshot.destroy();
             var subview = new MessagesView({el: '.topbar', state: "Success", title: "Volume snapshot "+volSnapshot.get("display_name")+" deleted."});     
             subview.render();
         }});        

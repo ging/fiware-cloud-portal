@@ -1,30 +1,17 @@
 <script id="createVolumeSnapshotFormTemplate" type="text/html">
-<div id="create_volume_modal" class="modal hide in" style="display: block; ">
+<div id="create_volume_snapshot_modal" class="modal hide in" style="top: 107px; display: block; ">
   <div class="modal-header">
     <a href="#" class="close" data-dismiss="modal">×</a>
     <h3>Create Volume Snapshot</h3>
   </div>
   
-  <form class="" action="/nova/instances_and_volumes/volumes/create/" method="POST"><div style="display:none"><input type="hidden" name="csrfmiddlewaretoken" value="d477b87e8cd663958c6924d849371b77"></div>
     <div class="modal-body clearfix">
     
 <div class="left">
-    <fieldset>
-    
-  <input type="hidden" name="method" value="CreateForm" id="id_method">
-    
-    
-<div class="control-group form-field clearfix">
-    <label for="id">Volume Snapshot Id</label>
-    
-    <span class="help-block" style="display: none; "></span>
-    <div class="input">
-      <input id="id" type="number" name="id" maxlength="255">
-    </div>
-  </div>
+  <fieldset>
   
   <div class="control-group form-field clearfix">
-    <label for="id">Volume Snapshot Name</label>
+    <label for="id_name">Snapshot Name</label>
     
     <span class="help-block" style="display: none; "></span>
     <div class="input">
@@ -41,18 +28,18 @@
     </div>
   </div>
 
-    </fieldset>
+
+  </fieldset>
 </div>
 <div class="right">
-    <h3>Description:</h3>
-    <p>Volumes are block devices that can be attached to instances.</p>
+  <h3>Description:</h3>
+  <p>Volumes are block devices that can be attached to instances.</p>
 </div>
+
     </div>
     <div class="modal-footer">
-      <a id="createBtn" class="btn btn-primary pull-right" data-dismiss="modal">Create Volume Snapshot</a>
-      <a id="cancelBtn" class="close btn seconday cancel close" data-dismiss="modal">Cancel</a>
-      <!--<a id="cancelBtn" class="btn secondary cancel close">Cancel</a>-->
-    </div>
-  </form>
+  <input id="createBtn" class="btn btn-primary pull-right" type="submit" value="Create Volume Snapshot"></input>
+  <a class="btn secondary cancel close">Cancel</a>
+</div>
 </div>
 </script>

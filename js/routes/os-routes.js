@@ -143,6 +143,7 @@ var OSRouter = Backbone.Router.extend({
 	
 	switchTenant: function(id) {
 	    this.loginModel.switchTenant(id);
+	    this.navigate(this.rootView.options.next_view, {trigger: false, replace: true});
 	},
 	
 	showSettings: function(self) {
@@ -168,7 +169,7 @@ var OSRouter = Backbone.Router.extend({
         topBarView.render();
         
         var showTenants = (self.tabs.getActive() == 'Project');
-        var sideBarView = new SideBarView({el: '#sidebar', model: self.navs, title: option, showTenants: showTenants, tenants: self.loginModel.get("tenants"), tenant: self.loginModel.get("tenant")});
+        var sideBarView = new SideBarView({el: '#sidebar', model: self.navs, title: option, showTenants: showTenants, loginModel: self.loginModel});
         sideBarView.render();
 	},
 	

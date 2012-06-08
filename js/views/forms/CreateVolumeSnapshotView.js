@@ -27,23 +27,18 @@ var CreateVolumeSnapshotView = Backbone.View.extend({
     },
     
     close: function(e) {
-        $('#create_volume_modal').remove();
+        $('#create_volume_snapshot_modal').remove();
         $('.modal-backdrop').remove();
         this.onClose();
     },
     
     create: function(e) {
-    	var id= $('input[name=id]').val();
         var name = $('input[name=name]').val();
         var description = $('textarea[name=description]').val();
-        this.model = new VolumeSnapshot();
+        var snapshot = new VolumeSnapshot();
         //this.options.volumeSnapshotsModel = new VolumeSnapshot();
-        this.model.set({cid: id, name: name, description: description});
-        console.log(this.model);
-        this.model.save();
-        console.log("VOL SNAP ID = "+this.model.get("cid"));
-        console.log("VOL SNAP name = "+this.model.get("name"));
-        console.log("VOL SNAP desc = "+this.model.get("description"));
+        snapshot.set({volume_id: this.model.id, name: name, description: description});
+        snapshot.save();
         var subview = new MessagesView({el: '.topbar', state: "Success", title: "Volume snapshot "+name+" created."});     
         subview.render();
         this.close();

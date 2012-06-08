@@ -5,12 +5,12 @@
     
     <a class="dropdown-toggle" data-toggle="dropdown" href="#tenant_switcher">
       <h4 data-i18n="Project">Project</h4>
-      <h3><%= tenant.name %></h3>
+      <h3><%= loginModel.get("tenant").name %></h3>
       </a>
     <ul id="tenant_list" class="dropdown-menu">
       <li class="divider"></li>
-      <% for (var index in tenants) {
-          var ten = tenants[index];
+      <% for (var index in loginModel.get("tenants")) {
+          var ten = loginModel.get("tenants")[index];
           %>
           <li><a href="#auth/switch/<%= ten.id%>/"><%= ten.name%></a></li>
       <%}%>
