@@ -1,0 +1,205 @@
+<script id="novaAccessAndSecurityTemplate" type="text/html">
+<!--
+    Description: Access And Security
+    src: templates/root/nova/accessAndSecurity.html
+-->
+  <div id="floating_ips">
+      <form action="/nova/access_and_security/" method="POST"><div style='display:none'><input type='hidden' name='csrfmiddlewaretoken' value='13de1d539e7690548408d1be1856eb9c' /></div>
+<div class='table_header'>
+  <h3 class='table_title'>Floating IPs</h3>
+  <div class="table_actions clearfix">
+
+
+    
+        
+            <a href='/nova/access_and_security/floating_ips/allocate/'  class="btn btn-small ajax-modal">Allocate IP To Project</a>
+        
+    
+
+    
+        
+            <button class='btn btn-small ' name="action" value="floating_ips__release" type="submit">Release Floating IPs</button>
+        
+    
+
+</div>
+
+</div>
+
+<table id="floating_ips" class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      
+        <th class="multi_select_column"></th>
+      
+        <th class="">IP Address</th>
+      
+        <th class="">Instance</th>
+      
+        <th class="">Floating IP Pool</th>
+      
+        <th class="actions_column">Actions</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+  
+  <tr class="odd empty">
+    <td colspan="5">No items to display.</td>
+  </tr>
+  
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="5">
+        <span>Displaying 0 items</span>
+        
+      </td>
+    </td>
+  </tfoot>
+</table>
+
+</form>
+
+  </div>
+
+  <div id="security_groups">
+      <form action="/nova/access_and_security/" method="POST"><div style='display:none'><input type='hidden' name='csrfmiddlewaretoken' value='13de1d539e7690548408d1be1856eb9c' /></div>
+<div class='table_header'>
+  <h3 class='table_title'>Security Groups</h3>
+  <div class="table_actions clearfix">
+
+
+    
+        
+            <a href='/nova/access_and_security/security_groups/create/'  class="btn btn-small ajax-modal">Create Security Group</a>
+        
+    
+
+    
+        
+            <button class='btn btn-small btn-danger' name="action" value="security_groups__delete" type="submit">Delete Security Groups</button>
+        
+    
+
+</div>
+
+</div>
+
+<table id="security_groups" class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      
+        <th class="multi_select_column"></th>
+      
+        <th class="">Name</th>
+      
+        <th class="">Description</th>
+      
+        <th class="actions_column">Actions</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr id="security_groups__row__2" class="">
+  <td class="multi_select_column"><input type="checkbox" name="object_ids" value="2" /></td>
+  <td class="">default</td><td class="">default</td><td class="actions_column">
+
+  <a href='/nova/access_and_security/security_groups/2/edit_rules/'  class="ajax-modal btn btn-small">Edit Rules</a>
+
+
+</td>
+</tr>
+
+  
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="4">
+        <span>Displaying 1 item</span>
+        
+      </td>
+    </td>
+  </tfoot>
+</table>
+
+</form>
+
+  </div>
+
+  <div id="keypairs">
+<div class='table_header'>
+  <h3 class='table_title'>Keypairs</h3>
+  <div class="table_actions clearfix">
+
+
+    
+        
+            <a href='/nova/access_and_security/keypairs/create/'  class="ajax-modal btn btn btn-small">Create Keypair</a>
+        
+    
+
+    
+        
+            <a href='/nova/access_and_security/keypairs/import/'  class="ajax-modal btn btn btn-small">Import Keypair</a>
+        
+    
+
+    
+        
+            <button class='btn btn-small btn-danger' name="action" value="keypairs__delete" type="submit">Delete Keypairs</button>
+        
+    
+
+</div>
+
+</div>
+
+<table id="keypairs" class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      
+        <th class="multi_select_column"></th>
+      
+        <th class="">Name</th>
+      
+        <th class="">Fingerprint</th>
+      
+        <th class="actions_column">Actions</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+  <%
+        for (var index in models) { 
+        var keypair = models[index];
+        console.log("KeyPair");
+        console.log(JSON.stringify(keypair));
+     %> 
+    <tr id="keypairs__row__<%=keypair.get('name')%>" class="">
+  <td class="multi_select_column">
+      <input type="checkbox" name="object_ids" value="nubeblog" />
+  </td>
+  <td class=""><%=keypair.get('name')%></td>
+  <td class=""><%=keypair.get('fingerprint')%></td>
+  <td class="actions_column">
+      <button class="btn btn-small btn-danger delete_keypair" name="action" value="<%=keypair.get('name')%>" type="submit">Delete Keypair</button>
+  </td>
+</tr>
+
+  <% } %>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="4">
+        <span>Displaying <%=models.length%> items</span>
+        
+      </td>
+    </td>
+  </tfoot>
+</table>
+
+
+  </div>
+</script>

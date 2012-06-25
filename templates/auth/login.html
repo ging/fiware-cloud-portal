@@ -1,0 +1,38 @@
+<script id="not_logged_in" type="text/html">
+<!--
+    Description: Login page
+    src: templates/auth/login.html
+-->
+<div id="splashdiv" class="modal login">
+	<div class="modal-header">
+		<h3 data-i18n="Log In">Log In</h3>
+	</div>
+		<div class="modal-body clearfix">
+			<% if (has('error_msg')) { %>
+				<div class="alert alert-block alert-error fade in">
+					<a class="close" data-dismiss="alert">&times;</a>
+					<p><strong><%= get('error_msg') %></p>
+				</div>
+			<% } %>
+			<fieldset>
+				<div class="form-field clearfix">
+					<label for="id_username" data-i18n="User Name">User Name</label>
+					<span class="help-block"></span>
+					<div class="input">
+						<input type="text" name="username" maxlength="20" />
+					</div>
+				</div>
+				<div class="form-field clearfix">
+					<label for="id_password" data-i18n="Password">Password</label>
+					<span class="help-block"></span>
+					<div class="input">
+						<input id="id_password" type="password" name="password" maxlength="20" />
+					</div>
+				</div>
+			</fieldset>
+		</div>
+		<div class="modal-footer">
+			<a id="home_loginbtn" class="btn btn-primary pull-right credentials" data-i18n="Sign In">Sign In</a>
+		</div>
+</div>
+</script>

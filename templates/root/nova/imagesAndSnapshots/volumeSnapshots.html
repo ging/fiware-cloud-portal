@@ -1,0 +1,53 @@
+<script id="novaVolumeSnapshotsTemplate" type="text/html">
+<!--
+    Description: Volume Snapshots
+    src: templates/root/nova/imagesAndSnapshots/volumeSnapshots.html
+-->
+	<div class="table_wrapper">
+		<div style='display:none'></div>
+		<div class='table_header'>
+  			<h3 class='table_title'>Volume Snapshots</h3>
+  			<div class="table_actions clearfix">
+   				<button id="volume_snapshots_delete" class='btn btn-small btn-danger btn-delete-group' disabled=true name="action" value="volume_snapshots__delete" type="submit" data-i18n="Delete Volume Snapshots">Delete Volume Snapshots</button>
+			</div>
+		</div>
+		<table id="volume_snapshots" class="table table-bordered table-striped">
+  		<thead>
+   			<tr>      
+        	<th class="multi_select_column"></th>      
+        	<th class="">Name</th>      
+        	<th class="">Description</th>      
+        	<th class="">Size</th>      
+        	<th class="">Status</th>      
+        	<th class="">Volume ID</th>      
+       	 	<th class="actions_column">Actions</th>      
+    		</tr>
+  		</thead>
+  		<tbody>  
+		    <%  var volSnapshot = models[index];	    
+		    	for (var index in models) { 
+		        var volSnapshot = models[index];
+		    %>
+		    <tr id="volume_snapshots__row__<%= models.length %>" class="">
+		        <td class="multi_select_column"><input type="checkbox" name="object_ids" class="checkbox checkbox_volumes" id="checkbox_<%= volSnapshot.get('id')%>" value="<%= volSnapshot.get('id')%>" /></td>
+		        <td class=""><a href="#nova/images_and_snapshots/<%= volSnapshot.get('id')%>"><%= volSnapshot.get('display_name')%></a></td>
+		        <td class=""><%=volSnapshot.get('display_description')%></td>
+		        <td class=""><%=volSnapshot.get('size')+" GB"%></td>
+		         <td class=""><%=volSnapshot.get('status')%></td>
+		        <td class=""><%=volSnapshot.get('volume_id')%></td>
+		        <td class="actions_column">
+		        	<button id="volume_snapshot__action_delete" class="ajax-modal btn btn-small btn-danger btn-delete-volume" value="<%= volSnapshot.get('id')%>" name="action" type="submit" data-i18n="Delete Volume Snapshot">Delete Volume Snapshot</button>
+		        </td>
+		    </tr>
+		    <% } %>
+  		</tbody>
+		  <tfoot>
+		    <tr>
+		      <td colspan="7">
+		        <span><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", models.length)%></span>       
+		      </td>
+		    </td>
+		  </tfoot>
+		</table>
+   	</div>
+   </script>

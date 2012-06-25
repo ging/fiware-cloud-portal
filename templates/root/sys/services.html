@@ -1,0 +1,66 @@
+<script id="servicesTemplate" type="text/html">
+<!--
+    Description: Services
+    src: templates/root/sys/services.html
+-->
+<form action="/syspanel/services/" method="POST"><div style='display:none'><input type='hidden' name='csrfmiddlewaretoken' value='13de1d539e7690548408d1be1856eb9c' /></div>
+<div class='table_header'>
+  <h3 class='table_title' data-i18n="Services">Services</h3>
+  <div class="table_actions clearfix">
+
+    <div class="table_search">
+        <input class="span3 example" value="" type="text" name="services__filter__q" />
+        <button type="submit" class="btn btn-small filter" data-i18n="Filter">Filter</button>
+    </div>
+
+
+    
+
+</div>
+
+</div>
+
+<table id="services" class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      
+        <th class="hide" data-i18n="Id">Id</th>
+        
+        <th class="" data-i18n="Name">Name</th>
+      
+        <th class="" data-i18n="Service">Service</th>
+      
+        <th class="" data-i18n="Host">Host</th>
+      
+        <th class="" data-i18n="Enabled">Enabled</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+   <% 
+   var re = new RegExp('^(?:f|ht)tp(?:s)?\://([^/:]+)', 'im');
+   	for (var index in models) { 
+		var service = models[index];
+		%> 
+    <tr id="services__row__0" class="status_up">
+  <td class="hide">-</td>
+  <td class=""><%= service.get('name')%></td>
+  <td class=""><%= service.get('type')%></td>
+  <td class=""><%= service.get('endpoints')[0].publicURL.match(re)[1].toString()%></td>
+  <td class="status_up" data-i18n="Enabled">Enabled</td>
+</tr>
+<%}%>  
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="4">
+        <span><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", models.length)%></span>
+        
+      </td>
+    </td>
+  </tfoot>
+</table>
+
+
+</form>
+</script>

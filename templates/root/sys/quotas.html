@@ -1,0 +1,92 @@
+<script id="quotasTemplate" type="text/html">
+<!--
+    Description: Quotas
+    src: templates/root/sys/quotas.html
+-->
+<form action="/syspanel/quotas/" method="POST"><div style='display:none'><input type='hidden' name='csrfmiddlewaretoken' value='13de1d539e7690548408d1be1856eb9c' /></div>
+<div class='table_header'>
+  <h3 class='table_title' data-i18n="Quotas">Quotas</h3>
+  <div class="table_actions clearfix">
+
+    <div class="table_search">
+        <input class="span3 example" value="" type="text" name="quotas__filter__q" />
+        <button type="submit" class="btn btn-small filter" data-i18n="Filter">Filter</button>
+    </div>
+
+
+    
+
+</div>
+
+</div>
+
+<table id="quotas" class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      
+        <th class="" data-i18n="Quota Name">Quota Name</th>
+      
+        <th class="" data-i18n="Limit">Limit</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr id="quotas__row__metadata_items" class="">
+  <td class="">metadata_items</td><td class="">128</td>
+</tr>
+
+  
+    <tr id="quotas__row__injected_file_content_bytes" class="">
+  <td class="">injected_file_content_bytes</td><td class="">10240</td>
+</tr>
+
+  
+    <tr id="quotas__row__injected_files" class="">
+  <td class="">injected_files</td><td class="">5</td>
+</tr>
+
+  
+    <tr id="quotas__row__gigabytes" class="">
+  <td class="">gigabytes</td><td class="">1000</td>
+</tr>
+
+  
+    <tr id="quotas__row__ram" class="">
+  <td class="">ram</td><td class="">51200</td>
+</tr>
+
+  
+    <tr id="quotas__row__floating_ips" class="">
+  <td class="">floating_ips</td><td class="">10</td>
+</tr>
+
+  
+    <tr id="quotas__row__instances" class="">
+  <td class="">instances</td><td class="">10</td>
+</tr>
+
+  
+    <tr id="quotas__row__volumes" class="">
+  <td class="">volumes</td><td class="">10</td>
+</tr>
+
+  
+    <tr id="quotas__row__cores" class="">
+  <td class="">cores</td><td class="">20</td>
+</tr>
+
+  
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="2">
+        <span><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", 9)%></span>
+        
+      </td>
+    </td>
+  </tfoot>
+</table>
+
+</form>
+</script>

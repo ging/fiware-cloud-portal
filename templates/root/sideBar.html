@@ -1,0 +1,37 @@
+<script id="sideBarTemplate" type="text/html">
+<!--
+    Description: Side Bar
+    src: templates/root/sideBar.html
+-->
+<div id="sidebar_t">
+<%  if (showTenants) { %>
+<div id="tenant_switcher" class="dropdown switcher_bar" tabindex="1">
+    
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#tenant_switcher">
+      <h4 data-i18n="Project">Project</h4>
+      <h3><%= loginModel.get("tenant").name %></h3>
+      </a>
+    <ul id="tenant_list" class="dropdown-menu">
+      <li class="divider"></li>
+      <% for (var index in loginModel.get("tenants")) {
+          var ten = loginModel.get("tenants")[index];
+          %>
+          <li><a href="#auth/switch/<%= ten.id%>/"><%= ten.name%></a></li>
+      <%}%>
+    </ul>
+</div>
+<% } %>
+
+<h4 id="sideBarTitle" data-i18n="<%= title %>"><%=title%></h4>
+
+<ul class="main_nav">
+	<% for (var index in models) { 
+		var model = models[index];
+		%>
+	<li>
+		<a href="<%= model.get('url') %>" <% if(model.get('active')) { %> class="active" <% } %> tabindex='1' data-i18n="<%= model.get('name') %>"><%= model.get('name') %></a>
+	</li>
+	<% } %>
+</ul>
+</div>
+</script>
