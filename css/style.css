@@ -139,18 +139,21 @@ h2 {
 }
 
 .sidebar {
-    background: #494949;
+
       border-bottom: 1px solid #ffffff;
     float: left;
-    border-radius: 0px 0px 5px 5px;
 }
 .sidebar-menu {
-    background: #494949;
-  border-radius: 5px;
+    background: #cccccc;
+  border-radius: 5px 5px 0px 0px;
 }
 .sidebar h4 {
-    margin-left: 14px;
+    margin-left: 18px;
     color: #999;
+    font-family: comfortaa; 
+    font-size: 25px; 
+    font-weight: lighter;
+
 }
 
 .sidebar .nav-tabs {
@@ -158,8 +161,8 @@ h2 {
 }
 
 .sidebar .nav-tabs li.active a {
-    background-color: #494949;
-      border-bottom: 1px solid #494949;
+    background-color: #cccccc;
+      border-bottom: 1px solid #cccccc;
   -webkit-border-top-left-radius: 5px;
   -webkit-border-top-right-radius: 5px;
   -moz-border-radius-topleft: 5px;
@@ -171,7 +174,6 @@ h2 {
 h1.brand {
     width: 100%;
     margin: 0;
-    background-color: #f5f5f5;
     padding-bottom: 40px;
 }
 
@@ -333,17 +335,18 @@ small {
 
 .main_nav {
     list-style: none;
-    width: 222px;
+    width: 168px;
     float: left;
-    margin: 18px 0 20px 0;
+    padding: 18px 0px 20px 20px;
+    background-color: #cccccc;
+    border-radius: 0px 0px 5px 5px;
 }
 
 .main_nav a {
   color: #999;
   padding: 10px;
   display: block;
-  margin-left: 20px;
-  background-color: #494949;
+  margin-left: 22px;
   border-radius: 5px;
 }
 
@@ -355,6 +358,7 @@ small {
     -webkit-border-bottom-left-radius: 5px 0px 0px 5px;
     -moz-border-radius-topleft: 5px 0px 0px 5px;
     -moz-border-radius-bottomleft: 5px 0px 0px 5px;
+  color: #0093C6;
 
 }
 
@@ -893,4 +897,5 @@ form .error {
   margin-bottom: 0;
 }
 
-.nav{margin-left:0;margin-bottom:18px;padding-top:20px;background-color:#cccccc;border-radius: 5px 5px 0px 0px;list-style:none;}
+#nav-tab{margin-left:0;margin-bottom:18px;padding-top:20px;background-color:#cccccc;border-radius: 5px 5px 0px 0px;list-style:none;}
+#navtab{margin-left:17px}
