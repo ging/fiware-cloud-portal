@@ -11,12 +11,22 @@
 *:first-child+html .clearfix { zoom: 1; } /* IE7 */
 
 @font-face {
-  font-family: 'anivers';
-  src: url('../fonts/Anivers_Regular-webfont.eot');
-  src: url('../fonts/Anivers_Regular-webfont.eot?iefix') format('eot'),
-       url('../fonts/Anivers_Regular-webfont.woff') format('woff'),
-       url('../fonts/Anivers_Regular-webfont.ttf') format('truetype'),
-       url('../fonts/Anivers_Regular-webfont.svg#webfont3JLVF59W') format('svg');
+  font-family: 'comfortaa';
+  src: url('../fonts/comfortaa_regular-webfont.eot');
+  src: url('../fonts/comfortaa_regular-webfont.eot?iefix') format('eot'),
+       url('../fonts/comfortaa_regular-webfont.woff') format('woff'),
+       url('../fonts/comfortaa_regular-webfont.ttf') format('truetype'),
+       url('../fonts/comfortaa_regular-webfont..svg#webfont3JLVF59W') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'opensans';
+  src: url('../fonts/opensans-regular-webfont.eot');
+  src: url('../fonts/opensans-regular-webfont.eot?iefix') format('eot'),
+       url('../fonts/opensans-regular-webfont.woff') format('woff'),
+       url('../fonts/opensans-regular-webfont.ttf') format('truetype'),
+       url('../fonts/opensans-regular-webfont..svg#webfont3JLVF59W') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -132,9 +142,9 @@ html, #splash{
 }
 
 .sidebar {
-    background: #edf9ff;
-    border-right: 5px solid #e5e5e5;
-    border-bottom: 5px solid #e5e5e5;
+    background: #494949;
+      border-bottom: 1px solid #ffffff;
+  border-radius: 5px;
     float: left;
 }
 
@@ -148,7 +158,14 @@ html, #splash{
 }
 
 .sidebar .nav-tabs li.active a {
-    background-color: #edf9ff;
+    background-color: #494949;
+      border-bottom: 1px solid #494949;
+  -webkit-border-top-left-radius: 5px;
+  -webkit-border-top-right-radius: 5px;
+  -moz-border-radius-topleft: 5px;
+  -moz-border-radius-topright: 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
 
 h1.brand {
@@ -318,7 +335,7 @@ small {
     list-style: none;
     width: 222px;
     float: left;
-    margin: 10px 0 20px 0;
+    margin: 18px 0 20px 0;
 }
 
 .main_nav a {
@@ -331,9 +348,13 @@ small {
 
 .main_nav a.active {
   background: #fff;
-  border: 2px solid #d8d8d8;
-  border-right: 0;
-  border-bottom-color: #ccc;
+  border-bottom: 1px solid #ffffff;
+  -webkit-border-top-left-radius: 5px;
+  -webkit-border-bottom-leftradius: 5px;
+  -moz-border-radius-topleft: 5px;
+  -moz-border-radius-bottomleft: 5px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
 }
 
 table form {
