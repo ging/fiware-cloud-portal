@@ -482,7 +482,7 @@ input,
 button,
 select,
 textarea {
-  font-family: Arial, sans-serif;
+  font-family: opensans;
 }
 
 /** line 760 boostrap.css**/

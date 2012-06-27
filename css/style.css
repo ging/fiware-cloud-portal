@@ -149,9 +149,10 @@ h2 {
 }
 .sidebar h4 {
     margin-left: 18px;
+    padding-top: 20px;
     color: #999;
     font-family: comfortaa; 
-    font-size: 25px; 
+    font-size: 21px; 
     font-weight: lighter;
 
 }
@@ -208,7 +209,6 @@ a.current_item:hover h3, a.current_item:hover h4 {
 
 .switcher_bar {
     background-color: #e9f5fa;
-    width: 190px;
     height: 38px;
     padding: 5px 0;
     border: 1px solid #c0d9e4;
