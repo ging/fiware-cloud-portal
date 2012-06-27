@@ -101,7 +101,7 @@ ul {
   margin: 0;
   padding: 0;
   border: 0;
-  font-family: anivers;
+  font-family: comfortaa;
 }
 
 h2 {
@@ -144,10 +144,12 @@ html, #splash{
 .sidebar {
     background: #494949;
       border-bottom: 1px solid #ffffff;
-  border-radius: 5px;
     float: left;
 }
-
+.sidebar-menu {
+    background: #494949;
+  border-radius: 5px;
+}
 .sidebar h4 {
     margin-left: 14px;
     color: #999;
@@ -315,7 +317,7 @@ a.current_item:hover h3, a.current_item:hover h4 {
 }
 
 .table_title h3, .table_header h3 {
-    font-family: anivers;
+    font-family: comfortaa;
     font-weight: normal;
     font-size: 24px;
     margin-bottom: 5px;
@@ -340,10 +342,11 @@ small {
 
 .main_nav a {
   color: #999;
-  width: 185px;
   padding: 10px;
   display: block;
   margin-left: 20px;
+  background-color: #494949;
+  border-radius: 5px;
 }
 
 .main_nav a.active {
@@ -891,3 +894,5 @@ form .error {
 .static_page > form {
   margin-bottom: 0;
 }
+
+.nav{margin-left:0;margin-bottom:18px;padding-top:20px;background-color:#cccccc;border-radius: 5px 5px 0px 0px;list-style:none;}
