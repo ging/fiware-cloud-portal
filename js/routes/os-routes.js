@@ -100,13 +100,13 @@ var OSRouter = Backbone.Router.extend({
             return;
         } else {
             if (this.timers.length == 0) {
-                this.add_fetch(this.instancesModel, 4);
-                this.add_fetch(this.volumesModel, 4);
-                this.add_fetch(this.images, 4);
-                this.add_fetch(this.flavors, 4);
-                this.add_fetch(this.volumeSnapshotsModel,4);
+                this.add_fetch(this.instancesModel, 34000);
+                this.add_fetch(this.volumesModel, 34000);
+                this.add_fetch(this.images, 34000);
+                this.add_fetch(this.flavors, 34000);
+                this.add_fetch(this.volumeSnapshotsModel,34000);
                 if (this.loginModel.isAdmin()) {
-                    this.add_fetch(this.projects, 4);
+                    this.add_fetch(this.projects, 34000);
                 }
             }
         }

@@ -78,8 +78,8 @@
 			  <td class="actions_column">
 				<div id="dropdown_<%= instance.get('id') %>" class="btn-group">
 
-			      <button  id="instances__action_e__<%=i%>" class="btn btn-small btn-edit" name="action" value="<%= instance.id %>" type="submit" data-i18n="Edit Instance">Edit Instance</button>
-			      <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+			      <button  id="instances__action_e__<%=i%>" class="btn btn-small btn-edit btn-blue" name="action" value="<%= instance.id %>" type="submit" data-i18n="Edit Instance">Edit Instance</button>
+			      <a class="btn btn-blue btn-small  dropdown-toggle" data-toggle="dropdown" href="#">
 			       <span class="caret"></span>
 			      </a>
 			       <ul class="dropdown-menu row_actions clearfix">    
@@ -87,38 +87,38 @@
                      	if (instance.get("status") != "ERROR") { 
                      		if (instance.get("status") != "PAUSED" && instance.get("status") != "SUSPENDED") { %>
                      		<li class="clearfix">
-                                <a href="#nova/instances_and_volumes/instances/<%= instance.id %>/detail?view=vnc" id="instances__action_vnc__<%=i%>" class="btn btn-small btn-vnc" name="action" value="<%= instance.id %>" data-i18n="VNC Console">VNC Console</a>
+                                <a href="#nova/instances_and_volumes/instances/<%= instance.id %>/detail?view=vnc" id="instances__action_vnc__<%=i%>" class="btn btn-small btn-blue btn-vnc" name="action" value="<%= instance.id %>" data-i18n="VNC Console">VNC Console</a>
                             </li>
                       		<li class="clearfix">
-                                <a href="#nova/instances_and_volumes/instances/<%= instance.id %>/detail?view=log" id="instances__action_log__<%=i%>" class="btn btn-small btn-log" name="action" value="<%= instance.id %>" type="submit" data-i18n="View Log">View Log</a>
+                                <a href="#nova/instances_and_volumes/instances/<%= instance.id %>/detail?view=log" id="instances__action_log__<%=i%>" class="btn btn-blue btn-small btn-blue btn-log" name="action" value="<%= instance.id %>" type="submit" data-i18n="View Log">View Log</a>
                             </li>
                             <li class="clearfix">
-                                <button  id="instances__action_snapshot__<%=i%>" class="btn btn-small btn-snapshot" name="action" value="<%= instance.id %>" type="submit" data-i18n="Snapshot">Snapshot</button>
+                                <button  id="instances__action_snapshot__<%=i%>" class="btn btn-blue btn-small btn-snapshot" name="action" value="<%= instance.id %>" type="submit" data-i18n="Snapshot">Snapshot</button>
                             </li>
                             <li class="clearfix">
-                                <button  id="instances__action_pause__<%=i%>" class="btn btn-small btn-pause" name="action" value="<%= instance.id %>" type="submit" data-i18n="Pause Instance">Pause Instance</button>
+                                <button  id="instances__action_pause__<%=i%>" class="btn btn-blue btn-small btn-pause" name="action" value="<%= instance.id %>" type="submit" data-i18n="Pause Instance">Pause Instance</button>
                             </li>
                             <li class="clearfix">
-                                <button  id="instances__action_suspend__<%=i%>" class="btn btn-small btn-suspend" name="action" value="<%= instance.id %>" type="submit" data-i18n="Suspend Instance">Suspend Instance</button>
+                                <button  id="instances__action_suspend__<%=i%>" class="btn btn-blue btn-small btn-suspend" name="action" value="<%= instance.id %>" type="submit" data-i18n="Suspend Instance">Suspend Instance</button>
                             </li>
                             <li class="clearfix">
-                                <button  id="instances__action_password__<%=i%>" class="btn btn-small btn-danger btn-password" name="action" value="<%= instance.id %>" type="submit" data-i18n="Change Password">Change Password</button>
+                                <button  id="instances__action_password__<%=i%>" class="btn btn-blue btn-small btn-danger btn-password" name="action" value="<%= instance.id %>" type="submit" data-i18n="Change Password">Change Password</button>
                             </li>
                             <li class="clearfix">
-                                <button  id="instances__action_reboot__<%=i%>" class="btn btn-small btn-danger btn-reboot" name="action" value="<%= instance.id %>" type="submit" data-i18n="Reboot Instance">Reboot Instance</button>
+                                <button  id="instances__action_reboot__<%=i%>" class="btn btn-blue btn-small btn-danger btn-reboot" name="action" value="<%= instance.id %>" type="submit" data-i18n="Reboot Instance">Reboot Instance</button>
                             </li>
                             <% } else if (instance.get("status") == "PAUSED") { %>
                             <li class="clearfix">
-                     			<button  id="instances__action_unpause__<%=i%>" class="btn btn-small btn-unpause" name="action" value="<%= instance.id %>" type="submit" data-i18n="Unpause Instance">Unpause Instance</button>
+                     			<button  id="instances__action_unpause__<%=i%>" class="btn btn-blue btn-small btn-unpause" name="action" value="<%= instance.id %>" type="submit" data-i18n="Unpause Instance">Unpause Instance</button>
                     		</li>    
                     		<% } else { %>
                     		<li class="clearfix">
-                     			<button  id="instances__action_resume__<%=i%>" class="btn btn-small btn-resume" name="action" value="<%= instance.id %>" type="submit" data-i18n="Resume Instance">Resume Instance</button>
+                     			<button  id="instances__action_resume__<%=i%>" class="btn btn-blue btn-small btn-resume" name="action" value="<%= instance.id %>" type="submit" data-i18n="Resume Instance">Resume Instance</button>
                     		</li> 
                     		<% } %>                		
                         <% } %>
                        	<li class="clearfix">
-                     		<button  id="instances__action_terminate__<%=i%>" class="btn btn-small btn-danger btn-terminate" name="action" value="<%= instance.id %>" type="submit" data-i18n="Terminate Instance">Terminate Instance</button>
+                     		<button  id="instances__action_terminate__<%=i%>" class="btn btn-blue  btn-small btn-danger btn-terminate" name="action" value="<%= instance.id %>" type="submit" data-i18n="Terminate Instance">Terminate Instance</button>
                     	</li>
 			       </ul>  
 				</div>
