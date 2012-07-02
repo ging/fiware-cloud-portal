@@ -78,8 +78,8 @@
                     <td class=""><%= POWER_STATES[instance.get("OS-EXT-STS:power_state")]%></td>
                     <td class="actions_column">
                         <div id="dropdown_<%= instance.get('id') %>" class="btn-group">
-                            <button  id="instances__action_e__<%=i%>" class="btn btn-blue btn-edit btn-edit-instances" name="action" value="<%= instance.id %>" type="submit" data-i18n="Edit Instance">Edit Instance</button>
-                            <a class="btn btn-blue dropdown-toggle" data-toggle="dropdown" href="#">
+                            <button  id="instances__action_e__<%=i%>" class="btn btn-blue btn-small btn-edit btn-edit-instances" name="action" value="<%= instance.id %>" type="submit" data-i18n="Edit Instance">Edit Instance</button>
+                            <a class="btn btn-blue dropdown-toggle btn-small" data-toggle="dropdown" href="#">
                                 <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu row_actions clearfix">
