@@ -6,7 +6,6 @@
 	<div id="flavors">
 		<div class="table_wrapper">
 			<div class='table_header'>
-  				<h3 class='table_title' data-i18n="Flavors">Flavors</h3>
   				<div class="table_actions clearfix">
             		<a href="#syspanel/flavors/create"  id="flavors__action_create__0" class="btn btn-blue btn-small ajax-modal" data-i18n="Create Flavor">Create Flavor</a>
            	 		<button class='btn  btn-small btn-danger btn-delete-group' name="action" id="flavors_delete" value="flavors__delete" disabled=true type="submit" data-i18n="Delete Flavors">Delete Flavors</button>
@@ -53,7 +52,7 @@
 			  	<tfoot>
 			    	<tr>
 			      		<td colspan="8">
-			       			<span><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", models.length)%></span>			        
+			       			<span class="blue"><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", models.length)%></span>			        
 			      		</td>
 			    	</td>
 			  	</tfoot>

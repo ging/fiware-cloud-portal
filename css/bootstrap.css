@@ -146,14 +146,14 @@ textarea {
           box-sizing: border-box;
 }
 
-body {
+/**body {
   margin: 0;
   font-family:  "Open Sans", sans-serif;
   font-size: 13px;
   line-height: 18px;
   color: #333333;
   background-color: #ffffff;
-}
+}**/
 
 a {
   color: #0088cc;
@@ -469,7 +469,11 @@ h1 small{
   color: #999;
   font-size: 18px
 }
-h2 small,
+h2 small {
+  color: #999;
+}
+
+
 h3 small,
 h4 small,
 h5 small,

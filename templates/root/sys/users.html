@@ -5,7 +5,6 @@
 -->
 <form action="/syspanel/users/" method="POST"><div style='display:none'><input type='hidden' name='csrfmiddlewaretoken' value='13de1d539e7690548408d1be1856eb9c' /></div>
 <div class='table_header'>
-  <h3 class='table_title' data-i18n="Users">Users</h3>
   <div class="table_actions clearfix">
 
     <div class="table_search">
@@ -97,7 +96,7 @@
   <tfoot>
     <tr>
       <td colspan="6">
-        <span><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", 1)%></span>
+        <span class="blue"><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", 1)%></span>
         
       </td>
     </td>

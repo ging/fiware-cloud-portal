@@ -106,7 +106,6 @@ ul {
 h2 {
     color: #6a6a6a;
     font-size: 30px;
-    font-weight: normal;
 }
 
 /* Login Splash Page */
@@ -177,13 +176,13 @@ h2 {
 
 .brand {
     background: url(../images/logo.png) top left no-repeat;
-    background-size: 95%;
+    background-size: 100%;
     display: block;
     float: left;
     height: 78px;
-    width: 78px;
-    /*margin-top: 15px;
-    margin-bottom: 25px;*/
+    width: 98px;
+    margin-top: -20px;
+    /*margin-bottom: 25px;*/
 }
 
 
@@ -889,3 +888,15 @@ form .error {
 .well{min-height:20px;padding-top:50px;margin-bottom:20px;background-color:#727272;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-webkit-box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05);-moz-box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05);box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05);}
 #topbar{margin-bottom: 50px;}
 .in-big-title{margin-left: 16%; padding-top: 10px;}
+.link-logo{
+  font-family: dsignes;
+  font-size: 15px;
+  color: #000;
+}
+.link-logo a{
+  text-decoration: none;
+}
+.link-logo a:hover{
+  color: #000;
+  text-decoration: none;
+}

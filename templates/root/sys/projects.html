@@ -5,12 +5,11 @@
 -->
 <form action="/syspanel/projects/" method="POST"><div style='display:none'><input type='hidden' name='csrfmiddlewaretoken' value='13de1d539e7690548408d1be1856eb9c' /></div>
 <div class='table_header'>
-  <h3 class='table_title' data-i18n="Projects">Projects</h3>
   <div class="table_actions clearfix">
 
     <div class="table_search">
         <input class="span3 example" value="" type="text" name="tenants__filter__q" />
-        <button type="submit" class="btn btn-small filter" data-i18n="Filter">Filter</button>
+        <button type="submit" class="btn btn-blue btn-small filter" data-i18n="Filter">Filter</button>
     </div>
 
 
@@ -134,7 +133,7 @@
   <tfoot>
     <tr>
       <td colspan="6">
-        <span><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", models.length)%></span>
+        <span  class="blue"><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", models.length)%></span>
         
       </td>
     </td>

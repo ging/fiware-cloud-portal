@@ -5,7 +5,6 @@
 -->
 <form action="/syspanel/services/" method="POST"><div style='display:none'><input type='hidden' name='csrfmiddlewaretoken' value='13de1d539e7690548408d1be1856eb9c' /></div>
 <div class='table_header'>
-  <h3 class='table_title' data-i18n="Services">Services</h3>
   <div class="table_actions clearfix">
 
     <div class="table_search">
@@ -54,7 +53,7 @@
   <tfoot>
     <tr>
       <td colspan="4">
-        <span><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", models.length)%></span>
+        <span class="blue"><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", models.length)%></span>
         
       </td>
     </td>

@@ -6,10 +6,9 @@
 	<div id="images">
 		<div class="table_wrapper">
 			<div class='table_header'>
-  				<h3 class='table_title' data-i18n="Images">Images</h3>
-  				<div class="table_actions clearfix">
-  					<button  id="images_delete" disabled=true class="btn btn-small btn-danger btn-delete-group" name="action" value="images_delete" class="images_delete" type="submit" data-i18n="Delete Images">Delete Images</button>
-				</div>
+  			  <div class="table_actions clearfix">
+  			    <button  id="images_delete" disabled=true class="btn btn-small btn-danger btn-delete-group" name="action" value="images_delete" class="images_delete" type="submit" data-i18n="Delete Images">Delete Images</button>
+			  </div>
 			</div>
 			<table id="images_tbl" class="table table-bordered table-striped">
 			  <thead>
@@ -63,7 +62,7 @@
 			  <tfoot>
 			    <tr>
 			      <td colspan="7">
-			        <span><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", models.length)%></span>			        
+			        <span class="blue"><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", models.length)%></span>			        
 			      </td>
 			    </td>
 			  </tfoot>
