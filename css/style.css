@@ -114,7 +114,6 @@ ul {
 
 /* Login Splash Page */
 #root {
-  width: 960px;
 margin-right: auto;
 margin-left: auto;
 }
@@ -136,8 +135,13 @@ margin-left: auto;
 }
 
 .nav li a {
-    color: #ffffff;
+    color: #cccccc;
     text-shadow: none;
+    border: none;
+}
+.nav li a:hover {
+    color: #cccccc;
+    background-color: #777777;
 }
 
 .container-fluid {
@@ -179,7 +183,7 @@ margin-left: auto;
   border-top-right-radius: 5px;
 }
 #sidebar_t {
-    padding-left: 34px;
+    padding-left: 41px;
     margin-top: -18px;
 }
 
@@ -216,10 +220,12 @@ a.current_item:hover h3, a.current_item:hover h4 {
 .switcher_bar {
     background-color: #f9f9f9;
     height: 16px;
-    padding: 7px 0;
-    border: 1px solid #c0d9e4;
-    margin-top: 41px;
+    padding: 13px 0;
+    border: 1px solid #ffffff;
+    margin-top: 27px;
+    margin-bottom: 27px;
     margin-left: -18px;
+    margin-right: 69px;
     background-image: url(../images/drop_arrow.png);
     background-repeat: no-repeat;
     background-position: center right;
@@ -229,10 +235,12 @@ a.current_item:hover h3, a.current_item:hover h4 {
 
 .switcher_bar:hover {
   text-decoration: none;
+  background-image: url(../images/drop_arrow.png);
 }
 
 .switcher_bar a:hover {
   text-decoration: none;
+  background-image: url(../images/drop_arrow.png);
 }
 
 .switcher_bar:focus {
@@ -242,19 +250,20 @@ a.current_item:hover h3, a.current_item:hover h4 {
 .switcher_bar h3 {
     color: #4790ae;
     font-size: 16px;
-    margin: 2px 0 0 14px;
+    margin: -5px 0 0 -15px;
     padding: 0;
 }
 
 .switcher_bar ul {
-    border: 1px solid #c0d9e4;
-    border-radius: 0 7px 7px 7px;
+    border: 1px solid #f9f9f9;
+    border-radius: 0 5px 5px 5px;
     margin-left: -1px;
-    width: 182px;
+    width: 100%;
 }
 
 .switcher_bar li a:hover{
-  background: #92d6f1;
+  background: #43A1D6;
+  opacity: 0.9;
 }
 
 .switcher_bar_nav {
@@ -399,7 +408,6 @@ small {
 }
 .main_nav a:hover {
   background: #f8f8f8;
-  border-bottom: 1px solid #f8f8f8;
   border-radius: 5px 0px 0px 5px;
     -webkit-border-top-left-radius: 5px 0px 0px 5px;
     -webkit-border-bottom-left-radius: 5px 0px 0px 5px;
@@ -755,6 +763,7 @@ td.actions_column .row_actions .hide {
 }
 .dropdown-menu li.divider:hover {
   background-color: #E5E5E5;
+  margin-top: -5px;
 }
 td.actions_column .dropdown-menu a:hover,
 td.actions_column .dropdown-menu button:hover {
@@ -937,7 +946,6 @@ form .error {
 }
 
 #nav-tab{margin-left:0;margin-bottom:18px;padding-top:20px;background-color:#cccccc;border-radius: 5px 5px 0px 0px;list-style:none;}
-#navtab{margin-left:17px}
 .well{min-height:20px;padding-top:50px;margin-bottom:20px;background-color:#727272;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-webkit-box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05);-moz-box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05);box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05);}
 #topbar{margin-bottom: 50px;}
 .in-big-title{margin-left: 16%; marging-top: 19px; font-size:30px; font-weight:100; color:#cccccc;}

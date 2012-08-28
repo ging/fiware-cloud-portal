@@ -57,7 +57,7 @@ hr.soften {
 }
 .jumbotron h1 {
   margin-bottom: 9px;
-  font-size: 75px;
+  font-size: 55px;
   font-weight: bold;
   letter-spacing: -1px;
   line-height: 1;
@@ -299,15 +299,13 @@ hr.soften {
   line-height: 30px;
 }
 .show-grid:hover [class*="span"] {
-  background: #ddd;
+  background: rgba(0, 146, 198, 0.3);
 }
 .show-grid .show-grid {
   margin-top: 0;
   margin-bottom: 0;
 }
-.show-grid .show-grid [class*="span"] {
-  background-color: #ccc;
-}
+
 
 
 /* Render mini layout previews

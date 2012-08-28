@@ -9,6 +9,15 @@
 	width: 220px;
 	border-radius: 3px;
 }
+.sbH-mini{
+	width: 22% !important;
+}
+.sbH-small{
+	width: 42% !important;
+}
+.sbH-medium{
+	width: 62% !important;
+}
 .sbSelector{
 	display: block;
 	height: 30px;
