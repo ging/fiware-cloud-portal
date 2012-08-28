@@ -3,11 +3,16 @@
     Description: Side Bar
     src: templates/root/sideBar.html
 -->
+<ul class="main_nav">
+    <li>
 <h4 id="sideBarTitle" data-i18n="<%= title %>"><%=title%></h4>
+</li>
 
-<div id="sidebar_t">
+
 
 <%  if (showTenants) { %>
+<li>
+<div id="sidebar_t">
 <div id="tenant_switcher" class="dropdown switcher_bar" tabindex="1">
     
     <a class="dropdown-toggle" data-toggle="dropdown" href="#tenant_switcher">
@@ -22,9 +27,12 @@
       <%}%>
     </ul>
 </div>
+</div>
+</li>
 <% } %>
 
-<ul class="main_nav">
+
+
 	<% for (var index in models) { 
 		var model = models[index];
 		%>
