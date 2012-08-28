@@ -3,29 +3,20 @@
     Description: Top Bar
     src: templates/root/topBar.html
 -->
- 
-  <div id="user_info" class="pull-right hidden-desktop">
-      <span data-i18n="Logged in as">Logged in as</span>
-      <a href="#settings/" data-i18n="Settings">Settings</a>
-      <a href="#auth/logout" data-i18n="Sign Out">Sign Out</a>
-    </div>
-  
-  <div class="container-fluid header hidden-tablet hidden-phone">
-    <div id="user_info" class="pull-right">
-      <span data-i18n="Logged in as">Logged in as</span>
-      <a href="#settings/" data-i18n="Settings">Settings</a>
-      <a href="#auth/logout" data-i18n="Sign Out">Sign Out</a>
-    </div>
-    <div class="logo">
-      <div class="brand"></div>
-      <h2><a href="#home/"><span class="link-logo">Fi-ware</span></a>&nbsp;&nbsp;</h2>
-      <h2 class="dashboard"> Dashboard</h2>
-    </div>
-    <div class="big-tittle hidden-tablet hidden-phone">
-      <h2 class="in-big-title">Overview</h2>
-    </div>
-    <div class="hidden-desktop">
-      <div class="space-double"></div>
-    </div>
+<div id="user_info" class="pull-right">
+  <span data-i18n="Logged in as">Logged in as</span>: <%= get('username') %>
+  <a href="#settings/" data-i18n="Settings">Settings</a>
+  <a href="#auth/logout" data-i18n="Sign Out">Sign Out</a>
+</div>
+
+<div class="header">
+  <div class="logo">
+    <div class="brand clearfix"></div>
+    <h2><a href="#home/"><span class="link-logo">Fi-ware</span></a></h2>
+    <h2 class="small dashboard"> Dashboard</h2>
   </div>
+
+<div class='big-tittle'>
+    <h2 class="in-big-title"><span data-i18n="<%= get('title') %>"><%= get('title') %> <% if (has('subtitle')) { %><span><%= get('subtitle') %></small><% } %></h2>
+</div>
 </script>
