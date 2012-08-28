@@ -109,13 +109,13 @@ ul {
   font-family: comfortaa;
 }
 
-h2 {
-    color: #6a6a6a;
-    font-size: 30px;
-}
 
 /* Login Splash Page */
-
+#root {
+  width: 960px;
+margin-right: auto;
+margin-left: auto;
+}
 
 #splashdiv {
   background: #fff url(../images/logo.png) no-repeat center 35px; 
