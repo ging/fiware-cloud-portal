@@ -32,7 +32,7 @@
 }
 @font-face {
   font-family: 'DsignesRegular';
-  src: url('fonts/DsignesRegular.otf');
+  src: url('../fonts/DsignesRegular.otf');
   font-weight: normal;
   font-style: normal;
 }
