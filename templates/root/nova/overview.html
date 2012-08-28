@@ -6,26 +6,29 @@
 <form action="" method="get" id="date_form" class="form-horizontal">
   <h3 data-i18n="Select a month to query its usage:">Select a month to query its usage:</h3>
   <div class="form-row">
-    <select name="month" id="id_month">
-<option value="1" data-i18n="January">January</option>
-<option value="2" data-i18n="February">February</option>
-<option value="3" selected="selected" data-i18n="March">March</option>
-<option value="4" data-i18n="April">April</option>
-<option value="5" data-i18n="May">May</option>
-<option value="6" data-i18n="June">June</option>
-<option value="7" data-i18n="July">July</option>
-<option value="8" data-i18n="August">August</option>
-<option value="9" data-i18n="September">September</option>
-<option value="10" data-i18n="October">October</option>
-<option value="11" data-i18n="November">November</option>
-<option value="12" data-i18n="December">December</option>
-</select>
-    <select name="year" id="id_year">
-<option value="2012" selected="selected">2012</option>
-<option value="2011">2011</option>
-<option value="2010">2010</option>
-<option value="2009">2009</option>
-</select>
+    <select name="option_id" id="option_id" class="inline span4">
+      <option value="">-- Select month --</option>
+      <option value="1" data-i18n="January">January</option>
+      <option value="2" data-i18n="February">February</option>
+      <option value="3" selected="selected" data-i18n="March">March</option>
+      <option value="4" data-i18n="April">April</option>
+      <option value="5" data-i18n="May">May</option>
+      <option value="6" data-i18n="June">June</option>
+      <option value="7" data-i18n="July">July</option>
+      <option value="8" data-i18n="August">August</option>
+      <option value="9" data-i18n="September">September</option>
+      <option value="10" data-i18n="October">October</option>
+      <option value="11" data-i18n="November">November</option>
+      <option value="12" data-i18n="December">December</option>
+    </select>
+  </div>
+  <div class="form-row">
+    <select name="option_id2" id="option_id2" class="inline span4">
+      <option value="">-- Select year --</option>
+      <option value="2011">2011</option>
+      <option value="2010">2010</option>
+      <option value="2009">2009</option>
+    </select>
     <input class="btn btn-blue btn-small" type="submit"/>
   </div>
 </form>
@@ -69,4 +72,10 @@
   </tfoot>
 </table>
 </form>
+    <script type="text/javascript">
+    $(function () {
+      $("#option_id").selectbox();
+            $("#option_id2").selectbox();
+    });
+    </script>
 </script>

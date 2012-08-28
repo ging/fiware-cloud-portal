@@ -6,7 +6,7 @@
 <form action="" method="get" id="date_form" class="form-horizontal">
   <h3 data-i18n="Select a month to query its usage:">Select a month to query its usage:</h3>
   <div class="form-row">
-    <select name="month" id="id_month">
+    <select name="option_id" id="option_id">
 <option value="1" data-i18n="January">January</option>
 <option value="2" data-i18n="February">February</option>
 <option value="3" selected="selected" data-i18n="March">March</option>
@@ -20,7 +20,7 @@
 <option value="11" data-i18n="November">November</option>
 <option value="12" data-i18n="December">December</option>
 </select>
-    <select name="year" id="id_year">
+    <select name="option_id2" id="option_id2">
 <option value="2012" selected="selected">2012</option>
 <option value="2011">2011</option>
 <option value="2010">2010</option>
@@ -33,8 +33,8 @@
 <p id="activity">
   <span><strong data-i18n="Active Instances:">Active Instances:</strong> <span class="blue">1</span></span>
   <span><strong data-i18n="Active Memory:">Active Memory:</strong><span class="blue"> 512MB</span></span>
-  <span><strong data-i18n="This Month's VCPU-Hours:">This Month's VCPU-Hours:</strong><span class="blue"> 336.6</span></span>
-  <span><strong data-i18n="This Month's GB-Hours:">This Month's GB-Hours:</strong> <span class="blue">0</span></span>
+  <span><strong data-i18n="This Months VCPU-Hours:">This Months VCPU-Hours:</strong><span class="blue"> 336.6</span></span>
+  <span><strong data-i18n="This Months GB-Hours:">This Months GB-Hours:</strong> <span class="blue">0</span></span>
 </p>
 
   <form action="#syspanel/" method="POST"><div style='display:none'><input type='hidden' name='csrfmiddlewaretoken' value='13de1d539e7690548408d1be1856eb9c' /></div>
@@ -69,4 +69,6 @@
   </tfoot>
 </table>
 </form>
+
 </script>
+
