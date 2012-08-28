@@ -3,6 +3,7 @@
     Description: Top Bar
     src: templates/root/topBar.html
 -->
+
 <div id="user_info" class="pull-right">
   <span data-i18n="Logged in as">Logged in as</span>: <%= get('username') %>
   <a href="#settings/" data-i18n="Settings">Settings</a>
@@ -19,4 +20,7 @@
 <div class='big-tittle'>
     <h2 class="in-big-title"><span data-i18n="<%= get('title') %>"><%= get('title') %> <% if (has('subtitle')) { %><span><%= get('subtitle') %></small><% } %></h2>
 </div>
+
+
+
 </script>
