@@ -62,10 +62,10 @@ ul {
     margin: 0;
 }
 
-#main_content {
-  /*padding-left: 250px;*/
+/*#main_content {
+  padding-left: 250px;
   padding-right: 25px;
-}
+}*/
 
 .topbar {
   padding: 10px 25px;
@@ -112,12 +112,12 @@ ul {
   font-family: comfortaa;
 }
 
-h2 {
-    font-size: 23px;
-}
-
 /* Login Splash Page */
-
+#root {
+  width: 960px;
+margin-right: auto;
+margin-left: auto;
+}
 
 #splashdiv {
   background: #fff url(../images/logo.png) no-repeat center 35px; 
