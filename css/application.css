@@ -21,19 +21,10 @@
 } 
 
 
-
-body {
-  margin: 0;
-  font-family:  "Open Sans", sans-serif;
-  font-size: 13px;
-  line-height: 18px;
-  color: #333333;
-  background-color: #ffffff;
-  padding-right: 20px;
-  padding-left: 20px;
-} 
 .logo{
-  margin-left: -20px;
+  margin-left: -30px !important;
+  float: left;
+  margin-top: -15px;
 }
 .text-logo{
   margin-left: 0px;
@@ -53,107 +44,6 @@ body {
   margin-right:12px;
   font-size:16px; }
   #sidebar{margin-bottom: -10px;
-}
-
-#menu-index-img {
-	padding: auto;
-	background-image:url(../img/boceto2-04.png);
-	height:277px;
-}
-
-.circulo {
-	background-color: rgba(0,0,0, 0.8);
-	-moz-border-radius: 70px;
-	-webkit-border-radius: 70px;
-	border-radius: 70px;
-}
-.menu-index-xl {
-	width:116px;
-	height:116px;
-	font-size:32px;	
-	text-width: bold;
-	line-height: 310%;
-	float:left;
-	margin-lef: 25px;
-}
-.text-index-xl{
-	color:#FFF;
-	text-align:center;
-    padding-top:8px;
-}
-.elasticity {
-	margin-top: 70px;
-	margin-left: 72px;
-	margin-right: 110px;
-}
-.sercurity {
-	margin-top: 140px;
-}
-.monitor {
-	margin-top: 211px;
-	margin-left: -60px;
-}
-.services {
-	margin-lef: 9px;
-	margin-top:152px;
-}
-.snaps {
-	margin-top:224px;
-	margin-lef:19px;
-}
-.management {
-	margin-top: 110px;
-	margin-left: -40px;
-}
-.vdata {
-	margin-top: 14px;
-	margin-left: -39px;
-}
-.vmachine {
-	margin-top: 120px;
-	margin-left: -34px;
-}
-.cpu {
-	margin-top: 200px;
-	margin-left: -36px;
-}
-
-.ram {
-	margin-top:187px;
-}
-.menu-index-l {
-	width:101px;
-	height:101px;
-	font-size:15px;
-	float:left;
-}
-.text-index-l{
-	color:#FFF;
-	text-align:center;
-	padding-top:40px;
-}
-.menu-index-m {
-	width:75px;
-	height:75px;
-	font-size:12px;
-	float:left;
-}
-.text-index-m{
-	color:#FFF;
-	text-align:center;
-	padding-top:25px;
-	
-}
-.menu-index-s {
-	width:49px;
-	height:49px;
-	font-size:10px;
-	float:left;
-}
-.text-index-s{
-	color:#FFF;
-	text-align:center;
-	padding-top:15px;
 }
 
 .boxy-grey {
@@ -176,8 +66,8 @@ body {
 .blue-ligth{color:#009FD6;}
 .blue-dark{color:#3E80AD;}
 .gray{color:#999}
-.gray-ligth{color:#CCC}
-.gray-dark{color:#666}
+.gray-ligth{color:#CCCCCC}
+.gray-dark{color:#777777}
 .white{color:#FFF;}
 .line{ background-color:#CCC; padding-left:3px; padding-right:3px; height:1px; width:auto;}
 
@@ -240,12 +130,82 @@ body {
   background: linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(237,237,237,0.85) 50%,rgba(237,237,237,1) 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ededed',GradientType=1 );
   height:60px;
-  margin-right: -20px;
   margin-bottom: 20px;
-  margin-top:-10px;
-  padding-top:1px;
+  margin-top:-37px;
+  padding-top:2px;
+  padding-bottom:6px;
+  width: 100%;
+  float: right !important;
 }
 
+.no-resize{resize:none;}
+.color-mv { background-color: #cccccc !important;}
+.pull-left{float: left;}
+.pull-right{float: right;}
+.navbar .vertical .navbar-inner{
+ ;
+  
+}
+
+#navtab{ background-color: #777777;
+    padding-top: 15px;
+    padding-left: 32px;
+    border-bottom-left-radius:0px;
+    border-bottom-right-radius:15px;
+    border-top-left-radius:3px;
+    border-top-right-radius:3px;
+}
+
+.main_nav {
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+}
+
+.main_nav a.active {
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: #FFFFFF;
+    background-image: none;
+    background-origin: padding-box;
+    background-position: 0 0;
+    background-repeat: repeat;
+    background-size: auto auto;
+    border-bottom-color: #FFFFFF;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 0;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 0;
+    color: #0093C6;
+}
+.main_nav a {
+    display: block;
+    padding-bottom: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+}
+.main_nav a:hover {
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: #000000;
+    background-image: none;
+    background-origin: padding-box;
+    background-position: 0 0;
+    background-repeat: repeat;
+    background-size: auto auto;
+    border-bottom-color: #FFFFFF;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 0;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 0;
+    color: #0093C6;
+    background-color: #000000;
+}
+.add-on{color: #FFFFFF; text-shadow:none;}
 /* input file*/
 
 div.fileinputs {
@@ -315,6 +275,7 @@ input.file {
   border-color: #56CCCC #56CCCC #50BCBC;
   border-bottom-color: #4BB2B2;
   background-color:#0093C6;
+  background-image: none;
 }
 
 .btn-blue:hover,
@@ -322,6 +283,7 @@ input.file {
 .btn-blue.active {
   border-color:#00CCDB; 
   background-color:#0489B7;
+  color: #FFFFFF;
 }
 
 .btn-blue.disabled,
@@ -340,10 +302,24 @@ input.file {
   color: #fff;
 }
 /***bootstrap for application*/
+
+a {color:#0093C6}
+/****line 149 bootstrap.css*/
+body {
+  margin: 0;
+  font-family:  "Open Sans", sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+  color: #333333;
+  background-color: #ffffff;
+  padding-right: 20px;
+  padding-left: 20px;
+} 
+
 /****line 452 bootstrap.css*/
 h1{
   font-family: "Comfortaa";
-  line-height:5px; 
+  line-height:531x; 
 }
 
 h2{
@@ -429,6 +405,16 @@ h6 {
   border-bottom: 1px solid #eeeeee;
 }
 
+/** line 407 boostrap.css**/
+.container-fluid {
+  padding-right: 0px;
+}
+
+/** line 519 boostrap.css**/
+.page-header h1 {
+  line-height: 2;
+}
+
 /** line 762 boostrap.css**/
 input,
 button,
@@ -436,8 +422,13 @@ select,
 textarea {
   font-family: opensans;
 }
+/** line 1299 boostrap.css**/
+.input-prepend .add-on, .input-append .add-on {
+  text-shadow:none;
+  padding-top: 4px;
+  padding-bottom: 4px; 
+}
 
-/** line 1300 boostrap.css**/
 .input-prepend .add-on,
 .input-append .add-on {
   background-color: #0093C6;
@@ -451,12 +442,6 @@ textarea {
   filter: alpha(opacity=70);
 }
 
-/** line 2425 boostrap.css**/
-.dropdown-menu .divider {
-  background-color:#cccccc;
-  margin: -5px 0px 17px 0px;
-}
-
 /** line 2576 boostrap.css**/
 .btn{
   display: inline-block;
@@ -464,19 +449,47 @@ textarea {
   padding: 3px 20px 2px;
   margin-bottom: 0;
   *margin-left: .3em;
+  font-size: 13px;
   line-height: 18px;
   *line-height: 20px;
   text-align: center;
   vertical-align: middle;
   cursor: pointer;
+  background-image: none;
+  background-repeat: none;
+  border: 0px solid transparent;
+  *border: 0;
+  border-color: transparent;
     -webkit-border-radius: 5px;
      -moz-border-radius: 5px;
           border-radius: 5px;	
 }
 
+.btn:hover {
+
+  text-decoration: none;
+
+}
+
+.btn:focus {
+  outline: none;
+}
+
+.btn.active,
+.btn:active {
+
+
+  background-image: none;
+  outline: none;
+  -webkit-box-shadow: none;
+     -moz-box-shadow: none;
+          box-shadow: none;
+}
+
 .btn.disabled,
 .btn[disabled] {
   cursor: default;
+  background-color: transparent;
   background-image: none;
   opacity: 0.65;
   filter: alpha(opacity=65);
@@ -487,44 +500,6 @@ textarea {
 
 }
 
-.btn:first-child {
-  *margin-left: 0;
-}
-
-.btn:focus {
-  outline: thin dotted #333;
-  outline: 5px auto -webkit-focus-ring-color;
-  outline-offset: -2px;
-}
-
-.btn-large {
-  padding: 9px 14px;
-  font-size: 15px;
-  line-height: normal;
-  -webkit-border-radius: 5px;
-     -moz-border-radius: 5px;
-          border-radius: 5px;
-}
-
-.btn-large [class^="icon-"] {
-  margin-top: 1px;
-}
-
-.btn-small {
-  padding: 5px 9px;
-  font-size: 11px;
-  line-height: 16px;
-}
-
-.btn-small [class^="icon-"] {
-  margin-top: -1px;
-}
-
-.btn-mini {
-  padding: 2px 6px;
-  font-size: 11px;
-  line-height: 14px;
-}
 
 .btn-warning,
 .btn-warning:hover,
@@ -556,20 +531,6 @@ textarea {
   *background-color: #f89406;
   border-color: #f89406 #f89406 #ad6704;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-}
-
-.btn-warning:hover,
-.btn-warning:active,
-.btn-warning.active,
-.btn-warning.disabled,
-.btn-warning[disabled] {
-  background-color: #f89406;
-  *background-color: #df8505;
-}
-
-.btn-warning:active,
-.btn-warning.active {
-  background-color: #c67605 \9;
 }
 
 .btn-danger {
@@ -663,11 +624,6 @@ textarea {
   background-color: rgb(0, 147, 198),
 }
 
-/** line 3203 boostrap.css**/
-.nav {
-margin-bottom: 0px;
-}
-
 /** line 3255 boostrap.css**/
 .nav-list > .active > a, .nav-list > .active > a:hover {
 color: white;
@@ -675,11 +631,22 @@ text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
 background-color: rgb(0, 147, 198);
 }
 
-/** line 3583 boostrap.css**/
+/** line 3347 boostrap.css**/
+.nav-pills > .active > a, .nav-pills > .active > a:hover {
+    background-color: #0093C6;
+    color: #FFFFFF;
+}
+
+/** line 3578 boostrap.css**/
 .navbar-inner {
   background-color: #0093C6;
   background-image: none;
+  padding-right: 0px;
+  padding-left: 0px;
+  background-image: none;
+  box-shadow: none;
 }
+
 
 /** line 3615 boostrap.css**/
 .navbar .brand {
@@ -697,24 +664,28 @@ line-height: 2;
 
 /** line 3792 boostrap.css**/
 .navbar .nav > li > a {
-  color: #f5f5f5 !important;
+  color: #CCCCCC !important;
+  padding-bottom: 1px;
 }
 
 /** line 3819 boostrap.css**/
 .navbar .nav .active > a, .navbar .nav .active > a:hover {
-    background-color: #FFFFFF;
-    color: #777777 !important;
+    background-color: #CCCCCC;
+    color: #666666 !important;
 }
 
 /** line 3826 boostrap.css**/
 .navbar .divider-vertical {
 background-color: #f9f9f9;
 border-right: 1px solid #f9f9f9;
+border: none;
 }
 
 /** line 3840 boostrap.css**/
 .navbar .btn-navbar {
     background-color: #f9f9f9;
+    background-image: none;
+    float: left;
 }
 
 /** line 3864 boostrap.css**/
@@ -730,6 +701,7 @@ border-right: 1px solid #f9f9f9;
 /** line 3878 boostrap.css**/
 .navbar .btn-navbar .icon-bar {
     background-color: #000000;
+
 }
 
 /** line 4941 boostrap.css**/
@@ -767,13 +739,14 @@ border-right: 1px solid #f9f9f9;
 }
 
 
-/** bootstrap for application - cloud portal   
+/** bootstrap for application - cloud portal   **/
   
 .nav-collapse .nav > li {
   float:left;!important
 }
-/** line 696 boostrap.css
+/** line 696 boostrap.css**/
 .navbar-fixed-top .navbar-inner, .navbar-fixed-bottom .navbar-inner {
     padding-bottom: 0px;
 }
-**/
+
+

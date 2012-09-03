@@ -6,18 +6,10 @@
 	font-size: 13px;
 	height: 28px;
 	position: relative;
-	width: 220px;
+	width: 100%;
 	border-radius: 3px;
 }
-.sbH-mini{
-	width: 22% !important;
-}
-.sbH-small{
-	width: 42% !important;
-}
-.sbH-medium{
-	width: 62% !important;
-}
+
 .sbSelector{
 	display: block;
 	height: 30px;
@@ -73,7 +65,7 @@
 	padding: 0;
 	position: absolute;
 	top: 30px;
-	width: 220px;
+	width: 100%;
 	z-index: 1;
 	overflow-y: auto;
 	border-radius: 3px;

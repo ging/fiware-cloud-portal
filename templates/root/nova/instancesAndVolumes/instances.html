@@ -7,7 +7,7 @@
             <div class='table_header'>
                 <h3 class='table_title' data-i18n="Instances">Instances</h3>
                 <div class="table_actions clearfix">
-                    <a href='#nova/images_and_snapshots/'  id="instances__action_launch__1" class="btn btn-small btn-launch" data-i18n="Launch Instance">Launch Instance</a>
+                    <a href='#nova/images_and_snapshots/'  id="instances__action_launch__1" class="btn btn-small btn-blue btn-launch" data-i18n="Launch Instance">Launch Instance</a>
                     <button  id="instances_terminate" disabled=true class="btn btn-small btn-danger btn-terminate-group" name="action" value="instances__terminate" class="instances_terminate" type="submit" data-i18n="Terminate Instance">Terminate Instances</button>
                 </div>
             </div>
@@ -80,7 +80,7 @@
                         <div id="dropdown_<%= instance.get('id') %>" class="btn-group">
                             <button  id="instances__action_e__<%=i%>" class="btn btn-blue btn-small btn-edit btn-edit-instances" name="action" value="<%= instance.id %>" type="submit" data-i18n="Edit Instance">Edit Instance</button>
                             <a class="btn btn-blue dropdown-toggle btn-small" data-toggle="dropdown" href="#">
-                                <span class="caret"></span>
+                                <span class="caret caret-white"></span>
                             </a>
                             <ul class="dropdown-menu row_actions clearfix">
                                 <% 

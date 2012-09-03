@@ -3,6 +3,10 @@
     Description: Overview
     src: templates/root/sys/overview.html
 -->
+          <div class="span12">
+<div class="span12 hidden-desktop">
+  <h2>Overview</h2>           
+</div>
 <form action="" method="get" id="date_form" class="form-horizontal">
   <h3 data-i18n="Select a month to query its usage:">Select a month to query its usage:</h3>
   <div class="form-row">
@@ -26,7 +30,7 @@
 <option value="2010">2010</option>
 <option value="2009">2009</option>
 </select>
-    <input class="btn btn-small btn-blue" type="submit"/>
+    <input class="btn btn-small btn-blue inline" type="submit"/>
   </div>
 </form>
 
@@ -41,7 +45,7 @@
 <div class='table_header'>
   <h3 class='table_title' data-i18n="Usage Summary">Usage Summary</h3>
   <div class="table_actions clearfix">
-            <imput href='?date_month=2012-03-01&amp;date_year=2012-03-15&amp;format=csv'  class="btn btn-blue btn-small" data-i18n="Download CSV Summary">Download CSV Summary</a>
+            <imput href='?date_month=2012-03-01&amp;date_year=2012-03-15&amp;format=csv'  class="btn btn-small btn-blue" data-i18n="Download CSV Summary">Download CSV Summary</a>
 </div>
 </div>
 <table id="global_usage" class="table table-bordered table-striped">
@@ -69,6 +73,7 @@
   </tfoot>
 </table>
 </form>
+</div></div>
 
 </script>
 

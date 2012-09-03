@@ -104,8 +104,7 @@ var loadUtils = function() {
 var loadLibraries = function() {
     custom_require([   "lib/backbone.js",
                 "lib/jstack.js",
-                "lib/bootstrap.min.js",
-                "js/jquery.selectbox-0.1.3.js"
+                "lib/bootstrap.min.js"
             ], function(someModule) {
                 loadUtils();
         });
