@@ -9,8 +9,8 @@
   </li>
   
   <%  if (showTenants) { %>
-  <li>
-    <select id="tenant_switcher" tabindex="1">
+  <li class="tenant_switch">
+    <select id="tenant_switcher" tabindex="1" class="inline">
       <option value="">-- Select tenant --</option>
       <% for (var index in loginModel.get("tenants")) {
             var ten = loginModel.get("tenants")[index];

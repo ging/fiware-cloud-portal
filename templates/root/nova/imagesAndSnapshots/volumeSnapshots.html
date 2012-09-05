@@ -16,11 +16,11 @@
    			<tr>      
         	<th class="multi_select_column"></th>      
         	<th class="">Name</th>      
-        	<th class="">Description</th>      
+        	<th class="hidden-phone">Description</th>      
         	<th class="">Size</th>      
         	<th class="">Status</th>      
         	<th class="">Volume ID</th>      
-       	 	<th class="actions_column">Actions</th>      
+       	 	<th class="actions_column hidden-phone">Actions</th>      
     		</tr>
   		</thead>
   		<tbody>  
@@ -31,11 +31,11 @@
 		    <tr id="volume_snapshots__row__<%= models.length %>" class="">
 		        <td class="multi_select_column"><input type="checkbox" name="object_ids" class="checkbox checkbox_volumes" id="checkbox_<%= volSnapshot.get('id')%>" value="<%= volSnapshot.get('id')%>" /></td>
 		        <td class=""><a href="#nova/images_and_snapshots/<%= volSnapshot.get('id')%>"><%= volSnapshot.get('display_name')%></a></td>
-		        <td class=""><%=volSnapshot.get('display_description')%></td>
+		        <td class="hidden-phone"><%=volSnapshot.get('display_description')%></td>
 		        <td class=""><%=volSnapshot.get('size')+" GB"%></td>
 		         <td class=""><%=volSnapshot.get('status')%></td>
 		        <td class=""><%=volSnapshot.get('volume_id')%></td>
-		        <td class="actions_column">
+		        <td class="actions_column hidden-phone">
 		        	<button id="volume_snapshot__action_delete" class="ajax-modal btn btn-small btn-danger btn-delete-volume" value="<%= volSnapshot.get('id')%>" name="action" type="submit" data-i18n="Delete Volume Snapshot">Delete Volume Snapshot</button>
 		        </td>
 		    </tr>

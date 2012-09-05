@@ -22,7 +22,7 @@
 		                <% for (var index in models) { 
 		                  var model = models[index];
 		             	  if (model.get('name') == 'Admin' && showAdmin == false)
-			              continue;
+			                 continue;
 			              %>
 		                  <li <% if (model.get('active')) { %> class="active" <% } %> >
 		            	  <a href="<%= model.get('url') %>" tabindex='1' data-i18n="<%= model.get('name') %>"><%= model.get('name') %></a>

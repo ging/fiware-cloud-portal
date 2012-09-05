@@ -13,15 +13,15 @@
 		    <thead>
 		      <tr>       
 		          <th class="multi_select_column"></th>        
-		          <th class="" data-i18n="Tenant">Tenant</th>        
-		          <th class="" data-i18n="Host">Host</th>        
+		          <th class="hidden-phone" data-i18n="Tenant">Tenant</th>        
+		          <th class="hidden-phone" data-i18n="Host">Host</th>        
 		          <th class="" data-i18n="Instance Name">Instance Name</th>        
-		          <th class="" data-i18n="IP Address">IP Address</th>        
-		          <th class="" data-i18n="Size">Size</th>        
+		          <th class="hidden-phone" data-i18n="IP Address">IP Address</th>        
+		          <th class="hidden-phone" data-i18n="Size">Size</th>        
 		          <th class="" data-i18n="Status">Status</th>        
-		          <th class="" data-i18n="Task">Task</th>        
+		          <th class="hidden-phone" data-i18n="Task">Task</th>        
 		          <th class="" data-i18n="Power State">Power State</th>        
-		          <th class="actions_column" data-i18n="Actions">Actions</th>        
+		          <th class="hidden-phone actions_column" data-i18n="Actions">Actions</th>        
 		      </tr>
 		    </thead>
 		    <tbody>
@@ -53,10 +53,10 @@
 			 %> 
 			 <tr  data-update-interval="2500" data-update-url="/syspanel/instances/?action=row_update&amp;table=instances&amp;obj_id=<%= instance.get('id')%>" id="instances__row__<%= instance.get('id')%>" class="ajax-update status_down">
 			  <td class="multi_select_column"><input type="checkbox" name="object_ids" id="checkbox_<%= instance.get('id')%>" class="checkbox" value="<%= instance.get('id')%>" /></td>
-			  <td class=""><%= tenants[instance.get("tenant_id")]%></td>
-			  <td class=""><%= instance.get('OS-EXT-SRV-ATTR:host')%></td>
+			  <td class="hidden-phone"><%= tenants[instance.get("tenant_id")]%></td>
+			  <td class="hidden-phone"><%= instance.get('OS-EXT-SRV-ATTR:host')%></td>
               <td class=""><a href="#nova/instances_and_volumes/instances/<%=instance.id%>/detail"><%= instance.get('name')%></a></td>
-			  <td class="">
+			  <td class="hidden-phone">
                     <ul>
                         <%               
                         if (instance.get("addresses") != null && instance.get("addresses").public != null) {
@@ -70,11 +70,11 @@
                         <% }} %>
                     </ul>
                 </td>
-			  <td class="nowrap-col"><%=flavorlist[instance.get("flavor").id]%></td>
+			  <td class="hidden-phone nowrap-col"><%=flavorlist[instance.get("flavor").id]%></td>
 			  <td class="status_up"><%= instance.get('status')%></td>
-			  <td class="status_up"><%= instance.get("OS-EXT-STS:task_state") ? instance.get("OS-EXT-STS:task_state") : "None"%></td>
+			  <td class="hidden-phone status_up"><%= instance.get("OS-EXT-STS:task_state") ? instance.get("OS-EXT-STS:task_state") : "None"%></td>
 			  <td class=""><%= POWER_STATES[instance.get("OS-EXT-STS:power_state")]%></td>
-			  <td class="actions_column">
+			  <td class="hidden-phone actions_column">
 				<div id="dropdown_<%= instance.get('id') %>" class="btn-group">
 
 			      <button  id="instances__action_e__<%=i%>" class="btn btn-small btn-edit btn-blue" name="action" value="<%= instance.id %>" type="submit" data-i18n="Edit Instance">Edit Instance</button>

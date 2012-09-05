@@ -16,12 +16,12 @@
                     <tr>
                         <th class="multi_select_column"></th>
                         <th class="" data-i18n="Instance Name">Instance Name</th>
-                        <th class="" data-i18n="IP Address">IP Address</th>
+                        <th class="hidden-phone" data-i18n="IP Address">IP Address</th>
                         <th class="" data-i18n="Size">Size</th>
                         <th class="" data-i18n="Status">Status</th>
-                        <th class="" data-i18n="Task">Task</th>
-                        <th class="" data-i18n="Power State">Power State</th>
-                        <th class="actions_column" data-i18n="Actions">Actions</th>
+                        <th class="hidden-phone" data-i18n="Task">Task</th>
+                        <th class="hidden-phone" data-i18n="Power State">Power State</th>
+                        <th class="actions_column hidden-phone" data-i18n="Actions">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -58,7 +58,7 @@
                     <td class="">
                         <a href="#nova/instances_and_volumes/instances/<%= instance.id %>/detail"><%= instance.get("name") %></a>
                     </td>
-                    <td class="">
+                    <td class="hidden-phone">
                         <ul>
                             <%                      
                             if (instance.get("addresses") != null && instance.get("addresses").public != null) {
@@ -74,9 +74,9 @@
                     </td>
                     <td class=""><%=flavorlist[instance.get("flavor").id]%></td>
                     <td class="status_down"><%= instance.get("status") %></td>
-                    <td class="status_unknown"><%= instance.get("OS-EXT-STS:task_state") ? instance.get("OS-EXT-STS:task_state") : "None"%></td>
-                    <td class=""><%= POWER_STATES[instance.get("OS-EXT-STS:power_state")]%></td>
-                    <td class="actions_column">
+                    <td class="status_unknown hidden-phone"><%= instance.get("OS-EXT-STS:task_state") ? instance.get("OS-EXT-STS:task_state") : "None"%></td>
+                    <td class="hidden-phone"><%= POWER_STATES[instance.get("OS-EXT-STS:power_state")]%></td>
+                    <td class="actions_column hidden-phone">
                         <div id="dropdown_<%= instance.get('id') %>" class="btn-group">
                             <button  id="instances__action_e__<%=i%>" class="btn btn-blue btn-small btn-edit btn-edit-instances" name="action" value="<%= instance.id %>" type="submit" data-i18n="Edit Instance">Edit Instance</button>
                             <a class="btn btn-blue dropdown-toggle btn-small" data-toggle="dropdown" href="#">
