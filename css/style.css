@@ -1,4 +1,10 @@
 /* new clearfix */
+body { min-height: 480px; }
+
+.tenant_switch {
+    padding-bottom: 20px;   
+}
+
 .clearfix:after {
     visibility: hidden;
     display: block;
@@ -113,14 +119,32 @@ h2 {
 }
 
 /* Login Splash Page */
-
+#root {
+    overflow: hidden;
+}
+#divider {
+    margin-top: 30px;
+}
 
 #splashdiv {
-  background: #fff url(../images/logo.png) no-repeat center 35px; 
-  width: 390px;
-  padding-top: 170px;
-  border: 1px solid #e1e1e1;
-  margin-left: -195px;  /*accounts for splash's non-standard width */
+    background: white url(../images/logo.png) no-repeat center 35px;
+    /*width: 320px;*/
+   padding: 10px;
+    padding-top: 170px;
+    
+    border: 1px solid #E1E1E1;
+    /*margin-left: -160px;*/
+   /* The white background content wrapper */
+        -webkit-border-radius: 10px 10px 10px 10px;
+           -moz-border-radius: 10px 10px 10px 10px;
+                border-radius: 10px 10px 10px 10px;
+        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+           -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+                box-shadow: 0 1px 2px rgba(0,0,0,.15);
+}
+
+.input-login {
+    width: 96%;    
 }
 
 #splash .help-block {
@@ -556,7 +580,7 @@ td .icon-updating.ajax-updating {
 }
 
 .modal {
-    width: 700px;
+    left: none;
     max-height: none; /* Prevents large modals from scrolling unnecessarily */
     top: 80px;
     margin-top: 0;
@@ -612,7 +636,7 @@ td .icon-updating.ajax-updating {
 .modal fieldset {
     margin: 0;
     padding: 0;
-    width: 372px;
+    width: 96%;
 }
 
 .modal .form-field,
@@ -1031,13 +1055,22 @@ background-color: #000000;
   .detail-case {
     margin-top: 0px;
 }
+<<<<<<< HEAD
   [class*="span"] {
     margin-left: 0px;
+=======
+#divider {
+    margin-top: 80px;
+>>>>>>> c3d8b0e6114e2d64e61d6c029697af6bc274f3a9
 }
 }
 @media (min-width: 980px) {
   .detail-case {
     margin-top: 0px;
+    
+}
+#divider {
+    margin-top: 80px;
 }
 }
 @media (min-width: 768px) and (max-width: 979px) {
@@ -1046,8 +1079,22 @@ background-color: #000000;
     z-index: 2;
     float: none;
     }
+  .row-fluid .span9 {
+    width:99%;
+    }
   .pull-none{
-  float: none !important;
+    float: none !important;
+    }
+    #divider {
+    margin-top: 80px;
+}
+.row-fluid [class*="span"] {
+    float: none;
+    margin-left: 0px;
+}
+
+.container, .navbar-fixed-top .container, .navbar-fixed-bottom .container {
+width: 100%;
 }
 .row-fluid [class*="span"] {
 margin-left: 0px;

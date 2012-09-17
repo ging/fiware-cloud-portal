@@ -37,7 +37,7 @@
       
         <th class="multi_select_column"></th>
       
-        <th class="" data-i18n="Id">Id</th>
+        <th class="hidden-phone" data-i18n="Id">Id</th>
       
         <th class="" data-i18n="Name">Name</th>
       
@@ -45,7 +45,7 @@
       
         <th class="" data-i18n="Enabled">Enabled</th>
       
-        <th class="actions_column" data-i18n="Actions">Actions</th>
+        <th class="actions_column hidden-phone" data-i18n="Actions">Actions</th>
       
     </tr>
   </thead>
@@ -59,11 +59,11 @@
   	<td class="multi_select_column">
   		<input type="checkbox" name="object_ids" value="<%= project.get('id') %>" />
   	</td>
-  	<td class=""><%= project.get('id')%></td>
+  	<td class="hidden-phone"><%= project.get('id')%></td>
   	<td class=""><%= project.get('name')%></td>
   	<td class=""><%= project.get('description')%></td>
   	<td class="satus_up"><%= project.get('enabled')%></td>
-  	<td class="actions_column">
+  	<td class="actions_column hidden-phone">
 
 
 <div class="btn-group">

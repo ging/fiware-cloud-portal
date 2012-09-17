@@ -310,8 +310,13 @@ body {
   line-height: 18px;
   color: #333333;
   background-color: #ffffff;
+<<<<<<< HEAD
   padding-right: 5px;
   padding-left: 5px;
+=======
+  padding-left: 0px;
+  padding-right: 0px;
+>>>>>>> c3d8b0e6114e2d64e61d6c029697af6bc274f3a9
 } 
 
 /****line 452 bootstrap.css*/

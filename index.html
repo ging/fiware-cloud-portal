@@ -4,6 +4,7 @@
 <html lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=no"> 
 	<title>index</title>
 	<!-- Date: 2012-03-13 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,19 +22,28 @@
 	<script type="text/javascript" src="lib/require.js"></script>
 	<script type="text/javascript" src="js/load-modules.js"></script>
 	<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+	
+	<script>
+ window.addEventListener("load",function() {
+   setTimeout(function(){
+    window.scrollTo(0, 0);
+    }, 0);
+ });
+</script>
        
 </head>
-<body id="splash">
+<body id="splash" >
     <!--
     Description: Index page
     src: index.html
     -->
-	<div class="clearfix"/>
-	<div id='auth'>
+	<div class="container">
+	<div id='auth' class="row">
 	</div>
+	
 	
 	<div id='root'>
 	</div>
-		
+	</div>	
 </body>
 </html>
