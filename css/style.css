@@ -135,6 +135,9 @@ h2 {
     color: #ffffff;
     text-shadow: none;
 }
+.nav li a:hover {
+    background-color: #ccc;
+}
 
 .container-fluid {
     padding-left: 0;
@@ -369,7 +372,6 @@ small {
     list-style: none;
     padding: 3px 0px 10px 16px;
     border-radius: 0px 0px 5px 5px;
-    margin-left: 20px;
 }
 
 .main_nav a {
@@ -984,6 +986,7 @@ form .error {
     border-bottom-right-radius: 15px;
     border:none;
     height: 31px;
+    padding-top: 15px;
 }
 .nav-tabs > li {
 margin-bottom: -9px;
@@ -1028,6 +1031,9 @@ background-color: #000000;
   .detail-case {
     margin-top: 0px;
 }
+  [class*="span"] {
+    margin-left: 0px;
+}
 }
 @media (min-width: 980px) {
   .detail-case {
@@ -1036,9 +1042,41 @@ background-color: #000000;
 }
 @media (min-width: 768px) and (max-width: 979px) {
   .row-fluid .span3 {
-    width:103%;
+    width:100%;
+    z-index: 2;
+    float: none;
     }
   .pull-none{
   float: none !important;
 }
+.row-fluid [class*="span"] {
+margin-left: 0px;
 }
+.row-fluid .span9 {
+width: 100%;
+}
+  .navbar .nav > li > a {
+    padding-bottom: 3px;
+} 
+}
+
+@media (max-width: 979px){
+.nav-collapse .nav > li > a, .nav-collapse .dropdown-menu a {
+  padding: 6px 15px;
+  color: white;
+}
+#user_info {
+color: 
+#ccc;
+}
+#user_info > a {
+margin-left: 20px;
+font-size: 11px !important;
+color: #fff;
+}
+  .navbar .nav > li > a {
+    padding-bottom: 3px;
+}
+}
+
+

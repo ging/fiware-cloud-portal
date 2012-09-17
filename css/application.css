@@ -22,7 +22,7 @@
 
 
 .logo{
-  margin-left: -30px !important;
+  margin-left: -4px !important;
   float: left;
   margin-top: -15px;
 }
@@ -132,6 +132,7 @@
   height:60px;
   margin-bottom: 20px;
   margin-top:-37px;
+  margin-right:-5px;
   padding-top:2px;
   padding-bottom:6px;
   width: 100%;
@@ -139,7 +140,7 @@
 }
 
 .no-resize{resize:none;}
-.color-mv { background-color: #cccccc !important;}
+/*.color-mv { background-color: #cccccc !important;}*/
 .pull-left{float: left;}
 .pull-right{float: right;}
 .navbar .vertical .navbar-inner{
@@ -147,7 +148,7 @@
 
 #navtab{ background-color: #777777;
     border-bottom-left-radius:0px;
-    border-bottom-right-radius:15px;
+    border-bottom-right-radius:0px;
     border-top-left-radius:3px;
     border-top-right-radius:3px;
 }
@@ -156,6 +157,7 @@
     list-style-image: none;
     list-style-position: outside;
     list-style-type: none;
+    background-color: #ccc;
 }
 
 .main_nav a.active {
@@ -308,8 +310,8 @@ body {
   line-height: 18px;
   color: #333333;
   background-color: #ffffff;
-  padding-right: 20px;
-  padding-left: 20px;
+  padding-right: 5px;
+  padding-left: 5px;
 } 
 
 /****line 452 bootstrap.css*/
@@ -635,7 +637,7 @@ background-color: rgb(0, 147, 198);
 
 /** line 3578 boostrap.css**/
 .navbar-inner {
-  background-color: #0093C6;
+  background-color: #777777;
   background-image: none;
   padding-right: 0px;
   padding-left: 0px;
@@ -661,13 +663,17 @@ line-height: 2;
 /** line 3792 boostrap.css**/
 .navbar .nav > li > a {
   color: #CCCCCC !important;
-  padding-bottom: 1px;
+  padding: 6px 10px 4px;
+ /* padding-bottom: 1px; */
+ border-bottom-right-radius: 0px;
+ border-bottom-left-radius: 0px; 
 }
 
 /** line 3819 boostrap.css**/
 .navbar .nav .active > a, .navbar .nav .active > a:hover {
     background-color: #CCCCCC;
     color: #666666 !important;
+    padding-bottom: 3px;
 }
 
 /** line 3826 boostrap.css**/
@@ -745,4 +751,24 @@ border: none;
     padding-bottom: 0px;
 }
 
+media="screen"
+bootstrap-responsive.css:201@media (max-width: 979px) and (min-width: 768px)
+.row-fluid [class*="span"] {
+display: block;
+float: left;
+width: 100%;
+min-height: 28px;
+margin-left: 2.762430939%;
+-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+-ms-box-sizing: border-box;
+box-sizing: border-box;
+}
 
+/** line 192 boostrap.css**/
+[class*="span"] {
+
+margin-left: 0px;
+}
+
+#navbar{margin-left: -5px; margin-right: -5px;}

@@ -8,35 +8,28 @@
     <h2 id="sideBarTitle" class="gray" data-i18n="<%= title %>"><%=title%></h2>
   </li>
   
-  <%  if (showTenants) { %>
-  <li>
-    <div id="sidebar_t">
-      <div id="tenant_switcher" class="dropdown switcher_bar" tabindex="1">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#tenant_switcher">
-          <h3><%= loginModel.get("tenant").name %></h3>
-        </a>
-        <ul id="tenant_list" class="dropdown-menu">
-          <li class="divider">
-          </li>
-          <% for (var index in loginModel.get("tenants")) {
+  <% if (showTenants) { %>
+  <li class="tenant_switch">
+    <select id="tenant_switcher" tabindex="1" class="inline">
+      <option value="">-- Select tenant --</option>
+      <% for (var index in loginModel.get("tenants")) {
             var ten = loginModel.get("tenants")[index];
           %>
-          <li><a href="#auth/switch/<%= ten.id%>/"><%= ten.name%></a>
-          </li>
+          <option value="#auth/switch/<%= ten.id%>/" <%
+              if (loginModel.get("tenant").name === ten.name) {
+                  %>selected="selected" <%}%>><%= ten.name%></option>
         <%}%>
-        </ul>
-      </div>
-    </div>
+    </select>
   </li>
   <% } %>
 
-  <% for (var index in models) { 
-		var model = models[index];
-	%>
-	<li>
-		<a href="<%= model.get('url') %>" <% if(model.get('active')) { %> class="active" <% } %> tabindex='1' data-i18n="<%= model.get('name') %>"><%= model.get('name') %></a>
-	</li>
-	<% } %>
+  <% for (var index in models) {
+var model = models[index];
+%>
+<li>
+<a href="<%= model.get('url') %>" <% if(model.get('active')) { %> class="active" <% } %> tabindex='1' data-i18n="<%= model.get('name') %>"><%= model.get('name') %></a>
+</li>
+<% } %>
 </ul>
 </section>
 
