@@ -60,6 +60,14 @@
 	padding-left:28px;
 	margin-bottom: 10px;
 }
+.ellipsis{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.w120px {
+max-width: 120px;}
 
 #index, #dashboard, #formulary{margin-left:12%}
 .blue{color:#0093C6;}
