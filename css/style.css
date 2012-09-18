@@ -3,7 +3,8 @@ body { min-height: 480px; }
 
 .tenant_switch {
     padding-bottom: 20px;
-    width: 90%;   
+    width: 90%; 
+    padding-left: 15px;  
 }
 
 .clearfix:after {
@@ -161,7 +162,7 @@ h2 {
     text-shadow: none;
 }
 .nav li a:hover {
-    background-color: #ccc;
+    background-color: #fff
 }
 
 .container-fluid {
