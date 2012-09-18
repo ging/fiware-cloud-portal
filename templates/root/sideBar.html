@@ -3,13 +3,12 @@
     Description: Side Bar
     src: templates/root/sideBar.html
 -->
-<ul class="main_nav">
-  <li>
-    <h2 id="sideBarTitle" class="gray" data-i18n="<%= title %>"><%=title%></h2>
-  </li>
-  
-  <% if (showTenants) { %>
-  <li class="tenant_switch">
+<div class="menuv">
+  <div id="sideBarTitle" class="gray size20 comfortaa" data-i18n="<%= title %>"><%=title%>
+  </div>
+
+<% if (showTenants) { %>
+  <div class="tenant_switch">
     <select id="tenant_switcher" tabindex="1" class="inline">
       <option value="">-- Select tenant --</option>
       <% for (var index in loginModel.get("tenants")) {
@@ -20,9 +19,10 @@
                   %>selected="selected" <%}%>><%= ten.name%></option>
         <%}%>
     </select>
-  </li>
+  </div>
   <% } %>
-
+</div>
+<ul class="main_nav">
   <% for (var index in models) {
 var model = models[index];
 %>

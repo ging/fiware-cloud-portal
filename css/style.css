@@ -2,7 +2,8 @@
 body { min-height: 480px; }
 
 .tenant_switch {
-    padding-bottom: 20px;   
+    padding-bottom: 20px;
+    width: 90%;   
 }
 
 .clearfix:after {
@@ -1011,6 +1012,7 @@ form .error {
     border:none;
     height: 31px;
     padding-top: 15px;
+    padding-left: 15px;
 }
 .nav-tabs > li {
 margin-bottom: -9px;
