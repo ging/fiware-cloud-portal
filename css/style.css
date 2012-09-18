@@ -129,11 +129,11 @@ h2 {
 }
 
 #splashdiv {
-    background: white url(../images/logo.png) no-repeat center 35px;
+  background: white url(../images/logo.png) no-repeat center 35px;
     /*width: 320px;*/
-   padding: 10px;
-    padding-top: 170px;
-    
+  padding: 10px;
+  padding-top: 170px;
+  margin-top: 80px;
     border: 1px solid #E1E1E1;
     /*margin-left: -160px;*/
    /* The white background content wrapper */
