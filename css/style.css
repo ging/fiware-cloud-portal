@@ -1059,7 +1059,9 @@ background-color: #000000;
   [class*="span"] {
     margin-left: 0px;
   }
-
+  .container, .navbar-fixed-top .container, .navbar-fixed-bottom .container {
+    width: 100%;
+  }
 
   #divider {
     margin-top: 80px;
@@ -1075,7 +1077,9 @@ background-color: #000000;
   #divider {
     margin-top: 80px;
   }
-
+  .container, .navbar-fixed-top .container, .navbar-fixed-bottom .container {
+    width: 100%;
+}
 }
 @media (min-width: 768px) and (max-width: 979px) {
   .row-fluid .span3 {
