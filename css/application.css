@@ -160,8 +160,8 @@ max-width: 120px;}
 .pull-right{float: right;}
 
 #navtab { background-color: #777777;
-    border-bottom-left-radius:0px;
-    border-bottom-right-radius:0px;
+    border-bottom-left-radius:14px;
+    border-bottom-right-radius:14px;
     border-top-left-radius:3px;
     border-top-right-radius:3px;
 }

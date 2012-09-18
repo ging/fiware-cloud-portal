@@ -43,7 +43,7 @@
                     <td class="actions_column hidden-phone">
                     <% if (volume.get("status") != "error") {%>                    
                         <div class="btn-group">
-                            <a id="volumes__row_<%= volume.get("id")%>__action_attachments" value="<%= volume.id %>" class="btn btn-blue ajax-modal btn-edit btn-small btn-edit-volumes">Edit Attachments</a>
+                            <a id="volumes__row_<%= volume.get("id")%>__action_attachments" value="<%= volume.id %>" class="btn btn-blue ajax-modal btn-edit btn-small btn-edit-volumes ellipsis w120">Edit Attachments</a>
                             <% if (volume.get("status") != "in-use") {%>
                             <a class="btn dropdown-toggle ajax-modal btn-edit btn-blue btn-small" data-toggle="dropdown" href="#">
                                 <span class="caret caret-white"></span>
