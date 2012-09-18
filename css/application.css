@@ -767,7 +767,7 @@ border: none;
 @media (max-width: 979px) and (min-width: 768px) {
 .row-fluid [class*="span"] {
 display: block;
-float: left;
+float: none;
 width: 100%;
 min-height: 28px;
 margin-left: 0px;
