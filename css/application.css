@@ -310,13 +310,8 @@ body {
   line-height: 18px;
   color: #333333;
   background-color: #ffffff;
-<<<<<<< HEAD
   padding-right: 5px;
   padding-left: 5px;
-=======
-  padding-left: 0px;
-  padding-right: 0px;
->>>>>>> c3d8b0e6114e2d64e61d6c029697af6bc274f3a9
 } 
 
 /****line 452 bootstrap.css*/
@@ -756,8 +751,7 @@ border: none;
     padding-bottom: 0px;
 }
 
-media="screen"
-bootstrap-responsive.css:201@media (max-width: 979px) and (min-width: 768px)
+@media (max-width: 979px) and (min-width: 768px) {
 .row-fluid [class*="span"] {
 display: block;
 float: left;
@@ -769,7 +763,7 @@ margin-left: 2.762430939%;
 -ms-box-sizing: border-box;
 box-sizing: border-box;
 }
-
+}
 /** line 192 boostrap.css**/
 [class*="span"] {
 

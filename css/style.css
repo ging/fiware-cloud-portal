@@ -1054,24 +1054,28 @@ background-color: #000000;
 @media (min-width: 1200px) {
   .detail-case {
     margin-top: 0px;
-}
-<<<<<<< HEAD
+  }
+
   [class*="span"] {
     margin-left: 0px;
-=======
-#divider {
+  }
+
+
+  #divider {
     margin-top: 80px;
->>>>>>> c3d8b0e6114e2d64e61d6c029697af6bc274f3a9
+  }
 }
-}
+
 @media (min-width: 980px) {
   .detail-case {
     margin-top: 0px;
     
-}
-#divider {
+  }
+
+  #divider {
     margin-top: 80px;
-}
+  }
+
 }
 @media (min-width: 768px) and (max-width: 979px) {
   .row-fluid .span3 {
