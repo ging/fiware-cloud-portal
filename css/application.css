@@ -92,8 +92,12 @@
 .comfortaa{font-family:"comfortaa"}
 .form-buttons{ padding-top:15px; padding-right:30px; padding-bottom:10px; float:right;}
 .clear{ clear:both;}
+
 .margin-left{margin-left:30px;}
 .margin-bottom{margin-bottom:10px;}
+.m-top{margin-top:10px;}
+.m-right{margin-right:9px;}
+
 .space{ height:10px; width:auto}
 .space-double{ padding:1px; height:20px; width:auto}
 .space-big{ padding:1px; height:50px; width:auto}
@@ -146,10 +150,8 @@
 /*.color-mv { background-color: #cccccc !important;}*/
 .pull-left{float: left;}
 .pull-right{float: right;}
-.navbar .vertical .navbar-inner{
-}
 
-#navtab{ background-color: #777777;
+#navtab { background-color: #777777;
     border-bottom-left-radius:0px;
     border-bottom-right-radius:0px;
     border-top-left-radius:3px;
@@ -772,5 +774,3 @@ box-sizing: border-box;
 
 margin-left: 0px;
 }
-
-
