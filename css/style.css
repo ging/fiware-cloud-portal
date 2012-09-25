@@ -1073,15 +1073,18 @@ background-color: #000000;
 
 @media (min-width: 980px) {
   .detail-case {
-    margin-top: 0px;
-    
+    margin-top: 0px; 
   }
-
   #divider {
     margin-top: 80px;
   }
   .container, .navbar-fixed-top .container, .navbar-fixed-bottom .container {
     width: 100%;
+}
+  #splashdiv{
+  width: 330px;
+  margin-left: auto;
+  margin-right: auto;
 }
 }
 @media (min-width: 768px) and (max-width: 979px) {
@@ -1115,6 +1118,11 @@ width: 100%;
 }
   .navbar .nav > li > a {
     padding-bottom: 3px;
+}
+#splashdiv{
+  width: 330px;
+  margin-left: auto;
+  margin-right: auto;
 } 
 }
 
