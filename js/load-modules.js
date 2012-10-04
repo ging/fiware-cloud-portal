@@ -53,6 +53,8 @@ var loadViews = function() {
                 "js/views/nova/ImagesAndSnapshotsView.js",
                 "js/views/nova/ImagesAndInstanceSnapshotsView.js",
                 "js/views/nova/VolumeSnapshotsView.js",
+                "js/views/objectstorage/ContainersView.js",
+                "js/views/objectstorage/ContainerView.js",
                 "js/views/forms/UpdateInstanceView.js",
                 "js/views/forms/CreateFlavorView.js",
                 "js/views/forms/UpdateImageView.js",
@@ -64,6 +66,8 @@ var loadViews = function() {
                 "js/views/forms/CreateVolumeView.js",
                 "js/views/forms/EditVolumeAttachmentsView.js",
                 "js/views/forms/ConfirmView.js",
+                "js/views/forms/CreateContainerView.js",
+                "js/views/forms/UploadObjectView.js",
                 "js/views/nova/InstanceDetailView.js",
                 "js/views/SettingsView.js",
                 "js/views/forms/MessagesView.js"
@@ -87,7 +91,8 @@ var loadModels = function() {
                 "js/models/LoginModel.js",
                 "js/models/ServiceModel.js",
                 "js/models/NavTabModel.js",
-                "js/models/TopBarModel.js"
+                "js/models/TopBarModel.js",
+                "js/models/ContainerModel.js"
             ], function(someModule) {
                 loadViews();
         });
@@ -126,6 +131,8 @@ var loadTemplates = function() {
                     'templates/forms/createVolume.html',
                     'templates/forms/editVolumeAttachments.html',
                     'templates/forms/launchImage.html',
+                    'templates/forms/createContainer.html',
+                    'templates/forms/uploadObject.html',
                     'templates/root/nova/overview.html',
                     'templates/root/nova/accessAndSecurity.html',
                     'templates/root/nova/imagesAndSnapshots.html',
@@ -137,6 +144,8 @@ var loadTemplates = function() {
                     'templates/root/nova/instanceDetail.html',
                     'templates/root/nova/imageDetail.html',
                     'templates/root/nova/volumeDetail.html',
+                    'templates/root/objectstorage/containers.html',
+                    'templates/root/objectstorage/container.html',
                     'templates/root/sys/images.html',
                     'templates/root/sys/overview.html',
                     'templates/root/sys/instances.html',

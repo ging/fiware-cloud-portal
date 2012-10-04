@@ -15,6 +15,7 @@ var OSRouter = Backbone.Router.extend({
     images: undefined,
     keypairsModel: undefined,
     projects: undefined,
+    containers: undefined,
     
     currentView: undefined,
     
@@ -35,6 +36,7 @@ var OSRouter = Backbone.Router.extend({
 	    this.images = new Images();
 	    this.keypairsModel = new Keypairs();
 	    this.projects = new Projects();
+	    this.containers = new Containers();
 	    
 	    Backbone.View.prototype.close = function(){
           //this.remove();
@@ -80,6 +82,9 @@ var OSRouter = Backbone.Router.extend({
 	    this.route('nova/instances_and_volumes/instances/:id/detail?view=:subview', 'consult_instance',  this.wrap(this.consult_instance, this.checkAuth));
 	    this.route('nova/instances_and_volumes/instances/:id/detail', 'consult_instance',  this.wrap(this.consult_instance, this.checkAuth));
 	    this.route('nova/instances_and_volumes/volumes/:id/detail', 'consult_volume',  this.wrap(this.consult_volume, this.checkAuth));
+	    
+	    this.route('objectstorage/containers/', 'consult_containers',  this.wrap(this.objectstorage_consult_containers, this.checkAuth));
+	    this.route('objectstorage/containers/:id/', 'consult_container',  this.wrap(this.objectstorage_consult_container, this.checkAuth));        
 	},
 	
 	wrap: function(func, wrapper, arguments) {
@@ -100,13 +105,14 @@ var OSRouter = Backbone.Router.extend({
             return;
         } else {
             if (this.timers.length == 0) {
-                this.add_fetch(this.instancesModel, 34000);
-                this.add_fetch(this.volumesModel, 34000);
-                this.add_fetch(this.images, 34000);
-                this.add_fetch(this.flavors, 34000);
-                this.add_fetch(this.volumeSnapshotsModel,34000);
+                this.add_fetch(this.instancesModel, 4);
+                this.add_fetch(this.volumesModel, 4);
+                this.add_fetch(this.images, 4);
+                this.add_fetch(this.flavors, 4);
+                this.add_fetch(this.volumeSnapshotsModel,4);
+                this.add_fetch(this.containers,4);
                 if (this.loginModel.isAdmin()) {
-                    this.add_fetch(this.projects, 34000);
+                    this.add_fetch(this.projects, 4);
                 }
             }
         }
@@ -307,7 +313,8 @@ var OSRouter = Backbone.Router.extend({
         self.navs = new NavTabModels([   {name: 'Overview', active: true, url: '#nova/'}, 
                             {name: 'Instances &amp; Volumes', active: false, url: '#nova/instances_and_volumes/'},
                             /*{name: 'Access &amp; Security', active: false, url: '#nova/access_and_security/'},*/
-                            {name: 'Images &amp; Snapshots', active: false, url: '#nova/images_and_snapshots/'}
+                            {name: 'Images &amp; Snapshots', active: false, url: '#nova/images_and_snapshots/'},
+                            {name: 'Containers', active: false, url: '#objectstorage/containers/'}
                             ]);
         self.navs.setActive(option);
         self.tabs.setActive('Project');
@@ -341,6 +348,22 @@ var OSRouter = Backbone.Router.extend({
 	    var view = new InstancesAndVolumesView({instancesModel: self.instancesModel, volumesModel: self.volumesModel, volumeSnapshotsModel: self.volumeSnapshotModel, flavors: self.flavors, el: '#content'});
 	    self.newContentView(self,view);
 	},
+	
+	objectstorage_consult_containers: function(self) {
+	   self.showNovaRoot(self, 'Containers');
+        //self.add_fetch(self.containers, 4);
+        var view = new ObjectStorageContainersView({model: self.containers, el: '#content'});
+        self.newContentView(self,view);
+	},
+	
+	objectstorage_consult_container: function(self, id) {
+       self.showNovaRoot(self, 'Containers');
+        //self.add_fetch(self.instancesModel, 4);
+        var container = new Container();
+        container.set({"id": id});
+        var view = new ObjectStorageContainerView({model: container, el: '#content'});
+        self.newContentView(self,view);
+    },
 	
 	consult_instance: function(self, id, subview) {
 		console.log("Subview="+subview);

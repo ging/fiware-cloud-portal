@@ -54,6 +54,7 @@ var NovaImagesAndInstanceSnapshotsView = Backbone.View.extend({
     },
     
     onLaunchImages: function(evt) {
+        console.log("launch");
         var image = this.model.get(evt.target.value);
         var subview = new LaunchImageView({model: image, flavors: this.options.flavors, keypairs: this.options.keypairs, el: 'body'});
         subview.render();

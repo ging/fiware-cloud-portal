@@ -1,31 +1,29 @@
 <script id="topBarTemplate" type="text/html">
-<!--
+    <!--
     Description: Top Bar
     src: templates/root/topBar.html
--->
+    -->
 
-<div id="user_info" class="pull-right">
-  <span data-i18n="Logged in as">Logged in as</span>
-  <a href="#settings/" data-i18n="Settings">Settings</a>
-  <a href="#auth/logout" data-i18n="Sign Out">Sign Out</a>
-</div>
-
-<div class="row-fluid header span12 hidden-tablet hidden-phone">
-  <div class="header span12">
-    <div class="logo span4 inline">
-      <div class="brand"></div>
-      <h2><a href="#home/"><span class="link-logo">Fi-ware</span></a>&nbsp;&nbsp;</h2>
-      <h2 class="dashboard"> Dashboard</h2>
+    <div id="user_info" class="pull-right">
+    <span data-i18n="Logged in as">Logged in as</span>: <%= get('username') %>
+    <a href="#settings/" data-i18n="Settings">Settings</a>
+    <a href="#auth/logout" data-i18n="Sign Out">Sign Out</a>
     </div>
-    <div class="big-tittle inline-block span9">
-      <h2 class="in-big-title">Overview</h2>
+
+    <div class="row-fluid header span12 hidden-tablet hidden-phone">
+    <div class="header span12">
+    <div class="logo span4 inline">
+    <div class="brand"></div>
+    <h2><a href="#home/"><span class="link-logo">Fi-ware</span></a>&nbsp;&nbsp;</h2>
+    <h2 class="dashboard"> Dashboard</h2>
+    </div>
+    <div class="big-tittle inline-block span9 page-header">
+    <h2 class="in-big-title" data-i18n="<%= get('title') %>"><%= get('title') %> <% if (has('subtitle')) { %><small><%= get('subtitle') %></small><% } %></h2>
     </div>
     <div class="hidden-desktop">
-      <div class="space-double"></div>
+    <div class="space-double"></div>
     </div>
-  </div>
-</div>
-
-
+    </div>
+    </div>
 
 </script>

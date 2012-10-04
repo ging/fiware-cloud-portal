@@ -71,10 +71,14 @@ ul {
 }
 
 .topbar {
-  padding: 10px 25px;
+  padding-right: 25px;
+  padding-left: 25px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+
   margin-top: 0;
   margin-left: -25px;
-  margin-bottom: 82px;
+  margin-bottom: 0px;
   margin-right: -25px;
 }
 
@@ -587,6 +591,8 @@ td .icon-updating.ajax-updating {
     top: 80px;
     margin-top: 0;
     position: absolute;
+    width: 800px;
+    margin-left: -400px;
 }
 
 .modal form.horizontal .form-field {
@@ -1127,22 +1133,21 @@ width: 100%;
 }
 
 @media (max-width: 979px){
-.nav-collapse .nav > li > a, .nav-collapse .dropdown-menu a {
-  padding: 6px 15px;
-  color: white;
-}
-#user_info {
-color: 
-#ccc;
-}
-#user_info > a {
-margin-left: 20px;
-font-size: 11px !important;
-color: #fff;
-}
-  .navbar .nav > li > a {
-    padding-bottom: 3px;
-}
+    .nav-collapse .nav > li > a, .nav-collapse .dropdown-menu a {
+      padding: 6px 15px;
+      color: white;
+    }
+    #user_info {
+        color: #ccc;
+    }
+    #user_info > a {
+        margin-left: 20px;
+        font-size: 11px !important;
+        color: #fff;
+    }
+    .navbar .nav > li > a {
+        padding-bottom: 3px;
+    }
 }
 
 
