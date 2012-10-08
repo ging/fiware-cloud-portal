@@ -14,27 +14,22 @@ var Instance = Backbone.Model.extend({
     },
     
     createsnapshot: function(options) {
-    	console.log("Enter snapshot");
     	return this._action('snapshot', options);
     },
     
     pauseserver: function(options) {
-    	console.log("Enter pause server");
     	return this._action('pause', options);
     },
     
     unpauseserver: function(options) {
-    	console.log("Enter unpause server");
     	return this._action('unpause', options);
     },
     
     suspendserver: function(options) {
-    	console.log("Enter suspend server");
     	return this._action('suspend', options);
     },
     
     resumeserver: function(options) {
-    	console.log("Enter resume server");
     	return this._action('resume', options);
     },
          
@@ -167,7 +162,6 @@ var Instance = Backbone.Model.extend({
                 JSTACK.Nova.attachvolume(model.get("id"), options.volume_id, options.device, options.success);
                 break;
             case "detachvolume":
-                console.log("Detaching " + options.volume_id + " from " + model.get("id"));
                 JSTACK.Nova.detachvolume(model.get("id"), options.volume_id, options.success);
                 break;
             case "attachedvolumes":

@@ -24,7 +24,7 @@ var ImagesView = Backbone.View.extend({
         var img = this.model.get(image);
         var subview = new ConfirmView({el: 'body', title: "Delete Image", btn_message: "Delete Image", onAccept: function() {
             img.destroy();
-            var subview = new MessagesView({el: '.topbar', state: "Success", title: "Image "+img.get("name")+" deleted."});     
+            var subview = new MessagesView({el: '#content', state: "Success", title: "Image "+img.get("name")+" deleted."});     
         	subview.render();
         }});
         subview.render();
@@ -37,13 +37,12 @@ var ImagesView = Backbone.View.extend({
                     var image = $(this).val(); 
                     var img = self.model.get(image);
                     img.destroy();
-                    var subview = new MessagesView({el: '.topbar', state: "Success", title: "Images "+img.get("name")+" deleted."});     
+                    var subview = new MessagesView({el: '#content', state: "Success", title: "Images "+img.get("name")+" deleted."});     
         			subview.render();
             });
         }});
         subview.render();
     },
-	
 		
 	enableDisableDeleteButton: function (e) {
   		if ($(".checkbox:checked").size() > 0) { 

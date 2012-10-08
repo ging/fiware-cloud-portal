@@ -16,6 +16,7 @@ var OSRouter = Backbone.Router.extend({
     keypairsModel: undefined,
     projects: undefined,
     containers: undefined,
+    vdcs: undefined,
     
     currentView: undefined,
     
@@ -37,6 +38,7 @@ var OSRouter = Backbone.Router.extend({
 	    this.keypairsModel = new Keypairs();
 	    this.projects = new Projects();
 	    this.containers = new Containers();
+	    this.vdcs = new VDCs();
 	    
 	    Backbone.View.prototype.close = function(){
           //this.remove();
@@ -57,9 +59,15 @@ var OSRouter = Backbone.Router.extend({
 	    this.route('nova', 'nova', this.wrap(this.nova_overview, this.checkAuth));
 	    this.route('nova/', 'nova', this.wrap(this.nova_overview, this.checkAuth));
 	    
-	    this.route('nova/instances_and_volumes/', 'instances_and_volumes', this.wrap(this.nova_instances_and_volumes, this.checkAuth));
+	    this.route('nova/volumes/', 'volumes', this.wrap(this.nova_volumes, this.checkAuth));
 	    this.route('nova/access_and_security/', 'access_and_security', this.wrap(this.nova_access_and_security, this.checkAuth));
-	    this.route('nova/images_and_snapshots/', 'images_and_snapshots', this.wrap(this.nova_images_and_snapshots, this.checkAuth));
+	    this.route('nova/images/', 'images', this.wrap(this.nova_images, this.checkAuth));
+	    this.route('nova/snapshots/', 'snapshots', this.wrap(this.nova_snapshots, this.checkAuth));
+	    this.route('nova/vdcs/', 'vdcs', this.wrap(this.nova_vdcs, this.checkAuth));
+	    this.route('nova/vdcs/:id', 'vdc', this.wrap(this.nova_vdc, this.checkAuth));
+	    this.route('nova/vdcs/:id/:idservice', 'vdcservice', this.wrap(this.nova_vdc_service, this.checkAuth));
+	    this.route('nova/vdcs/:id/:idservice/:idinstance/?view=:subview', 'instance', this.wrap(this.nova_vdc_instance, this.checkAuth));
+	    this.route('nova/vdcs/:id/:idservice/:idinstance', 'instance', this.wrap(this.nova_vdc_instance, this.checkAuth));
 
 	    this.route('home/', 'home', this.wrap(this.init, this.checkAuth));
 	    this.route('syspanel/images/images/', 'images',  this.wrap(this.sys_images, this.checkAuth));
@@ -111,6 +119,7 @@ var OSRouter = Backbone.Router.extend({
                 this.add_fetch(this.flavors, 4);
                 this.add_fetch(this.volumeSnapshotsModel,4);
                 this.add_fetch(this.containers,4);
+                this.add_fetch(this.vdcs,4);
                 if (this.loginModel.isAdmin()) {
                     this.add_fetch(this.projects, 4);
                 }
@@ -182,12 +191,14 @@ var OSRouter = Backbone.Router.extend({
 	showSysRoot: function(self, option) {
 	    //this.clear_fetch();
 	    self.top.set({"title":option});
-        self.navs = new NavTabModels([{name: 'Overview', active: true, url: '#syspanel/'}, 
-                                    {name: 'Instances', active: false, url: '#syspanel/instances/'},
-                                    {name: 'Services', active: false, url: '#syspanel/services/'},
+        self.navs = new NavTabModels([
+                                    {name: 'Overview', active: true, url: '#syspanel/'}, 
+                                    {name: 'Organizations', active: false, url: '#syspanel/projects/'},
+                                    //{name: 'Instances', active: false, url: '#syspanel/instances/'},
+                                    //{name: 'Services', active: false, url: '#syspanel/services/'},
                                     {name: 'Flavors', active: false, url: '#syspanel/flavors/'},
-                                    {name: 'Images', active: false, url: '#syspanel/images/images/'},
-                                    {name: 'Projects', active: false, url: '#syspanel/projects/'},
+                                    //{name: 'Images', active: false, url: '#syspanel/images/images/'},
+                                    
                                     {name: 'Users', active: false, url: '#syspanel/users/'},
                                     {name: 'Quotas', active: false, url: '#syspanel/quotas/'}
                                     ]);
@@ -212,24 +223,20 @@ var OSRouter = Backbone.Router.extend({
 	},
 	
 	delete_images: function(self) {
-		console.log("Delete images");
         var view = new DeleteImagesView({model: self.images, el: 'body'});
         view.render();
         self.navigate('#syspanel/images/images/', {trigger: false, replace: true});
 	},
 	
 	delete_image: function(self, id) {
-	    console.log("Received delete for image: " + id);
 	    var image = new Image();
 	    image.set({"id": id});
-	    console.log(image.get("id"));
         var view = new DeleteImageView({model: image, el: 'body'});
         view.render();
         self.navigate('#syspanel/images/images/', {trigger: false, replace: true});
 	},
 	
 	edit_image: function(self, id) {
-	    console.log("Received update for image: " + id);
 	    var image = new Image();
 	    image.set({"id": id});
         var view = new UpdateImageView({model: image, el: 'body'});
@@ -245,7 +252,6 @@ var OSRouter = Backbone.Router.extend({
 	},
 	
 	launch_image: function(self, id) {
-        console.log("Received launch for image: " + id);
         var image = new Image();
         image.set({"id": id});
         var view = new LaunchImageView({model: image, flavors: self.flavors, keypairs: self.keypairsModel, el: 'body'});
@@ -263,7 +269,6 @@ var OSRouter = Backbone.Router.extend({
 
 	sys_services: function(self) {
 	    self.showSysRoot(self, 'Services');
-	    console.log("Services");
 	    var services = new Services();
 	    var view = new ServiceView({model: services, el: '#content'});
 	    self.newContentView(self,view);
@@ -286,7 +291,7 @@ var OSRouter = Backbone.Router.extend({
 	},
 	
 	sys_projects: function(self) {
-	    self.showSysRoot(self, 'Projects');
+	    self.showSysRoot(self, 'Organizations');
 	    var view = new ProjectView({model:self.projects, el: '#content'});
 	     self.newContentView(self,view);
 	},
@@ -310,15 +315,20 @@ var OSRouter = Backbone.Router.extend({
 	showNovaRoot: function(self, option) {
         //this.clear_fetch();
         self.top.set({"title":option});
-        self.navs = new NavTabModels([   {name: 'Overview', active: true, url: '#nova/'}, 
-                            {name: 'Instances &amp; Volumes', active: false, url: '#nova/instances_and_volumes/'},
+        self.navs = new NavTabModels([   
+                            {name: 'Compute', type: 'title'},
+                            {name: 'Overview', active: true, url: '#nova/'}, 
+                            {name: 'Virtual Data Centers', active: false, url: '#nova/vdcs/'},
+                            {name: 'Images', active: false, url: '#nova/images/'},
+                            {name: 'Volumes', active: false, url: '#nova/volumes/'},
                             /*{name: 'Access &amp; Security', active: false, url: '#nova/access_and_security/'},*/
-                            {name: 'Images &amp; Snapshots', active: false, url: '#nova/images_and_snapshots/'},
+                            {name: 'Snapshots', active: false, url: '#nova/snapshots/'},
+                            {name: 'Storage', type: 'title'},
                             {name: 'Containers', active: false, url: '#objectstorage/containers/'}
                             ]);
         self.navs.setActive(option);
         self.tabs.setActive('Project');
-	    self.showRoot(self, 'Manage Compute');
+	    self.showRoot(self, 'Organization');
 	},
 	
 	nova_overview: function(self) {
@@ -334,18 +344,60 @@ var OSRouter = Backbone.Router.extend({
 	     self.newContentView(self,view);
 	},
 	
-	nova_images_and_snapshots: function(self) {
-	    self.showNovaRoot(self, 'Images &amp; Snapshots');
+	nova_images: function(self) {
+	    self.showNovaRoot(self, 'Images');
 	    //self.instancesModel.alltenants = false;
-	    var view = new ImagesAndSnapshotsView({images: self.images, volumeSnapshotsModel: self.volumeSnapshotsModel, instancesModel: self.instancesModel, volumesModel: self.volumesModel, flavors: self.flavors, keypairs: self.keypairsModel, el: '#content'});
+	    var view = new ImagesView({model: self.images, volumeSnapshotsModel: self.volumeSnapshotsModel, instancesModel: self.instancesModel, volumesModel: self.volumesModel, flavors: self.flavors, keypairs: self.keypairsModel, el: '#content'});
 	    self.newContentView(self,view);
 	},
 	
-	nova_instances_and_volumes: function(self) {
-	    self.showNovaRoot(self, 'Instances &amp; Volumes');
+	nova_snapshots: function(self) {
+        self.showNovaRoot(self, 'Snapshots');
+        //self.instancesModel.alltenants = false;
+        var view = new NovaSnapshotsView({images: self.images, volumeSnapshotsModel: self.volumeSnapshotsModel, instancesModel: self.instancesModel, volumesModel: self.volumesModel, flavors: self.flavors, keypairs: self.keypairsModel, el: '#content'});
+        self.newContentView(self,view);
+    },
+	
+	nova_vdcs: function(self) {
+        self.showNovaRoot(self, 'Virtual Data Centers');
+        //self.instancesModel.alltenants = false;
+        var view = new VDCsView({model: self.vdcs, el: '#content'});
+        self.newContentView(self,view);
+    },
+    
+    nova_vdc: function(self, id) {
+        self.showNovaRoot(self, 'Virtual Data Centers');
+        //self.instancesModel.alltenants = false;
+        var services = new VDCServices({vdc: id});
+        var view = new VDCView({model: services, vdc: id, el: '#content'});
+        self.newContentView(self,view);
+    },
+    
+    nova_vdc_service: function(self, id, idservice) {
+        self.showNovaRoot(self, 'Virtual Data Centers');
+        //self.instancesModel.alltenants = false;
+        var service = new VDCService({id: idservice});
+        var view = new VDCServiceView({model: service, flavors: self.flavors, vdc: id, el: '#content'});
+        self.newContentView(self,view);
+    },
+    
+    nova_vdc_instance: function(self, id, idservice, idinstance, subview) {
+        self.showNovaRoot(self, 'Virtual Data Centers');
+        //self.instancesModel.alltenants = false;
+        var instance = new Instance();
+        instance.set({"id": idinstance});
+        if (subview == undefined) {
+            subview = 'overview';
+        }   
+        var view = new InstanceDetailView({model: instance, subview: subview, vdc: id, service: idservice, el: '#content'});
+        self.newContentView(self,view);
+    },
+	
+	nova_volumes: function(self) {
+	    self.showNovaRoot(self, 'Volumes');
 	    //self.add_fetch(self.instancesModel, 4);
 	    self.instancesModel.alltenants = false;
-	    var view = new InstancesAndVolumesView({instancesModel: self.instancesModel, volumesModel: self.volumesModel, volumeSnapshotsModel: self.volumeSnapshotModel, flavors: self.flavors, el: '#content'});
+	    var view = new NovaVolumesView({model: self.volumesModel, volumeSnapshotsModel: self.volumeSnapshotModel, flavors: self.flavors, el: '#content'});
 	    self.newContentView(self,view);
 	},
 	
@@ -365,20 +417,8 @@ var OSRouter = Backbone.Router.extend({
         self.newContentView(self,view);
     },
 	
-	consult_instance: function(self, id, subview) {
-		console.log("Subview="+subview);
-	    self.showNovaRoot(self, 'Instances &amp; Volumes');
-        var instance = new Instance();
-        instance.set({"id": id});
-        if (subview == undefined) {
-        	subview = 'overview';
-        }	
-        var view = new InstanceDetailView({model: instance, subview: subview, el: '#content'});
-        self.newContentView(self,view);
-	},
-	
 	consult_volume: function(self, id) {
-        self.showNovaRoot(self, 'Instances &amp; Volumes');
+        self.showNovaRoot(self, 'Volumes');
         var volume = new Volume();
         volume.set({"id": id});
         var view = new VolumeDetailView({model: volume, el: '#content'});

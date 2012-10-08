@@ -68,7 +68,6 @@ var ObjectStorageContainerView = Backbone.View.extend({
     
     render: function() {
         var self = this;
-        console.log(this.model);
         UTILS.Render.animateRender(this.el, this._template, {model:this.model});
     },
 });

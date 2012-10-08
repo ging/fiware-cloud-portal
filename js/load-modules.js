@@ -4,7 +4,7 @@ function custom_require(urls, callback) {
     for (var index in urls) {
         var url = urls[index];
         if (navigator.userAgent.indexOf("MSIE") !=-1 || true) {
-           url += "?random=" + Math.random()*99999;
+           url += "?random=" + Math.round(Math.random()*99999);
            urls[index] = url;
         }
     }
@@ -50,9 +50,12 @@ var loadViews = function() {
                 "js/views/nova/VolumeDetailView.js",
                 "js/views/nova/VolumesView.js",
                 "js/views/nova/InstancesView.js",
-                "js/views/nova/ImagesAndSnapshotsView.js",
-                "js/views/nova/ImagesAndInstanceSnapshotsView.js",
+                "js/views/nova/SnapshotsView.js",
+                "js/views/nova/InstanceSnapshotsView.js",
                 "js/views/nova/VolumeSnapshotsView.js",
+                "js/views/nova/VDCsView.js",
+                "js/views/nova/VDCView.js",
+                "js/views/nova/VDCServiceView.js",
                 "js/views/objectstorage/ContainersView.js",
                 "js/views/objectstorage/ContainerView.js",
                 "js/views/forms/UpdateInstanceView.js",
@@ -92,7 +95,9 @@ var loadModels = function() {
                 "js/models/ServiceModel.js",
                 "js/models/NavTabModel.js",
                 "js/models/TopBarModel.js",
-                "js/models/ContainerModel.js"
+                "js/models/ContainerModel.js",
+                "js/models/VDCModel.js",
+                "js/models/VDCServiceModel.js"
             ], function(someModule) {
                 loadViews();
         });
@@ -135,15 +140,18 @@ var loadTemplates = function() {
                     'templates/forms/uploadObject.html',
                     'templates/root/nova/overview.html',
                     'templates/root/nova/accessAndSecurity.html',
-                    'templates/root/nova/imagesAndSnapshots.html',
-                    'templates/root/nova/imagesAndSnapshots/imagesAndInstanceSnapshots.html',
-                    'templates/root/nova/imagesAndSnapshots/volumeSnapshots.html',
+                    'templates/root/nova/snapshots.html',
+                    'templates/root/nova/snapshots/instanceSnapshots.html',
+                    'templates/root/nova/snapshots/volumeSnapshots.html',
                     'templates/root/nova/instancesAndVolumes.html',
                     'templates/root/nova/instancesAndVolumes/instances.html',
                     'templates/root/nova/instancesAndVolumes/volumes.html',
                     'templates/root/nova/instanceDetail.html',
                     'templates/root/nova/imageDetail.html',
                     'templates/root/nova/volumeDetail.html',
+                    'templates/root/nova/VDCs.html',
+                    'templates/root/nova/VDC.html',
+                    'templates/root/nova/VDCService.html',
                     'templates/root/objectstorage/containers.html',
                     'templates/root/objectstorage/container.html',
                     'templates/root/sys/images.html',

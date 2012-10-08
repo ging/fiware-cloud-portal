@@ -7,6 +7,10 @@ var ProjectView = Backbone.View.extend({
         this.render();
     },
     
+    onClose: function() {
+        this.model.unbind("reset");
+    },
+    
     render: function () {
         UTILS.Render.animateRender(this.el, this._template, this.model);
         return this;

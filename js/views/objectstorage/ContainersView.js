@@ -34,7 +34,6 @@ var ObjectStorageContainersView = Backbone.View.extend({
         var container = evt.target.value;
         var cont = this.model.get(container);
         var subview = new ConfirmView({el: 'body', title: "Confirm Delete Container", btn_message: "Delete Container", onAccept: function() {
-            console.log("Deleted");
             cont.destroy();
             var subview = new MessagesView({el: '#content', state: "Success", title: "Container "+cont.get("name")+" deleted."});     
             subview.render();

@@ -11,6 +11,7 @@ var InstanceDetailView = Backbone.View.extend({
         var self = this; 
 
         this.delegateEvents({
+            'click #overviewBtn': "showOverview",
             'click #instance_vnc': 'showVNC',
             'click #instance_logs': 'showLogs'
         });         
@@ -35,8 +36,16 @@ var InstanceDetailView = Backbone.View.extend({
         this.model.consoleoutput(options2);
     },
     
+    showOverview: function() {
+        $('#instance_details__overview').addClass('active');
+        $('#instance_details__vnc').removeClass('active');
+        $('#instance_details__log').removeClass('active');
+        $('#overview').addClass('active'); 
+        $('#vnc').removeClass('active'); 
+        $('#log').removeClass('active');
+    },
+    
     showVNC: function() {
-        console.log("Showing VNC!!!");
         $('#instance_details__overview').removeClass('active');
         $('#instance_details__log').removeClass('active');
         $('#instance_details__vnc').addClass('active');
@@ -46,7 +55,6 @@ var InstanceDetailView = Backbone.View.extend({
     },
     
     showLogs: function() {
-        console.log("Showing Logs!!!");
         $('#instance_details__overview').removeClass('active');
         $('#instance_details__vnc').removeClass('active');
         $('#instance_details__log').addClass('active');
@@ -98,9 +106,9 @@ var InstanceDetailView = Backbone.View.extend({
     
     render: function () {
         if ($("#consult_instance").html() == null) {
-            UTILS.Render.animateRender(this.el, this._template, {model:this.model, flavor:this.options.flavor, image:this.options.image, logs: this.options.logs, vncUrl: this.options.vncUrl, subview: this.options.subview});
+            UTILS.Render.animateRender(this.el, this._template, {vdc: this.options.vdc, service: this.options.service, model:this.model, flavor:this.options.flavor, image:this.options.image, logs: this.options.logs, vncUrl: this.options.vncUrl, subview: this.options.subview});
         } else {
-            $(this.el).html(this._template({model:this.model, flavor:this.options.flavor, image:this.options.image, logs: this.options.logs, vncUrl: this.options.vncUrl, subview: this.options.subview}));
+            $(this.el).html(this._template({vdc: this.options.vdc, service: this.options.service, model:this.model, flavor:this.options.flavor, image:this.options.image, logs: this.options.logs, vncUrl: this.options.vncUrl, subview: this.options.subview}));
         }
         
         if (this.options.subview == 'log') {

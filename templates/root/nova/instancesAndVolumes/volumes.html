@@ -3,12 +3,12 @@
     Description: Volumes
     src: templates/root/nova/instancesAndVolumes/volumes.html
 -->
-    <div class="table_wrapper">
+    <div id="volumes" class="table_wrapper">
         <div style='display:none'></div>
             <div class='table_header'>
                 <h3 class='table_title'>Volumes</h3>
                 <div class="table_actions clearfix">
-                    <button id="volumes_create" class="btn btn-small ajax-modal btn-create-volume" name="action" value="volumes__create" type="submit" data-i18n="Create Volume">Create Volume</button>
+                    <button id="volumes_create" class="btn btn-small ajax-modal btn-create-volume btn-blue" name="action" value="volumes__create" type="submit" data-i18n="Create Volume">Create Volume</button>
                     <button id="volumes_delete" disabled=true class="btn btn-small btn-danger btn-delete-group" name="action" value="volumes__delete" class="volumes_delete" type="submit" data-i18n="Delete Volume">Delete Volumes</button>
                 </div>
             </div>

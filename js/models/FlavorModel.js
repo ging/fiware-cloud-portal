@@ -6,11 +6,9 @@ var Flavor = Backbone.Model.extend({
                    JSTACK.Nova.getflavordetail(model.get("id"), options.success);
                    break;
                case "delete":
-               	   console.log("delete called");
                    JSTACK.Nova.deleteflavor(model.get("id"), options.success);
                	   break;
                case "create":
-               	   console.log("Creating Flavor");
                    JSTACK.Nova.createflavor( model.get("name"), model.get("memory_mb"), model.get("vcpus"), 
                    			model.get("disk_gb"), model.get("flavor_id"), model.get("eph_gb"), undefined, 
                    			undefined, options.success);

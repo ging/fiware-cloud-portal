@@ -1,10 +1,10 @@
-var Container = Backbone.Model.extend({
+var VDC = Backbone.Model.extend({
    
     sync: function(method, model, options) {
            switch(method) {
                case "read":
                    //JSTACK.Nova.getcontainerdetail(model.get("id"), options.success);
-                   options.success({container:{name: "mockContainer", objects: [{name: "mockObject", size: 365}]}});
+                   options.success({vdc:{id: "mockVDC", name: "mockVDC", vcpus: 1, disk: 10, ram: 1, vcpu_hours: 1, disk_hours: 1}});
                    break;
                case "delete":
                    //JSTACK.Nova.deletecontainer(model.get("id"), options.success);
@@ -15,37 +15,34 @@ var Container = Backbone.Model.extend({
            }
     },
     
-    removeObjects: function(objects) {
-    },
-    
     parse: function(resp) {
-        if (resp.container != undefined) {
-            return resp.container;
+        if (resp.vdc != undefined) {
+            return resp.vdc;
         } else {
             return resp;
         }
     }
 });
 
-var Containers = Backbone.Collection.extend({
-    model: Container,
+var VDCs = Backbone.Collection.extend({
+    model: VDC,
     
     sync: function(method, model, options) {
         switch(method) {
             case "read":
                 //JSTACK.Nova.getcontainerlist(true, options.success);
-                var cont = new Container({name: "mockContainer", id: 1, size: 365, length: 1});
-                options.success({containers:[cont]});
+                var vdc = new VDC({id: "mockVDC", name: "mockVDC", vcpus: 1, disk: 10, ram: 1, vcpu_hours: 1, disk_hours: 1});
+                options.success({vdcs:[vdc]});
                 break;
         }
     },
     
-    comparator: function(container) {
-        return container.get("id");
+    comparator: function(vdc) {
+        return vdc.get("id");
     },
     
     parse: function(resp) {
-        return resp.containers;
+        return resp.vdcs;
     }
     
 });

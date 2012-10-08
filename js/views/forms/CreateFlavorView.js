@@ -40,7 +40,7 @@ var CreateFlavorView = Backbone.View.extend({
     onSubmit: function(e){
         e.preventDefault();         
      	//Check if the fields are not empty, and the numbers are not negative nor decimal
-     	this.close();
+     	
      	if ( (this.$('input[name=flavor_id]').val()=="") ||
      		 (this.$('input[name=name]').val()=="") ||
      		 (this.$('input[name=vcpus]').val()=="") ||
@@ -56,24 +56,31 @@ var CreateFlavorView = Backbone.View.extend({
      		 (this.$('input[name=vcpus]').val()%1!=0) ||
      		 (this.$('input[name=memory_mb]').val()%1!=0) ||
      		 (this.$('input[name=disk_gb]').val()%1!=0) ||
-     		 (this.$('input[name=eph_gb]').val()%1!=0) )   		 		 	
-		
-     	{ var subview = new MessagesView({el: '.topbar', state: "Error", title: "Wrong input values for flavor. Please try again."});     
-          subview.render(); 
-     	  return;
+     		 (this.$('input[name=eph_gb]').val()%1!=0) ) { 
+              
+console.log($('input[name=flavor_id]'));
+console.log($('input[name=name]'));
+console.log($('input[name=vcpus]'));
+console.log($('input[name=memory_mb]'));
+console.log($('input[name=disk_gb]'));
+console.log($('input[name=eph_gb]'));
+
+              var subview = new MessagesView({el: '#content', state: "Error", title: "Wrong input values for flavor. Please try again."});     
+              subview.render(); 
      	} else {
-     
-        var newFlavor = new Flavor();        
-        newFlavor.set({'flavor_id': this.$('input[name=flavor_id]').val()});
-        newFlavor.set({'name': this.$('input[name=name]').val()});
-        newFlavor.set({'vcpus': this.$('input[name=vcpus]').val()});
-        newFlavor.set({'memory_mb': this.$('input[name=memory_mb]').val()});
-        newFlavor.set({'disk_gb': this.$('input[name=disk_gb]').val()});
-        newFlavor.set({'eph_gb': this.$('input[name=eph_gb]').val()});            
-    	newFlavor.save();
-    	var subview = new MessagesView({el: '.topbar', state: "Success", title: "Flavor "+newFlavor.get('name')+" created."});     
-        subview.render();
+            console.log("Creating flavor...");
+            var newFlavor = new Flavor();        
+            newFlavor.set({'flavor_id': this.$('input[name=flavor_id]').val()});
+            newFlavor.set({'name': this.$('input[name=name]').val()});
+            newFlavor.set({'vcpus': this.$('input[name=vcpus]').val()});
+            newFlavor.set({'memory_mb': this.$('input[name=memory_mb]').val()});
+            newFlavor.set({'disk_gb': this.$('input[name=disk_gb]').val()});
+            newFlavor.set({'eph_gb': this.$('input[name=eph_gb]').val()});            
+        	newFlavor.save();
+        	var subview = new MessagesView({el: '#content', state: "Success", title: "Flavor "+newFlavor.get('name')+" created."});     
+            subview.render();
     	}    	
+    	this.close();
     },
            
 });

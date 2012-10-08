@@ -69,7 +69,7 @@ var LaunchImageView = Backbone.View.extend({
         instance.set({"max_count": max_count});
         instance.set({"availability_zone": availability_zone});
         instance.save();
-        var subview = new MessagesView({el: '.topbar', state: "Success", title: "Instance "+instance.get("name")+" launched."});     
+        var subview = new MessagesView({el: '#content', state: "Success", title: "Instance "+instance.get("name")+" launched."});     
         subview.render();
         this.close();
     }

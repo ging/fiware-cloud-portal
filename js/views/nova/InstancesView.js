@@ -25,13 +25,11 @@ var NovaInstancesView = Backbone.View.extend({
     },
     
     onClose: function() {
-        console.log("Closing");
         this.undelegateEvents();
         this.unbind();
     },
     
     onEditInstance: function(evt) {
-        console.log("Editing");
         var instance = evt.target.value;
         var subview = new UpdateInstanceView({el: 'body', model: this.model.get(instance)});
         subview.render();
@@ -47,7 +45,7 @@ var NovaInstancesView = Backbone.View.extend({
         var instance = evt.target.value;
         var inst = this.model.get(instance);
         inst.pauseserver(); 
-        var subview = new MessagesView({el: '.topbar', state: "Success", title: "Instance "+inst.get("name")+" paused."});     
+        var subview = new MessagesView({el: '#content', state: "Success", title: "Instance "+inst.get("name")+" paused."});     
         subview.render();
     },
     
@@ -55,7 +53,7 @@ var NovaInstancesView = Backbone.View.extend({
         var instance = evt.target.value;
         var inst = this.model.get(instance);
         inst.unpauseserver();
-        var subview = new MessagesView({el: '.topbar', state: "Success", title: "Instance "+inst.get("name")+" unpaused."});     
+        var subview = new MessagesView({el: '#content', state: "Success", title: "Instance "+inst.get("name")+" unpaused."});     
         subview.render(); 
     },    
     
@@ -63,7 +61,7 @@ var NovaInstancesView = Backbone.View.extend({
         var instance = evt.target.value;
         var inst = this.model.get(instance);
         inst.suspendserver(); 
-        var subview = new MessagesView({el: '.topbar', state: "Success", title: "Instance "+inst.get("name")+" suspended."});     
+        var subview = new MessagesView({el: '#content', state: "Success", title: "Instance "+inst.get("name")+" suspended."});     
         subview.render();
     },
     
@@ -71,7 +69,7 @@ var NovaInstancesView = Backbone.View.extend({
         var instance = evt.target.value;
         var inst = this.model.get(instance);
         inst.resumeserver(); 
-        var subview = new MessagesView({el: '.topbar', state: "Success", title: "Instance "+inst.get("name")+" resumed."});     
+        var subview = new MessagesView({el: '#content', state: "Success", title: "Instance "+inst.get("name")+" resumed."});     
         subview.render();
     },
     
@@ -86,7 +84,7 @@ var NovaInstancesView = Backbone.View.extend({
         var inst = this.model.get(instance);
         var subview = new ConfirmView({el: 'body', title: "Reboot Instance", btn_message: "Reboot Instance", onAccept: function() {
             inst.reboot(false);
-            var subview = new MessagesView({el: '.topbar', state: "Success", title: "Instance "+inst.get("name")+" rebooted."});     
+            var subview = new MessagesView({el: '#content', state: "Success", title: "Instance "+inst.get("name")+" rebooted."});     
             subview.render();
         }});
         subview.render();
@@ -97,7 +95,7 @@ var NovaInstancesView = Backbone.View.extend({
         var inst = this.model.get(instance);
         var subview = new ConfirmView({el: 'body', title: "Terminate Instance", btn_message: "Terminate Instance", onAccept: function() {
             inst.destroy();
-            var subview = new MessagesView({el: '.topbar', state: "Success", title: "Instance "+inst.get("name")+" terminated."});     
+            var subview = new MessagesView({el: '#content', state: "Success", title: "Instance "+inst.get("name")+" terminated."});     
             subview.render();
         }});
         
@@ -111,7 +109,7 @@ var NovaInstancesView = Backbone.View.extend({
                     var instance = $(this).val(); 
                     var inst = self.model.get(instance);
                     inst.destroy();
-                    var subview = new MessagesView({el: '.topbar', state: "Success", title: "Instances "+inst.get("name")+" terminated."});     
+                    var subview = new MessagesView({el: '#content', state: "Success", title: "Instances "+inst.get("name")+" terminated."});     
                     subview.render();
             });
         }});

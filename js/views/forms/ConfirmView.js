@@ -9,7 +9,8 @@ var ConfirmView = Backbone.View.extend({
             'click #close': 'close',
             'click .modal-backdrop': 'close'
         });
-        this.options.title = this.options.title || "Are you sure?"
+        this.options.title = this.options.title || "Are you sure?";
+        this.options.message = this.options.message || "Please confirm your selection. This action cannot be undone.";
         this.options.btn_message = this.options.btn_message || "Confirm";
     },
     
@@ -23,7 +24,7 @@ var ConfirmView = Backbone.View.extend({
             $('#confirm').remove();
             $('.modal-backdrop').remove();
         }
-        $(this.el).append(this._template({title:this.options.title, btn_message: this.options.btn_message}));
+        $(this.el).append(this._template({title:this.options.title, message:this.options.message, btn_message: this.options.btn_message}));
         $('.modal:last').modal();
         return this;
     },

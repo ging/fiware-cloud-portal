@@ -14,7 +14,6 @@ var AccessAndSecurityView = Backbone.View.extend({
     
     onDeleteKeyPair: function (e) {
         var keypair =  this.model.get(e.target.value);
-        console.log(keypair.get("name"));
         //TODO Remove Keypair
     },
     

@@ -753,6 +753,9 @@ border: none;
   color: inherit;
 }
 
+.nav-tabs li {
+    cursor: pointer;
+}
 
 /** bootstrap for application - cloud portal   **/
   

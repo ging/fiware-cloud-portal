@@ -36,11 +36,10 @@ var UpdateInstanceView = Backbone.View.extend({
     },
     
     update: function(e) {
-        console.log("Starting update");
         this.model.set({"name": this.$('input[name=name]').val()});
         var newName = $('input[name=name]').val();
         this.model.save();
-        var subview = new MessagesView({el: '.topbar', state: "Success", title: "Instance "+newName+" updated."});     
+        var subview = new MessagesView({el: '#content', state: "Success", title: "Instance "+newName+" updated."});     
         subview.render();
         this.close();
     }

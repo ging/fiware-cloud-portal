@@ -55,19 +55,17 @@ UTILS.Auth = (function(U, undefined) {
     function authenticate(username, password, tenant, token, callback, error) {
         
         var _authenticatedWithTenant = function (resp) {
-            console.log("Authenticated");
-            console.log(JSON.stringify(resp));
+            console.log("Authenticated with tentant");
             callback();
         }
         
         var _authenticatedWithToken = function (resp) {
-            console.log("Authenticated");
+            console.log("Authenticated with token");
             callback();
         }
 
         var _authenticatedWithoutTenant = function() {
-            console.log("Ok");
-            console.log("Retrieving tenants...");
+            console.log("Authenticated without tentants. Retrieving tenants...");
 
             var ok = function (resp) {
                 tenants = resp.tenants;
@@ -138,7 +136,6 @@ UTILS.Render = (function(U, undefined) {
     
     function animateRender(el, template, model, callback) {
         var temp = template(model);
-        console.log(temp);
         $(el).append(temp);
         $(temp).hide();
         $(el).animate( {
@@ -204,7 +201,6 @@ UTILS.i18n = (function(U, undefined) {
             },
             error : function(xhr, status, error) {
                 console.log('failed loading: ' + url);
-                console.log(status);
                 if (callback != undefined)
                     callback();
             },

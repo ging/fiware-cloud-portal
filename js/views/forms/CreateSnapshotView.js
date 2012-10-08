@@ -30,7 +30,7 @@ var CreateSnapshotView = Backbone.View.extend({
     update: function(e) {
         var name = $('input[name=snapshot_name]').val();
         this.model.createsnapshot(name); 
-        var subview = new MessagesView({el: '.topbar', state: "Success", title: "Snapshot "+name+" created."});     
+        var subview = new MessagesView({el: '#content', state: "Success", title: "Snapshot "+name+" created."});     
         subview.render();
         this.close();
     }

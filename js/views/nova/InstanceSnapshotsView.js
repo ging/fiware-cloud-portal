@@ -1,6 +1,6 @@
-var NovaImagesAndInstanceSnapshotsView = Backbone.View.extend({
+var NovaInstanceSnapshotsView = Backbone.View.extend({
     
-    _template: _.itemplate($('#novaImagesAndInstanceSnapshotsTemplate').html()),
+    _template: _.itemplate($('#novaInstanceSnapshotsTemplate').html()),
     
     dropdownId: undefined,
     
@@ -43,10 +43,9 @@ var NovaImagesAndInstanceSnapshotsView = Backbone.View.extend({
         var subview = new ConfirmView({el: 'body', title: "Delete Images", btn_message: "Delete Images", onAccept: function() {
             $(".checkbox_images:checked").each(function () {
                     var image = $(this).val(); 
-                    console.log("Image = "+image);
                     var img = self.model.get(image);
                     img.destroy();
-                    var subview = new MessagesView({el: '.topbar', state: "Success", title: "Images "+img.get("name")+" deleted."});     
+                    var subview = new MessagesView({el: '#content', state: "Success", title: "Images "+img.get("name")+" deleted."});     
         			subview.render();
             });
         }});
@@ -54,7 +53,6 @@ var NovaImagesAndInstanceSnapshotsView = Backbone.View.extend({
     },
     
     onLaunchImages: function(evt) {
-        console.log("launch");
         var image = this.model.get(evt.target.value);
         var subview = new LaunchImageView({model: image, flavors: this.options.flavors, keypairs: this.options.keypairs, el: 'body'});
         subview.render();
@@ -82,7 +80,7 @@ var NovaImagesAndInstanceSnapshotsView = Backbone.View.extend({
         var instSnapshot = self.model.get(instanceSnapshot);
         var subview = new ConfirmView({el: 'body', title: "Delete Instance Snapshot", btn_message: "Delete Instance Snapshot", onAccept: function() {
             instSnapshot.destroy();
-            var subview = new MessagesView({el: '.topbar', state: "Success", title: "Instance snapshot "+instSnapshot.get("name")+" deleted."});     
+            var subview = new MessagesView({el: '#content', state: "Success", title: "Instance snapshot "+instSnapshot.get("name")+" deleted."});     
             subview.render();
         }});        
         subview.render();
@@ -93,10 +91,9 @@ var NovaImagesAndInstanceSnapshotsView = Backbone.View.extend({
         var subview = new ConfirmView({el: 'body', title: "Delete Instance Snapshots", btn_message: "Delete Instance Snapshots", onAccept: function() {
             $(".checkbox_instances:checked").each(function () {
                     var instanceSnapshot = $(this).val(); 
-                    console.log('Instance snapshot = '+instanceSnapshot);
         			var instSnapshot = self.model.get(instanceSnapshot);
                    	instSnapshot.destroy();
-                    var subview = new MessagesView({el: '.topbar', state: "Success", title: "Instance snapshot "+instSnapshot.get("name")+" deleted."});     
+                    var subview = new MessagesView({el: '#content', state: "Success", title: "Instance snapshot "+instSnapshot.get("name")+" deleted."});     
         			subview.render();
             });
         }});

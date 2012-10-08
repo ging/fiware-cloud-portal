@@ -1,18 +1,18 @@
-var ImagesAndSnapshotsView = Backbone.View.extend({
+var NovaSnapshotsView = Backbone.View.extend({
     
-    _template: _.itemplate($('#novaImagesAndSnapshotsTemplate').html()),
+    _template: _.itemplate($('#novaSnapshotsTemplate').html()),
     
-    imagesAndInstanceSnapshotsView: undefined,
+    instanceSnapshotsView: undefined,
     volumeSnapshotsView: undefined,
     
     initialize: function() {
         this.render();
-        this.imagesAndInstanceSnapshotsView = new NovaImagesAndInstanceSnapshotsView({model: this.options.images, flavors: this.options.flavors, keypairs: this.options.keypairs, el: '#images_snapshots'});;
+        this.instanceSnapshotsView = new NovaInstanceSnapshotsView({model: this.options.images, flavors: this.options.flavors, keypairs: this.options.keypairs, el: '#instance_snapshots'});;
         this.volumeSnapshotsView = new NovaVolumeSnapshotsView({model: this.options.volumeSnapshotsModel, instancesModel: this.options.instancesModel, volumesModel: this.options.volumesModel, flavors: this.options.flavors, el: '#volume_snapshots'});
     },
     
   	onClose: function() {
-  	    this.imagesAndInstanceSnapshotsView.onClose();
+  	    this.instanceSnapshotsView.onClose();
   	    this.volumeSnapshotsView.onClose();
         this.undelegateEvents();
         this.unbind();

@@ -25,7 +25,6 @@ var LoginView = Backbone.View.extend({
     
     onLogin: function() {
         if (this.model.get('loggedIn')) {
-            console.log("Next view:" + this.options.next_view);
             if (this.options.next_view != undefined) {
                 window.location.href = "#" + this.options.next_view;
             } else {
@@ -37,7 +36,7 @@ var LoginView = Backbone.View.extend({
     render: function () {
         var self = this;
         $(this.el).fadeOut('slow', function() {
-            $('#root').css('display','none');
+            $('#root').css('display', 'none');
             $(self.el).empty().html(self._template(self.model));
             $(self.el).fadeIn('slow');
         });

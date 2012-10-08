@@ -35,7 +35,7 @@ var UploadObjectView = Backbone.View.extend({
         //Check if the fields are not empty, and the numbers are not negative nor decimal
         this.close();
         if (this.$('input[name=name]').val() == "") { 
-          var subview = new MessagesView({el: '.topbar', state: "Error", title: "Wrong input values for object. Please try again."});     
+          var subview = new MessagesView({el: '#content', state: "Error", title: "Wrong input values for object. Please try again."});     
           subview.render(); 
           return;
         } else {

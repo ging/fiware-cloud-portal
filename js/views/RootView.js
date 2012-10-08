@@ -24,8 +24,6 @@ var RootView = Backbone.View.extend({
     
     onLogin: function() {
         if (this.model.get('loggedIn')) {
-            console.log("Next view:" + this.options.next_view);
-
             if (this.options.next_view != undefined) {
                 window.location.href = "#" + this.options.next_view;
             } else {
@@ -36,9 +34,6 @@ var RootView = Backbone.View.extend({
     
     renderAuth: function () {
         var self = this;
-        console.log("Token: " + self.model.get("token"));
-        
-        
         self.$el = $(self.options.auth_el);
         self.delegateEvents({
             'click #home_loginbtn': 'onCredentialsSubmit',
@@ -47,7 +42,6 @@ var RootView = Backbone.View.extend({
         
         if (self.model.get("token") != "" && self.model.get("error_msg") == null) return;
         
-        console.log("Rendering auth");
         if ($(self.options.root_el).css('display') != 'None')
             $(self.options.root_el).fadeOut();
         $(self.options.auth_el).fadeIn();
@@ -58,7 +52,6 @@ var RootView = Backbone.View.extend({
         var self = this;
         self.$el = $(self.options.auth_el);
         self.delegateEvents({});
-        console.log("Rendering auth");
         if ($(self.options.auth_el).css('display') != 'None')
             $(self.options.auth_el).fadeOut();
         $(self.options.auth_el).fadeOut();
@@ -67,8 +60,6 @@ var RootView = Backbone.View.extend({
     },
     
     renderAuthonerror: function() {
-        console.log($(this.options.auth_el).css('display'));
-        
         if ($(this.options.auth_el).css('display') == 'none') 
             $(this.options.auth_el).fadeIn();
         $(this.options.auth_el).empty().html(this._authtemplate(this.model));

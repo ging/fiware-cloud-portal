@@ -16,12 +16,13 @@ var NovaVolumesView = Backbone.View.extend({
     initialize: function() {
         this.model.unbind("reset");
         this.model.bind("reset", this.render, this);
-        this.renderFirst();
+        this.render();
     },
     
     onClose: function() {
         this.undelegateEvents();
         this.unbind();
+        this.model.unbind("reset");
     },
     
     onCreate: function(evt) {
@@ -48,7 +49,7 @@ var NovaVolumesView = Backbone.View.extend({
         var vol = this.model.get(volume);
         var subview = new ConfirmView({el: 'body', title: "Delete Volume", btn_message: "Delete Volume", onAccept: function() {
             vol.destroy();
-            var subview = new MessagesView({el: '.topbar', state: "Success", title: "Volume "+vol.get("display_name")+" deleted."});     
+            var subview = new MessagesView({el: '#content', state: "Success", title: "Volume "+vol.get("display_name")+" deleted."});     
             subview.render();
         }});
         
@@ -62,7 +63,7 @@ var NovaVolumesView = Backbone.View.extend({
                     var volume = $(this).val(); 
                     var vol = self.model.get(volume);
                     vol.destroy();
-                    var subview = new MessagesView({el: '.topbar', state: "Success", title: "Volume "+vol.get("display_name")+" deleted."});     
+                    var subview = new MessagesView({el: '#content', state: "Success", title: "Volume "+vol.get("display_name")+" deleted."});     
                     subview.render();
             });
         }});
@@ -78,15 +79,23 @@ var NovaVolumesView = Backbone.View.extend({
         
     },
     
+    render: function() {
+        if ($("#volumes").html() == null) {
+            this.renderFirst();
+        } else {
+            this.renderSecond();
+        }
+    },
+    
     renderFirst: function() {
         this.undelegateEvents();
         this.delegateEvents(this.events);
-        $(this.el).html(this._template({models:this.model.models, volumeSnapshotsModel:this.options.volumeSnapshotModel, instances: this.options.instancesModel}));
+        UTILS.Render.animateRender(this.el, this._template, {models:this.model.models, volumeSnapshotsModel:this.options.volumeSnapshotModel, instances: this.options.instancesModel});
         this.undelegateEvents();
         this.delegateEvents(this.events);
     },
         
-    render: function () {
+    renderSecond: function () {
         this.undelegateEvents();
         this.delegateEvents(this.events);
         if ($(this.el).html() != null) {

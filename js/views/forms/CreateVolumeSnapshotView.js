@@ -39,7 +39,7 @@ var CreateVolumeSnapshotView = Backbone.View.extend({
         //this.options.volumeSnapshotsModel = new VolumeSnapshot();
         snapshot.set({volume_id: this.model.id, name: name, description: description});
         snapshot.save();
-        var subview = new MessagesView({el: '.topbar', state: "Success", title: "Volume snapshot "+name+" created."});     
+        var subview = new MessagesView({el: '#content', state: "Success", title: "Volume snapshot "+name+" created."});     
         subview.render();
         this.close();
     }

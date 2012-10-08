@@ -34,7 +34,7 @@ var FlavorView = Backbone.View.extend({
         var flav = this.model.get(flavor);
         var subview = new ConfirmView({el: 'body', title: "Delete Flavor", btn_message: "Delete Flavor", onAccept: function() {
             flav.destroy();
-            var subview = new MessagesView({el: '.topbar', state: "Success", title: "Flavor "+flav.get("name")+" deleted."});     
+            var subview = new MessagesView({el: '#content', state: "Success", title: "Flavor "+flav.get("name")+" deleted."});     
         	subview.render();
         }});
         subview.render();
@@ -47,7 +47,7 @@ var FlavorView = Backbone.View.extend({
                     var flavor = $(this).val(); 
                     var flav = self.model.get(flavor);
                     flav.destroy();
-                    var subview = new MessagesView({el: '.topbar', state: "Success", title: "Flavors "+flav.get("name")+" deleted."});     
+                    var subview = new MessagesView({el: '#content', state: "Success", title: "Flavors "+flav.get("name")+" deleted."});     
         			subview.render();
             });
         }});

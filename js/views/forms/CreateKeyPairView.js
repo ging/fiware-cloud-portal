@@ -9,7 +9,6 @@ var CreateFlavorView = Backbone.View.extend({
     },
 
     render: function () {
-        console.log("Rendering create flavor");
         if ($('#create_keypair').html() != null) {
             //return;
             $('#create_keypair').remove();
@@ -21,7 +20,6 @@ var CreateFlavorView = Backbone.View.extend({
     },
     
     onSubmit: function(e){
-        console.log("onSubmit called");
         e.preventDefault();
         $('#create_keypair').remove();
         $('.modal-backdrop').remove();

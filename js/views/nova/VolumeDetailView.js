@@ -8,7 +8,6 @@ var VolumeDetailView = Backbone.View.extend({
     },
     
     render: function () {
-        console.log("!!!!OK");
         if ($("#volume_details").html() == null) {
             UTILS.Render.animateRender(this.el, this._template, {model:this.model});
         } else {

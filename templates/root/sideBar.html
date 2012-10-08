@@ -24,10 +24,16 @@
 </div>
 <ul class="main_nav">
   <% for (var index in models) {
-var model = models[index];
+    var model = models[index];
 %>
 <li>
+  <% if (model.get('type') !== 'title') { %>
 <a href="<%= model.get('url') %>" <% if(model.get('active')) { %> class="active" <% } %> tabindex='1' data-i18n="<%= model.get('name') %>"><%= model.get('name') %></a>
+  <% } else { %>
+  <%= model.get('name') %>    
+  <% } %>
+
+
 </li>
 <% } %>
 </ul>

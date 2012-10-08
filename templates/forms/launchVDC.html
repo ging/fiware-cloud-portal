@@ -1,0 +1,51 @@
+<script id="launchVDCTemplate" type="text/html">
+<div id="launch_vdc" class="modal hide  in" style="display: block; ">
+    
+    <!--
+        Description: Launch VDCForm
+        src: templates/forms/launchVDC.html
+    -->
+      <div class="modal-header">
+        <a id="close" href="#" class="close" data-dismiss="modal">&times;</a>
+        <h3>Launch VDC</h3>
+      </div>
+      
+        <div class="modal-body clearfix">
+        
+    <div class="left">
+      <fieldset>
+      
+      <div class="control-group form-field clearfix">
+        <label for="id_name">VDC Name</label>
+        
+        <span class="help-block" style="display: none; "></span>
+        <div class="input">
+          <input id="id_name" type="text" name="name" maxlength="80">
+        </div>
+      </div>
+    
+      <div class="control-group form-field clearfix">
+        <label for="id_user_data">Description</label>
+        
+        <span class="help-block" style="display: none; "></span>
+        <div class="input">
+          <textarea id="id_description" rows="10" cols="40" name="description"></textarea>
+        </div>
+      </div>
+    
+      </fieldset>
+    </div>
+    
+    <div class="right">
+      <h3>Description:</h3>
+      <p>Specify the details for launching a virtual data center.</p>
+    </div>
+    
+        </div>
+        
+    <div class="modal-footer">
+      <button class="btn btn-blue pull-right btn-launch" name="action" type="submit" data-i18n="Launch Instance">Launch Instance</button>                                        
+      <a id="cancelBtn" class="btn secondary cancel close">Cancel</a>
+    </div>
+</div>
+</script>

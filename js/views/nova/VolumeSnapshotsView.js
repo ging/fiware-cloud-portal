@@ -16,7 +16,6 @@ var NovaVolumeSnapshotsView = Backbone.View.extend({
         this.renderFirst();
     },    
     
-    
     onClose: function() {
         this.undelegateEvents();
         this.unbind();
@@ -37,7 +36,7 @@ var NovaVolumeSnapshotsView = Backbone.View.extend({
         var volSnapshot = self.model.get(volumeSnapshot);
         var subview = new ConfirmView({el: 'body', title: "Delete Volume Snapshot", btn_message: "Delete Volume Snapshot", onAccept: function() {
             volSnapshot.destroy();
-            var subview = new MessagesView({el: '.topbar', state: "Success", title: "Volume snapshot "+volSnapshot.get("display_name")+" deleted."});     
+            var subview = new MessagesView({el: '#content', state: "Success", title: "Volume snapshot "+volSnapshot.get("display_name")+" deleted."});     
             subview.render();
         }});        
         subview.render();
@@ -50,7 +49,7 @@ var NovaVolumeSnapshotsView = Backbone.View.extend({
                     var volumeSnapshot = $(this).val(); 
                     var volSnapshot = self.model.get(volumeSnapshot);
                     volSnapshot.destroy();
-                    var subview = new MessagesView({el: '.topbar', state: "Success", title: "Volume snapshot "+volSnapshot.get("display_name")+" deleted."});     
+                    var subview = new MessagesView({el: '#content', state: "Success", title: "Volume snapshot "+volSnapshot.get("display_name")+" deleted."});     
         			subview.render();
             });
         }});
@@ -60,7 +59,6 @@ var NovaVolumeSnapshotsView = Backbone.View.extend({
     renderFirst: function() {
     	this.undelegateEvents();
         this.delegateEvents(this.events);
-        console.log("Rendering "+this.model.models[0]);
         $(this.el).html(this._template({models:this.model.models, instancesModel:this.options.instancesModel, volumesModel:this.options.volumesModel, flavors:this.options.flavors}));
         //UTILS.Render.animateRender(this.el, this._template, this.model);
         this.undelegateEvents();
