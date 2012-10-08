@@ -1,34 +1,38 @@
 <script id="settingsTemplate" type="text/html">
 <div id="language_settings_modal" class="static_page">
-<!--
+    <!--
     Description: Settings
     src: templates/root/settings.html
--->
-	<div class="modal-header">
-		<h3 data-i18n='Select Language'>Select Language</h3>
-	</div>
-	<div class="modal-body clearfix">    
-		<div class="left">
-			<h3 data-i18n="Dashboard User Interface Language">Dashboard User Interface Language</h3>
-			<fieldset>
-				<label for="language_select" data-i18n="Language Settings">Language Settings</label>
-				<div class="input">
-					<p><select name="language">
-						<option selected="" value="en">English (en)</option>
-						<option value="es">Español (es)</option>
-						<option value="fr">Français (fr)</option>
-						<option value="mk">Mакедонски (mk)</option>
-					</select></p>
-				</div></fieldset>
-			</div>
-			<div class="right">
-				<h3 data-i18n='Description'>Description</h3>
-				<p data-i18n="From here you can modify different settings for your dashboard.">From here you can modify different settings for your dashboard.</p>
-			</div>
-		</div>
-		<div class="modal-footer">
-			<a id="select" class="btn btn-blue" data-i18n="Select Language">Select Language</a>
-		</div>
-	</form>
+    -->
+    <div class="modal-header">
+        <h3 data-i18n='Select Language'>Select Language</h3>
+    </div>
+    <div class="modal-body clearfix">
+        <div class="left">
+            <h3 data-i18n="Dashboard User Interface Language">Dashboard User Interface Language</h3>
+            <fieldset>
+                <label for="language_select" data-i18n="Language Settings">Language Settings</label>
+                <div class="input">
+                    <p>
+                        <select name="language">
+                            <option selected="" value="en">English (en)</option>
+                            <option value="es">Español (es)</option>
+                            <option value="fr">Français (fr)</option>
+                            <option value="mk">Mакедонски (mk)</option>
+                        </select>
+                    </p>
+                </div>
+            </fieldset>
+        </div>
+        <div class="right">
+            <h3 data-i18n='Description'>Description</h3>
+            <p data-i18n="From here you can modify different settings for your dashboard.">
+                From here you can modify different settings for your dashboard.
+            </p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a id="select" class="btn btn-blue" data-i18n="Select Language">Select Language</a>
+    </div>
 </div>
 </script>

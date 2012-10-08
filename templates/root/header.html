@@ -1,19 +1,18 @@
 <script id="header" type="text/html">
 <!--
-    Description: Top Bar
-    src: templates/root/header.html
+Description: Top Bar
+src: templates/root/header.html
 -->
 <div class="row">
-  <div class="big-tittle">
-    <h2 data-i18n="<%= get('title') %>"><%= get('title') %> <% if (has('subtitle')) { %><small><%= get('subtitle') %></small><% } %></h2>
-  </div>
-  <div class="logo">
-    <div class="logotext">
+    <div class="big-tittle">
+        <h2 data-i18n="<%= get('title') %>"><%= get('title') %> <% if (has('subtitle')) { %><small><%= get('subtitle') %></small><% } %></h2>
     </div>
-  </div>
-  <div class="menu-header">
-    <span data-i18n="Logged in as">Logged in as</span>: <%= get('username') %>
-    <a href="#settings/" data-i18n="Settings">Settings</a>
-    <a href="#auth/logout" data-i18n="Sign Out">Sign Out</a>
-  </div>
+    <div class="logo">
+        <div class="logotext"></div>
+    </div>
+    <div class="menu-header">
+        <span data-i18n="Logged in as">Logged in as</span>: <%= get('username') %> <a href="#settings/" data-i18n="Settings">Settings</a>
+        <a href="#auth/logout" data-i18n="Sign Out">Sign Out</a>
+    </div>
+</div>
 </script>

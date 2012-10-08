@@ -1,121 +1,114 @@
 <script id="editVolumeAttachmentsFormTemplate" type="text/html">
-    <div id="attach_volume_modal" class="modal hide in" style="display: block; ">
-<!--
+<div id="attach_volume_modal" class="modal hide in" style="display: block; ">
+    <!--
     Description: Edit Volume Attachments Form
     src: templates/forms/editVolumeAttachments.html
--->
+    -->
     <div class="modal-header">
-    <a href="#" class="close" data-dismiss="modal">×</a>
-    <h3>Manage Volume Attachments</h3>
+        <a href="#" class="close" data-dismiss="modal">×</a>
+        <h3>Manage Volume Attachments</h3>
     </div>
 
     <div class="modal-body">
 
-    <div class="table_wrapper">
+        <div class="table_wrapper">
 
-    <table id="attachments" class="table table-bordered table-striped">
-    <thead>
-      <tr class="table_caption">
-        <th class="table_header" colspan="4">
-          <h3 class="table_title">Attachments</h3>
-          <div class="table_actions clearfix">
+            <table id="attachments" class="table table-bordered table-striped">
+                <thead>
+                    <tr class="table_caption">
+                        <th class="table_header" colspan="4"><h3 class="table_title">Attachments</h3>
+                        <div class="table_actions clearfix">
 
+                            <button id="attachments__action_detach" disabled=true class="btn btn-small btn-danger btn-detach detach-Volumes" name="action" value="attachments__detach" type="submit">
+                                Detach Volumes
+                            </button>
 
-    
-        
-            <button id="attachments__action_detach" disabled=true class="btn btn-small btn-danger btn-detach detach-Volumes" name="action" value="attachments__detach" type="submit">Detach Volumes</button>
-        
-    
+                        </div></th>
+                    </tr>
+                    <tr>
 
-</div>
+                        <th class="multi_select_column"></th>
 
-        </th>
-      </tr>
-      <tr>
-        
-          <th class="multi_select_column"></th>
-        
-          <th class="">Instance</th>
-        
-          <th class="">Device</th>
-        
-          <th class="actions_column">Actions</th>
-        
-      </tr>
-    </thead>
-    <tbody>
-    <%
-    for (var index in model.get("attachments")) {
-    var attach = model.get("attachments")[index];
-    %>
-    <tr id="attachments__row__<%=attach.volume_id%>" class="">
-    <td class="multi_select_column">
-    <input type="checkbox" class="checkbox_attachments" name="object_ids" value="<%=attach.server_id%>"></td>
-    <td class=""><%=attach.server_id%></td>
-    <td class=""><%=attach.device%></td>
-    <td class="actions_column">
-    <button id="attachments__row_<%=attach.volume_id%>__action_detach" class="btn btn-small btn-danger btn-detach detachBtn" name="action" value="<%=attach.server_id%>" type="submit">Detach Volume</button>
-    </td>
-    </tr>
-    <%
-    }
-    %>
-    </tbody>
-    <tfoot>
-    <tr>
-    <td colspan="4">
-    <span>Displaying <%=model.get("attachments").length%> items</span>
+                        <th class="">Instance</th>
 
-    </td>
+                        <th class="">Device</th>
 
-    </tr></tfoot>
-    </table>
+                        <th class="actions_column">Actions</th>
 
-    </div>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%
+                    for (var index in model.get("attachments")) {
+                    var attach = model.get("attachments")[index];
+                    %>
+                    <tr id="attachments__row__<%=attach.volume_id%>" class="">
+                        <td class="multi_select_column">
+                        <input type="checkbox" class="checkbox_attachments" name="object_ids" value="<%=attach.server_id%>">
+                        </td>
+                        <td class=""><%=attach.server_id%></td>
+                        <td class=""><%=attach.device%></td>
+                        <td class="actions_column">
+                        <button id="attachments__row_<%=attach.volume_id%>__action_detach" class="btn btn-small btn-danger btn-detach detachBtn" name="action" value="<%=attach.server_id%>" type="submit">
+                            Detach Volume
+                        </button></td>
+                    </tr>
+                    <%
+                    }
+                    %>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4"><span>Displaying <%=model.get("attachments").length%> items</span></td>
+
+                    </tr>
+                </tfoot>
+            </table>
+
+        </div>
 
     </div>
     <hr>
 
-    <div style="display:none"><input type="hidden" name="csrfmiddlewaretoken" value="d477b87e8cd663958c6924d849371b77"></div>
     <div class="modal-body clearfix">
 
-    <h3>Attach To Instance</h3>
-    <fieldset>
+        <h3>Attach To Instance</h3>
+        <fieldset>
 
-    <div class="control-group form-field clearfix">
-    <label for="id_instance">Attach to Instance</label>
+            <div class="control-group form-field clearfix">
+                <label for="id_instance">Attach to Instance</label>
 
-    <span class="help-block" style="display: none; ">Select an instance to attach to.</span>
-    <div class="input">
-    <select name="instance" id="id_instance">
-    <option value="" selected="selected">Select an instance</option>
-    <%
-    for (var index in instancesModel.models) {
-    var instance = instancesModel.models[index];
-    %>
-    <option value="<%=instance.id%>"><%= instance.get("name")%> (<%=instance.id%>)</option>
-    <%
-    }
-    %>
-    </select>
-    </div>
-    </div>
+                <span class="help-block" style="display: none; ">Select an instance to attach to.</span>
+                <div class="input">
+                    <select name="instance" id="id_instance">
+                        <option value="" selected="selected">Select an instance</option>
+                        <%
+                        for (var index in instancesModel.models) {
+                        var instance = instancesModel.models[index];
+                        %>
+                        <option value="<%=instance.id%>"><%= instance.get("name")%> (<%=instance.id%>)</option>
+                        <%
+                        }
+                        %>
+                    </select>
+                </div>
+            </div>
 
-    <div class="control-group form-field clearfix">
-    <label for="id_device">Device Name</label>
+            <div class="control-group form-field clearfix">
+                <label for="id_device">Device Name</label>
 
-    <span class="help-block" style="display: none; "></span>
-    <div class="input">
-    <input type="text" name="device" value="/dev/vdc" id="id_device">
-    </div>
-    </div>
+                <span class="help-block" style="display: none; "></span>
+                <div class="input">
+                    <input type="text" name="device" value="/dev/vdc" id="id_device">
+                </div>
+            </div>
 
-    </fieldset>
+        </fieldset>
 
     </div>
     <div class="modal-footer">
-    <input class="btn btn-blue pull-right attachBtn" type="submit" value="Attach Volume">
-    <a class="btn secondary cancel close cancelBtn">Cancel</a>
+        <input class="btn btn-blue pull-right attachBtn" type="submit" value="Attach Volume">
+        <a class="btn secondary cancel close cancelBtn">Cancel</a>
     </div>
-    </div>
+</div>
 </script>

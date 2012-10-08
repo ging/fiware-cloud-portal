@@ -1,123 +1,132 @@
 <script id="instanceDetailTemplate" type="text/html">
 <!--
-    Description: Instance Detail
-    src: templates/root/nova/instanceDetail.html
+Description: Instance Detail
+src: templates/root/nova/instanceDetail.html
 -->
 <div class="row-fluid">
     <ul class="breadcrumb">
-        <li><a href="#nova/vdcs/"><strong>VDCs</strong></a><span class="divider">/</span></li>
-        <li><a href="#nova/vdcs/<%= vdc %>"><%= vdc %></a><span class="divider">/</span></li>
-        <li><a href="#nova/vdcs/<%= vdc %>/<%= service %>"><%= service %></a><span class="divider">/</span></li>
-        <li><%= model.get("name") %></li>
+        <li>
+            <a href="#nova/vdcs/"><strong>VDCs</strong></a><span class="divider">/</span>
+        </li>
+        <li>
+            <a href="#nova/vdcs/<%= vdc %>"><%= vdc %></a><span class="divider">/</span>
+        </li>
+        <li>
+            <a href="#nova/vdcs/<%= vdc %>/<%= service %>"><%= service %></a><span class="divider">/</span>
+        </li>
+        <li>
+            <%= model.get("name") %>
+        </li>
     </ul>
     <h2>Instance Detail</h2>
-    
-  <div class="span12">
-  <ul id="instance_details" class="nav nav-tabs">
-    <li id="overview" class="<%= (subview == 'overview') ? 'active':'' %>">
-      <a id="overviewBtn" data-i18n="Overview">Overview</a>
-    </li>
-    <li id="log" class="<%= (subview == 'logs') ? 'active':'' %>">
-      <a id="instance_logs">Log</a>
-    </li>
-    <li id="vnc" class="<%= (subview == 'vnc') ? 'active':'' %>">
-      <a id="instance_vnc">VNC</a>
-    </li>
-  </ul>
-  <div class="tab-content" style="border: 2px">
-    <div id="instance_details__overview" class="tab-pane <%= (subview == 'overview') ? 'active':'' %>">
-        <div class="status row-fluid">
-          <h4>Info</h4>
-          <hr class="header_rule">
-          <ul>
-            <li><strong>Name:</strong>&nbsp;<%=model.get("name")%></li>
-            <li><strong>ID:</strong>&nbsp;<%=model.get("id")%></li>
-          </ul>
-        </div>
-
-        <div class="status row-fluid">
-          <h4>Status</h4>
-          <hr class="header_rule">
-          <ul>
-            <li><strong>Status:</strong>&nbsp;<%=model.get("status")%></li>
-          </ul>
-        </div>
-
-        <div class="specs row-fluid">
-          <h4>Specs</h4>
-          <hr class="header_rule">
-          <ul>
-            <li><strong>RAM:</strong>&nbsp;<%=flavor.get("ram")%>MB</li>
-            <li><strong>VCPUs:</strong>&nbsp;<%=flavor.get("vcpus")%> VCPU</li>
-            <li><strong>Disk:</strong>&nbsp;<%=flavor.get("disk")%>GB</li>
-          </ul>
-        </div>
-
-        <div class="addresses row-fluid">
-          <h4>IP Addresses</h4>
-          <hr class="header_rule">
-          <ul>
-            
-          </ul>
-        </div>
-
-        <div class="security_groups row-fluid">
-          <h4>Security Groups</h4>
-          <hr class="header_rule">
-          
-          <ul>
-            <li>
-              <strong>default</strong>
-              <ul>
-              
-                <li><em>No rules defined.</em></li>
-              
-              </ul>
+    <div class="span12">
+        <ul id="instance_details" class="nav nav-tabs">
+            <li id="overview" class="<%= (subview == 'overview') ? 'active':'' %>">
+                <a id="overviewBtn" data-i18n="Overview">Overview</a>
             </li>
-          </ul>
-          
-        </div>
-        
-        <div class="meta row-fluid">
-          <h4>Meta</h4>
-          <hr class="header_rule">
-          <ul>
-            <li><strong>Key name:</strong>&nbsp;<%=model.get("key_name")%></li>
-            
-            <li><strong>Image Name:</strong>&nbsp;<a href="#nova/images_and_snapshots/<%=image.id%>"><%=image.get("name")%></a></li>
-          </ul>
-        </div>
-        
-        <div class="volumes row-fluid">
-          <h4>Volumes</h4>
-          <hr class="header_rule">
-          <ul>
-            
-            <li><em>No volumes attached.</em></li>
-            
-          </ul>
-        </div>
+            <li id="log" class="<%= (subview == 'logs') ? 'active':'' %>">
+                <a id="instance_logs">Log</a>
+            </li>
+            <li id="vnc" class="<%= (subview == 'vnc') ? 'active':'' %>">
+                <a id="instance_vnc">VNC</a>
+            </li>
+        </ul>
+        <div class="tab-content" style="border: 2px">
+            <div id="instance_details__overview" class="tab-pane <%= (subview == 'overview') ? 'active':'' %>">
+                <div class="status row-fluid">
+                    <h4>Info</h4>
+                    <hr class="header_rule">
+                    <ul>
+                        <li>
+                            <strong>Name:</strong>&nbsp;<%=model.get("name")%>
+                        </li>
+                        <li>
+                            <strong>ID:</strong>&nbsp;<%=model.get("id")%>
+                        </li>
+                    </ul>
+                </div>
+                <div class="status row-fluid">
+                    <h4>Status</h4>
+                    <hr class="header_rule">
+                    <ul>
+                        <li>
+                            <strong>Status:</strong>&nbsp;<%=model.get("status")%>
+                        </li>
+                    </ul>
+                </div>
+                <div class="specs row-fluid">
+                    <h4>Specs</h4>
+                    <hr class="header_rule">
+                    <ul>
+                        <li>
+                            <strong>RAM:</strong>&nbsp;<%=flavor.get("ram")%>MB
+                        </li>
+                        <li>
+                            <strong>VCPUs:</strong>&nbsp;<%=flavor.get("vcpus")%> VCPU
+                        </li>
+                        <li>
+                            <strong>Disk:</strong>&nbsp;<%=flavor.get("disk")%>GB
+                        </li>
+                    </ul>
+                </div>
 
+                <div class="addresses row-fluid">
+                    <h4>IP Addresses</h4>
+                    <hr class="header_rule">
+                    <ul>
+                    </ul>
+                </div>
+                <div class="security_groups row-fluid">
+                    <h4>Security Groups</h4>
+                    <hr class="header_rule">
+                    <ul>
+                        <li>
+                            <strong>default</strong>
+                            <ul>
+                                <li>
+                                    <em>No rules defined.</em>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="meta row-fluid">
+                    <h4>Meta</h4>
+                    <hr class="header_rule">
+                    <ul>
+                        <li>
+                            <strong>Key name:</strong>&nbsp;<%=model.get("key_name")%>
+                        </li>
+                        <li>
+                            <strong>Image Name:</strong>&nbsp;<a href="#nova/images_and_snapshots/<%=image.id%>"><%=image.get("name")%></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="volumes row-fluid">
+                    <h4>Volumes</h4>
+                    <hr class="header_rule">
+                    <ul>
+                        <li>
+                            <em>No volumes attached.</em>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+            <div id="instance_details__log" class="tab-pane <%= (subview == 'logs') ? 'active':'' %>">
+                <div class="clearfix">
+                    <h3 class="pull-left">Instance Console Log</h3>
+                </div>
+                <pre class="logs"><%= logs %></pre>
+            </div>
+            <div id="instance_details__vnc" class="tab-pane <%= (subview == 'vnc') ? 'active':'' %>">
+                <h3>Instance VNC Console</h3>
+                <p class="alert alert-info">
+                    If VNC console is not responding to keyboard input: click the grey status bar below.
+                </p>
+                <iframe src="<%= vncUrl %>" width="720" height="450"></iframe>
+            </div>
+        </div>
     </div>
-    
-    <div id="instance_details__log" class="tab-pane <%= (subview == 'logs') ? 'active':'' %>">
-        <div class="clearfix">
-            <h3 class="pull-left">Instance Console Log</h3>
-        </div>
-        <pre class="logs"><%= logs %></pre>
-    </div>
-    
-    <div id="instance_details__vnc" class="tab-pane <%= (subview == 'vnc') ? 'active':'' %>">
-        <h3>Instance VNC Console</h3>
-        <p class="alert alert-info">If VNC console is not responding to keyboard input: click the grey status bar below.</p>
-        <iframe src="<%= vncUrl %>" width="720" height="450"></iframe>
-    </div>
-    
-  </div>
-
-
-
-
-  </div>
 </div>
 </script>

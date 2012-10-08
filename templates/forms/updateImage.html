@@ -1,72 +1,72 @@
 <script id="updateImageFormTemplate" type="text/html">
 <div id="update_image" class="modal hide ">
-<!--
+    <!--
     Description: Update Image Form
     src: templates/forms/updateImage.html
--->
-  <div class="modal-header">
-    <a id="close" href="#" class="close" data-dismiss="modal">&times;</a>
-    <h3>Update Image</h3>
-  </div>  
-  <form id="update_image_form" class="" action="/nova/images_and_snapshots/87a44397-76be-40a1-84ac-bce6c1c85c5f/update/" method="POST"><div style="display:none"><input type="hidden" name="csrfmiddlewaretoken" value="576c7be5406bdddc55d6677d6099d459"></div>
-    <div class="modal-body clearfix">    
-		<div class="left">
-    		<fieldset>    
-  				<input type="hidden" name="method" value="UpdateImageForm" id="id_method">
-  				<input type="hidden" name="image_id" value="87a44397-76be-40a1-84ac-bce6c1c85c5f" id="id_image_id">
-					<div class="control-group form-field clearfix">
-    					<label for="id_name">Name</label>
-    					<span class="help-block"></span>
-					    <div class="input">
-					      <input id="id_name" type="text" name="name" value="<%= model.get('name') %>" maxlength="25">
-					    </div>
-					  </div>
-					  <div class="control-group form-field clearfix">
-					    <label for="id_kernel">Kernel ID</label>					    
-					    <span class="help-block"></span>
-					    <div class="input">
-					      <input id="id_kernel" readonly="readonly" type="text" name="kernel" maxlength="36">
-					    </div>
-					  </div>
-					  <div class="control-group form-field clearfix">
-					    <label for="id_ramdisk">Ramdisk ID</label>					    
-					    <span class="help-block"></span>
-					    <div class="input">
-					      <input id="id_ramdisk" readonly="readonly" type="text" name="ramdisk" maxlength="36">
-					    </div>
-					  </div>					
-					  <div class="control-group form-field clearfix">
-					    <label for="id_architecture">Architecture</label>					    
-					    <span class="help-block"></span>
-					    <div class="input">
-					      <input readonly="readonly" type="text" name="architecture" id="id_architecture">
-					    </div>
-					  </div>					
-					  <div class="control-group form-field clearfix">
-					    <label for="id_container_format">Container Format</label>					    
-					    <span class="help-block"></span>
-					    <div class="input">
-					      <input readonly="readonly" type="text" name="container_format" value="ari" id="id_container_format">
-					    </div>
-					  </div>					
-					  <div class="control-group form-field clearfix">
-					    <label for="id_disk_format">Disk Format</label>					    
-					    <span class="help-block"></span>
-					    <div class="input">
-					      <input readonly="readonly" type="text" name="disk_format" value="ari" id="id_disk_format">
-					    </div>
-					  </div>
-   	 		</fieldset>
-		</div>
-		<div class="right">
-			<h3>Description:</h3>
-			<p>From here you can modify different properties of an image.</p>
-		</div>
+    -->
+    <div class="modal-header">
+        <a id="close" href="#" class="close" data-dismiss="modal">&times;</a>
+        <h3>Update Image</h3>
     </div>
-    <div class="modal-footer">
-  		<input id="image_update" class="btn btn-blue pull-right" type="submit" value="Update Image">
-  		<a id="cancelBtn" class="btn secondary cancel close">Cancel</a>
-	</div>
-  </form>
+    <form id="update_image_form" class="" action="#">
+        <div class="modal-body clearfix">
+            <div class="left">
+                <fieldset>
+                    <div class="control-group form-field clearfix">
+                        <label for="id_name">Name</label>
+                        <span class="help-block"></span>
+                        <div class="input">
+                            <input id="id_name" type="text" name="name" value="<%= model.get('name') %>" maxlength="25">
+                        </div>
+                    </div>
+                    <div class="control-group form-field clearfix">
+                        <label for="id_kernel">Kernel ID</label>
+                        <span class="help-block"></span>
+                        <div class="input">
+                            <input id="id_kernel" readonly="readonly" type="text" name="kernel" maxlength="36">
+                        </div>
+                    </div>
+                    <div class="control-group form-field clearfix">
+                        <label for="id_ramdisk">Ramdisk ID</label>
+                        <span class="help-block"></span>
+                        <div class="input">
+                            <input id="id_ramdisk" readonly="readonly" type="text" name="ramdisk" maxlength="36">
+                        </div>
+                    </div>
+                    <div class="control-group form-field clearfix">
+                        <label for="id_architecture">Architecture</label>
+                        <span class="help-block"></span>
+                        <div class="input">
+                            <input readonly="readonly" type="text" name="architecture" id="id_architecture">
+                        </div>
+                    </div>
+                    <div class="control-group form-field clearfix">
+                        <label for="id_container_format">Container Format</label>
+                        <span class="help-block"></span>
+                        <div class="input">
+                            <input readonly="readonly" type="text" name="container_format" value="ari" id="id_container_format">
+                        </div>
+                    </div>
+                    <div class="control-group form-field clearfix">
+                        <label for="id_disk_format">Disk Format</label>
+                        <span class="help-block"></span>
+                        <div class="input">
+                            <input readonly="readonly" type="text" name="disk_format" value="ari" id="id_disk_format">
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="right">
+                <h3>Description:</h3>
+                <p>
+                    From here you can modify different properties of an image.
+                </p>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <input id="image_update" class="btn btn-blue pull-right" type="submit" value="Update Image">
+            <a id="cancelBtn" class="btn secondary cancel close">Cancel</a>
+        </div>
+    </form>
 </div>
 </script>

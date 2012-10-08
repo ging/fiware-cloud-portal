@@ -46,7 +46,6 @@ var LoginStatus = Backbone.Model.extend({
     
     onTokenChange: function (context, token) {
         var self = context;
-        console.log(token);
         if (!UTILS.Auth.isAuthenticated() && token != '') {
             UTILS.Auth.authenticate(undefined, undefined, undefined, token, function() {
                 console.log("Authenticated with token");
@@ -91,7 +90,6 @@ var LoginStatus = Backbone.Model.extend({
         var self = this;
         console.log("Tenant: " + tenantID);
         UTILS.Auth.switchTenant(tenantID, function(resp) {
-            console.log(resp);
             self.set({username: UTILS.Auth.getName(), tenant: UTILS.Auth.getCurrentTenant()});
             self.trigger('switch-tenant');
         });

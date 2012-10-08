@@ -1,36 +1,31 @@
 <script id="navTabTemplate" type="text/html">
 <!--
-    Description: Navigation Bar
-    src: templates/root/navTab.html
+Description: Navigation Bar
+src: templates/root/navTab.html
 -->
 <section id="navbar">
-      <div class="container-fluid">
+    <div class="container-fluid">
         <div class="row-fluid">
-          <div class="navbar pull-none">
-            <div class="navbar-inner color-mv">
-              <div class="container">
-                <a class="btn btn-navbar pull-left" data-toggle="collapse" data-target=".nav-collapse">
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                </a>
-                <div class="nav-collapse collapse">
-                  <ul class="nav">
-                    <div id="navtab">
+            <div class="navbar pull-none">
+                <div class="navbar-inner color-mv">
+                    <div class="container">
+                        <a class="btn btn-navbar pull-left" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav">
+                                <div id="navtab">
 
-	                  <ul class="nav nav-tabs">
-		                <% for (var index in models) { 
-		                  var model = models[index];
-		             	  if (model.get('name') == 'Admin' && showAdmin == false)
-			                 continue;
-			              %>
-		                  <li <% if (model.get('active')) { %> class="active" <% } %> >
-		            	  <a href="<%= model.get('url') %>" tabindex='1' data-i18n="<%= model.get('name') %>"><%= model.get('name') %></a>
-		                  </li>
-		                <% } %>
-                    
-	             </ul>
-	             <div id="sidebar">
-            </div>
-	                  
+                                    <ul class="nav nav-tabs">
+                                        <% for (var index in models) {
+                                        var model = models[index];
+                                        if (model.get('name') == 'Admin' && showAdmin == false)
+                                        continue;
+                                        %>
+                                        <li <% if (model.get('active')) { %> class="active" <% } %> >
+                                            <a href="<%= model.get('url') %>" tabindex='1' data-i18n="<%= model.get('name') %>"><%= model.get('name') %></a>
+                                        </li>
+                                        <% } %>
+
+                                    </ul>
+                                    <div id="sidebar"></div>
+             
 </script>

@@ -1,24 +1,21 @@
 <script id="rebootInstancesFormTemplate" type="text/html">
 <div id="instances_reboot" class="modal hide ">
-<!--
+    <!--
     Description: Reboot Instances Form
     src: templates/forms/rebootInstances.html
--->
-	<div class="modal-header">
-		<a class="close" id= "close" href="#" data-dismiss="modal">&times;</a>
-		<h3>Confirm Reboot Instances</h3>
-	</div>
-	<form id="delete_image_form" action="/syspanel/instances/reboot" method="POST">
-		<div style='display:none'>
-			<input type='hidden' name='csrfmiddlewaretoken' value='13de1d539e7690548408d1be1856eb9c' />
-		</div>
-		<div class="modal-body">
-	    	Are you sure you want to reboot the Instance ?
-		</div>
-		<div class="modal-footer">
-	   		<a id="confirm_reboot" class="btn btn-blue pull-right" data-dismiss="modal">Reboot Instances</a>
-	   		<a href="#syspanel/instances" id="cancelBtn" class="btn cancel" data-dismiss="modal">Cancel</a>
-		</div>
-	</form>
+    -->
+    <div class="modal-header">
+        <a class="close" id= "close" href="#" data-dismiss="modal">&times;</a>
+        <h3>Confirm Reboot Instances</h3>
+    </div>
+    <form id="delete_image_form" action="#">
+        <div class="modal-body">
+            Are you sure you want to reboot the Instance ?
+        </div>
+        <div class="modal-footer">
+            <a id="confirm_reboot" class="btn btn-blue pull-right" data-dismiss="modal">Reboot Instances</a>
+            <a href="#syspanel/instances" id="cancelBtn" class="btn cancel" data-dismiss="modal">Cancel</a>
+        </div>
+    </form>
 </div>
 </script>			

@@ -1,45 +1,49 @@
 <script id="uploadObjectFormTemplate" type="text/html">
 <div id="upload_object" class="modal hide in" style="top: 80px; display: block; ">
-  <div class="modal-header">
-    <a href="#" id="close" class="close" data-dismiss="modal">×</a>
-    <h3>Upload Object To Container: <%= model.get('name')%></h3>
-  </div>
-  
+    <div class="modal-header">
+        <a href="#" id="close" class="close" data-dismiss="modal">×</a>
+        <h3>Upload Object To Container: <%= model.get('name')%></h3>
+    </div>
+
     <div class="modal-body clearfix">
-    
-<div class="left">
-    <fieldset>
-    
-  <div class="control-group form-field clearfix">
-    <label for="id_name">Object Name</label>
-    
-    <span class="help-block" style="display: none; "></span>
-    <div class="input">
-      <input id="id_name" type="text" name="name" maxlength="255">
-    </div>
-  </div>
 
-  <div class="control-group form-field clearfix">
-    <label for="id_object_file">File</label>
-    
-    <span class="help-block" style="display: none; "></span>
-    <div class="input">
-      <input type="file" name="object_file" id="id_object_file">
-    </div>
-  </div>
+        <div class="left">
+            <fieldset>
 
+                <div class="control-group form-field clearfix">
+                    <label for="id_name">Object Name</label>
 
-    </fieldset>
-</div>
-<div class="right">
-    <h3>Description:</h3>
-    <p>An object is the basic storage entity and any optional metadata that represents the files you store in the OpenStack Object Storage system. When you upload data to OpenStack Object Storage, the data is stored as-is (no compression or encryption) and consists of a location (container), the object's name, and any metadata consisting of key/value pairs.</p>
-</div>
+                    <span class="help-block" style="display: none; "></span>
+                    <div class="input">
+                        <input id="id_name" type="text" name="name" maxlength="255">
+                    </div>
+                </div>
+
+                <div class="control-group form-field clearfix">
+                    <label for="id_object_file">File</label>
+
+                    <span class="help-block" style="display: none; "></span>
+                    <div class="input">
+                        <input type="file" name="object_file" id="id_object_file">
+                    </div>
+                </div>
+
+            </fieldset>
+        </div>
+        <div class="right">
+            <h3>Description:</h3>
+            <p>
+                An object is the basic storage entity and any optional metadata that represents the files you store in the OpenStack Object Storage system. When you upload data to OpenStack Object Storage, the data is stored as-is (no compression or encryption) and consists of a location (container), the object's name, and any metadata consisting of key/value pairs.
+            </p>
+        </div>
 
     </div>
     <div class="modal-footer">
-  <button id="submit" class="btn btn-primary pull-right">Upload Object</button>
-  <a id="cancelBtn" class="close btn seconday cancel close" data-dismiss="modal">Cancel</a>
+        <button id="submit" class="btn btn-primary pull-right">
+            Upload Object
+        </button>
+        <a id="cancelBtn" class="close btn seconday cancel close" data-dismiss="modal">Cancel</a>
+    </div>
 </div>
-</div>  
+
 </script>

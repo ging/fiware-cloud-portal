@@ -1,168 +1,195 @@
 <script id="launchImageTemplate" type="text/html">
 <div id="launch_image" class="modal hide  in" style="display: block; ">
-<!--
+    <!--
     Description: Launch ImageForm
     src: templates/forms/launchImage.html
--->
-  <div class="modal-header">
-    <a id="close" href="#" class="close" data-dismiss="modal">&times;</a>
-    <h3>Launch Instances</h3>
-  </div>
-  
+    -->
+    <div class="modal-header">
+        <a id="close" href="#" class="close" data-dismiss="modal">&times;</a>
+        <h3>Launch Instances</h3>
+    </div>
+
     <div class="modal-body clearfix">
-    
-<div class="left">
-  <fieldset>
-  
-  <div class="control-group form-field clearfix">
-    <label for="id_name">Server Name</label>
-    
-    <span class="help-block" style="display: none; "></span>
-    <div class="input">
-      <input id="id_name" type="text" name="name" maxlength="80">
-    </div>
-  </div>
 
-  <div class="control-group form-field clearfix">
-    <label for="id_user_data">User Data</label>
-    
-    <span class="help-block" style="display: none; "></span>
-    <div class="input">
-      <textarea id="id_user_data" rows="10" cols="40" name="user_data"></textarea>
-    </div>
-  </div>
+        <div class="left">
+            <fieldset>
 
-  <div class="control-group form-field clearfix">
-    <label for="id_flavor">Flavor</label>
-    
-    <span class="help-block" style="display: none; ">Size of image to launch.</span>
-    <div class="input">
-        <select name="flavor" id="id_flavor">
-            
-            <%
-            for (var index in flavors.models) {
-                var flavor = flavors.models[index];
-                %>
-                <option value="<%=flavor.id%>"><%=flavor.get("name") + " (" + flavor.get("vcpus") + "VCPU / " + flavor.get("disk") + "GB Disk / " + flavor.get("ram") + "MB Ram )" %></option>
-            <%}%>
-        </select>
-    </div>
-  </div>
+                <div class="control-group form-field clearfix">
+                    <label for="id_name">Server Name</label>
 
-  <div class="control-group form-field clearfix">
-    <label for="id_keypair">Keypair</label>
-    
-    <span class="help-block" style="display: none; ">Which keypair to use for authentication.</span>
-    <div class="input">
-      <select name="keypair" id="id_keypair">
-        <% if (keypairs.size() == 0) { %>
-            <option value="" selected="selected">No keypairs available.</option>
-        <% } else {
-            for (var index in keypairs.models) {
-                var keypair = keypairs.models[index];
-            %>
-            <option value="" selected="selected">Select a keypair</option>
-            <option value="<%=keypair.get('name')%>"><%= keypair.get("name")%></option>
-        <%  }
-        }%>
-      </select>
-    </div>
-  </div>
+                    <span class="help-block" style="display: none; "></span>
+                    <div class="input">
+                        <input id="id_name" type="text" name="name" maxlength="80">
+                    </div>
+                </div>
 
-  <div class="control-group form-field clearfix">
-    <label for="id_count">Instance Count</label>
-    
-    <span class="help-block" style="display: none; ">Number of instances to launch.</span>
-    <div class="input">
-      <input type="text" name="count" value="1" id="id_count">
-    </div>
-  </div>
+                <div class="control-group form-field clearfix">
+                    <label for="id_user_data">User Data</label>
 
-  <div class="control-group form-field clearfix">
-    <label for="id_security_groups_0">Security Groups</label>
-    
-    <span class="help-block" style="display: none; ">Launch instance in these security groups.</span>
-    <div class="input">
-      <ul>
-<li><label for="id_security_groups_0"><input checked="checked" type="checkbox" name="security_groups" value="default" id="id_security_groups_0"> default</label></li>
-</ul>
-    </div>
-  </div>
+                    <span class="help-block" style="display: none; "></span>
+                    <div class="input">
+                        <textarea id="id_user_data" rows="10" cols="40" name="user_data"></textarea>
+                    </div>
+                </div>
 
-  <div class="control-group form-field clearfix hide">
-    <label for="id_volume">Volume or Volume Snapshot</label>
-    
-    <span class="help-block" style="display: none; ">Volume to boot from.</span>
-    <div class="input">
-      <select name="volume" id="id_volume">
-<option value="" selected="selected">Select Volume</option>
-</select>
-    </div>
-  </div>
+                <div class="control-group form-field clearfix">
+                    <label for="id_flavor">Flavor</label>
 
-  <div class="control-group form-field clearfix hide">
-    <label for="id_device_name">Device Name</label>
-    
-    <span class="help-block" style="display: none; ">Volume mount point (e.g. 'vda' mounts at '/dev/vda').</span>
-    <div class="input">
-      <input type="text" name="device_name" value="vda" id="id_device_name">
-    </div>
-  </div>
+                    <span class="help-block" style="display: none; ">Size of image to launch.</span>
+                    <div class="input">
+                        <select name="flavor" id="id_flavor">
 
-  <div class="control-group form-field clearfix hide">
-    <label for="id_delete_on_terminate">Delete on Terminate</label>
-    
-    <span class="help-block" style="display: none; ">Delete volume on instance terminate</span>
-    <div class="input">
-      <input type="checkbox" name="delete_on_terminate" id="id_delete_on_terminate">
-    </div>
-  </div>
+                            <%
+                            for (var index in flavors.models) {
+                            var flavor = flavors.models[index];
+                            %>
+                            <option value="<%=flavor.id%>"><%=flavor.get("name") + " (" + flavor.get("vcpus") + "VCPU / " + flavor.get("disk") + "GB Disk / " + flavor.get("ram") + "MB Ram )" %></option>
+                            <%}%>
+                        </select>
+                    </div>
+                </div>
 
+                <div class="control-group form-field clearfix">
+                    <label for="id_keypair">Keypair</label>
 
-  </fieldset>
-</div>
-<div class="right">
-  <h3>Description:</h3>
-  <p>Specify the details for launching an instance. The chart below shows the resources used by this project in relation to the project's quotas.</p>
-  <h3>Project Quotas</h3>
+                    <span class="help-block" style="display: none; ">Which keypair to use for authentication.</span>
+                    <div class="input">
+                        <select name="keypair" id="id_keypair">
+                            <% if (keypairs.size() == 0) { %>
+                            <option value="" selected="selected">No keypairs available.</option>
+                            <% } else {
+                            for (var index in keypairs.models) {
+                            var keypair = keypairs.models[index];
+                            %>
+                            <option value="" selected="selected">Select a keypair</option>
+                            <option value="<%=keypair.get('name')%>"><%= keypair.get("name")%></option>
+                            <%  }
+                            }%>
+                        </select>
+                    </div>
+                </div>
 
-  <div class="quota_title">
-    <strong>Instance Count <span>(0)</span></strong>
-    <p>10 Available</p>
-  </div>
-  <div class="clearfix"></div>
-  <div class="quota_bar"><div class="progress_bar"><div class="progress_bar_fill" style="width: 0%"></div></div>
-</div>
+                <div class="control-group form-field clearfix">
+                    <label for="id_count">Instance Count</label>
 
-  <div class="quota_title">
-    <strong>VCPUs <span>(0)</span></strong>
-    <p>20 Available</p>
-  </div>
-  <div class="clearfix"></div>
-  <div class="quota_bar"><div class="progress_bar"><div class="progress_bar_fill" style="width: 0%"></div></div>
-</div>
+                    <span class="help-block" style="display: none; ">Number of instances to launch.</span>
+                    <div class="input">
+                        <input type="text" name="count" value="1" id="id_count">
+                    </div>
+                </div>
 
-  <div class="quota_title">
-    <strong>Disk <span>(0 GB)</span></strong>
-    <p>1000 GB Available</p>
-  </div>
-  <div class="clearfix"></div>
-  <div class="quota_bar"><div class="progress_bar"><div class="progress_bar_fill" style="width: 0%"></div></div>
-</div>
+                <div class="control-group form-field clearfix">
+                    <label for="id_security_groups_0">Security Groups</label>
 
-  <div class="quota_title">
-    <strong>Memory <span>(0 MB)</span></strong>
-    <p>51200 MB Available</p>
-  </div>
-  <div class="clearfix"></div>
-  <div class="quota_bar"><div class="progress_bar"><div class="progress_bar_fill" style="width: 0%"></div></div>
-</div>
-</div>
+                    <span class="help-block" style="display: none; ">Launch instance in these security groups.</span>
+                    <div class="input">
+                        <ul>
+                            <li>
+                                <label for="id_security_groups_0">
+                                    <input checked="checked" type="checkbox" name="security_groups" value="default" id="id_security_groups_0">
+                                    default</label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="control-group form-field clearfix hide">
+                    <label for="id_volume">Volume or Volume Snapshot</label>
+
+                    <span class="help-block" style="display: none; ">Volume to boot from.</span>
+                    <div class="input">
+                        <select name="volume" id="id_volume">
+                            <option value="" selected="selected">Select Volume</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group form-field clearfix hide">
+                    <label for="id_device_name">Device Name</label>
+
+                    <span class="help-block" style="display: none; ">Volume mount point (e.g. 'vda' mounts at '/dev/vda').</span>
+                    <div class="input">
+                        <input type="text" name="device_name" value="vda" id="id_device_name">
+                    </div>
+                </div>
+
+                <div class="control-group form-field clearfix hide">
+                    <label for="id_delete_on_terminate">Delete on Terminate</label>
+
+                    <span class="help-block" style="display: none; ">Delete volume on instance terminate</span>
+                    <div class="input">
+                        <input type="checkbox" name="delete_on_terminate" id="id_delete_on_terminate">
+                    </div>
+                </div>
+
+            </fieldset>
+        </div>
+        <div class="right">
+            <h3>Description:</h3>
+            <p>
+                Specify the details for launching an instance. The chart below shows the resources used by this project in relation to the project's quotas.
+            </p>
+            <h3>Project Quotas</h3>
+
+            <div class="quota_title">
+                <strong>Instance Count <span>(0)</span></strong>
+                <p>
+                    10 Available
+                </p>
+            </div>
+            <div class="clearfix"></div>
+            <div class="quota_bar">
+                <div class="progress_bar">
+                    <div class="progress_bar_fill" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <div class="quota_title">
+                <strong>VCPUs <span>(0)</span></strong>
+                <p>
+                    20 Available
+                </p>
+            </div>
+            <div class="clearfix"></div>
+            <div class="quota_bar">
+                <div class="progress_bar">
+                    <div class="progress_bar_fill" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <div class="quota_title">
+                <strong>Disk <span>(0 GB)</span></strong>
+                <p>
+                    1000 GB Available
+                </p>
+            </div>
+            <div class="clearfix"></div>
+            <div class="quota_bar">
+                <div class="progress_bar">
+                    <div class="progress_bar_fill" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <div class="quota_title">
+                <strong>Memory <span>(0 MB)</span></strong>
+                <p>
+                    51200 MB Available
+                </p>
+            </div>
+            <div class="clearfix"></div>
+            <div class="quota_bar">
+                <div class="progress_bar">
+                    <div class="progress_bar_fill" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
 
     </div>
     <div class="modal-footer">
-  <button class="btn btn-blue pull-right btn-launch" name="action" type="submit" data-i18n="Launch Instance">Launch Instance</button>						                 
-  <a id="cancelBtn" class="btn secondary cancel close">Cancel</a>
-</div>
+        <button class="btn btn-blue pull-right btn-launch" name="action" type="submit" data-i18n="Launch Instance">
+            Launch Instance
+        </button>
+        <a id="cancelBtn" class="btn secondary cancel close">Cancel</a>
+    </div>
 </div>
 </script>

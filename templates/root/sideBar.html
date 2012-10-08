@@ -1,41 +1,41 @@
 <script id="sideBarTemplate" type="text/html">
 <!--
-    Description: Side Bar
-    src: templates/root/sideBar.html
+Description: Side Bar
+src: templates/root/sideBar.html
 -->
 <div class="menuv">
-  <div id="sideBarTitle" class="gray size20 comfortaa" data-i18n="<%= title %>"><%=title%>
-  </div>
+    <div id="sideBarTitle" class="gray size20 comfortaa" data-i18n="<%= title %>">
+        <%=title%>
+    </div>
 
-<% if (showTenants) { %>
-  <div class="tenant_switch">
-    <select id="tenant_switcher" tabindex="1" class="inline">
-      <option value="">-- Select tenant --</option>
-      <% for (var index in loginModel.get("tenants")) {
+    <% if (showTenants) { %>
+    <div class="tenant_switch">
+        <select id="tenant_switcher" tabindex="1" class="inline">
+            <option value="">-- Select tenant --</option>
+            <% for (var index in loginModel.get("tenants")) {
             var ten = loginModel.get("tenants")[index];
-          %>
-          <option value="#auth/switch/<%= ten.id%>/" <% 
-              if (loginModel.get("tenant").name === ten.name) {
-                  %>selected="selected" <%}%>><%= ten.name%></option>
-        <%}%>
-    </select>
-  </div>
-  <% } %>
+            %>
+            <option value="#auth/switch/<%= ten.id%>/" <%
+            if (loginModel.get("tenant").name === ten.name) {
+            %>selected="selected" <%}%>><%= ten.name%></option>
+            <%}%>
+        </select>
+    </div>
+    <% } %>
 </div>
 <ul class="main_nav">
-  <% for (var index in models) {
+    <% for (var index in models) {
     var model = models[index];
-%>
-<li>
-  <% if (model.get('type') !== 'title') { %>
-<a href="<%= model.get('url') %>" <% if(model.get('active')) { %> class="active" <% } %> tabindex='1' data-i18n="<%= model.get('name') %>"><%= model.get('name') %></a>
-  <% } else { %>
-  <%= model.get('name') %>    
-  <% } %>
+    %>
+    <li>
+        <% if (model.get('type') !== 'title') { %>
+        <a href="<%= model.get('url') %>" <% if(model.get('active')) { %> class="active" <% } %> tabindex='1' data-i18n="<%= model.get('name') %>"><%= model.get('name') %></a>
+        <% } else { %>
+        <%= model.get('name') %>
+        <% } %>
 
-
-</li>
-<% } %>
+    </li>
+    <% } %>
 </ul>
 </section>
 
