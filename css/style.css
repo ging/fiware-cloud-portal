@@ -1059,6 +1059,10 @@ background-color: #000000;
     background-color: #0093C6;
 }
 
+.pull-bottom {
+    bottom: 0px;
+}
+
 
 @media (min-width: 1200px) {
   .detail-case {

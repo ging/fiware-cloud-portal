@@ -71,6 +71,7 @@ var loadViews = function() {
                 "js/views/forms/ConfirmView.js",
                 "js/views/forms/CreateContainerView.js",
                 "js/views/forms/UploadObjectView.js",
+                "js/views/forms/LaunchVDCView.js",
                 "js/views/nova/InstanceDetailView.js",
                 "js/views/SettingsView.js",
                 "js/views/forms/MessagesView.js"
@@ -138,6 +139,7 @@ var loadTemplates = function() {
                     'templates/forms/launchImage.html',
                     'templates/forms/createContainer.html',
                     'templates/forms/uploadObject.html',
+                    'templates/forms/launchVDC.html',
                     'templates/root/nova/overview.html',
                     'templates/root/nova/accessAndSecurity.html',
                     'templates/root/nova/snapshots.html',

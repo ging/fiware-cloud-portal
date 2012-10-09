@@ -11,8 +11,14 @@ var VDCsView = Backbone.View.extend({
     },
     
     events:{
+        'click .btn-launch':'onLaunch',
         'click .btn-edit-vdcs':'onEditVDC',
         'click .btn-delete':'onDeleteVDC',
+    },
+    
+    onLaunch: function() {
+        var subview = new LaunchVDCView({el: 'body'});
+        subview.render();
     },
     
     onClose: function() {
