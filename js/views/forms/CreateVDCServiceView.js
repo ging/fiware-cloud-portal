@@ -1,26 +1,36 @@
 var CreateVDCServiceView = Backbone.View.extend({
 
     _template: _.itemplate($('#createVDCServiceFormTemplate').html()),
+    instances: new Instances(),
 
     events: {
         'click #submit': 'onSubmit',
         'click #cancelBtn': 'close',
         'click #close-service': 'close',
-        'click .modal-backdrop:last': 'close',
+        'click .modal-backdrop': 'close',
         'click #addInstance': 'addInstance'
     },
     
+    initialize: function() {
+        this.instances = new Instances();
+        console.log(this.instances);
+    },
+    
     addInstance: function() {
+        var self = this;
         console.log('Showing Instance Creation');
-        var subview = new LaunchImageView({el: 'body', model: {}, images: this.options.images, flavors: this.options.flavors, keypairs: this.options.keypairs});
+        var subview = new LaunchImageView({el: 'body', model: {}, images: this.options.images, flavors: this.options.flavors, keypairs: this.options.keypairs, addInstance: function(instance) {
+            self.instances.add(instance);
+            self.renderSecond();
+        }});
         subview.render();
     },
     
-    close: function(e) {
+    close: function(e, self) {
         e.preventDefault();
         console.log("Removing Create VDC");
         $('#create_service').remove();
-        $('.modal-backdrop:last').remove();
+        $('.modal-backdrop').remove();
         this.onClose();
     },
 
@@ -28,13 +38,18 @@ var CreateVDCServiceView = Backbone.View.extend({
         this.undelegateEvents();
         this.unbind();
     },
+    
+    renderSecond: function() {
+        $('#create_service').remove();
+        $(this.el).append(this._template({instances: this.instances, flavors: this.options.flavors}));
+    },
 
     render: function () {
         if ($('#create_service').html() != null) {
             $('#create_service').remove();
             $('.modal-backdrop').remove();
         }
-        $(this.el).append(this._template({instances: []}));
+        $(this.el).append(this._template({instances: this.instances, flavors: this.options.flavors}));
         $('#create_service').modal();
         return this;
     },

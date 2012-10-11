@@ -636,6 +636,11 @@ td .icon-updating.ajax-updating {
   margin: 0;
 }
 
+.modal .right-auto {
+    float: left;
+    width: 400px;
+}
+
 .modal .right {
     float: left;
     width: 308px;
