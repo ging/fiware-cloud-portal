@@ -95,7 +95,7 @@ var OSRouter = Backbone.Router.extend({
 	    this.route('objectstorage/containers/:id/', 'consult_container',  this.wrap(this.objectstorage_consult_container, this.checkAuth));        
 	},
 	
-	wrap: function(func, wrapper, arguments) {
+	wrap: function(func, wrapper) {
 	    var ArrayProto = Array.prototype;
         var slice = ArrayProto.slice;
         return function() {
@@ -109,6 +109,7 @@ var OSRouter = Backbone.Router.extend({
 		var next = arguments[0];
         this.rootView.options.next_view = Backbone.history.fragment;
         if (!this.loginModel.get("loggedIn")) {
+            console.log("Login needed");
             window.location.href = "#auth/login";
             return;
         } else {
@@ -148,6 +149,7 @@ var OSRouter = Backbone.Router.extend({
 	},
 	
 	login: function() {
+	   console.log("Rendering auth");
         this.rootView.renderAuth();
 	},
 	
@@ -369,7 +371,7 @@ var OSRouter = Backbone.Router.extend({
         self.showNovaRoot(self, 'Virtual Data Centers');
         //self.instancesModel.alltenants = false;
         var services = new VDCServices({vdc: id});
-        var view = new VDCView({model: services, vdc: id, el: '#content'});
+        var view = new VDCView({model: services, vdc: id, el: '#content', flavors: self.flavors, images: self.images, keypairs: self.keypairsModel});
         self.newContentView(self,view);
     },
     

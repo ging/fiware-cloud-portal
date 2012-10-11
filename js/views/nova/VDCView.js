@@ -16,8 +16,9 @@ var VDCView = Backbone.View.extend({
     },
     
     events:{
+        'click .btn-launch':'onCreateService',
         'click .btn-edit-service':'onEditService',
-        'click .btn-delete':'onDeleteService',
+        'click .btn-delete':'onDeleteService'
     },
     
     onClose: function() {
@@ -25,6 +26,11 @@ var VDCView = Backbone.View.extend({
         this.undelegateEvents();
         this.unbind();
         clearInterval(this.timer);
+    },
+    
+    onCreateService: function(evt) {
+        var subview = new CreateVDCServiceView({el: 'body', flavors: this.options.flavors, images: this.options.images, keypairs: this.options.keypairs});
+        subview.render(); 
     },
     
     onEditService: function(evt) {

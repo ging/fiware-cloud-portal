@@ -122,5 +122,5 @@ var InstanceDetailView = Backbone.View.extend({
         $("#instance_vnc").bind("click", this.showVNC);
         $("#instance_logs").bind("click", this.showLogs);
         return this;
-    },
+    }
 });

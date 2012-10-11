@@ -20,6 +20,13 @@
 
 } 
 
+#initbar {
+    left: 40%;
+    position: absolute;
+    right: 40%;
+    top: 50%;
+    height: 40px;
+}
 
 .logo{
   margin-left: -4px !important;

@@ -84,6 +84,6 @@ var FlavorView = Backbone.View.extend({
         }
         
         return this;
-    },
+    }
 
 });

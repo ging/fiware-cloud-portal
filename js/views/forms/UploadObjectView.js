@@ -45,6 +45,6 @@ var UploadObjectView = Backbone.View.extend({
             var subview = new MessagesView({el: '#content', state: "Success", title: "Object " + newContainer.get('name') + " uploaded."});     
             subview.render();
         }       
-    },
+    }
            
 });

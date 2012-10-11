@@ -23,6 +23,6 @@ var InstancesAndVolumesView = Backbone.View.extend({
         UTILS.Render.animateRender(this.el, this._template);
         
         
-    },
+    }
         
 });

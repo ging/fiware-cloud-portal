@@ -140,12 +140,12 @@ UTILS.Render = (function(U, undefined) {
         $(temp).hide();
         $(el).animate( {
                         marginLeft: "+1250px",
-                        marginRight: "-1250px",
+                        marginRight: "-1250px"
                       }, 200, function() {
             $(temp).show();
             $(el).html(temp).css('marginLeft', '1250px').css('marginRight', '-1250px').animate( {
                 marginLeft: "-=1250px",
-                marginRight: "+=1250px",
+                marginRight: "+=1250px"
                       }, 200, function() {
                           if (callback != undefined) {
                               callback();
@@ -268,6 +268,8 @@ UTILS.i18n = (function(U, undefined) {
         setlang     :     setlang,
         translate   :     translate,
         get         :     get,
-        pluralise   :     pluralise,
+        pluralise   :     pluralise
     }
 })(UTILS);
+
+UTILS.i18n.init();

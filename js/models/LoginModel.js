@@ -14,6 +14,7 @@ var LoginStatus = Backbone.Model.extend({
         this.bind('credentials', this.onCredentialsChange, this);
         this.bind('change:token', this.onTokenChange, this);
         this.bind('error', this.onValidateError, this);
+        this.set({'token-ts': localStorage.getItem('token-ts')});
         this.set({'token': localStorage.getItem('token')});
     },
     
@@ -46,7 +47,7 @@ var LoginStatus = Backbone.Model.extend({
     
     onTokenChange: function (context, token) {
         var self = context;
-        if (!UTILS.Auth.isAuthenticated() && token != '') {
+        if (!UTILS.Auth.isAuthenticated() && token != '' && (new Date().getTime()) < self.get('token-ts') + 24*60*60*1000 ) {
             UTILS.Auth.authenticate(undefined, undefined, undefined, token, function() {
                 console.log("Authenticated with token");
                 self.set({username: UTILS.Auth.getName(), tenant: UTILS.Auth.getCurrentTenant()});
@@ -62,11 +63,17 @@ var LoginStatus = Backbone.Model.extend({
                 self.trigger('auth-error', msg);
             });
         } else {
+            console.log("Not logged In");
+            self.set({'expired': true});
+            self.trigger('auth-needed', "");
             self.set({'loggedIn': false});
         }
     },
     
     setToken: function() {
+        if (localStorage.getItem('token') !== UTILS.Auth.getToken()) {
+            localStorage.setItem('token-ts', new Date().getTime());
+        }
         localStorage.setItem('token', UTILS.Auth.getToken());
         this.set({'token': UTILS.Auth.getToken()});
     },

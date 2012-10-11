@@ -3,8 +3,10 @@ var LoginView = Backbone.View.extend({
     _template: _.itemplate($('#not_logged_in').html()),
     
     initialize: function () {
+    console.log("Init Login view");
         this.model.bind('change:loggedIn', this.onLogin, this);
         this.model.bind('auth-error', this.renderonerror, this);
+        this.model.bind('auth-needed', this.render, this);
         this.onLogin();
     },
 
@@ -24,6 +26,7 @@ var LoginView = Backbone.View.extend({
     },
     
     onLogin: function() {
+        console.log("Checking");
         if (this.model.get('loggedIn')) {
             if (this.options.next_view != undefined) {
                 window.location.href = "#" + this.options.next_view;
@@ -34,6 +37,7 @@ var LoginView = Backbone.View.extend({
     },
     
     render: function () {
+        console.log("Rendering login");
         var self = this;
         $(this.el).fadeOut('slow', function() {
             $('#root').css('display', 'none');

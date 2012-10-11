@@ -7,7 +7,7 @@ var NovaVolumeSnapshotsView = Backbone.View.extend({
     events:{
         'change .checkbox':'enableDisableDeleteButton',
         'click .btn-delete-volume':'onDelete',
-        'click .btn-delete-group':'onDeleteGroup',
+        'click .btn-delete-group':'onDeleteGroup'
     },
     
     initialize: function() {

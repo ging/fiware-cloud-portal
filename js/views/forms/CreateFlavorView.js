@@ -5,7 +5,7 @@ var CreateFlavorView = Backbone.View.extend({
     events: {
         'click #submit': 'onSubmit',
         'click #cancelBtn': 'close',
-      	'click #close': 'close',
+      	'click #close': 'close'
     },
     
     initialize: function() {
@@ -81,6 +81,6 @@ console.log($('input[name=eph_gb]'));
             subview.render();
     	}    	
     	this.close();
-    },
+    }
            
 });

@@ -1,17 +1,17 @@
 var NavTabModel = Backbone.Model.extend({
-    
+
     defaults: {
         name: undefined,
         active: false,
         url: undefined
-    },
-    
+    }
+
 });
 
 
 var NavTabModels = Backbone.Collection.extend({
     model: NavTabModel,
-    
+
     setActive: function(name) {
         for (var index in this.models) {
             var tab = this.models[index];

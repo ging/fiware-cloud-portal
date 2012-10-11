@@ -1,0 +1,19 @@
+body {
+padding-top: 60px;
+background: #222;
+color: #fff;
+}
+header {
+margin-bottom: 30px;
+}
+header h1 {
+font-family: 'Lucida Grande', 'Lucida Sans Unicode', Arial, sans-serif;
+color: #fff;
+margin-bottom: 10px;
+}
+header a {
+color: orange;
+}
+.modal {
+color: #333;
+} 

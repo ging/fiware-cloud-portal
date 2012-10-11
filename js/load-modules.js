@@ -72,6 +72,7 @@ var loadViews = function() {
                 "js/views/forms/CreateContainerView.js",
                 "js/views/forms/UploadObjectView.js",
                 "js/views/forms/LaunchVDCView.js",
+                "js/views/forms/CreateVDCServiceView.js",
                 "js/views/nova/InstanceDetailView.js",
                 "js/views/SettingsView.js",
                 "js/views/forms/MessagesView.js"
@@ -107,7 +108,6 @@ var loadModels = function() {
 var loadUtils = function() {
     custom_require([   "js/os-utils.js"
             ], function(someModule) {
-                UTILS.i18n.init();
                 loadModels();
         });
 }
@@ -140,6 +140,7 @@ var loadTemplates = function() {
                     'templates/forms/createContainer.html',
                     'templates/forms/uploadObject.html',
                     'templates/forms/launchVDC.html',
+                    'templates/forms/createVDCService.html',
                     'templates/root/nova/overview.html',
                     'templates/root/nova/accessAndSecurity.html',
                     'templates/root/nova/snapshots.html',
@@ -178,8 +179,8 @@ var loadTemplates = function() {
 }
 
 var loadModules = function() {
-    custom_require([   "http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js",
-                "lib/underscore.js"
+    custom_require([    "http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js",
+                        "lib/underscore.js"
             ], function(someModule) {
                 loadTemplates();
     });

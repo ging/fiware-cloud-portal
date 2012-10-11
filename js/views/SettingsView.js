@@ -3,7 +3,7 @@ var SettingsView = Backbone.View.extend({
     _template: _.itemplate($('#settingsTemplate').html()),
     
     events : {
-        'click #select': 'changeLang',
+        'click #select': 'changeLang'
     },
     
     initialize: function() {

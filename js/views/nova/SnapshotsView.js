@@ -24,6 +24,6 @@ var NovaSnapshotsView = Backbone.View.extend({
         UTILS.Render.animateRender(this.el, this._template);
         
         
-    },
+    }
         
 });

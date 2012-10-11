@@ -5,7 +5,7 @@ var CreateFlavorView = Backbone.View.extend({
     events: {
         'click #submit': 'onSubmit',
         'click #cancelBtn': 'close',
-        'click #close': 'close',
+        'click #close': 'close'
     },
 
     render: function () {
@@ -30,6 +30,6 @@ var CreateFlavorView = Backbone.View.extend({
         this.model.unbind("change", this.render, this);
         $('#create_keypair').remove();
         $('.modal-backdrop').remove();
-    },
+    }
    
 });

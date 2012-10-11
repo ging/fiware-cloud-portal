@@ -17,6 +17,6 @@ var MessagesView = Backbone.View.extend({
         	self.close();
   		});
         return this;
-    },
+    }
    
 });

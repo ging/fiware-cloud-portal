@@ -1,12 +1,12 @@
 var ObjectStorageContainerView = Backbone.View.extend({
-    
+
     _template: _.itemplate($('#objectstorageContainerTemplate').html()),
-    
+
     initialize: function() {
         this.model.bind("change", this.onContainerDetail, this);
         this.model.fetch();
     },
-    
+
     onContainerDetail: function() {
         this.render();
     },
@@ -17,17 +17,17 @@ var ObjectStorageContainerView = Backbone.View.extend({
         'click .btn-delete':'onDelete',
         'click #objects_delete': 'onDeleteGroup'
     },
-    
+
     onUploadObject: function(evt) {
         var subview = new UploadObjectView({el: 'body', model: this.model});
         subview.render();
     },
-    
+
     onClose: function() {
         this.undelegateEvents();
         this.unbind();
     },
-    
+
     onDelete: function(evt) {
         var self = this;
         var object = evt.target.value;
@@ -40,7 +40,7 @@ var ObjectStorageContainerView = Backbone.View.extend({
         
         subview.render();
     },
-    
+
     onDeleteGroup: function(evt) {
         var self = this;
         var subview = new ConfirmView({el: 'body', title: "Delete Objects", btn_message: "Delete Objects", onAccept: function() {
@@ -56,7 +56,7 @@ var ObjectStorageContainerView = Backbone.View.extend({
         }});
         subview.render();
     },
-    
+
     enableDisableTerminateButton: function () {
         if ($(".checkbox_objects:checked").size() > 0) { 
             $("#objects_delete").attr("disabled", false);
@@ -65,9 +65,9 @@ var ObjectStorageContainerView = Backbone.View.extend({
         }
         
     },
-    
+
     render: function() {
         var self = this;
         UTILS.Render.animateRender(this.el, this._template, {model:this.model});
-    },
+    }
 });

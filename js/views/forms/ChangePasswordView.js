@@ -1,5 +1,5 @@
 var ChangePasswordView = Backbone.View.extend({
-    
+
     _template: _.itemplate($('#changePasswordFormTemplate').html()),
 
     events: {

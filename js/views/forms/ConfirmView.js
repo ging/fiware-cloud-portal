@@ -39,6 +39,6 @@ var ConfirmView = Backbone.View.extend({
         $('#confirm').remove();
         $('.modal-backdrop').remove();
         this.onClose();
-    },
+    }
    
 });

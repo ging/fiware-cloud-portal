@@ -24,5 +24,5 @@ var AccessAndSecurityView = Backbone.View.extend({
             $(this.el).html(this._template(this.model));
         }
         return this;
-    },
+    }
 });

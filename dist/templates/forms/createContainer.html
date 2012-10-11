@@ -1,0 +1,40 @@
+<script id="createContainerFormTemplate" type="text/html">
+<div id="create_container" class="modal hide in" style="top: 107px; display: block; ">
+    <!--
+    Description: Create Volume Snapshot Form
+    src: templates/forms/createVolumeSnapshot.html
+    -->
+
+    <div class="modal-header">
+        <a id="close" href="#" class="close" data-dismiss="modal">×</a>
+        <h3>Create Container</h3>
+    </div>
+    <form action="" id="create_container_form">
+        <div class="modal-body clearfix">
+            <div class="left">
+                <fieldset>
+                    <div class="control-group form-field clearfix">
+                        <label for="id_name">Container Name</label>
+
+                        <span class="help-block" style="display: none; "></span>
+                        <div class="input">
+                            <input id="id_name" type="text" name="name" maxlength="255">
+                        </div>
+                    </div>
+
+                </fieldset>
+            </div>
+            <div class="right">
+                <h3>Description:</h3>
+                <p>
+                    A container is a storage compartment for your data and provides a way for you to organize your data. You can think of a container as a folder in Windows ® or a directory in UNIX ®. The primary difference between a container and these other file system concepts is that containers cannot be nested. You can, however, create an unlimited number of containers within your account. Data must be stored in a container so you must have at least one container defined in your account prior to uploading data.
+                </p>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a id="submit" class="btn btn-blue pull-right" data-dismiss="modal">Create Container</a>
+            <a href="#objectstorage/containers/" id="cancelBtn" class="btn secondary cancel close">Cancel</a>
+        </div>
+    </form>
+</div>
+</script>

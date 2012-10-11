@@ -1,0 +1,43 @@
+<script id="createSnapshotFormTemplate" type="text/html">
+<div id="create_snapshot" class="modal hide ">
+    <!--
+    Description: Create Snapshot Form
+    src: templates/forms/createSnapshot.html
+    -->
+    <div class="modal-header">
+        <a id="close" href="#" class="close" data-dismiss="modal">&times;</a>
+        <h3>Create Snapshot</h3>
+    </div>
+    <div class="modal-body clearfix">
+        <div class="left">
+            <fieldset>
+                <div class="control-group form-field clearfix">
+                    <label for="id_instance">Instance ID</label>
+                    <span class="help-block"></span>
+                    <div class="input">
+                        <input readonly="readonly" type="text" name="instance" value="<%= model.id %>" id="id_instance" />
+                    </div>
+                </div>
+                <div class="control-group form-field clearfix">
+                    <label for="id_password">Snapshot Name</label>
+                    <span class="help-block"></span>
+                    <div class="input">
+                        <input type="text" name="snapshot_name" value="" id="snapshot_name" />
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <div class="right">
+            <h3>Description:</h3>
+            <p>
+                Snapshots preserve the disk state of a running instance.
+            </p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a id="updateBtn" class="btn btn-blue pull-right" data-dismiss="modal">Create Snapshot</a>
+        <a id="cancelBtn" class="close btn seconday cancel close" data-dismiss="modal">Cancel</a>
+        <!--<a id="cancelBtn" class="btn secondary cancel close">Cancel</a>-->
+    </div>
+</div>
+</script>

@@ -1,0 +1,80 @@
+<script id="novaVolumesTemplate" type="text/html">
+<!--
+Description: Volumes
+src: templates/root/nova/instancesAndVolumes/volumes.html
+-->
+<div id="volumes" class="table_wrapper">
+    <div style='display:none'></div>
+    <div class='table_header'>
+        <h3 class='table_title'>Volumes</h3>
+        <div class="table_actions clearfix">
+            <button id="volumes_create" class="btn btn-small ajax-modal btn-create-volume btn-blue" name="action" value="volumes__create" type="submit" data-i18n="Create Volume">
+                Create Volume
+            </button>
+            <button id="volumes_delete" disabled=true class="btn btn-small btn-danger btn-delete-group" name="action" value="volumes__delete" class="volumes_delete" type="submit" data-i18n="Delete Volume">
+                Delete Volumes
+            </button>
+        </div>
+    </div>
+    <table id="volumes" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th class="multi_select_column"></th>
+                <th class="">Name</th>
+                <th class="hidden-phone">Description</th>
+                <th class="">Size</th>
+                <th class="">Status</th>
+                <th class="">Attachments</th>
+                <th class="actions_column hidden-phone">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <%
+            var i = 0;
+            for (var index in models) {
+            i++;
+            var volume = models[index];
+            %>
+            <tr id="volumes__row__<%=volume.id%>" class="status_up">
+                <td class="multi_select_column">
+                <input id="checkbox_<%= volume.get('id')%>" type="checkbox" name="object_ids" class="checkbox checkbox_volumes"  value="<%= volume.get('id') %>" />
+                </td>
+                <td class=""><a href="#nova/instances_and_volumes/volumes/<%=volume.id%>/detail"><%= volume.get("display_name")%></a></td>
+                <td class="hidden-phone"><%= volume.get("display_description")%></td>
+                <td class=""><%= volume.get("size")%> GB</td>
+                <td class="status_unknown"><i class="icon-updating ajax-updating"></i><%= volume.get("status")%></td>
+                <td class=""><%= (volume.get("attachments").length == 0) ? "-": volume.get("attachments").length%></td>
+                <td class="actions_column hidden-phone"> <% if (volume.get("status") != "error") {%>
+                <div class="btn-group">
+                    <a id="volumes__row_<%= volume.get("id")%>__action_attachments" value="<%= volume.id %>" class="btn btn-blue ajax-modal btn-edit btn-small btn-edit-volumes ellipsis w120">Edit Attachments</a>
+                    <% if (volume.get("status") != "in-use") {%>
+                    <a class="btn dropdown-toggle ajax-modal btn-edit btn-blue btn-small" data-toggle="dropdown" href="#"> <span class="caret caret-white"></span> </a>
+
+                    <ul class="dropdown-menu row_actions clearfix">
+                        <li class="clearfix">
+                            <button value="<%= volume.id %>" id="volumes__row_<%= volume.get("id")%>__action_snapshots" class="btn btn-small ajax-modal btn-camera">
+                                Create Snapshot
+                            </button>
+                        </li>
+                        <li class="clearfix">
+                            <button id="volumes__row_<%= volume.get("id")%>__action_delete" class="btn btn-small btn-danger btn-delete-volume" name="action" value="<%= volume.get("id")%>" type="submit">
+                                Delete Volume
+                            </button>
+                        </li>
+                    </ul>
+                    <% }%>
+                </div> <% } else { %>
+                <button "volumes__row_<%= volume.get("id")%>__action_delete" class="btn btn-small btn-danger btn-delete-volume" name="action" value="<%= volume.get("id")%>" type="submit" data-i18n="Delete Volume">
+                    Delete Volume
+                </button> <%}%> </td>
+            </tr>
+            <% } %>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="7"><span class="blue">Displaying <%= models.length %> items</span></td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+</script>

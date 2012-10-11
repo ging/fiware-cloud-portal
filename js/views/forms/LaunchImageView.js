@@ -3,10 +3,10 @@ var LaunchImageView = Backbone.View.extend({
     _template: _.itemplate($('#launchImageTemplate').html()),
 
     events: {
-      'click #cancelBtn': 'close',
-      'click #close': 'close',
+      'click #cancelBtn-image': 'close',
+      'click #close-image': 'close',
       'click .modal-backdrop': 'close',
-      'click .btn-launch': 'launch'
+      'click .btn-launch-image': 'launch'
     },
     
     initialize: function() {
@@ -19,7 +19,7 @@ var LaunchImageView = Backbone.View.extend({
             return;
         }
         $(this.el).append(this._template({model:this.model.models, flavors: flavors, keypairs: this.options.keypairs}));
-        $('.modal:last').modal();
+        //$('#launch_image').modal();
         return this;
     },
     
@@ -29,10 +29,14 @@ var LaunchImageView = Backbone.View.extend({
     },
     
     close: function(e) {
-        this.model.unbind("reset", this.render, this);
+        e.preventDefault();
+        console.log("Removing launch image");
         $('#launch_image').remove();
-        $('.modal-backdrop').remove();
+        //$('.modal-backdrop:last').remove();
         this.onClose();
+        if (this.model.unbond !== undefined) {
+            this.model.unbind("reset", this.render, this);
+        }
     },
     
     launch: function(e) {

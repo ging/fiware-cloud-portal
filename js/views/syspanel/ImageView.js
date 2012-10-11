@@ -91,6 +91,6 @@ var ImagesView = Backbone.View.extend({
             this.enableDisableDeleteButton();
         }
         return this;
-    },
+    }
     
 });

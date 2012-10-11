@@ -45,6 +45,6 @@ var CreateContainerView = Backbone.View.extend({
             var subview = new MessagesView({el: '#content', state: "Success", title: "Container " + newContainer.get('name') + " created."});     
             subview.render();
         }       
-    },
+    }
            
 });

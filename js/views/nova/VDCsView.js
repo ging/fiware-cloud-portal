@@ -13,7 +13,7 @@ var VDCsView = Backbone.View.extend({
     events:{
         'click .btn-launch':'onLaunch',
         'click .btn-edit-vdcs':'onEditVDC',
-        'click .btn-delete':'onDeleteVDC',
+        'click .btn-delete':'onDeleteVDC'
     },
     
     onLaunch: function() {

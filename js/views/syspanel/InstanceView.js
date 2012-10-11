@@ -165,5 +165,5 @@ var InstanceView = Backbone.View.extend({
         }
         
         return this;
-    },
+    }
 });

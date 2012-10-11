@@ -12,5 +12,5 @@ var NovaOverviewView = Backbone.View.extend({
         });
         
         return this;
-    },
+    }
 });
