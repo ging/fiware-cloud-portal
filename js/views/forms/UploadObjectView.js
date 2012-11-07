@@ -21,8 +21,10 @@ var UploadObjectView = Backbone.View.extend({
     },
 
     render: function () {
-        if ($('#create_container').html() != null) {
-            $('#create_container').remove();
+    	console.log("model in upload view");
+    	console.log(this.model);
+        if ($('#upload_object').html() != null) {
+            $('#upload_object').remove();
             $('.modal-backdrop').remove();
         }
         $(this.el).append(this._template({model:this.model}));
@@ -31,19 +33,27 @@ var UploadObjectView = Backbone.View.extend({
     },
     
     onSubmit: function(e){
-        e.preventDefault();         
+    	e.preventDefault();     
+    	var self = this;
+    	var contName, objName, obj;
+        //console.log(self.model);
         //Check if the fields are not empty, and the numbers are not negative nor decimal
-        this.close();
-        if (this.$('input[name=name]').val() == "") { 
-          var subview = new MessagesView({el: '#content', state: "Error", title: "Wrong input values for object. Please try again."});     
+        //this.close();
+        if (this.$('input[name=objName]').val() == "") { 
+        	this.close();
+          var subview = new MessagesView({el: '.topbar', state: "Error", title: "Wrong input values for object. Please try again."});     
           subview.render(); 
+          this.close();
           return;
         } else {
-            var newContainer = new Container();        
-            newContainer.set({'name': this.$('input[name=name]').val()});
-            //newContainer.save();
-            var subview = new MessagesView({el: '#content', state: "Success", title: "Object " + newContainer.get('name') + " uploaded."});     
+			contName = self.model.get("name");   
+            objName = self.$('input[name=objName]').val();
+            obj = document.getElementById("id_object_file").files[0];
+            console.log(contName, objName, obj);
+           	self.model.uploadObject(contName, objName, obj);           
+            var subview = new MessagesView({el: '#content', state: "Success", title: "Object " + objName + " uploaded."});     
             subview.render();
+            this.close();
         }       
     }
            

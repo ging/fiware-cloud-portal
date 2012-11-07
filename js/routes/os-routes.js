@@ -92,7 +92,8 @@ var OSRouter = Backbone.Router.extend({
 	    this.route('nova/instances_and_volumes/volumes/:id/detail', 'consult_volume',  this.wrap(this.consult_volume, this.checkAuth));
 	    
 	    this.route('objectstorage/containers/', 'consult_containers',  this.wrap(this.objectstorage_consult_containers, this.checkAuth));
-	    this.route('objectstorage/containers/:id/', 'consult_container',  this.wrap(this.objectstorage_consult_container, this.checkAuth));        
+	    this.route('objectstorage/containers/:name/', 'consult_container',  this.wrap(this.objectstorage_consult_container, this.checkAuth));      
+	    //this.route('objectstorage/containers/:name/:object/', 'download_object',  this.wrap(this.objectstorage_download_object, this.checkAuth));      
 	},
 	
 	wrap: function(func, wrapper) {
@@ -405,17 +406,18 @@ var OSRouter = Backbone.Router.extend({
 	
 	objectstorage_consult_containers: function(self) {
 	   self.showNovaRoot(self, 'Containers');
+	   //self.containers.unbind("change");
         //self.add_fetch(self.containers, 4);
         var view = new ObjectStorageContainersView({model: self.containers, el: '#content'});
         self.newContentView(self,view);
 	},
 	
-	objectstorage_consult_container: function(self, id) {
+	objectstorage_consult_container: function(self, name) {
        self.showNovaRoot(self, 'Containers');
-        //self.add_fetch(self.instancesModel, 4);
+        //self.add_fetch(self.containers, 4);
         var container = new Container();
-        container.set({"id": id});
-        var view = new ObjectStorageContainerView({model: container, el: '#content'});
+        container.set({"name": name});
+        var view = new ObjectStorageContainerView({model: container, containers: self.containers, el: '#content'});
         self.newContentView(self,view);
     },
 	

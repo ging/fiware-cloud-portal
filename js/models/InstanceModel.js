@@ -132,7 +132,7 @@ var Instance = Backbone.Model.extend({
                 JSTACK.Nova.confirmresizedserver(model.get("id"), options.success);
                 break;
             case "revert-resize":
-                JSTACK.Nova.revertresizedserver(nmodel.get("id"), options.success);
+                JSTACK.Nova.revertresizedserver(model.get("id"), options.success);
                 break;
             case "pause":
                 JSTACK.Nova.pauseserver(model.get("id"), options.success);

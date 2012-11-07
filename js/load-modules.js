@@ -70,9 +70,10 @@ var loadViews = function() {
                 "js/views/forms/EditVolumeAttachmentsView.js",
                 "js/views/forms/ConfirmView.js",
                 "js/views/forms/CreateContainerView.js",
-                "js/views/forms/UploadObjectView.js",
                 "js/views/forms/LaunchVDCView.js",
                 "js/views/forms/CreateVDCServiceView.js",
+                "js/views/forms/CopyObjectView.js",
+                "js/views/forms/UploadObjectView.js",
                 "js/views/nova/InstanceDetailView.js",
                 "js/views/SettingsView.js",
                 "js/views/forms/MessagesView.js"
@@ -116,7 +117,8 @@ var loadLibraries = function() {
     custom_require([   "lib/backbone.js",
                 "lib/jstack.js",
                 "lib/bootstrap.min.js",
-                "lib/jquery.selectbox-0.1.3.min.js"
+                "lib/jquery.selectbox-0.1.3.min.js",
+                "lib/cdmi.js"
             ], function(someModule) {
                 loadUtils();
         });
@@ -138,6 +140,7 @@ var loadTemplates = function() {
                     'templates/forms/editVolumeAttachments.html',
                     'templates/forms/launchImage.html',
                     'templates/forms/createContainer.html',
+                    'templates/forms/copyObject.html',
                     'templates/forms/uploadObject.html',
                     'templates/forms/launchVDC.html',
                     'templates/forms/createVDCService.html',
