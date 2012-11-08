@@ -21,12 +21,6 @@ var CopyObjectView = Backbone.View.extend({
     },
 
     render: function () {
-    	/*for (var index in this.options.get("objects")) {
-        	 if (this.model.get("objects")[index].name === evt.target.value) {
-        	 	this.model.object = this.model.get("objects")[index]; 
-        	 	console.log(this.model.object);
-        	 }        	 
-        };  */
         if ($('#create_container').html() != null) {
             $('#create_container').remove();
             $('.modal-backdrop').remove();
@@ -39,25 +33,24 @@ var CopyObjectView = Backbone.View.extend({
     onSubmit: function(e){
         e.preventDefault();  
 		var self = this;   
-		var containerName, objectName;
-        //Check if the fields are not empty, and the numbers are not negative nor decimal
-        //this.close();
+		var currentContainer, currentObject, targetContainer, targetObject;
         if (this.$('input[name=objName]').val() === undefined) {  
           var subview = new MessagesView({el: '#content', state: "Error", title: "Wrong input values for container. Please try again."});     
           subview.render(); 
           return;
         } else {
-        	//console.log(e.target.value);
-        	containerName = this.$("#container_switcher option:selected").val();        	
+        	currentContainer = this.model.get("name");
+        	currentObject = this.options.title;
+        	targetContainer = this.$("#container_switcher option:selected").val();        	
         	if (e.target.value === undefined || e.target.value === "") {
-        		objectName = this.$('input[name=objName]').val();
+        		targetObject = this.$('input[name=objName]').val();
         	} else {
-        		objectName = e.target.value;
+        		targetObject = e.target.value;
         	}
-            var subview = new MessagesView({el: '#content', state: "Success", title: "Object " + objectName + " copied to conatainer " + containerName});     
+            var subview = new MessagesView({el: '#content', state: "Success", title: "Object " + targetObject + " copied to conatainer " + targetContainer});     
             subview.render();
         }   
-        self.model.copyObject(objectName,containerName);    
+        self.model.copyObject(currentContainer, currentObject, targetContainer, targetObject);    
     },
            
 });

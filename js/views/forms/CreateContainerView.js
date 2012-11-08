@@ -21,7 +21,6 @@ var CreateContainerView = Backbone.View.extend({
     },
 
     render: function () {
-    	console.log(this.model);
         if ($('#create_container').html() != null) {
             $('#create_container').remove();
             $('.modal-backdrop').remove();
@@ -41,7 +40,6 @@ var CreateContainerView = Backbone.View.extend({
           this.close();
           return;
         } else {
-        	console.log(this.model.models);
         	for (index in this.model.models) {
         		if (this.$('input[name=name]').val() === this.model.models[index].get("id")) {
         			var subview = new MessagesView({el: '#content', state: "Error", title: "Container with the same name already exists."});     

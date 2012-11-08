@@ -13,11 +13,13 @@ var Container = Backbone.Model.extend({
         return xhr;
     },
     
-    copyObject: function(object, container) {
+    copyObject: function(currentContainer, currentObject, targetContainer, targetObject) {
     	console.log("Copy object");
     	var options = options || {};
-    	options.container = container;
-    	options.object = object;
+    	options.currentContainer = currentContainer;
+    	options.currentObject = currentObject;
+    	options.targetContainer = targetContainer;
+    	options.targetObject = targetObject;
     	return this._action('copyObject', options);
     },
     
@@ -70,7 +72,7 @@ var Container = Backbone.Model.extend({
                    CDMI.Actions.createcontainer(model.get('name'), options.success);    
                    break;
                case "copyObject":
-                	CDMI.Actions.copyobject(options.object, options.container, options.success);  
+                	CDMI.Actions.copyobject(options.currentContainer, options.currentObject, options.targetContainer, options.targetObject, options.success);  
                	 	model.fetch();
                	 	break; 
                case "uploadObject":
@@ -79,17 +81,12 @@ var Container = Backbone.Model.extend({
                	 	break; 	
                case "downloadObject":
                		mySucess = function(object) {
-                   		console.log(object);
                    		var obj = {};
                    		obj.object = object;
-                   		console.log(obj.object);
                    		return options.success(obj);
                    		
                    	};                            
                		CDMI.Actions.downloadobject(options.container, options.object, mySucess);  
-               	 	//var body = JSON.stringify(obj);
-               	 	//console.log(body);
-               	 	//return(body);
                	 	break; 
                case "deleteObject":
 	               	if (options.name !== undefined){
@@ -110,7 +107,6 @@ var Container = Backbone.Model.extend({
     },
     
     parse: function(resp) {
-    	//console.log("Parse container", resp);
     	if (resp.container !== undefined) {
     		resp.container.id = resp.container.name;
     		return resp.container;

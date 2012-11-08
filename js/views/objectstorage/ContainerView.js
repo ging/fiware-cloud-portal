@@ -6,39 +6,8 @@ var ObjectStorageContainerView = Backbone.View.extend({
     	this.model.unbind("reset");
         this.model.bind("change", this.renderFirst, this);
         this.model.bind("reset", this.render, this);
-        //this.renderFirst();
-        
-       // this.model.bind("reset", this.fetchObjects, this);
         this.model.fetch();
        
-    },
-
-    render: function () {
-    	console.log("render");
-		if ($('.messages').html() != null) {
-        	$('.messages').remove();
-        }
-        if ($("#objects").html() != null) {
-            var new_template = this._template(this.model);
-            var checkboxes = [];
-            for (var index in this.model.models) { 
-                var objectId = this.model.models[index].id;
-                if ($("#checkbox_"+objectId).is(':checked')) {
-                    checkboxes.push(objectId);
-                }
-            }
-            $(this.el).html(new_template);
-            for (var index in checkboxes) { 
-                var objectId = checkboxes[index];
-                var check = $("#checkbox_"+objectId);
-                if (check.html() != null) {
-                    check.prop("checked", true);
-                }
-            }    
-            this.enableDisableDeleteButton();       
-        }
-         this.delegateEvents(this.events);
-        return this;
     },
 
     events: {
@@ -52,30 +21,25 @@ var ObjectStorageContainerView = Backbone.View.extend({
     },
     
     onDownloadObject: function() {
-    	var self, url, urlAux, contaier, object;
+    	var self, url, urlAux, contaier, object, objName;
     	self = this;
 
 		url = $(".btn-download").attr("href");
         urlAux = url.split('/');       
-        container = urlAux[urlAux.length-2];
-        object = urlAux[urlAux.length-1];
-               
-        //var blob = new Blob([object], { type: ["application/vnd.ms-powerpoint", "text/plain", "image/jpeg"] });
-    	
+        cont = urlAux[urlAux.length-2];
+        obj = urlAux[urlAux.length-1];
+        
     	mySucess = function(object) {   	
 			
 			var typeMIME, blob, blobURL;
-        	var blob = new Blob([object], { type: "text/plain" });
-			var blobURL = window.webkitURL.createObjectURL(blob);
-			$(".btn-download").attr('href', blobURL);
-       	        		
+        	var blob = new Blob([object], { type: "application/cdmi-object" });
+			var blobURL = window.URL.createObjectURL(blob);
+       	    window.open(blobURL);  		
         };                            
-        CDMI.Actions.downloadobject(container, object, mySucess);  
+        CDMI.Actions.downloadobject(cont, obj, mySucess);  
     },
     
     onUploadObject: function(evt) {
-    	console.log("model in container view");
-    	console.log(this.model);
         var subview = new UploadObjectView({el: 'body', model: this.model});
         subview.render();
     },
@@ -120,10 +84,7 @@ var ObjectStorageContainerView = Backbone.View.extend({
             $(".checkbox_objects:checked").each(function () {
                     var object = $(this).val(); 
                     var obj = self.model.get('objects')[object];
-                    console.log("delete objects");
-                    //console.log(obj);
                     objects.push(obj);
-                    //console.log(objs);
                     var subview = new MessagesView({el: '#content', state: "Success", title: "Object "+obj.name+" deleted."});     
                     subview.render();
             });
@@ -152,6 +113,33 @@ var ObjectStorageContainerView = Backbone.View.extend({
             $("#objects_delete").attr("disabled", true);
         }
         
+    },
+    
+    render: function () {
+		if ($('.messages').html() != null) {
+        	$('.messages').remove();
+        }
+        if ($("#objects").html() != null) {
+            var new_template = this._template(this.model);
+            var checkboxes = [];
+            for (var index in this.model.models) { 
+                var objectId = this.model.models[index].id;
+                if ($("#checkbox_"+objectId).is(':checked')) {
+                    checkboxes.push(objectId);
+                }
+            }
+            $(this.el).html(new_template);
+            for (var index in checkboxes) { 
+                var objectId = checkboxes[index];
+                var check = $("#checkbox_"+objectId);
+                if (check.html() != null) {
+                    check.prop("checked", true);
+                }
+            }    
+            this.enableDisableDeleteButton();       
+        }
+         this.delegateEvents(this.events);
+        return this;
     },
     
     renderFirst: function() {  
