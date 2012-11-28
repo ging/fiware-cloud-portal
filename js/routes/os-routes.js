@@ -17,6 +17,7 @@ var OSRouter = Backbone.Router.extend({
     projects: undefined,
     containers: undefined,
     vdcs: undefined,
+    quotas: undefined,
     
     currentView: undefined,
     
@@ -39,6 +40,7 @@ var OSRouter = Backbone.Router.extend({
 	    this.projects = new Projects();
 	    this.containers = new Containers();
 	    this.vdcs = new VDCs();
+	    this.quotas = new Quotas();
 	    
 	    Backbone.View.prototype.close = function(){
           //this.remove();
@@ -122,6 +124,7 @@ var OSRouter = Backbone.Router.extend({
                 this.add_fetch(this.volumeSnapshotsModel,4);
                 this.add_fetch(this.containers,4);
                 this.add_fetch(this.vdcs,4);
+               	//this.add_fetch(this.quotas,4);
                 if (this.loginModel.isAdmin()) {
                     this.add_fetch(this.projects, 4);
                 }
@@ -309,8 +312,8 @@ var OSRouter = Backbone.Router.extend({
 	
 	sys_quotas: function(self) {
 	    self.showSysRoot(self, 'Quotas');
-	    var quotas = new Quotas();
-	    var view = new QuotaView({model:quotas, el: '#content'});
+	    //self.quotas.unbind("change");
+	    var view = new QuotaView({model:self.quotas, el: '#content'});
 	     self.newContentView(self,view);
         view.render();
 	},

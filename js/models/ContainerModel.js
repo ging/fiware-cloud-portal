@@ -4,16 +4,18 @@ var Container = Backbone.Model.extend({
         var model = this;
         if (options == null) options = {};
         options.success = function(resp) {
+        	
             model.trigger('sync', model, resp, options);
             if (options.callback!=undefined) {
                 options.callback(resp);
             }
         }
         var xhr = (this.sync || Backbone.sync).call(this, method, this, options);
+        
         return xhr;
     },
     
-    copyObject: function(currentContainer, currentObject, targetContainer, targetObject) {
+    copyObject: function(currentContainer, currentObject, targetContainer, targetObject, options) {
     	console.log("Copy object");
     	var options = options || {};
     	options.currentContainer = currentContainer;
@@ -23,7 +25,7 @@ var Container = Backbone.Model.extend({
     	return this._action('copyObject', options);
     },
     
-    uploadObject: function(container, objectName, object) {
+    uploadObject: function(container, objectName, object, options) {
     	console.log("Upload object");
     	var options = options || {};
     	options.container = container;
@@ -32,7 +34,7 @@ var Container = Backbone.Model.extend({
     	return this._action('uploadObject', options);
     },
     
-    downloadObject: function(container, object) {
+    downloadObject: function(container, object, options) {
     	console.log("Download object");
     	var options = options || {};
     	options.container = container;
@@ -66,18 +68,17 @@ var Container = Backbone.Model.extend({
                    CDMI.Actions.getobjectlist(model.get('name'), mySucess);                    
                    break;
                case "delete":
-                   CDMI.Actions.deletecontainer(model.get('name'), options.success);    
+                   CDMI.Actions.deletecontainer(model.get('name'), options.success);   
+                   console.log(options.success); 
                    break;
                case "create":
                    CDMI.Actions.createcontainer(model.get('name'), options.success);    
                    break;
                case "copyObject":
                 	CDMI.Actions.copyobject(options.currentContainer, options.currentObject, options.targetContainer, options.targetObject, options.success);  
-               	 	model.fetch();
                	 	break; 
                case "uploadObject":
                 	CDMI.Actions.uploadobject(options.container, options.objectName, options.object, options.success);  
-               	 	model.fetch();
                	 	break; 	
                case "downloadObject":
                		mySucess = function(object) {
@@ -91,7 +92,6 @@ var Container = Backbone.Model.extend({
                case "deleteObject":
 	               	if (options.name !== undefined){
 	               		CDMI.Actions.deleteobject(options.container, options.name, options.success);
-	               		model.fetch();
 	               		break;  
 	               	} else {
 	               		for (var index in options) {
@@ -100,7 +100,6 @@ var Container = Backbone.Model.extend({
 	                			CDMI.Actions.deleteobject(options.container, options.name, options.success);
 	                		}
 	               	}
-	               	model.fetch();
 	               	break;    
 	               	}            		  				 		  
            }
