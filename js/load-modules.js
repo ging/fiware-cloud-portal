@@ -46,6 +46,9 @@ var loadViews = function() {
                 "js/views/syspanel/QuotaView.js",
                 "js/views/nova/OverviewView.js",
                 "js/views/nova/AccessAndSecurityView.js",
+                "js/views/nova/KeypairsView.js",
+                "js/views/nova/SecurityGroupsView.js",
+                "js/views/nova/FloatingIPsView.js",
                 "js/views/nova/InstancesAndVolumesView.js",
                 "js/views/nova/VolumeDetailView.js",
                 "js/views/nova/VolumesView.js",
@@ -74,6 +77,8 @@ var loadViews = function() {
                 "js/views/forms/CreateVDCServiceView.js",
                 "js/views/forms/CopyObjectView.js",
                 "js/views/forms/UploadObjectView.js",
+                "js/views/forms/CreateSecurityGroupView.js",
+                "js/views/forms/EditSecurityGroupRulesView.js",
                 "js/views/nova/InstanceDetailView.js",
                 "js/views/SettingsView.js",
                 "js/views/forms/MessagesView.js"
@@ -100,7 +105,9 @@ var loadModels = function() {
                 "js/models/TopBarModel.js",
                 "js/models/ContainerModel.js",
                 "js/models/VDCModel.js",
-                "js/models/VDCServiceModel.js"
+                "js/models/VDCServiceModel.js",
+                "js/models/SecurityGroupModel.js",
+                "js/models/FloatingIPModel.js"
             ], function(someModule) {
                 loadViews();
         });
@@ -144,8 +151,13 @@ var loadTemplates = function() {
                     'templates/forms/uploadObject.html',
                     'templates/forms/launchVDC.html',
                     'templates/forms/createVDCService.html',
+                    'templates/forms/createSecurityGroup.html',
+                    'templates/forms/editSecurityGroupRules.html',
                     'templates/root/nova/overview.html',
                     'templates/root/nova/accessAndSecurity.html',
+                    'templates/root/nova/keypairs.html',
+                    'templates/root/nova/securityGroups.html',
+                    'templates/root/nova/floatingIPs.html',
                     'templates/root/nova/snapshots.html',
                     'templates/root/nova/snapshots/instanceSnapshots.html',
                     'templates/root/nova/snapshots/volumeSnapshots.html',

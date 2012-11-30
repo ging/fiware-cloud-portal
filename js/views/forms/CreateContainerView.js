@@ -36,7 +36,6 @@ var CreateContainerView = Backbone.View.extend({
  
         if (this.$('input[name=name]').val() === "") {  
         	console.log(this.$('input[name=name]').val());
-        	console.log("no name");
           var subview = new MessagesView({el: '#content', state: "Error", title: "Wrong input values for container. Please try again."});     
           subview.render(); 
           this.close();

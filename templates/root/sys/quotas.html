@@ -29,6 +29,7 @@ src: templates/root/sys/quotas.html
         </thead>
         <tbody>
 				<% var attr;
+				console.log(models);
 				var num_attr = 0;
 				for (var i in models) {
 					attr = models[i].attributes;

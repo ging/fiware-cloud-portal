@@ -18,6 +18,8 @@ var OSRouter = Backbone.Router.extend({
     containers: undefined,
     vdcs: undefined,
     quotas: undefined,
+    securityGroupsModel: undefined,
+    floatingIPsModel: undefined,
     
     currentView: undefined,
     
@@ -41,6 +43,8 @@ var OSRouter = Backbone.Router.extend({
 	    this.containers = new Containers();
 	    this.vdcs = new VDCs();
 	    this.quotas = new Quotas();
+	    this.securityGroupsModel = new SecurityGroups();
+	    this.floatingIPsModel = new FloatingIPs();
 	    
 	    Backbone.View.prototype.close = function(){
           //this.remove();
@@ -63,6 +67,7 @@ var OSRouter = Backbone.Router.extend({
 	    
 	    this.route('nova/volumes/', 'volumes', this.wrap(this.nova_volumes, this.checkAuth));
 	    this.route('nova/access_and_security/', 'access_and_security', this.wrap(this.nova_access_and_security, this.checkAuth));
+    
 	    this.route('nova/images/', 'images', this.wrap(this.nova_images, this.checkAuth));
 	    this.route('nova/snapshots/', 'snapshots', this.wrap(this.nova_snapshots, this.checkAuth));
 	    this.route('nova/vdcs/', 'vdcs', this.wrap(this.nova_vdcs, this.checkAuth));
@@ -96,6 +101,7 @@ var OSRouter = Backbone.Router.extend({
 	    this.route('objectstorage/containers/', 'consult_containers',  this.wrap(this.objectstorage_consult_containers, this.checkAuth));
 	    this.route('objectstorage/containers/:name/', 'consult_container',  this.wrap(this.objectstorage_consult_container, this.checkAuth));      
 	    //this.route('objectstorage/containers/:name/:object/', 'download_object',  this.wrap(this.objectstorage_download_object, this.checkAuth));      
+
 	},
 	
 	wrap: function(func, wrapper) {
@@ -117,16 +123,18 @@ var OSRouter = Backbone.Router.extend({
             return;
         } else {
             if (this.timers.length == 0) {
-                this.add_fetch(this.instancesModel, 4);
-                this.add_fetch(this.volumesModel, 4);
-                this.add_fetch(this.images, 4);
-                this.add_fetch(this.flavors, 4);
-                this.add_fetch(this.volumeSnapshotsModel,4);
-                this.add_fetch(this.containers,4);
-                this.add_fetch(this.vdcs,4);
-               	//this.add_fetch(this.quotas,4);
+                this.add_fetch(this.instancesModel, 100);
+                this.add_fetch(this.volumesModel, 100);
+                this.add_fetch(this.images, 100);
+                this.add_fetch(this.flavors, 100);
+                this.add_fetch(this.volumeSnapshotsModel,100);
+                this.add_fetch(this.containers,100);
+                this.add_fetch(this.vdcs,100);
+                this.add_fetch(this.securityGroupsModel, 100);
+                this.add_fetch(this.keypairsModel, 100);
+                this.add_fetch(this.floatingIPsModel, 100);
                 if (this.loginModel.isAdmin()) {
-                    this.add_fetch(this.projects, 4);
+                    this.add_fetch(this.projects, 100);
                 }
             }
         }
@@ -327,7 +335,7 @@ var OSRouter = Backbone.Router.extend({
                             {name: 'Virtual Data Centers', active: false, url: '#nova/vdcs/'},
                             {name: 'Images', active: false, url: '#nova/images/'},
                             {name: 'Volumes', active: false, url: '#nova/volumes/'},
-                            /*{name: 'Access &amp; Security', active: false, url: '#nova/access_and_security/'},*/
+                            {name: 'Access &amp; Security', active: false, url: '#nova/access_and_security/'},
                             {name: 'Snapshots', active: false, url: '#nova/snapshots/'},
                             {name: 'Storage', type: 'title'},
                             {name: 'Containers', active: false, url: '#objectstorage/containers/'}
@@ -345,8 +353,8 @@ var OSRouter = Backbone.Router.extend({
 	},
 	
 	nova_access_and_security: function(self) {
-	    self.showNovaRoot(self, 'Access &amp; Security');
-	    var view = new AccessAndSecurityView({el: '#content', model: self.keypairsModel});
+	    self.showNovaRoot(self, 'Access &amp; Security');	
+	    var view = new AccessAndSecurityView({el: '#content', model: self.keypairsModel, floatingIPsModel: self.floatingIPsModel, securityGroupsModel: self.securityGroupsModel});
 	     self.newContentView(self,view);
 	},
 	
@@ -406,7 +414,7 @@ var OSRouter = Backbone.Router.extend({
 	    var view = new NovaVolumesView({model: self.volumesModel, volumeSnapshotsModel: self.volumeSnapshotModel, flavors: self.flavors, el: '#content'});
 	    self.newContentView(self,view);
 	},
-	
+
 	objectstorage_consult_containers: function(self) {
 	   self.showNovaRoot(self, 'Containers');
 	   //self.containers.unbind("change");

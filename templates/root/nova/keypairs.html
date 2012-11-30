@@ -1,0 +1,51 @@
+<script id="novaKeypairsTemplate" type="text/html">
+<!--
+Description: Access And Security
+src: templates/root/nova/keypairs.html
+-->
+<div id="keypairs">
+    <div class='table_header'>
+        <h3 class='table_title'>Keypairs</h3>
+        <div class="table_actions clearfix">
+            <a href='/nova/access_and_security/keypairs/create/'  class="ajax-modal btn btn btn-small">Create Keypair</a>
+            <a href='/nova/access_and_security/keypairs/import/'  class="ajax-modal btn btn btn-small">Import Keypair</a>
+            <button class='btn btn-small btn-danger' id="delete_keypairs_group" name="action" value="keypairs__delete" type="submit">
+                Delete Keypairs
+            </button>
+        </div>
+    </div>
+    <table id="keypairs" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th class="multi_select_column"></th>
+                <th class="">Name</th>
+                <th class="">Fingerprint</th>
+                <th class="actions_column">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% 
+            for (var index in models) {
+            var keypair = models[index];
+            %>
+            <tr id="keypairs__row__<%=keypair.get('name')%>" class="">
+                <td class="multi_select_column">
+                <input type="checkbox" name="object_ids" id="checkbox_keypairs_" value="nubeblog" />
+                </td>
+                <td class=""><%=keypair.get('name')%></td>
+                <td class=""><%=keypair.get('fingerprint')%></td>
+                <td class="actions_column">
+                <button class="btn btn-small btn-danger delete_keypair" id="delete_keypairs" name="action" value="<%=keypair.get('name')%>" type="submit">
+                    Delete Keypair
+                </button></td>
+            </tr>
+            <% } %>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4"><span>Displaying <%=models.length%> items</span></td>
+                </td>
+        </tfoot>
+    </table>
+</div>
+</script>
