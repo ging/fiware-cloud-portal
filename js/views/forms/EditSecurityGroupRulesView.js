@@ -4,8 +4,10 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
 
     events: {
       'click #cancelBtn': 'close',
+      'click #deleteRuleBtn': 'deleteRule',
+      'click #deleteRulesBtn': 'deleteRules',
       'click #close': 'close',
-      'click #createBtn': 'create',
+      'click #createRuleBtn': 'createRule',
       'click .modal-backdrop': 'close',
          
     },
@@ -14,17 +16,13 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
     },
     
     render: function () {
-		console.log(this.options.securityGroupsModel.models);
-       /* if ($('#create_security_group').html() != null) {
-            return;
-        }*/
         $(this.el).append(this._template({securityGroupsModel: this.options.securityGroupsModel}));
         $('.modal:last').modal();
         return this;
     },
     
     close: function(e) {
-        this.options.securityGroupsModel.unbind("change", this.render, this);
+        //this.options.securityGroupsModel.unbind("change", this.render, this);
         $('#create_security_group').remove();
         $('.modal-backdrop').remove();
         this.onClose();
@@ -35,9 +33,30 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
         this.unbind();
     },
     
-    create: function(e) {
+    deleteRule: function (e) {
     	self = this;
-    	console.log(self.options.securityGroupsModel);
+    	var secGroupRuleId = e.target.value;
+		for (var index in this.options.securityGroupsModel.securityGroup.attributes.rules) {
+        	 if (this.options.securityGroupsModel.securityGroup.attributes.rules[index].id == e.target.value) {
+        	 	var secGroupRule = this.options.securityGroupsModel.securityGroup.attributes.rules[index]; 
+        	 }        	 
+        };
+    	var securityGroupRule = secGroupRule;
+    	var subview = new ConfirmView({el: 'body', title: "Delete Security Group Rule", btn_message: "Delete Security Group Rule", onAccept: function() {        
+            self.options.securityGroupsModel.securityGroup.deleteSecurityGroupRule(secGroupRuleId);
+            var subview = new MessagesView({el: '#content', state: "Success", title: "Security Group Rule deleted."});     
+        	subview.render();
+        }});
+        subview.render();
+    },
+    
+    deleteRules: function () {
+    	
+    },    
+    
+    createRule: function(e) {
+    	self = this;
+    	//console.log(self.options.securityGroupsModel);
         var name = $('input[name=name]').val();
         var description = $('input[name=description]').val();
         //console.log(name);

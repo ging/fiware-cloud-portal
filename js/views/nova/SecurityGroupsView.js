@@ -5,7 +5,6 @@ var NovaSecurityGroupsView = Backbone.View.extend({
     initialize: function() {
         this.options.securityGroupsModel.unbind("reset");   
         this.options.securityGroupsModel.bind("reset", this.render, this);
-        console.log("Initialize");
        	this.renderFirst();
     },
     
@@ -30,8 +29,16 @@ var NovaSecurityGroupsView = Backbone.View.extend({
     }, 
     
     editSecurityGroupRules: function (e) {
-    	console.log("edit security group");
-    	var subview = new EditSecurityGroupRulesView({el: 'body', securityGroupsModel: this.options.securityGroupsModel});
+    	console.log(e.target.value);
+    	var securityGroup;
+        for (var index in this.options.securityGroupsModel.models) {
+        	 if (this.options.securityGroupsModel.models[index].id == e.target.value) {
+        	 	var securityGroup = this.options.securityGroupsModel.models[index]; 
+        	 }        	 
+        };
+        this.options.securityGroup = securityGroup;
+        console.log(this.options.securityGroup);
+    	var subview = new EditSecurityGroupRulesView({el: 'body', securityGroupsModel: this.options});
         subview.render();    	
     }, 
 

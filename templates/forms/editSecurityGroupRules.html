@@ -8,11 +8,17 @@
         <a id="close" href="#" class="close" data-dismiss="modal">&times;</a>
         <h3>Edit Security Group Rules</h3>
     </div>
-    <form action="" id="create_sec_group_form">
     <div class="modal-body clearfix">
-    
+
     	<div class='table_header'><h3 class='table_title'>Security Group Rules</h3></div>   
-    	 <table id="security_groups" class="table table-bordered table-striped">
+    	<% if (securityGroupsModel.securityGroup.attributes.rules != "") { %>
+    	<div class="table_actions clearfix">
+          <button class='btn btn-small btn-danger btn-delete' disabled="disabled" name="action" id='deleteRulesBtn' value="security_group_rules__delete" type="submit">
+                    Delete Rules
+          </button>
+         </div>
+         <% } %>
+    	 <table id="edit_security_group_rules" class="table table-bordered table-striped">
             <thead>
                 <tr>
                     <th class="multi_select_column"></th>
@@ -24,97 +30,100 @@
                 </tr>
             </thead>
             <tbody>
-            	<% console.log(securityGroupsModel); 
-            	var sec_group;
-            		var i = 0; 
-            		for (var i in securityGroupsModel.models) {
-            			sec_group = securityGroupsModel.models[i];            			          
+            	<% 	var securityGroupRules;
+            		var i = 0;
+            		if (securityGroupsModel.securityGroup.attributes.rules != "") {            			
+	            		for (var i in securityGroupsModel.securityGroup.attributes.rules) {
+		            		securityGroupRules = securityGroupsModel.securityGroup.attributes.rules[i]; 
+		            		console.log(securityGroupRules);             	
             	%>
-                <tr id="sec_groups__row__<%= securityGroupsModel.models.length %>"
+                <tr id="sec_groups__row__"
                 class="ajax-update status_down">
                     <td class="multi_select_column">
-                    <input type="checkbox" id="checkbox_sec_groups_<%= sec_group.attributes.id%>" class="checkbox_sec_groups" name="object_ids" value="<%= sec_group.attributes.id%>" />
+                    <input type="checkbox" id="checkbox_sec_groups_" class="checkbox_sec_groups" name="object_ids" value="" />
                     </td>
-                    <td class=""><%= sec_group.attributes.name%></td>
-                    <td class=""><%= sec_group.attributes.description%></td>
-                    <td class=""><%= sec_group.attributes.name%></td>
-                    <td class=""><%= sec_group.attributes.name%></td>
+                    <td class=""><%= securityGroupRules.ip_protocol.toUpperCase()%></td>
+                    <td class=""><%= securityGroupRules.from_port%></td>
+                    <td class=""><%= securityGroupRules.to_port%></td>
+                    <td class=""><%= securityGroupRules.group.name !== undefined ? securityGroupRules.group.name : securityGroupRules.ip_range.cidr%></td>
                     <td class="actions_column hidden-phone">
-	                	<div id="dropdown_<%= sec_group.attributes.id %>" class="btn-group">
-		                    <button id="sec_group_edit" name="action" type="submit" class="ajax-modal btn btn-small btn-blue btn-edit"  data-i18n="Edit Rules">Edit Rules</button>
-		                    <a class="btn btn-small btn-blue dropdown-toggle" data-toggle="dropdown" href="#"> <span class="caret-white caret"></span> </a>
-		                    <ul class="dropdown-menu row_actions clearfix">
-		                        <li class="clearfix">
-		                            <button class="btn btn-small btn-danger btn-delete" id="sec_delete" name="action" value="<%= sec_group.attributes.id %>" type="submit" data-i18n="Delete">
-		                                Delete
-		                            </button>
-		                        </li>
-		                    </ul>
+	                	<div id="dropdown_" class="btn-group">
+		                    <button id="deleteRuleBtn" value="<%=securityGroupRules.id%>" class="ajax-modal btn btn-small btn-blue btn-delete"  data-i18n="Delete Rule">Delete Rule</button>
 	                	</div>
-                	</td>
-                </tr>
-                <% i++; } %>
+                	</td>            
+                 </tr>	        
+               <% i++ } } else { %>  
+               	<tr class="odd empty">
+                    <td colspan="6">No items to display.</td>
+                </tr> 
+                <% } %>    
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="6"><span>Displaying <%= securityGroupsModel.models.length%> item</span></td>
+                    <td colspan="6"><span>Displaying <%= i%> items</span></td>
                     </td>
             </tfoot>
         </table>
         
-       	<div class="modal-header">
-        	<h3>Add Rule</h3>
-    	</div>
-    	
-   		<fieldset>
-	    	<div class="control-group form-field clearfix">
-			    <label for="id_name">IP Protocol</label> 	 
-			 	<select id="container_switcher" tabindex="1" class="span3 inline">
-			 		<option value="">test</option>
-			 		<% 
-				 		for (var i in securityGroupsModel.models) {
-            			sec_group = securityGroupsModel.models[i];  			 			
-				 	%>			 				 		
-			 		<option value="">test</option>
-			 		<% } %>
-			   	</select>  	 			       			
-
-			    <label for="id_name">From Port</label>		    
-			    <span class="help-block span3 inline-block"></span>
-			    <div class="input">
-			      <input id="id_name" type="text" class="span3" name="objName" value="" maxlength="255">
-			    </div>
-
-			    <label for="id_name">To Port</label>		    
-			    <span class="help-block" style="display: none; "></span>
-			    <div class="input">
-			      <input id="id_name" type="text" name="objName" value="" maxlength="255">
-			    </div>
-
-			    <label for="id_name">Source Group</label> 	 
-			 	<select id="container_switcher" tabindex="1" class="inline">
-			 		<option value="">test</option>
-			 		<% 
-				 		for (var i in securityGroupsModel.models) {
-            			sec_group = securityGroupsModel.models[i];  		 			
-				 	%>			 				 		
-			 		<option value="">test</option>
-			 		<% } %>
-			   	</select>  	 			       			
-
-			    <label for="id_name">CIDR</label>		    
-			    <span class="help-block" style="display: none; "></span>
-			    <div class="input">
-			      <input id="id_name" type="text" name="objName" value="" maxlength="255">
-			    </div>
-			  </div>  	  
-    	 </fieldset>        
         
+       	<div class='table_header'><h3 class='table_title'>Add Rule</h3></div>   
+    	
+    	<fieldset class="row-fluid">
+	    	<div class="control-group form-field span3 inline">
+				    <label for="id_name">IP Protocol</label> 	 
+				 	<select id="container_switcher" tabindex="1">
+				 		<option value="TCP">TCP</option>
+				 		<option value="UDP">UDP</option>
+				 		<option value="ICMP">ICMP</option>		 				 		
+				   	</select>  	 
+			</div>			       			
+
+			<div class="control-group form-field span2 inline-block">
+				    <label for="id_name">From Port</label>		    
+				    <span class="help-block" style="display: none; "></span>
+				    <div class="input">
+				      <input id="from_port" type="text" name="fromPort" value="" maxlength="255">
+				    </div>
+			</div>	
+	
+			<div class="control-group form-field span2 inline">
+				    <label for="id_name">To Port</label>		    
+				    <span class="help-block" style="display: none; "></span>
+				    <div class="input">
+				      <input id="to_port" type="text" name="toPort" value="" maxlength="255">
+				    </div>
+			</div>
+			    
+			<div class="control-group form-field span3 inline-block">
+				    <label for="id_name">Source Group</label> 	 
+				 	<select id="container_switcher" tabindex="1">
+				 		<option value="CIDR">CIDR</option>
+				 		<option style="font-weight: bold;" disabled="disabled" >Security Group</option>
+				 		<% var securityGroupName;
+					 		for (var index in securityGroupsModel.securityGroupsModel.models) {
+					 		var secGroupName = securityGroupsModel.securityGroupsModel.models[index].attributes.name; 			 			 			 			
+					 		if (secGroupName !== securityGroupsModel.securityGroup.attributes.name) {
+			 					securityGroupName = secGroupName;			 				
+					 	%>			 				 		
+				 		<option value="<%= securityGroupName%>"><%= securityGroupName%></option>
+				 		<% } } %>
+				   	</select>  
+			</div>	
+			
+			<div class="control-group form-field span2 inline-block"> 			       			
+				    <label for="id_name">CIDR</label>		    
+				    <span class="help-block" style="display: none; "></span>
+				    <div class="input">
+				      <input id="id_name" type="text" name="objName" value="0.0.0.0/0" maxlength="255">
+				    </div>
+			</div> 
+			  	  
+    	 </fieldset>        
+
+   	</div>
     <div class="modal-footer">
-        <a id="createBtn" class="btn btn-blue pull-right" data-dismiss="modal">Add Rule</a>
+        <a id="createRuleBtn" class="btn btn-blue pull-right" data-dismiss="modal">Add Rule</a>
         <a id="cancelBtn" class="close btn seconday cancel close" data-dismiss="modal">Cancel</a>
-    </div>
+    </div>     
     
-    </form>
-</div>
 </script>
