@@ -34,18 +34,18 @@
             		var i = 0;
             		if (securityGroupsModel.securityGroup.attributes.rules != "") {            			
 	            		for (var i in securityGroupsModel.securityGroup.attributes.rules) {
-		            		securityGroupRules = securityGroupsModel.securityGroup.attributes.rules[i]; 
-		            		console.log(securityGroupRules);             	
+		            		securityGroupRules = securityGroupsModel.securityGroup.attributes.rules[i];  
+		            		console.log(securityGroupRules);           	
             	%>
                 <tr id="sec_groups__row__"
                 class="ajax-update status_down">
                     <td class="multi_select_column">
-                    <input type="checkbox" id="checkbox_sec_groups_" class="checkbox_sec_groups" name="object_ids" value="" />
+                    <input type="checkbox" id="checkbox_sec_group_rule" class="checkbox_sec_group_rule" name="object_ids" value="<%=securityGroupRules.id%>" />
                     </td>
                     <td class=""><%= securityGroupRules.ip_protocol.toUpperCase()%></td>
                     <td class=""><%= securityGroupRules.from_port%></td>
                     <td class=""><%= securityGroupRules.to_port%></td>
-                    <td class=""><%= securityGroupRules.group.name !== undefined ? securityGroupRules.group.name : securityGroupRules.ip_range.cidr%></td>
+                    <td class=""><%= securityGroupRules.group.name !== undefined ? securityGroupRules.group.name : securityGroupRules.ip_range.cidr+" (CIDR)"%></td>
                     <td class="actions_column hidden-phone">
 	                	<div id="dropdown_" class="btn-group">
 		                    <button id="deleteRuleBtn" value="<%=securityGroupRules.id%>" class="ajax-modal btn btn-small btn-blue btn-delete"  data-i18n="Delete Rule">Delete Rule</button>
@@ -69,7 +69,7 @@
        	<div class='table_header'><h3 class='table_title'>Add Rule</h3></div>   
     	
     	<fieldset class="row-fluid">
-	    	<div class="control-group form-field span3 inline">
+	    	<div class="control-group form-field span3 inline IPProtocolSelect">
 				    <label for="id_name">IP Protocol</label> 	 
 				 	<select id="container_switcher" tabindex="1">
 				 		<option value="TCP">TCP</option>
@@ -78,51 +78,54 @@
 				   	</select>  	 
 			</div>			       			
 
-			<div class="control-group form-field span2 inline-block">
-				    <label for="id_name">From Port</label>		    
-				    <span class="help-block" style="display: none; "></span>
+			<div class="control-group form-field span2 inline-block fromPort">
+				    <label for="from_port">From Port</label>	
+				    <span class="help-block" style="display: none;">TCP/UDP: Enter integer value between 1 and 65535. ICMP: enter a value for ICMP type in the range (-1: 255)</span>	    
 				    <div class="input">
-				      <input id="from_port" type="text" name="fromPort" value="" maxlength="255">
+				      	<input id="from_port" type="number" name="fromPort" value="" required placeholder="Required field." maxlength="255">				      	
 				    </div>
 			</div>	
 	
-			<div class="control-group form-field span2 inline">
-				    <label for="id_name">To Port</label>		    
-				    <span class="help-block" style="display: none; "></span>
+			<div class="control-group form-field span2 inline toPort">
+				    <label for="to_port">To Port</label>
+				    <span class="help-block" style="display: none;">TCP/UDP: Enter integer value between 1 and 65535. ICMP: enter a value for ICMP code in the range (-1: 255)</span>	
 				    <div class="input">
-				      <input id="to_port" type="text" name="toPort" value="" maxlength="255">
+				      	<input id="to_port" type="number" name="toPort" value="" required placeholder="Required field." maxlength="255">			      	
 				    </div>
 			</div>
 			    
-			<div class="control-group form-field span3 inline-block">
+			<div class="control-group form-field span3 inline-block secGroupSelect">
 				    <label for="id_name">Source Group</label> 	 
 				 	<select id="container_switcher" tabindex="1">
 				 		<option value="CIDR">CIDR</option>
-				 		<option style="font-weight: bold;" disabled="disabled" >Security Group</option>
-				 		<% var securityGroupName;
+				 		<optgroup label='Security Group'>
+				 		<% var securityGroupName, securityGroupId;
 					 		for (var index in securityGroupsModel.securityGroupsModel.models) {
 					 		var secGroupName = securityGroupsModel.securityGroupsModel.models[index].attributes.name; 			 			 			 			
 					 		if (secGroupName !== securityGroupsModel.securityGroup.attributes.name) {
-			 					securityGroupName = secGroupName;			 				
+			 					securityGroupName = secGroupName;	
+			 					securityGroupId = securityGroupsModel.securityGroupsModel.models[index].attributes.id;		 				
 					 	%>			 				 		
-				 		<option value="<%= securityGroupName%>"><%= securityGroupName%></option>
+				 		<option value="<%= securityGroupId%>"><%= securityGroupName%></option>				 		
 				 		<% } } %>
+				 		</optgroup>
 				   	</select>  
 			</div>	
 			
-			<div class="control-group form-field span2 inline-block"> 			       			
-				    <label for="id_name">CIDR</label>		    
-				    <span class="help-block" style="display: none; "></span>
+			<div class="control-group form-field span2 inline-block cidrSelect"> 			       			
+				    <label for="id_name">CIDR</label>
+				    <span class="help-inline" style="display: none;"></span>
+				    <span class="help-block" >Classless Inter-Domain Routing (e.g. 192.168.0.0/24)</span>				    
 				    <div class="input">
-				      <input id="id_name" type="text" name="objName" value="0.0.0.0/0" maxlength="255">
+				    	<input id="id_name" type="text" name="cidr" value="0.0.0.0/0" maxlength="255">
 				    </div>
 			</div> 
 			  	  
-    	 </fieldset>        
+    	 </fieldset>        	
 
    	</div>
     <div class="modal-footer">
-        <a id="createRuleBtn" class="btn btn-blue pull-right" data-dismiss="modal">Add Rule</a>
+        <button id="createRuleBtn" class="btn btn-blue pull-right" value='<%= securityGroupsModel.securityGroup.attributes.id%>' data-dismiss="modal">Add Rule</button>
         <a id="cancelBtn" class="close btn seconday cancel close" data-dismiss="modal">Cancel</a>
     </div>     
     

@@ -23,13 +23,11 @@ var NovaSecurityGroupsView = Backbone.View.extend({
     },
   
     createSecurityGroup: function (e) {
-    	console.log("create security group");
     	var subview = new CreateSecurityGroupView({el: 'body', securityGroupsModel: this.options.securityGroupsModel});
         subview.render();    	
     }, 
     
     editSecurityGroupRules: function (e) {
-    	console.log(e.target.value);
     	var securityGroup;
         for (var index in this.options.securityGroupsModel.models) {
         	 if (this.options.securityGroupsModel.models[index].id == e.target.value) {
@@ -37,7 +35,6 @@ var NovaSecurityGroupsView = Backbone.View.extend({
         	 }        	 
         };
         this.options.securityGroup = securityGroup;
-        console.log(this.options.securityGroup);
     	var subview = new EditSecurityGroupRulesView({el: 'body', securityGroupsModel: this.options});
         subview.render();    	
     }, 
@@ -65,7 +62,6 @@ var NovaSecurityGroupsView = Backbone.View.extend({
         var subview = new ConfirmView({el: 'body', title: "Delete Security Groups", btn_message: "Delete Security Groups", onAccept: function() {
             $(".checkbox_sec_groups:checked").each(function () {
                     var secGroupId = $(this).val(); 
-                    console.log(secGroupId);
                     for (var index in self.options.securityGroupsModel.models) {
 			        	 if (self.options.securityGroupsModel.models[index].id == secGroupId) {
 			        	 	var securityGroup = self.options.securityGroupsModel.models[index]; 
@@ -82,7 +78,6 @@ var NovaSecurityGroupsView = Backbone.View.extend({
 
     
     enableDisableDeleteButton: function (e) {
-    	console.log("enable button");
         if ($(".checkbox_sec_groups:checked").size() > 0) { 
             $("#sec_groups_delete").attr("disabled", false);
         } else {
@@ -96,14 +91,11 @@ var NovaSecurityGroupsView = Backbone.View.extend({
     	UTILS.Render.animateRender(this.el, this._template, {securityGroupsModel: this.options.securityGroupsModel}, function() {
     		that.enableDisableDeleteButton(); 
         	that.delegateEvents(that.events);
-        	console.log("Rendering First");
     	});   		
         
     },
     
     render: function () {
-    	//this.onClose();
-    	console.log("Rendering");
     	this.undelegateEvents();
         
     	if ($('.messages').html() != null) {

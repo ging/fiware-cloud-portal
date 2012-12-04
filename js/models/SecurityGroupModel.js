@@ -16,11 +16,13 @@ var SecurityGroup = Backbone.Model.extend({
     },
     
     createSecurityGroupRule: function(ip_protocol, from_port, to_port, cidr, group_id, parent_group_id, options) {
-    	console.log("Upload object");
     	var options = options || {};
-    	options.container = container;
-    	options.objectName = objectName;
-    	options.object = object;    	
+    	options.ip_protocol = ip_protocol;
+    	options.from_port = from_port;
+    	options.to_port = to_port;
+    	options.cidr = cidr;
+    	options.group_id = group_id;
+    	options.parent_group_id = parent_group_id;    	    	
     	return this._action('createSecurityGroupRule', options);
     },
     
@@ -43,7 +45,8 @@ var SecurityGroup = Backbone.Model.extend({
                    JSTACK.Nova.createsecuritygroup( model.get("name"), model.get("description"), options.success);
                    break;
                case "createSecurityGroupRule":
-                   JSTACK.Nova.createsecuritygrouprule( model.get("name"), model.get("description"), options.success);
+               console.log(options.ip_protocol, options.from_port, options.to_port, options.cidr, options.group_id, options.parent_group_id);
+                   JSTACK.Nova.createsecuritygrouprule(options.ip_protocol, options.from_port, options.to_port, options.cidr, options.group_id, options.parent_group_id, options.success);
                    break;
              	case "deleteSecurityGroupRule":
                    JSTACK.Nova.deletesecuritygrouprule(options.secGroupRuleId, options.success);
