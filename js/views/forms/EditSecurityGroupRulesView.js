@@ -67,7 +67,7 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
     	var securityGroupRule = secGroupRule;
     	console.log(self.options.securityGroupsModel.securityGroup);
     	var subview = new ConfirmView({el: 'body', title: "Delete Security Group Rule", btn_message: "Delete Security Group Rule", onAccept: function() {        
-            //self.options.securityGroupsModel.securityGroup.deleteSecurityGroupRule(secGroupRuleId);
+            self.options.securityGroupsModel.securityGroup.deleteSecurityGroupRule(secGroupRuleId);
             var subview = new MessagesView({el: '#content', state: "Success", title: "Security Group Rule deleted."});     
         	subview.render();
         }});
@@ -93,7 +93,7 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
                     
             var subview = new MessagesView({el: '#content', state: "Success", title: "Security Group Rules deleted."});     
         	console.log("deleting sec group");
-        	//self.options.securityGroupsModel.securityGroup.deleteSecurityGroupRule(secGroupRuleId);
+        	self.options.securityGroupsModel.securityGroup.deleteSecurityGroupRule(secGroupRuleId);
         	subview.render();
             });
         }});
@@ -102,6 +102,7 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
     },   
     
     createRule: function(e) {
+    	e.preventDefault(); 
     	self = this;
     	var cidr_pattern = /^([0-255]){1,3}(\.){1}([0-255]){1,3}(\.){1}([0-255]){1,3}(\.){1}([0-255]){1,3}(\/){1}([0-24]){1,2}$/;   // 0.0.0.0/0
     	var portPattern = /^([1-65535]){1,5}$/;
@@ -138,20 +139,19 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
         if ( cidrOK && fromPortOK && toPortOK ) {  
         	console.log(cidrOK && fromPortOK && toPortOK);
         	if ($('.secGroupSelect :selected').val()!=='CIDR') {    
-        		console.log("no cidr");
-        		//(ip_protocol, from_port, to_port, cidr, group_id, parent_group_id, options)
             	self.options.securityGroupsModel.securityGroup.createSecurityGroupRule(ipProtocol, fromPort, toPort, "", securityGroupId, parentGroupId); 
         	}else{
         		console.log("cidr");
-           		self.options.securityGroupsModel.securityGroup.createSecurityGroupRule(ipProtocol, fromPort, toPort, cidr, "" , parentGroupId); 
+           		self.options.securityGroupsModel.securityGroup.createSecurityGroupRule(ipProtocol, fromPort, toPort, cidr, undefined , parentGroupId); 
            	}
         var subview = new MessagesView({el: '#content', state: "Success", title: "Security group rule created."});     
         subview.render();
-       	this.close();
+  
         }else{
-        	console.log("Wrong values for fromPort, toPort or CDIR");
+        	var subview = new MessagesView({el: '#content', state: "Error", title: "Wrong input values for rule. Please try again."});     
+            subview.render(); 
         }
-       
+       	this.close();
     },
     
     enableDisableDeleteButton: function (e) {

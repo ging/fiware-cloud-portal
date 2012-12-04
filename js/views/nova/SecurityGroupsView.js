@@ -17,7 +17,7 @@ var NovaSecurityGroupsView = Backbone.View.extend({
     },
     
     onClose: function() {
-        this.options.securityGroupsModel.unbind("reset");
+        //this.options.securityGroupsModel.unbind("reset");
         this.undelegateEvents();
         this.unbind();
     },
