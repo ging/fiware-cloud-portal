@@ -1,11 +1,11 @@
 <script id="confirmTemplate" type="text/html">
-<div id="confirm" class="modal hide ">
+<div id="confirm" class="modal hide " style='<%= style %>'>
     <!--
     Description: Confirm
     src: templates/root/confirm.html
     -->
     <div class="modal-header">
-        <a class="close" id= "close" data-dismiss="modal">&times;</a>
+        <a id="closeModalConfirm" class="close" data-dismiss="modal">&times;</a>
         <h3><%= title %></h3>
     </div>
     <div class="modal-body">

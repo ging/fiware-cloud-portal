@@ -3,20 +3,20 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
     _template: _.itemplate($('#editSecurityGroupRulesFormTemplate').html()),
 
     events: {
-      'click #cancelBtn': 'close',
+      'click #closeModal': 'close',
       'click #deleteRuleBtn': 'deleteRule',
       'click #deleteRulesBtn': 'deleteRules',
-      'click #close': 'close',
+      'click .close': 'close',
       'click #createRuleBtn': 'createRule',
       'click .modal-backdrop': 'close',
+      'click #from_port': 'showTooltipFromPort',
+      'click #to_port': 'showTooltipToPort',
+      'click #cidr': 'showTooltipCidr',
       'change .secGroupSelect': 'dissapearCIDR',
       'change .IPProtocolSelect': 'changeInputs',
       'change .checkbox_sec_group_rule':'enableDisableDeleteButton',         
     },
-    
-    initialize: function() {
-    },
-    
+
     render: function () {
         $(this.el).append(this._template({securityGroupsModel: this.options.securityGroupsModel}));
         $('.modal:last').modal();
@@ -25,13 +25,24 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
     
     close: function(e) {
         $('#create_security_group').remove();
-        $('.modal-backdrop').remove();
         this.onClose();
     },
 
     onClose: function () {
         this.undelegateEvents();
         this.unbind();	
+    },
+    
+    showTooltipFromPort: function() {
+    	$('#from_port').tooltip('show');
+    },
+    
+    showTooltipToPort: function() {
+    	$('#to_port').tooltip('show');
+    },
+    
+    showTooltipCidr: function() {
+    	$('#cidr').tooltip('show');
     },
     
     dissapearCIDR: function(e) {
@@ -55,7 +66,7 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
     },
     
     deleteRule: function (e) {
-    	self = this;
+    	self = this;  	
     	var secGroupRuleId = e.target.value;
     	
 		for (var index in this.options.securityGroupsModel.securityGroup.attributes.rules) {
@@ -65,8 +76,7 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
         	 }        	 
         };
     	var securityGroupRule = secGroupRule;
-    	console.log(self.options.securityGroupsModel.securityGroup);
-    	var subview = new ConfirmView({el: 'body', title: "Delete Security Group Rule", btn_message: "Delete Security Group Rule", onAccept: function() {        
+    	var subview = new ConfirmView({el: 'body', title: "Delete Security Group Rule", btn_message: "Delete Security Group Rule", style: "top: 80px; display: block; z-index: 10501010;", onAccept: function() {        
             self.options.securityGroupsModel.securityGroup.deleteSecurityGroupRule(secGroupRuleId);
             var subview = new MessagesView({el: '#content', state: "Success", title: "Security Group Rule deleted."});     
         	subview.render();
@@ -77,22 +87,17 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
     
     
     deleteRules: function(e) {
-
 		var self = this;        
-        var subview = new ConfirmView({el: 'body', title: "Delete Security Group Rules", btn_message: "Delete Security Group Rules", onAccept: function() {
+        var subview = new ConfirmView({el: 'body', title: "Delete Security Group Rules", btn_message: "Delete Security Group Rules", style: "top: 80px; display: block; z-index: 10501010;", onAccept: function() {
             $(".checkbox_sec_group_rule:checked").each(function () {
-            	console.log(self.options);
                     var secGroupRuleId = $(this).val(); 
-                    console.log(secGroupRuleId);
                     for (var index in self.options.securityGroupsModel.securityGroup.attributes.rules) {
 			        	 if (self.options.securityGroupsModel.securityGroup.attributes.rules[index].id == secGroupRuleId) {
 			        	 	var secGroupRule = self.options.securityGroupsModel.securityGroup.attributes.rules[index]; 
-			        	 	console.log(secGroupRule);
 			        	 }        	 
 			        };
                     
             var subview = new MessagesView({el: '#content', state: "Success", title: "Security Group Rules deleted."});     
-        	console.log("deleting sec group");
         	self.options.securityGroupsModel.securityGroup.deleteSecurityGroupRule(secGroupRuleId);
         	subview.render();
             });
@@ -137,11 +142,9 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
         console.log("parentGroupId "+parentGroupId); 
         
         if ( cidrOK && fromPortOK && toPortOK ) {  
-        	console.log(cidrOK && fromPortOK && toPortOK);
         	if ($('.secGroupSelect :selected').val()!=='CIDR') {    
             	self.options.securityGroupsModel.securityGroup.createSecurityGroupRule(ipProtocol, fromPort, toPort, "", securityGroupId, parentGroupId); 
         	}else{
-        		console.log("cidr");
            		self.options.securityGroupsModel.securityGroup.createSecurityGroupRule(ipProtocol, fromPort, toPort, cidr, undefined , parentGroupId); 
            	}
         var subview = new MessagesView({el: '#content', state: "Success", title: "Security group rule created."});     
@@ -155,7 +158,6 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
     },
     
     enableDisableDeleteButton: function (e) {
-    	console.log("enable button");
         if ($(".checkbox_sec_group_rule:checked").size() > 0) { 
             $("#deleteRulesBtn").attr("disabled", false);
         } else {
