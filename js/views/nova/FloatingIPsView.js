@@ -9,17 +9,11 @@ var NovaFloatingIPsView = Backbone.View.extend({
     },
     
     events: {
-        "click .delete_keypair": "onDeleteKeyPair",
-        'click #delete_sec_group': 'onDeleteSecGroup',
-      	'click #delete_sec': 'onDeleteSec',
+        'click #release_floating_IPs': 'releaseFloatingIPs',
+      	'click #release_floating_IP': 'releaseFloatingIP',
     },
-    
-    onDeleteKeyPair: function (e) {
-        var keypair =  this.model.get(e.target.value);
-        //TODO Remove Keypair
-    },
-    
-     onDeleteSec: function (e) {
+
+     releaseFloatingIPs: function (e) {
 		console.log("delete sec");
        	var sec_group_id = e.target.value;
         console.log(this.options.securityGroupsModel);
@@ -34,7 +28,7 @@ var NovaFloatingIPsView = Backbone.View.extend({
     
     },
     
-     onDeleteSecGroup: function (e) {
+     releaseFloatingIP: function (e) {
      	console.log("delete sec group");
         var keypair =  this.model.get(e.target.value);
     },
@@ -62,8 +56,6 @@ var NovaFloatingIPsView = Backbone.View.extend({
             var checkboxes = [];
             for (var index in this.options.floatingIPsModel.models) { 
                 var floatingIpsId = this.options.floatingIPsModel.models[index].id;
-                console.log("floatingIpsId");
-                console.log(floatingIpsId);
                 if ($("#checkbox_floating_ips_"+floatingIpsId).is(':checked')) {
                     checkboxes.push(floatingIpsId);
                 }

@@ -52,8 +52,7 @@ var NovaSecurityGroupsView = Backbone.View.extend({
             var subview = new MessagesView({el: '#content', state: "Success", title: "Security Group "+secGroup.attributes.name+" deleted."});     
         	subview.render();
         }});
-        subview.render();
-    
+        subview.render();    
     },
 
      deleteSecurityGroups: function(e) {

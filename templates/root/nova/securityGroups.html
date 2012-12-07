@@ -26,6 +26,7 @@ src: templates/root/nova/securityGroups.html
             <tbody>
             	<%  var sec_group;
             		var i = 0; 
+            	if (securityGroupsModel.models != "") { 
             		for (var i in securityGroupsModel.models) {
             			sec_group = securityGroupsModel.models[i];
             			          
@@ -51,7 +52,11 @@ src: templates/root/nova/securityGroups.html
 	                	</div>
                 	</td>
                 </tr>
-                <% i++; } %>
+                <% i++ } } else { %>  
+               	<tr class="odd empty">
+                    <td colspan="4">No items to display.</td>
+                </tr> 
+                <% } %>
             </tbody>
             <tfoot>
                 <tr>

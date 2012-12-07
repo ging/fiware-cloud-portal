@@ -7,9 +7,9 @@ src: templates/root/nova/keypairs.html
     <div class='table_header'>
         <h3 class='table_title'>Keypairs</h3>
         <div class="table_actions clearfix">
-            <a href='/nova/access_and_security/keypairs/create/'  class="ajax-modal btn btn btn-small">Create Keypair</a>
-            <a href='/nova/access_and_security/keypairs/import/'  class="ajax-modal btn btn btn-small">Import Keypair</a>
-            <button class='btn btn-small btn-danger' id="delete_keypairs_group" name="action" value="keypairs__delete" type="submit">
+            <button class="btn btn-blue btn-small btn-create" id="keypair_create">Create Keypair</button>
+            <button class="btn btn-blue btn-small btn-import" id="keypair_import">Import Keypair</button>
+            <button class='btn btn-small btn-danger btn-delete' disabled="disabled" id="delete_keypairs" name="action" value="keypairs__delete" type="submit">
                 Delete Keypairs
             </button>
         </div>
@@ -25,21 +25,26 @@ src: templates/root/nova/keypairs.html
         </thead>
         <tbody>
             <% 
-            for (var index in models) {
-            var keypair = models[index];
+            if (models != "") { 
+	            for (var index in models) {
+	            var keypair = models[index];
             %>
             <tr id="keypairs__row__<%=keypair.get('name')%>" class="">
                 <td class="multi_select_column">
-                <input type="checkbox" name="object_ids" id="checkbox_keypairs_" value="nubeblog" />
+                <input type="checkbox" name="object_ids" class="checkbox_keypairs" id="checkbox_keypairs_<%=keypair.get('name')%>" value="<%=keypair.get('name')%>" />
                 </td>
                 <td class=""><%=keypair.get('name')%></td>
                 <td class=""><%=keypair.get('fingerprint')%></td>
                 <td class="actions_column">
-                <button class="btn btn-small btn-danger delete_keypair" id="delete_keypairs" name="action" value="<%=keypair.get('name')%>" type="submit">
+                <button class="btn btn-small btn-danger btn-delete" id="delete_keypair" value="<%=keypair.get('name')%>">
                     Delete Keypair
                 </button></td>
             </tr>
-            <% } %>
+           <% } } else { %>  
+               	<tr class="odd empty">
+                    <td colspan="4">No items to display.</td>
+                </tr> 
+           <% } %>
         </tbody>
         <tfoot>
             <tr>

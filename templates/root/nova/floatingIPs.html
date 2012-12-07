@@ -4,14 +4,13 @@ Description: Access And Security
 src: templates/root/nova/floatingIPs.html
 -->
 <div id="floating_ips">
-    <form action="#">
         <div class='table_header'>
             <h3 class='table_title'>Floating IPs</h3>
             <div class="table_actions clearfix">
 
-                <a href='#nova/access_and_security/floating_ips/allocate/'  class="btn btn-small ajax-modal">Allocate IP To Project</a>
+                <button class="btn btn-small ajax-modal">Allocate IP To Project</button>
 
-                <button class='btn btn-small ' name="action" value="floating_ips__release" type="submit">
+                <button class='btn btn-small' id='release_floating_IPs' name="action" value="floating_ips__release" type="submit">
                     Release Floating IPs
                 </button>
             </div>
@@ -39,7 +38,6 @@ src: templates/root/nova/floatingIPs.html
                     <td colspan="5"><span>Displaying 0 items</span></td>
                     </td>
             </tfoot>
-        </table>
-    </form>
+        </table>	
 </div>
 </script>

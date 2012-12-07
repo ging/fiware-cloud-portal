@@ -43,7 +43,6 @@ var ConfirmView = Backbone.View.extend({
     },  
     
     close: function(e) {     
-    	console.log("confirm close");   
         $('#confirm').remove();
         if ((this.options.style === "")&&(this.options.style === undefined)) {
         	this.undelegateEvents();

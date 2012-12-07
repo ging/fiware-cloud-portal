@@ -6,58 +6,73 @@ var NovaKeypairsView = Backbone.View.extend({
     	
         this.model.unbind("reset");
         this.model.bind("reset", this.render, this);      
-        
-       	//this.model.fetch();
-       	//this.options.securityGroupsModel.fetch();
        	this.renderFirst();
     },
     
     events: {
-        "click .delete_keypair": "onDeleteKeyPair",
-        'click #delete_sec_group': 'onDeleteSecGroup',
-      	'click #delete_sec': 'onDeleteSec',
+    	'change .checkbox_keypairs':'enableDisableDeleteButton',
+        'click #delete_keypair': 'deleteKeypair',
+        'click #delete_keypairs': 'deleteKeypairs',
+        'click .btn-create': 'createKeypair',
+        'click .btn-import': 'importKeypair',
     },
     
-    onDeleteKeyPair: function (e) {
+    deleteKeypair: function (e) {
         var keypair =  this.model.get(e.target.value);
-        //TODO Remove Keypair
-    },
-    
-     onDeleteSec: function (e) {
-		console.log("delete sec");
-       	var sec_group_id = e.target.value;
-        console.log(this.options.securityGroupsModel);
-        //var sec_group = this.options.securityGroupsModel.get("sec_group_id");
-        //console.log(sec_group);
-        var subview = new ConfirmView({el: 'body', title: "Delete Security Group", btn_message: "Delete Security Group", onAccept: function() {
-            //sec_group.destroy();
-            var subview = new MessagesView({el: '#content', state: "Success", title: "Security Group "+sec_group.name+" deleted."});     
+        var subview = new ConfirmView({el: 'body', title: "Delete Keypair", btn_message: "Delete Keypair", onAccept: function() {
+           	keypair.destroy();
+            var subview = new MessagesView({el: '#content', state: "Success", title: "Keypair "+e.target.value+" deleted."});     
         	subview.render();
         }});
         subview.render();
     
+
     },
     
-     onDeleteSecGroup: function (e) {
-     	console.log("delete sec group");
-        var keypair =  this.model.get(e.target.value);
+    deleteKeypairs: function (e) {
+		var self = this;
+        var subview = new ConfirmView({el: 'body', title: "Delete Keypairs", btn_message: "Delete Keypairs", onAccept: function() {
+            $(".checkbox_keypairs:checked").each(function () {
+                    var keyPair = $(this).val(); 
+                    var keypair = self.model.get(keyPair);
+                    keypair.destroy();
+                    var subview = new MessagesView({el: '#content', state: "Success", title: "Keypairs "+keyPair+" deleted."});     
+        			subview.render();
+            });
+        }});
+        subview.render();    
+    },
+    
+    createKeypair: function() {
+    	var subview = new CreateKeypairView({el: 'body', model: this.model});
+        subview.render(); 
+    },
+    
+    importKeypair: function() {
+    	var subview = new ImportKeypairView({el: 'body',  model: this.model});
+        subview.render(); 
     },
 
     enableDisableDeleteButton: function () {
-        if ($(".checkbox_keypairs_:checked").size() > 0) { 
-            $("#keypairs_delete").attr("disabled", false);
+        if ($(".checkbox_keypairs:checked").size() > 0) { 
+            $("#delete_keypairs").attr("disabled", false);
         } else {
-            $("#keypairs_delete").attr("disabled", true);
+            $("#delete_keypairs").attr("disabled", true);
         } 
         
     },
 
-    renderFirst: function () {
-    	UTILS.Render.animateRender(this.el, this._template, {models: this.model.models});   		
-         this.enableDisableDeleteButton();
+    renderFirst: function() {
+    	this.undelegateEvents();
+    	var that = this;
+    	UTILS.Render.animateRender(this.el, this._template, {models: this.model.models}, function() {
+    		that.enableDisableDeleteButton(); 
+        	that.delegateEvents(that.events);
+    	});   
     },
     
     render: function () {
+    	this.undelegateEvents();
     	if ($('.messages').html() != null) {
         	$('.messages').remove();
         }        
@@ -65,23 +80,22 @@ var NovaKeypairsView = Backbone.View.extend({
             var new_template = this._template({models: this.model.models});
             var checkboxes = [];
             for (var index in this.model.models) { 
-                var keypairsId = this.model.models[index].id;
-                console.log("keypairsId");
-                console.log(keypairsId);
-                if ($("#checkbox_keypairs_"+keypairsId).is(':checked')) {
-                    checkboxes.push(keypairsId);
+                var keypairsName = this.model.models[index].id;
+                if ($("#checkbox_keypairs_"+keypairsName).is(':checked')) {
+                    checkboxes.push(keypairsName);
                 }
             }
             $(this.el).html(new_template);
             for (var index in checkboxes) { 
-                var keypairsId = checkboxes[index];
-                var check = $("#checkbox_keypairs_"+keypairsId);
+                var keypairsName = checkboxes[index];
+                var check = $("#checkbox_keypairs_"+keypairsName);
                 if (check.html() != null) {
                     check.prop("checked", true);
                 }
             }    
             this.enableDisableDeleteButton();       
         } 
+        this.delegateEvents(this.events);
                 
         return this;
     }

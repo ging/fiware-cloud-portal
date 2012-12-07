@@ -320,7 +320,6 @@ var OSRouter = Backbone.Router.extend({
 	
 	sys_quotas: function(self) {
 	    self.showSysRoot(self, 'Quotas');
-	    //self.quotas.unbind("change");
 	    var view = new QuotaView({model:self.quotas, el: '#content'});
 	     self.newContentView(self,view);
         view.render();
