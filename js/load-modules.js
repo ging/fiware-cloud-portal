@@ -81,6 +81,7 @@ var loadViews = function() {
                 "js/views/forms/EditSecurityGroupRulesView.js",
                 "js/views/forms/CreateKeypairView.js",
                 "js/views/forms/ImportKeypairView.js",
+                "js/views/forms/DownloadKeypairView.js",
                 "js/views/nova/InstanceDetailView.js",
                 "js/views/SettingsView.js",
                 "js/views/forms/MessagesView.js"
@@ -157,6 +158,7 @@ var loadTemplates = function() {
                     'templates/forms/editSecurityGroupRules.html',
                     'templates/forms/createKeypair.html',
                     'templates/forms/importKeypair.html',
+                    'templates/forms/downloadKeypair.html',
                     'templates/root/nova/overview.html',
                     'templates/root/nova/accessAndSecurity.html',
                     'templates/root/nova/keypairs.html',

@@ -38,8 +38,24 @@ var CreateKeypairView = Backbone.View.extend({
 	     	} 
 	    } 	
 		var newKeypair = new Keypair();   
-	    newKeypair.set({'name': name});     
-	    newKeypair.save();
+		
+		newKeypair.set({'name': name}); 
+		
+		var newKeypair = new Keypair();   
+		
+		newKeypair.set({'name': name}); 
+		
+		mySuccess = function(object) {   	
+			var privateKey = object.keypair.private_key;
+			var blob, blobURL;
+        	var blob = new Blob([privateKey], { type: "application/x-pem-file" });
+			var blobURL = window.URL.createObjectURL(blob);		
+			window.open(blobURL);
+        };              
+	   	JSTACK.Nova.createkeypair(name, undefined, mySuccess); 
+	  
+	   	window.location.href = '#nova/access_and_security/keypairs/'+name+'/download/';
+
 	    var subview = new MessagesView({el: '#content', state: "Success", title: "Keypair "+name+" created."});     
 	   	subview.render();
 	    self.close();	               

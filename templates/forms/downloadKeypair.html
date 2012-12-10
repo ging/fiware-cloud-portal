@@ -1,0 +1,19 @@
+<script id="downloadKeypairFormTemplate" type="text/html">
+
+<div id="download_keypair">
+    <!--
+    Description: Import Keypair Form
+    src: templates/forms/downloadKeypair.html
+    -->
+    
+	<div class="modal-header">
+    	<h3>The keypair <%= model.attributes.name%> should download automatically. If not use the link below.</h3>
+  	</div>
+  
+	  <div class="modal-body clearfix">
+	    <button class='btn btn-small btn-blue ajax-modal downloadKeypair'>
+	      Download keypair <%= model.attributes.name%>
+	    </button>
+	  </div>
+</div>
+</script>
