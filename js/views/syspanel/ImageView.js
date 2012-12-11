@@ -11,12 +11,22 @@ var ImagesView = Backbone.View.extend({
 	events: {
         'change .checkbox':'enableDisableDeleteButton',
    		'click .btn-delete':'onDelete',
-   		'click .btn-delete-group':'onDeleteGroup'
+   		'click .btn-delete-group':'onDeleteGroup',
+   		'click .btn-launch': 'onLaunch'
     },  
     
     onClose: function() {
         this.undelegateEvents();
         this.unbind();
+    },
+    
+    onLaunch: function(evt) {
+        var image = evt.target.value;
+        var img = this.model.get(image);
+        var self = this;
+        console.log('Showing Instance Creation');
+        var subview = new LaunchImageView({el: 'body', images: this.options.images, flavors: this.options.flavors, keypairs: this.options.keypairs, model: img});
+        subview.render();
     },
     
     onDelete: function(evt) {

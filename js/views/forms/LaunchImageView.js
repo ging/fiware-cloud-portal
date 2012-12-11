@@ -19,7 +19,7 @@ var LaunchImageView = Backbone.View.extend({
             return;
         }
         $(this.el).append(this._template({model:this.model.models, flavors: flavors, keypairs: this.options.keypairs}));
-        //$('#launch_image').modal();
+        $('#launch_image').modal();
         return this;
     },
     
@@ -34,7 +34,7 @@ var LaunchImageView = Backbone.View.extend({
         }
         console.log("Removing launch image");
         $('#launch_image').remove();
-        //$('.modal-backdrop:last').remove();
+        $('.modal-backdrop:last').remove();
         this.onClose();
         if (this.model.unbond !== undefined) {
             this.model.unbind("reset", this.render, this);
@@ -74,8 +74,8 @@ var LaunchImageView = Backbone.View.extend({
         instance.set({"min_count": min_count});
         instance.set({"max_count": max_count});
         instance.set({"availability_zone": availability_zone});
-        //instance.save();
-        this.options.addInstance(instance);
+        instance.save();
+        //this.options.addInstance(instance);
         //var subview = new MessagesView({el: '#content', state: "Success", title: "Instance "+instance.get("name")+" launched."});     
         //subview.render();
         this.close();

@@ -1,0 +1,46 @@
+<script id="importKeypairFormTemplate" type="text/html">
+<div id="import_keypair" class="modal hide ">
+    <!--
+    Description: Import Keypair Form
+    src: templates/forms/importKeypairGroup.html
+    -->
+    <div class="modal-header">
+        <a id="close" href="#" class="close" data-dismiss="modal">&times;</a>
+        <h3>Import Keypair</h3>
+    </div>
+    <form action="" id="import_keypair_form">
+    <div class="modal-body clearfix">
+        <div class="left">
+            <fieldset>
+                <div class="control-group form-field clearfix">
+                    <label for="name">Keypair Name</label>
+                    <span class="help-block"></span>
+                    <div class="input">
+                        <input type="text" name="name" value="" id="name" />
+                    </div>
+                </div>
+                <div class="control-group form-field clearfix">
+                    <label for="name">Public Key</label>
+                    <span class="help-block"></span>
+                    <div class="input">
+                        <textarea type="text" rows="10" cols="40" name="public_key" value="" id="public_key"></textarea>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <div class="right">
+            <h3>Description:</h3>
+            <p>
+                Keypairs are ssh credentials which are injected into images when they are launched. 
+                Creating a new key pair registers the public key and downloads the private key (a .pem file).
+				Protect and use the key as you would any normal ssh private key.
+            </p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a id="importBtn" class="btn btn-blue pull-right" data-dismiss="modal">Import Keypair</a>
+        <a id="cancelImportBtn" class="close btn seconday cancel close" data-dismiss="modal">Cancel</a>
+    </div>
+    </form>
+</div>
+</script>

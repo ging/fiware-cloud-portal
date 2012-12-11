@@ -13,9 +13,9 @@ function custom_require(urls, callback) {
 
 var loadOS = function() {
     $(document).ready(function(){
-
-        UTILS.Auth.initialize("http://mcu5.dit.upm.es:5000/v2.0/");
-
+        console.log("Initializing");
+        UTILS.Auth.initialize("http://130.206.80.93/keystone/v2.0/", "http://130.206.80.93/keystone-admin/v2.0/");
+        console.log("Initialized");
         var fiRouter = new OSRouter();
 
         Backbone.history.start();
@@ -46,6 +46,9 @@ var loadViews = function() {
                 "js/views/syspanel/QuotaView.js",
                 "js/views/nova/OverviewView.js",
                 "js/views/nova/AccessAndSecurityView.js",
+                "js/views/nova/KeypairsView.js",
+                "js/views/nova/SecurityGroupsView.js",
+                "js/views/nova/FloatingIPsView.js",
                 "js/views/nova/InstancesAndVolumesView.js",
                 "js/views/nova/VolumeDetailView.js",
                 "js/views/nova/VolumesView.js",
@@ -70,9 +73,14 @@ var loadViews = function() {
                 "js/views/forms/EditVolumeAttachmentsView.js",
                 "js/views/forms/ConfirmView.js",
                 "js/views/forms/CreateContainerView.js",
-                "js/views/forms/UploadObjectView.js",
                 "js/views/forms/LaunchVDCView.js",
                 "js/views/forms/CreateVDCServiceView.js",
+                "js/views/forms/CopyObjectView.js",
+                "js/views/forms/UploadObjectView.js",
+                "js/views/forms/CreateSecurityGroupView.js",
+                "js/views/forms/EditSecurityGroupRulesView.js",
+                "js/views/forms/CreateKeypairView.js",
+                "js/views/forms/ImportKeypairView.js",
                 "js/views/nova/InstanceDetailView.js",
                 "js/views/SettingsView.js",
                 "js/views/forms/MessagesView.js"
@@ -99,7 +107,9 @@ var loadModels = function() {
                 "js/models/TopBarModel.js",
                 "js/models/ContainerModel.js",
                 "js/models/VDCModel.js",
-                "js/models/VDCServiceModel.js"
+                "js/models/VDCServiceModel.js",
+                "js/models/SecurityGroupModel.js",
+                "js/models/FloatingIPModel.js"
             ], function(someModule) {
                 loadViews();
         });
@@ -116,7 +126,8 @@ var loadLibraries = function() {
     custom_require([   "lib/backbone.js",
                 "lib/jstack.js",
                 "lib/bootstrap.min.js",
-                "lib/jquery.selectbox-0.1.3.min.js"
+                "lib/jquery.selectbox-0.1.3.min.js",
+                "lib/cdmi.js"
             ], function(someModule) {
                 loadUtils();
         });
@@ -138,11 +149,19 @@ var loadTemplates = function() {
                     'templates/forms/editVolumeAttachments.html',
                     'templates/forms/launchImage.html',
                     'templates/forms/createContainer.html',
+                    'templates/forms/copyObject.html',
                     'templates/forms/uploadObject.html',
                     'templates/forms/launchVDC.html',
                     'templates/forms/createVDCService.html',
+                    'templates/forms/createSecurityGroup.html',
+                    'templates/forms/editSecurityGroupRules.html',
+                    'templates/forms/createKeypair.html',
+                    'templates/forms/importKeypair.html',
                     'templates/root/nova/overview.html',
                     'templates/root/nova/accessAndSecurity.html',
+                    'templates/root/nova/keypairs.html',
+                    'templates/root/nova/securityGroups.html',
+                    'templates/root/nova/floatingIPs.html',
                     'templates/root/nova/snapshots.html',
                     'templates/root/nova/snapshots/instanceSnapshots.html',
                     'templates/root/nova/snapshots/volumeSnapshots.html',

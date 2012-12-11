@@ -2,13 +2,10 @@ var Quota = Backbone.Model.extend({
     sync: function(method, model, options) {
            switch(method) {
                case "read":
-                   JSTACK.Nova.getimagedetail(model.get("id"), options.success);
-                   break;
-               case "filter":
-                   JSTACK.Nova.deleteimage(model.get("id"), options.success);
                    break;
            }
-   }
+   },
+    
 });
 
 var Quotas = Backbone.Collection.extend({
@@ -16,14 +13,14 @@ var Quotas = Backbone.Collection.extend({
     
     sync: function(method, model, options) {
         switch(method) {
-            case "read":
-                JSTACK.Nova.getusagesummary(true, options.success);
-                break;
+            case "read":                       
+            JSTACK.Nova.getquotalist(this.alltenants, options.success);
+            break;
         }
     },
     
     parse: function(resp) {
-        return resp.quota;
+        return resp.quota_set;
     }
     
 });
