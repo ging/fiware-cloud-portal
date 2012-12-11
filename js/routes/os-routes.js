@@ -67,6 +67,7 @@ var OSRouter = Backbone.Router.extend({
 	    
 	    this.route('nova/volumes/', 'volumes', this.wrap(this.nova_volumes, this.checkAuth));
 	    this.route('nova/access_and_security/', 'access_and_security', this.wrap(this.nova_access_and_security, this.checkAuth));
+	    this.route('nova/access_and_security/keypairs/:name/download/', 'keypair_download', this.wrap(this.nova_keypair_download, this.checkAuth));
     
 	    this.route('nova/images/', 'images', this.wrap(this.nova_images, this.checkAuth));
 	    this.route('nova/snapshots/', 'snapshots', this.wrap(this.nova_snapshots, this.checkAuth));
@@ -355,6 +356,15 @@ var OSRouter = Backbone.Router.extend({
 	    self.showNovaRoot(self, 'Access &amp; Security');	
 	    var view = new AccessAndSecurityView({el: '#content', model: self.keypairsModel, floatingIPsModel: self.floatingIPsModel, securityGroupsModel: self.securityGroupsModel});
 	     self.newContentView(self,view);
+	},
+	
+	nova_keypair_download: function(self, name) {
+	    self.showNovaRoot(self, 'Download Keypair');	
+	    var keypair = new Keypair();
+	    keypair.set({'name': name});
+	    var view = new DownloadKeypairView({el: '#content', model: keypair});
+	    self.newContentView(self,view);
+	    view.render();
 	},
 	
 	nova_images: function(self) {
