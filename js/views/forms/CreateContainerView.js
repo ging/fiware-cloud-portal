@@ -32,16 +32,14 @@ var CreateContainerView = Backbone.View.extend({
     
     onSubmit: function(e){
         e.preventDefault();      
-        //Check if the fields are not empty, and the numbers are not negative nor decimal
+        //Check if the field is empty
  
-        if (this.$('input[name=name]').val() === "") {  
-        	console.log(this.$('input[name=name]').val());
+        if ((this.$('input[name=name]').val() === "")||(this.$('input[name=name]').val() === undefined)) {  
           var subview = new MessagesView({el: '#content', state: "Error", title: "Wrong input values for container. Please try again."});     
           subview.render(); 
           this.close();
           return;
         } else {
-        	console.log("name");
         	for (index in this.model.models) {
         		if (this.$('input[name=name]').val() === this.model.models[index].get("id")) {
         			var subview = new MessagesView({el: '#content', state: "Error", title: "Container with the same name already exists."});     

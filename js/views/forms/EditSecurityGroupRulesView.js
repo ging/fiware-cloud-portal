@@ -72,7 +72,6 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
 		for (var index in this.options.securityGroupsModel.securityGroup.attributes.rules) {
         	 if (this.options.securityGroupsModel.securityGroup.attributes.rules[index].id == e.target.value) {
         	 	var secGroupRule = this.options.securityGroupsModel.securityGroup.attributes.rules[index]; 
-        	 	console.log(secGroupRule);
         	 }        	 
         };
     	var securityGroupRule = secGroupRule;

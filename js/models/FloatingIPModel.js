@@ -6,11 +6,7 @@ var FloatingIP = Backbone.Model.extend({
     
     sync: function(method, model, options) {
            switch(method) {
-               case "create":
-                   JSTACK.Nova.createkeypair(model.get("name"), model.get("public_key"), options.success);
-                   break;
-               case "delete":
-                   JSTACK.Nova.deletekeypair(model.get("name"), options.success);
+               case "create":            
                    break;
            }
    }
@@ -23,18 +19,13 @@ var FloatingIPs = Backbone.Collection.extend({
     sync: function(method, model, options) {
         switch(method) {
             case "read":
-                JSTACK.Nova.getkeypairlist(options.success);
+                
                 break;
         }
     },
     
     parse: function(resp) {
-        var list = [];
-        for (var index in resp.keypairs) {
-            var keypair = resp.keypairs[index];
-            list.push(keypair.keypair);
-        }
-        return list;
+       return resp;
     }
     
 });

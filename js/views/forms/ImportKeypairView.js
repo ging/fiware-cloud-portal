@@ -5,7 +5,7 @@ var ImportKeypairView = Backbone.View.extend({
     events: {
       'click #cancelImportBtn': 'close',
       'click #close': 'close',
-      'click #importBtn': 'create',
+      'click #importBtn': 'importKeypair',
       'click .modal-backdrop': 'close',         
     },
 
@@ -27,7 +27,7 @@ var ImportKeypairView = Backbone.View.extend({
         this.unbind();
     },
     
-    create: function(e) {
+    importKeypair: function(e) {
     	self = this;
         var name = $('input[name=name]').val();
         var publicKey = $('input[name=public_key]').val();
@@ -39,18 +39,8 @@ var ImportKeypairView = Backbone.View.extend({
               	return;
 	     	} 
 	    } 	
-        newKeypair.set({'name': name, 'public_key': publicKey});    
-        
-        mySuccess = function(object) {   	
-			var privateKey = object.keypair.private_key;
-			var blob, blobURL;
-        	var blob = new Blob([privateKey], { type: "application/x-pem-file" });
-			var blobURL = window.URL.createObjectURL(blob);			
-			window.open(blobURL, "Hola");
-			
-        };                 	    
-	   	JSTACK.Nova.createkeypair(name, publicKey, mySuccess);    	   	 
-        //newKeypair.save();
+        newKeypair.set({'name': name, 'public_key': publicKey});    	   	 
+        newKeypair.save();
         
         var subview = new MessagesView({el: '#content', state: "Success", title: "Keypair "+name+" imported."});     
         subview.render();

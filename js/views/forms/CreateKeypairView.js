@@ -16,7 +16,6 @@ var CreateKeypairView = Backbone.View.extend({
     },
     
     close: function(e) {
-        //this.model.unbind("change", this.render, this);
        	$('#create_keypair').remove();
        	$('.modal-backdrop').remove();
         this.onClose();
@@ -28,37 +27,21 @@ var CreateKeypairView = Backbone.View.extend({
     },
     
     create: function(e) {
-    	self = this;
+    	self = this;   		
         var name = $('input[name=name]').val();
         for (var index in self.model.models) {
         	if (self.model.models[index].attributes.name === name) {        		
         		var subview = new MessagesView({el: '#content', state: "Error", title: "Keypair "+name+" already exists. Please try again."});     
-              	subview.render(); 
+              	subview.render();     
               	return;
 	     	} 
 	    } 	
 		var newKeypair = new Keypair();   
 		
-		newKeypair.set({'name': name}); 
-		
-		var newKeypair = new Keypair();   
-		
-		newKeypair.set({'name': name}); 
-		
-		mySuccess = function(object) {   	
-			var privateKey = object.keypair.private_key;
-			var blob, blobURL;
-        	var blob = new Blob([privateKey], { type: "application/x-pem-file" });
-			var blobURL = window.URL.createObjectURL(blob);		
-			window.open(blobURL);
-        };              
-	   	JSTACK.Nova.createkeypair(name, undefined, mySuccess); 
-	  
-	   	window.location.href = '#nova/access_and_security/keypairs/'+name+'/download/';
-
-	    var subview = new MessagesView({el: '#content', state: "Success", title: "Keypair "+name+" created."});     
-	   	subview.render();
-	    self.close();	               
+		newKeypair.set({'name': name}); 		
+        
+        window.location.href = '#nova/access_and_security/keypairs/'+name+'/download/';	 
+        self.close();           
     }
     
 });

@@ -361,7 +361,7 @@ var OSRouter = Backbone.Router.extend({
 	nova_keypair_download: function(self, name) {
 	    self.showNovaRoot(self, 'Download Keypair');	
 	    var keypair = new Keypair();
-	    keypair.set({'name': name});
+	   	keypair.set({'name': name});
 	    var view = new DownloadKeypairView({el: '#content', model: keypair});
 	    self.newContentView(self,view);
 	    view.render();

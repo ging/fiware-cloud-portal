@@ -11,17 +11,12 @@ var NovaFloatingIPsView = Backbone.View.extend({
     events: {
         'click #release_floating_IPs': 'releaseFloatingIPs',
       	'click #release_floating_IP': 'releaseFloatingIP',
+      	'click .btn-allocate': 'allocateIP' 
     },
 
      releaseFloatingIPs: function (e) {
-		console.log("delete sec");
-       	var sec_group_id = e.target.value;
-        console.log(this.options.securityGroupsModel);
-        //var sec_group = this.options.securityGroupsModel.get("sec_group_id");
-        //console.log(sec_group);
-        var subview = new ConfirmView({el: 'body', title: "Delete Security Group", btn_message: "Delete Security Group", onAccept: function() {
-            //sec_group.destroy();
-            var subview = new MessagesView({el: '#content', state: "Success", title: "Security Group "+sec_group.name+" deleted."});     
+        var subview = new ConfirmView({el: 'body', title: "Release Floating IP", btn_message: "Release Floating IPs", onAccept: function() {
+            var subview = new MessagesView({el: '#content', state: "Success", title: "Floating IPs "+sec_group.name+" released."});     
         	subview.render();
         }});
         subview.render();
@@ -29,8 +24,12 @@ var NovaFloatingIPsView = Backbone.View.extend({
     },
     
      releaseFloatingIP: function (e) {
-     	console.log("delete sec group");
-        var keypair =  this.model.get(e.target.value);
+    },
+    
+    allocateIP: function(e) {
+    	console.log("allocate IP");
+    	var subview = new AllocateIPView({el: 'body',  model: this.model});
+        subview.render();
     },
 
     
@@ -42,12 +41,17 @@ var NovaFloatingIPsView = Backbone.View.extend({
         }  
     },
 
-    renderFirst: function () {
-    	UTILS.Render.animateRender(this.el, this._template, {floatingIPsModel: this.options.floatingIPsModel});   		
-        this.enableDisableDeleteButton();
+    renderFirst: function () {     
+        this.undelegateEvents();
+    	var that = this;
+    	UTILS.Render.animateRender(this.el, this._template, {floatingIPsModel: this.options.floatingIPsModel}, function() {
+    		that.enableDisableDeleteButton(); 
+        	that.delegateEvents(that.events);
+    	});   
     },
     
     render: function () {
+    	this.undelegateEvents();
     	if ($('.messages').html() != null) {
         	$('.messages').remove();
         }
@@ -70,7 +74,7 @@ var NovaFloatingIPsView = Backbone.View.extend({
             }    
             this.enableDisableDeleteButton();       
        }
-       
-        return this;
+       this.delegateEvents(this.events);
+       return this;
     }
 });
