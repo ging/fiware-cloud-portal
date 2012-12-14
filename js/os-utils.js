@@ -62,6 +62,12 @@ UTILS.Auth = (function(U, undefined) {
                   resp.access.token.tenant.id;
             JSTACK.Keystone.params.access.serviceCatalog[0].endpoints[0].internalURL = "http://130.206.80.91:8774/v2.0/" +
                   resp.access.token.tenant.id;
+            /*JSTACK.Keystone.params.access.serviceCatalog[0].endpoints[0].adminURL = "http://mcu5.dit.upm.es:5000/v2.0/" +
+                  resp.access.token.tenant.id;
+            JSTACK.Keystone.params.access.serviceCatalog[0].endpoints[0].publicURL = "http://mcu5.dit.upm.es:5000/v2.0/" +
+                  resp.access.token.tenant.id;
+            JSTACK.Keystone.params.access.serviceCatalog[0].endpoints[0].internalURL = "http://mcu5.dit.upm.es:5000/v2.0/" +
+                  resp.access.token.tenant.id;*/
             callback();
         }
         

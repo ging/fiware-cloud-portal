@@ -24,7 +24,7 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
     },
     
     close: function(e) {
-        $('#create_security_group').remove();
+        $('#edit_security_group_rule').remove();
         this.onClose();
     },
 
@@ -108,6 +108,8 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
     createRule: function(e) {
     	e.preventDefault(); 
     	self = this;
+    	
+    	var cidrOK, fromPortOK, toPortOK;
     	var cidr_pattern = /^([0-255]){1,3}(\.){1}([0-255]){1,3}(\.){1}([0-255]){1,3}(\.){1}([0-255]){1,3}(\/){1}([0-24]){1,2}$/;   // 0.0.0.0/0
     	var portPattern = /^([1-65535]){1,5}$/;
     	var icmpPattern = /^([-1-255]){1,3}$/;
@@ -119,20 +121,12 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
         var securityGroupId = $('.secGroupSelect :selected').val();
         var cidr = $('input[name=cidr]').val();	
         
-        if (cidr_pattern.test(cidr) ) {
-			var cidrOK = true;			
-		}else{			
-			$('.help-inline').append('Enter a valid value');
-		}
+        cidr_pattern.test(cidr) ? cidrOK = true : cidrOK = false; 			
 		
-		if (portPattern.test(fromPort) ) {
-			var fromPortOK = true;			
-		}
+		portPattern.test(fromPort) ? fromPortOK = true : fromPortOK = false; 
 		
-		if (portPattern.test(toPort) ) {
-			var toPortOK = true;			
-		}
-        
+		portPattern.test(toPort) ? toPortOK = true : toPortOK = false;			
+		        
         console.log("ipProtocol "+ipProtocol);
         console.log("fromPort "+fromPort);
         console.log("toPort "+toPort);
@@ -150,7 +144,7 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
         subview.render();
   
         }else{
-        	var subview = new MessagesView({el: '#content', state: "Error", title: "Wrong input values for rule. Please try again."});     
+        	var subview = new MessagesView({el: '#content', state: "Error", title: "Wrong input values for Security Group Rule. Please try again."});     
             subview.render(); 
         }
        	this.close();

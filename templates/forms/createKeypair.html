@@ -16,7 +16,7 @@
                     <label for="name">Keypair Name</label>
                     <span class="help-block"></span>
                     <div class="input">
-                        <input type="text" name="name" value="" id="name" />
+                        <input type="text" name="name" value="" id="name" rel="tooltip" data-placement="right" title="Keypair names may only contain letters, numbers, underscores and hyphens."/ required>
                     </div>
                 </div>
             </fieldset>
@@ -31,7 +31,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button id="createBtn" class="btn btn-blue pull-right" data-dismiss="modal">Create Keypair</button>
+        <a id="createBtn" class="btn btn-blue pull-right createKeypair" data-dismiss="modal">Create Keypair</a>
         <a id="cancelCreateBtn" class="close btn seconday cancel close" data-dismiss="modal">Cancel</a>
     </div>
     </form>
