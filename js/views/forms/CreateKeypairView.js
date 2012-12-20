@@ -14,7 +14,7 @@ var CreateKeypairView = Backbone.View.extend({
     render: function () {
         $(this.el).append(this._template({model:this.model}));
         $('.modal:last').modal();
-       
+		$('.createKeypair').attr("download", '.pem');
         return this;
     },
     
@@ -50,8 +50,9 @@ var CreateKeypairView = Backbone.View.extend({
 	              	return;
 		     	} 
 		    } 	
-  
-        window.location.href = '#nova/access_and_security/keypairs/'+name+'/download/';	 
+
+  		window.location.href = '#nova/access_and_security/keypairs/'+name+'/download/';	  
+        
         } else {
   			var subview = new MessagesView({el: '#content', state: "Error", title: "Wrong values for Keypair. Please try again."});     
            	subview.render();	  			

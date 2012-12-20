@@ -24,54 +24,27 @@ var DownloadKeypairView = Backbone.View.extend({
     	var name = this.model.attributes.name;
     	var mySuccess = function(object) {   	
 			var privateKey = object.keypair.private_key;
+			console.log(object.keypair.public_key);
 			var blob, blobURL;
         	var blob = new Blob([privateKey], { type: "application/x-pem-file" });
 			var blobURL = window.URL.createObjectURL(blob);
-			
+
+			window.open(blobURL, 'Save Keypair','width=0,height=0');
+
 			//window.open(blobURL, 'Save Keypair','width=0,height=0');
-			//$('#createKeypairFormTemplate').('#createBtn').attr("href", blobURL);
-			//$('#createKeypairFormTemplate').('#createBtn').attr("download", name+'.pem');
-			//$('#createKeypairFormTemplate').load(blobURL).dialog('open');
 			
 			$('.downloadKeypair').append("Download Keypair");
 			$('.downloadKeypair').attr("href", blobURL);
 			$('.downloadKeypair').attr("download", name+'.pem');
 		
-			return false;
-
 			var subview = new MessagesView({el: '#content', state: "Success", title: "Keypair "+name+" created."});     
 	   		subview.render();      		
         }; 
         JSTACK.Nova.createkeypair(name, undefined, mySuccess); 
     },
     
-    downloadKeypair: function() {
-    	self = this;
-    	console.log();
-    	var blobURL = localStorage.getItem('blobURL');
-    	window.open(blobURL, 'Download Keypair','width=0,height=0');   
-    	
-    	//
-    	//window.URL = window.webkitURL || window.URL;
-		//window.BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder;
-		//var blob = new Blob([privateKey], { type: "application/x-pem-file" });
-		//var blobURL = localStorage.getItem('blobURL');
-		
-		//$(".downloadKeypair").attr("href", blobURL);
-		//$(".downloadKeypair").attr("download", '.pem');
-		 //document.appendChild(".downloadKeypair");
-		//document.body.appendChild(a);
-
-    	
-    	//
-			
-			
-			 	
-		return false;    	
-    },
-    
     close: function(e) {    
-    	window.close();    
+    	//window.close();    
         this.onClose();
     },
 
