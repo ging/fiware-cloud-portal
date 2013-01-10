@@ -205,6 +205,10 @@ var OSRouter = Backbone.Router.extend({
 	
 	showSysRoot: function(self, option) {
 	    //this.clear_fetch();
+	    if (!this.loginModel.isAdmin()) {
+	       window.location.href = "#nova";
+	       return false;
+	    }
 	    self.top.set({"title":option});
         self.navs = new NavTabModels([
                                     {name: 'Overview', active: true, url: '#syspanel/'}, 
@@ -220,21 +224,24 @@ var OSRouter = Backbone.Router.extend({
         self.navs.setActive(option);
         self.tabs.setActive('Admin');
 	    self.showRoot(self, 'System Panel');
+	    return true;
 	},
 	
 	sys_overview: function(self) {
-	    self.showSysRoot(self, 'Overview');
-	    var overview = new Overview();
-	    var view = new SysOverviewView({model: overview, el: '#content'});
-	     self.newContentView(self,view);
-        view.render();
+	    if (self.showSysRoot(self, 'Overview')) {
+    	    var overview = new Overview();
+    	    var view = new SysOverviewView({model: overview, el: '#content'});
+    	     self.newContentView(self,view);
+            view.render();
+        }
 	},
 	
 	sys_images: function(self) {
-	    self.showSysRoot(self, 'Images');
-	    //self.add_fetch(self.images, 4);
-	    var view = new ImagesView({model: self.images, el: '#content'});
-	     self.newContentView(self,view);
+	    if (self.showSysRoot(self, 'Images')) {
+    	    //self.add_fetch(self.images, 4);
+    	    var view = new ImagesView({model: self.images, el: '#content'});
+    	    self.newContentView(self,view);
+    	}
 	},
 	
 	delete_images: function(self) {
@@ -274,28 +281,31 @@ var OSRouter = Backbone.Router.extend({
     },
 	
 	sys_instances: function(self) {
-	    self.showSysRoot(self, 'Instances');
-	    self.instancesModel.unbind("change");
-	    self.instancesModel.alltenants = true;
-	    //self.add_fetch(self.instancesModel, 4);
-	    var view = new InstanceView({model: self.instancesModel, projects: self.projects, flavors: self.flavors, el: '#content'});
-	    self.newContentView(self,view);
+	    if (self.showSysRoot(self, 'Instances')) {
+    	    self.instancesModel.unbind("change");
+    	    self.instancesModel.alltenants = true;
+    	    //self.add_fetch(self.instancesModel, 4);
+    	    var view = new InstanceView({model: self.instancesModel, projects: self.projects, flavors: self.flavors, el: '#content'});
+    	    self.newContentView(self,view);
+	    }
 	},
 
 	sys_services: function(self) {
-	    self.showSysRoot(self, 'Services');
-	    var services = new Services();
-	    var view = new ServiceView({model: services, el: '#content'});
-	    self.newContentView(self,view);
-        view.render();
+	    if (self.showSysRoot(self, 'Services')) {
+    	    var services = new Services();
+    	    var view = new ServiceView({model: services, el: '#content'});
+    	    self.newContentView(self,view);
+            view.render();
+        }
 	},
 	
 	sys_flavors: function(self) {
-	    self.showSysRoot(self, 'Flavors');	
-	    self.flavors.unbind("change");
-	    //self.add_fetch(self.flavors, 4);
-	    var view = new FlavorView({model: self.flavors, el: '#content'});
-	    self.newContentView(self,view);
+	    if (self.showSysRoot(self, 'Flavors')) {	
+    	    self.flavors.unbind("change");
+    	    //self.add_fetch(self.flavors, 4);
+    	    var view = new FlavorView({model: self.flavors, el: '#content'});
+    	    self.newContentView(self,view);
+	    }
 	},
 	
 	create_flavor: function(self) {
@@ -306,24 +316,27 @@ var OSRouter = Backbone.Router.extend({
 	},
 	
 	sys_projects: function(self) {
-	    self.showSysRoot(self, 'Organizations');
-	    var view = new ProjectView({model:self.projects, el: '#content'});
-	     self.newContentView(self,view);
+	    if (self.showSysRoot(self, 'Organizations')) {
+	       var view = new ProjectView({model:self.projects, el: '#content'});
+	       self.newContentView(self,view);
+	    }
 	},
 	
 	sys_users: function(self) {
-	    self.showSysRoot(self, 'Users');
-	    var users = new Users();
-	    var view = new UserView({model:users, el: '#content'});
-	     self.newContentView(self,view);
-        view.render();
+	    if (self.showSysRoot(self, 'Users')) {
+    	    var users = new Users();
+    	    var view = new UserView({model:users, el: '#content'});
+    	    self.newContentView(self,view);
+            view.render();
+        }
 	},
 	
 	sys_quotas: function(self) {
-	    self.showSysRoot(self, 'Quotas');
-	    var view = new QuotaView({model:self.quotas, el: '#content'});
-	     self.newContentView(self,view);
-        view.render();
+	    if (self.showSysRoot(self, 'Quotas')) {
+    	    var view = new QuotaView({model:self.quotas, el: '#content'});
+    	    self.newContentView(self,view);
+            view.render();
+        }
 	},
 	
 	showNovaRoot: function(self, option) {
