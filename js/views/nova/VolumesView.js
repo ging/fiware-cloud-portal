@@ -40,7 +40,7 @@ var NovaVolumesView = Backbone.View.extend({
     onEdit: function(evt) {
         var vol = evt.target.getAttribute("value");
         var volume = this.model.get(vol);
-        var subview = new EditVolumeAttachmentsView({el: 'body', model: volume, instances: this.options.instances});
+        var subview = new EditVolumeAttachmentsView({el: 'body', model: volume, instances: this.options.instancesModel});
         subview.render();
     },
     

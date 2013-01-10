@@ -432,8 +432,9 @@ var OSRouter = Backbone.Router.extend({
 	nova_volumes: function(self) {
 	    self.showNovaRoot(self, 'Volumes');
 	    //self.add_fetch(self.instancesModel, 4);
-	    self.instancesModel.alltenants = false;
-	    var view = new NovaVolumesView({model: self.volumesModel, volumeSnapshotsModel: self.volumeSnapshotModel, flavors: self.flavors, el: '#content'});
+	    //self.instancesModel.alltenants = false;
+
+	    var view = new NovaVolumesView({model: self.volumesModel, volumeSnapshotsModel: self.volumeSnapshotModel, instancesModel: self.instancesModel, flavors: self.flavors, el: '#content'});
 	    self.newContentView(self,view);
 	},
 
