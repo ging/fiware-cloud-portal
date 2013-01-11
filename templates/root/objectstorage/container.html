@@ -16,7 +16,7 @@ src: templates/root/objectstorage/container.html
             </div>
         </div>
     </div>
-    <table id="objects" class="table table-bordered table-striped">
+    <table id="objects" class="table table-bordered table-striped " style="table-layout: fixed; ">
         <thead>
           <tr>
               <th class="multi_select_column">
@@ -51,7 +51,7 @@ src: templates/root/objectstorage/container.html
                 %>
                 <tr id="objects__row__Time" class="" style="">
                 <td class="multi_select_column"><input id="checkbox_<%= i%>" type="checkbox" class="checkbox checkbox_objects" name="object_ids" value="<%= i %>"></td>
-                <td class=""><%=object.name%></td>
+                <td style="overflow: hidden;"  class=""><%=object.name%></td>
                 <td class=""><%=size%></td>
                 <td class="actions_column">
                     <div class="btn-group">

@@ -36,12 +36,15 @@ var EditVolumeAttachmentsView = Backbone.View.extend({
     },
     
     detach: function(evt) {
-        var instance = evt.target.getAttribute("value");
-        console.log("Detaching " + this.instance);
-        this.options.instances.get(instance).detachvolume({volume_id: this.model.id});
-        var subview = new MessagesView({el: '#content', state: "Success", title: "Volume "+name+" detached."});     
-        subview.render();
-        this.close();
+        var instance = evt.target.value;
+        console.log("Detaching " + instance);
+        var subview = new ConfirmView({el: 'body', title: "Detach Volume", btn_message: "Detach Volume", style: "top: 80px; display: block; z-index: 10501010;", onAccept: function() {
+        	this.options.instances.get(instance).detachvolume({volume_id: this.model.id});
+        	var subview = new MessagesView({el: '#content', state: "Success", title: "Volume "+name+" detached."});     
+        	subview.render();
+        }});
+        subview.render();        
+        //this.close();
     },
     
     attach: function(e) {
@@ -57,7 +60,7 @@ var EditVolumeAttachmentsView = Backbone.View.extend({
         var self = this;
         var attachments = $(".checkbox_attachments:checked");
         this.close();
-        var subview = new ConfirmView({el: 'body', title: "Detach Volume", btn_message: "Detach Volume", onAccept: function() {
+        var subview = new ConfirmView({el: 'body', title: "Detach Volumes", btn_message: "Detach Volumes", style: "top: 80px; display: block; z-index: 10501010;", onAccept: function() {
             attachments.each(function () {
                     var instance = $(this).val();
                     var inst = self.options.instances.get(instance);
