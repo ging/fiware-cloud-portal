@@ -32,6 +32,7 @@ var FlavorView = Backbone.View.extend({
     onDelete: function(evt) {
         var flavor = evt.target.value;
         var flav = this.model.get(flavor);
+        console.log(flav);
         var subview = new ConfirmView({el: 'body', title: "Delete Flavor", btn_message: "Delete Flavor", onAccept: function() {
             flav.destroy();
             var subview = new MessagesView({el: '#content', state: "Success", title: "Flavor "+flav.get("name")+" deleted."});     
@@ -46,6 +47,7 @@ var FlavorView = Backbone.View.extend({
             $(".checkbox:checked").each(function () {
                     var flavor = $(this).val(); 
                     var flav = self.model.get(flavor);
+                    console.log(flav);
                     flav.destroy();
                     var subview = new MessagesView({el: '#content', state: "Success", title: "Flavors "+flav.get("name")+" deleted."});     
         			subview.render();

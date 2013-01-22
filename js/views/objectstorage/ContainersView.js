@@ -103,6 +103,9 @@ var ObjectStorageContainersView = Backbone.View.extend({
     },
     
     render: function () {
+    	console.log("render container view ");
+    	var printAll = function(data){console.log(JSON.stringify(data))};    	
+    	JSTACK.Keystone.gettenants(printAll);
 		if ($('.messages').html() != null) {
         	$('.messages').remove();
         }

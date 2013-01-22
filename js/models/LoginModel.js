@@ -51,7 +51,8 @@ var LoginStatus = Backbone.Model.extend({
             UTILS.Auth.authenticate(undefined, undefined, undefined, token, function() {
                 console.log("Authenticated with token");
                 self.set({username: UTILS.Auth.getName(), tenant: UTILS.Auth.getCurrentTenant()});
-                console.log("New tenant: " + self.get("name"));
+                console.log("New tenant: " + self.attributes.tenant.name);
+                //console.log("New tenant: " + self.get("name"));
                 UTILS.Auth.getTenants(function(tenants) {
                     self.set({tenants: tenants});
                     self.set({'loggedIn': true});

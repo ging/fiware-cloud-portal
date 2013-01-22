@@ -78,7 +78,6 @@ UTILS.Auth = (function(U, undefined) {
 
         var _authenticatedWithoutTenant = function() {
             console.log("Authenticated without tentants. Retrieving tenants...");
-
             var ok = function (resp) {
                 tenants = resp.tenants;
                 _tryTenant();

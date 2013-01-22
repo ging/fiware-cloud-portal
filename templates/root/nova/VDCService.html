@@ -67,7 +67,7 @@ src: templates/root/nova/VDCService.html
                 <input id="checkbox_<%= instance.get('id')%>" type="checkbox" name="object_ids" class="checkbox checkbox_instances"  value="<%= instance.get('id') %>" />
                 </td>
                 <td class=""><a href="#nova/vdcs/<%=vdc%>/<%= service %>/<%= instance.id %>"><%= instance.get("name") %></a></td>
-                <td class="hidden-phone">
+                <td class="">
                 <ul>
                     <%
                     if (instance.get("addresses") != null && instance.get("addresses").public != null) {

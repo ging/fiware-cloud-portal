@@ -436,11 +436,14 @@ var OSRouter = Backbone.Router.extend({
 
 	    var view = new NovaVolumesView({model: self.volumesModel, volumeSnapshotsModel: self.volumeSnapshotModel, instancesModel: self.instancesModel, flavors: self.flavors, el: '#content'});
 	    self.newContentView(self,view);
+	    
 	},
 
 	objectstorage_consult_containers: function(self) {
 	   self.showNovaRoot(self, 'Containers');
-	   //self.containers.unbind("change");
+	   
+	   self.containers.unbind("change");
+	   console.log();
         //self.add_fetch(self.containers, 4);
         var view = new ObjectStorageContainersView({model: self.containers, el: '#content'});
         self.newContentView(self,view);

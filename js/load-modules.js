@@ -18,14 +18,12 @@ var loadOS = function() {
         //UTILS.Auth.initialize("http://mcu5.dit.upm.es:5000/v2.0/");
         console.log("Initialized");
         var fiRouter = new OSRouter();
-
         Backbone.history.start();
-
     });
 }
 
 var loadRoutes = function() {
-    custom_require([   "js/routes/os-routes.js"
+    custom_require(["js/routes/os-routes.js"
             ], function(someModule) {
                 loadOS();
         });
