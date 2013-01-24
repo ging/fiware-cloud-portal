@@ -29,7 +29,7 @@ src: templates/root/nova/snapshots/instanceSnapshots.html
             <% 	var num_snapshots=0;
             for (var index in models) {
             var image = models[index];
-            var image_type = image.get('metadata').image_type;
+           	var image_type = image.get('metadata').image_type;
             if (image_type == "snapshot") {
             num_snapshots++;
             %>

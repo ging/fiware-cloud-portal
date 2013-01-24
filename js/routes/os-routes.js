@@ -11,6 +11,7 @@ var OSRouter = Backbone.Router.extend({
     instancesModel: undefined,
     volumesModel: undefined,
     volumeSnapshotsModel: undefined,
+    instanceSnapshotsModel: undefined,
     flavors: undefined,
     images: undefined,
     keypairsModel: undefined,

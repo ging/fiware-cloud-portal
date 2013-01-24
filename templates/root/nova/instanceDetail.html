@@ -74,6 +74,10 @@ src: templates/root/nova/instanceDetail.html
                     <h4>IP Addresses</h4>
                     <hr class="header_rule">
                     <ul>
+                        <li>
+                            <strong>Public:</strong>&nbsp;<%=model.get("addresses").public[0].addr%>
+                           
+                        </li>
                     </ul>
                 </div>
                 <div class="security_groups row-fluid">
