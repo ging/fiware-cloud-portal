@@ -43,12 +43,6 @@ src: templates/root/nova/instanceDetail.html
                         <li>
                             <strong>ID:</strong>&nbsp;<%=model.get("id")%>
                         </li>
-                    </ul>
-                </div>
-                <div class="status row-fluid">
-                    <h4>Status</h4>
-                    <hr class="header_rule">
-                    <ul>
                         <li>
                             <strong>Status:</strong>&nbsp;<%=model.get("status")%>
                         </li>
@@ -86,10 +80,14 @@ src: templates/root/nova/instanceDetail.html
                     <ul>
                         <li>
                             <strong>default</strong>
-                            <ul>
-                                <li>
-                                    <em>No rules defined.</em>
+                            <ul>                                
+          						<% for (index in rules) {
+          						var rule = rules[index];        							
+          						%>
+          						<li>
+                                  <em>ALLOW <%=rule.from_port%>:<%=rule.to_port%> from <%=rule.ip_range.cidr%></em>
                                 </li>
+                                <% } %>                                
                             </ul>
                         </li>
                     </ul>
@@ -99,7 +97,7 @@ src: templates/root/nova/instanceDetail.html
                     <hr class="header_rule">
                     <ul>
                         <li>
-                            <strong>Key name:</strong>&nbsp;<%=model.get("key_name")%>
+                            <strong>Key name:</strong>&nbsp;<%=model.get("key_name")!==undefined?model.get("key_name"):"<em>None</em>"%>
                         </li>
                         <li>
                             <strong>Image Name:</strong>&nbsp;<a href="#nova/images_and_snapshots/<%=image.id%>"><%=image.get("name")%></a>

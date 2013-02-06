@@ -32,6 +32,13 @@ var SecurityGroup = Backbone.Model.extend({
     	options.secGroupRuleId = sec_group_rule_id;   	
     	return this._action('deleteSecurityGroupRule', options);
     },
+    
+    getSecurityGroupforServer: function(server_id, options) {
+    	console.log("Get security groups for server");
+    	var options = options || {};
+    	options.serverId = server_id;   	
+    	return this._action('getSecurityGroupforServer', options);
+    },
    
     sync: function(method, model, options) {
            switch(method) {
@@ -45,13 +52,20 @@ var SecurityGroup = Backbone.Model.extend({
                    JSTACK.Nova.createsecuritygroup( model.get("name"), model.get("description"), options.success);
                    break;
                case "createSecurityGroupRule":
-               console.log(options.ip_protocol, options.from_port, options.to_port, options.cidr, options.group_id, options.parent_group_id);
+               //console.log(options.ip_protocol, options.from_port, options.to_port, options.cidr, options.group_id, options.parent_group_id);
                    JSTACK.Nova.createsecuritygrouprule(options.ip_protocol, options.from_port, options.to_port, options.cidr, options.group_id, options.parent_group_id, options.success);
                    break;
              	case "deleteSecurityGroupRule":
                    JSTACK.Nova.deletesecuritygrouprule(options.secGroupRuleId, options.success);
                    break;    
-               
+                case "getSecurityGroupforServer":                
+                	mySuccess = function(object) {
+                   		var obj = {};
+                   		obj.object = object;
+                   		return options.success(obj);                   		
+                   	};
+               	   JSTACK.Nova.getsecuritygroupforserver(options.serverId, mySuccess);
+               	   break;
            }
     },
     
