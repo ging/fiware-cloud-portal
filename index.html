@@ -21,7 +21,12 @@
         <script type="text/javascript" src="lib/require.js"></script>
         <script type="text/javascript" src="js/load-modules.js"></script>
         <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-
+        <script src='//localhost:8018/socket.io/socket.io.js'></script>
+		<script type="text/javascript">
+			function init() {
+			socket = io.connect('//localhost:8018');
+			}
+		</script>
         <script>
             window.addEventListener("load", function() {
                 setTimeout(function() {

@@ -80,6 +80,7 @@ var InstanceDetailView = Backbone.View.extend({
     },
     
     onInstanceDetail: function() {
+    	console.log("on instance detail");
         var self = this;    	
         this.options.flavor = new Flavor();
         this.options.flavor.set({id: this.model.get("flavor").id});
@@ -100,19 +101,25 @@ var InstanceDetailView = Backbone.View.extend({
     
     checkAll: function() {
         if (this.flavorResp && this.imageResp && this.vncResp && this.logResp) {
+        	    	console.log("instance detail");
             this.render();
         }
     },
     
     render: function () {       
     	var self = this; 
+    	console.log("consult_instance");
         if ($("#consult_instance").html() == null) {
+        	
         	mySuccess = function(object) {
+        		
             UTILS.Render.animateRender(self.el, self._template, {rules: object.security_groups[0].rules, vdc: self.options.vdc, service: self.options.service, model:self.model, flavor:self.options.flavor, image:self.options.image, logs: self.options.logs, vncUrl: self.options.vncUrl, subview: self.options.subview});
         	}
         	JSTACK.Nova.getsecuritygroupforserver(self.model.id, mySuccess);
         } else {
+        	console.log("consult_instance");
         	mySuccess = function(object) {
+        		
         	$(this.el).html(this._template({rules: object.security_groups[0].rules, vdc: this.options.vdc, service: this.options.service, model:this.model, flavor:this.options.flavor, image:this.options.image, logs: this.options.logs, vncUrl: this.options.vncUrl, subview: this.options.subview}));
         	}            
         	JSTACK.Nova.getsecuritygroupforserver(this.model.id, mySuccess);

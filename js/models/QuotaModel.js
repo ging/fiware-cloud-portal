@@ -14,7 +14,7 @@ var Quotas = Backbone.Collection.extend({
     sync: function(method, model, options) {
         switch(method) {
             case "read":                  
-            JSTACK.Nova.getquotalist(true, options.success);
+            JSTACK.Nova.getquotalist(options.success);
             break;
         }
     },

@@ -267,6 +267,7 @@ var OSRouter = Backbone.Router.extend({
 	},
 	
 	consult_image: function(self, id) {
+		console.log("consult images");
 	    self.showNovaRoot(self, 'Images &amp; Snapshots');
 	    var image = new Image();
 	    image.set({"id": id});

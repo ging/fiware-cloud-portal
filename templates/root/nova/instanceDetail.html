@@ -5,7 +5,7 @@ src: templates/root/nova/instanceDetail.html
 -->
 <div class="row-fluid">
     <ul class="breadcrumb">
-        <li>
+        <li>	
             <a href="#nova/vdcs/"><strong>VDCs</strong></a><span class="divider">/</span>
         </li>
         <li>
@@ -29,6 +29,9 @@ src: templates/root/nova/instanceDetail.html
             </li>
             <li id="vnc" class="<%= (subview == 'vnc') ? 'active':'' %>">
                 <a id="instance_vnc">VNC</a>
+            </li>
+            <li id="software" class="<%= (subview == 'software') ? 'active':'' %>">
+                <a id="software_management">Software Management</a>
             </li>
         </ul>
         <div class="tab-content" style="border: 2px">
@@ -127,6 +130,12 @@ src: templates/root/nova/instanceDetail.html
                     If VNC console is not responding to keyboard input: click the grey status bar below.
                 </p>
                 <iframe src="<%= vncUrl %>" width="720" height="450"></iframe>
+            </div>
+            <div id="instance_details__software" class="tab-pane <%= (subview == 'software') ? 'active':'' %>">
+                <div class="btn-group" data-toggle="buttons-radio">
+				  <button class="btn active" data-target="#installed_software" data-toggle="tab">Installed Software</button>
+				  <button class="btn " data-target="#new_software" data-toggle="tab">New Software</button>
+				</div>
             </div>
         </div>
     </div>
