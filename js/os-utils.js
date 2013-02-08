@@ -56,12 +56,12 @@ UTILS.Auth = (function(U, undefined) {
         
         var _authenticatedWithTenant = function (resp) {
             console.log("Authenticated with tentant");
-            /*JSTACK.Keystone.params.access.serviceCatalog[0].endpoints[0].adminURL = "http://130.206.80.91:8774/v2.0/" +
+            JSTACK.Keystone.params.access.serviceCatalog[0].endpoints[0].adminURL = "http://130.206.80.91:8774/v2.0/" +
                   resp.access.token.tenant.id;
             JSTACK.Keystone.params.access.serviceCatalog[0].endpoints[0].publicURL = "http://130.206.80.91:8774/v2.0/" +
                   resp.access.token.tenant.id;
             JSTACK.Keystone.params.access.serviceCatalog[0].endpoints[0].internalURL = "http://130.206.80.91:8774/v2.0/" +
-                  resp.access.token.tenant.id;*/
+                  resp.access.token.tenant.id;
                   
             /*JSTACK.Keystone.params.access.serviceCatalog[2].endpoints[0].adminURL = "http://130.206.80.91:8776/v2.0/" +
                   resp.access.token.tenant.id;
