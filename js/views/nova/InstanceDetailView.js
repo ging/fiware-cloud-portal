@@ -13,7 +13,10 @@ var InstanceDetailView = Backbone.View.extend({
         this.delegateEvents({
             'click #overviewBtn': "showOverview",
             'click #instance_vnc': 'showVNC',
-            'click #instance_logs': 'showLogs'
+            'click #instance_logs': 'showLogs',
+            'click #instance_software': 'showSoftware',
+            'click #installed_software': 'showInstalledSoftware',
+            'click #new_software': 'showNewSoftware'
         });         
 
         this.model.bind("change", this.onInstanceDetail, this);
@@ -40,27 +43,73 @@ var InstanceDetailView = Backbone.View.extend({
         $('#instance_details__overview').addClass('active');
         $('#instance_details__vnc').removeClass('active');
         $('#instance_details__log').removeClass('active');
+        $('#instance_details__software').removeClass('active');
+        $('#instance_details__installed_software').removeClass('active');
+        $('#instance_details__new_software').removeClass('active');
         $('#overview').addClass('active'); 
         $('#vnc').removeClass('active'); 
         $('#log').removeClass('active');
+        $('#software').removeClass('active');
+        $('#installed_software').removeClass('active');
+        $('#new_software').removeClass('active');
     },
     
     showVNC: function() {
         $('#instance_details__overview').removeClass('active');
         $('#instance_details__log').removeClass('active');
         $('#instance_details__vnc').addClass('active');
+        $('#instance_details__software').removeClass('active');
+        $('#instance_details__installed_software').removeClass('active');
+        $('#instance_details__new_software').removeClass('active');
         $('#overview').removeClass('active');
         $('#log').removeClass('active');
         $('#vnc').addClass('active');
+        $('#software').removeClass('active');
+        $('#installed_software').removeClass('active');
+        $('#new_software').removeClass('active');
     },
     
     showLogs: function() {
         $('#instance_details__overview').removeClass('active');
         $('#instance_details__vnc').removeClass('active');
         $('#instance_details__log').addClass('active');
+        $('#instance_details__software').removeClass('active');
+        $('#instance_details__installed_software').removeClass('active');
+        $('#instance_details__new_software').removeClass('active');
         $('#overview').removeClass('active'); 
         $('#vnc').removeClass('active'); 
         $('#log').addClass('active');
+        $('#software').removeClass('active');
+    },
+    
+    showSoftware: function() {
+    	this.options.subsubview = "installed_software";
+    	$('#instance_details__overview').removeClass('active');
+        $('#instance_details__vnc').removeClass('active');
+        $('#instance_details__log').removeClass('active');
+        $('#instance_details__software').addClass('active');
+        $('#overview').removeClass('active'); 
+        $('#vnc').removeClass('active'); 
+        $('#log').removeClass('active');
+        $('#software').addClass('active');
+        $('#installed_software').addClass('active');
+        $('#new_software').removeClass('active');
+        this.showInstalledSoftware(); 
+       
+    },
+    
+    showInstalledSoftware: function() {
+    	$('#installed_software').addClass('active');
+    	$('#instance_details__installed_software').addClass('active');
+        $('#new_software').removeClass('active');
+        $('#instance_details__new_software').removeClass('active');
+    },
+    
+    showNewSoftware: function() {
+    	$('#installed_software').removeClass('active');
+    	$('#instance_details__installed_software').removeClass('active');
+        $('#new_software').addClass('active');
+        $('#instance_details__new_software').addClass('active');
     },
     
     onClose: function() {
@@ -73,14 +122,19 @@ var InstanceDetailView = Backbone.View.extend({
     	$('#instance_details__overview').removeClass('active'); 
     	$('#instance_details__log').removeClass('active'); 
         $('#instance_details__vnc').removeClass('active'); 
+        $('#instance_details__software').removeClass('active');
+        $('#instance_details__installed_software').removeClass('active');
+        $('#instance_details__new_software').removeClass('active');
         $('#overview').removeClass('active'); 
     	$('#log').removeClass('active'); 
         $('#vnc').removeClass('active'); 
+        $('#software').removeClass('active');
+        $('#installed_software').removeClass('active');
+        $('#new_software').removeClass('active');
     	this.onClose();
     },
     
     onInstanceDetail: function() {
-    	console.log("on instance detail");
         var self = this;    	
         this.options.flavor = new Flavor();
         this.options.flavor.set({id: this.model.get("flavor").id});
@@ -100,41 +154,56 @@ var InstanceDetailView = Backbone.View.extend({
     },
     
     checkAll: function() {
-        if (this.flavorResp && this.imageResp && this.vncResp && this.logResp) {
-        	    	console.log("instance detail");
+    	var self = this;
+    	//if (this.flavorResp && this.imageResp && this.vncResp && this.logResp) {
+        if (this.flavorResp && this.imageResp) {
+        	    	
             this.render();
         }
     },
     
     render: function () {       
     	var self = this; 
-    	console.log("consult_instance");
+             
         if ($("#consult_instance").html() == null) {
-        	
         	mySuccess = function(object) {
-        		
-            UTILS.Render.animateRender(self.el, self._template, {rules: object.security_groups[0].rules, vdc: self.options.vdc, service: self.options.service, model:self.model, flavor:self.options.flavor, image:self.options.image, logs: self.options.logs, vncUrl: self.options.vncUrl, subview: self.options.subview});
+            UTILS.Render.animateRender(self.el, self._template, {rules: object.security_groups[0].rules, vdc: self.options.vdc, service: self.options.service, model:self.model, flavor:self.options.flavor, image:self.options.image, logs: self.options.logs, vncUrl: self.options.vncUrl, subview: self.options.subview, subsubview: self.options.subsubview});
         	}
         	JSTACK.Nova.getsecuritygroupforserver(self.model.id, mySuccess);
         } else {
-        	console.log("consult_instance");
-        	mySuccess = function(object) {
-        		
-        	$(this.el).html(this._template({rules: object.security_groups[0].rules, vdc: this.options.vdc, service: this.options.service, model:this.model, flavor:this.options.flavor, image:this.options.image, logs: this.options.logs, vncUrl: this.options.vncUrl, subview: this.options.subview}));
+        	mySuccess = function(object) {	
+        	$(this.el).html(this._template({rules: object.security_groups[0].rules, vdc: this.options.vdc, service: this.options.service, model:this.model, flavor:this.options.flavor, image:this.options.image, logs: this.options.logs, vncUrl: this.options.vncUrl, subview: this.options.subview, subsubview: this.options.subsubview}));
         	}            
         	JSTACK.Nova.getsecuritygroupforserver(this.model.id, mySuccess);
         }
         
         if (this.options.subview == 'log') {
-            this.showLogs();
+            this.showLogs();    
+            
         } else if (this.options.subview == 'vnc') {
             this.showVNC();
-        }
+        
+        } else if (this.options.subview == 'software') {
+        	this.showSoftware();	
+        }      
+        
+         if (this.options.subsubview == 'installed_software') {
+            this.showInstalledSoftware();    
+            
+        } else if (this.options.subsubview == 'new_software') {
+            this.showNewSoftware();
+        }       
         
         $("#instance_vnc").unbind();
         $("#instance_logs").unbind();
+        $('#installed_software').unbind();
+        $('#new_software').unbind();
+        $("#instance_software").unbind();
         $("#instance_vnc").bind("click", this.showVNC);
         $("#instance_logs").bind("click", this.showLogs);
+        $("#instance_software").bind("click", this.showSoftware);
+        $('#installed_software').bind("click", this.showInstalledSoftware);
+        $('#new_software').bind("click", this.showNewSoftware);
         return this;
     }
 });

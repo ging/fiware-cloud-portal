@@ -419,7 +419,7 @@ var OSRouter = Backbone.Router.extend({
         self.newContentView(self,view);
     },
     
-    nova_vdc_instance: function(self, id, idservice, idinstance, subview) {
+    nova_vdc_instance: function(self, id, idservice, idinstance, subview, subsubview) {
         self.showNovaRoot(self, 'Virtual Data Centers');
         //self.instancesModel.alltenants = false;
         var instance = new Instance();
@@ -427,7 +427,7 @@ var OSRouter = Backbone.Router.extend({
         if (subview == undefined) {
             subview = 'overview';
         }   
-        var view = new InstanceDetailView({model: instance, subview: subview, vdc: id, service: idservice, el: '#content'});
+        var view = new InstanceDetailView({model: instance, subview: subview, subsubview: subsubview, vdc: id, service: idservice, el: '#content'});
         self.newContentView(self,view);
     },
 	
