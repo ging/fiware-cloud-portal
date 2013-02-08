@@ -14,8 +14,8 @@ function custom_require(urls, callback) {
 var loadOS = function() {
     $(document).ready(function(){
         console.log("Initializing");
-        //UTILS.Auth.initialize("http://130.206.80.93/keystone/v2.0/", "http://130.206.80.93/keystone-admin/v2.0/");
-        UTILS.Auth.initialize("http://mcu5.dit.upm.es:5000/v2.0/");
+        UTILS.Auth.initialize("http://130.206.80.93/keystone/v2.0/", "http://130.206.80.93/keystone-admin/v2.0/");
+        //UTILS.Auth.initialize("http://mcu5.dit.upm.es:5000/v2.0/");
         console.log("Initialized");
         var fiRouter = new OSRouter();
         Backbone.history.start();
