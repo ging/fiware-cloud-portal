@@ -8,9 +8,8 @@ var QuotaView = Backbone.View.extend({
        this.model.fetch();
     },
     
-     rerender: function() {     	
-    	var self = this;
-    	UTILS.Render.animateRender(this.el, this._template, {models:this.model.models});
-    },
-    
-});
+     rerender: function() {
+      var self = this;
+      UTILS.Render.animateRender(this.el, this._template, {models:this.model.models});
+    }
+  });

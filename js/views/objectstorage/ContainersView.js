@@ -3,7 +3,7 @@ var ObjectStorageContainersView = Backbone.View.extend({
     _template: _.itemplate($('#objectstorageContainersTemplate').html()),
 
     initialize: function() {
-    	this.model.unbind("reset");
+        this.model.unbind("reset");
         this.model.bind("reset", this.render, this);
         this.renderFirst();
     },
@@ -23,11 +23,11 @@ var ObjectStorageContainersView = Backbone.View.extend({
     },
     
     onUploadObject: function(evt) {  
-    	var self = this;
-    	var cont = self.model.get(evt.target.value);
+        var self = this;
+        var cont = self.model.get(evt.target.value);
         var subview = new UploadObjectView({el: 'body',  model: cont});
         subview.render();
-    },	
+    },  
     
     onClose: function() {
         this.undelegateEvents();
@@ -39,17 +39,18 @@ var ObjectStorageContainersView = Backbone.View.extend({
         var self = this;     
         var cont;         
         var subview = new ConfirmView({el: 'body', title: "Confirm Delete Container", btn_message: "Delete Container", onAccept: function() {
-        	cont = self.model.get(container);
-	        	if (cont.get("count")>0) {
-	        		console.log(cont);
-	        		var subview = new MessagesView({el: '#content', state: "Error", title: "Unable to delete non-empty container "+cont.get("id")});     
-	            	subview.render();
-	            	return;	
-	        	} else {
-	        	cont.destroy();
+            cont = self.model.get(container);
+                if (cont.get("count")>0) {
+                    console.log(cont);
+                    var subview2 = new MessagesView({el: '#content', state: "Error", title: "Unable to delete non-empty container "+cont.get("id")});     
+                    subview2.render();
+                    return; 
+                } else {
+                cont.destroy();
       
-	            var subview = new MessagesView({el: '#content', state: "Success", title: "Container "+cont.get("id")+" deleted."});     
-	            }
+                var subview3 = new MessagesView({el: '#content', state: "Success", title: "Container "+cont.get("id")+" deleted."});  
+                subview3.render();   
+                }
         }});        
         subview.render();
     },
@@ -63,13 +64,13 @@ var ObjectStorageContainersView = Backbone.View.extend({
                     
                     cont = self.model.get(container);                    
                     if (cont.get("count")>0) {
-	        			var subview = new MessagesView({el: '#content', state: "Conflict", title: "Container "+cont.get("id")+" contains objects."});     
-		            	subview.render();
-		            	return;	
-	        		} else {   		
+                        var subview2 = new MessagesView({el: '#content', state: "Conflict", title: "Container "+cont.get("id")+" contains objects."});     
+                        subview2.render();
+                        return; 
+                    } else {        
                     cont.destroy();    
-                    var subview = new MessagesView({el: '#content', state: "Success", title: "Container "+cont.get("name")+" deleted."});     
-                    subview.render();
+                    var subview3 = new MessagesView({el: '#content', state: "Success", title: "Container "+cont.get("name")+" deleted."});     
+                    subview3.render();
                    }
             });
         }});
@@ -77,14 +78,14 @@ var ObjectStorageContainersView = Backbone.View.extend({
     },
     
     checkAll: function () {
-    	if ($(".checkbox_all:checked").size() > 0) {
-    		$(".checkbox_containers").attr('checked','checked');
-    		this.enableDisableDeleteButton();
-    	} else {
-    		$(".checkbox_containers").attr('checked',false);
-    		this.enableDisableDeleteButton();
-    	}
-    	
+        if ($(".checkbox_all:checked").size() > 0) {
+            $(".checkbox_containers").attr('checked','checked');
+            this.enableDisableDeleteButton();
+        } else {
+            $(".checkbox_containers").attr('checked',false);
+            this.enableDisableDeleteButton();
+        }
+        
     },
     
     enableDisableDeleteButton: function () {
@@ -97,28 +98,29 @@ var ObjectStorageContainersView = Backbone.View.extend({
     },
     
     renderFirst: function() {
-    	var self = this;
+        var self = this;
         UTILS.Render.animateRender(this.el, this._template, {models:this.model.models});
         this.enableDisableDeleteButton();
     },
     
     render: function () {
-		if ($('.messages').html() != null) {
-        	$('.messages').remove();
+        if ($('.messages').html() != null) {
+            $('.messages').remove();
         }
         if ($("#containers").html() != null) {
             var new_template = this._template(this.model);
             var checkboxes = [];
-            for (var index in this.model.models) { 
-                var containerId = this.model.models[index].id;
+            var index, containerId, check;
+            for (index in this.model.models) { 
+                containerId = this.model.models[index].id;
                 if ($("#checkbox_"+containerId).is(':checked')) {
                     checkboxes.push(containerId);
                 }
             }
             $(this.el).html(new_template);
-            for (var index in checkboxes) { 
-                var containerId = checkboxes[index];
-                var check = $("#checkbox_"+containerId);
+            for (index in checkboxes) { 
+                containerId = checkboxes[index];
+                check = $("#checkbox_"+containerId);
                 if (check.html() != null) {
                     check.prop("checked", true);
                 }
@@ -127,5 +129,5 @@ var ObjectStorageContainersView = Backbone.View.extend({
         }
         
         return this;
-    },
+    }
 });

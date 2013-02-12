@@ -3,7 +3,7 @@ var ObjectStorageContainerView = Backbone.View.extend({
     _template: _.itemplate($('#objectstorageContainerTemplate').html()),
 
     initialize: function() {
-    	this.model.unbind("reset");
+        this.model.unbind("reset");
         this.model.bind("change", this.renderFirst, this);
         this.model.bind("reset", this.render, this);
         this.model.fetch();
@@ -21,22 +21,22 @@ var ObjectStorageContainerView = Backbone.View.extend({
     },
     
     onDownloadObject: function() {
-    	var self, url, urlAux, contaier, object, objName;
-    	self = this;
+        var self, url, urlAux, contaier, objName;
+        self = this;
 
-		url = $(".btn-download").attr("href");
+        url = $(".btn-download").attr("href");
         urlAux = url.split('/');       
         cont = urlAux[urlAux.length-2];
         obj = urlAux[urlAux.length-1];
         
-    	mySucess = function(object) {   	
-			
-			var typeMIME, blob, blobURL;
-        	var blob = new Blob([object], { type: "application/cdmi-object" });
-			var blobURL = window.URL.createObjectURL(blob);
-       	    window.open(blobURL);  		
-        };                            
-        CDMI.Actions.downloadobject(cont, obj, mySucess);  
+        mySucess = function(object) {
+            
+            var typeMIME, blob, blobURL;
+            blob = new Blob([object], { type: "application/cdmi-object" });
+            blobURL = window.URL.createObjectURL(blob);
+            window.open(blobURL);
+        };
+        CDMI.Actions.downloadobject(cont, obj, mySucess);
     },
     
     onUploadObject: function(evt) {
@@ -47,8 +47,8 @@ var ObjectStorageContainerView = Backbone.View.extend({
     onCopyObject: function(evt) {
         this.options.title = evt.target.value;            
         var containerName = this.options.model.get("name");
-    	var subview = new CopyObjectView({el: 'body', model: this.model, title: this.options.title, container: containerName, containers: this.options.containers.models});
-    	subview.render();
+        var subview = new CopyObjectView({el: 'body', model: this.model, title: this.options.title, container: containerName, containers: this.options.containers.models});
+        subview.render();
     },
     
     onClose: function() {
@@ -57,14 +57,14 @@ var ObjectStorageContainerView = Backbone.View.extend({
     },
 
     onDelete: function(evt) {
-		var obj, container;
-		var self = this;
+        var obj, container;
+        var self = this;
         for (var index in this.model.get("objects")) {
-        	 if (this.model.get("objects")[index].name === evt.target.value) {
-        	 	var object = this.model.get("objects")[index]; 
-        	 }        	 
-        };
-        obj = object;
+             if (this.model.get("objects")[index].name === evt.target.value) {
+                var object = this.model.get("objects")[index]; 
+             }           
+        }
+        //obj = object;
         container = (this.model.get("name"));         
         var subview = new ConfirmView({el: 'body', title: "Confirm Delete Object", btn_message: "Delete Object", onAccept: function() {
             self.model.deleteObject(container,obj);
@@ -95,14 +95,14 @@ var ObjectStorageContainerView = Backbone.View.extend({
     },
     
     checkAll: function () {
-    	if ($(".checkbox_all:checked").size() > 0) {
-    		$(".checkbox_objects").attr('checked','checked');
-    		this.enableDisableDeleteButton();
-    	} else {
-    		$(".checkbox_objects").attr('checked',false);
-    		this.enableDisableDeleteButton();
-    	}
-    	
+        if ($(".checkbox_all:checked").size() > 0) {
+            $(".checkbox_objects").attr('checked','checked');
+            this.enableDisableDeleteButton();
+        } else {
+            $(".checkbox_objects").attr('checked',false);
+            this.enableDisableDeleteButton();
+        }
+        
     },
     
     enableDisableDeleteButton: function () {
@@ -115,22 +115,23 @@ var ObjectStorageContainerView = Backbone.View.extend({
     },
     
     render: function () {
-		if ($('.messages').html() != null) {
-        	$('.messages').remove();
+        if ($('.messages').html() != null) {
+            $('.messages').remove();
         }
         if ($("#objects").html() != null) {
             var new_template = this._template(this.model);
             var checkboxes = [];
-            for (var index in this.model.models) { 
-                var objectId = this.model.models[index].id;
+            var objectId, index, check;
+            for (index in this.model.models) { 
+                objectId = this.model.models[index].id;
                 if ($("#checkbox_"+objectId).is(':checked')) {
                     checkboxes.push(objectId);
                 }
             }
             $(this.el).html(new_template);
-            for (var index in checkboxes) { 
-                var objectId = checkboxes[index];
-                var check = $("#checkbox_"+objectId);
+            for (index in checkboxes) { 
+                objectId = checkboxes[index];
+                check = $("#checkbox_"+objectId);
                 if (check.html() != null) {
                     check.prop("checked", true);
                 }
@@ -145,5 +146,5 @@ var ObjectStorageContainerView = Backbone.View.extend({
         var self = this;    
         UTILS.Render.animateRender(this.el, this._template, {model: this.model, models:this.model.get("objects")});
 
-    },
+    }
 });

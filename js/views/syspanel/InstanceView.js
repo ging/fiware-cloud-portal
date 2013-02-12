@@ -10,33 +10,33 @@ var InstanceView = Backbone.View.extend({
         this.renderFirst();
     },
     
-    events:{ 		
-   		'change .checkbox':'enableDisableTerminateButton',
-   		'click .btn-edit':'onEditInstance',
-   		'click .btn-snapshot':'onSnapshot',
-   		'click .btn-pause':'onPause',
-   		'click .btn-unpause':'onUnpause',
-   		'click .btn-suspend':'onSuspend',
-   		'click .btn-resume':'onResume',
+    events:{        
+        'change .checkbox':'enableDisableTerminateButton',
+        'click .btn-edit':'onEditInstance',
+        'click .btn-snapshot':'onSnapshot',
+        'click .btn-pause':'onPause',
+        'click .btn-unpause':'onUnpause',
+        'click .btn-suspend':'onSuspend',
+        'click .btn-resume':'onResume',
         'click .btn-password':'onChangePassword',
         'click .btn-reboot':'onReboot',
         'click .btn-terminate':'onTerminate',
         'click .btn-terminate-group':'onTerminateGroup'
-  	},
-  	
-  	onClose: function() {
+    },
+    
+    onClose: function() {
         this.undelegateEvents();
         this.unbind();
         this.model.unbind("reset");
     },
-  	
-  	onEditInstance: function(evt) {
+    
+    onEditInstance: function(evt) {
         var instance = evt.target.value;
         var subview = new UpdateInstanceView({el: 'body', model: this.model.get(instance)});
         subview.render();
     },
-  		
-	onSnapshot: function(evt) {
+        
+    onSnapshot: function(evt) {
         var instance = evt.target.value;
         var subview = new CreateSnapshotView({el: 'body', model: this.model.get(instance)});
         subview.render();
@@ -111,7 +111,7 @@ var InstanceView = Backbone.View.extend({
                     var inst = self.model.get(instance);
                     inst.destroy();
                     var subview = new MessagesView({el: '#content', state: "Success", title: "Instances "+inst.get("name")+" terminated."});     
-        			subview.render();
+                    subview.render();
             });
         }});
         subview.render();
@@ -136,8 +136,9 @@ var InstanceView = Backbone.View.extend({
             var new_template = this._template({models:this.model.models, projects:this.options.projects, flavors:this.options.flavors});
             var checkboxes = [];
             var dropdowns = [];
-            for (var index in this.model.models) { 
-                var instanceId = this.model.models[index].id;
+            var index, instanceId, check, drop;
+            for (index in this.model.models) { 
+                instanceId = this.model.models[index].id;
                 if ($("#checkbox_"+instanceId).is(':checked')) {
                     checkboxes.push(instanceId);
                 }
@@ -146,22 +147,22 @@ var InstanceView = Backbone.View.extend({
                 }
             }
             $(this.el).html(new_template);
-            for (var index in checkboxes) { 
-                var instanceId = checkboxes[index];
-                var check = $("#checkbox_"+instanceId);
+            for (index in checkboxes) { 
+                instanceId = checkboxes[index];
+                check = $("#checkbox_"+instanceId);
                 if (check.html() != null) {
                     check.prop("checked", true);
                 }
             }
             
-            for (var index in dropdowns) { 
-                var instanceId = dropdowns[index];
-                var drop = $("#dropdown_"+instanceId);
+            for (index in dropdowns) { 
+                instanceId = dropdowns[index];
+                drop = $("#dropdown_"+instanceId);
                 if (drop.html() != null) {
                     drop.addClass("open");
                 }
             }
-            this.enableDisableTerminateButton();           
+            this.enableDisableTerminateButton();
         }
         
         return this;

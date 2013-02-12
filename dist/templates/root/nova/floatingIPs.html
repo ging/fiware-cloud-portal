@@ -1,0 +1,43 @@
+<script id="novaFloatingIPsTemplate" type="text/html">
+<!--
+Description: Access And Security
+src: templates/root/nova/floatingIPs.html
+-->
+<div id="floating_ips">
+        <div class='table_header'>
+            <h3 class='table_title'>Floating IPs</h3>
+            <div class="table_actions clearfix">
+
+                <button class="btn btn-small btn-blue btn-allocate ajax-modal" id="allocate_IP">Allocate IP To Project</button>
+
+                <button class='btn btn-small btn-danger' id='release_floating_IPs' name="action" value="floating_ips__release" type="submit">
+                    Release Floating IPs
+                </button>
+            </div>
+        </div>
+        <table id="floating_ips" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="multi_select_column"></th>
+                    <th class="">IP Address</th>
+                    <th class="">Instance</th>
+                    <th class="">Floating IP Pool</th>
+                    <th class="actions_column">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="odd empty">
+	                <td class="multi_select_column">
+	                	<input type="checkbox" name="object_ids" id="checkbox_floating_ips_" value="nubeblog" />
+	                </td>
+                    <td colspan="5">No items to display.</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="5"><span>Displaying 0 items</span></td>
+                    </td>
+            </tfoot>
+        </table>	
+</div>
+</script>

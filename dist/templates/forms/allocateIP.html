@@ -1,0 +1,48 @@
+<script id="allocateIPFormTemplate" type="text/html">
+<div id="allocate_IP" class="modal hide ">
+	
+	<div class="modal-header">
+        <a id="closeModal" href="#" class="close" data-dismiss="modal">&times;</a>
+        <h3>Allocate Floating IP</h3>
+    </div>
+
+	<div class="modal-body clearfix">	    
+		<div class="left">
+		    <fieldset>	    
+		  		<input type="hidden" name="method" value="FloatingIpAllocate" id="id_method">	
+		 		<input type="hidden" name="tenant_name" value="demo" id="id_tenant_name">
+				<div class="control-group form-field clearfix">
+				    <label for="id_pool">Pool</label>  
+				    <span class="help-block" style="display: none;"></span>
+				    <div class="input">
+				    <select name="pool" id="id_pool">
+						<option value="None">No floating IP pools available.</option>
+					</select>
+		    		</div>
+		  		</div>   
+		  	 </fieldset>	
+		</div>
+		<div class="right">
+		    <h3>Description:</h3>
+		    <p>Allocate a floating IP from a given floating ip pool.</p>		
+		    <h3>Project Quotas</h3>	    
+		    <div class="quota_title">
+		      <strong>Floating IP <span>(0)</span></strong>
+		      <p>10 Available</p>
+		    </div>
+		    <div class="clearfix"></div>
+		    <div class="quota_bar">
+		    	<div class="progress_bar">
+		    		<div class="progress_bar_fill" style="width: 0%"></div>
+		    	</div>
+			</div>
+		</div>
+  	</div>
+ 	<div class="modal-footer">
+        <button id="submit" class="btn btn-blue pull-right" data-dismiss="modal">
+            Allocate IP
+        </button>
+        <a id="cancelBtn" class="btn secondary cancel close" data-dismiss="modal">Cancel</a>
+    </div>
+</div>
+</script>

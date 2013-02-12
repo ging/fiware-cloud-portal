@@ -8,7 +8,7 @@ var UploadObjectView = Backbone.View.extend({
         'click #close': 'close',
         'click .modal-backdrop': 'close'
     },
-    
+
     close: function(e) {
         $('#upload_object').remove();
         $('.modal-backdrop').remove();
@@ -29,26 +29,26 @@ var UploadObjectView = Backbone.View.extend({
         $('.modal:last').modal();
         return this;
     },
-    
+
     onSubmit: function(e){
-    	e.preventDefault();     
-    	var self = this;
-    	var contName, objName, obj;
-        if (this.$('input[name=objName]').val() === "") { 
-        	//this.close();
-          var subview = new MessagesView({el: '#content', state: "Error", title: "Wrong input values for container. Please try again."});     
-          subview.render(); 
+        e.preventDefault();
+        var self = this;
+        var contName, objName, obj, subview;
+        if (this.$('input[name=objName]').val() === "") {
+            //this.close();
+          subview = new MessagesView({el: '#content', state: "Error", title: "Wrong input values for container. Please try again."});
+          subview.render();
           this.close();
           return;
         } else {
-			contName = self.model.get("name");   
+            contName = self.model.get("name");
             objName = self.$('input[name=objName]').val();
             obj = document.getElementById("id_object_file").files[0];
-           	self.model.uploadObject(contName, objName, obj);           
-            var subview = new MessagesView({el: '#content', state: "Success", title: "Object " + objName + " uploaded."});     
+            self.model.uploadObject(contName, objName, obj);
+            subview = new MessagesView({el: '#content', state: "Success", title: "Object " + objName + " uploaded."});
             subview.render();
             this.close();
-        }       
+        }
     }
-           
+
 });

@@ -102,8 +102,9 @@ var NovaVolumesView = Backbone.View.extend({
             var new_template = this._template({models:this.model.models, volumeSnapshotsModel: this.options.volumeSnapshotModel, flavors:this.options.flavors});
             var checkboxes = [];
             var dropdowns = [];
-            for (var index in this.model.models) { 
-                var instanceId = this.model.models[index].id;
+            var index, instanceId, check;
+            for (index in this.model.models) { 
+                instanceId = this.model.models[index].id;
                 if ($("#checkbox_"+instanceId).is(':checked')) {
                     checkboxes.push(instanceId);
                 }
@@ -112,17 +113,17 @@ var NovaVolumesView = Backbone.View.extend({
                 }
             }
             $(this.el).html(new_template);
-            for (var index in checkboxes) { 
-                var instanceId = checkboxes[index];
-                var check = $("#checkbox_"+instanceId);
+            for (index in checkboxes) { 
+                instanceId = checkboxes[index];
+                check = $("#checkbox_"+instanceId);
                 if (check.html() != null) {
                     check.prop("checked", true);
                 }
             }
             
-            for (var index in dropdowns) { 
-                var instanceId = dropdowns[index];
-                var drop = $("#dropdown_"+instanceId);
+            for (index in dropdowns) { 
+                instanceId = dropdowns[index];
+                drop = $("#dropdown_"+instanceId);
                 if (drop.html() != null) {
                     drop.addClass("open");
                 }

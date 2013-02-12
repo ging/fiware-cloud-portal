@@ -1,0 +1,70 @@
+<script id="novaSecurityGroupsTemplate" type="text/html">
+<!--
+Description: Access And Security
+src: templates/root/nova/securityGroups.html
+-->
+<div id="security_groups">
+        <div class='table_header'>
+            <h3 class='table_title'>Security Groups</h3>
+            <div class="table_actions clearfix">
+
+                <button id="security_groups__action_create" class="btn btn-small btn-blue btn-create-sec-group">Create Security Group</button>
+                <button class='btn btn-small btn-danger btn-delete' disabled="disabled" name="action" id="sec_groups_delete" value="security_groups__delete" type="submit">
+                    Delete Security Groups
+                </button>
+            </div>
+        </div>
+        <table id="security_groups" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="multi_select_column"></th>
+                    <th class="">Name</th>
+                    <th class="">Description</th>
+                    <th class="actions_column">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            	<%  var sec_group;
+            		var i = 0; 
+            	if (securityGroupsModel.models != "") { 
+            		for (var i in securityGroupsModel.models) {
+            			sec_group = securityGroupsModel.models[i];
+            			          
+            	%>
+                <tr id="sec_groups__row__<%= securityGroupsModel.models.length %>"
+                class="ajax-update status_down">
+                    <td class="multi_select_column">
+                    <input type="checkbox" id="checkbox_sec_groups_<%= sec_group.attributes.id%>" class="checkbox_sec_groups" name="object_ids" value="<%= sec_group.attributes.id%>" />
+                    </td>
+                    <td class=""><%= sec_group.attributes.name%></td>
+                    <td class=""><%= sec_group.attributes.description%></td>
+                    <td class="actions_column hidden-phone">
+	                	<div id="dropdown_<%= sec_group.attributes.id %>" class="btn-group">
+		                    <button id="sec_group_edit" name="action" type="submit" class="ajax-modal btn btn-small btn-blue btn-edit" value="<%= sec_group.attributes.id %>" data-i18n="Edit Rules">Edit Rules</button>
+		                    <% if (sec_group.attributes.name !== 'default') { %>
+		                    <a class="btn btn-small btn-blue dropdown-toggle" data-toggle="dropdown" href="#"> <span class="caret-white caret"></span> </a>		                    
+		                    <ul class="dropdown-menu row_actions clearfix">
+		                        <li class="clearfix">
+		                            <button class="btn btn-small btn-danger btn-delete" id="sec_delete" name="action" value="<%= sec_group.attributes.id %>" type="submit" data-i18n="Delete Security Group">
+		                                Delete Security Group
+		                            </button>
+		                        </li>
+		                    </ul>
+		                    <% };%>
+	                	</div>
+                	</td>
+                </tr>
+                <% i++ } } else { %>  
+               	<tr class="odd empty">
+                    <td colspan="4">No items to display.</td>
+                </tr> 
+                <% } %>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4"><span>Displaying <%= securityGroupsModel.models.length%> item</span></td>
+                    </td>
+            </tfoot>
+        </table>
+</div>
+</script>

@@ -1,12 +1,12 @@
 var ImportKeypairView = Backbone.View.extend({
-    
+
     _template: _.itemplate($('#importKeypairFormTemplate').html()),
 
     events: {
       'click #cancelImportBtn': 'close',
       'click #close': 'close',
       'click #importBtn': 'importKeypair',
-      'click .modal-backdrop': 'close',         
+      'click .modal-backdrop': 'close'
     },
 
     render: function () {
@@ -14,7 +14,7 @@ var ImportKeypairView = Backbone.View.extend({
         $('.modal:last').modal();
         return this;
     },
-    
+
     close: function(e) {
         //this.model.unbind("change", this.render, this);
         $('#import_keypair').remove();
@@ -26,25 +26,26 @@ var ImportKeypairView = Backbone.View.extend({
         this.undelegateEvents();
         this.unbind();
     },
-    
+
     importKeypair: function(e) {
-    	self = this;
+        self = this;
         var name = $('input[name=name]').val();
         var publicKey = $('input[name=public_key]').val();
-        var newKeypair = new Keypair();   
+        var newKeypair = new Keypair();
+        var subview;
         for (var index in self.model.models) {
-        	if (self.model.models[index].attributes.name === name) {        		
-        		var subview = new MessagesView({el: '#content', state: "Error", title: "Keypair "+name+" already exists. Please try again."});     
-              	subview.render(); 
-              	return;
-	     	} 
-	    } 	
-        newKeypair.set({'name': name, 'public_key': publicKey});    	   	 
+            if (self.model.models[index].attributes.name === name) {
+                subview = new MessagesView({el: '#content', state: "Error", title: "Keypair "+name+" already exists. Please try again."});
+                subview.render();
+                return;
+            }
+        }
+        newKeypair.set({'name': name, 'public_key': publicKey});
         newKeypair.save();
-        
-        var subview = new MessagesView({el: '#content', state: "Success", title: "Keypair "+name+" imported."});     
+
+        subview = new MessagesView({el: '#content', state: "Success", title: "Keypair "+name+" imported."});
         subview.render();
         this.close();
     }
-    
+
 });

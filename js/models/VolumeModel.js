@@ -1,18 +1,18 @@
 var Volume = Backbone.Model.extend({
-    
+
     _action:function(method, options) {
         var model = this;
-        if (options == null) options = {};
+        if (options === undefined) options = {};
         options.success = function(resp) {
             model.trigger('sync', model, resp, options);
-            if (options.callback!=undefined) {
+            if (options.callback !== undefined) {
                 options.callback(resp);
             }
-        }
+        };
         var xhr = (this.sync || Backbone.sync).call(this, method, this, options);
         return xhr;
     },
-    
+
     sync: function(method, model, options) {
         switch(method) {
             case "create":
@@ -28,9 +28,9 @@ var Volume = Backbone.Model.extend({
                 break;
         }
     },
-    
+
     parse: function(resp) {
-        if (resp.volume != undefined) {
+        if (resp.volume !== undefined) {
             return resp.volume;
         } else {
             return resp;
@@ -39,19 +39,17 @@ var Volume = Backbone.Model.extend({
 });
 
 var Volumes = Backbone.Collection.extend({
-    
+
     model: Volume,
-    
+
     sync: function(method, model, options) {
-        switch(method) {
-            case "read":
-                JSTACK.Nova.Volume.getvolumelist(true, options.success);
-                break;
+        if (method == 'read') {
+            JSTACK.Nova.Volume.getvolumelist(true, options.success);
         }
     },
-    
+
     parse: function(resp) {
         return resp.volumes;
     }
-    
+
 });

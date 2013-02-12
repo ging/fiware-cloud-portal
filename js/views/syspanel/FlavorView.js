@@ -3,13 +3,13 @@ var FlavorView = Backbone.View.extend({
     _template: _.itemplate($('#flavorsTemplate').html()),
 
     
-    initialize: function() {	
-    	this.model.unbind("reset");
+    initialize: function() {    
+        this.model.unbind("reset");
         this.model.bind("reset", this.render, this);
         this.renderFirst();
     },
     
-    events: {    	
+    events: {
         'change .checkbox':'enableDisableDeleteButton',
         'click .btn-delete':'onDelete',
         'click .btn-delete-group':'onDeleteGroup'
@@ -36,7 +36,7 @@ var FlavorView = Backbone.View.extend({
         var subview = new ConfirmView({el: 'body', title: "Delete Flavor", btn_message: "Delete Flavor", onAccept: function() {
             flav.destroy();
             var subview = new MessagesView({el: '#content', state: "Success", title: "Flavor "+flav.get("name")+" deleted."});     
-        	subview.render();
+            subview.render();
         }});
         subview.render();
     },
@@ -49,8 +49,8 @@ var FlavorView = Backbone.View.extend({
                     var flav = self.model.get(flavor);
                     console.log(flav);
                     flav.destroy();
-                    var subview = new MessagesView({el: '#content', state: "Success", title: "Flavors "+flav.get("name")+" deleted."});     
-        			subview.render();
+                    var subview2 = new MessagesView({el: '#content', state: "Success", title: "Flavors "+flav.get("name")+" deleted."});     
+                    subview2.render();
             });
         }});
         subview.render();
@@ -61,23 +61,24 @@ var FlavorView = Backbone.View.extend({
         this.enableDisableDeleteButton();
     },
     
-	render: function () {
-		if ($('.messages').html() != null) {
-        	$('.messages').remove();
+    render: function () {
+        if ($('.messages').html() != null) {
+            $('.messages').remove();
         }
         if ($("#flavors").html() != null) {
             var new_template = this._template(this.model);
             var checkboxes = [];
-            for (var index in this.model.models) { 
-                var flavorId = this.model.models[index].id;
+            var index, flavorId, check;
+            for (index in this.model.models) { 
+                flavorId = this.model.models[index].id;
                 if ($("#checkbox_"+flavorId).is(':checked')) {
                     checkboxes.push(flavorId);
                 }
             }
             $(this.el).html(new_template);
-            for (var index in checkboxes) { 
-                var flavorId = checkboxes[index];
-                var check = $("#checkbox_"+flavorId);
+            for (index in checkboxes) { 
+                flavorId = checkboxes[index];
+                check = $("#checkbox_"+flavorId);
                 if (check.html() != null) {
                     check.prop("checked", true);
                 }

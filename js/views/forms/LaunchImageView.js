@@ -1,5 +1,5 @@
 var LaunchImageView = Backbone.View.extend({
-    
+
     _template: _.itemplate($('#launchImageTemplate').html()),
 
     events: {
@@ -8,11 +8,11 @@ var LaunchImageView = Backbone.View.extend({
       'click .modal-backdrop': 'close',
       'click .btn-launch-image': 'launch'
     },
-    
+
     initialize: function() {
         this.options.keypairs.fetch();
     },
-    
+
     render: function () {
         var flavors = this.options.flavors;
         if ($('#launch_image').html() != null) {
@@ -22,12 +22,12 @@ var LaunchImageView = Backbone.View.extend({
         $('#launch_image').modal();
         return this;
     },
-    
+
     onClose: function() {
         this.undelegateEvents();
         this.unbind();
     },
-    
+
     close: function(e) {
         if (e !== undefined) {
             e.preventDefault();
@@ -40,31 +40,28 @@ var LaunchImageView = Backbone.View.extend({
             this.model.unbind("reset", this.render, this);
         }
     },
-    
+
     launch: function(e) {
         var instance = new Instance();
         var name = $('input[name=instance_name]').val();
         var imageReg = this.model.id;
-        var flavorReg = undefined;
+        var flavorReg, key_name, security_groups, availability_zone;
         $("#id_flavor option:selected").each(function () {
-                var flavor = $(this).val(); 
-                if (flavor != "") {
+                var flavor = $(this).val();
+                if (flavor !== "") {
                     flavorReg = flavor;
                 }
         });
-        var key_name = undefined;
         $("#id_keypair option:selected").each(function () {
-                var keypair = $(this).val(); 
-                if (keypair != "") {
+                var keypair = $(this).val();
+                if (keypair !== "") {
                     key_name = keypair;
                 }
         });
         var user_data = $('textarea[name=user_data]').val();
-        var security_groups = undefined;
         var min_count = $('input[name=count]').val();
         var max_count = $('input[name=count]').val();
-        var availability_zone = undefined;
-        
+
         instance.set({"name": name});
         instance.set({"imageReg": imageReg});
         instance.set({"flavorReg": flavorReg});
@@ -76,9 +73,9 @@ var LaunchImageView = Backbone.View.extend({
         instance.set({"availability_zone": availability_zone});
         instance.save();
         //this.options.addInstance(instance);
-        //var subview = new MessagesView({el: '#content', state: "Success", title: "Instance "+instance.get("name")+" launched."});     
+        //var subview = new MessagesView({el: '#content', state: "Success", title: "Instance "+instance.get("name")+" launched."});
         //subview.render();
         this.close();
     }
-    
+
 });
