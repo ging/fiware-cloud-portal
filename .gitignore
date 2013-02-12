@@ -2,5 +2,3 @@
 .project
 .settings
 test
-
-templates/forms/createKeyPair.html
