@@ -103,7 +103,7 @@ src: templates/root/nova/instanceDetail.html
                             <strong>Key name:</strong>&nbsp;<%=model.get("key_name")!==undefined?model.get("key_name"):"<em>None</em>"%>
                         </li>
                         <li>
-                            <strong>Image Name:</strong>&nbsp;<a href="#nova/images_and_snapshots/<%=image.id%>"><%=image.get("name")%></a>
+                            <strong>Image Name:</strong>&nbsp;<a href="#nova/images_and_snapshots/<%=image.get("id")%>"><%=image.get("id")%></a>
                         </li>
                     </ul>
                 </div>
@@ -155,13 +155,21 @@ src: templates/root/nova/instanceDetail.html
 					            <tr	
 					            class="ajax-update status_down">
 					                <td class=""><a href="">Tomcat</a></td>
-					                <td class="hidden-phone" data-i18n="Image">7</td>
-					                <td class="">Tomcat J2EE container</td>
+					                <td class="hidden-phone" data-i18n="7">7</td>
+					                <td class="">INSTALLED</td>
 					                <td class="actions_column">
 					                <div id="" class="btn-group">
-					                    <button  id="images__action_launch_" class="ajax-modal btn btn-small btn-blue btn-launch" name="action" value="" type="submit" data-i18n="Launch">
-					                        Launch
-					                    </button>
+					                    <button  id="software__action_uninstall" class="ajax-modal btn btn-small btn-blue btn-uninstall" name="action" value="" type="submit" data-i18n="Uninstall">
+					                        Uninstall
+					                    </button>					                    
+					                    <a class="btn btn-small btn-blue dropdown-toggle" data-toggle="dropdown" href="#"> <span class="caret-white caret"></span> </a>
+					                    <ul class="dropdown-menu row_actions clearfix">
+					                        <li class="clearfix">			
+					                            <button  id="images__action_launch_" class="ajax-modal btn btn-small btn-blue btn-configure" name="action" value="" type="submit" data-i18n="Configure">
+					                        		Configure
+					                    		</button>
+					                        </li>
+					                    </ul>					                    
 					                </div></td>
 					            </tr>
 					        </tbody>
@@ -192,12 +200,12 @@ src: templates/root/nova/instanceDetail.html
 					            <tr	
 					            class="ajax-update status_down">
 					                <td class=""><a href="">Tomcat</a></td>
-					                <td class="hidden-phone" data-i18n="Image">6</td>
+					                <td class="hidden-phone" data-i18n="6">6</td>
 					                <td class="">Tomcat J2EE container</td>
 					                <td class="">Yes</td>
 					                <td class="actions_column">
 					                <div id="" class="btn-group">
-					                    <button  id="images__action_install_" class="ajax-modal btn btn-small btn-blue btn-launch" name="action" value="" type="submit" data-i18n="Install">
+					                    <button  id="software__action_install" class="ajax-modal btn btn-small btn-blue btn-install" name="action" value="Tomcat" type="submit" data-i18n="Install">
 					                        Install
 					                    </button>
 					                </div></td>
@@ -205,12 +213,12 @@ src: templates/root/nova/instanceDetail.html
 					            <tr	
 					            class="ajax-update status_down">
 					                <td class=""><a href="">PostgreSQL</a></td>
-					                <td class="hidden-phone" data-i18n="Image">8.4</td>
+					                <td class="hidden-phone" data-i18n="8.4">8.4</td>
 					                <td class="">DB Manager</td>
 					                <td class="">Yes</td>
 					                <td class="actions_column">
 					                <div id="" class="btn-group">
-					                    <button  id="images__action_install_" class="ajax-modal btn btn-small btn-blue btn-launch" name="action" value="" type="submit" data-i18n="Install">
+					                    <button  id="software__action_install" class="ajax-modal btn btn-small btn-blue btn-install" name="action" value="" type="submit" data-i18n="Install">
 					                        Install
 					                    </button>
 					                </div></td>
@@ -218,12 +226,12 @@ src: templates/root/nova/instanceDetail.html
 					            <tr	
 					            class="ajax-update status_down">
 					                <td class=""><a href="">Mediawiki</a></td>
-					                <td class="hidden-phone" data-i18n="Image">1.17</td>
+					                <td class="hidden-phone" data-i18n="1.17">1.17</td>
 					                <td class="">Mediawiki product</td>
 					                <td class="">Yes</td>
 					                <td class="actions_column">
 					                <div id="" class="btn-group">
-					                    <button  id="images__action_install_" class="ajax-modal btn btn-small btn-blue btn-launch" name="action" value="" type="submit" data-i18n="Install">
+					                   <button  id="software__action_install" class="ajax-modal btn btn-small btn-blue btn-install" name="action" value="" type="submit" data-i18n="Install">
 					                        Install
 					                    </button>
 					                </div></td>

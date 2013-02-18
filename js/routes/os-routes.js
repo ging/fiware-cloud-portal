@@ -267,7 +267,6 @@ var OSRouter = Backbone.Router.extend({
 	},
 	
 	consult_image: function(self, id) {
-		console.log("consult images");
 	    self.showNovaRoot(self, 'Images &amp; Snapshots');
 	    var image = new Image();
 	    image.set({"id": id});
@@ -413,7 +412,7 @@ var OSRouter = Backbone.Router.extend({
     
     nova_vdc_service: function(self, id, idservice) {
         self.showNovaRoot(self, 'Virtual Data Centers');
-        //self.instancesModel.alltenants = false;
+        //self.instancesModel.alltenants = false;¡
         var service = new VDCService({id: idservice});
         var view = new VDCServiceView({model: service, flavors: self.flavors, vdc: id, el: '#content'});
         self.newContentView(self,view);

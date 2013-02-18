@@ -16,7 +16,9 @@ var InstanceDetailView = Backbone.View.extend({
             'click #instance_logs': 'showLogs',
             'click #instance_software': 'showSoftware',
             'click #installed_software': 'showInstalledSoftware',
-            'click #new_software': 'showNewSoftware'
+            'click #new_software': 'showNewSoftware',
+            'click #software__action_install': 'onInstallSoftware',
+            'click #software__action_uninstall': 'onUninstallSoftware'
         });         
 
         this.model.bind("change", this.onInstanceDetail, this);
@@ -153,6 +155,22 @@ var InstanceDetailView = Backbone.View.extend({
         this.checkAll();
     },
     
+    onInstallSoftware: function(e) {
+        var self = this;  	
+        var software = e.target.value;
+        var subview = new InstallSoftwareView({el: 'body', model: this.model.get(software)});
+        subview.render();
+    },
+    
+    onUninstallSoftware: function(e) {
+        var subview = new ConfirmView({el: 'body', title: "Uninstall Software", btn_message: "Uninstall Software", onAccept: function() {
+            //software.destroy();
+            var subview = new MessagesView({el: '#content', state: "Success", title: "Software deleted."});     
+        	subview.render();
+        }});
+        subview.render();
+    },
+    
     checkAll: function() {
     	var self = this;
     	//if (this.flavorResp && this.imageResp && this.vncResp && this.logResp) {
@@ -164,7 +182,6 @@ var InstanceDetailView = Backbone.View.extend({
     
     render: function () {       
     	var self = this; 
-             
         if ($("#consult_instance").html() == null) {
         	mySuccess = function(object) {
             UTILS.Render.animateRender(self.el, self._template, {rules: object.security_groups[0].rules, vdc: self.options.vdc, service: self.options.service, model:self.model, flavor:self.options.flavor, image:self.options.image, logs: self.options.logs, vncUrl: self.options.vncUrl, subview: self.options.subview, subsubview: self.options.subsubview});

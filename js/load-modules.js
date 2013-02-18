@@ -82,6 +82,7 @@ var loadViews = function() {
                 "js/views/forms/ImportKeypairView.js",
                 "js/views/forms/DownloadKeypairView.js",
                 "js/views/forms/AllocateIPView.js",
+                "js/views/forms/InstallSoftwareView.js",
                 "js/views/nova/InstanceDetailView.js",
                 "js/views/SettingsView.js",
                 "js/views/forms/MessagesView.js"
@@ -160,6 +161,7 @@ var loadTemplates = function() {
                     'templates/forms/importKeypair.html',
                     'templates/forms/downloadKeypair.html',
                     'templates/forms/allocateIP.html',
+                    'templates/forms/installSoftware.html',
                     'templates/root/nova/overview.html',
                     'templates/root/nova/accessAndSecurity.html',
                     'templates/root/nova/keypairs.html',

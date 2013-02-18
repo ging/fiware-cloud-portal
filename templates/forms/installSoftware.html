@@ -1,0 +1,41 @@
+<script id="installSoftwareFormTemplate" type="text/html">
+<div id="install_software" class="modal hide in" style="top: 107px; display: block; ">
+    <!--
+    Description: Install Software Form
+    src: templates/forms/installSoftware.html
+    -->
+
+    <div class="modal-header">
+        <a href="#nova/vdcs/mockVDC/" class="close" data-dismiss="modal">×</a>
+        <h3>Install Mediawiki 1.17</h3>
+    </div>
+    <form action="" id="install_software_form">
+        <div class="modal-body clearfix">
+            <div class="left">
+                <fieldset>
+                    <div class="control-group form-field clearfix">
+                        <label for="id_name"> Name</label>
+
+                        <span class="help-block" style="display: none; "></span>
+                        <div class="input">
+                            <input id="id_name" type="text" name="name" maxlength="255">
+                        </div>
+                    </div>
+                    <div class="control-group form-field clearfix">
+                        <label for="id_name">Path</label>
+
+                        <span class="help-block" style="display: none; "></span>
+                        <div class="input">
+                            <input id="id_name" type="text" name="name" maxlength="255">
+                        </div>
+                    </div>
+                </fieldset>
+            </div>            
+        </div>
+        <div class="modal-footer">
+            <a id="submit" class="btn btn-blue pull-right" data-dismiss="modal">Install</a>
+            <a href="#nova/vdcs/mockVDC/" id="cancelBtn" class="btn secondary cancel">Cancel</a>
+        </div>
+    </form>
+</div>
+</script>
