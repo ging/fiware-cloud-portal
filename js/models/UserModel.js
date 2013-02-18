@@ -6,7 +6,7 @@ var User = Backbone.Model.extend({
                    break;
                case "delete":
                    JSTACK.Keystone.deleteuser(model.get("id"), options.success);
-               		break;
+                     break;
                case "create":
                    JSTACK.Keystone.createuser(model.get("id"), options.success);
                    break;
@@ -22,17 +22,15 @@ var User = Backbone.Model.extend({
 
 var Users = Backbone.Collection.extend({
     model: User,
-    
+
     sync: function(method, model, options) {
-        switch(method) {
-            case "read":
-                JSTACK.Keystone.getusers(true, options.success);
-                break;
+        if(method === "read") {
+            JSTACK.Keystone.getusers(true, options.success);
         }
     },
-    
+
     parse: function(resp) {
         return resp.users;
     }
-    
+
 });

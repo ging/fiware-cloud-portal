@@ -29,9 +29,10 @@ src: templates/root/nova/snapshots/instanceSnapshots.html
             <% 	var num_snapshots=0;
             for (var index in models) {
             var image = models[index];
-           	var image_type = image.get('metadata').image_type;
-            if (image_type == "snapshot") {
-            num_snapshots++;
+            if (image.get('metadata')) {
+           	    var image_type = image.get('metadata').image_type;
+                if (image_type == "snapshot") {
+                num_snapshots++;
             %>
             <tr id="images__row__<%= models.length %>" class="">
                 <td class="multi_select_column">
@@ -62,7 +63,7 @@ src: templates/root/nova/snapshots/instanceSnapshots.html
                     </ul>
                 </div></td>
             </tr>
-            <% } } %>
+            <% } } } %>
         </tbody>
         <tfoot>
             <tr>

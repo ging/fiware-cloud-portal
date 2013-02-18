@@ -145,7 +145,7 @@
 </script>
 
 <script id="updateImageFormTemplate" type="text/html">
-<div id="update_image" class="modal hide ">
+<div id="update_image" class="modal hide " >
     <!--
     Description: Update Image Form
     src: templates/forms/updateImage.html
@@ -277,54 +277,45 @@
         <a id="cancelBtn" class="close btn seconday cancel close" data-dismiss="modal">Cancel</a>
     </div>
 </div>
-</script><script id="createKeyPairFormTemplate" type="text/html">
-<div id="create_keypair" class="modal hide  in" style="display: block; ">
+</script><script id="createKeypairFormTemplate" type="text/html">
+<div id="create_keypair" class="modal hide ">
     <!--
     Description: Create Keypair Form
-    src: templates/forms/createKeyPair.html
+    src: templates/forms/createKeypair.html
     -->
     <div class="modal-header">
-        <a href="#" class="close" data-dismiss="modal">×</a>
+        <a id="close" href="#" class="close" data-dismiss="modal">&times;</a>
         <h3>Create Keypair</h3>
     </div>
-
-    <form id="create_keypair_form" class="" action="" method="">
-        <div class="modal-body clearfix">
-
-            <div class="left">
-                <fieldset>
-
-                    <div class="control-group form-field clearfix">
-                        <label for="id_name">Keypair Name</label>
-
-                        <span class="help-block" style="display: none; "></span>
-                        <div class="input">
-                            <input id="id_name" type="text" name="name" maxlength="20">
-                        </div>
+    <form action="" id="create_keypair_form">
+    <div class="modal-body clearfix">
+        <div class="left">
+            <fieldset>
+                <div class="control-group form-field clearfix">
+                    <label for="name">Keypair Name</label>
+                    <span class="help-block"></span>
+                    <div class="input">
+                        <input type="text" name="name" value="" id="name" rel="tooltip" data-placement="right" title="Keypair names may only contain letters, numbers, underscores and hyphens."/ required>
                     </div>
-
-                </fieldset>
-            </div>
-            <div class="right">
-                <h3>Description:</h3>
-                <p>
-                    Keypairs are ssh credentials which are injected into images when they are launched. Creating a new key pair registers the public key and downloads the private key (a .pem file).
-                </p>
-                <p>
-                    Protect and use the key as you would any normal ssh private key.
-                </p>
-            </div>
-
+                </div>
+            </fieldset>
         </div>
-        <div class="modal-footer">
-            <input class="btn btn-blue pull-right" type="submit" value="Create Keypair">
-            <a href="/nova/access_and_security/" class="btn secondary cancel close">Cancel</a>
+        <div class="right">
+            <h3>Description:</h3>
+            <p>
+                Keypairs are ssh credentials which are injected into images when they are launched. 
+                Creating a new key pair registers the public key and downloads the private key (a .pem file).
+                Protect and use the key as you would any normal ssh private key.
+            </p>
         </div>
+    </div>
+    <div class="modal-footer">
+        <a id="createBtn" class="btn btn-blue pull-right createKeypair" data-dismiss="modal">Create Keypair</a>
+        <a id="cancelCreateBtn" class="close btn seconday cancel close" data-dismiss="modal">Cancel</a>
+    </div>
     </form>
 </div>
-</script>
-
-<script id="createSnapshotFormTemplate" type="text/html">
+</script><script id="createSnapshotFormTemplate" type="text/html">
 <div id="create_snapshot" class="modal hide ">
     <!--
     Description: Create Snapshot Form
@@ -825,11 +816,11 @@
 </div>
 </script><script id="uploadObjectFormTemplate" type="text/html">
 <div id="upload_object" class="modal hide in" style="top: 80px; display: block; ">
-    <div class="modal-header">
-        <a href="#" id="close" class="close" data-dismiss="modal">×</a>
-        <h3>Upload Object To Container: <%= model.get('name')%></h3>
-    </div>
-
+  <div class="modal-header">
+    <a href="#" id="close" class="close" data-dismiss="modal">×</a>
+    <h3>Upload Object To Container: <%= model.get('name')%></h3>
+  </div>
+  
     <div class="modal-body clearfix">
 
         <div class="left">
@@ -840,7 +831,7 @@
 
                     <span class="help-block" style="display: none; "></span>
                     <div class="input">
-                        <input id="id_name" type="text" name="name" maxlength="255">
+                        <input id="id_name" type="text" name="objName" maxlength="255">
                     </div>
                 </div>
 
@@ -1209,128 +1200,16 @@ src: templates/root/nova/overview.html
 </form>
 </script><script id="novaAccessAndSecurityTemplate" type="text/html">
 <!--
-Description: Access And Security
+Description: Snapshots
 src: templates/root/nova/accessAndSecurity.html
 -->
-<div id="floating_ips">
-    <form action="#">
-        <div class='table_header'>
-            <h3 class='table_title'>Floating IPs</h3>
-            <div class="table_actions clearfix">
 
-                <a href='#nova/access_and_security/floating_ips/allocate/'  class="btn btn-small ajax-modal">Allocate IP To Project</a>
+<div id="floating_ips"></div>
 
-                <button class='btn btn-small ' name="action" value="floating_ips__release" type="submit">
-                    Release Floating IPs
-                </button>
-            </div>
-        </div>
-        <table id="floating_ips" class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th class="multi_select_column"></th>
-                    <th class="">IP Address</th>
-                    <th class="">Instance</th>
-                    <th class="">Floating IP Pool</th>
-                    <th class="actions_column">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr class="odd empty">
-                    <td colspan="5">No items to display.</td>
-                </tr>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="5"><span>Displaying 0 items</span></td>
-                    </td>
-            </tfoot>
-        </table>
-    </form>
-</div>
-<div id="security_groups">
-    <form action="#">
-        <div class='table_header'>
-            <h3 class='table_title'>Security Groups</h3>
-            <div class="table_actions clearfix">
-                <a href='/nova/access_and_security/security_groups/create/'  class="btn btn-small ajax-modal">Create Security Group</a>
-                <button class='btn btn-small btn-danger' name="action" value="security_groups__delete" type="submit">
-                    Delete Security Groups
-                </button>
-            </div>
-        </div>
-        <table id="security_groups" class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th class="multi_select_column"></th>
-                    <th class="">Name</th>
-                    <th class="">Description</th>
-                    <th class="actions_column">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr id="security_groups__row__2" class="">
-                    <td class="multi_select_column">
-                    <input type="checkbox" name="object_ids" value="2" />
-                    </td>
-                    <td class="">default</td><td class="">default</td><td class="actions_column"><a href='/nova/access_and_security/security_groups/2/edit_rules/'  class="ajax-modal btn btn-small">Edit Rules</a></td>
-                </tr>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="4"><span>Displaying 1 item</span></td>
-                    </td>
-            </tfoot>
-        </table>
+<div id="security_groups"></div>
 
-    </form>
+<div id="keypairs"></div>
 
-</div>
-<div id="keypairs">
-    <div class='table_header'>
-        <h3 class='table_title'>Keypairs</h3>
-        <div class="table_actions clearfix">
-            <a href='/nova/access_and_security/keypairs/create/'  class="ajax-modal btn btn btn-small">Create Keypair</a>
-            <a href='/nova/access_and_security/keypairs/import/'  class="ajax-modal btn btn btn-small">Import Keypair</a>
-            <button class='btn btn-small btn-danger' name="action" value="keypairs__delete" type="submit">
-                Delete Keypairs
-            </button>
-        </div>
-    </div>
-    <table id="keypairs" class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th class="multi_select_column"></th>
-                <th class="">Name</th>
-                <th class="">Fingerprint</th>
-                <th class="actions_column">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <%
-            for (var index in models) {
-            var keypair = models[index];
-            %>
-            <tr id="keypairs__row__<%=keypair.get('name')%>" class="">
-                <td class="multi_select_column">
-                <input type="checkbox" name="object_ids" value="nubeblog" />
-                </td>
-                <td class=""><%=keypair.get('name')%></td>
-                <td class=""><%=keypair.get('fingerprint')%></td>
-                <td class="actions_column">
-                <button class="btn btn-small btn-danger delete_keypair" name="action" value="<%=keypair.get('name')%>" type="submit">
-                    Delete Keypair
-                </button></td>
-            </tr>
-            <% } %>
-        </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="4"><span>Displaying <%=models.length%> items</span></td>
-                </td>
-        </tfoot>
-    </table>
-</div>
 </script><script id="novaSnapshotsTemplate" type="text/html">
 <!--
 Description: Snapshots
@@ -1372,9 +1251,10 @@ src: templates/root/nova/snapshots/instanceSnapshots.html
             <% 	var num_snapshots=0;
             for (var index in models) {
             var image = models[index];
-            var image_type = image.get('metadata').image_type;
-            if (image_type == "snapshot") {
-            num_snapshots++;
+            if (image.get('metadata')) {
+           	    var image_type = image.get('metadata').image_type;
+                if (image_type == "snapshot") {
+                num_snapshots++;
             %>
             <tr id="images__row__<%= models.length %>" class="">
                 <td class="multi_select_column">
@@ -1405,7 +1285,7 @@ src: templates/root/nova/snapshots/instanceSnapshots.html
                     </ul>
                 </div></td>
             </tr>
-            <% } } %>
+            <% } } } %>
         </tbody>
         <tfoot>
             <tr>
@@ -1720,7 +1600,7 @@ src: templates/root/nova/instanceDetail.html
 -->
 <div class="row-fluid">
     <ul class="breadcrumb">
-        <li>
+        <li>	
             <a href="#nova/vdcs/"><strong>VDCs</strong></a><span class="divider">/</span>
         </li>
         <li>
@@ -1734,7 +1614,7 @@ src: templates/root/nova/instanceDetail.html
         </li>
     </ul>
     <h2>Instance Detail</h2>
-    <div class="span12">
+    <div class="">
         <ul id="instance_details" class="nav nav-tabs">
             <li id="overview" class="<%= (subview == 'overview') ? 'active':'' %>">
                 <a id="overviewBtn" data-i18n="Overview">Overview</a>
@@ -1744,6 +1624,9 @@ src: templates/root/nova/instanceDetail.html
             </li>
             <li id="vnc" class="<%= (subview == 'vnc') ? 'active':'' %>">
                 <a id="instance_vnc">VNC</a>
+            </li>
+            <li id="software" class="<%= (subview == 'software') ? 'active':'' %>">
+                <a id="instance_software">Software Management</a>
             </li>
         </ul>
         <div class="tab-content" style="border: 2px">
@@ -1758,12 +1641,6 @@ src: templates/root/nova/instanceDetail.html
                         <li>
                             <strong>ID:</strong>&nbsp;<%=model.get("id")%>
                         </li>
-                    </ul>
-                </div>
-                <div class="status row-fluid">
-                    <h4>Status</h4>
-                    <hr class="header_rule">
-                    <ul>
                         <li>
                             <strong>Status:</strong>&nbsp;<%=model.get("status")%>
                         </li>
@@ -1789,6 +1666,10 @@ src: templates/root/nova/instanceDetail.html
                     <h4>IP Addresses</h4>
                     <hr class="header_rule">
                     <ul>
+                        <li>
+                            <strong>Public:</strong>&nbsp;<%=model.get("addresses").public[0].addr%>
+                           
+                        </li>
                     </ul>
                 </div>
                 <div class="security_groups row-fluid">
@@ -1797,10 +1678,14 @@ src: templates/root/nova/instanceDetail.html
                     <ul>
                         <li>
                             <strong>default</strong>
-                            <ul>
-                                <li>
-                                    <em>No rules defined.</em>
+                            <ul>                                
+          						<% for (index in rules) {
+          						var rule = rules[index];        							
+          						%>
+          						<li>
+                                  <em>ALLOW <%=rule.from_port%>:<%=rule.to_port%> from <%=rule.ip_range.cidr%></em>
                                 </li>
+                                <% } %>                                
                             </ul>
                         </li>
                     </ul>
@@ -1810,7 +1695,7 @@ src: templates/root/nova/instanceDetail.html
                     <hr class="header_rule">
                     <ul>
                         <li>
-                            <strong>Key name:</strong>&nbsp;<%=model.get("key_name")%>
+                            <strong>Key name:</strong>&nbsp;<%=model.get("key_name")!==undefined?model.get("key_name"):"<em>None</em>"%>
                         </li>
                         <li>
                             <strong>Image Name:</strong>&nbsp;<a href="#nova/images_and_snapshots/<%=image.id%>"><%=image.get("name")%></a>
@@ -1841,6 +1726,113 @@ src: templates/root/nova/instanceDetail.html
                 </p>
                 <iframe src="<%= vncUrl %>" width="720" height="450"></iframe>
             </div>
+            <div id="instance_details__software" class="tab-pane <%= (subview == 'software') ? 'active':'' %>">
+                <div class="btn-group" data-toggle="buttons-radio">
+				  <button class="btn <%= (subsubview == 'installed_software') ? 'active':''  %> span6" id="installed_software" data-target="#installed_software" data-toggle="tab">Installed Software</button>
+				  <button class="btn <%= (subsubview == 'new_software') ? 'active':''  %> span6" id="new_software" data-target="#new_software" data-toggle="tab">New Software</button>
+				</div>				
+            </div>
+            <div id="instance_details__installed_software" class="tab-pane <%= (subsubview == 'installed_software') ? 'active':'' %>">
+	            <div id="installed_software" class="table_wrapper">
+					    <div class='table_header'>
+					        <h3>Installed Software in <%= model.get("name") %></h3>
+					    </div>
+					    <table id="images_tbl" class="table table-bordered table-striped">
+					        <thead>
+					            <tr>
+					                <th class="" data-i18n="Name">Name</th>
+					                <th class="hidden-phone" data-i18n="Version">Version</th>
+					                <th class="" data-i18n="Status">Status</th>
+					                <th class="actions_column hidden-phone"  data-i18n="Actions">Actions</th>
+					            </tr>
+					        </thead>
+					        <tbody>
+					            <tr	
+					            class="ajax-update status_down">
+					                <td class=""><a href="">Tomcat</a></td>
+					                <td class="hidden-phone" data-i18n="Image">7</td>
+					                <td class="">Tomcat J2EE container</td>
+					                <td class="actions_column">
+					                <div id="" class="btn-group">
+					                    <button  id="images__action_launch_" class="ajax-modal btn btn-small btn-blue btn-launch" name="action" value="" type="submit" data-i18n="Launch">
+					                        Launch
+					                    </button>
+					                </div></td>
+					            </tr>
+					        </tbody>
+					        <tfoot>
+					            <tr>
+					                <td colspan="4"><span class="blue"><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", 1)%></span></td>
+					                </td>
+					        </tfoot>
+					    </table>
+					</div>
+				</div>
+				<div id="instance_details__new_software" class="tab-pane <%= (subsubview == 'new_software') ? 'active':'' %>">
+					<div id="new_software" class="table_wrapper">						
+						<div class='table_header'>
+					        <h3>Software Catalogue</h3>
+					    </div>
+					    <table id="images_tbl" class="table table-bordered table-striped">
+					        <thead>
+					            <tr>
+					                <th class="" data-i18n="Name">Name</th>
+					                <th class="hidden-phone" data-i18n="Version">Version</th>
+					                <th class="" data-i18n="Description">Description</th>
+					                <th class="" data-i18n="Available">Available</th>
+					                <th class="actions_column hidden-phone"  data-i18n="Actions">Actions</th>
+					            </tr>
+					        </thead>
+					        <tbody>
+					            <tr	
+					            class="ajax-update status_down">
+					                <td class=""><a href="">Tomcat</a></td>
+					                <td class="hidden-phone" data-i18n="Image">6</td>
+					                <td class="">Tomcat J2EE container</td>
+					                <td class="">Yes</td>
+					                <td class="actions_column">
+					                <div id="" class="btn-group">
+					                    <button  id="images__action_install_" class="ajax-modal btn btn-small btn-blue btn-launch" name="action" value="" type="submit" data-i18n="Install">
+					                        Install
+					                    </button>
+					                </div></td>
+					            </tr>
+					            <tr	
+					            class="ajax-update status_down">
+					                <td class=""><a href="">PostgreSQL</a></td>
+					                <td class="hidden-phone" data-i18n="Image">8.4</td>
+					                <td class="">DB Manager</td>
+					                <td class="">Yes</td>
+					                <td class="actions_column">
+					                <div id="" class="btn-group">
+					                    <button  id="images__action_install_" class="ajax-modal btn btn-small btn-blue btn-launch" name="action" value="" type="submit" data-i18n="Install">
+					                        Install
+					                    </button>
+					                </div></td>
+					            </tr>
+					            <tr	
+					            class="ajax-update status_down">
+					                <td class=""><a href="">Mediawiki</a></td>
+					                <td class="hidden-phone" data-i18n="Image">1.17</td>
+					                <td class="">Mediawiki product</td>
+					                <td class="">Yes</td>
+					                <td class="actions_column">
+					                <div id="" class="btn-group">
+					                    <button  id="images__action_install_" class="ajax-modal btn btn-small btn-blue btn-launch" name="action" value="" type="submit" data-i18n="Install">
+					                        Install
+					                    </button>
+					                </div></td>
+					            </tr>
+					        </tbody>
+					        <tfoot>
+					            <tr>
+					                <td colspan="5"><span class="blue"><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", 3)%></span></td>
+					                </td>
+					        </tfoot>
+					    </table>
+					</div>
+				</div>	
+			</div>	
         </div>
     </div>
 </div>
@@ -2219,7 +2211,7 @@ src: templates/root/nova/VDCService.html
                 <input id="checkbox_<%= instance.get('id')%>" type="checkbox" name="object_ids" class="checkbox checkbox_instances"  value="<%= instance.get('id') %>" />
                 </td>
                 <td class=""><a href="#nova/vdcs/<%=vdc%>/<%= service %>/<%= instance.id %>"><%= instance.get("name") %></a></td>
-                <td class="hidden-phone">
+                <td class="">
                 <ul>
                     <%
                     if (instance.get("addresses") != null && instance.get("addresses").public != null) {
@@ -2315,62 +2307,69 @@ src: templates/root/nova/VDCService.html
 Description: Containers
 src: templates/root/objectstorage/containers.html
 -->
-<div class="table_wrapper">
-    <div class='table_header'>
-        <h3 class="table_title">Containers</h3>
-        <div class="table_actions clearfix">
-            <button id="containers__action_create" class="btn btn-small btn-blue btn-launch btn-create-container">
-                Create Container
-            </button>
-            <button id="containers_terminate" class="btn btn-small btn-danger btn-delete-group" disabled="disabled" name="action" value="containers__delete" type="submit">
-                Delete Containers
-            </button>
-        </div>
-    </div>
-    <table id="containers" class="table table-bordered table-striped">
-        <thead>
-            <tr class="table_caption">
-                <th class="table_header" colspan="5"></th>
-            </tr>
-            <tr>
-                <th class="multi_select_column">
-                <input type="checkbox">
-                </th>
-                <th class="">Container Name</th>
-                <th class="">Objects</th>
-                <th class="">Size</th>
-                <th class="actions_column">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <%
-            for (var index in models) {
-            var container = models[index];
-            %>
-            <tr id="containers__row__<%= container.id%>" class="" style="">
-                <td class="multi_select_column">
-                <input id="checkbox_<%= container.get('id')%>" type="checkbox" name="object_ids" class="checkbox checkbox_containers"  value="<%= container.get('id') %>" />
-                </td>
-                <td class=""><a href="#objectstorage/containers/<%= container.id%>/"><%= container.get("name")%></a></td>
-                <td class=""><%= container.get("length")%></td>
-                <td class=""><%= container.get("size")%> KB</td>
-                <td class="actions_column">
-                <div class="btn-group">
-                    <a href="#objectstorage/containers/<%= container.id%>/" id="containers__row_<%= container.id%>__action_list_objects" class="ajax-modal btn btn-small btn-blue btn-launch-images">List Objects</a>
-                    <a class="btn dropdown-toggle btn-small btn-blue" data-toggle="dropdown" href="#"> <span class="caret"></span> </a>
-                    <ul class="dropdown-menu row_actions clearfix">
-                        <li class="clearfix">
-                            <button class="ajax-modal btn btn-small ajax-modal btn-upload" value="<%= container.id%>">
-                                Upload Object
-                            </button>
-                        </li>
-                        <li class="clearfix">
-                            <button id="containers__row_hola__action_delete" class="btn btn-small btn-danger btn-delete" name="action" value="<%=container.id%>">
-                                Delete Container
-                            </button>
-                        </li>
-                    </ul>
-                </div></td>
+	<div class="table_wrapper">
+    	<div class='table_header'>
+        	<h3 class="table_title">Containers</h3>
+	        <div class="table_actions clearfix">
+	            <button id="containers__action_create" class="btn btn-small btn-blue btn-launch btn-create-container">
+	                Create Container
+	            </button>
+	            <button id="containers_terminate" class="btn btn-small btn-danger btn-delete-group" disabled="disabled" name="action" value="containers__delete" type="submit">
+	                Delete Containers
+	            </button>
+	        </div>
+	     </div>
+	 </div>
+        <table id="containers" class="table table-bordered table-striped">
+            <thead>               
+                <tr>
+                    <th class="multi_select_column">
+                		<input type="checkbox" class="checkbox checkbox_all">
+                	</th>
+                    <th class="">Container Name</th>
+                    <th class="">Objects</th>
+                    <th class="">Size</th>
+                    <th class="actions_column">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <%
+                for (var index in models) {
+                    var container = models[index];
+                    var bytes = container.get("bytes");
+                   	var kbytes, mbytes, gbytes, size;
+                    if (bytes >= 1024) {
+                   		kbytes = Math.round(bytes/1024 * 10) / 10;
+                   		size = kbytes+" KB";
+                   		if (kbytes >= 1024) {
+                   			mbytes = Math.round(kbytes/1024 * 10) / 10;
+                   			size = mbytes+" MB";
+                   			if (mbytes >= 1024) {
+                   				gbytes = Math.round(mbytes/1024 * 10) / 10;
+                   				size = gbytes+" GB";
+                   			} else {size = Math.round(mbytes * 10) / 10+" MB";}
+                   		} else {size = Math.round(kbytes* 10) / 10+" KB";}
+                    } else {size = Math.round(bytes * 10) / 10+" bytes";}
+                %>   
+                    <tr id="containers__row__<%= container.name%>" class="" style="">
+                    <td class="multi_select_column">
+                        <input id="checkbox_<%= container.get('name')%>" type="checkbox" name="object_ids" class="checkbox checkbox_containers"  value="<%= container.get('name') %>" />
+                    </td>
+                    <td class=""><a href="#objectstorage/containers/<%= container.get('name')%>/"><%= container.get("name")%></a></td>
+                    <td class=""><%= container.get("count")%></td>
+                    <td class=""><%= size%></td>
+                    <td class="actions_column">
+                    <div class="btn-group">
+                        <a href="#objectstorage/containers/<%= container.get("name")%>/" id="containers__row_<%= container.name%>__action_list_objects" class="ajax-modal btn btn-small btn-blue btn-list-objects">List Objects</a>
+                        <a class="btn dropdown-toggle btn-small btn-blue" data-toggle="dropdown" href="#">
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu row_actions clearfix">
+                            <li class="clearfix"><button class="ajax-modal btn btn-small ajax-modal btn-upload" name = "action" type = "submit" value="<%= container.get("name")%>">Upload Object</button></li>
+                            <li class="clearfix"><button id="containers__row_hola__action_delete" class="btn btn-small btn-danger btn-delete" name="action" value="<%=container.get("name")%>" type="submit">Delete Container</button></li>
+                        </ul>
+                    </div>
+                    </td>
                 <%
                 }
                 %>
@@ -2378,87 +2377,94 @@ src: templates/root/objectstorage/containers.html
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="8"><span class="blue">Displaying <%= models.length %> item</span></td>
+                <td colspan="5">
+                	<span class="blue">Displaying <%= models.length %> items</span>
+                </td>
             </tr>
         </tfoot>
     </table>
-</div>
+
 </script><script id="objectstorageContainerTemplate" type="text/html">
 <!--
 Description: Container
 src: templates/root/objectstorage/container.html
 -->
-<div class="table_wrapper">
-    <div class='table_header'>
-        <h3 class="table_title">Objects</h3>
-        <div class="table_actions clearfix">
-            <div class="table_search">
-                <input class="example" value="" type="text" name="objects__filter__q">
-                </input>
-                <button type="submit" id="objects__action_filter" class="btn btn-small btn-search">
-                    Filter
-                </button>
+    <div class="table_wrapper">
+        <div class='table_header'>
+            <h3 class="table_title">Objects</h3>
+            <div class="table_actions clearfix">
+                <div class="table_search">
+                    <input class="example" value="" type="text" name="objects__filter__q"></input>
+                    <button type="submit" id="objects__action_filter" class="btn btn-small btn-search">Filter</button>
+                </div>
+                <button id="objects__action_upload" class="btn btn-small btn-blue btn-launch btn-upload">Upload Object</button>
+                <button id="objects_delete" class="btn btn-small btn-danger btn-delete-group" disabled="disabled" name="action">Delete Objects</button>
             </div>
-            <button id="objects__action_upload" class="btn btn-small btn-blue btn-launch btn-create-container">
-                Upload Object
-            </button>
-            <button id="objects_delete" class="btn btn-small btn-danger btn-delete-group" disabled="disabled" name="action">
-                Delete Objects
-            </button>
         </div>
     </div>
-    <table id="objects" class="table table-bordered table-striped">
+    <table id="objects" class="table table-bordered table-striped " style="table-layout: fixed; ">
         <thead>
-            <tr>
-                <th class="multi_select_column">
-                <input type="checkbox">
-                </th>
-                <th class="">Object Name</th>
-                <th class="">Size</th>
-                <th class="actions_column">Actions</th>
-            </tr>
+          <tr>
+              <th class="multi_select_column">
+                <input type="checkbox" class="checkbox checkbox_all">
+              </th>
+              <th class="">Object Name</th>
+              <th class="">Size</th>
+              <th class="actions_column">Actions</th>
+          </tr>
         </thead>
-        <tbody>
-            <tr id="objects__row__Time" class="" style="">
+        <tbody>           
                 <%
-                var container = model;
-                var i = 0;
-                for (var index in container.get('objects')) {
-                var object = container.get('objects')[index];
+                  var container = model;    
+                  var i = 0;
+                  for (var index in container.get('objects')) {
+                    var object = container.get('objects')[index];
+                    var bytes = object.bytes;
+                    var kbytes, mbytes, gbytes, size;
+                    if (bytes >= 1024) {
+                   		kbytes = Math.round(bytes/1024 * 10) / 10;
+                   		size = kbytes+" KB";
+                   		if (kbytes >= 1024) {
+                   			mbytes = Math.round(kbytes/1024 * 10) / 10;
+                   			size = mbytes+" MB";
+                   			if (mbytes >= 1024) {
+                   				gbytes = Math.round(mbytes/1024 * 10) / 10;
+                   				size = gbytes+" GB";
+                   			} else {size = Math.round(mbytes * 10) / 10+" MB";}
+                   		} else {size = Math.round(kbytes* 10) / 10+" KB";}
+                    } else {size = Math.round(bytes * 10) / 10+" bytes";}
+                                   
                 %>
-                <td class="multi_select_column">
-                <input id="checkbox_<%= object.id%>" type="checkbox" class="checkbox checkbox_objects" name="object_ids" value="<%= i %>">
-                </td>
-                <td class=""><%=object.name%></td>
-                <td class=""><%=object.size%> KB</td>
+                <tr id="objects__row__Time" class="" style="">
+                <td class="multi_select_column"><input id="checkbox_<%= i%>" type="checkbox" class="checkbox checkbox_objects" name="object_ids" value="<%= i %>"></td>
+                <td style="overflow: hidden;"  class=""><%=object.name%></td>
+                <td class=""><%=size%></td>
                 <td class="actions_column">
-                <div class="btn-group">
-                    <a href="#objectstorage/containers/<%= container.id%>/<%= object.id %>" id="containers__row_<%= object.id%>__action_list_objects" class="ajax-modal btn btn-small btn-blue btn-launch-images">Download</a>
-                    <a class="btn dropdown-toggle btn-small btn-blue" data-toggle="dropdown" href="#"> <span class="caret"></span> </a>
-                    <ul class="dropdown-menu row_actions clearfix">
-                        <li class="clearfix">
-                            <a href="#objectstorage/containers/<%= container.id%>/upload" id="containers__row_hola__action_upload" class="ajax-modal btn btn-small ajax-modal btn-upload">Copy</a>
-                        </li>
-                        <li class="clearfix">
-                            <button class="btn btn-small btn-danger btn-delete" name="action" value="<%= i %>" type="submit">
-                                Delete Object
-                            </button>
-                        </li>
-                    </ul>
-                </div></td>
-                <%
-                i++;
-                }
+                    <div class="btn-group">
+                        <a href="#objectstorage/containers/<%= container.get("name")%>/<%= object.name %>" id="containers__row_<%= object.name%>__action_list_objects" name="objName" value="<%= object.name%>" class="ajax-modal btn btn-small btn-blue btn-download">Download</a>
+                        <a class="btn dropdown-toggle btn-small btn-blue" data-toggle="dropdown" href="#">
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu row_actions clearfix">
+                            <li class="clearfix"><button id="objects__row_hola__action_copy" class="ajax-modal btn btn-small ajax-modal btn-copy" name="action" type="submit" value="<%= object.name%>" >Copy</button></li>
+                            <li class="clearfix"><button class="btn btn-small btn-danger btn-delete" name="action" value="<%= object.name %>" type="submit">Delete Object</button></li>
+                        </ul>
+                    </div>
+                </td>
+                <% i++;
+                  }
                 %>
             </tr>
         </tbody>
         <tfoot>
-            <tr>
-                <td colspan="4"><span class="blue">Displaying <%= container.get('objects').length %> items</span></td>
-            </tr>
+          <tr>
+            <td colspan="4">
+              <span class="blue">Displaying <%= i %> items</span>
+            </td>
+          </tr>
         </tfoot>
-    </table>
-</div>
+      </table>
+
 </script><script id="imagesTemplate" type="text/html">   
 <!--
 Description: Images
@@ -2504,10 +2510,14 @@ src: templates/root/sys/images.html
                 <td class="">ARI</td>
                 <td class="actions_column hidden-phone">
                 <div id="dropdown_<%= image.get('id') %>" class="btn-group">
-                    <a href='#nova/images_and_snapshots/<%= image.get('id')%>/update'  id= "image_edit" name="action" type="submit" class="ajax-modal btn btn-small btn-blue btn-edit"  data-i18n="Edit">Edit</a>
+                    <button  id="images__action_launch__<%=i%>" class="ajax-modal btn btn-small btn-blue btn-launch" name="action" value="<%= image.id %>" type="submit" data-i18n="Launch">
+                        Launch
+                    </button>
                     <a class="btn btn-small btn-blue dropdown-toggle" data-toggle="dropdown" href="#"> <span class="caret-white caret"></span> </a>
                     <ul class="dropdown-menu row_actions clearfix">
                         <li class="clearfix">
+                            <a href='#nova/images_and_snapshots/<%= image.get('id')%>/update'  id= "image_edit" name="action" type="submit" class="btn btn-small btn-blue btn-edit"  data-i18n="Edit">Edit</a>
+
                             <button  id="images__action_delete__<%=i%>" class="btn btn-small btn-danger btn-delete" name="action" value="<%= image.id %>" type="submit" data-i18n="Delete">
                                 Delete
                             </button>
@@ -2574,7 +2584,7 @@ src: templates/root/sys/overview.html
     <div class='table_header'>
         <h3 class='table_title' data-i18n="Usage Summary">Usage Summary</h3>
         <div class="table_actions clearfix">
-            <input href='?date_month=2012-03-01&amp;date_year=2012-03-15&amp;format=csv'  class="btn btn-small btn-blue" data-i18n="Download CSV Summary">
+            <a href='?date_month=2012-03-01&amp;date_year=2012-03-15&amp;format=csv'  class="btn btn-small btn-blue" data-i18n="Download CSV Summary">
                 Download CSV Summary</a>
         </div>
     </div>
@@ -2591,7 +2601,7 @@ src: templates/root/sys/overview.html
         </thead>
         <tbody>
             <tr id="global_usage__row__2" class="">
-                <td class="">2</td><td class="">1</td><td class="">-</td><td class="">512MB</td><td class="">336.6</td><td class="hidden-phone">-</td>
+                <td class="">FIWARE</td><td class="">1</td><td class="">-</td><td class="">512MB</td><td class="">336.6</td><td class="hidden-phone">-</td>
             </tr>
         </tbody>
         <tfoot>
@@ -3098,48 +3108,63 @@ src: templates/root/sys/quotas.html
             </tr>
         </thead>
         <tbody>
-
+				<% var attr;				
+				var num_attr = 0;
+				for (var i in models) {
+					attr = models[i].attributes;
+					for (var n in attr) {
+						num_attr++;
+					}
+               %>
             <tr id="quotas__row__metadata_items" class="">
-                <td class="">metadata_items</td><td class="">128</td>
+                <td class="">Metadata Items</td><td class=""><%= attr.metadata_items%></td>
             </tr>
 
             <tr id="quotas__row__injected_file_content_bytes" class="">
-                <td class="">injected_file_content_bytes</td><td class="">10240</td>
+                <td class="">Injected File Content Bytes</td><td class=""><%= attr.injected_file_content_bytes%></td>
             </tr>
 
             <tr id="quotas__row__injected_files" class="">
-                <td class="">injected_files</td><td class="">5</td>
+                <td class="">Injected Files</td><td class=""><%= attr.injected_files%></td>
             </tr>
 
             <tr id="quotas__row__gigabytes" class="">
-                <td class="">gigabytes</td><td class="">1000</td>
+                <td class="">Gigabytess</td><td class=""><%= attr.gigabytes%></td>
             </tr>
 
             <tr id="quotas__row__ram" class="">
-                <td class="">ram</td><td class="">51200</td>
+                <td class="">Ram</td><td class=""><%= attr.ram%></td>
             </tr>
 
             <tr id="quotas__row__floating_ips" class="">
-                <td class="">floating_ips</td><td class="">10</td>
+                <td class="">Floating Ips</td><td class=""><%= attr.floating_ips%></td>
             </tr>
 
             <tr id="quotas__row__instances" class="">
-                <td class="">instances</td><td class="">10</td>
+                <td class="">Instances</td><td class=""><%= attr.instances%></td>
             </tr>
 
             <tr id="quotas__row__volumes" class="">
-                <td class="">volumes</td><td class="">10</td>
+                <td class="">Volumes</td><td class=""><%= attr.volumes%></td>
             </tr>
 
             <tr id="quotas__row__cores" class="">
-                <td class="">cores</td><td class="">20</td>
+                <td class="">Cores</td><td class=""><%= attr.cores%></td>
             </tr>
-
+            
+            <tr id="quotas__row__cores" class="">
+                <td class="">Security Groups</td><td class=""><%= attr.security_groups%></td>
+            </tr>
+            
+            <tr id="quotas__row__cores" class="">
+                <td class="">Security Group Rules</td><td class=""><%= attr.security_group_rules%></td>
+            </tr>
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="2"><span class="blue"><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", 9)%></span></td>
+                <td colspan="2"><span class="blue"><%=UTILS.i18n.pluralise("Displaying %s items", "Displaying %s items", num_attr)%></span></td>
                 </td>
+             <% } %>   
         </tfoot>
     </table>
 
@@ -3151,6 +3176,7 @@ src: templates/root/root.html
 -->
 <div id='topbar' class="topbar"></div>
 <div id="container" class="container-fluid row-fluid">
+
 
     <div class="span3 sidebar-menu">
         <div id="navtab"></div>
@@ -3165,12 +3191,12 @@ src: templates/root/root.html
 <footer class="footer row-fluid span12">
     <div class="menu pagination-right offset3 span7">
         <p>
-            Fi-ware Web Services LLC or its affiliates C 2012. All nights reserved
+            Fi-ware Web Services LLC or its affiliates &copy 2012. All rights reserved
         </p>
     </div>
     <div class="menu pagination-left offset1 span5">
         <p>
-            <a href="#">Site terrms</a>&nbsp;-&nbsp;<a href="#">Privacy Policy</a>
+            <a href="#">Site terms</a>&nbsp;-&nbsp;<a href="#">Privacy Policy</a>
         </p>
     </div>
 </footer>
@@ -3275,13 +3301,13 @@ src: templates/root/sideBar.html
 </section>
 
 </script><script id="confirmTemplate" type="text/html">
-<div id="confirm" class="modal hide ">
+<div id="confirm" class="modal hide " style='<%= style %>'>
     <!--
     Description: Confirm
     src: templates/root/confirm.html
     -->
     <div class="modal-header">
-        <a class="close" id= "close" data-dismiss="modal">&times;</a>
+        <a id="closeModalConfirm" class="close" data-dismiss="modal">&times;</a>
         <h3><%= title %></h3>
     </div>
     <div class="modal-body">

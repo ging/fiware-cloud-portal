@@ -24,7 +24,7 @@ var RootView = Backbone.View.extend({
     
     onLogin: function() {
         if (this.model.get('loggedIn')) {
-            if (this.options.next_view != undefined) {
+            if (this.options.next_view !== undefined) {
                 window.location.href = "#" + this.options.next_view;
             } else {
                 window.location.href = "#syspanel";
@@ -42,7 +42,7 @@ var RootView = Backbone.View.extend({
         console.log(self.model.get("token"), self.model.get("error_msg"), self.model.get("expired"));
         if ((self.model.get("token") !== "" && self.model.get("error_msg") == null) && self.model.get("expired") !== true) return;
        console.log("Conditions passed");
-        if ($(self.options.root_el).css('display') != 'None')
+        if ($(self.options.root_el).css('display') !== 'None')
             $(self.options.root_el).fadeOut();
         $(self.options.auth_el).fadeIn();
         return this;
@@ -52,7 +52,7 @@ var RootView = Backbone.View.extend({
         var self = this;
         self.$el = $(self.options.auth_el);
         self.delegateEvents({});
-        if ($(self.options.auth_el).css('display') != 'None')
+        if ($(self.options.auth_el).css('display') !== 'None')
             $(self.options.auth_el).fadeOut();
         $(self.options.auth_el).fadeOut();
         $(self.options.root_el).fadeIn();

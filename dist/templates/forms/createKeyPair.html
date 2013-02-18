@@ -1,47 +1,39 @@
-<script id="createKeyPairFormTemplate" type="text/html">
-<div id="create_keypair" class="modal hide  in" style="display: block; ">
+<script id="createKeypairFormTemplate" type="text/html">
+<div id="create_keypair" class="modal hide ">
     <!--
     Description: Create Keypair Form
-    src: templates/forms/createKeyPair.html
+    src: templates/forms/createKeypair.html
     -->
     <div class="modal-header">
-        <a href="#" class="close" data-dismiss="modal">×</a>
+        <a id="close" href="#" class="close" data-dismiss="modal">&times;</a>
         <h3>Create Keypair</h3>
     </div>
-
-    <form id="create_keypair_form" class="" action="" method="">
-        <div class="modal-body clearfix">
-
-            <div class="left">
-                <fieldset>
-
-                    <div class="control-group form-field clearfix">
-                        <label for="id_name">Keypair Name</label>
-
-                        <span class="help-block" style="display: none; "></span>
-                        <div class="input">
-                            <input id="id_name" type="text" name="name" maxlength="20">
-                        </div>
+    <form action="" id="create_keypair_form">
+    <div class="modal-body clearfix">
+        <div class="left">
+            <fieldset>
+                <div class="control-group form-field clearfix">
+                    <label for="name">Keypair Name</label>
+                    <span class="help-block"></span>
+                    <div class="input">
+                        <input type="text" name="name" value="" id="name" rel="tooltip" data-placement="right" title="Keypair names may only contain letters, numbers, underscores and hyphens."/ required>
                     </div>
-
-                </fieldset>
-            </div>
-            <div class="right">
-                <h3>Description:</h3>
-                <p>
-                    Keypairs are ssh credentials which are injected into images when they are launched. Creating a new key pair registers the public key and downloads the private key (a .pem file).
-                </p>
-                <p>
-                    Protect and use the key as you would any normal ssh private key.
-                </p>
-            </div>
-
+                </div>
+            </fieldset>
         </div>
-        <div class="modal-footer">
-            <input class="btn btn-blue pull-right" type="submit" value="Create Keypair">
-            <a href="/nova/access_and_security/" class="btn secondary cancel close">Cancel</a>
+        <div class="right">
+            <h3>Description:</h3>
+            <p>
+                Keypairs are ssh credentials which are injected into images when they are launched. 
+                Creating a new key pair registers the public key and downloads the private key (a .pem file).
+                Protect and use the key as you would any normal ssh private key.
+            </p>
         </div>
+    </div>
+    <div class="modal-footer">
+        <a id="createBtn" class="btn btn-blue pull-right createKeypair" data-dismiss="modal">Create Keypair</a>
+        <a id="cancelCreateBtn" class="close btn seconday cancel close" data-dismiss="modal">Cancel</a>
+    </div>
     </form>
 </div>
 </script>
-

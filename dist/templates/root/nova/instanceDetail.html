@@ -5,7 +5,7 @@ src: templates/root/nova/instanceDetail.html
 -->
 <div class="row-fluid">
     <ul class="breadcrumb">
-        <li>
+        <li>	
             <a href="#nova/vdcs/"><strong>VDCs</strong></a><span class="divider">/</span>
         </li>
         <li>
@@ -19,7 +19,7 @@ src: templates/root/nova/instanceDetail.html
         </li>
     </ul>
     <h2>Instance Detail</h2>
-    <div class="span12">
+    <div class="">
         <ul id="instance_details" class="nav nav-tabs">
             <li id="overview" class="<%= (subview == 'overview') ? 'active':'' %>">
                 <a id="overviewBtn" data-i18n="Overview">Overview</a>
@@ -29,6 +29,9 @@ src: templates/root/nova/instanceDetail.html
             </li>
             <li id="vnc" class="<%= (subview == 'vnc') ? 'active':'' %>">
                 <a id="instance_vnc">VNC</a>
+            </li>
+            <li id="software" class="<%= (subview == 'software') ? 'active':'' %>">
+                <a id="instance_software">Software Management</a>
             </li>
         </ul>
         <div class="tab-content" style="border: 2px">
@@ -43,12 +46,6 @@ src: templates/root/nova/instanceDetail.html
                         <li>
                             <strong>ID:</strong>&nbsp;<%=model.get("id")%>
                         </li>
-                    </ul>
-                </div>
-                <div class="status row-fluid">
-                    <h4>Status</h4>
-                    <hr class="header_rule">
-                    <ul>
                         <li>
                             <strong>Status:</strong>&nbsp;<%=model.get("status")%>
                         </li>
@@ -74,6 +71,10 @@ src: templates/root/nova/instanceDetail.html
                     <h4>IP Addresses</h4>
                     <hr class="header_rule">
                     <ul>
+                        <li>
+                            <strong>Public:</strong>&nbsp;<%=model.get("addresses").public[0].addr%>
+                           
+                        </li>
                     </ul>
                 </div>
                 <div class="security_groups row-fluid">
@@ -82,10 +83,14 @@ src: templates/root/nova/instanceDetail.html
                     <ul>
                         <li>
                             <strong>default</strong>
-                            <ul>
-                                <li>
-                                    <em>No rules defined.</em>
+                            <ul>                                
+          						<% for (index in rules) {
+          						var rule = rules[index];        							
+          						%>
+          						<li>
+                                  <em>ALLOW <%=rule.from_port%>:<%=rule.to_port%> from <%=rule.ip_range.cidr%></em>
                                 </li>
+                                <% } %>                                
                             </ul>
                         </li>
                     </ul>
@@ -95,7 +100,7 @@ src: templates/root/nova/instanceDetail.html
                     <hr class="header_rule">
                     <ul>
                         <li>
-                            <strong>Key name:</strong>&nbsp;<%=model.get("key_name")%>
+                            <strong>Key name:</strong>&nbsp;<%=model.get("key_name")!==undefined?model.get("key_name"):"<em>None</em>"%>
                         </li>
                         <li>
                             <strong>Image Name:</strong>&nbsp;<a href="#nova/images_and_snapshots/<%=image.id%>"><%=image.get("name")%></a>
@@ -126,6 +131,113 @@ src: templates/root/nova/instanceDetail.html
                 </p>
                 <iframe src="<%= vncUrl %>" width="720" height="450"></iframe>
             </div>
+            <div id="instance_details__software" class="tab-pane <%= (subview == 'software') ? 'active':'' %>">
+                <div class="btn-group" data-toggle="buttons-radio">
+				  <button class="btn <%= (subsubview == 'installed_software') ? 'active':''  %> span6" id="installed_software" data-target="#installed_software" data-toggle="tab">Installed Software</button>
+				  <button class="btn <%= (subsubview == 'new_software') ? 'active':''  %> span6" id="new_software" data-target="#new_software" data-toggle="tab">New Software</button>
+				</div>				
+            </div>
+            <div id="instance_details__installed_software" class="tab-pane <%= (subsubview == 'installed_software') ? 'active':'' %>">
+	            <div id="installed_software" class="table_wrapper">
+					    <div class='table_header'>
+					        <h3>Installed Software in <%= model.get("name") %></h3>
+					    </div>
+					    <table id="images_tbl" class="table table-bordered table-striped">
+					        <thead>
+					            <tr>
+					                <th class="" data-i18n="Name">Name</th>
+					                <th class="hidden-phone" data-i18n="Version">Version</th>
+					                <th class="" data-i18n="Status">Status</th>
+					                <th class="actions_column hidden-phone"  data-i18n="Actions">Actions</th>
+					            </tr>
+					        </thead>
+					        <tbody>
+					            <tr	
+					            class="ajax-update status_down">
+					                <td class=""><a href="">Tomcat</a></td>
+					                <td class="hidden-phone" data-i18n="Image">7</td>
+					                <td class="">Tomcat J2EE container</td>
+					                <td class="actions_column">
+					                <div id="" class="btn-group">
+					                    <button  id="images__action_launch_" class="ajax-modal btn btn-small btn-blue btn-launch" name="action" value="" type="submit" data-i18n="Launch">
+					                        Launch
+					                    </button>
+					                </div></td>
+					            </tr>
+					        </tbody>
+					        <tfoot>
+					            <tr>
+					                <td colspan="4"><span class="blue"><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", 1)%></span></td>
+					                </td>
+					        </tfoot>
+					    </table>
+					</div>
+				</div>
+				<div id="instance_details__new_software" class="tab-pane <%= (subsubview == 'new_software') ? 'active':'' %>">
+					<div id="new_software" class="table_wrapper">						
+						<div class='table_header'>
+					        <h3>Software Catalogue</h3>
+					    </div>
+					    <table id="images_tbl" class="table table-bordered table-striped">
+					        <thead>
+					            <tr>
+					                <th class="" data-i18n="Name">Name</th>
+					                <th class="hidden-phone" data-i18n="Version">Version</th>
+					                <th class="" data-i18n="Description">Description</th>
+					                <th class="" data-i18n="Available">Available</th>
+					                <th class="actions_column hidden-phone"  data-i18n="Actions">Actions</th>
+					            </tr>
+					        </thead>
+					        <tbody>
+					            <tr	
+					            class="ajax-update status_down">
+					                <td class=""><a href="">Tomcat</a></td>
+					                <td class="hidden-phone" data-i18n="Image">6</td>
+					                <td class="">Tomcat J2EE container</td>
+					                <td class="">Yes</td>
+					                <td class="actions_column">
+					                <div id="" class="btn-group">
+					                    <button  id="images__action_install_" class="ajax-modal btn btn-small btn-blue btn-launch" name="action" value="" type="submit" data-i18n="Install">
+					                        Install
+					                    </button>
+					                </div></td>
+					            </tr>
+					            <tr	
+					            class="ajax-update status_down">
+					                <td class=""><a href="">PostgreSQL</a></td>
+					                <td class="hidden-phone" data-i18n="Image">8.4</td>
+					                <td class="">DB Manager</td>
+					                <td class="">Yes</td>
+					                <td class="actions_column">
+					                <div id="" class="btn-group">
+					                    <button  id="images__action_install_" class="ajax-modal btn btn-small btn-blue btn-launch" name="action" value="" type="submit" data-i18n="Install">
+					                        Install
+					                    </button>
+					                </div></td>
+					            </tr>
+					            <tr	
+					            class="ajax-update status_down">
+					                <td class=""><a href="">Mediawiki</a></td>
+					                <td class="hidden-phone" data-i18n="Image">1.17</td>
+					                <td class="">Mediawiki product</td>
+					                <td class="">Yes</td>
+					                <td class="actions_column">
+					                <div id="" class="btn-group">
+					                    <button  id="images__action_install_" class="ajax-modal btn btn-small btn-blue btn-launch" name="action" value="" type="submit" data-i18n="Install">
+					                        Install
+					                    </button>
+					                </div></td>
+					            </tr>
+					        </tbody>
+					        <tfoot>
+					            <tr>
+					                <td colspan="5"><span class="blue"><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", 3)%></span></td>
+					                </td>
+					        </tfoot>
+					    </table>
+					</div>
+				</div>	
+			</div>	
         </div>
     </div>
 </div>

@@ -13,18 +13,16 @@ var Service = Backbone.Model.extend({
 
 var Services = Backbone.Collection.extend({
     model: Service,
-    
+
     sync: function(method, model, options) {
-        switch(method) {
-            case "read":
-                var resp = JSTACK.Keystone.getservicelist();
-                options.success(resp);
-                break;
+        if(method === "read") {
+            var resp = JSTACK.Keystone.getservicelist();
+            options.success(resp);
         }
     },
-    
+
     parse: function(resp) {
         return resp;
     }
-    
+
 });

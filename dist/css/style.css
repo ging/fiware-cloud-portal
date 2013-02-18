@@ -652,10 +652,10 @@ td .icon-updating.ajax-updating {
     width: 96%;
 }
 
-.modal .form-field,
+/*.modal .form-field,
 .modal fieldset ul {
     width: 90%;
-}
+}*/
 
 .modal fieldset .form-field input,
 .modal fieldset .form-field select,
@@ -667,10 +667,15 @@ td .icon-updating.ajax-updating {
     width: auto;
 }
 
-.modal .modal-body .modal-footer {
+/*.modal .modal-body .modal-footer {
     width: 670px;
     margin-left: -25px;
     margin-right: -15px;
+}
+
+/* Modal footer for EditRules in nova/access_and_security */
+.modal .modal-body .modal-footer .modal-footer-modefied {
+	width: auto;
 }
 
 .modal-footer a.close {
@@ -1159,4 +1164,37 @@ width: 100%;
     }
 }
 
+/* Progress bar for floating IP modal*/
 
+.progress_bar {
+  height: 100%;
+  width: 100%;
+  border: 1px solid #CCC;
+  background-color: #CCC;
+}
+
+.progress_bar_fill {
+  height: 100%;
+  background-color: #666;
+}
+
+.quota_title {
+  color: #999;
+}
+
+.quota_title strong {
+  color: #000;
+}
+
+.quota_title strong span {
+  font-weight: normal;
+}
+
+.quota_title p {
+  float: right;
+}
+
+.quota_bar {
+  height: 15px;
+  margin: -8px 0 8px;
+}

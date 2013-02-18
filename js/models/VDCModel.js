@@ -1,5 +1,5 @@
 var VDC = Backbone.Model.extend({
-   
+
     sync: function(method, model, options) {
            switch(method) {
                case "read":
@@ -14,9 +14,9 @@ var VDC = Backbone.Model.extend({
                    break;
            }
     },
-    
+
     parse: function(resp) {
-        if (resp.vdc != undefined) {
+        if (resp.vdc !== undefined) {
             return resp.vdc;
         } else {
             return resp;
@@ -26,23 +26,21 @@ var VDC = Backbone.Model.extend({
 
 var VDCs = Backbone.Collection.extend({
     model: VDC,
-    
+
     sync: function(method, model, options) {
-        switch(method) {
-            case "read":
-                //JSTACK.Nova.getcontainerlist(true, options.success);
-                var vdc = new VDC({id: "mockVDC", name: "mockVDC", vcpus: 1, disk: 10, ram: 1, vcpu_hours: 1, disk_hours: 1});
-                options.success({vdcs:[vdc]});
-                break;
+        if(method === "read") {
+            //JSTACK.Nova.getcontainerlist(true, options.success);
+            var vdc = new VDC({id: "mockVDC", name: "mockVDC", vcpus: 1, disk: 10, ram: 1, vcpu_hours: 1, disk_hours: 1});
+            options.success({vdcs:[vdc]});
         }
     },
-    
+
     comparator: function(vdc) {
         return vdc.get("id");
     },
-    
+
     parse: function(resp) {
         return resp.vdcs;
     }
-    
+
 });

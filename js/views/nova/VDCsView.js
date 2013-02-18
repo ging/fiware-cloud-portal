@@ -56,17 +56,17 @@ var VDCsView = Backbone.View.extend({
         if ($(this.el).html() != null) {
             var new_template = this._template({models:this.model.models});
             var dropdowns = [];
-            for (var index in this.model.models) { 
-                var instanceId = this.model.models[index].id;
+            var index, instanceId, drop;
+            for (index in this.model.models) {
+                instanceId = this.model.models[index].id;
                 if ($("#dropdown_"+instanceId).hasClass('open')) {
                     dropdowns.push(instanceId);
                 }
             }
             $(this.el).html(new_template);
-            
-            for (var index in dropdowns) { 
-                var instanceId = dropdowns[index];
-                var drop = $("#dropdown_"+instanceId);
+            for (index in dropdowns) {
+                instanceId = dropdowns[index];
+                drop = $("#dropdown_"+instanceId);
                 if (drop.html() != null) {
                     drop.addClass("open");
                 }

@@ -20,14 +20,14 @@ var loadOS = function() {
         var fiRouter = new OSRouter();
         Backbone.history.start();
     });
-}
+};
 
 var loadRoutes = function() {
     custom_require(["js/routes/os-routes.js"
             ], function(someModule) {
                 loadOS();
         });
-}
+};
 
 var loadViews = function() {
     custom_require([   "js/views/LoginView.js",
@@ -89,12 +89,12 @@ var loadViews = function() {
             ], function(someModule) {
                 loadRoutes();
         });
-}
+};
 
 var loadModels = function() {
 
     custom_require(["js/models/FlavorModel.js",
-    			"js/models/OverviewModel.js",
+                "js/models/OverviewModel.js",
                 "js/models/ImageModel.js",
                 "js/models/ProjectModel.js",
                 "js/models/InstanceModel.js",
@@ -115,14 +115,14 @@ var loadModels = function() {
             ], function(someModule) {
                 loadViews();
         });
-}
+};
 
 var loadUtils = function() {
     custom_require([   "js/os-utils.js"
             ], function(someModule) {
                 loadModels();
         });
-}
+};
 
 var loadLibraries = function() {
     custom_require([   "lib/backbone.js",
@@ -133,7 +133,7 @@ var loadLibraries = function() {
             ], function(someModule) {
                 loadUtils();
         });
-}
+};
 
 var loadTemplates = function() {
     custom_require(["js/load-templates.js"
@@ -200,7 +200,7 @@ var loadTemplates = function() {
                     loadLibraries();
                 });
     });
-}
+};
 
 var loadModules = function() {
     custom_require([    "http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js",
@@ -208,7 +208,7 @@ var loadModules = function() {
             ], function(someModule) {
                 loadTemplates();
     });
-}
+};
 
 
-loadModules();  
+loadModules();

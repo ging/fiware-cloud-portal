@@ -2,17 +2,17 @@ var ImagesView = Backbone.View.extend({
     
     _template: _.itemplate($('#imagesTemplate').html()),
         
-   	initialize: function() {
+    initialize: function() {
          this.model.unbind("reset");
          this.model.bind("reset", this.render, this);
          this.renderFirst();
     },
         
-	events: {
+    events: {
         'change .checkbox':'enableDisableDeleteButton',
-   		'click .btn-delete':'onDelete',
-   		'click .btn-delete-group':'onDeleteGroup',
-   		'click .btn-launch': 'onLaunch'
+        'click .btn-delete':'onDelete',
+        'click .btn-delete-group':'onDeleteGroup',
+        'click .btn-launch': 'onLaunch'
     },  
     
     onClose: function() {
@@ -35,7 +35,7 @@ var ImagesView = Backbone.View.extend({
         var subview = new ConfirmView({el: 'body', title: "Delete Image", btn_message: "Delete Image", onAccept: function() {
             img.destroy();
             var subview = new MessagesView({el: '#content', state: "Success", title: "Image "+img.get("name")+" deleted."});     
-        	subview.render();
+            subview.render();
         }});
         subview.render();
     },
@@ -48,33 +48,34 @@ var ImagesView = Backbone.View.extend({
                     var img = self.model.get(image);
                     img.destroy();
                     var subview = new MessagesView({el: '#content', state: "Success", title: "Images "+img.get("name")+" deleted."});     
-        			subview.render();
+                    subview.render();
             });
         }});
         subview.render();
     },
-		
-	enableDisableDeleteButton: function (e) {
-  		if ($(".checkbox:checked").size() > 0) { 
+        
+    enableDisableDeleteButton: function (e) {
+        if ($(".checkbox:checked").size() > 0) { 
             $("#images_delete").attr("disabled", false);
         } else {
             $("#images_delete").attr("disabled", true);
         }
-			
+            
     },
-	
-	renderFirst: function() {
+    
+    renderFirst: function() {
         UTILS.Render.animateRender(this.el, this._template, this.model);
         this.enableDisableDeleteButton();
     },
-	
+    
     render: function () {
         if ($("#images").html() != null) {
             var new_template = this._template(this.model);
             var checkboxes = [];
             var dropdowns = [];
-            for (var index in this.model.models) { 
-                var imageId = this.model.models[index].id;
+            var index, imageId, check,  drop;
+            for (index in this.model.models) { 
+                imageId = this.model.models[index].id;
                 if ($("#checkbox_"+imageId).is(':checked')) {
                     checkboxes.push(imageId);
                 }
@@ -83,17 +84,17 @@ var ImagesView = Backbone.View.extend({
                 }
             }
             $(this.el).html(new_template);
-            for (var index in checkboxes) { 
-                var imageId = checkboxes[index];
-                var check = $("#checkbox_"+imageId);
+            for (index in checkboxes) { 
+                imageId = checkboxes[index];
+                check = $("#checkbox_"+imageId);
                 if (check.html() != null) {
                     check.prop("checked", true);
                 }
             }
             
-            for (var index in dropdowns) { 
-                var imageId = dropdowns[index];
-                var drop = $("#dropdown_"+imageId);
+            for (index in dropdowns) { 
+                imageId = dropdowns[index];
+                drop = $("#dropdown_"+imageId);
                 if (drop.html() != null) {
                     drop.addClass("open");
                 }
