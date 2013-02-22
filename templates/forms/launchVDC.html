@@ -34,7 +34,7 @@
 
                             <span class="help-block" style="display: none; "></span>
                             <div class="input">
-                                <input id="id_name" type="text" name="name" maxlength="80">
+                                <input id="id_name" type="text" name="vdc_name" maxlength="80">
                             </div>
                         </div>
 
@@ -43,7 +43,7 @@
 
                             <span class="help-block" style="display: none; "></span>
                             <div class="input">
-                                <textarea id="id_description" rows="10" cols="40" name="description"></textarea>
+                                <textarea id="id_description" rows="10" cols="40" name="vdc_description"></textarea>
                             </div>
                         </div>
 
@@ -55,20 +55,20 @@
                     <p>
                         Specify the details for launching a virtual data center.
                     </p>
-                    
+
                 </div>
             </div>
             <div class="tab-pane" id="topology">
                 <fieldset>
                 <div class="left">
-                    
+
 
                     <div class="control-group form-field clearfix">
                         <label for="id_network_name">Virtual Network Name</label>
 
                         <span class="help-block" style="display: none; "></span>
                         <div class="input">
-                            <input id="id_network_name" type="text" name="name" maxlength="80">
+                            <input id="id_network_name" type="text" name="network_name" maxlength="80">
                         </div>
                     </div>
 
@@ -77,17 +77,17 @@
 
                         <span class="help-block" style="display: none; "></span>
                         <div class="input">
-                            <textarea id="id_network_description" rows="10" cols="40" name="description"></textarea>
+                            <textarea id="id_network_description" rows="10" cols="40" name="network_description"></textarea>
                         </div>
                     </div>
 
-                    
+
                 </div>
 
                 <div class="right">
                     <h3>Description:</h3>
                     <p>
-                        Network to be used in the Virtual Data Center. 
+                        Network to be used in the Virtual Data Center.
                     </p>
                     <div class="control-group form-field clearfix">
                         <label for="id_user_data">Bandwidth (Gbps)</label>
@@ -97,7 +97,7 @@
                             <input id="id_network_bandwidth" type="text" name="bandwidth" maxlength="80">
                         </div>
                     </div>
-                    
+
                     <div class="control-group form-field clearfix">
                         <label for="id_user_data">Size</label>
 
@@ -114,29 +114,29 @@
                     <fieldset>
 
                         <div class="control-group form-field clearfix">
-                            <label for="id_name">Storage Capacity</label>
+                            <label for="id_name">Storage Capacity (GB)</label>
 
                             <span class="help-block" style="display: none; "></span>
                             <div class="input">
-                                <input id="id_storage_capacity" type="text" name="name" maxlength="80">
+                                <input id="id_storage_capacity" type="text" name="storage" maxlength="80">
                             </div>
                         </div>
 
                         <div class="control-group form-field clearfix">
-                            <label for="id_name">vCPUs</label>
+                            <label for="id_name">Number of vCPUs</label>
 
                             <span class="help-block" style="display: none; "></span>
                             <div class="input">
-                                <input id="id_vcpus_capacity" type="text" name="name" maxlength="80">
+                                <input id="id_vcpus_capacity" type="text" name="vcpus" maxlength="80">
                             </div>
                         </div>
-                        
+
                         <div class="control-group form-field clearfix">
-                            <label for="id_name">Memory (Gb)</label>
+                            <label for="id_name">Memory (GB)</label>
 
                             <span class="help-block" style="display: none; "></span>
                             <div class="input">
-                                <input id="id_memory_capacity" type="text" name="name" maxlength="80">
+                                <input id="id_memory_capacity" type="text" name="memory" maxlength="80">
                             </div>
                         </div>
 
@@ -151,13 +151,13 @@
                 </div>
             </div>
         </div>
-        
+
 
     </div>
     <div class="modal-footer">
-        
+
         <a id="cancelBtn" class="btn cancel close pull-left" data-i18n="Cancel">Cancel</a>
-        
+
         <button class="btn btn-blue pull-right btn-accept" name="action" type="submit" data-i18n="Launch VDC">
             Launch VDC
         </button>
@@ -169,8 +169,8 @@
         <a class="btn btn-basic secondary btn-next" data-i18n="Next">
             Next
         </a>
-        
-        
+
+
     </div>
 
 </div>
