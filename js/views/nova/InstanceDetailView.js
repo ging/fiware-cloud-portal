@@ -156,21 +156,21 @@ var InstanceDetailView = Backbone.View.extend({
     },
 
     onInstallSoftware: function(e) {
-        var self = this;  	
+        var self = this;
         var software = e.target.value;
         var subview = new InstallSoftwareView({el: 'body', model: this.model.get(software)});
         subview.render();
     },
-    
+
     onUninstallSoftware: function(e) {
         var subview = new ConfirmView({el: 'body', title: "Uninstall Software", btn_message: "Uninstall Software", onAccept: function() {
             //software.destroy();
-            var subview = new MessagesView({el: '#content', state: "Success", title: "Software deleted."});     
+            var subview = new MessagesView({el: '#content', state: "Success", title: "Software deleted."});
         	subview.render();
         }});
         subview.render();
     },
-    
+
 
     checkAll: function() {
         var self = this;
