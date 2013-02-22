@@ -405,7 +405,8 @@ var OSRouter = Backbone.Router.extend({
     nova_vdc: function(self, id) {
         self.showNovaRoot(self, 'Virtual Data Centers');
         //self.instancesModel.alltenants = false;
-        var services = new VDCServices({vdc: id});
+        var services = new VDCServices();
+        services.vdc(id);
         var view = new VDCView({model: services, vdc: id, el: '#content', flavors: self.flavors, images: self.images, keypairs: self.keypairsModel});
         self.newContentView(self,view);
     },

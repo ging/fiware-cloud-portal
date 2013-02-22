@@ -24,10 +24,48 @@
         <script type="text/javascript" src="../lib/bootstrap.min.js"></script>
         <script type="text/javascript" src="../lib/jstack.js"></script>
         <script type="text/javascript" src="../lib/cdmi.js"></script>
+        <script type="text/javascript" src="../lib/ovf.js"></script>
         <script type="text/javascript" src="../lib/backbone.js"></script>
         <script type="text/javascript" src="../lib/jquery.selectbox-0.1.3.min.js"></script>
 
         <script>
+            (function($)
+            {
+                // maintain a to the existing function
+                var oldFadeIn = $.fn.fadeIn;
+                // ...before overwriting the jQuery extension point
+                $.fn.fadeIn = function()
+                {
+                    // original behavior - use function.apply to preserve context
+                    var ret = this.show();
+
+                    // stuff I will be extending
+                    // that doesn't affect/change
+                    // the way .css() works
+
+                    // preserve return value (probably the jQuery object...)
+                    return ret;
+                };
+
+                // maintain a to the existing function
+                var oldFadeOut = $.fn.fadeOut;
+                // ...before overwriting the jQuery extension point
+                $.fn.fadeOut = function()
+                {
+                    // original behavior - use function.apply to preserve context
+                    var ret = this.hide();
+
+                    // stuff I will be extending
+                    // that doesn't affect/change
+                    // the way .css() works
+
+                    // preserve return value (probably the jQuery object...)
+                    return ret;
+                };
+
+            })(jQuery);
+
+
             window.addEventListener("load", function() {
                 setTimeout(function() {
                     window.scrollTo(0, 0);
@@ -124,7 +162,7 @@
                                 require(["routes.js"], function() {
                                     $('.bar').css({width: "100%"});
                                     $('#initbar').hide();
-                                    UTILS.Auth.initialize("http://130.206.80.93/keystone/v2.0/", "http://130.206.80.93/keystone-admin/v2.0/");
+                                    UTILS.Auth.initialize("/keystone/v2.0/", "/keystone-admin/v2.0/");
                                     //UTILS.Auth.initialize("http://mcu5.dit.upm.es:5000/v2.0/");
                                     var fiRouter = new OSRouter();
                                     Backbone.history.start();
@@ -135,20 +173,3 @@
                 });
             });
         </script>
-    </head>
-    <body id="splash" >
-        <!--
-        Description: Index page
-        src: index.html
-        -->
-        <div class="container">
-            <div id='auth'></div>
-
-            <div id='root'></div>
-        </div>
-        <div id="initbar" class="progress progress-striped active">
-            Loading FIWare Portal...
-            <div class="bar" style="width: 0%;"></div>
-        </div>
-    </body>
-</html>

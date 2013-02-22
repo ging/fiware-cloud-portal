@@ -49,19 +49,18 @@ UTILS.Auth = (function(U, undefined) {
     };
 
     var switchTenant = function(tenant, callback, error) {
-        JSTACK.Keystone.authenticate(undefined, undefined, JSTACK.Keystone.params.token, tenant, callback, error);
+        authenticate(undefined, undefined, tenant, JSTACK.Keystone.params.token, callback, error);
     };
 
     function authenticate(username, password, tenant, token, callback, error) {
 
         var _authenticatedWithTenant = function (resp) {
-            console.log("Authenticated with tentant");
-            JSTACK.Keystone.params.access.serviceCatalog[0].endpoints[0].adminURL = "http://130.206.80.91:8774/v2.0/" +
-                  resp.access.token.tenant.id;
-            JSTACK.Keystone.params.access.serviceCatalog[0].endpoints[0].publicURL = "http://130.206.80.91:8774/v2.0/" +
-                  resp.access.token.tenant.id;
-            JSTACK.Keystone.params.access.serviceCatalog[0].endpoints[0].internalURL = "http://130.206.80.91:8774/v2.0/" +
-                  resp.access.token.tenant.id;
+            console.log("Authenticated for tenant ", tenant);
+            var sm = JSTACK.Keystone.getservice("sm");
+            var compute = JSTACK.Keystone.getservice("compute");
+            compute.endpoints = sm.endpoints;
+
+            OVF.API.configure(JSTACK.Keystone.getservice("sm").endpoints[0].publicURL, JSTACK.Keystone.params.access.token.id);
 
             /*JSTACK.Keystone.params.access.serviceCatalog[2].endpoints[0].adminURL = "http://130.206.80.91:8776/v2.0/" +
                   resp.access.token.tenant.id;
@@ -79,7 +78,6 @@ UTILS.Auth = (function(U, undefined) {
         };
 
         var _authenticatedWithToken = function (resp) {
-            console.log("Authenticated with token");
             callback();
         };
 

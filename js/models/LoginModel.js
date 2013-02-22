@@ -49,7 +49,7 @@ var LoginStatus = Backbone.Model.extend({
         var self = context;
         if (!UTILS.Auth.isAuthenticated() && token !== '' && (new Date().getTime()) < self.get('token-ts') + 24*60*60*1000 ) {
             UTILS.Auth.authenticate(undefined, undefined, undefined, token, function() {
-                console.log("Authenticated with token");
+                console.log("Authenticated with token: ", + 24*60*60*1000-(new Date().getTime())-self.get('token-ts'));
                 self.set({username: UTILS.Auth.getName(), tenant: UTILS.Auth.getCurrentTenant()});
                 console.log("New tenant: " + self.attributes.tenant.name);
                 //console.log("New tenant: " + self.get("name"));
@@ -60,8 +60,8 @@ var LoginStatus = Backbone.Model.extend({
 
             }, function(msg) {
                 console.log("Error authenticating with token");
-                self.set({'error_msg': msg});
-                self.trigger('auth-error', msg);
+                //self.set({'error_msg': msg});
+                //self.trigger('auth-error', msg);
             });
         } else {
             console.log("Not logged In");
