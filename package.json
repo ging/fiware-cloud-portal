@@ -33,6 +33,7 @@
   ],
   "scripts": {
     "postinstall": "./node_modules/grunt-cli/bin/grunt",
+    "build": "./node_modules/grunt-cli/bin/grunt",
     "test": "mocha test/testZombie.js -R spec -t 10000"
   }
 }

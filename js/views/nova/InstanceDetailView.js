@@ -166,7 +166,7 @@ var InstanceDetailView = Backbone.View.extend({
         var subview = new ConfirmView({el: 'body', title: "Uninstall Software", btn_message: "Uninstall Software", onAccept: function() {
             //software.destroy();
             var subview = new MessagesView({el: '#content', state: "Success", title: "Software deleted."});
-        	subview.render();
+            subview.render();
         }});
         subview.render();
     },

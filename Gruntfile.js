@@ -75,7 +75,10 @@ module.exports = function(grunt) {
           {src: ['lib/**/*'], dest: 'dist/'},
           {src: ['templates/**/*'], dest: 'dist/'},
           {src: ['locales/**/*'], dest: 'dist/'},
-          {src: ['fonts/**/*'], dest: 'dist/'}
+          {src: ['fonts/**/*'], dest: 'dist/'},
+          {src: ['css/**/*'], dest: 'dist/'},
+          {src: ['ico/**/*'], dest: 'dist/'},
+          {src: ['image/**/*'], dest: 'dist/'}
         ]
       }
     },
@@ -92,6 +95,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
 
   // Default task.
-  grunt.registerTask('default', ['jshint', 'uglify', 'concat:dist', 'concat:disttest', 'copy']);
+  grunt.registerTask('default', ['jshint', 'concat', 'concat:dist', 'concat:disttest', 'copy']);
 
 };
