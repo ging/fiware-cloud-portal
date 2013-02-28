@@ -1,0 +1,77 @@
+<script id="createUserFormTemplate" type="text/html">
+<div id="create_user" class="modal hide in" style="display: block; ">
+    <!--
+    Description: Create User Form
+    src: templates/forms/createUser.html
+    -->
+    <div class="modal-header">
+        <a href="#" class="close" data-dismiss="modal">×</a>
+        <h3>Create User</h3>
+    </div>
+
+    <form class="" action="#" method="#">
+        <div class="modal-body clearfix">
+
+            <div class="left">
+                <fieldset>
+
+                    <div class="control-group form-field clearfix">
+                        <label for="id_name">User Name</label>
+
+                        <span class="help-block" style="display: none; "></span>
+                        <div class="input">
+                            <input id="name" type="text" name="name" maxlength="255">
+                        </div>
+                    </div>
+
+                    <div class="control-group form-field clearfix">
+                        <label for="id_description">Email</label>
+
+                        <span class="help-block" style="display: none; "></span>
+                        <div class="input">
+                            <input id="email" type="text" name="email" maxlength="255">
+                        </div>
+                    </div>
+                    
+                    <div class="control-group form-field clearfix">
+                        <label for="id_description">Password</label>
+
+                        <span class="help-block" style="display: none; "></span>
+                        <div class="input">
+                            <input id="password" type="text" name="password" maxlength="255">
+                        </div>
+                    </div>
+                    
+                    <div class="control-group form-field clearfix">
+                        <label for="id_description">Confirm Password</label>
+
+                        <span class="help-block" style="display: none; "></span>
+                        <div class="input">
+                           	<input id="confirm_password" type="text" name="confirm_password" maxlength="255">	
+                        </div>
+                    </div>
+                    
+                    <div class="control-group form-field clearfix">
+					    <label for="id_name">Primary Project</label> 	 
+					 	<select id="project_switcher" tabindex="1" class="inline">
+					 		<option value="hola">hola</option>
+					   	</select>  	 			       			
+		 			 </div>  
+
+                </fieldset>
+            </div>
+            <div class="right">
+                <h3>Description:</h3>
+                <p>
+                    From here you can create a new user and assign them to a project.
+                </p>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <a id="createBtn" class="btn btn-blue create-user" data-dismiss="modal">Create User</a>
+            <a id="cancelBtn" class="close btn seconday cancel close" data-dismiss="modal">Cancel</a>
+        </div>
+    </form>
+</div>
+</script>

@@ -1,0 +1,61 @@
+<script id="createProjectFormTemplate" type="text/html">
+<div id="create_project" class="modal hide in" style="display: block; ">
+    <!--
+    Description: Create Project Form
+    src: templates/forms/createProject.html
+    -->
+    <div class="modal-header">
+        <a href="#" class="close" data-dismiss="modal">×</a>
+        <h3>Create Project</h3>
+    </div>
+
+    <form class="" action="#" method="#">
+        <div class="modal-body clearfix">
+
+            <div class="left">
+                <fieldset>
+
+                    <div class="control-group form-field clearfix">
+                        <label for="id_name">Name</label>
+
+                        <span class="help-block" style="display: none; "></span>
+                        <div class="input">
+                            <input id="name" type="text" name="name" maxlength="255">
+                        </div>
+                    </div>
+
+                    <div class="control-group form-field clearfix">
+                        <label for="id_description">Description</label>
+
+                        <span class="help-block" style="display: none; "></span>
+                        <div class="input">
+                            <textarea id="id_description" rows="10" cols="40" name="description"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="control-group form-field clearfix">
+					    <label for="id_enabled">Enabled</label>
+					    
+					    <span class="help-block" style="display: none;"></span>
+					    <div class="input">
+					      <input checked="checked" type="checkbox" name="enabled" id="id_enabled">
+					    </div>
+					</div>
+
+                </fieldset>
+            </div>
+            <div class="right">
+                <h3>Description:</h3>
+                <p>
+                    From here you can create a new project to organize users.
+                </p>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <a id="createBtn" class="btn btn-blue create-project" data-dismiss="modal">Create Project</a>
+            <a id="cancelBtn" class="close btn seconday cancel close" data-dismiss="modal">Cancel</a>
+        </div>
+    </form>
+</div>
+</script>
