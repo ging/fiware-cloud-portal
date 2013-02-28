@@ -86,6 +86,7 @@ var OSRouter = Backbone.Router.extend({
         this.route('syspanel/projects/', 'projects',  this.wrap(this.sys_projects, this.checkAuth));
         this.route('syspanel/users/', 'users',  this.wrap(this.sys_users, this.checkAuth));
         this.route('syspanel/quotas/', 'quotas',  this.wrap(this.sys_quotas, this.checkAuth));
+        this.route('syspanel/projects/:id/users', 'modify_users',  this.wrap(this.modify_users, this.checkAuth));
 
         this.route('syspanel/flavors/create', 'create_flavor',  this.wrap(this.create_flavor, this.checkAuth));
 
@@ -338,6 +339,12 @@ var OSRouter = Backbone.Router.extend({
             self.newContentView(self,view);
             view.render();
         }
+    },
+    
+     modify_users: function(self) {
+        self.showNovaRoot(self, 'Users for Project');
+        var view = new ModifyUsersView({el: '#content', model: users});
+        self.newContentView(self,view);
     },
 
     showNovaRoot: function(self, option) {

@@ -34,7 +34,7 @@ var UserView = Backbone.View.extend({
         var subview = new ConfirmView({el: 'body', title: "Confirm Delete User", btn_message: "Delete User", onAccept: function() {
             cont = self.model.get(container);
                 var subview = new MessagesView({el: '#content', state: "Success", title: "User deleted."});  
-                subview3.render();   
+                subview.render();   
                 
         }});        
         subview.render();
@@ -45,7 +45,7 @@ var UserView = Backbone.View.extend({
         var cont;
         var subview = new ConfirmView({el: 'body', title: "Delete Projects", btn_message: "Delete Projects", onAccept: function() {
             $(".checkbox_containers:checked").each(function () {
-                    var subview3 = new MessagesView({el: '#content', state: "Success", title: "Project deleted."});     
+                    var subview = new MessagesView({el: '#content', state: "Success", title: "Project deleted."});     
                     subview.render();
                    
             });
@@ -82,6 +82,7 @@ var UserView = Backbone.View.extend({
         UTILS.Render.animateRender(this.el, this._template, this.model);
         return this;
     },
+    
     rerender: function() {
         $(this.el).empty().html(this._template(this.model));
     } 

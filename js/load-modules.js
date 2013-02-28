@@ -90,6 +90,9 @@ var loadViews = function() {
                 "js/views/forms/EditProjectView.js",
                 "js/views/forms/CreateUserView.js",
                 "js/views/forms/EditUserView.js",
+                "js/views/forms/ModifyUsersView.js",
+                "js/views/syspanel/NewUsersView.js",
+                "js/views/syspanel/UsersForProjectView.js"
             ], function(someModule) {
                 loadRoutes();
         });
@@ -174,6 +177,7 @@ var loadTemplates = function() {
                     'templates/forms/editProject.html',
                     'templates/forms/createUser.html',
                     'templates/forms/editUser.html',
+                    'templates/forms/modifyUsers.html',
                     'templates/root/nova/overview.html',
                     'templates/root/nova/accessAndSecurity.html',
                     'templates/root/nova/keypairs.html',
@@ -200,6 +204,8 @@ var loadTemplates = function() {
                     'templates/root/sys/flavors.html',
                     'templates/root/sys/projects.html',
                     'templates/root/sys/users.html',
+                    'templates/root/sys/newUsers.html',
+                    'templates/root/sys/usersForProject.html',
                     'templates/root/sys/quotas.html',
                     'templates/root/root.html',
                     'templates/root/navTab.html',
