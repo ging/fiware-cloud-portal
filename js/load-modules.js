@@ -85,7 +85,11 @@ var loadViews = function() {
                 "js/views/forms/InstallSoftwareView.js",
                 "js/views/nova/InstanceDetailView.js",
                 "js/views/SettingsView.js",
-                "js/views/forms/MessagesView.js"
+                "js/views/forms/MessagesView.js",
+                "js/views/forms/CreateProjectView.js",
+                "js/views/forms/EditProjectView.js",
+                "js/views/forms/CreateUserView.js",
+                "js/views/forms/EditUserView.js",
             ], function(someModule) {
                 loadRoutes();
         });
@@ -166,6 +170,10 @@ var loadTemplates = function() {
                     'templates/forms/downloadKeypair.html',
                     'templates/forms/allocateIP.html',
                     'templates/forms/installSoftware.html',
+                    'templates/forms/createProject.html',
+                    'templates/forms/editProject.html',
+                    'templates/forms/createUser.html',
+                    'templates/forms/editUser.html',
                     'templates/root/nova/overview.html',
                     'templates/root/nova/accessAndSecurity.html',
                     'templates/root/nova/keypairs.html',

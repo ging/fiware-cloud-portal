@@ -3,7 +3,6 @@
 Description: Projects
 src: templates/root/sys/projects.html
 -->
-<form action="#">
     <div class='table_header'>
         <div class="table_actions clearfix">
 
@@ -14,9 +13,9 @@ src: templates/root/sys/projects.html
                 </button>
             </div>
 
-            <a href='#syspanel/projects/create'  class="btn btn-small ajax-modal" data-i18n="Create New Project">Create New Project</a>
+            <button class="btn btn-small btn-blue btn-create-project" data-i18n="Create New Project">Create New Project</button>
 
-            <button class='btn btn-small btn-danger' name="action" value="tenants__delete" type="submit" data-i18n="Delete Projects">
+            <button class='btn btn-small btn-danger btn-delete-group' id="projects_delete" disabled="disabled" name="action" value="tenants__delete" type="submit" data-i18n="Delete Projects">
                 Delete Projects
             </button>
 
@@ -27,8 +26,11 @@ src: templates/root/sys/projects.html
     <table id="tenants" class="table table-bordered table-striped">
         <thead>
             <tr>
-
-                <th class="multi_select_column"></th>
+            	
+            	
+                <th class="multi_select_column">
+                	<input type="checkbox" class="checkbox checkbox_all">
+                </th>
 
                 <th class="hidden-phone" data-i18n="Id">Id</th>
 
@@ -48,7 +50,7 @@ src: templates/root/sys/projects.html
             %>
             <tr id="tenants__row__4" class="">
                 <td class="multi_select_column">
-                <input type="checkbox" name="object_ids" value="<%= project.get('id') %>" />
+                <input type="checkbox" name="object_ids" class="checkbox checkbox_projects" "<%= project.get('id') %>" />
                 </td>
                 <td class="hidden-phone"><%= project.get('id')%></td>
                 <td class=""><%= project.get('name')%></td>
@@ -57,7 +59,7 @@ src: templates/root/sys/projects.html
                 <td class="actions_column hidden-phone">
                 <div class="btn-group">
 
-                    <a href='#syspanel/projects/4/update/'  class="ajax-modal btn btn-small btn-blue" data-i18n="Edit Project">Edit Project</a>
+                    <button class="ajax-modal btn btn-small btn-blue btn-edit" data-i18n="Edit Project">Edit Project</button>
 
                     <a class="btn dropdown-toggle btn-small btn-blue" data-toggle="dropdown" href="#"> <span class="caret caret-white"></span> </a>
                     <ul class="dropdown-menu row_actions clearfix">
@@ -82,7 +84,7 @@ src: templates/root/sys/projects.html
 
                         <li class="clearfix">
 
-                            <button  class="btn btn-small btn-danger" name="action" value="tenants__delete__4" type="submit" data-i18n="Delete Project">
+                            <button  class="btn btn-small btn-danger btn-delete" name="action" value="tenants__delete__4" type="submit" data-i18n="Delete Project">
                                 Delete Project
                             </button>
 
@@ -101,6 +103,4 @@ src: templates/root/sys/projects.html
                 </td>
         </tfoot>
     </table>
-
-</form>
 </script>

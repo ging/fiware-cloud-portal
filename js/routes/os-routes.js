@@ -213,7 +213,7 @@ var OSRouter = Backbone.Router.extend({
         self.top.set({"title":option});
         self.navs = new NavTabModels([
                                     {name: 'Overview', active: true, url: '#syspanel/'},
-                                    {name: 'Organizations', active: false, url: '#syspanel/projects/'},
+                                    {name: 'Projects', active: false, url: '#syspanel/projects/'},
                                     //{name: 'Instances', active: false, url: '#syspanel/instances/'},
                                     //{name: 'Services', active: false, url: '#syspanel/services/'},
                                     {name: 'Flavors', active: false, url: '#syspanel/flavors/'},
@@ -317,7 +317,7 @@ var OSRouter = Backbone.Router.extend({
     },
 
     sys_projects: function(self) {
-        if (self.showSysRoot(self, 'Organizations')) {
+        if (self.showSysRoot(self, 'Projects')) {
            var view = new ProjectView({model:self.projects, el: '#content'});
            self.newContentView(self,view);
         }
@@ -345,7 +345,7 @@ var OSRouter = Backbone.Router.extend({
         self.top.set({"title":option});
         self.navs = new NavTabModels([
                             {name: 'Compute', type: 'title'},
-                            {name: 'Overview', active: true, url: '#nova/'},
+                            //{name: 'Overview', active: true, url: '#nova/'},
                             {name: 'Virtual Data Centers', active: false, url: '#nova/vdcs/'},
                             {name: 'Images', active: false, url: '#nova/images/'},
                             {name: 'Volumes', active: false, url: '#nova/volumes/'},
