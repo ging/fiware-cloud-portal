@@ -7,7 +7,7 @@ var ModifyUsersView = Backbone.View.extend({
 
     initialize: function() {
         this.render();
-       	this.usersForProjectView = new UsersForProjectView({model: this.model, el: '#users_for_project'});
+        this.usersForProjectView = new UsersForProjectView({model: this.model, el: '#users_for_project'});
         this.newUsersView = new NewUsersView({model: this.model, el: '#add_new_users'});
     },
 
@@ -27,12 +27,12 @@ var ModifyUsersView = Backbone.View.extend({
         this.undelegateEvents();
         this.unbind();
     },
-    
+
     render: function() {
         var self = this;
         UTILS.Render.animateRender(this.el, this._template);
-        
+
 
     }
-    
+
 });
