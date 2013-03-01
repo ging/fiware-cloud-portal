@@ -44,14 +44,17 @@ src: templates/root/sys/users.html
             </tr>
         </thead>
         <tbody>
+            <% for (var index in models) {
+            var user = models[index];
+            %>
             <tr id="users__row__" class="">
                 <td class="multi_select_column">
                 <input type="checkbox" name="object_ids" class="checkbox checkbox_users" value="1" />
                 </td>
-                <td class="">1</td>
-                <td class="">admin</td>
-                <td class="">None</td>
-                <td class="status_up">True</td>
+                <td class=""><%= user.get('id')%></td>
+                <td class=""><%= user.get('name')%></td>
+                <td class=""><%= user.get('email')%></td>
+                <td class="status_up"><%= user.get('enabled')%></td>
                 <td class="actions_column hidden-phone">
                 <div class="btn-group">
 
@@ -67,7 +70,7 @@ src: templates/root/sys/users.html
                             </button>
 
                         </li>
-                        
+
                         <li class="clearfix">
 
                             <button  class="btn btn-small btn-danger btn-delete" name="action" value="tenants__delete__4" type="submit" data-i18n="Delete User">
@@ -80,6 +83,9 @@ src: templates/root/sys/users.html
 
                 </div></td>
             </tr>
+
+            <% }
+            %>
 
         </tbody>
         <tfoot>

@@ -3,6 +3,8 @@ var UserView = Backbone.View.extend({
     _template: _.itemplate($('#usersTemplate').html()),
 
     initialize: function() {
+        this.model.bind("reset", this.render, this);
+        this.model.fetch();
     },
 
     events: {

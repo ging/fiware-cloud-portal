@@ -5,7 +5,7 @@ var AllocateIPView = Backbone.View.extend({
     events: {
       'click #cancelCreateBtn': 'close',
       'click #close': 'close',
-      'click #createBtn': 'create',
+      'submit #form': 'create',
       'click .modal-backdrop': 'close'
     },
 
@@ -30,30 +30,9 @@ var AllocateIPView = Backbone.View.extend({
     create: function(e) {
         self = this;
         var name = $('input[name=name]').val();
-        var subview;
-        for (var index in self.model.models) {
-            if (self.model.models[index].attributes.name === name) {
-                subview = new MessagesView({el: '#content', state: "Error", title: "Keypair "+name+" already exists. Please try again."});
-                subview.render();
-                return;
-            }
-        }
-        var newKeypair = new Keypair();
 
-        newKeypair.set({'name': name});
 
-        mySuccess = function(object) {
-            var privateKey = object.keypair.private_key;
-            var blob, blobURL;
-            blob = new Blob([privateKey], { type: "application/x-pem-file" });
-            blobURL = window.URL.createObjectURL(blob);
-            window.open(blobURL);
-        };
-        JSTACK.Nova.createkeypair(name, undefined, mySuccess);
-
-        window.location.href = '#nova/access_and_security/keypairs/'+name+'/download/';
-
-        subview = new MessagesView({el: '#content', state: "Success", title: "Keypair "+name+" created."});
+        subview = new MessagesView({el: '#content', state: "Success", title: "IP allocated."});
         subview.render();
         self.close();
     }

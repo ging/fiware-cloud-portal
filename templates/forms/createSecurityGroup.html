@@ -4,40 +4,40 @@
     Description: Create Security Group Form
     src: templates/forms/createSecurityGroup.html
     -->
-    <div class="modal-header">
-        <a id="close" href="#" class="close" data-dismiss="modal">&times;</a>
-        <h3>Create Security Group</h3>
-    </div>
-    <form action="" id="create_sec_group_form">
-    <div class="modal-body clearfix">
-        <div class="left">
-            <fieldset>
-                <div class="control-group form-field clearfix">
-                    <label for="name">Name</label>
-                    <span class="help-block"></span>
-                    <div class="input">
-                        <input type="text" name="name" value="" id="name" rel="tooltip" data-placement="right" title="Security Group names may only contain letters, numbers, underscores and hyphens." required/>
-                    </div>
-                </div>
-                <div class="control-group form-field clearfix">
-                    <label for="description">Description</label>
-                    <span class="help-block"></span>
-                    <div class="input">
-                        <input type="text" name="description" value="" id="description" required/>
-                    </div>
-            </fieldset>
+    <form id="form" onSubmit="return false;">
+        <div class="modal-header">
+            <a id="close" href="#" class="close" data-dismiss="modal">&times;</a>
+            <h3>Create Security Group</h3>
         </div>
-        <div class="right">
-            <h3>Description:</h3>
-            <p>
-                From here you can create a new security group
-            </p>
+        <div class="modal-body clearfix">
+            <div class="left">
+                <fieldset>
+                    <div class="control-group form-field clearfix">
+                        <label for="name">Name</label>
+                        <span class="help-block"></span>
+                        <div class="input">
+                            <input type="text" name="name" value="" id="name" rel="tooltip" pattern="^[a-z0-9_\-]{1,87}$"  data-placement="right" placeholder="Security Group names may only contain letters, numbers, underscores and hyphens." required/>
+                        </div>
+                    </div>
+                    <div class="control-group form-field clearfix">
+                        <label for="description">Description</label>
+                        <span class="help-block"></span>
+                        <div class="input">
+                            <input type="text" name="description" value="" id="description" required placeholder="This field is required."/>
+                        </div>
+                </fieldset>
+            </div>
+            <div class="right">
+                <h3>Description:</h3>
+                <p>
+                    From here you can create a new security group
+                </p>
+            </div>
         </div>
-    </div>
-    <div class="modal-footer">
-        <a id="createBtn" class="btn btn-blue pull-right" data-dismiss="modal">Create Security Group</a>
-        <a id="cancelBtn" class="close btn seconday cancel close" data-dismiss="modal">Cancel</a>
-    </div>
+        <div class="modal-footer">
+            <input type="submit" class="btn btn-blue pull-right" value="Create Security Group">
+            <a id="cancelBtn" class="close btn seconday cancel close" data-dismiss="modal">Cancel</a>
+        </div>
     </form>
 </div>
 </script>

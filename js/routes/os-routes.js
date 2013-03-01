@@ -333,9 +333,11 @@ var OSRouter = Backbone.Router.extend({
     sys_users: function(self) {
         if (self.showSysRoot(self, 'Users')) {
             var users = new Users();
+            users.tenant(JSTACK.Keystone.params.access.token.tenant.id);
+            console.log(users);
             var view = new UserView({model:users, el: '#content'});
             self.newContentView(self,view);
-            view.render();
+            //view.render();
         }
     },
 

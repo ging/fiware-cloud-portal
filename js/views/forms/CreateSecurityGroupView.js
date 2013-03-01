@@ -5,9 +5,10 @@ var CreateSecurityGroupView = Backbone.View.extend({
     events: {
       'click #cancelBtn': 'close',
       'click #close': 'close',
-      'click #createBtn': 'createSecurityGroup',
+      'submit #form': 'createSecurityGroup',
       'click .modal-backdrop': 'close',
-      'click #name': 'showTooltipName'
+      'click #name': 'showTooltipName',
+      'input input': 'onInput'
     },
 
     render: function () {
@@ -32,6 +33,21 @@ var CreateSecurityGroupView = Backbone.View.extend({
         $('#name').tooltip('show');
     },
 
+    onInput: function (e) {
+        e.preventDefault();
+        self = this;
+        var name = $('input[name=name]').val();
+        var message = '';
+
+        for (var index in self.options.securityGroupsModel.models) {
+            if (self.options.securityGroupsModel.models[index].attributes.name === name) {
+                message = "Security group already exists";
+            }
+        }
+        this.$('input[name=name]')[0].setCustomValidity(message);
+
+    },
+
     createSecurityGroup: function(e) {
         e.preventDefault();
         self = this;
@@ -43,9 +59,6 @@ var CreateSecurityGroupView = Backbone.View.extend({
         nameOK = namePattern.test(name) ? true : false;
 
         descriptionOK = (description !== "" && description !== undefined) ? true : false;
-
-        console.log(nameOK);
-        console.log(descriptionOK);
 
         if (nameOK && descriptionOK) {
             for (var index in self.options.securityGroupsModel.models) {

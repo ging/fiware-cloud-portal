@@ -7,7 +7,7 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
       'click #deleteRuleBtn': 'deleteRule',
       'click #deleteRulesBtn': 'deleteRules',
       'click .close': 'close',
-      'click #createRuleBtn': 'createRule',
+      'submit #rulesForm': 'createRule',
       'click .modal-backdrop': 'close',
       'click #from_port': 'showTooltipFromPort',
       'click #to_port': 'showTooltipToPort',
@@ -25,6 +25,7 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
 
     close: function(e) {
         $('#edit_security_group_rule').remove();
+        $('.modal-backdrop').remove();
         this.onClose();
     },
 
@@ -111,11 +112,11 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
         self = this;
 
         var cidrOK, fromPortOK, toPortOK;
-        var cidr_pattern = /^([0-255]){1,3}(\.){1}([0-255]){1,3}(\.){1}([0-255]){1,3}(\.){1}([0-255]){1,3}(\/){1}([0-24]){1,2}$/;   // 0.0.0.0/0
+        var cidr_pattern = /^([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\/(0|[12]\d?|3[0-2])$/;   // 0.0.0.0/0
         var portPattern = /^([1-65535]){1,5}$/;
         var icmpPattern = /^([\-1-255]){1,3}$/;
 
-        var parentGroupId = e.target.value;
+        var parentGroupId = self.options.securityGroupsModel.securityGroup.id;
         var ipProtocol = $('.IPProtocolSelect :selected').val();
         var fromPort = $('input[name=fromPort]').val();
         var toPort = $('input[name=toPort]').val();

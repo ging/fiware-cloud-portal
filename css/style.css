@@ -1199,7 +1199,7 @@ width: 100%;
   margin: -8px 0 8px;
 }
 
-
+/*
 input:required:invalid, input:focus:invalid {
   background-image: url(../images/invalid.png);
   background-position: 95% top;
@@ -1210,3 +1210,4 @@ input:required:valid {
   background-position: 95% top;
   background-repeat: no-repeat;
 }
+*/

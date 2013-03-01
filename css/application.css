@@ -16,9 +16,9 @@
          url("assets/fonts/opensans-regular-webfont.woff") format("woff"),
          url("assets/fonts/opensans-regular-webfont.ttf") format("truetype"),
          url("assets/fonts/opensans-regular-webfont.svg#OpenSansRegular") format("svg");
-		 
 
-} 
+
+}
 
 #initbar {
     left: 40%;
@@ -37,13 +37,13 @@
   margin-left: 0px;
 }
 .dashboard{
-  text-shadow: 1px 0px 1px 
+  text-shadow: 1px 0px 1px
   rgba(255, 255, 255, 0.10);
 }
 .signin{
   margin-rigth: 6px;
     margin-top: 4px;
-    width: 121px; 
+    width: 121px;
 }
 
 .info{
@@ -133,17 +133,17 @@ max-width: 120px;}
   text-decoration: none;
   font-family: DsignesRegular;
   font-size: 30px;
-  
+
 }
 .navbar .link-logo{
   color: #fff;
   text-decoration: none;
   font-family: DsignesRegular;
   font-size: 30px;
-  
+
 }
 
-.big-tittle{ 
+.big-tittle{
   background: -moz-linear-gradient(left,  rgba(255,255,255,0) 0%, rgba(237,237,237,0.85) 50%, rgba(237,237,237,1) 100%);
   background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(255,255,255,0)), color-stop(50%,rgba(237,237,237,0.85)), color-stop(100%,rgba(237,237,237,1)));
   background: -webkit-linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(237,237,237,0.85) 50%,rgba(237,237,237,1) 100%);
@@ -249,7 +249,7 @@ input.file {
 .spanminus{margin-left:-30px;}
 
 
-.btn-basic { 
+.btn-basic {
   font-size: 12px;
   color: #898989;
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.1);
@@ -263,8 +263,8 @@ input.file {
 
 .btn-basic:hover,
 .btn-basic:active,
-.btn-basic.active {  
-  border-color:#ccc; 
+.btn-basic.active {
+  border-color:#ccc;
   background-color:#FCFDFC;
 }
 
@@ -299,7 +299,7 @@ input.file {
 .btn-blue:hover,
 .btn-blue:active,
 .btn-blue.active {
-  border-color:#00CCDB; 
+  border-color:#00CCDB;
   background-color:#0489B7;
   color: #FFFFFF;
 }
@@ -332,12 +332,12 @@ body {
   background-color: #ffffff;
   padding-right: 5px;
   padding-left: 5px;
-} 
+}
 
 /****line 452 bootstrap.css*/
 h1{
   font-family: "Comfortaa";
-  line-height:531x; 
+  line-height:531x;
 }
 
 h2{
@@ -354,7 +354,7 @@ h6 {
 
 h1 small{
   font-family: "Open Sans", sans-serif;;
-  font-weight:100; 
+  font-weight:100;
   font-style:normal;
   color: #999;
   font-size: 18px
@@ -444,7 +444,7 @@ textarea {
 .input-prepend .add-on, .input-append .add-on {
   text-shadow:none;
   padding-top: 4px;
-  padding-bottom: 4px; 
+  padding-bottom: 4px;
 }
 
 .input-prepend .add-on,
@@ -480,7 +480,7 @@ textarea {
   border-color: transparent;
     -webkit-border-radius: 5px;
      -moz-border-radius: 5px;
-          border-radius: 5px;	
+          border-radius: 5px;
 }
 
 .btn:hover {
@@ -556,7 +556,7 @@ textarea {
   *background-color: #bd362f;
   border-color: #bd362f #bd362f #802420;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  
+
 }
 
 .btn-danger:hover,
@@ -578,7 +578,7 @@ textarea {
   *background-color: #51a351;
   border-color: #51a351 #51a351 #387038;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  
+
 }
 
 .btn-success:hover,
@@ -686,7 +686,7 @@ line-height: 2;
   padding: 6px 10px 4px;
  /* padding-bottom: 1px; */
  border-bottom-right-radius: 0px;
- border-bottom-left-radius: 0px; 
+ border-bottom-left-radius: 0px;
 }
 
 /** line 3819 boostrap.css**/
@@ -765,7 +765,7 @@ border: none;
 }
 
 /** bootstrap for application - cloud portal   **/
-  
+
 .nav-collapse .nav > li {
   float:left;!important
 }
