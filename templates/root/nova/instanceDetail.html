@@ -5,7 +5,7 @@ src: templates/root/nova/instanceDetail.html
 -->
 <div class="row-fluid">
     <ul class="breadcrumb">
-        <li>	
+        <li>
             <a href="#nova/vdcs/"><strong>VDCs</strong></a><span class="divider">/</span>
         </li>
         <li>
@@ -30,9 +30,9 @@ src: templates/root/nova/instanceDetail.html
             <li id="vnc" class="<%= (subview == 'vnc') ? 'active':'' %>">
                 <a id="instance_vnc">VNC</a>
             </li>
-            <li id="software" class="<%= (subview == 'software') ? 'active':'' %>">
+            <!--<li id="software" class="<%= (subview == 'software') ? 'active':'' %>">
                 <a id="instance_software">Software Management</a>
-            </li>
+            </li>-->
         </ul>
         <div class="tab-content" style="border: 2px">
             <div id="instance_details__overview" class="tab-pane <%= (subview == 'overview') ? 'active':'' %>">
@@ -73,7 +73,7 @@ src: templates/root/nova/instanceDetail.html
                     <ul>
                         <li>
                             <strong>Public:</strong>&nbsp;<%=model.get("addresses").public[0].addr%>
-                           
+
                         </li>
                     </ul>
                 </div>
@@ -83,14 +83,14 @@ src: templates/root/nova/instanceDetail.html
                     <ul>
                         <li>
                             <strong>default</strong>
-                            <ul>                                
+                            <ul>
           						<% for (index in rules) {
-          						var rule = rules[index];        							
+          						var rule = rules[index];
           						%>
           						<li>
                                   <em>ALLOW <%=rule.from_port%>:<%=rule.to_port%> from <%=rule.ip_range.cidr%></em>
                                 </li>
-                                <% } %>                                
+                                <% } %>
                             </ul>
                         </li>
                     </ul>
@@ -135,7 +135,7 @@ src: templates/root/nova/instanceDetail.html
                 <div class="btn-group" data-toggle="buttons-radio">
 				  <button class="btn <%= (subsubview == 'installed_software') ? 'active':''  %> span6" id="installed_software" data-target="#installed_software" data-toggle="tab">Installed Software</button>
 				  <button class="btn <%= (subsubview == 'new_software') ? 'active':''  %> span6" id="new_software" data-target="#new_software" data-toggle="tab">New Software</button>
-				</div>				
+				</div>
             </div>
             <div id="instance_details__installed_software" class="tab-pane <%= (subsubview == 'installed_software') ? 'active':'' %>">
 	            <div id="installed_software" class="table_wrapper">
@@ -152,7 +152,7 @@ src: templates/root/nova/instanceDetail.html
 					            </tr>
 					        </thead>
 					        <tbody>
-					            <tr	
+					            <tr
 					            class="ajax-update status_down">
 					                <td class=""><a href="">Tomcat</a></td>
 					                <td class="hidden-phone" data-i18n="7">7</td>
@@ -161,15 +161,15 @@ src: templates/root/nova/instanceDetail.html
 					                <div id="" class="btn-group">
 					                    <button  id="software__action_uninstall" class="ajax-modal btn btn-small btn-blue btn-uninstall" name="action" value="" type="submit" data-i18n="Uninstall">
 					                        Uninstall
-					                    </button>					                    
+					                    </button>
 					                    <a class="btn btn-small btn-blue dropdown-toggle" data-toggle="dropdown" href="#"> <span class="caret-white caret"></span> </a>
 					                    <ul class="dropdown-menu row_actions clearfix">
-					                        <li class="clearfix">			
+					                        <li class="clearfix">
 					                            <button  id="images__action_launch_" class="ajax-modal btn btn-small btn-blue btn-configure" name="action" value="" type="submit" data-i18n="Configure">
 					                        		Configure
 					                    		</button>
 					                        </li>
-					                    </ul>					                    
+					                    </ul>
 					                </div></td>
 					            </tr>
 					        </tbody>
@@ -181,8 +181,8 @@ src: templates/root/nova/instanceDetail.html
 					    </table>
 					</div>
 				</div>
-				<div id="instance_details__new_software" class="tab-pane <%= (subsubview == 'new_software') ? 'active':'' %>">
-					<div id="new_software" class="table_wrapper">						
+				<!--<div id="instance_details__new_software" class="tab-pane <%= (subsubview == 'new_software') ? 'active':'' %>">
+					<div id="new_software" class="table_wrapper">
 						<div class='table_header'>
 					        <h3>Software Catalogue</h3>
 					    </div>
@@ -197,7 +197,7 @@ src: templates/root/nova/instanceDetail.html
 					            </tr>
 					        </thead>
 					        <tbody>
-					            <tr	
+					            <tr
 					            class="ajax-update status_down">
 					                <td class=""><a href="">Tomcat</a></td>
 					                <td class="hidden-phone" data-i18n="6">6</td>
@@ -210,7 +210,7 @@ src: templates/root/nova/instanceDetail.html
 					                    </button>
 					                </div></td>
 					            </tr>
-					            <tr	
+					            <tr
 					            class="ajax-update status_down">
 					                <td class=""><a href="">PostgreSQL</a></td>
 					                <td class="hidden-phone" data-i18n="8.4">8.4</td>
@@ -223,7 +223,7 @@ src: templates/root/nova/instanceDetail.html
 					                    </button>
 					                </div></td>
 					            </tr>
-					            <tr	
+					            <tr
 					            class="ajax-update status_down">
 					                <td class=""><a href="">Mediawiki</a></td>
 					                <td class="hidden-phone" data-i18n="1.17">1.17</td>
@@ -244,8 +244,8 @@ src: templates/root/nova/instanceDetail.html
 					        </tfoot>
 					    </table>
 					</div>
-				</div>	
-			</div>	
+				</div>-->
+			</div>
         </div>
     </div>
 </div>

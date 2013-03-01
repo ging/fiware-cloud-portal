@@ -42,8 +42,8 @@ var VDCService = Backbone.Model.extend({
     },
 
     parse: function(resp) {
-        resp.name = resp._name;
-        resp.id = resp._name;
+        //resp.name = resp._name;
+        //resp.id = resp._name;
         if (resp.service !== undefined) {
             return resp.service;
         } else {

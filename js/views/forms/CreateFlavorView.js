@@ -3,9 +3,10 @@ var CreateFlavorView = Backbone.View.extend({
     _template: _.itemplate($('#createFlavorFormTemplate').html()),
 
     events: {
-        'click #submit': 'onSubmit',
+        'submit #form': 'onSubmit',
         'click #cancelBtn': 'close',
-        'click #close': 'close'
+        'click #close': 'close',
+        'input input': 'onInput'
     },
 
     initialize: function() {
@@ -16,10 +17,12 @@ var CreateFlavorView = Backbone.View.extend({
         this.model.unbind("change", this.render, this);
         $('#create_flavor').remove();
         $('.modal-backdrop').remove();
+        console.log("closing flavor create");
         this.onClose();
     },
 
     onClose: function() {
+        console.log("closing flavor create");
         this.undelegateEvents();
         this.unbind();
     },
@@ -37,34 +40,72 @@ var CreateFlavorView = Backbone.View.extend({
         return this;
     },
 
+    onInput: function () {
+        var message = '';
+        var newFlavor = new Flavor();
+        newFlavor.set({'flavor_id': this.$('input[name=flavor_id]').val()});
+        newFlavor.set({'name': this.$('input[name=name]').val()});
+        newFlavor.set({'vcpus': parseInt(this.$('input[name=vcpus]').val(), 0)});
+        newFlavor.set({'ram': parseInt(this.$('input[name=memory_mb]').val(), 0)});
+        newFlavor.set({'disk': parseInt(this.$('input[name=disk_gb]').val(), 0)});
+        if (this.$('input[name=eph_gb]').val() !== "") {
+            newFlavor.set({'eph_gb': parseInt(this.$('input[name=eph_gb]').val(), 0)});
+        }
+
+        // Check if there is a similar existing flavor.
+        for (var idx in this.options.flavors.models) {
+            if (this.options.flavors.models.hasOwnProperty(idx)) {
+                var flav = this.options.flavors.models[idx];
+                if (flav.get('vcpus') === newFlavor.get('vcpus') &&
+                    flav.get('ram') === newFlavor.get('ram') &&
+                    flav.get('disk') === newFlavor.get('disk')
+                    //flav.get('eph_gb') === newFlavor.get('eph_gb')
+                    ) {
+                    message = 'This flavor already exists.';
+                }
+            }
+        }
+        console.log(message);
+        this.$('input[name=vcpus]')[0].setCustomValidity(message);
+        this.$('input[name=memory_mb]')[0].setCustomValidity(message);
+        this.$('input[name=disk_gb]')[0].setCustomValidity(message);
+        this.$('input[name=eph_gb]')[0].setCustomValidity(message);
+    },
+
     onSubmit: function(e){
         e.preventDefault();
         var subview;
         //Check if the fields are not empty, and the numbers are not negative nor decimal
 
         if ( (this.$('input[name=flavor_id]').val()==="") ||
-             (this.$('input[name=name]').val()==="") ||
-             (this.$('input[name=vcpus]').val()==="") ||
-             (this.$('input[name=memory_mb]').val()==="") ||
-             (this.$('input[name=disk_gb]').val()==="") ||
-             (this.$('input[name=eph_gb]').val()==="") ||
-             (this.$('input[name=flavor_id]').val()<=0) ||
-             (this.$('input[name=vcpus]').val()<=0) ||
-             (this.$('input[name=memory_mb]').val()<=0) ||
-             (this.$('input[name=disk_gb]').val()<=0) ||
-             (this.$('input[name=eph_gb]').val()<=0) ||
              (this.$('input[name=flavor_id]').val()%1!==0) ||
-             (this.$('input[name=vcpus]').val()%1!==0) ||
-             (this.$('input[name=memory_mb]').val()%1!==0) ||
-             (this.$('input[name=disk_gb]').val()%1!==0) ||
-             (this.$('input[name=eph_gb]').val()%1!==0) ) {
+             (this.$('input[name=flavor_id]').val()<=0) ||
 
-            console.log($('input[name=flavor_id]'));
-            console.log($('input[name=name]'));
-            console.log($('input[name=vcpus]'));
-            console.log($('input[name=memory_mb]'));
-            console.log($('input[name=disk_gb]'));
-            console.log($('input[name=eph_gb]'));
+             (this.$('input[name=name]').val()==="") ||
+
+             (this.$('input[name=vcpus]').val()==="") ||
+             (this.$('input[name=vcpus]').val()%1!==0) ||
+             (this.$('input[name=vcpus]').val()<=0) ||
+
+             (this.$('input[name=memory_mb]').val()==="") ||
+             (this.$('input[name=memory_mb]').val()<=0) ||
+             (this.$('input[name=memory_mb]').val()%1!==0) ||
+
+             (this.$('input[name=disk_gb]').val()==="") ||
+             (this.$('input[name=disk_gb]').val()<0) ||
+
+             (this.$('input[name=eph_gb]').val()==="") ||
+             (this.$('input[name=eph_gb]').val()%1!==0) ||
+             (this.$('input[name=eph_gb]').val()<0)
+
+             ) {
+
+                console.log($('input[name=flavor_id]').val());
+                console.log($('input[name=name]').val());
+                console.log($('input[name=vcpus]').val());
+                console.log($('input[name=memory_mb]').val());
+                console.log($('input[name=disk_gb]').val());
+                console.log($('input[name=eph_gb]').val());
 
               subview = new MessagesView({el: '#content', state: "Error", title: "Wrong input values for flavor. Please try again."});
               subview.render();
@@ -72,15 +113,33 @@ var CreateFlavorView = Backbone.View.extend({
             var newFlavor = new Flavor();
             newFlavor.set({'flavor_id': this.$('input[name=flavor_id]').val()});
             newFlavor.set({'name': this.$('input[name=name]').val()});
-            newFlavor.set({'vcpus': this.$('input[name=vcpus]').val()});
-            newFlavor.set({'memory_mb': this.$('input[name=memory_mb]').val()});
-            newFlavor.set({'disk_gb': this.$('input[name=disk_gb]').val()});
-            newFlavor.set({'eph_gb': this.$('input[name=eph_gb]').val()});
+            newFlavor.set({'vcpus': parseInt(this.$('input[name=vcpus]').val(), 0)});
+            newFlavor.set({'ram': parseInt(this.$('input[name=memory_mb]').val(), 0)});
+            newFlavor.set({'disk': parseInt(this.$('input[name=disk_gb]').val(), 0)});
+            if (this.$('input[name=eph_gb]').val() !== "") {
+                newFlavor.set({'eph_gb': parseInt(this.$('input[name=eph_gb]').val(), 0)});
+            }
+
+            // Check if there is a similar existing flavor.
+            for (var idx in this.options.flavors.models) {
+                if (this.options.flavors.models.hasOwnProperty(idx)) {
+                    var flav = this.options.flavors.models[idx];
+                    if (flav.get('vcpus') === newFlavor.get('vcpus') &&
+                        flav.get('ram') === newFlavor.get('ram') &&
+                        flav.get('disk') === newFlavor.get('disk')
+                        //flav.get('eph_gb') === newFlavor.get('eph_gb')
+                        ) {
+                        subview = new MessagesView({el: '#content', state: "Error", title: "This flavor already exists. Please try again."});
+                        subview.render();
+                    }
+                }
+            }
+
             newFlavor.save();
             subview = new MessagesView({el: '#content', state: "Success", title: "Flavor "+newFlavor.get('name')+" created."});
             subview.render();
+            this.close();
         }
-        this.close();
     }
 
 });

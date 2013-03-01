@@ -58,13 +58,13 @@ var OSRouter = Backbone.Router.extend({
         this.rootView = new RootView({model:this.loginModel, auth_el: '#auth', root_el: '#root'});
         this.route('', 'init', this.wrap(this.init, this.checkAuth));
         this.route('#', 'init', this.wrap(this.init, this.checkAuth));
-        this.route('syspanel', 'syspanel', this.wrap(this.sys_overview, this.checkAuth));
-        this.route('syspanel/', 'syspanel', this.wrap(this.sys_overview, this.checkAuth));
+        this.route('syspanel', 'syspanel', this.wrap(this.sys_projects, this.checkAuth));
+        this.route('syspanel/', 'syspanel', this.wrap(this.sys_projects, this.checkAuth));
 
         this.route('settings/', 'settings', this.wrap(this.showSettings, this.checkAuth));
 
-        this.route('nova', 'nova', this.wrap(this.nova_overview, this.checkAuth));
-        this.route('nova/', 'nova', this.wrap(this.nova_overview, this.checkAuth));
+        this.route('nova', 'nova', this.wrap(this.nova_vdcs, this.checkAuth));
+        this.route('nova/', 'nova', this.wrap(this.nova_vdcs, this.checkAuth));
 
         this.route('nova/volumes/', 'volumes', this.wrap(this.nova_volumes, this.checkAuth));
         this.route('nova/access_and_security/', 'access_and_security', this.wrap(this.nova_access_and_security, this.checkAuth));
@@ -213,7 +213,7 @@ var OSRouter = Backbone.Router.extend({
         }
         self.top.set({"title":option});
         self.navs = new NavTabModels([
-                                    {name: 'Overview', active: true, url: '#syspanel/'},
+                                    //{name: 'Overview', active: true, url: '#syspanel/'},
                                     {name: 'Projects', active: false, url: '#syspanel/projects/'},
                                     //{name: 'Instances', active: false, url: '#syspanel/instances/'},
                                     //{name: 'Services', active: false, url: '#syspanel/services/'},
@@ -312,7 +312,7 @@ var OSRouter = Backbone.Router.extend({
 
     create_flavor: function(self) {
         var flavor = new Flavor();
-        var view = new CreateFlavorView({model: flavor, el: 'body'});
+        var view = new CreateFlavorView({model: flavor, el: 'body', flavors: self.flavors});
         view.render();
         self.navigate('#syspanel/flavors/', {trigger: false, replace: true});
     },
@@ -340,7 +340,7 @@ var OSRouter = Backbone.Router.extend({
             view.render();
         }
     },
-    
+
      modify_users: function(self) {
         self.showNovaRoot(self, 'Users for Project');
         var view = new ModifyUsersView({el: '#content', model: users});
@@ -355,15 +355,15 @@ var OSRouter = Backbone.Router.extend({
                             //{name: 'Overview', active: true, url: '#nova/'},
                             {name: 'Virtual Data Centers', active: false, url: '#nova/vdcs/'},
                             {name: 'Images', active: false, url: '#nova/images/'},
-                            {name: 'Volumes', active: false, url: '#nova/volumes/'},
                             {name: 'Access &amp; Security', active: false, url: '#nova/access_and_security/'},
                             {name: 'Snapshots', active: false, url: '#nova/snapshots/'},
                             {name: 'Storage', type: 'title'},
-                            {name: 'Containers', active: false, url: '#objectstorage/containers/'}
+                            {name: 'Containers', active: false, url: '#objectstorage/containers/'},
+                            {name: 'Volumes', active: false, url: '#nova/volumes/'}
                             ]);
         self.navs.setActive(option);
         self.tabs.setActive('Project');
-        self.showRoot(self, 'Organization');
+        self.showRoot(self, 'Project Name');
     },
 
     nova_overview: function(self) {

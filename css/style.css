@@ -1198,3 +1198,15 @@ width: 100%;
   height: 15px;
   margin: -8px 0 8px;
 }
+
+
+input:required:invalid, input:focus:invalid {
+  background-image: url(../images/invalid.png);
+  background-position: 95% top;
+  background-repeat: no-repeat;
+}
+input:required:valid {
+  background-image: url(../images/valid.png);
+  background-position: 95% top;
+  background-repeat: no-repeat;
+}

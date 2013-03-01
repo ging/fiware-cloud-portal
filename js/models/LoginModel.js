@@ -60,8 +60,9 @@ var LoginStatus = Backbone.Model.extend({
 
             }, function(msg) {
                 console.log("Error authenticating with token");
-                //self.set({'error_msg': msg});
-                //self.trigger('auth-error', msg);
+                self.set({'expired': true});
+                self.trigger('auth-needed', "");
+                self.set({'loggedIn': false});
             });
         } else {
             console.log("Not logged In");
