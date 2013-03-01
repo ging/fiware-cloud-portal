@@ -49,7 +49,7 @@ var CreateFlavorView = Backbone.View.extend({
         newFlavor.set({'ram': parseInt(this.$('input[name=memory_mb]').val(), 0)});
         newFlavor.set({'disk': parseInt(this.$('input[name=disk_gb]').val(), 0)});
         if (this.$('input[name=eph_gb]').val() !== "") {
-            newFlavor.set({'eph_gb': parseInt(this.$('input[name=eph_gb]').val(), 0)});
+            newFlavor.set({'ephemeral': parseInt(this.$('input[name=eph_gb]').val(), 0)});
         }
 
         // Check if there is a similar existing flavor.
@@ -58,8 +58,8 @@ var CreateFlavorView = Backbone.View.extend({
                 var flav = this.options.flavors.models[idx];
                 if (flav.get('vcpus') === newFlavor.get('vcpus') &&
                     flav.get('ram') === newFlavor.get('ram') &&
-                    flav.get('disk') === newFlavor.get('disk')
-                    //flav.get('eph_gb') === newFlavor.get('eph_gb')
+                    flav.get('disk') === newFlavor.get('disk') &&
+                    flav.get('ephemeral') === newFlavor.get('ephemeral')
                     ) {
                     message = 'This flavor already exists.';
                 }
@@ -117,7 +117,7 @@ var CreateFlavorView = Backbone.View.extend({
             newFlavor.set({'ram': parseInt(this.$('input[name=memory_mb]').val(), 0)});
             newFlavor.set({'disk': parseInt(this.$('input[name=disk_gb]').val(), 0)});
             if (this.$('input[name=eph_gb]').val() !== "") {
-                newFlavor.set({'eph_gb': parseInt(this.$('input[name=eph_gb]').val(), 0)});
+                newFlavor.set({'ephemeral': parseInt(this.$('input[name=eph_gb]').val(), 0)});
             }
 
             // Check if there is a similar existing flavor.
@@ -126,8 +126,8 @@ var CreateFlavorView = Backbone.View.extend({
                     var flav = this.options.flavors.models[idx];
                     if (flav.get('vcpus') === newFlavor.get('vcpus') &&
                         flav.get('ram') === newFlavor.get('ram') &&
-                        flav.get('disk') === newFlavor.get('disk')
-                        //flav.get('eph_gb') === newFlavor.get('eph_gb')
+                        flav.get('disk') === newFlavor.get('disk') &&
+                        flav.get('ephemeral') === newFlavor.get('ephemeral')
                         ) {
                         subview = new MessagesView({el: '#content', state: "Error", title: "This flavor already exists. Please try again."});
                         subview.render();

@@ -4,7 +4,6 @@ var SideBarView = Backbone.View.extend({
 
     initialize: function() {
         this.model.bind('change:actives', this.render, this);
-        this.options.loginModel.bind('switch-tenant', this.render, this);
     },
 
     render: function () {

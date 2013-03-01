@@ -10,7 +10,7 @@ var Flavor = Backbone.Model.extend({
                    break;
                case "create":
                    JSTACK.Nova.createflavor( model.get("name"), model.get("ram"), model.get("vcpus"),
-                            model.get("disk"), model.get("flavor_id"), model.get("eph_gb"), undefined,
+                            model.get("disk"), model.get("flavor_id"), model.get("ephemeral"), undefined,
                             undefined, options.success);
                    break;
            }

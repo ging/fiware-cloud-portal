@@ -71,6 +71,8 @@ var OSRouter = Backbone.Router.extend({
         this.route('nova/access_and_security/keypairs/:name/download/', 'keypair_download', this.wrap(this.nova_keypair_download, this.checkAuth));
 
         this.route('nova/images/', 'images', this.wrap(this.nova_images, this.checkAuth));
+        this.route('nova/instances/', 'instances', this.wrap(this.nova_instances, this.checkAuth));
+        this.route('nova/instances/:id/detail', 'instances', this.wrap(this.nova_instance, this.checkAuth));
         this.route('nova/snapshots/', 'snapshots', this.wrap(this.nova_snapshots, this.checkAuth));
         this.route('nova/vdcs/', 'vdcs', this.wrap(this.nova_vdcs, this.checkAuth));
         this.route('nova/vdcs/:id', 'vdc', this.wrap(this.nova_vdc, this.checkAuth));
@@ -174,8 +176,12 @@ var OSRouter = Backbone.Router.extend({
     },
 
     switchTenant: function(id) {
+        var self = this;
+        this.loginModel.bind('switch-tenant', function() {
+            self.loginModel.unbind('switch-tenant');
+            self.navigate(self.rootView.options.next_view, {trigger: true, replace: true});
+        });
         this.loginModel.switchTenant(id);
-        this.navigate(this.rootView.options.next_view, {trigger: false, replace: true});
     },
 
     showSettings: function(self) {
@@ -354,6 +360,7 @@ var OSRouter = Backbone.Router.extend({
                             {name: 'Compute', type: 'title'},
                             //{name: 'Overview', active: true, url: '#nova/'},
                             {name: 'Virtual Data Centers', active: false, url: '#nova/vdcs/'},
+                            {name: 'Instances', active: false, url: '#nova/instances/'},
                             {name: 'Images', active: false, url: '#nova/images/'},
                             {name: 'Access &amp; Security', active: false, url: '#nova/access_and_security/'},
                             {name: 'Snapshots', active: false, url: '#nova/snapshots/'},
@@ -423,6 +430,25 @@ var OSRouter = Backbone.Router.extend({
         //self.instancesModel.alltenants = false;¡
         var service = new VDCService({id: idservice});
         var view = new VDCServiceView({model: service, flavors: self.flavors, vdc: id, el: '#content'});
+        self.newContentView(self,view);
+    },
+
+    nova_instances: function(self) {
+        self.showNovaRoot(self, 'Instances');
+        self.instancesModel.unbind("change");
+        //self.instancesModel.alltenants = false;
+        //self.add_fetch(self.instancesModel, 4);
+        var view = new NovaInstancesView({model: self.instancesModel, projects: self.projects, flavors: self.flavors, el: '#content'});
+        self.newContentView(self,view);
+    },
+
+    nova_instance: function(self, id, subview, subsubview) {
+        self.showNovaRoot(self, 'Instances');
+        //self.instancesModel.alltenants = false;
+        var instance = new Instance();
+        instance.set({"id": id});
+        subview =  subview || 'overview';
+        var view = new InstanceDetailView({model: instance, subview: subview, subsubview: subsubview, el: '#content'});
         self.newContentView(self,view);
     },
 

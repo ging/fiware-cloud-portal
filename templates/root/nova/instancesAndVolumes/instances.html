@@ -7,7 +7,7 @@ src: templates/root/nova/instancesAndVolumes/instances.html
     <div class='table_header'>
         <h3 class='table_title' data-i18n="Instances">Instances</h3>
         <div class="table_actions clearfix">
-            <a href='#nova/images_and_snapshots/'  id="instances__action_launch__1" class="btn btn-small btn-blue btn-launch" data-i18n="Launch Instance">Launch Instance</a>
+            <a href='#nova/images/'  id="instances__action_launch__1" class="btn btn-small btn-blue btn-launch" data-i18n="Launch Instance">Launch Instance</a>
             <button  id="instances_terminate" disabled=true class="btn btn-small btn-danger btn-terminate-group" name="action" value="instances__terminate" class="instances_terminate" type="submit" data-i18n="Terminate Instance">
                 Terminate Instances
             </button>
@@ -55,7 +55,7 @@ src: templates/root/nova/instancesAndVolumes/instances.html
                 <td class="multi_select_column">
                 <input id="checkbox_<%= instance.get('id')%>" type="checkbox" name="object_ids" class="checkbox checkbox_instances"  value="<%= instance.get('id') %>" />
                 </td>
-                <td class=""><a href="#nova/instances_and_volumes/instances/<%= instance.id %>/detail"><%= instance.get("name") %></a></td>
+                <td class=""><a href="#nova/instances/<%= instance.id %>/detail"><%= instance.get("name") %></a></td>
                 <td class="hidden-phone">
                 <ul>
                     <%

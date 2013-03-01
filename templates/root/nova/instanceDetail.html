@@ -4,6 +4,7 @@ Description: Instance Detail
 src: templates/root/nova/instanceDetail.html
 -->
 <div class="row-fluid">
+   <% if (vdc !== undefined) { %>
     <ul class="breadcrumb">
         <li>
             <a href="#nova/vdcs/"><strong>VDCs</strong></a><span class="divider">/</span>
@@ -18,6 +19,7 @@ src: templates/root/nova/instanceDetail.html
             <%= model.get("name") %>
         </li>
     </ul>
+    <% } %>
     <h2>Instance Detail</h2>
     <div class="">
         <ul id="instance_details" class="nav nav-tabs">

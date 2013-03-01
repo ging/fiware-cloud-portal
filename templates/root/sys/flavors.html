@@ -44,7 +44,7 @@ src: templates/root/sys/flavors.html
                     <td class=""><%= flavor.get('vcpus')%></td>
                     <td class=""><%= flavor.get('ram')%></td>
                     <td class=""><%= flavor.get('disk')%></td>
-                    <td class="hidden-phone"><%= flavor.get('OS-FLV-EXT-DATA:ephemeral')%></td>
+                    <td class="hidden-phone"><%= flavor.get('OS-FLV-EXT-DATA:ephemeral') || flavor.get('ephemeral')%></td>
                     <td class="actions_column hidden-phone">
                     <button id="flavors__action_delete__<%=i%>" class="btn btn-small btn-danger btn-delete" name="action" value="<%= flavor.get('id') %>" type="submit" data-i18n="Delete Flavor">
                         Delete Flavor

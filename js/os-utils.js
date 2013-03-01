@@ -58,6 +58,9 @@ UTILS.Auth = (function(U, undefined) {
             console.log("Authenticated for tenant ", tenant);
             var sm = JSTACK.Keystone.getservice("sm");
             var compute = JSTACK.Keystone.getservice("compute");
+            //sm.endpoints[0].adminURL = "http://130.206.80.91:8774/v2.0/FIWARE/vdc/"+resp.access.token.tenant.id;
+            //sm.endpoints[0].publicURL = sm.endpoints[0].adminURL;
+            //sm.endpoints[0].internalURL = sm.endpoints[0].adminURL;
             compute.endpoints = sm.endpoints;
 
             OVF.API.configure(JSTACK.Keystone.getservice("sm").endpoints[0].publicURL, JSTACK.Keystone.params.access.token.id);
