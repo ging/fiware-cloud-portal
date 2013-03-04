@@ -58,7 +58,7 @@ UTILS.Auth = (function(U, undefined) {
             console.log("Authenticated for tenant ", tenant);
             var sm = JSTACK.Keystone.getservice("sm");
             var compute = JSTACK.Keystone.getservice("compute");
-            //compute.endpoints = sm.endpoints;
+            compute.endpoints = sm.endpoints;
             OVF.API.configure(JSTACK.Keystone.getservice("sm").endpoints[0].publicURL, JSTACK.Keystone.params.access.token.id);
             callback();
         };
