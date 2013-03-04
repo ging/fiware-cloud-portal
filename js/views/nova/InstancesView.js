@@ -126,7 +126,8 @@ var NovaInstancesView = Backbone.View.extend({
     },
 
     renderFirst: function() {
-        $(this.el).html(this._template({models:this.model.models, flavors:this.options.flavors}));
+        UTILS.Render.animateRender(this.el, this._template, {models:this.model.models, flavors:this.options.flavors});
+        //$(this.el).html(this._template({models:this.model.models, flavors:this.options.flavors}));
         this.undelegateEvents();
         this.delegateEvents(this.events);
     },

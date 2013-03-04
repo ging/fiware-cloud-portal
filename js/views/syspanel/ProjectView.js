@@ -3,7 +3,8 @@ var ProjectView = Backbone.View.extend({
     _template: _.itemplate($('#projectsTemplate').html()),
 
     initialize: function() {
-        this.model.bind("reset", this.rerender, this);
+        this.model.bind("reset", this.render, this);
+        this.model.fetch();
         this.render();
     },
 
@@ -11,7 +12,7 @@ var ProjectView = Backbone.View.extend({
         'click .btn-create-project' : 'onCreate',
         'click .btn-edit' : 'onUpdate',
         'click .btn-delete':'onDelete',
-        'click .btn-modify' : 'onModify',
+        //'click .btn-modify' : 'onModify',
         'click .btn-delete-group': 'onDeleteGroup',
         'change .checkbox_projects':'enableDisableDeleteButton',
         'change .checkbox_all':'checkAll'
@@ -83,13 +84,21 @@ var ProjectView = Backbone.View.extend({
     },
 
     render: function () {
-        UTILS.Render.animateRender(this.el, this._template, this.model);
-        return this;
+        if ($("#tenants").html() != null) {
+            console.log("Render:", this.model.models.length);
+            $(this.el).empty().html(this._template(this.model));
+        } else {
+            UTILS.Render.animateRender(this.el, this._template, this.model);
+        }
     },
 
     rerender: function() {
+        console.log($(this.el));
         if ($("#tenants").html() != null) {
+            console.log("Rerender:", this.model.models.length);
             $(this.el).empty().html(this._template(this.model));
         }
+        $(this.el).html("Hola");
+        console.log($(this.el).html());
     }
 });

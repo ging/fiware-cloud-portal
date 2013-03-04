@@ -26,7 +26,12 @@ var Users = Backbone.Collection.extend({
 
     sync: function(method, model, options) {
         if(method === "read") {
-            JSTACK.Keystone.getusers(_tenant_id, options.success);
+            console.log(this._tenant_id);
+            if (this._tenant_id !== undefined) {
+              JSTACK.Keystone.getusersfortenant(this._tenant_id, options.success);
+            } else {
+              JSTACK.Keystone.getusers(options.success);
+            }
         }
     },
 
@@ -35,7 +40,7 @@ var Users = Backbone.Collection.extend({
     },
 
     tenant: function(tenant_id) {
-        _tenant_id = tenant_id;
+        this._tenant_id = tenant_id;
     }
 
 });

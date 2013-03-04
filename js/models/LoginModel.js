@@ -63,6 +63,7 @@ var LoginStatus = Backbone.Model.extend({
                 self.set({'expired': true});
                 self.trigger('auth-needed', "");
                 self.set({'loggedIn': false});
+                self.trigger('auth-error', "");
             });
         } else {
             console.log("Not logged In");

@@ -31,6 +31,16 @@ var CreateProjectView = Backbone.View.extend({
     },
 
     onCreate: function(e){
+        var name = this.$('input[name=name]').val();
+        var descr = this.$('textarea[name=description]').val();
+        var enabled = this.$('input[name=enabled]').is(':checked');
+        var project = new Project();
+        project.set({'name': name});
+        project.set({'description': descr});
+        project.set({'enabled': enabled});
+        project.save();
+        subview = new MessagesView({el: '#content', state: "Success", title: "Project "+project.get('name')+" created."});
+        subview.render();
     }
 
 });

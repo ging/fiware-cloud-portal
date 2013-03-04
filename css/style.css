@@ -543,7 +543,7 @@ table form {
 }
 
 .icon-updating.ajax-updating {
-  background: transparent url(../img/spinner.gif) no-repeat center center;
+  background: transparent url(../images/spinner.gif) no-repeat center center;
   padding: 1px;
 }
 

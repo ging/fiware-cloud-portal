@@ -45,7 +45,8 @@ src: templates/root/sys/projects.html
             </tr>
         </thead>
         <tbody>
-            <% for (var index in models) {
+            <%
+            for (var index in models) {
             var project = models[index];
             %>
             <tr id="tenants__row__4" class="">
@@ -66,19 +67,19 @@ src: templates/root/sys/projects.html
 
                         <li class="clearfix">
 
-                            <a href='/syspanel/projects/4/usage/'  class="btn btn-small" data-i18n="View Usage">View Usage</a>
+                            <a href='/syspanel/projects/<%=project.get('id')%>/usage/'  class="btn btn-small" data-i18n="View Usage">View Usage</a>
 
                         </li>
 
                         <li class="clearfix">
 
-                            <a href='#syspanel/projects/4/users/' class="btn btn-small btn-modify" data-i18n="Modify Users">Modify Users</a>
+                            <a href='#syspanel/projects/<%=project.get('id')%>/users/' class="btn btn-small btn-modify" data-i18n="Modify Users">Modify Users</a>
 
                         </li>
 
                         <li class="clearfix">
 
-                            <a href='/syspanel/projects/4/quotas/'  class="ajax-modal btn btn-small" data-i18n="Modify Quotas">Modify Quotas</a>
+                            <a href='/syspanel/projects/<%=project.get('id')%>/quotas/'  class="ajax-modal btn btn-small" data-i18n="Modify Quotas">Modify Quotas</a>
 
                         </li>
 

@@ -86,9 +86,10 @@ var OSRouter = Backbone.Router.extend({
         this.route('syspanel/services/', 'services',  this.wrap(this.sys_services, this.checkAuth));
         this.route('syspanel/flavors/', 'flavors',  this.wrap(this.sys_flavors, this.checkAuth));
         this.route('syspanel/projects/', 'projects',  this.wrap(this.sys_projects, this.checkAuth));
+        this.route('syspanel/projects/:id/users/', 'users_projects',  this.wrap(this.sys_users_projects, this.checkAuth));
         this.route('syspanel/users/', 'users',  this.wrap(this.sys_users, this.checkAuth));
         this.route('syspanel/quotas/', 'quotas',  this.wrap(this.sys_quotas, this.checkAuth));
-        this.route('syspanel/projects/:id/users', 'modify_users',  this.wrap(this.modify_users, this.checkAuth));
+        //this.route('syspanel/projects/:id/users', 'modify_users',  this.wrap(this.modify_users, this.checkAuth));
 
         this.route('syspanel/flavors/create', 'create_flavor',  this.wrap(this.create_flavor, this.checkAuth));
 
@@ -330,10 +331,21 @@ var OSRouter = Backbone.Router.extend({
         }
     },
 
+    sys_users_projects: function(self, tenant_id) {
+        if (self.showSysRoot(self, 'Projects')) {
+            console.log("Ok!");
+            var users = new Users();
+            users.tenant(tenant_id);
+            var all = new Users();
+            var view = new UsersForProjectView({model:users, users: all, el: '#content'});
+            self.newContentView(self,view);
+        }
+    },
+
     sys_users: function(self) {
         if (self.showSysRoot(self, 'Users')) {
             var users = new Users();
-            users.tenant(JSTACK.Keystone.params.access.token.tenant.id);
+            //users.tenant(JSTACK.Keystone.params.access.token.tenant.id);
             console.log(users);
             var view = new UserView({model:users, el: '#content'});
             self.newContentView(self,view);

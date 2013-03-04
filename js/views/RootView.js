@@ -1,9 +1,9 @@
 var RootView = Backbone.View.extend({
-    
+
     _roottemplate: _.itemplate($('#rootTemplate').html()),
-    
+
     _authtemplate: _.itemplate($('#not_logged_in').html()),
-    
+
     initialize: function () {
         $(this.options.auth_el).empty().html(this._authtemplate(this.model)).css('display', 'None');
         $(this.options.root_el).empty().html(this._roottemplate()).css('display', 'None');
@@ -11,17 +11,17 @@ var RootView = Backbone.View.extend({
         this.model.bind('auth-error', this.renderAuthonerror, this);
         this.onLogin();
     },
-    
+
     onCredentialsSubmit: function(e){
         e.preventDefault();
         this.model.setCredentials(this.$('input[name=username]').val(), this.$('input[name=password]').val());
     },
-    
+
     onCloseErrorMsg: function(e) {
         this.model.set({"error_msg": null});
         this.renderAuthonerror();
     },
-    
+
     onLogin: function() {
         if (this.model.get('loggedIn')) {
             if (this.options.next_view !== undefined) {
@@ -31,7 +31,7 @@ var RootView = Backbone.View.extend({
             }
         }
     },
-    
+
     renderAuth: function () {
         var self = this;
         self.$el = $(self.options.auth_el);
@@ -47,7 +47,7 @@ var RootView = Backbone.View.extend({
         $(self.options.auth_el).fadeIn();
         return this;
     },
-    
+
     renderRoot: function () {
         var self = this;
         self.$el = $(self.options.auth_el);
@@ -58,13 +58,13 @@ var RootView = Backbone.View.extend({
         $(self.options.root_el).fadeIn();
         return this;
     },
-    
+
     renderAuthonerror: function() {
-        if ($(this.options.auth_el).css('display') == 'none') 
+        if ($(this.options.auth_el).css('display') == 'none')
             $(this.options.auth_el).fadeIn();
         $(this.options.auth_el).empty().html(this._authtemplate(this.model));
         $('body').attr("id", "splash");
         return this;
     }
-    
+
 });

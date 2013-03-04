@@ -22,7 +22,7 @@ var Projects = Backbone.Collection.extend({
 
     sync: function(method, model, options) {
         if (method === "read") {
-            JSTACK.Keystone.gettenants(options.success);
+            JSTACK.Keystone.gettenants(options.success, true);
         }
     },
 
