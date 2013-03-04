@@ -3,7 +3,7 @@
 Description: Instance Detail
 src: templates/root/nova/instanceDetail.html
 -->
-<div class="row-fluid">
+<div id="consult_instance" class="row-fluid">
    <% if (vdc !== undefined) { %>
     <ul class="breadcrumb">
         <li>
@@ -74,7 +74,7 @@ src: templates/root/nova/instanceDetail.html
                     <hr class="header_rule">
                     <ul>
                         <li>
-                            <strong>Public:</strong>&nbsp;<%=model.get("addresses").public[0].addr%>
+                            <strong>Public:</strong>&nbsp;<%=(model.get("addresses").public)?model.get("addresses").public[0].addr:''%>
 
                         </li>
                     </ul>
@@ -131,9 +131,9 @@ src: templates/root/nova/instanceDetail.html
                 <p class="alert alert-info">
                     If VNC console is not responding to keyboard input: click the grey status bar below.
                 </p>
-                <iframe src="<%= vncUrl %>" width="720" height="450"></iframe>
+                <iframe src="<%= vncUrl %>" width="1024" height="768"></iframe>
             </div>
-            <div id="instance_details__software" class="tab-pane <%= (subview == 'software') ? 'active':'' %>">
+            <!--<div id="instance_details__software" class="tab-pane <%= (subview == 'software') ? 'active':'' %>">
                 <div class="btn-group" data-toggle="buttons-radio">
 				  <button class="btn <%= (subsubview == 'installed_software') ? 'active':''  %> span6" id="installed_software" data-target="#installed_software" data-toggle="tab">Installed Software</button>
 				  <button class="btn <%= (subsubview == 'new_software') ? 'active':''  %> span6" id="new_software" data-target="#new_software" data-toggle="tab">New Software</button>
@@ -183,7 +183,7 @@ src: templates/root/nova/instanceDetail.html
 					    </table>
 					</div>
 				</div>
-				<!--<div id="instance_details__new_software" class="tab-pane <%= (subsubview == 'new_software') ? 'active':'' %>">
+				<div id="instance_details__new_software" class="tab-pane <%= (subsubview == 'new_software') ? 'active':'' %>">
 					<div id="new_software" class="table_wrapper">
 						<div class='table_header'>
 					        <h3>Software Catalogue</h3>

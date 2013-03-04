@@ -5,7 +5,7 @@ var CreateKeypairView = Backbone.View.extend({
     events: {
       'click #cancelCreateBtn': 'close',
       'click #close': 'close',
-      'click #createBtn': 'create',
+      'submit #create_keypair_form': 'create',
       'click .modal-backdrop': 'close',
       'click #name': 'showTooltipName'
     },
@@ -18,12 +18,12 @@ var CreateKeypairView = Backbone.View.extend({
     },
 
     close: function(e) {
-        $('#create_keypair').remove();
-        $('.modal-backdrop').remove();
         this.onClose();
     },
 
     onClose: function () {
+        $('#create_keypair').remove();
+        $('.modal-backdrop').remove();
         this.undelegateEvents();
         this.unbind();
     },
@@ -39,7 +39,7 @@ var CreateKeypairView = Backbone.View.extend({
         var name = $('input[name=name]').val();
         var nameOK, subview;
 
-        nameOK = namePattern.test(name) ? true : false;
+        nameOK = namePattern.test(name);
 
         if (nameOK) {
             for (var index in self.model.models) {

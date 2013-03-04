@@ -10,8 +10,16 @@
     </div>
     <div class="modal-body clearfix">
 
+    <%
+
+    var securityGroupsModel = model.get(securityGroupId);
+
+    console.log("model", securityGroupsModel);
+
+    %>
+
     	<div class='table_header'><h3 class='table_title'>Security Group Rules</h3></div>
-    	<% if (securityGroupsModel.securityGroup.attributes.rules != "") { %>
+    	<% if (securityGroupsModel.get('rules') !== "") { %>
     	<div class="table_actions clearfix">
           <button class='btn btn-small btn-danger btn-delete' disabled="disabled" name="action" id='deleteRulesBtn' value="security_group_rules__delete" type="submit">
                     Delete Rules
@@ -30,11 +38,13 @@
                 </tr>
             </thead>
             <tbody>
-            	<% 	var securityGroupRules;
+            	<%
+
+                var securityGroupRules;
             		var i = 0;
-            		if (securityGroupsModel.securityGroup.attributes.rules != "") {
-	            		for (var i in securityGroupsModel.securityGroup.attributes.rules) {
-		            		securityGroupRules = securityGroupsModel.securityGroup.attributes.rules[i];
+            		if (securityGroupsModel.get('rules') != "") {
+	            		for (var i in securityGroupsModel.get('rules')) {
+		            		securityGroupRules = securityGroupsModel.get('rules')[i];
             	%>
                 <tr id="sec_groups__row__"
                 class="ajax-update status_down">
@@ -51,7 +61,7 @@
 	                	</div>
                 	</td>
                  </tr>
-               <% i++ } } else { %>
+               <% } } else { %>
                	<tr class="odd empty">
                     <td colspan="6">No items to display.</td>
                 </tr>
@@ -97,11 +107,11 @@
     				 		<option value="CIDR">CIDR</option>
     				 		<optgroup label='Security Group'>
     				 		<% var securityGroupName, securityGroupId;
-    					 		for (var index in securityGroupsModel.securityGroupsModel.models) {
-    					 		var secGroupName = securityGroupsModel.securityGroupsModel.models[index].attributes.name;
-    					 		if (secGroupName !== securityGroupsModel.securityGroup.attributes.name) {
+    					 		for (var index in model.models) {
+    					 		var secGroupName = model.models[index].get('name');
+    					 		if (secGroupName !== securityGroupsModel.get('name')) {
     			 					securityGroupName = secGroupName;
-    			 					securityGroupId = securityGroupsModel.securityGroupsModel.models[index].attributes.id;
+    			 					securityGroupId = model.models[index].get('id');
     					 	%>
     				 		<option value="<%= securityGroupId%>"><%= securityGroupName%></option>
     				 		<% } } %>
@@ -120,7 +130,7 @@
 
        	</div>
         <div class="modal-footer">
-            <input type="submit" class="btn btn-blue pull-right" name='<%= securityGroupsModel.securityGroup.attributes.id%>' value="Add Rule">
+            <input type="submit" class="btn btn-blue pull-right" name='<%= securityGroupsModel.get('id')%>' value="Add Rule">
             <a id="cancelBtn" class="close btn seconday cancel close" data-dismiss="modal">Cancel</a>
         </div>
     </form>

@@ -17,19 +17,23 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
       'change .checkbox_sec_group_rule':'enableDisableDeleteButton'
     },
 
+    initialize: function() {
+        var self = this;
+    },
+
     render: function () {
-        $(this.el).append(this._template({securityGroupsModel: this.options.securityGroupsModel}));
+        $(this.el).append(this._template({model: this.model, securityGroupId: this.options.securityGroupId}));
         $('.modal:last').modal();
         return this;
     },
 
     close: function(e) {
-        $('#edit_security_group_rule').remove();
-        $('.modal-backdrop').remove();
         this.onClose();
     },
 
     onClose: function () {
+        $('#edit_security_group_rule').remove();
+        $('.modal-backdrop').remove();
         this.undelegateEvents();
         this.unbind();
     },
@@ -69,18 +73,12 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
     deleteRule: function (e) {
         self = this;
         var secGroupRuleId = e.target.value;
-        var securityGroupRule;
 
-        for (var index in this.options.securityGroupsModel.securityGroup.attributes.rules) {
-             if (this.options.securityGroupsModel.securityGroup.attributes.rules[index].id == e.target.value) {
-                var secGroupRule = this.options.securityGroupsModel.securityGroup.attributes.rules[index];
-                securityGroupRule = secGroupRule;
-             }
-        }
         var subview = new ConfirmView({el: 'body', title: "Delete Security Group Rule", btn_message: "Delete Security Group Rule", style: "top: 80px; display: block; z-index: 10501010;", onAccept: function() {
-            self.options.securityGroupsModel.securityGroup.deleteSecurityGroupRule(secGroupRuleId);
+            self.model.get(self.options.securityGroupId).deleteSecurityGroupRule(secGroupRuleId);
             var subview2 = new MessagesView({el: '#content', state: "Success", title: "Security Group Rule deleted."});
             subview2.render();
+            self.render();
         }});
         subview.render();
 
@@ -91,16 +89,11 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
         var self = this;
         var subview = new ConfirmView({el: 'body', title: "Delete Security Group Rules", btn_message: "Delete Security Group Rules", style: "top: 80px; display: block; z-index: 10501010;", onAccept: function() {
             $(".checkbox_sec_group_rule:checked").each(function () {
-                    var secGroupRuleId = $(this).val();
-                    for (var index in self.options.securityGroupsModel.securityGroup.attributes.rules) {
-                         if (self.options.securityGroupsModel.securityGroup.attributes.rules[index].id == secGroupRuleId) {
-                            var secGroupRule = self.options.securityGroupsModel.securityGroup.attributes.rules[index];
-                         }
-                    }
-
-            var subview2 = new MessagesView({el: '#content', state: "Success", title: "Security Group Rules deleted."});
-            self.options.securityGroupsModel.securityGroup.deleteSecurityGroupRule(secGroupRuleId);
-            subview2.render();
+                var secGroupRuleId = $(this).val();
+                var subview2 = new MessagesView({el: '#content', state: "Success", title: "Security Group Rules deleted."});
+                self.model.get(self.options.securityGroupId).deleteSecurityGroupRule(secGroupRuleId);
+                subview2.render();
+                self.render();
             });
         }});
         subview.render();
@@ -112,11 +105,11 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
         self = this;
 
         var cidrOK, fromPortOK, toPortOK;
-        var cidr_pattern = /^([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\/(0|[12]\d?|3[0-2])$/;   // 0.0.0.0/0
-        var portPattern = /^([1-65535]){1,5}$/;
-        var icmpPattern = /^([\-1-255]){1,3}$/;
+        var cidr_pattern = /^([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\/(\d|[0-2]\d|3[0-2])$/;   // 0.0.0.0/0
+        //var portPattern = /^([1-65535]){1,5}$/;
+        //var icmpPattern = /^([\-1-255]){1,3}$/;
 
-        var parentGroupId = self.options.securityGroupsModel.securityGroup.id;
+        var parentGroupId = this.options.securityGroupId;
         var ipProtocol = $('.IPProtocolSelect :selected').val();
         var fromPort = $('input[name=fromPort]').val();
         var toPort = $('input[name=toPort]').val();
@@ -125,11 +118,10 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
 
         var subview;
 
-        cidrOK = cidr_pattern.test(cidr) ? true : false;
+        cidrOK = cidr_pattern.test(cidr);
+        fromPortOK = (fromPort >= -1 && fromPort <= 65535);
+        toPortOK = (toPort >= -1 && toPort <= 65535);
 
-        fromPortOK = portPattern.test(fromPort) ? true : false;
-
-        toPortOK = portPattern.test(toPort) ? true : false;
 
         console.log("ipProtocol "+ipProtocol);
         console.log("fromPort "+fromPort);
@@ -137,15 +129,18 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
         console.log("cidr "+cidr);
         console.log("securityGroupId "+securityGroupId);
         console.log("parentGroupId "+parentGroupId);
+        console.log(cidrOK, fromPortOK, toPortOK);
+
+        var securityGroupsModel = self.model.get(this.options.securityGroupId);
 
         if ( cidrOK && fromPortOK && toPortOK ) {
             if ($('.secGroupSelect :selected').val()!=='CIDR') {
-                self.options.securityGroupsModel.securityGroup.createSecurityGroupRule(ipProtocol, fromPort, toPort, "", securityGroupId, parentGroupId);
+                securityGroupsModel.createSecurityGroupRule(ipProtocol, fromPort, toPort, "", securityGroupId, parentGroupId);
             }else{
-                self.options.securityGroupsModel.securityGroup.createSecurityGroupRule(ipProtocol, fromPort, toPort, cidr, undefined , parentGroupId);
+                securityGroupsModel.createSecurityGroupRule(ipProtocol, fromPort, toPort, cidr, undefined , parentGroupId);
             }
-        subview = new MessagesView({el: '#content', state: "Success", title: "Security group rule created."});
-        subview.render();
+            subview = new MessagesView({el: '#content', state: "Success", title: "Security group rule created."});
+            subview.render();
 
         }else{
             subview = new MessagesView({el: '#content', state: "Error", title: "Wrong input values for Security Group Rule. Please try again."});

@@ -28,14 +28,7 @@ var NovaSecurityGroupsView = Backbone.View.extend({
     },
 
     editSecurityGroupRules: function (e) {
-        var securityGroup;
-        for (var index in this.options.securityGroupsModel.models) {
-             if (this.options.securityGroupsModel.models[index].id == e.target.value) {
-                securityGroup = this.options.securityGroupsModel.models[index];
-             }
-        }
-        this.options.securityGroup = securityGroup;
-        var subview = new EditSecurityGroupRulesView({el: 'body', securityGroupsModel: this.options});
+        var subview = new EditSecurityGroupRulesView({el: 'body', securityGroupId: e.target.value, model: this.options.securityGroupsModel});
         subview.render();
     },
 

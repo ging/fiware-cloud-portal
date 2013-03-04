@@ -23,13 +23,12 @@ var DownloadKeypairView = Backbone.View.extend({
     createKeypair: function(e) {
         var name = this.model.attributes.name;
         var mySuccess = function(object) {
+            console.log("Success");
             var privateKey = object.keypair.private_key;
             console.log(object.keypair.public_key);
             var blob, blobURL;
             blob = new Blob([privateKey], { type: "application/x-pem-file" });
             blobURL = window.URL.createObjectURL(blob);
-
-            window.open(blobURL, 'Save Keypair','width=0,height=0');
 
             //window.open(blobURL, 'Save Keypair','width=0,height=0');
 

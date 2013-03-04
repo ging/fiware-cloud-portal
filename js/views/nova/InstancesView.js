@@ -27,6 +27,7 @@ var NovaInstancesView = Backbone.View.extend({
     onClose: function() {
         this.undelegateEvents();
         this.unbind();
+        this.model.unbind("reset");
     },
 
     onEditInstance: function(evt) {

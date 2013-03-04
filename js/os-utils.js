@@ -42,7 +42,7 @@ UTILS.Auth = (function(U, undefined) {
         var roles = JSTACK.Keystone.params.access.user.roles;
         for (var index in roles) {
             var rol = roles[index];
-            if (rol.name == "admin")
+            if (rol.name === "admin")
             return true;
         }
         return false;
@@ -58,25 +58,8 @@ UTILS.Auth = (function(U, undefined) {
             console.log("Authenticated for tenant ", tenant);
             var sm = JSTACK.Keystone.getservice("sm");
             var compute = JSTACK.Keystone.getservice("compute");
-            //sm.endpoints[0].adminURL = "http://130.206.80.91:8774/v2.0/FIWARE/vdc/"+resp.access.token.tenant.id;
-            //sm.endpoints[0].publicURL = sm.endpoints[0].adminURL;
-            //sm.endpoints[0].internalURL = sm.endpoints[0].adminURL;
-            compute.endpoints = sm.endpoints;
-
+            //compute.endpoints = sm.endpoints;
             OVF.API.configure(JSTACK.Keystone.getservice("sm").endpoints[0].publicURL, JSTACK.Keystone.params.access.token.id);
-
-            /*JSTACK.Keystone.params.access.serviceCatalog[2].endpoints[0].adminURL = "http://130.206.80.91:8776/v2.0/" +
-                  resp.access.token.tenant.id;
-            JSTACK.Keystone.params.access.serviceCatalog[2].endpoints[0].publicURL = "http://130.206.80.91:8776/v2.0/" +
-                  resp.access.token.tenant.id;
-            JSTACK.Keystone.params.access.serviceCatalog[2].endpoints[0].internalURL = "http://130.206.80.91:8776/v2.0/" +
-                  resp.access.token.tenant.id;*/
-            /*JSTACK.Keystone.params.access.serviceCatalog[0].endpoints[0].adminURL = "http://mcu5.dit.upm.es:5000/v2.0/" +
-                  resp.access.token.tenant.id;
-            JSTACK.Keystone.params.access.serviceCatalog[0].endpoints[0].publicURL = "http://mcu5.dit.upm.es:5000/v2.0/" +
-                  resp.access.token.tenant.id;
-            JSTACK.Keystone.params.access.serviceCatalog[0].endpoints[0].internalURL = "http://mcu5.dit.upm.es:5000/v2.0/" +
-                  resp.access.token.tenant.id;*/
             callback();
         };
 

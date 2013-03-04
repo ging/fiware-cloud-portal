@@ -25,6 +25,7 @@ var InstanceView = Backbone.View.extend({
     },
 
     onClose: function() {
+        console.log("Closing instances");
         this.undelegateEvents();
         this.unbind();
         this.model.unbind("reset");

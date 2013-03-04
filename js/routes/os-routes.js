@@ -129,23 +129,26 @@ var OSRouter = Backbone.Router.extend({
             return;
         } else {
             if (this.timers.length === 0) {
-                this.add_fetch(this.instancesModel, 100);
-                this.add_fetch(this.volumesModel, 100);
-                this.add_fetch(this.images, 100);
-                this.add_fetch(this.flavors, 100);
-                this.add_fetch(this.volumeSnapshotsModel,100);
-                this.add_fetch(this.containers,100);
-                this.add_fetch(this.vdcs,100);
-                this.add_fetch(this.securityGroupsModel, 100);
-                this.add_fetch(this.keypairsModel, 100);
-                this.add_fetch(this.floatingIPsModel, 100);
+                var seconds = 10;
+                this.add_fetch(this.instancesModel, seconds);
+                this.add_fetch(this.volumesModel, seconds);
+                this.add_fetch(this.images, seconds);
+                this.add_fetch(this.flavors, seconds);
+                this.add_fetch(this.volumeSnapshotsModel, seconds);
+                this.add_fetch(this.containers, seconds);
+                this.add_fetch(this.vdcs, seconds);
+                this.add_fetch(this.securityGroupsModel, seconds);
+                this.add_fetch(this.keypairsModel, seconds);
+                this.add_fetch(this.floatingIPsModel, seconds);
                 if (this.loginModel.isAdmin()) {
-                    this.add_fetch(this.projects, 100);
+                    this.add_fetch(this.projects, seconds);
                 }
             }
         }
         var args = [this].concat(Array.prototype.slice.call(arguments, 1));
-        next.apply(this, args);
+        if (next) {
+            next.apply(this, args);
+        }
     },
 
     newContentView: function (self, view) {
@@ -180,6 +183,8 @@ var OSRouter = Backbone.Router.extend({
         var self = this;
         this.loginModel.bind('switch-tenant', function() {
             self.loginModel.unbind('switch-tenant');
+            self.clear_fetch();
+            self.checkAuth();
             self.navigate(self.rootView.options.next_view, {trigger: true, replace: true});
         });
         this.loginModel.switchTenant(id);

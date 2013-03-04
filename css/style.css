@@ -1,6 +1,29 @@
 /* new clearfix */
 body { min-height: 480px; }
 
+.tip {
+  opacity: 1;
+}
+
+.tip::after {
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 8px 8px 8px 0px;
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
+    color: #FFF;
+    content: attr(data-tooltip); /* The main part of the code, determining the content of the pop-up prompt */
+    margin-top: -24px;
+    opacity: 0; /* Our element is transparent... */
+    padding: 3px 7px;
+    position: absolute;
+    visibility: hidden; /* ...and hidden. */
+    transition: all 0.4s ease-in-out; /* To add some smoothness */
+}
+
+.tip:hover::after {
+    opacity: 1; /* Make it visible */
+    visibility: visible;
+}
+
 .tenant_switch {
     padding-bottom: 20px;
     width: 90%; 

@@ -42,6 +42,7 @@ var InstanceDetailView = Backbone.View.extend({
     },
 
     showOverview: function() {
+        this.options.subview = "overview";
         $('#instance_details__overview').addClass('active');
         $('#instance_details__vnc').removeClass('active');
         $('#instance_details__log').removeClass('active');
@@ -57,6 +58,7 @@ var InstanceDetailView = Backbone.View.extend({
     },
 
     showVNC: function() {
+        this.options.subview = "vnc";
         $('#instance_details__overview').removeClass('active');
         $('#instance_details__log').removeClass('active');
         $('#instance_details__vnc').addClass('active');
@@ -72,6 +74,7 @@ var InstanceDetailView = Backbone.View.extend({
     },
 
     showLogs: function() {
+        this.options.subview = "logs";
         $('#instance_details__overview').removeClass('active');
         $('#instance_details__vnc').removeClass('active');
         $('#instance_details__log').addClass('active');
@@ -85,6 +88,7 @@ var InstanceDetailView = Backbone.View.extend({
     },
 
     showSoftware: function() {
+        this.options.subview = "software";
         this.options.subsubview = "installed_software";
         $('#instance_details__overview').removeClass('active');
         $('#instance_details__vnc').removeClass('active');
@@ -101,6 +105,7 @@ var InstanceDetailView = Backbone.View.extend({
     },
 
     showInstalledSoftware: function() {
+        this.options.subsubview = "installed_software";
         $('#installed_software').addClass('active');
         $('#instance_details__installed_software').addClass('active');
         $('#new_software').removeClass('active');
@@ -108,6 +113,7 @@ var InstanceDetailView = Backbone.View.extend({
     },
 
     showNewSoftware: function() {
+        this.options.subsubview = "new_software";
         $('#installed_software').removeClass('active');
         $('#instance_details__installed_software').removeClass('active');
         $('#new_software').addClass('active');
@@ -117,6 +123,9 @@ var InstanceDetailView = Backbone.View.extend({
     onClose: function() {
         this.undelegateEvents();
         this.unbind();
+        this.model.unbind("change");
+        this.options.flavor.unbind("change");
+        this.options.image.unbind("change");
     },
 
     close: function(e) {
@@ -176,7 +185,6 @@ var InstanceDetailView = Backbone.View.extend({
         var self = this;
         //if (this.flavorResp && this.imageResp && this.vncResp && this.logResp) {
         if (this.flavorResp && this.imageResp) {
-
             this.render();
         }
     },
@@ -184,14 +192,15 @@ var InstanceDetailView = Backbone.View.extend({
     render: function () {
         var self = this;
 
-        if ($("#consult_instance").html() == null) {
+        if ($("#consult_instance").html() === null) {
             mySuccess = function(object) {
-            UTILS.Render.animateRender(self.el, self._template, {rules: object.security_groups[0].rules, vdc: self.options.vdc, service: self.options.service, model:self.model, flavor:self.options.flavor, image:self.options.image, logs: self.options.logs, vncUrl: self.options.vncUrl, subview: self.options.subview, subsubview: self.options.subsubview});
+                UTILS.Render.animateRender(self.el, self._template, {rules: object.security_groups[0].rules, vdc: self.options.vdc, service: self.options.service, model:self.model, flavor:self.options.flavor, image:self.options.image, logs: self.options.logs, vncUrl: self.options.vncUrl, subview: self.options.subview, subsubview: self.options.subsubview});
             };
             JSTACK.Nova.getsecuritygroupforserver(self.model.id, mySuccess);
         } else {
             mySuccess = function(object) {
-            $(this.el).html(this._template({rules: object.security_groups[0].rules, vdc: this.options.vdc, service: this.options.service, model:this.model, flavor:this.options.flavor, image:this.options.image, logs: this.options.logs, vncUrl: this.options.vncUrl, subview: this.options.subview, subsubview: this.options.subsubview}));
+                var template = self._template({rules: object.security_groups[0].rules, vdc: self.options.vdc, service: self.options.service, model:self.model, flavor:self.options.flavor, image:self.options.image, logs: self.options.logs, vncUrl: self.options.vncUrl, subview: self.options.subview, subsubview: self.options.subsubview});
+                $(self.el).empty().html(template);
             };
             JSTACK.Nova.getsecuritygroupforserver(this.model.id, mySuccess);
         }
