@@ -6,13 +6,6 @@ src: templates/root/sys/projects.html
     <div class='table_header'>
         <div class="table_actions clearfix">
 
-            <div class="table_search">
-                <input class="inline" value="" type="text" name="tenants__filter__q" />
-                <button type="submit" class="btn btn-blue btn-small inline-block filter" data-i18n="Filter">
-                    Filter
-                </button>
-            </div>
-
             <button class="btn btn-small btn-blue btn-create-project" data-i18n="Create New Project">Create New Project</button>
 
             <button class='btn btn-small btn-danger btn-delete-group' id="projects_delete" disabled="disabled" name="action" value="tenants__delete" type="submit" data-i18n="Delete Projects">
@@ -51,7 +44,7 @@ src: templates/root/sys/projects.html
             %>
             <tr id="tenants__row__4" class="">
                 <td class="multi_select_column">
-                <input type="checkbox" name="object_ids" class="checkbox checkbox_projects" "<%= project.get('id') %>" />
+                <input type="checkbox" name="object_ids" value="<%= project.get('id')%>" class="checkbox checkbox_projects"/>
                 </td>
                 <td class="hidden-phone"><%= project.get('id')%></td>
                 <td class=""><%= project.get('name')%></td>
@@ -60,16 +53,16 @@ src: templates/root/sys/projects.html
                 <td class="actions_column hidden-phone">
                 <div class="btn-group">
 
-                    <button class="ajax-modal btn btn-small btn-blue btn-edit" data-i18n="Edit Project">Edit Project</button>
+                    <button class="ajax-modal btn btn-small btn-blue btn-edit" value="<%= project.get('id')%>" data-i18n="Edit Project">Edit Project</button>
 
-                    <a class="btn dropdown-toggle btn-small btn-blue" data-toggle="dropdown" href="#"> <span class="caret caret-white"></span> </a>
+                    <a class="btn dropdown-toggle btn-small btn-blue"  data-toggle="dropdown" href="#"> <span class="caret caret-white"></span> </a>
                     <ul class="dropdown-menu row_actions clearfix">
 
-                        <li class="clearfix">
+                        <!--<li class="clearfix">
 
                             <a href='/syspanel/projects/<%=project.get('id')%>/usage/'  class="btn btn-small" data-i18n="View Usage">View Usage</a>
 
-                        </li>
+                        </li>-->
 
                         <li class="clearfix">
 
@@ -77,15 +70,15 @@ src: templates/root/sys/projects.html
 
                         </li>
 
-                        <li class="clearfix">
+                        <!--<li class="clearfix">
 
                             <a href='/syspanel/projects/<%=project.get('id')%>/quotas/'  class="ajax-modal btn btn-small" data-i18n="Modify Quotas">Modify Quotas</a>
 
-                        </li>
+                        </li>-->
 
                         <li class="clearfix">
 
-                            <button  class="btn btn-small btn-danger btn-delete" name="action" value="tenants__delete__4" type="submit" data-i18n="Delete Project">
+                            <button  class="btn btn-small btn-danger btn-delete" name="action" value="<%= project.get('id')%>" type="submit" data-i18n="Delete Project">
                                 Delete Project
                             </button>
 

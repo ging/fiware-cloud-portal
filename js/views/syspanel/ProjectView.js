@@ -12,34 +12,30 @@ var ProjectView = Backbone.View.extend({
         'click .btn-create-project' : 'onCreate',
         'click .btn-edit' : 'onUpdate',
         'click .btn-delete':'onDelete',
-        //'click .btn-modify' : 'onModify',
         'click .btn-delete-group': 'onDeleteGroup',
         'change .checkbox_projects':'enableDisableDeleteButton',
         'change .checkbox_all':'checkAll'
     },
 
     onCreate: function() {
-        var subview = new CreateProjectView({el: 'body', model:this.model});
+        var subview = new CreateProjectView({el: 'body'});
         subview.render();
     },
 
-    onUpdate: function() {
-        var subview = new EditProjectView({el: 'body', model:this.model});
-        subview.render();
-    },
-
-    onModify: function() {
-        var subview = new ModifyUsersView({el: 'body', model:this.model});
+    onUpdate: function(evt) {
+        var project = this.model.get(evt.target.value);
+        var subview = new EditProjectView({el: 'body', model:project});
         subview.render();
     },
 
     onDelete: function(evt) {
-        var container = evt.target.value;
+        var project = evt.target.value;
         var self = this;
         var subview = new ConfirmView({el: 'body', title: "Confirm Delete Project", btn_message: "Delete Project", onAccept: function() {
-            cont = self.model.get(container);
-                var subview = new MessagesView({el: '#content', state: "Success", title: "Project deleted."});
-                subview.render();
+            var proj = self.model.get(project);
+            proj.destroy();
+            var subview = new MessagesView({el: '#content', state: "Success", title: "Project deleted."});
+            subview.render();
         }});
         subview.render();
     },
@@ -48,7 +44,10 @@ var ProjectView = Backbone.View.extend({
         var self = this;
         var cont;
         var subview = new ConfirmView({el: 'body', title: "Delete Projects", btn_message: "Delete Projects", onAccept: function() {
-            $(".checkbox_containers:checked").each(function () {
+            $(".checkbox:checked").each(function () {
+                    var project = $(this).val();
+                    var proj = self.model.get(project);
+                    proj.destroy();
                     var subview = new MessagesView({el: '#content', state: "Success", title: "Project deleted."});
                     subview.render();
 
@@ -85,20 +84,9 @@ var ProjectView = Backbone.View.extend({
 
     render: function () {
         if ($("#tenants").html() != null) {
-            console.log("Render:", this.model.models.length);
             $(this.el).empty().html(this._template(this.model));
         } else {
             UTILS.Render.animateRender(this.el, this._template, this.model);
         }
-    },
-
-    rerender: function() {
-        console.log($(this.el));
-        if ($("#tenants").html() != null) {
-            console.log("Rerender:", this.model.models.length);
-            $(this.el).empty().html(this._template(this.model));
-        }
-        $(this.el).html("Hola");
-        console.log($(this.el).html());
     }
 });

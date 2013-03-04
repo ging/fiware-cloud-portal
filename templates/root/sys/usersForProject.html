@@ -5,32 +5,13 @@ src: templates/root/sys/usersForProject.html
 -->
 <div id="users_for_project">
     <div class='table_header'>
-        <div class="table_actions clearfix">
-
-            <div class="table_search">
-                <input class="inline" value="" type="text" name="users__filter__q" />
-                <button type="submit" class="btn btn-small btn-blue inline-block filter" data-i18n="Filter">
-                    Filter
-                </button>
-            </div>
-
-            <button class="btn btn-small btn-blue btn-create" data-i18n="Create User">Create User</a>
-
-            <button class='btn btn-small btn-danger btn-delete-group' id='users_delete' disabled="disabled" name="action" value="users__delete" type="submit" data-i18n="Delete Users">
-                Delete Users
-            </button>
-
-        </div>
+        <h3 class="table_title">Users For Project: <%= (tenant)?tenant.get('name'):'' %></h3>
 
     </div>
 
     <table id="users" class="table table-bordered table-striped">
         <thead>
             <tr>
-
-                <th class="multi_select_column">
-                	<input type="checkbox" class="checkbox checkbox_all">
-                </th>
 
                 <th class="" data-i18n="Id">Id</th>
 
@@ -46,13 +27,10 @@ src: templates/root/sys/usersForProject.html
         </thead>
         <tbody>
             <%
-            for (var index in models) {
-            var user = models[index];
+            for (var index in model.models) {
+            var user = model.models[index];
             %>
             <tr id="users__row__" class="">
-                <td class="multi_select_column">
-                <input type="checkbox" name="object_ids" class="checkbox checkbox_users" value="1" />
-                </td>
                 <td class=""><%=user.get('id')%></td>
                 <td class=""><%=user.get('name')%></td>
                 <td class=""><%=user.get('email')%></td>
@@ -60,28 +38,7 @@ src: templates/root/sys/usersForProject.html
                 <td class="actions_column hidden-phone">
                 <div class="btn-group">
 
-                    <button class="btn btn-small btn-blue btn-edit" data-i18n="Edit">Edit</button>
-
-                    <a class="btn dropdown-toggle btn-small btn-blue" data-toggle="dropdown" href="#"> <span class="caret caret-white"></span> </a>
-                    <ul class="dropdown-menu row_actions clearfix">
-
-                        <li class="clearfix">
-
-                            <button  class="btn btn-small btn-disable" name="action" value="users__disable__1" type="submit" data-i18n="Disable">
-                                Disable
-                            </button>
-
-                        </li>
-
-                        <li class="clearfix">
-
-                            <button  class="btn btn-small btn-danger btn-delete" name="action" value="tenants__delete__4" type="submit" data-i18n="Delete User">
-                                Delete User
-                            </button>
-
-                        </li>
-
-                    </ul>
+                    <button class="btn btn-small btn-danger btn-delete" value="<%= user.get('id')%>" data-i18n="Remove User">Remove User</button>
 
                 </div></td>
             </tr>
@@ -92,39 +49,20 @@ src: templates/root/sys/usersForProject.html
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="6"><span class="blue"><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", 1)%></span></td>
+                <td colspan="6"><span class="blue"><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", model.models.length)%></span></td>
                 </td>
         </tfoot>
     </table>
 </div>
 <div id="add_new_users">
     <div class='table_header'>
-        <div class="table_actions clearfix">
-
-            <div class="table_search">
-                <input class="inline" value="" type="text" name="users__filter__q" />
-                <button type="submit" class="btn btn-small btn-blue inline-block filter" data-i18n="Filter">
-                    Filter
-                </button>
-            </div>
-
-            <button class="btn btn-small btn-blue btn-create" data-i18n="Create User">Create User</a>
-
-            <button class='btn btn-small btn-danger btn-delete-group' id='users_delete' disabled="disabled" name="action" value="users__delete" type="submit" data-i18n="Delete Users">
-                Delete Users
-            </button>
-
-        </div>
+        <h3 class="table_title">Add New Users</h3>
 
     </div>
 
     <table id="users" class="table table-bordered table-striped">
         <thead>
             <tr>
-
-                <th class="multi_select_column">
-                    <input type="checkbox" class="checkbox checkbox_all">
-                </th>
 
                 <th class="" data-i18n="Id">Id</th>
 
@@ -140,44 +78,23 @@ src: templates/root/sys/usersForProject.html
         </thead>
         <tbody>
         <%
-            console.log(users);
+            var total = 0;
             for (var index2 in users) {
             var user2 = users[index2];
+            if (model.get(user2.get('id'))) {
+                continue;
+            } else {
+                total += 1;
+            }
             %>
             <tr id="users__row__" class="">
-                <td class="multi_select_column">
-                <input type="checkbox" name="object_ids" class="checkbox checkbox_users" value="1" />
-                </td>
                 <td class=""><%=user2.get('id')%></td>
                 <td class=""><%=user2.get('name')%></td>
                 <td class=""><%=user2.get('email')%></td>
                 <td class="status_up"><%=user2.get('enabled')%></td>
                 <td class="actions_column hidden-phone">
                 <div class="btn-group">
-
-                    <button class="btn btn-small btn-blue btn-edit" data-i18n="Edit">Edit</button>
-
-                    <a class="btn dropdown-toggle btn-small btn-blue" data-toggle="dropdown" href="#"> <span class="caret caret-white"></span> </a>
-                    <ul class="dropdown-menu row_actions clearfix">
-
-                        <li class="clearfix">
-
-                            <button  class="btn btn-small btn-disable" name="action" value="users__disable__1" type="submit" data-i18n="Disable">
-                                Disable
-                            </button>
-
-                        </li>
-
-                        <li class="clearfix">
-
-                            <button  class="btn btn-small btn-danger btn-delete" name="action" value="tenants__delete__4" type="submit" data-i18n="Delete User">
-                                Delete User
-                            </button>
-
-                        </li>
-
-                    </ul>
-
+                    <button class="btn btn-small btn-blue btn-add" value="<%= user2.get('id')%>" data-i18n="Add User">Add User</button>
                 </div></td>
             </tr>
             <%
@@ -187,7 +104,7 @@ src: templates/root/sys/usersForProject.html
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="6"><span class="blue"><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", 1)%></span></td>
+                <td colspan="6"><span class="blue"><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", total)%></span></td>
                 </td>
         </tfoot>
     </table>

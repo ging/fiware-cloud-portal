@@ -12,31 +12,56 @@ var UserView = Backbone.View.extend({
         'click .btn-edit' : 'onUpdate',
         'click .btn-delete':'onDelete',
         'click .btn-disable':'onDisable',
+        'click .btn-enable':'onEnable',
         'click .btn-delete-group': 'onDeleteGroup',
         'change .checkbox_users':'enableDisableDeleteButton',
         'change .checkbox_all':'checkAll'
     },
 
     onCreate: function() {
-        var subview = new CreateUserView({el: 'body', model:this.model});
+        var subview = new CreateUserView({el: 'body', model:this.model, tenants: this.options.tenants});
         subview.render();
     },
 
-    onUpdate: function() {
-        var subview = new EditUserView({el: 'body', model:this.model});
+    onUpdate: function(evt) {
+        var user = this.model.get(evt.target.value);
+        var subview = new EditUserView({el: 'body', model:user, tenants: this.options.tenants});
         subview.render();
     },
 
-    onDisable: function() {
+    onDisable: function(evt) {
+        var self = this;
+        var subview = new ConfirmView({el: 'body', title: "Confirm Disable User", btn_message: "Disable User", onAccept: function() {
+            var user = self.model.get(evt.target.value);
+            user.set("enabled", false);
+            user.save();
+            var subview = new MessagesView({el: '#content', state: "Success", title: "User disabled."});
+            subview.render();
+
+        }});
+        subview.render();
+    },
+
+    onEnable: function(evt) {
+        var self = this;
+        var subview = new ConfirmView({el: 'body', title: "Confirm Enable User", btn_message: "Enable User", onAccept: function() {
+            var user = self.model.get(evt.target.value);
+            user.set("enabled", true);
+            user.save();
+            var subview = new MessagesView({el: '#content', state: "Success", title: "User enabled."});
+            subview.render();
+
+        }});
+        subview.render();
     },
 
     onDelete: function(evt) {
-        var container = evt.target.value;
         var self = this;
         var subview = new ConfirmView({el: 'body', title: "Confirm Delete User", btn_message: "Delete User", onAccept: function() {
-            cont = self.model.get(container);
-                var subview = new MessagesView({el: '#content', state: "Success", title: "User deleted."});
-                subview.render();
+            var user = self.model.get(evt.target.value);
+            user.destroy();
+            var subview = new MessagesView({el: '#content', state: "Success", title: "User deleted."});
+            subview.render();
 
         }});
         subview.render();
@@ -46,7 +71,10 @@ var UserView = Backbone.View.extend({
         var self = this;
         var cont;
         var subview = new ConfirmView({el: 'body', title: "Delete Projects", btn_message: "Delete Projects", onAccept: function() {
-            $(".checkbox_containers:checked").each(function () {
+            $(".checkbox:checked").each(function () {
+                    var user = $(this).val();
+                    var usr = self.model.get(user);
+                    usr.destroy();
                     var subview = new MessagesView({el: '#content', state: "Success", title: "Project deleted."});
                     subview.render();
 

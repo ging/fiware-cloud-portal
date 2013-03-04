@@ -1,0 +1,43 @@
+<script id="addUserToProjectFormTemplate" type="text/html">
+<div id="add_user" class="modal hide ">
+    <!--
+    Description: Add User To Project Form
+    src: templates/forms/addUserToProject.html
+    -->
+    <div class="modal-header">
+        <a id="close" href="#" class="close" data-dismiss="modal">&times;</a>
+        <h3>Add User To Project</h3>
+    </div>
+    <div class="modal-body clearfix">
+        <div class="left">
+            <fieldset>
+            <div class="control-group form-field clearfix">
+                <label for="id_role_id">Role</label>
+
+                <span class="help-block" style="display: none;"></span>
+                <div class="input">
+                  <select name="role_id" id="id_role_id" data-original-title="">
+                    <%
+                    for (var index in roles.models) {
+                        var rol = roles.models[index];
+                        %>
+                        <option value="<%=rol.get('id')%>"><%=rol.get('name')%></option>
+                        <% } %>
+            </select>
+                </div>
+              </div>
+            </fieldset>
+        </div>
+        <div class="right">
+            <h3>Description:</h3>
+            <p>
+                Select the user role for the project.
+            </p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a id="updateBtn" class="btn btn-blue pull-right" data-dismiss="modal">Add</a>
+        <a id="cancelBtn" class="close btn seconday cancel close" data-dismiss="modal">Cancel</a>
+    </div>
+</div>
+</script>

@@ -20,16 +20,16 @@
 
                         <span class="help-block" style="display: none; "></span>
                         <div class="input">
-                            <input id="id_project" type="text" name="id_project" maxlength="255">
+                            <input id="id_project" type="text" name="id_project" maxlength="255" value="<%=model.get('id')%>">
                         </div>
                     </div>
-                    
+
                     <div class="control-group form-field clearfix">
                         <label for="id_name">Name</label>
 
                         <span class="help-block" style="display: none; "></span>
                         <div class="input">
-                            <input id="name" type="text" name="name" maxlength="255">
+                            <input id="name" type="text" name="name" maxlength="255" value="<%=model.get('name')%>">
                         </div>
                     </div>
 
@@ -38,16 +38,16 @@
 
                         <span class="help-block" style="display: none; "></span>
                         <div class="input">
-                            <textarea id="id_description" rows="10" cols="40" name="description"></textarea>
+                            <textarea id="id_description" rows="10" cols="40" name="description" ><%=model.get('description')%></textarea>
                         </div>
                     </div>
 
                     <div class="control-group form-field clearfix">
 					    <label for="id_enabled">Enabled</label>
-					    
+
 					    <span class="help-block" style="display: none;"></span>
 					    <div class="input">
-					      <input checked="checked" type="checkbox" name="enabled" id="id_enabled">
+					      <input checked="checked" type="checkbox" name="enabled" id="id_enabled" <% if (model.get('enabled')) {%>checked<%}%>">
 					    </div>
 					</div>
 

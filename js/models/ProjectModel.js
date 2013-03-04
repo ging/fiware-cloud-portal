@@ -10,6 +10,9 @@ var Project = Backbone.Model.extend({
                case "create":
                    JSTACK.Keystone.createtenant(model.get("name"), model.get("description"), model.get("enabled"), options.success);
                    break;
+               case "update":
+                    JSTACK.Keystone.edittenant(model.get("id"), model.get("name"), model.get("description"), model.get("enabled"), options.success);
+                    break;
                //case "filter":
                //    JSTACK.Keystone.filtertenant(model.get("id"), options.success);
                //    break;

@@ -60,6 +60,7 @@ var loadViews = function() {
                 "js/views/nova/VDCServiceView.js",
                 "js/views/objectstorage/ContainersView.js",
                 "js/views/objectstorage/ContainerView.js",
+                "js/views/forms/AddUserToProjectView.js",
                 "js/views/forms/UpdateInstanceView.js",
                 "js/views/forms/CreateFlavorView.js",
                 "js/views/forms/UpdateImageView.js",
@@ -118,7 +119,8 @@ var loadModels = function() {
                 "js/models/VDCModel.js",
                 "js/models/VDCServiceModel.js",
                 "js/models/SecurityGroupModel.js",
-                "js/models/FloatingIPModel.js"
+                "js/models/FloatingIPModel.js",
+                "js/models/RoleModel.js"
             ], function(someModule) {
                 loadViews();
         });
@@ -136,7 +138,7 @@ var loadLibraries = function() {
                 "lib/jstack.js",
                 "lib/bootstrap.min.js",
                 "lib/jquery.selectbox-0.1.3.min.js",
-                "lib/sdc.js",               
+                "lib/sdc.js",
                 "lib/xml2json.js",
                 "lib/cdmi.js",
                 "lib/ovf.js"
@@ -151,6 +153,7 @@ var loadTemplates = function() {
             ], function(someModule) {
                 loadTemplates([
                     'templates/auth/login.html',
+                    'templates/forms/addUserToProject.html',
                     'templates/forms/updateInstance.html',
                     'templates/forms/createFlavor.html',
                     'templates/forms/updateImage.html',

@@ -29,34 +29,40 @@
 
                         <span class="help-block" style="display: none; "></span>
                         <div class="input">
-                            <input id="email" type="text" name="email" maxlength="255">
+                            <input id="email" type="email" name="email" maxlength="255">
                         </div>
                     </div>
-                    
+
                     <div class="control-group form-field clearfix">
                         <label for="id_description">Password</label>
 
                         <span class="help-block" style="display: none; "></span>
                         <div class="input">
-                            <input id="password" type="text" name="password" maxlength="255">
+                            <input id="password" type="password" name="user_password" maxlength="255">
                         </div>
                     </div>
-                    
+
                     <div class="control-group form-field clearfix">
                         <label for="id_description">Confirm Password</label>
 
                         <span class="help-block" style="display: none; "></span>
                         <div class="input">
-                           	<input id="confirm_password" type="text" name="confirm_password" maxlength="255">	
+                           	<input id="confirm_password" type="password" name="confirm_password" maxlength="255">
                         </div>
                     </div>
-                    
+
                     <div class="control-group form-field clearfix">
-					    <label for="id_name">Primary Project</label> 	 
+					    <label for="id_name">Primary Project</label>
 					 	<select id="project_switcher" tabindex="1" class="inline">
-					 		<option value="hola">hola</option>
-					   	</select>  	 			       			
-		 			 </div>  
+                            <% for (var idx in tenants.models) {
+                                var tenant = tenants.models[idx];
+                            %>
+					 		<option value="<%=tenant.get('id')%>"><%= tenant.get('name')%></option>
+                            <%
+                            }
+                            %>
+					   	</select>
+		 			 </div>
 
                 </fieldset>
             </div>

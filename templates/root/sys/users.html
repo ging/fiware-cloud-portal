@@ -6,12 +6,12 @@ src: templates/root/sys/users.html
     <div class='table_header'>
         <div class="table_actions clearfix">
 
-            <div class="table_search">
+            <!--<div class="table_search">
                 <input class="inline" value="" type="text" name="users__filter__q" />
                 <button type="submit" class="btn btn-small btn-blue inline-block filter" data-i18n="Filter">
                     Filter
                 </button>
-            </div>
+            </div>-->
 
             <button class="btn btn-small btn-blue btn-create" data-i18n="Create User">Create User</a>
 
@@ -49,7 +49,7 @@ src: templates/root/sys/users.html
             %>
             <tr id="users__row__" class="">
                 <td class="multi_select_column">
-                <input type="checkbox" name="object_ids" class="checkbox checkbox_users" value="1" />
+                    <input type="checkbox" name="object_ids" class="checkbox checkbox_users" value="<%= user.get('id') %>" />
                 </td>
                 <td class=""><%= user.get('id')%></td>
                 <td class=""><%= user.get('name')%></td>
@@ -58,22 +58,28 @@ src: templates/root/sys/users.html
                 <td class="actions_column hidden-phone">
                 <div class="btn-group">
 
-                    <button class="btn btn-small btn-blue btn-edit" data-i18n="Edit">Edit</button>
+                    <button class="btn btn-small btn-blue btn-edit" value="<%=user.get('id')%>" tdata-i18n="Edit">Edit</button>
 
                     <a class="btn dropdown-toggle btn-small btn-blue" data-toggle="dropdown" href="#"> <span class="caret caret-white"></span> </a>
                     <ul class="dropdown-menu row_actions clearfix">
 
                         <li class="clearfix">
-
-                            <button  class="btn btn-small btn-disable" name="action" value="users__disable__1" type="submit" data-i18n="Disable">
+                            <% if (user.get("enabled")) {
+                                %>
+                            <button  class="btn btn-small btn-disable" name="action" value="<%=user.get('id')%>" type="submit" data-i18n="Disable">
                                 Disable
                             </button>
+                            <% } else { %>
+                            <button  class="btn btn-small btn-enable" name="action" value="<%=user.get('id')%>" type="submit" data-i18n="Enable">
+                                Enable
+                            </button>
+                            <% } %>
 
                         </li>
 
                         <li class="clearfix">
 
-                            <button  class="btn btn-small btn-danger btn-delete" name="action" value="tenants__delete__4" type="submit" data-i18n="Delete User">
+                            <button  class="btn btn-small btn-danger btn-delete" name="action" value="<%=user.get('id')%>" type="submit" data-i18n="Delete User">
                                 Delete User
                             </button>
 
@@ -90,7 +96,7 @@ src: templates/root/sys/users.html
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="6"><span class="blue"><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", 1)%></span></td>
+                <td colspan="6"><span class="blue"><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", models.length)%></span></td>
                 </td>
         </tfoot>
     </table>

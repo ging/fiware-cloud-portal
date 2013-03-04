@@ -31,6 +31,15 @@ var EditProjectView = Backbone.View.extend({
     },
 
     onUpdate: function(e){
+        var name = this.$('input[name=name]').val();
+        var descr = this.$('textarea[name=description]').val();
+        var enabled = this.$('input[name=enabled]').is(':checked');
+        this.model.set({'name': name});
+        this.model.set({'description': descr});
+        this.model.set({'enabled': enabled});
+        this.model.save();
+        subview = new MessagesView({el: '#content', state: "Success", title: "Project "+this.model.get('name')+" updated."});
+        subview.render();
     }
 
 });

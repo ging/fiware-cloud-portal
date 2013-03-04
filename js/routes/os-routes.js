@@ -221,12 +221,12 @@ var OSRouter = Backbone.Router.extend({
         self.top.set({"title":option});
         self.navs = new NavTabModels([
                                     //{name: 'Overview', active: true, url: '#syspanel/'},
-                                    {name: 'Projects', active: false, url: '#syspanel/projects/'},
+
                                     //{name: 'Instances', active: false, url: '#syspanel/instances/'},
                                     //{name: 'Services', active: false, url: '#syspanel/services/'},
                                     {name: 'Flavors', active: false, url: '#syspanel/flavors/'},
                                     //{name: 'Images', active: false, url: '#syspanel/images/images/'},
-
+                                    {name: 'Projects', active: false, url: '#syspanel/projects/'},
                                     {name: 'Users', active: false, url: '#syspanel/users/'},
                                     {name: 'Quotas', active: false, url: '#syspanel/quotas/'}
                                     ]);
@@ -333,11 +333,10 @@ var OSRouter = Backbone.Router.extend({
 
     sys_users_projects: function(self, tenant_id) {
         if (self.showSysRoot(self, 'Projects')) {
-            console.log("Ok!");
             var users = new Users();
             users.tenant(tenant_id);
             var all = new Users();
-            var view = new UsersForProjectView({model:users, users: all, el: '#content'});
+            var view = new UsersForProjectView({model:users, tenant: tenant_id, tenants: self.projects, users: all, el: '#content'});
             self.newContentView(self,view);
         }
     },
@@ -347,7 +346,7 @@ var OSRouter = Backbone.Router.extend({
             var users = new Users();
             //users.tenant(JSTACK.Keystone.params.access.token.tenant.id);
             console.log(users);
-            var view = new UserView({model:users, el: '#content'});
+            var view = new UserView({model:users, el: '#content', tenants: self.projects});
             self.newContentView(self,view);
             //view.render();
         }

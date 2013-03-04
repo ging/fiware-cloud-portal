@@ -13,6 +13,8 @@ var ChangePasswordView = Backbone.View.extend({
     },
 
     onClose: function() {
+        $('#change_password').remove();
+        $('.modal-backdrop').remove();
         this.undelegateEvents();
         this.unbind();
     },
