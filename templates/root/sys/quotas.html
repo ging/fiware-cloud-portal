@@ -21,14 +21,14 @@ src: templates/root/sys/quotas.html
         <thead>
             <tr>
 
-                <th class="" data-i18n="Quota Name">Quota Name</th>
+                <th class="tip" data-tooltip="Quota's name." data-i18n="Quota Name">Quota Name</th>
 
-                <th class="" data-i18n="Limit">Limit</th>
+                <th class="tip" data-tooltip="Limits of the quota." data-i18n="Limit">Limit</th>
 
             </tr>
         </thead>
         <tbody>
-				<% var attr;				
+				<% var attr;
 				var num_attr = 0;
 				for (var i in models) {
 					attr = models[i].attributes;
@@ -71,11 +71,11 @@ src: templates/root/sys/quotas.html
             <tr id="quotas__row__cores" class="">
                 <td class="">Cores</td><td class=""><%= attr.cores%></td>
             </tr>
-            
+
             <tr id="quotas__row__cores" class="">
                 <td class="">Security Groups</td><td class=""><%= attr.security_groups%></td>
             </tr>
-            
+
             <tr id="quotas__row__cores" class="">
                 <td class="">Security Group Rules</td><td class=""><%= attr.security_group_rules%></td>
             </tr>
@@ -84,7 +84,7 @@ src: templates/root/sys/quotas.html
             <tr>
                 <td colspan="2"><span class="blue"><%=UTILS.i18n.pluralise("Displaying %s items", "Displaying %s items", num_attr)%></span></td>
                 </td>
-             <% } %>   
+             <% } %>
         </tfoot>
     </table>
 

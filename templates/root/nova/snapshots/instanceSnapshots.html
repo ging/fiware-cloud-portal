@@ -17,11 +17,11 @@ src: templates/root/nova/snapshots/instanceSnapshots.html
         <thead>
             <tr>
                 <th class="multi_select_column"></th>
-                <th class="">Name</th>
-                <th class="">Type</th>
-                <th class="">Status</th>
-                <th class="">Public</th>
-                <th class="hidden-phone">Container Format</th>
+                <th class="tip" data-tooltip="Spanshots's name">Name</th>
+                <th class="tip" data-tooltip="Snapshot's type">Type</th>
+                <th class="tip" data-tooltip="Current status of the snapshot (active, saving, ...)">Status</th>
+                <th class="tip" data-tooltip="Check if the Snapshot is publicly available">Public</th>
+                <th class="hidden-phone tip" data-tooltip="Snapshot's container format (AMI, AKI, ...).">Container Format</th>
                 <th class="actions_column hidden-phone">Actions</th>
             </tr>
         </thead>

@@ -20,11 +20,11 @@ src: templates/root/nova/instancesAndVolumes/volumes.html
         <thead>
             <tr>
                 <th class="multi_select_column"></th>
-                <th class="">Name</th>
-                <th class="hidden-phone">Description</th>
-                <th class="">Size</th>
-                <th class="">Status</th>
-                <th class="">Attachments</th>
+                <th class="tip" data-tooltip="Volume's name.">Name</th>
+                <th class="hidden-phone tip" data-tooltip="Volume's description.">Description</th>
+                <th class="tip" data-tooltip="Current volume size.">Size</th>
+                <th class="tip" data-tooltip="Current volume status (available, none, ...).">Status</th>
+                <th class="tip" data-tooltip="Servers the snapshot is attached to.">Attachments</th>
                 <th class="actions_column hidden-phone">Actions</th>
             </tr>
         </thead>
