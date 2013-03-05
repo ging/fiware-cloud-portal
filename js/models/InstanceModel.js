@@ -2,7 +2,7 @@ var Instance = Backbone.Model.extend({
 
     _action:function(method, options) {
         var model = this;
-        if (options === null) options = {};
+        options = options || {};
         options.success = function(resp) {
             model.trigger('sync', model, resp, options);
             if (options.callback!==undefined) {
@@ -60,7 +60,9 @@ var Instance = Backbone.Model.extend({
         return this._action('change-password', options);
     },
 
-    createimage: function(options) {
+    createimage: function(name, options) {
+        options = options || {};
+        options.name = name;
         return this._action('create-image', options);
     },
 
@@ -150,7 +152,7 @@ var Instance = Backbone.Model.extend({
                 JSTACK.Nova.changepasswordserver(model.get("id"), options.adminPass, options.success);
                 break;
             case "create-image":
-                JSTACK.Nova.createimage(model.get("id"), options.success);
+                JSTACK.Nova.createimage(model.get("id"), options.name, undefined, options.success);
                 break;
             case "get-vncconsole":
                 JSTACK.Nova.getvncconsole(model.get("id"), "novnc", options.success);
