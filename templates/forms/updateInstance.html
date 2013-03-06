@@ -4,11 +4,11 @@
     Description: Update Instance Form
     src: templates/forms/updateInstance.html
     -->
-    <div class="modal-header">
-        <a id="close" href="#" class="close" data-dismiss="modal">&times;</a>
-        <h3>Update Instance</h3>
-    </div>
-    <form id="update_instance_form" class="" action="#">
+    <form id="update_instance_form" onSubmit="return false;">
+        <div class="modal-header">
+            <a id="close" href="#" class="close" data-dismiss="modal">&times;</a>
+            <h3>Update Instance</h3>
+        </div>
         <div class="modal-body clearfix">
             <div class="left">
                 <fieldset>
@@ -16,14 +16,14 @@
                         <label for="id_instance">Instance</label>
                         <span class="help-block"></span>
                         <div class="input">
-                            <input readonly="readonly" type="text" name="instance" value="<%= model.id %>" id="id_instance" />
+                            <input readonly="readonly" type="text" name="instance" value="<%= model.id %>" id="id_instance"/>
                         </div>
                     </div>
                     <div class="control-group form-field clearfix">
                         <label for="id_name">Name</label>
                         <span class="help-block"></span>
                         <div class="input">
-                            <input type="text" name="name" value="<%= model.get('name') %>" id="id_name" />
+                            <input type="text" required maxlength="25" name="name" value="<%= model.get('name') %>" id="id_name" placeholder="This field is required."/>
                         </div>
                     </div>
                 </fieldset>
@@ -36,9 +36,8 @@
             </div>
         </div>
         <div class="modal-footer">
-            <a id="updateBtn" class="btn btn-blue pull-right" data-dismiss="modal">Update Instance</a>
+            <input type="submit" class="btn btn-blue pull-right" value="Update Instance"/>
             <a id="cancelBtn" class="close btn seconday cancel close" data-dismiss="modal">Cancel</a>
-            <!--<a id="cancelBtn" class="btn secondary cancel close">Cancel</a>-->
         </div>
     </form>
 </div>

@@ -17,6 +17,12 @@ var NovaKeypairsView = Backbone.View.extend({
         'click .btn-import': 'importKeypair'
     },
 
+    onClose: function() {
+        this.model.unbind("reset", this.render, this);
+        this.unbind();
+        this.undelegateEvents();
+    },
+
     deleteKeypair: function (e) {
         var keypair =  this.model.get(e.target.value);
         var subview = new ConfirmView({el: 'body', title: "Delete Keypair", btn_message: "Delete Keypair", onAccept: function() {

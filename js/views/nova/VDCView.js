@@ -22,7 +22,7 @@ var VDCView = Backbone.View.extend({
     },
 
     onClose: function() {
-        this.model.unbind("reset");
+        this.model.unbind("reset", this.render, this);
         this.undelegateEvents();
         this.unbind();
         clearInterval(this.timer);

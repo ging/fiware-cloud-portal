@@ -39,7 +39,7 @@ var RootView = Backbone.View.extend({
             'click #home_loginbtn': 'onCredentialsSubmit',
             'click .close': 'onCloseErrorMsg'
         });
-        console.log(self.model.get("token"), self.model.get("error_msg"), self.model.get("expired"));
+        console.log(self.model.get("token"), self.model.get("tenant"), self.model.get("error_msg"), self.model.get("expired"));
         if ((self.model.get("token") !== "" && self.model.get("error_msg") == null) && self.model.get("expired") !== true) return;
        console.log("Conditions passed");
         if ($(self.options.root_el).css('display') !== 'None')

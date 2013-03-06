@@ -31,7 +31,7 @@ var VDCServiceView = Backbone.View.extend({
     onClose: function() {
         this.undelegateEvents();
         this.unbind();
-        this.model.unbind("change");
+        this.model.unbind("change", this.render, this);
     },
 
     onEditInstance: function(evt) {

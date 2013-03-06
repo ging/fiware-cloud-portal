@@ -55,10 +55,15 @@ UTILS.Auth = (function(U, undefined) {
     function authenticate(username, password, tenant, token, callback, error) {
 
         var _authenticatedWithTenant = function (resp) {
+            console.log(resp);
             console.log("Authenticated for tenant ", tenant);
             var sm = JSTACK.Keystone.getservice("sm");
             var compute = JSTACK.Keystone.getservice("compute");
             compute.endpoints = sm.endpoints;
+            var image = JSTACK.Keystone.getservice("image");
+            image.endpoints[0].adminURL = image.endpoints[0].adminURL.replace(/130\.206\.80\.11:9292/, "130.206.80.93/glance");
+            image.endpoints[0].publicURL = image.endpoints[0].publicURL.replace(/130\.206\.80\.11:9292/, "130.206.80.93/glance");
+            image.endpoints[0].internalURL = image.endpoints[0].internalURL.replace(/130\.206\.80\.11:9292/, "130.206.80.93/glance");
             OVF.API.configure(JSTACK.Keystone.getservice("sm").endpoints[0].publicURL, JSTACK.Keystone.params.access.token.id);
             callback();
         };
@@ -67,8 +72,7 @@ UTILS.Auth = (function(U, undefined) {
             callback();
         };
 
-        var _authenticatedWithoutTenant = function() {
-            console.log("Authenticated without tentants. Retrieving tenants...");
+        var _authenticatedWithoutTenant = function(resp) {
             var ok = function (resp) {
                 tenants = resp.tenants;
                 _tryTenant();

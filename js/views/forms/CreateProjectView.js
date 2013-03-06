@@ -3,7 +3,7 @@ var CreateProjectView = Backbone.View.extend({
     _template: _.itemplate($('#createProjectFormTemplate').html()),
 
     events: {
-        'click .create-project': 'onCreate',
+        'submit #form': 'onCreate',
         'click #cancelBtn': 'close',
         'click #close': 'close',
         'click .modal-backdrop': 'close'
@@ -31,6 +31,7 @@ var CreateProjectView = Backbone.View.extend({
     },
 
     onCreate: function(e){
+        e.preventDefault();
         var name = this.$('input[name=name]').val();
         var descr = this.$('textarea[name=description]').val();
         var enabled = this.$('input[name=enabled]').is(':checked');
@@ -41,6 +42,7 @@ var CreateProjectView = Backbone.View.extend({
         project.save();
         subview = new MessagesView({el: '#content', state: "Success", title: "Project "+project.get('name')+" created."});
         subview.render();
+        this.close();
     }
 
 });

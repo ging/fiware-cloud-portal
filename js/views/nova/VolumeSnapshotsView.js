@@ -19,6 +19,7 @@ var NovaVolumeSnapshotsView = Backbone.View.extend({
     onClose: function() {
         this.undelegateEvents();
         this.unbind();
+        this.model.unbind("reset", this.render, this);
     },
 
     enableDisableDeleteButton: function () {

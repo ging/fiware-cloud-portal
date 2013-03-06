@@ -14,7 +14,13 @@ var NovaFloatingIPsView = Backbone.View.extend({
         'click .btn-allocate': 'allocateIP'
     },
 
-     releaseFloatingIPs: function (e) {
+    onClose: function() {
+        this.model.bind("change", this.onInstanceDetail, this);
+        this.unbind();
+        this.undelegateEvents();
+    },
+
+    releaseFloatingIPs: function (e) {
         var subview = new ConfirmView({el: 'body', title: "Release Floating IP", btn_message: "Release Floating IPs", onAccept: function() {
             var subview2 = new MessagesView({el: '#content', state: "Success", title: "Floating IPs "+sec_group.name+" released."});
             subview2.render();
@@ -23,7 +29,7 @@ var NovaFloatingIPsView = Backbone.View.extend({
 
     },
 
-     releaseFloatingIP: function (e) {
+    releaseFloatingIP: function (e) {
     },
 
     allocateIP: function(e) {

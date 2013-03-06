@@ -1,10 +1,15 @@
 var UserView = Backbone.View.extend({
 
     _template: _.itemplate($('#usersTemplate').html()),
+    timer: undefined,
 
     initialize: function() {
-        this.model.bind("reset", this.render, this);
-        this.model.fetch();
+        var self = this;
+        this.model.bind("reset", this.rerender, this);
+        this.timer = setInterval(function() {
+            self.model.fetch();
+        }, 3000);
+        this.render();
     },
 
     events: {
@@ -106,6 +111,7 @@ var UserView = Backbone.View.extend({
     onClose: function () {
         this.undelegateEvents();
         this.unbind();
+        clearInterval(this.timer);
     },
 
     render: function () {
@@ -114,6 +120,7 @@ var UserView = Backbone.View.extend({
     },
 
     rerender: function() {
+        console.log("Rendering");
         $(this.el).empty().html(this._template(this.model));
     }
 });

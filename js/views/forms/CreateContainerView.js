@@ -3,7 +3,7 @@ var CreateContainerView = Backbone.View.extend({
     _template: _.itemplate($('#createContainerFormTemplate').html()),
 
     events: {
-        'click #submit': 'onSubmit',
+        'submit #create_container_form': 'onSubmit',
         'click #cancelBtn': 'close',
         'click #close': 'close',
         'click .modal-backdrop': 'close'

@@ -9,7 +9,7 @@
         <h3>Create Project</h3>
     </div>
 
-    <form class="" action="#" method="#">
+    <form id="form" onSubmit="return false;">
         <div class="modal-body clearfix">
 
             <div class="left">
@@ -20,7 +20,7 @@
 
                         <span class="help-block" style="display: none; "></span>
                         <div class="input">
-                            <input id="name" type="text" name="name" maxlength="255">
+                            <input required id="name" type="text" name="name" maxlength="255">
                         </div>
                     </div>
 
@@ -29,7 +29,7 @@
 
                         <span class="help-block" style="display: none; "></span>
                         <div class="input">
-                            <textarea id="id_description" rows="10" cols="40" name="description"></textarea>
+                            <textarea required id="id_description" rows="10" cols="40" name="description"></textarea>
                         </div>
                     </div>
 
@@ -53,7 +53,7 @@
 
         </div>
         <div class="modal-footer">
-            <a id="createBtn" class="btn btn-blue create-project" data-dismiss="modal">Create Project</a>
+            <input type="submit" class="btn btn-blue create-project" value="Create Project"/>
             <a id="cancelBtn" class="close btn seconday cancel close" data-dismiss="modal">Cancel</a>
         </div>
     </form>

@@ -85,7 +85,7 @@ var InstanceView = Backbone.View.extend({
         var instance = evt.target.value;
         var inst = this.model.get(instance);
         var subview = new ConfirmView({el: 'body', title: "Reboot Instance", btn_message: "Reboot Instance", onAccept: function() {
-            inst.reboot(false);
+            inst.reboot(true);
             var subview = new MessagesView({el: '#content', state: "Success", title: "Instance "+inst.get("name")+" rebooted."});
             subview.render();
         }});

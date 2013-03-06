@@ -5,7 +5,7 @@ var ChangePasswordView = Backbone.View.extend({
     events: {
       'click #cancelBtn': 'close',
       'click #close': 'close',
-      'click #updateBtn': 'update',
+      'submit #form': 'update',
       'click .modal-backdrop': 'close'
     },
 

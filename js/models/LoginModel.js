@@ -15,6 +15,7 @@ var LoginStatus = Backbone.Model.extend({
         this.bind('change:token', this.onTokenChange, this);
         this.bind('error', this.onValidateError, this);
         this.set({'token-ts': localStorage.getItem('token-ts')});
+        this.set({'tenant-id': localStorage.getItem('tenant-id')});
         this.set({'token': localStorage.getItem('token')});
     },
 
@@ -30,6 +31,7 @@ var LoginStatus = Backbone.Model.extend({
                 console.log("Authenticated with credentials");
                 self.setToken();
                 self.set({username: UTILS.Auth.getName(), tenant: UTILS.Auth.getCurrentTenant()});
+                console.log("Tenant: ", self.get('tenant').name);
                 UTILS.Auth.getTenants(function(tenants) {
                     self.set({tenants: tenants});
                     self.set({'loggedIn': true});
@@ -48,10 +50,11 @@ var LoginStatus = Backbone.Model.extend({
     onTokenChange: function (context, token) {
         var self = context;
         if (!UTILS.Auth.isAuthenticated() && token !== '' && (new Date().getTime()) < self.get('token-ts') + 24*60*60*1000 ) {
-            UTILS.Auth.authenticate(undefined, undefined, undefined, token, function() {
+            UTILS.Auth.authenticate(undefined, undefined, this.get('tenant-id'), token, function() {
                 console.log("Authenticated with token: ", + 24*60*60*1000-(new Date().getTime())-self.get('token-ts'));
                 self.set({username: UTILS.Auth.getName(), tenant: UTILS.Auth.getCurrentTenant()});
                 console.log("New tenant: " + self.attributes.tenant.name);
+                self.set({'tenant': self.attributes.tenant});
                 //console.log("New tenant: " + self.get("name"));
                 UTILS.Auth.getTenants(function(tenants) {
                     self.set({tenants: tenants});
@@ -76,6 +79,7 @@ var LoginStatus = Backbone.Model.extend({
     setToken: function() {
         if (localStorage.getItem('token') !== UTILS.Auth.getToken()) {
             localStorage.setItem('token-ts', new Date().getTime());
+            localStorage.setItem('tenant-id', UTILS.Auth.getCurrentTenant().id);
         }
         localStorage.setItem('token', UTILS.Auth.getToken());
         this.set({'token': UTILS.Auth.getToken()});
@@ -101,6 +105,8 @@ var LoginStatus = Backbone.Model.extend({
         console.log("Tenant: " + tenantID);
         UTILS.Auth.switchTenant(tenantID, function(resp) {
             self.set({username: UTILS.Auth.getName(), tenant: UTILS.Auth.getCurrentTenant()});
+            localStorage.setItem('token', UTILS.Auth.getToken());
+            localStorage.setItem('tenant-id', UTILS.Auth.getCurrentTenant().id);
             self.trigger('switch-tenant');
         });
     },

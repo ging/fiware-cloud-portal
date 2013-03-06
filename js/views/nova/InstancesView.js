@@ -27,7 +27,7 @@ var NovaInstancesView = Backbone.View.extend({
     onClose: function() {
         this.undelegateEvents();
         this.unbind();
-        this.model.unbind("reset");
+        this.model.unbind("reset", this.render, this);
     },
 
     onEditInstance: function(evt) {
@@ -84,7 +84,7 @@ var NovaInstancesView = Backbone.View.extend({
         var instance = evt.target.value;
         var inst = this.model.get(instance);
         var subview = new ConfirmView({el: 'body', title: "Reboot Instance", btn_message: "Reboot Instance", onAccept: function() {
-            inst.reboot(false);
+            inst.reboot(true);
             var subview = new MessagesView({el: '#content', state: "Success", title: "Instance "+inst.get("name")+" rebooted."});
             subview.render();
         }});

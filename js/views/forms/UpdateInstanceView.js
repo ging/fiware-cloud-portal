@@ -3,10 +3,9 @@ var UpdateInstanceView = Backbone.View.extend({
     _template: _.itemplate($('#updateInstanceFormTemplate').html()),
 
     events: {
+        'submit #update_instance_form': 'update',
         'click #cancelBtn': 'close',
-        'click #close': 'close',
-        'click #updateBtn': 'update',
-        'click .modal-backdrop': 'close'
+        'click #close': 'close'
     },
 
     initialize: function() {
@@ -36,6 +35,7 @@ var UpdateInstanceView = Backbone.View.extend({
     },
 
     update: function(e) {
+        e.preventDefault();
         this.model.set({"name": this.$('input[name=name]').val()});
         var newName = $('input[name=name]').val();
         this.model.save();

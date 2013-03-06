@@ -1,12 +1,12 @@
 var VolumeDetailView = Backbone.View.extend({
-    
+
     _template: _.itemplate($('#volumeDetailTemplate').html()),
-    
+
     initialize: function() {
         this.model.bind("change", this.render, this);
         this.model.fetch();
     },
-    
+
     render: function () {
         if ($("#volume_details").html() == null) {
             UTILS.Render.animateRender(this.el, this._template, {model:this.model});
@@ -15,5 +15,5 @@ var VolumeDetailView = Backbone.View.extend({
         }
         return this;
     }
-          
+
 });

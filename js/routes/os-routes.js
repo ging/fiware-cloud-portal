@@ -119,31 +119,34 @@ var OSRouter = Backbone.Router.extend({
         };
     },
 
+    initFetch: function() {
+        if (this.timers.length === 0) {
+            var seconds = 10;
+            this.add_fetch(this.instancesModel, seconds);
+            this.add_fetch(this.volumesModel, seconds);
+            this.add_fetch(this.images, seconds);
+            this.add_fetch(this.flavors, seconds);
+            this.add_fetch(this.volumeSnapshotsModel, seconds);
+            this.add_fetch(this.containers, seconds);
+            this.add_fetch(this.vdcs, seconds);
+            this.add_fetch(this.securityGroupsModel, seconds);
+            this.add_fetch(this.keypairsModel, seconds);
+            this.add_fetch(this.floatingIPsModel, seconds);
+            if (this.loginModel.isAdmin()) {
+                this.add_fetch(this.projects, seconds);
+            }
+        }
+    },
+
     checkAuth: function() {
 
         var next = arguments[0];
         this.rootView.options.next_view = Backbone.history.fragment;
         if (!this.loginModel.get("loggedIn")) {
-            console.log("Login needed");
             window.location.href = "#auth/login";
             return;
         } else {
-            if (this.timers.length === 0) {
-                var seconds = 10;
-                this.add_fetch(this.instancesModel, seconds);
-                this.add_fetch(this.volumesModel, seconds);
-                this.add_fetch(this.images, seconds);
-                this.add_fetch(this.flavors, seconds);
-                this.add_fetch(this.volumeSnapshotsModel, seconds);
-                this.add_fetch(this.containers, seconds);
-                this.add_fetch(this.vdcs, seconds);
-                this.add_fetch(this.securityGroupsModel, seconds);
-                this.add_fetch(this.keypairsModel, seconds);
-                this.add_fetch(this.floatingIPsModel, seconds);
-                if (this.loginModel.isAdmin()) {
-                    this.add_fetch(this.projects, seconds);
-                }
-            }
+            this.initFetch();
         }
         var args = [this].concat(Array.prototype.slice.call(arguments, 1));
         if (next) {
@@ -184,7 +187,7 @@ var OSRouter = Backbone.Router.extend({
         this.loginModel.bind('switch-tenant', function() {
             self.loginModel.unbind('switch-tenant');
             self.clear_fetch();
-            self.checkAuth();
+            self.initFetch();
             self.navigate(self.rootView.options.next_view, {trigger: true, replace: true});
         });
         this.loginModel.switchTenant(id);
@@ -296,7 +299,7 @@ var OSRouter = Backbone.Router.extend({
 
     sys_instances: function(self) {
         if (self.showSysRoot(self, 'Instances')) {
-            self.instancesModel.unbind("change");
+            //self.instancesModel.unbind("change");
             self.instancesModel.alltenants = true;
             //self.add_fetch(self.instancesModel, 4);
             var view = new InstanceView({model: self.instancesModel, projects: self.projects, flavors: self.flavors, el: '#content'});
@@ -453,7 +456,7 @@ var OSRouter = Backbone.Router.extend({
 
     nova_instances: function(self) {
         self.showNovaRoot(self, 'Instances');
-        self.instancesModel.unbind("change");
+        //self.instancesModel.unbind("change");
         //self.instancesModel.alltenants = false;
         //self.add_fetch(self.instancesModel, 4);
         var view = new NovaInstancesView({model: self.instancesModel, projects: self.projects, flavors: self.flavors, el: '#content'});
