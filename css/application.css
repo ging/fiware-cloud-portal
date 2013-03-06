@@ -21,11 +21,34 @@
 }
 
 #initbar {
-    left: 40%;
-    position: absolute;
-    right: 40%;
-    top: 50%;
-    height: 40px;
+  position: absolute;
+  text-align: center;
+  font-size: 20px;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  background: none;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  height: 100px;
+  margin-left: -200px;
+  margin-top: -50px;
+  overflow: visible;
+}
+
+.bar {
+  top: 1px;
+  left: 1px;
+  position: relative;
+}
+
+.bar2 {
+  border-color: black;
+  border-style: solid;
+  height: 18px;
+  border-width: 1px;
+  position: absolute;
 }
 
 .logo{
