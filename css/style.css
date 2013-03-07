@@ -1222,6 +1222,17 @@ width: 100%;
   margin: -8px 0 8px;
 }
 
+.nav-tabs {
+  margin-bottom: 5px;
+}
+
+.tab-content {
+border: 1px;
+border-style: solid;
+border-color: gray;
+padding-left: 20px;
+}
+
 /*
 input:required:invalid, input:focus:invalid {
   background-image: url(../images/invalid.png);
