@@ -25,8 +25,6 @@ src: templates/root/sys/usersForProject.html
                 	<input type="checkbox" class="checkbox checkbox_all">
                 </th>
 
-                <th class="" data-i18n="Id">Id</th>
-
                 <th class="" data-i18n="Name">Name</th>
 
                 <th class="" data-i18n="Email">Email</th>
@@ -46,7 +44,6 @@ src: templates/root/sys/usersForProject.html
             	<td class="multi_select_column">
                 <input type="checkbox" name="object_ids" value="<%= user.get('id')%>" class="checkbox checkbox_projects"/>
                 </td>
-                <td class=""><%=user.get('id')%></td>
                 <td class=""><%=user.get('name')%></td>
                 <td class=""><%=user.get('email')%></td>
                 <td class="status_up"><%=user.get('enabled')%></td>
@@ -64,7 +61,7 @@ src: templates/root/sys/usersForProject.html
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="6"><span class="blue"><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", model.models.length)%></span></td>
+                <td colspan="5"><span class="blue"><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", model.models.length)%></span></td>
                 </td>
         </tfoot>
     </table>
@@ -78,8 +75,6 @@ src: templates/root/sys/usersForProject.html
     <table id="users" class="table table-bordered table-striped">
         <thead>
             <tr>
-
-                <th class="" data-i18n="Id">Id</th>
 
                 <th class="" data-i18n="Name">Name</th>
 
@@ -103,7 +98,6 @@ src: templates/root/sys/usersForProject.html
             }
             %>
             <tr id="users__row__" class="">
-                <td class=""><%=user2.get('id')%></td>
                 <td class=""><%=user2.get('name')%></td>
                 <td class=""><%=user2.get('email')%></td>
                 <td class="status_up"><%=user2.get('enabled')%></td>
@@ -119,7 +113,7 @@ src: templates/root/sys/usersForProject.html
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="6"><span class="blue"><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", total)%></span></td>
+                <td colspan="5"><span class="blue"><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", total)%></span></td>
                 </td>
         </tfoot>
     </table>

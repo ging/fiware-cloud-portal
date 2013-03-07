@@ -7,7 +7,7 @@ var CreateUserView = Backbone.View.extend({
         'input .password': 'onInput',
         'click #cancelBtn': 'close',
         'click #close': 'close',
-        'click .modal-backdrop': 'close'
+        'click .modal-backdrop': 'close',
     },
 
     close: function(e) {
