@@ -380,7 +380,7 @@ var OSRouter = Backbone.Router.extend({
         self.navs = new NavTabModels([
                             {name: 'Compute', type: 'title'},
                             //{name: 'Overview', active: true, url: '#nova/'},
-                            {name: 'Virtual Data Centers', active: false, url: '#nova/vdcs/'},
+                            //{name: 'Virtual Data Centers', active: false, url: '#nova/vdcs/'},
                             {name: 'Instances', active: false, url: '#nova/instances/'},
                             {name: 'Images', active: false, url: '#nova/images/'},
                             {name: 'Access &amp; Security', active: false, url: '#nova/access_and_security/'},

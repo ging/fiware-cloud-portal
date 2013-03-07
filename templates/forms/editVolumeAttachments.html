@@ -71,7 +71,7 @@
     <hr>
 
     <div class="modal-body clearfix">
-
+        <form onSubmit="return false;" class=" horizontal split_half">
         <h3>Attach To Instance</h3>
         <fieldset>
 
@@ -86,7 +86,7 @@
                         for (var index in instancesModel.models) {
                         var instance = instancesModel.models[index];
                         %>
-                        <option value="<%=instance.id%>"><%= instance.get("name")%> (<%=instance.id%>)</option>
+                        <option value="<%=instance.id%>"><%= instance.get("name")%></option>
                         <%
                         }
                         %>
@@ -104,6 +104,7 @@
             </div>
 
         </fieldset>
+        </form>
 
     </div>
     <div class="modal-footer">

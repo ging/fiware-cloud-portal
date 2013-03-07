@@ -3,20 +3,20 @@
     "User Name": "User Name",
     "Password": "Password",
     "Sign In": "Sign In",
-    
+
     "Logged in as": "Logged in as",
     "Settings": "Settings",
     "Sign Out": "Sign Out",
-    
+
     "Select Language": "Select Language",
     "Description": "Description",
     "Dashboard User Interface Language": "Dashboard User Interface Language",
     "Language Settings": "Language Settings",
     "From here you can modify different settings for your dashboard.": "From here you can modify different settings for your dashboard.",
-    
+
     "Instances & Volumes": "Instances & Volumes",
     "Images & Snapshots": "Images & Snapshots",
-    
+
     "System Panel": "System Panel",
     "Manage Compute": "Manage Compute",
 
@@ -36,7 +36,7 @@
     "Quotas": "Quotas",
     "Quota": "Quota",
     "User Settings": "User Settings",
-    
+
     "Select a month to query its usage:": "Select a month to query its usage:",
     "Active Instances:": "Active Instances:",
     "Active Memory:": "Active Memory:",
@@ -64,7 +64,7 @@
 	"Launch Instance": "Launch Instance",
 	"Change Password": "Change Password",
 	"Create Snapshot": "Create Snapshot",
-	
+
 	"Image Name": "Image Name",
 	"Type": "Type",
 	"Public": "Public",
@@ -74,14 +74,14 @@
 	"Delete Images": "Delete Images",
 	"Yes": "Yes",
 	"Launch": "Launch",
-	
+
 	"Name": "Name",
 	"Enabled": "Enabled",
 	"Disabled": "Disabled",
 
     "Displaying %s item": "Displaying %s item",
     "Displaying %s items": "Displaying %s items",
-    
+
     "Filter": "Filter",
     "Create New Project": "Create New Project",
     "Delete Projects": "Delete Projects",
@@ -90,7 +90,7 @@
     "Modify Users": "Modify Users",
     "Modify Quotas": "Modify Quotas",
     "Delete Project": "Delete Project",
-    
+
     "Create Flavor": "Create Flavor",
     "Delete Flavors": "Delete Flavors",
     "Flavor Name": "Flavor Name",
@@ -99,15 +99,15 @@
     "Disk": "Disk",
     "Ephemeral Disk": "Ephemeral Disk",
     "Delete Flavor": "Delete Flavor",
-    
+
     "Quota Name": "Quota Name",
     "Limit": "Limit",
-    
+
     "Create User": "Create User",
     "Delete Users": "Delete Users",
     "Disable": "Disable",
     "Email": "Email",
-    
+
     "January": "January",
     "February": "February",
     "March": "March",

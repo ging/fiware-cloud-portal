@@ -401,6 +401,10 @@ h6 small {
   margin: 0px;
 }
 
+.form-field {
+  margin-top: 6px;
+}
+
 h1 {
   font-size: 37px;
 }

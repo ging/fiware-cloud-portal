@@ -623,7 +623,7 @@ td .icon-updating.ajax-updating {
   }
 
 .modal form.horizontal.split_half .form-field {
-    width: 334px; /* Fits 2 fields to a row */
+    width: 385px; /* Fits 2 fields to a row */
 }
 
 .modal form.horizontal.split_quarter .form-field {
@@ -763,7 +763,7 @@ td.select {
 /* Actions dropdown */
 
 td.actions_column {
-  width: 150px;
+  width: 170px;
   padding: 10px;
   position: relative;
   min-height: 20px;

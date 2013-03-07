@@ -57,7 +57,7 @@
                     <td class=""><%= securityGroupRules.group.name !== undefined ? securityGroupRules.group.name : securityGroupRules.ip_range.cidr+" (CIDR)"%></td>
                     <td class="actions_column hidden-phone">
 	                	<div id="dropdown_" class="btn-group">
-		                    <button id="deleteRuleBtn" value="<%=securityGroupRules.id%>" class="ajax-modal btn btn-small btn-blue btn-delete"  data-i18n="Delete Rule">Delete Rule</button>
+		                    <button id="deleteRuleBtn" value="<%=securityGroupRules.id%>" class="ajax-modal btn btn-small btn-blue btn-delete btn-danger"  data-i18n="Delete Rule">Delete Rule</button>
 	                	</div>
                 	</td>
                  </tr>

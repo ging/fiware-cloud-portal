@@ -7,36 +7,36 @@
   <div class="modal-header">
     <a id="close" href="#" class="close" data-dismiss="modal">×</a>
     <h3>Copy Object: <%= title%></h3>
-  </div>  
-  <form action="" id="copy_object_form">      
-   <div class="modal-body clearfix">    
+  </div>
+  <form action="" id="copy_object_form">
+   <div class="modal-body clearfix">
 	<div class="left">
-    	<fieldset>    		
+    	<fieldset>
 		  <div class="control-group form-field clearfix">
-		    <label for="id_name">Destination container</label> 	 
+		    <label for="id_name">Destination container</label>
 		 	<select id="container_switcher" tabindex="1" class="inline">
 		 		<option value="<%= model.container%>"><%= model.container%></option>
-		 		<% 
+		 		<%
 			 		for (var index in model.containers) {
-			 		var contName = model.containers[index].get("name"); 		
+			 		var contName = model.containers[index].get("name");
 			 			if (contName !== model.container) {
-			 				containerName = contName;  			 			
-			 	%>			 				 		
+			 				containerName = contName;
+			 	%>
 		 		<option value="<%= containerName%>"><%= containerName%></option>
 		 		<% } }%>
-		   	</select>  	 			       			
-		  </div>  		  
+		   	</select>
+		  </div>
 		  <div class="control-group form-field clearfix">
-		    <label for="id_name">Destination object name</label>		    
+		    <label for="id_name">Destination object name</label>
 		    <span class="help-block" style="display: none; "></span>
 		    <div class="input">
 		      <input id="id_name" type="text" name="objName" value="<%= title%> copy" maxlength="255">
 		    </div>
-		  </div>		  
+		  </div>
     	</fieldset>
-	</div>	
+	</div>
 	<div class="right">
-	    <h3>Description:</h3>
+	    <h3>Description</h3>
 	    <p>You may make a new copy of an existing object to store in this or another container.</p>
 	</div>
    </div>
@@ -45,5 +45,5 @@
 	  <a href="#objectstorage/containers/" id="cancelBtn" data-dismiss="modal" class="btn secondary cancel close">Cancel</a>
 	</div>
   </form>
- </div>  
+ </div>
 </script>

@@ -6,7 +6,7 @@ src: templates/root/sys/usersForProject.html
 <div id="users_for_project">
     <div class='table_header'>
         <h3 class="table_title">Users For Project: <%= (tenant)?tenant.get('name'):'' %></h3>
-        
+
         <div class="table_actions clearfix">
 
             <button class='btn btn-small btn-danger btn-delete-group' id='users_remove' disabled="disabled" name="action" value="users__remove" type="submit" data-i18n="Remove Users">
@@ -20,18 +20,18 @@ src: templates/root/sys/usersForProject.html
     <table id="users" class="table table-bordered table-striped">
         <thead>
             <tr>
-            	
-            	<th class="multi_select_column">
+
+            	<th class="multi_select_column" style="width:5%">
                 	<input type="checkbox" class="checkbox checkbox_all">
                 </th>
 
-                <th class="" data-i18n="Name">Name</th>
+                <th class="" data-i18n="Name" style="width:30%">Name</th>
 
-                <th class="" data-i18n="Email">Email</th>
+                <th class="" data-i18n="Email" style="width:40%">Email</th>
 
-                <th class="" data-i18n="Enabled">Enabled</th>
+                <th class="" data-i18n="Enabled" style="width:5%">Enabled</th>
 
-                <th class="actions_column hidden-phone" data-i18n="Actions">Actions</th>
+                <th class="actions_column hidden-phone" data-i18n="Actions" style="width:13%">Actions</th>
 
             </tr>
         </thead>
@@ -76,13 +76,13 @@ src: templates/root/sys/usersForProject.html
         <thead>
             <tr>
 
-                <th class="" data-i18n="Name">Name</th>
+                <th class="" data-i18n="Name" style="width:35%">Name</th>
 
-                <th class="" data-i18n="Email">Email</th>
+                <th class="" data-i18n="Email" style="width:40%">Email</th>
 
-                <th class="" data-i18n="Enabled">Enabled</th>
+                <th class="" data-i18n="Enabled" style="width:5%">Enabled</th>
 
-                <th class="actions_column hidden-phone" data-i18n="Actions">Actions</th>
+                <th class="actions_column hidden-phone" data-i18n="Actions" style="width:13%">Actions</th>
 
             </tr>
         </thead>

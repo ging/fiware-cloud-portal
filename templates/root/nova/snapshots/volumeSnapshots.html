@@ -40,7 +40,7 @@ src: templates/root/nova/snapshots/volumeSnapshots.html
                 <td class=""><%=volSnapshot.get('status')%></td>
                 <td class=""><%=volSnapshot.get('volume_id')%></td>
                 <td class="actions_column hidden-phone">
-                <button id="volume_snapshot__action_delete" class="ajax-modal btn btn-small btn-danger btn-delete-volume" value="<%= volSnapshot.get('id')%>" name="action" type="submit" data-i18n="Delete Volume Snapshot">
+                <button id="volume_snapshot__action_delete" class="ajax-modal btn btn-small btn-danger btn-delete-volume" value="<%= volSnapshot.get('id')%>" name="action" type="submit" data-i18n="Delete Volume Snapshot" style="width: 200px">
                     Delete Volume Snapshot
                 </button></td>
             </tr>
