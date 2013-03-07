@@ -7,17 +7,14 @@
     <form id="update_instance_form" onSubmit="return false;">
         <div class="modal-header">
             <a id="close" href="#" class="close" data-dismiss="modal">&times;</a>
-            <h3>Update Instance</h3>
+            <h3>Edit Instance</h3>
         </div>
         <div class="modal-body clearfix">
             <div class="left">
                 <fieldset>
                     <div class="control-group form-field clearfix">
                         <label for="id_instance">Instance</label>
-                        <span class="help-block"></span>
-                        <div class="input">
-                            <input readonly="readonly" type="text" name="instance" value="<%= model.id %>" id="id_instance"/>
-                        </div>
+                        <p><%= model.id %></p>
                     </div>
                     <div class="control-group form-field clearfix">
                         <label for="id_name">Name</label>
