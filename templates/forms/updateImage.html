@@ -6,14 +6,14 @@
     -->
     <div class="modal-header">
         <a id="close" href="#" class="close" data-dismiss="modal">&times;</a>
-        <h3>Update Image</h3>
+        <h3>Edit Image</h3>
     </div>
     <form id="update_image_form" class="" action="#">
         <div class="modal-body clearfix">
             <div class="left">
                 <fieldset>
                     <div class="control-group form-field clearfix">
-                        <label for="id_name">Name</label>
+                        <label for="id_name">Name *</label>
                         <span class="help-block"></span>
                         <div class="input">
                             <input id="id_name" type="text" name="name" value="<%= model.get('name') %>" maxlength="25">
@@ -21,38 +21,23 @@
                     </div>
                     <div class="control-group form-field clearfix">
                         <label for="id_kernel">Kernel ID</label>
-                        <span class="help-block"></span>
-                        <div class="input">
-                            <input id="id_kernel" readonly="readonly" type="text" name="kernel" maxlength="36">
-                        </div>
+                        <p>kernel id</p>
                     </div>
                     <div class="control-group form-field clearfix">
                         <label for="id_ramdisk">Ramdisk ID</label>
-                        <span class="help-block"></span>
-                        <div class="input">
-                            <input id="id_ramdisk" readonly="readonly" type="text" name="ramdisk" maxlength="36">
-                        </div>
+                        <p>ramdisk id</p>
                     </div>
                     <div class="control-group form-field clearfix">
                         <label for="id_architecture">Architecture</label>
-                        <span class="help-block"></span>
-                        <div class="input">
-                            <input readonly="readonly" type="text" name="architecture" id="id_architecture">
-                        </div>
+                        <p>architecture</p>                    
                     </div>
                     <div class="control-group form-field clearfix">
                         <label for="id_container_format">Container Format</label>
-                        <span class="help-block"></span>
-                        <div class="input">
-                            <input readonly="readonly" type="text" name="container_format" value="ari" id="id_container_format">
-                        </div>
+                        <p>ari</p>
                     </div>
                     <div class="control-group form-field clearfix">
                         <label for="id_disk_format">Disk Format</label>
-                        <span class="help-block"></span>
-                        <div class="input">
-                            <input readonly="readonly" type="text" name="disk_format" value="ari" id="id_disk_format">
-                        </div>
+                        <p>ari</p>
                     </div>
                 </fieldset>
             </div>
@@ -64,7 +49,7 @@
             </div>
         </div>
         <div class="modal-footer">
-            <input id="image_update" class="btn btn-blue pull-right" type="submit" value="Update Image">
+            <input id="image_update" class="btn btn-blue pull-right" type="submit" value="Edit Image">
             <a id="cancelBtn" class="btn secondary cancel close">Cancel</a>
         </div>
     </form>

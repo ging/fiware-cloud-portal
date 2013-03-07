@@ -17,7 +17,7 @@
                         <p><%= model.id %></p>
                     </div>
                     <div class="control-group form-field clearfix">
-                        <label for="id_name">Name</label>
+                        <label for="id_name">Name *</label>
                         <span class="help-block"></span>
                         <div class="input">
                             <input type="text" required maxlength="25" name="name" value="<%= model.get('name') %>" id="id_name" placeholder="This field is required."/>
@@ -33,7 +33,7 @@
             </div>
         </div>
         <div class="modal-footer">
-            <input type="submit" class="btn btn-blue pull-right" value="Update Instance"/>
+            <input type="submit" class="btn btn-blue pull-right" value="Edit Instance"/>
             <a id="cancelBtn" class="close btn seconday cancel close" data-dismiss="modal">Cancel</a>
         </div>
     </form>

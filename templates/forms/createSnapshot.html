@@ -13,14 +13,14 @@
             <div class="left">
                 <fieldset>
                     <div class="control-group form-field clearfix">
-                        <label for="id_instance">Instance ID</label>
+                        <label for="id_instance">Instance ID *</label>
                         <span class="help-block"></span>
                         <div class="input">
                             <input readonly="readonly" type="text" name="instance" value="<%= model.id %>" id="id_instance" />
                         </div>
                     </div>
                     <div class="control-group form-field clearfix">
-                        <label for="id_password">Snapshot Name</label>
+                        <label for="id_password">Snapshot Name *</label>
                         <span class="help-block"></span>
                         <div class="input">
                             <input required type="text" name="snapshot_name" value="" id="snapshot_name" />
@@ -29,7 +29,7 @@
                 </fieldset>
             </div>
             <div class="right">
-                <h3>Description:</h3>
+                <h3>Description</h3>
                 <p>
                     Snapshots preserve the disk state of a running instance.
                 </p>
