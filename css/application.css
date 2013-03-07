@@ -395,6 +395,12 @@ h6 small {
   color: #999999;
 }
 
+.modal h3 {
+  font-size: 18px;
+  line-height: 27px;
+  margin: 0px;
+}
+
 h1 {
   font-size: 37px;
 }

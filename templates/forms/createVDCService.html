@@ -20,7 +20,7 @@
                             <input id="id_name" type="text" name="name" maxlength="255">
                         </div>
                     </div>
-                    
+
                     <div class="control-group form-field clearfix">
                         <label for="id_network">Network</label>
 
@@ -31,10 +31,10 @@
                             </select>
                         </div>
                     </div>
-                    
+
                     <div class="control-group form-field clearfix">
                         <label for="id_description">Description</label>
-    
+
                         <span class="help-block" style="display: none; "></span>
                         <div class="input">
                             <textarea id="id_description" rows="10" cols="40" name="description"></textarea>
@@ -48,10 +48,10 @@
                 <p>
                     Specify the details for launching a Service.
                 </p>
-                
+
                 <div class="control-group form-field clearfix" style="height:250px">
                     <button id="addInstance" class="btn btn-blue">+ Add Instance</button>
-                    <% 
+                    <%
                         if (instances.models.length > 0){
                             %>
                     <table class="table table-bordered table-striped">
@@ -61,7 +61,7 @@
                             <th>Capacity</th>
                         </tr></thead>
                         <tbody>
-                        <% 
+                        <%
                         console.log(instances.models);
                         for (var index in instances.models) {
                             if (instances.models.hasOwnProperty(index)) {
@@ -69,7 +69,7 @@
                                 var flavorReg = inst.get('flavorReg');
                                 var flavor = flavors.get(flavorReg);
                                 %>
-                                
+
                         <tr><td><%=inst.get('name')%></td><td><%=flavor.get("vcpus") + "VCPU / " + flavor.get("disk") + "GB Disk / " + flavor.get("ram") + "MB Ram" %></td></tr>
                                 <%
                             }
@@ -79,7 +79,7 @@
                     <%}%>
                 </div>
                 <div class="control-group form-field clearfix">
-                    
+
                 </div>
             </div>
         </div>
