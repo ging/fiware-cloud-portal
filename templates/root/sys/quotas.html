@@ -5,15 +5,6 @@ src: templates/root/sys/quotas.html
 -->
 <form action="#">
     <div class='table_header'>
-        <div class="table_actions clearfix">
-            <div class="table_search">
-                <input class="inline" value="" type="text" name="quotas__filter__q" />
-                <button type="submit" class="btn btn-blue btn-small inline-block filter" data-i18n="Filter">
-                    Filter
-                </button>
-            </div>
-
-        </div>
 
     </div>
 
@@ -29,13 +20,8 @@ src: templates/root/sys/quotas.html
         </thead>
         <tbody>
 				<% var attr;
-				var num_attr = 0;
-				for (var i in models) {
-					attr = models[i].attributes;
-					for (var n in attr) {
-						num_attr++;
-					}
-               %>
+				attr = models[0].attributes;
+               	%>
             <tr id="quotas__row__metadata_items" class="">
                 <td class="">Metadata Items</td><td class=""><%= attr.metadata_items%></td>
             </tr>
@@ -82,9 +68,8 @@ src: templates/root/sys/quotas.html
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="2"><span class="blue"><%=UTILS.i18n.pluralise("Displaying %s items", "Displaying %s items", num_attr)%></span></td>
+                <td colspan="2"><span class="blue"><%=UTILS.i18n.pluralise("Displaying %s items", "Displaying %s items", 12)%></span></td>
                 </td>
-             <% } %>
         </tfoot>
     </table>
 

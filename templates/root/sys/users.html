@@ -31,8 +31,6 @@ src: templates/root/sys/users.html
                 	<input type="checkbox" class="checkbox checkbox_all">
                 </th>
 
-                <th class="tip" data-tooltip="User's internal identifier." data-i18n="Id">Id</th>
-
                 <th class="tip" data-tooltip="User's name." data-i18n="Name">Name</th>
 
                 <th class="tip" data-tooltip="User's email address" data-i18n="Email">Email</th>
@@ -51,7 +49,6 @@ src: templates/root/sys/users.html
                 <td class="multi_select_column">
                     <input type="checkbox" name="object_ids" class="checkbox checkbox_users" value="<%= user.get('id') %>" />
                 </td>
-                <td class=""><%= user.get('id')%></td>
                 <td class=""><%= user.get('name')%></td>
                 <td class=""><%= user.get('email')%></td>
                 <td class="status_up"><%= user.get('enabled')%></td>
@@ -96,7 +93,7 @@ src: templates/root/sys/users.html
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="6"><span class="blue"><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", models.length)%></span></td>
+                <td colspan="5"><span class="blue"><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", models.length)%></span></td>
                 </td>
         </tfoot>
     </table>

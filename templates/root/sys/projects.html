@@ -25,8 +25,6 @@ src: templates/root/sys/projects.html
                 	<input type="checkbox" class="checkbox checkbox_all">
                 </th>
 
-                <th class="hidden-phone tip" data-tooltip="Project's identifier." data-i18n="Id">Id</th>
-
                 <th class="tip" data-tooltip="Project's name" data-i18n="Name">Name</th>
 
                 <th class="tip" data-tooltip="Project's description." data-i18n="Description">Description</th>
@@ -46,7 +44,6 @@ src: templates/root/sys/projects.html
                 <td class="multi_select_column">
                 <input type="checkbox" name="object_ids" value="<%= project.get('id')%>" class="checkbox checkbox_projects"/>
                 </td>
-                <td class="hidden-phone"><%= project.get('id')%></td>
                 <td class=""><%= project.get('name')%></td>
                 <td class=""><%= project.get('description')%></td>
                 <td class="satus_up"><%= project.get('enabled')%></td>
@@ -72,9 +69,11 @@ src: templates/root/sys/projects.html
 
                         <!--<li class="clearfix">
 
-                            <a href='/syspanel/projects/<%=project.get('id')%>/quotas/'  class="ajax-modal btn btn-small" data-i18n="Modify Quotas">Modify Quotas</a>
+                            <button class="btn btn-small btn-modify-quotas"  class="ajax-modal btn btn-small" value="<%= project.get('id')%>" data-i18n="Modify Quotas">
+                            	Modify Quotas
+                            </button>
 
-                        </li>-->
+                        </li> -->
 
                         <li class="clearfix">
 
@@ -93,7 +92,7 @@ src: templates/root/sys/projects.html
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="6"><span  class="blue"><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", models.length)%></span></td>
+                <td colspan="5"><span  class="blue"><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", models.length)%></span></td>
                 </td>
         </tfoot>
     </table>

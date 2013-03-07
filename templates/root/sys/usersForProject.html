@@ -6,12 +6,24 @@ src: templates/root/sys/usersForProject.html
 <div id="users_for_project">
     <div class='table_header'>
         <h3 class="table_title">Users For Project: <%= (tenant)?tenant.get('name'):'' %></h3>
+        
+        <div class="table_actions clearfix">
+
+            <button class='btn btn-small btn-danger btn-delete-group' id='users_remove' disabled="disabled" name="action" value="users__remove" type="submit" data-i18n="Remove Users">
+                Remove Users
+        	</button>
+
+        </div>
 
     </div>
 
     <table id="users" class="table table-bordered table-striped">
         <thead>
             <tr>
+            	
+            	<th class="multi_select_column">
+                	<input type="checkbox" class="checkbox checkbox_all">
+                </th>
 
                 <th class="" data-i18n="Id">Id</th>
 
@@ -31,6 +43,9 @@ src: templates/root/sys/usersForProject.html
             var user = model.models[index];
             %>
             <tr id="users__row__" class="">
+            	<td class="multi_select_column">
+                <input type="checkbox" name="object_ids" value="<%= user.get('id')%>" class="checkbox checkbox_projects"/>
+                </td>
                 <td class=""><%=user.get('id')%></td>
                 <td class=""><%=user.get('name')%></td>
                 <td class=""><%=user.get('email')%></td>

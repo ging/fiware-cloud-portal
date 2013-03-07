@@ -19,9 +19,9 @@
                         <label for="id_name">ID</label>
 
                         <span class="help-block" style="display: none; "></span>
-                        <div class="input">
-                            <input id="id_project" type="text" name="id_project" maxlength="255" value="<%=model.get('id')%>">
-                        </div>
+                        <p>
+                        	<%=model.get('id')%>
+                        </p>	                       
                     </div>
 
                     <div class="control-group form-field clearfix">
@@ -34,7 +34,7 @@
                     </div>
 
                     <div class="control-group form-field clearfix">
-                        <label for="id_description">Description</label>
+                        <label for="id_description">Description of Project</label>
 
                         <span class="help-block" style="display: none; "></span>
                         <div class="input">
@@ -54,15 +54,15 @@
                 </fieldset>
             </div>
             <div class="right">
-                <h3>Description:</h3>
+            	<h3>Description</h3>
                 <p>
-                    From here you can edit a project.
-                </p>
+		           From here you can edit a project.
+		        </p>
             </div>
 
         </div>
         <div class="modal-footer">
-            <a id="updateBtn" class="btn btn-blue update-project" data-dismiss="modal">Update Project</a>
+            <button id="updateBtn" class="btn btn-blue update-project" data-dismiss="modal">Edit Project</button>
             <a id="cancelBtn" class="close btn seconday cancel close" data-dismiss="modal">Cancel</a>
         </div>
     </form>
