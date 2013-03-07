@@ -27,9 +27,9 @@ src: templates/root/objectstorage/container.html
               <th class="actions_column">Actions</th>
           </tr>
         </thead>
-        <tbody>           
+        <tbody>
                 <%
-                  var container = model;    
+                  var container = model;
                   var i = 0;
                   for (var index in container.get('objects')) {
                     var object = container.get('objects')[index];
@@ -47,7 +47,7 @@ src: templates/root/objectstorage/container.html
                    			} else {size = Math.round(mbytes * 10) / 10+" MB";}
                    		} else {size = Math.round(kbytes* 10) / 10+" KB";}
                     } else {size = Math.round(bytes * 10) / 10+" bytes";}
-                                   
+
                 %>
                 <tr id="objects__row__Time" class="" style="">
                 <td class="multi_select_column"><input id="checkbox_<%= i%>" type="checkbox" class="checkbox checkbox_objects" name="object_ids" value="<%= i %>"></td>
@@ -73,7 +73,7 @@ src: templates/root/objectstorage/container.html
         <tfoot>
           <tr>
             <td colspan="4">
-              <span class="blue">Displaying <%= i %> items</span>
+              <span class="blue"><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", i)%></span>
             </td>
           </tr>
         </tfoot>

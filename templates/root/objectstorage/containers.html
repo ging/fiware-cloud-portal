@@ -74,7 +74,7 @@ src: templates/root/objectstorage/containers.html
         <tfoot>
             <tr>
                 <td colspan="5">
-                	<span class="blue">Displaying <%= models.length %> items</span>
+                	<span class="blue"><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", models.length)%></span>
                 </td>
             </tr>
         </tfoot>

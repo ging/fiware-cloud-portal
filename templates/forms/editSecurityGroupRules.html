@@ -69,7 +69,7 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="6"><span>Displaying <%= i%> items</span></td>
+                    <td colspan="6"><span><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", (parseInt(i)+1))%></span></td>
                     </td>
             </tfoot>
         </table>
