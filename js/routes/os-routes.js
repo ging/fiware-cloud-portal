@@ -287,7 +287,7 @@ var OSRouter = Backbone.Router.extend({
 
     consult_image: function(self, id) {
         console.log("View image");
-        self.showNovaRoot(self, 'Images &amp; Snapshots');
+        self.showNovaRoot(self, 'Images');
         var image = new ImageVM();
         image.set({"id": id});
         var view = new ConsultImageDetailView({model: image, el: '#content'});

@@ -74,8 +74,8 @@ src: templates/root/nova/instanceDetail.html
                     <hr class="header_rule">
                     <ul>
                         <li>
-                            <strong>Public:</strong>&nbsp;<%=(model.get("addresses").public)?model.get("addresses").public[0].addr:''%>
-
+                            <%=(model.get("addresses").public)?model.get("addresses").public[0].addr+'<br/>':''%>
+                            <%=(model.get("addresses").private)?model.get("addresses").private[0].addr:''%>
                         </li>
                     </ul>
                 </div>
@@ -86,13 +86,17 @@ src: templates/root/nova/instanceDetail.html
                         <li>
                             <strong>default</strong>
                             <ul>
-          						<% for (index in rules) {
-          						var rule = rules[index];
+          						<% 
+                                for (var idx in security_groups) {
+                                    var sec_group = security_groups[idx];
+                                    var rules = sec_group.rules;
+                                        for (index in rules) {
+          						            var rule = rules[index];
           						%>
           						<li>
                                   <em>ALLOW <%=rule.from_port%>:<%=rule.to_port%> from <%=rule.ip_range.cidr%></em>
                                 </li>
-                                <% } %>
+                                <% }} %>
                             </ul>
                         </li>
                     </ul>
@@ -105,7 +109,7 @@ src: templates/root/nova/instanceDetail.html
                             <strong>Key name:</strong>&nbsp;<%=model.get("key_name")!==undefined?model.get("key_name"):"<em>None</em>"%>
                         </li>
                         <li>
-                            <strong>Image Name:</strong>&nbsp;<a href="#nova/images_and_snapshots/<%=image.get("id")%>"><%=image.get("id")%></a>
+                            <strong>Image Name:</strong>&nbsp;<a href="#nova/images/<%=image.get("id")%>"><%=image.get("id")%></a>
                         </li>
                     </ul>
                 </div>

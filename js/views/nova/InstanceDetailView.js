@@ -6,9 +6,11 @@ var InstanceDetailView = Backbone.View.extend({
     imageResp: false,
     vncResp: false,
     logResp: false,
+    security_groupsResp: false,
 
     initialize: function() {
         var self = this;
+        this.options = this.options || {};
 
         this.delegateEvents({
             'click #overviewBtn': "showOverview",
@@ -31,6 +33,14 @@ var InstanceDetailView = Backbone.View.extend({
             self.checkAll();
         };
         this.model.vncconsole(options);
+
+        var options3 = {};
+        options3.callback = function(resp) {
+            self.options.security_groups = resp;
+            self.security_groupsResp = true;
+            self.checkAll();
+        };
+        JSTACK.Nova.getsecuritygroupforserver(self.model.id, options3.callback);
 
         var options2 = {};
         options2.callback = function(resp) {
@@ -193,16 +203,10 @@ var InstanceDetailView = Backbone.View.extend({
         var self = this;
 
         if ($("#consult_instance").html() === null) {
-            mySuccess = function(object) {
-                UTILS.Render.animateRender(self.el, self._template, {rules: object.security_groups[0].rules, vdc: self.options.vdc, service: self.options.service, model:self.model, flavor:self.options.flavor, image:self.options.image, logs: self.options.logs, vncUrl: self.options.vncUrl, subview: self.options.subview, subsubview: self.options.subsubview});
-            };
-            JSTACK.Nova.getsecuritygroupforserver(self.model.id, mySuccess);
+                UTILS.Render.animateRender(self.el, self._template, {security_groups: self.options.security_groups, vdc: self.options.vdc, service: self.options.service, model:self.model, flavor:self.options.flavor, image:self.options.image, logs: self.options.logs, vncUrl: self.options.vncUrl, subview: self.options.subview, subsubview: self.options.subsubview});
         } else {
-            mySuccess = function(object) {
-                var template = self._template({rules: object.security_groups[0].rules, vdc: self.options.vdc, service: self.options.service, model:self.model, flavor:self.options.flavor, image:self.options.image, logs: self.options.logs, vncUrl: self.options.vncUrl, subview: self.options.subview, subsubview: self.options.subsubview});
-                $(self.el).empty().html(template);
-            };
-            JSTACK.Nova.getsecuritygroupforserver(this.model.id, mySuccess);
+            var template = self._template({security_groups: self.options.security_groups, vdc: self.options.vdc, service: self.options.service, model:self.model, flavor:self.options.flavor, image:self.options.image, logs: self.options.logs, vncUrl: self.options.vncUrl, subview: self.options.subview, subsubview: self.options.subsubview});
+            $(self.el).empty().html(template);
         }
 
         if (this.options.subview == 'log') {

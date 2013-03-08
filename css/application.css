@@ -405,6 +405,16 @@ h6 small {
   margin-top: 6px;
 }
 
+.tab-content h3 {
+  font-size: 24px;
+  line-height: 2px;
+}
+
+.tab-content h4 {
+  font-size: 22px;
+  line-height: 2px;
+}
+
 h1 {
   font-size: 37px;
 }
@@ -452,7 +462,7 @@ h6 {
 
 .page-header {
   padding-bottom: none;
-  margin: 18px 0;
+  /*margin: 18px 0;*/
   border-bottom: 1px solid #eeeeee;
 }
 
