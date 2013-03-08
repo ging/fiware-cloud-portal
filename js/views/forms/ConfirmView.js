@@ -15,9 +15,10 @@ var ConfirmView = Backbone.View.extend({
     },
 
     onClose: function() {
-        if ((this.options.style === "")&&(this.options.style === undefined)) {
-        this.undelegateEvents();
-        this.unbind();
+        console.log("Closing", this.options.style);
+        if ((this.options.style === "") || (this.options.style === undefined)) {
+            this.undelegateEvents();
+            this.unbind();
        }
     },
 
@@ -28,9 +29,9 @@ var ConfirmView = Backbone.View.extend({
         }
         $(this.el).append(this._template({title:this.options.title, message:this.options.message, btn_message: this.options.btn_message, style: this.options.style}));
 
-        if ((this.options.style !== "")&&(this.options.style !== undefined)) {
+        if ((this.options.style !== "")||(this.options.style !== undefined)) {
             $('.modal:last').modal();
-            $(".modal-backdrop:last").css('z-index', '105010');
+            //$(".modal-backdrop:last").css('z-index', '105010');
         }else{
             $('.modal:last').modal();
         }
@@ -43,8 +44,10 @@ var ConfirmView = Backbone.View.extend({
     },
 
     close: function(e) {
+        console.log('Closing confirm', this.options.style);
         $('#confirm').remove();
-        if ((this.options.style === "")&&(this.options.style === undefined)) {
+        if ((this.options.style === "")||(this.options.style === undefined)) {
+            console.log('Closing confirm 2');
             this.undelegateEvents();
             $('.modal-backdrop').remove();
             this.onClose();

@@ -37,6 +37,7 @@ var OSRouter = Backbone.Router.extend({
         this.instancesModel = new Instances();
         this.volumesModel = new Volumes();
         this.volumeSnapshotsModel = new VolumeSnapshots();
+        this.instanceSnapshotsModel = new InstanceSnapshots();
         this.flavors = new Flavors();
         this.images = new Images();
         this.keypairsModel = new Keypairs();
@@ -63,8 +64,8 @@ var OSRouter = Backbone.Router.extend({
 
         this.route('settings/', 'settings', this.wrap(this.showSettings, this.checkAuth));
 
-        this.route('nova', 'nova', this.wrap(this.nova_vdcs, this.checkAuth));
-        this.route('nova/', 'nova', this.wrap(this.nova_vdcs, this.checkAuth));
+        this.route('nova', 'nova', this.wrap(this.nova_instances, this.checkAuth));
+        this.route('nova/', 'nova', this.wrap(this.nova_instances, this.checkAuth));
 
         this.route('nova/volumes/', 'volumes', this.wrap(this.nova_volumes, this.checkAuth));
         this.route('nova/access_and_security/', 'access_and_security', this.wrap(this.nova_access_and_security, this.checkAuth));
@@ -73,6 +74,7 @@ var OSRouter = Backbone.Router.extend({
         this.route('nova/images/', 'images', this.wrap(this.nova_images, this.checkAuth));
         this.route('nova/instances/', 'instances', this.wrap(this.nova_instances, this.checkAuth));
         this.route('nova/instances/:id/detail', 'instances', this.wrap(this.nova_instance, this.checkAuth));
+        this.route('nova/instances/:id/detail?view=:subview', 'instance', this.wrap(this.nova_instance, this.checkAuth));
         this.route('nova/snapshots/', 'snapshots', this.wrap(this.nova_snapshots, this.checkAuth));
         this.route('nova/vdcs/', 'vdcs', this.wrap(this.nova_vdcs, this.checkAuth));
         this.route('nova/vdcs/:id', 'vdc', this.wrap(this.nova_vdc, this.checkAuth));
@@ -93,11 +95,11 @@ var OSRouter = Backbone.Router.extend({
 
         this.route('syspanel/flavors/create', 'create_flavor',  this.wrap(this.create_flavor, this.checkAuth));
 
-        this.route('nova/images_and_snapshots/:id/delete', 'delete_image',  this.wrap(this.delete_image, this.checkAuth));
-        this.route('nova/images_and_snapshots/:id/update', 'edit_image',  this.wrap(this.edit_image, this.checkAuth));
-        this.route('nova/images_and_snapshots/:id', 'consult_image',  this.wrap(this.consult_image, this.checkAuth));
-        this.route('nova/images_and_snapshots/:id/launch/', 'launch_image',  this.wrap(this.launch_image, this.checkAuth));
-        this.route('nova/images_and_snapshots/:name/update', 'edit_image',  this.wrap(this.edit_image, this.checkAuth));
+        this.route('nova/images/:id/delete', 'delete_image',  this.wrap(this.delete_image, this.checkAuth));
+        this.route('nova/images/:id/update', 'edit_image',  this.wrap(this.edit_image, this.checkAuth));
+        this.route('nova/images/:id', 'consult_image',  this.wrap(this.consult_image, this.checkAuth));
+        this.route('nova/images/:id/launch/', 'launch_image',  this.wrap(this.launch_image, this.checkAuth));
+        this.route('nova/images/:name/update', 'edit_image',  this.wrap(this.edit_image, this.checkAuth));
 
         //this.route('nova/instances_and_volumes/instances/:id/detail', 'consult_instance',  _.wrap(this.consult_instance, this.checkAuth));
         this.route('nova/instances_and_volumes/instances/:id/detail?view=:subview', 'consult_instance',  this.wrap(this.consult_instance, this.checkAuth));
@@ -127,6 +129,7 @@ var OSRouter = Backbone.Router.extend({
             this.add_fetch(this.images, seconds);
             this.add_fetch(this.flavors, seconds);
             this.add_fetch(this.volumeSnapshotsModel, seconds);
+            this.add_fetch(this.instanceSnapshotsModel, seconds);
             this.add_fetch(this.containers, seconds);
             this.add_fetch(this.vdcs, seconds);
             this.add_fetch(this.securityGroupsModel, seconds);
@@ -283,6 +286,7 @@ var OSRouter = Backbone.Router.extend({
     },
 
     consult_image: function(self, id) {
+        console.log("View image");
         self.showNovaRoot(self, 'Images &amp; Snapshots');
         var image = new ImageVM();
         image.set({"id": id});
@@ -426,7 +430,7 @@ var OSRouter = Backbone.Router.extend({
     nova_snapshots: function(self) {
         self.showNovaRoot(self, 'Snapshots');
         //self.instancesModel.alltenants = false;
-        var view = new NovaSnapshotsView({images: self.images, volumeSnapshotsModel: self.volumeSnapshotsModel, instancesModel: self.instancesModel, volumesModel: self.volumesModel, flavors: self.flavors, keypairs: self.keypairsModel, el: '#content'});
+        var view = new NovaSnapshotsView({images: self.instanceSnapshotsModel, volumeSnapshotsModel: self.volumeSnapshotsModel, instancesModel: self.instancesModel, volumesModel: self.volumesModel, flavors: self.flavors, keypairs: self.keypairsModel, el: '#content'});
         self.newContentView(self,view);
     },
 
