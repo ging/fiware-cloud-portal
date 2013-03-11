@@ -230,7 +230,7 @@ max-width: 120px;}
 .main_nav a:hover {
     background-attachment: scroll;
     background-clip: border-box;
-    background-color: #000000;
+    background-color: #f8f8f8;
     background-image: none;
     background-origin: padding-box;
     background-position: 0 0;
@@ -244,7 +244,6 @@ max-width: 120px;}
     border-top-left-radius: 5px;
     border-top-right-radius: 0;
     color: #0093C6;
-    background-color: #000000;
 }
 .add-on{color: #FFFFFF; text-shadow:none;}
 /* input file*/
