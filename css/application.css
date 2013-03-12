@@ -481,7 +481,7 @@ h6 {
   position: relative;
   left: 50%;
   margin-left: -30px;
-  top: 60px;
+  padding-bottom: 10px;
 }
 
 /** line 762 boostrap.css**/

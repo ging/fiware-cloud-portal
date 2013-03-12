@@ -140,8 +140,8 @@ src: templates/root/nova/instanceDetail.html
                     <p class="alert alert-info">
                         If VNC console is not responding to keyboard input: click the grey status bar below.
                     </p>
+                    <iframe src="<%= vncUrl %>" width="1024" height="768"></iframe>
                 <% } %>
-                <iframe src="<%= vncUrl %>" width="1024" height="768"></iframe>
             </div>
             <!--<div id="instance_details__software" class="tab-pane <%= (subview == 'software') ? 'active':'' %>">
                 <div class="btn-group" data-toggle="buttons-radio">
