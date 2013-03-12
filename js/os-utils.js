@@ -309,7 +309,7 @@ UTILS.SM = (function(U, undefined) {
             JSTACK.Nova.params.service = "sm";
             JSTACK.Nova[funct].apply(this, arguments);
             JSTACK.Nova.params.service = "compute";
-        }
+        };
     };
     for (var func in JSTACK.Nova) {
         if (typeof(JSTACK.Nova[func]) === "function" && func !== "Volume") {
