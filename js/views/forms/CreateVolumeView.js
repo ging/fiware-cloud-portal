@@ -3,10 +3,10 @@ var CreateVolumeView = Backbone.View.extend({
     _template: _.itemplate($('#createVolumeFormTemplate').html()),
 
     events: {
-	      'submit #form': 'create',
-	      'click #cancelBtn': 'close',
-	      'click #close': 'close',
-	      'click .modal-backdrop': 'close'
+          'submit #form': 'create',
+          'click #cancelBtn': 'close',
+          'click #close': 'close',
+          'click .modal-backdrop': 'close'
     },
 
     onClose: function() {
@@ -33,7 +33,7 @@ var CreateVolumeView = Backbone.View.extend({
     },
 
     create: function(e) {
-    	e.preventDefault();
+        e.preventDefault();
         var name = $('input[name=name]').val();
         var description = $('textarea[name=description]').val();
         var size= $('input[name=size]').val();
@@ -43,6 +43,6 @@ var CreateVolumeView = Backbone.View.extend({
         var subview = new MessagesView({el: '#content', state: "Success", title: "Volume "+name+" created."});
         subview.render();
         this.close();
-    },
+    }
 
 });

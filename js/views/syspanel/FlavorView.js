@@ -16,7 +16,7 @@ var FlavorView = Backbone.View.extend({
     },
 
     onClose: function() {
-    	this.model.unbind("reset");
+        this.model.unbind("reset");
         this.undelegateEvents();
         this.unbind();
     },
