@@ -476,11 +476,12 @@ h6 {
 }
 
 #vnc_spinner {
-  width: 90px;
-  height: 90px;
+  width: 60px;
+  height: 60px;
   position: relative;
   left: 50%;
-  margin-left: -45px;
+  margin-left: -30px;
+  top: 60px;
 }
 
 /** line 762 boostrap.css**/
