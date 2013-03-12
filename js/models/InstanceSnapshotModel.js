@@ -1,4 +1,4 @@
-var ImageVM = Backbone.Model.extend({
+var InstanceSnapshot = Backbone.Model.extend({
     sync: function(method, model, options) {
            switch(method) {
                case "read":
@@ -22,12 +22,12 @@ var ImageVM = Backbone.Model.extend({
     }
 });
 
-var Images = Backbone.Collection.extend({
-    model: ImageVM,
+var InstanceSnapshots = Backbone.Collection.extend({
+    model: InstanceSnapshot,
 
     sync: function(method, model, options) {
         if (method === "read") {
-            JSTACK.Glance.getimagelist(true, options.success);
+            JSTACK.Nova.getimagelist(true, options.success);
         }
     },
 

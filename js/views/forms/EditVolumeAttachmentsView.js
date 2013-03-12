@@ -38,8 +38,9 @@ var EditVolumeAttachmentsView = Backbone.View.extend({
     detach: function(evt) {
         var instance = evt.target.value;
         console.log("Detaching " + instance);
+        var self = this;
         var subview = new ConfirmView({el: 'body', title: "Detach Volume", btn_message: "Detach Volume", style: "top: 80px; display: block; z-index: 10501010;", onAccept: function() {
-            this.options.instances.get(instance).detachvolume({volume_id: this.model.id});
+            self.options.instances.get(instance).detachvolume({volume_id: self.model.id});
             var subview2 = new MessagesView({el: '#content', state: "Success", title: "Volume "+name+" detached."});
             subview2.render();
         }});

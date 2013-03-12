@@ -31,6 +31,7 @@ var UsersForProjectView = Backbone.View.extend({
 
     onAdd: function(evt) {
         var user = evt.target.value;
+        console.log("Adding user: ", user, " to tenant ", this.options.tenants.get(this.options.tenant));
         var subview = new AddUserToProjectView({el: 'body', model:this.options.users.get(user), tenant: this.options.tenants.get(this.options.tenant), roles:this.options.roles});
         subview.render();
     },
@@ -38,6 +39,7 @@ var UsersForProjectView = Backbone.View.extend({
     onDelete: function(evt) {
         var self = this;
         var user = self.model.get(evt.target.value);
+        console.log("User to delete: ", user);
         var tenant = self.options.tenants.get(self.options.tenant);
         var success = function() {
             var subview = new MessagesView({el: '#content', state: "Success", title: "User removed."});
@@ -55,6 +57,7 @@ var UsersForProjectView = Backbone.View.extend({
     },
 
     onClose: function() {
+        this.undelegateEvents();
         this.model.unbind("reset");
         this.options.tenants.unbind('reset');
         this.options.users.unbind('reset');

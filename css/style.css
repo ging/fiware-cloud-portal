@@ -188,9 +188,6 @@ h2 {
     color: #ffffff;
     text-shadow: none;
 }
-.nav li a:hover {
-    background-color: #fff
-}
 
 .container-fluid {
     padding-left: 0;
@@ -447,7 +444,7 @@ small {
 
 }
 .main_nav a:hover {
-  background: #f8f8f8;
+  background-color: #f8f8f8;
   border-bottom: 1px solid #f8f8f8;
   border-radius: 5px 0px 0px 5px;
     -webkit-border-top-left-radius: 5px 0px 0px 5px;

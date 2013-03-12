@@ -123,7 +123,7 @@ var NovaInstanceSnapshotsView = Backbone.View.extend({
         this.undelegateEvents();
         this.delegateEvents(this.events);
 
-        if ($("#images").html() != null) {
+        if ($("#instance_snapshots").html() !== null) {
             var new_template = this._template(this.model);
             var checkboxes_images = [];
             var dropdowns_images = [];

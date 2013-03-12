@@ -55,13 +55,13 @@
                     <span class="help-block" style="display: none; ">Which keypair to use for authentication.</span>
                     <div class="input">
                         <select name="keypair" id="id_keypair">
+                            <option value="" selected="selected">Select a keypair</option>
                             <% if (keypairs.size() == 0) { %>
                             <option value="" selected="selected">No keypairs available.</option>
                             <% } else {
                             for (var index in keypairs.models) {
                             var keypair = keypairs.models[index];
                             %>
-                            <option value="" selected="selected">Select a keypair</option>
                             <option value="<%=keypair.get('name')%>"><%= keypair.get("name")%></option>
                             <%  }
                             }%>

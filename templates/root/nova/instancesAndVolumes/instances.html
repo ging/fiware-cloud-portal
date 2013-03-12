@@ -59,13 +59,23 @@ src: templates/root/nova/instancesAndVolumes/instances.html
                 <td class="hidden-phone">
                 <ul>
                     <%
-                    if (instance.get("addresses") != null && instance.get("addresses").public != null) {
+                    if (instance.get("addresses") != null && (instance.get("addresses").public !== null || instance.get("addresses").private !== null)) {
                         var addresses = instance.get("addresses").public;
                         var i = 0;
                         for (var index in addresses) {
                             i++;
                             var address = addresses[index];
                     %>
+                    <li>
+                        <%= address.addr %>
+                    </li>
+                    <%  }
+                        addresses = instance.get("addresses").private;
+                        var i = 0;
+                        for (var index2 in addresses) {
+                            i++;
+                            var address = addresses[index2];
+                             %>
                     <li>
                         <%= address.addr %>
                     </li>
@@ -88,14 +98,14 @@ src: templates/root/nova/instancesAndVolumes/instances.html
                         if (instance.get("status") != "ERROR") {
                             if (instance.get("status") != "PAUSED" && instance.get("status") != "SUSPENDED") {%>
                         <li class="clearfix">
-                            <button  id="instances__action_vnc__<%=i%>" class="btn btn-blue btn-small btn-vnc" name="action" value="<%= instance.id %>" type="submit" data-i18n="VNC Console">
+                            <a  id="instances__action_vnc__<%=i%>" class="btn btn-blue btn-small btn-vnc" name="action" value="<%= instance.id %>" type="submit" data-i18n="VNC Console" href="#nova/instances/<%=instance.id%>/detail?view=vnc">
                                 VNC Console
-                            </button>
+                            </a>
                         </li>
                         <li class="clearfix">
-                            <button  id="instances__action_log__<%=i%>" class="btn btn-blue btn-small btn-log" name="action" value="<%= instance.id %>" type="submit" data-i18n="View Log">
+                            <a  id="instances__action_log__<%=i%>" class="btn btn-blue btn-small btn-log" name="action" value="<%= instance.id %>" type="submit" data-i18n="View Log" href="#nova/instances/<%=instance.id%>/detail?view=log">
                                 View Log
-                            </button>
+                            </a>
                         </li>
                         <li class="clearfix">
                             <button  id="instances__action_snapshot__<%=i%>" class="btn btn-blue btn-small btn-snapshot" name="action" value="<%= instance.id %>" type="submit" data-i18n="Snapshot">
