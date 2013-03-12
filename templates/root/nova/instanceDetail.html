@@ -86,7 +86,7 @@ src: templates/root/nova/instanceDetail.html
                         <li>
                             <strong>default</strong>
                             <ul>
-          						<% 
+          						<%
                                 for (var idx in security_groups) {
                                     var sec_group = security_groups[idx];
                                     var rules = sec_group.rules;
@@ -135,6 +135,11 @@ src: templates/root/nova/instanceDetail.html
                 <p class="alert alert-info">
                     If VNC console is not responding to keyboard input: click the grey status bar below.
                 </p>
+                <%
+                console.log("-",vncUrl,"-");
+                if (vncUrl === undefined) { %>
+                    <img id="vnc_spinner" src="images/spinner2.gif"></img>
+                <% } %>
                 <iframe src="<%= vncUrl %>" width="1024" height="768"></iframe>
             </div>
             <!--<div id="instance_details__software" class="tab-pane <%= (subview == 'software') ? 'active':'' %>">

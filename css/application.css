@@ -475,6 +475,14 @@ h6 {
   line-height: 2;
 }
 
+#vnc_spinner {
+  width: 90px;
+  height: 90px;
+  position: relative;
+  left: 50%;
+  margin-left: -45px;
+}
+
 /** line 762 boostrap.css**/
 input,
 button,
