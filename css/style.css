@@ -698,10 +698,6 @@ td .icon-updating.ajax-updating {
 	right: 7px;
 }
 
-.modal fieldset .form-field input {
-	text-indent: 16px;
-}
-
 .modal .modal-footer input {
     width: auto;
 }
