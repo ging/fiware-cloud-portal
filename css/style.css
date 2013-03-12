@@ -680,10 +680,21 @@ td .icon-updating.ajax-updating {
     width: 90%;
 }*/
 
+
 .modal fieldset .form-field input,
 .modal fieldset .form-field select,
 .modal fieldset .form-field textarea {
   width: 96%;
+}
+.modal fieldset .form-field .input .btn-eye,
+.modal fieldset .form-field .input .btn-eye-active {
+	width: 7%;
+	margin-bottom: 10px;
+} 
+
+.modal fieldset .form-field .input #show_password,
+.modal fieldset .form-field .input #user_password {
+	width: 85%; 
 }
 
 .modal .modal-footer input {

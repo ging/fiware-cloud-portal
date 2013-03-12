@@ -6,7 +6,8 @@ var CreateFlavorView = Backbone.View.extend({
         'submit #form': 'onSubmit',
         'click #cancelBtn': 'close',
         'click #close': 'close',
-        'input input': 'onInput'
+        'input input': 'onInput',
+        'click .modal-backdrop': 'close'
     },
 
     initialize: function() {

@@ -7,7 +7,9 @@ var CreateUserView = Backbone.View.extend({
         'input .password': 'onInput',
         'click #cancelBtn': 'close',
         'click #close': 'close',
-        'click .modal-backdrop': 'close'
+        'click .modal-backdrop': 'close',
+        'click .btn-eye': 'showPassword',
+        'click .btn-eye-active': 'hidePassword'
     },
 
     close: function(e) {
@@ -30,8 +32,30 @@ var CreateUserView = Backbone.View.extend({
         $('.modal:last').modal();
         return this;
     },
+    
+    showPassword: function() {
+    	console.log($('.user_password').val());
+    	var password = this.$('input[name=user_password]').val();
+    	$('#user_password').replaceWith('<input required id="show_password" type="text" class="show_password" name="user_password" maxlength="255">');
+    	$('.show_password').val(password);
+    	$('.btn-eye').hide();
+    	$('.btn-eye-active').show();
+    },
+    
+    hidePassword: function() {
+    	console.log($('.show_password').val());
+    	var password = this.$('input[name=user_password]').val();
+    	$('.show_password').replaceWith('<input required id="user_password" type="password" class="password" name="user_password" maxlength="255">');
+    	$('#user_password').val(password);
+    	$('.btn-eye').show();
+    	$('.btn-eye-active').hide();
+    	console.log(console.log(this.$('input[name=confirm_password]').val()));
+    },
 
     onInput: function() {
+    	console.log("on input");
+    	console.log(this.$('input[name=user_password]').val());
+    	console.log(this.$('input[name=confirm_password]').val());
         var message = '';
         var password = this.$('input[name=user_password]').val();
         var confirm = this.$('input[name=confirm_password]').val();
@@ -43,6 +67,11 @@ var CreateUserView = Backbone.View.extend({
     },
 
     onCreate: function(e){
+    	console.log("on create");
+    	console.log(this.$('input[name=user_password]').val());
+    	console.log(this.$('input[name=confirm_password]').val());
+    	
+    	
         e.preventDefault();
         var name = this.$('input[name=name]').val();
         var email = this.$('input[name=email]').val();
