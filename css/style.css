@@ -1243,10 +1243,13 @@ width: 100%;
 }
 
 .tab-content {
-border: 1px;
-border-style: solid;
-border-color: gray;
-padding-left: 20px;
+  border: 1px solid #dddddd;
+  border-collapse: separate;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 /*

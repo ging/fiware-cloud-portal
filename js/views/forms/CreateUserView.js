@@ -32,7 +32,7 @@ var CreateUserView = Backbone.View.extend({
         $('.modal:last').modal();
         return this;
     },
-    
+   
     onInput: function() {
     	console.log("on input");
     	console.log(this.$('input[name=user_password]').val());
@@ -47,7 +47,6 @@ var CreateUserView = Backbone.View.extend({
         this.$('input[name=confirm_password]')[0].setCustomValidity(message);
     },
 
-    
     showPassword: function() {
     	console.log($('.user_password').val());
     	var password = this.$('input[name=user_password]').val();
@@ -61,7 +60,7 @@ var CreateUserView = Backbone.View.extend({
     	$('.btn-eye-active').show();
     	this.onInput();
     },
-    
+
     hidePassword: function() {
     	console.log($('.show_password').val());
     	var password = this.$('input[name=user_password]').val();
@@ -80,8 +79,6 @@ var CreateUserView = Backbone.View.extend({
     	console.log("on create");
     	console.log(this.$('input[name=user_password]').val());
     	console.log(this.$('input[name=confirm_password]').val());
-    	
-    	
         e.preventDefault();
         var name = this.$('input[name=name]').val();
         var email = this.$('input[name=email]').val();
