@@ -33,25 +33,6 @@ var CreateUserView = Backbone.View.extend({
         return this;
     },
     
-    showPassword: function() {
-    	console.log($('.user_password').val());
-    	var password = this.$('input[name=user_password]').val();
-    	$('#user_password').replaceWith('<input required id="show_password" type="text" class="show_password" name="user_password" maxlength="255">');
-    	$('.show_password').val(password);
-    	$('.btn-eye').hide();
-    	$('.btn-eye-active').show();
-    },
-    
-    hidePassword: function() {
-    	console.log($('.show_password').val());
-    	var password = this.$('input[name=user_password]').val();
-    	$('.show_password').replaceWith('<input required id="user_password" type="password" class="password" name="user_password" maxlength="255">');
-    	$('#user_password').val(password);
-    	$('.btn-eye').show();
-    	$('.btn-eye-active').hide();
-    	console.log(console.log(this.$('input[name=confirm_password]').val()));
-    },
-
     onInput: function() {
     	console.log("on input");
     	console.log(this.$('input[name=user_password]').val());
@@ -66,6 +47,35 @@ var CreateUserView = Backbone.View.extend({
         this.$('input[name=confirm_password]')[0].setCustomValidity(message);
     },
 
+    
+    showPassword: function() {
+    	console.log($('.user_password').val());
+    	var password = this.$('input[name=user_password]').val();
+    	var confirm_password = this.$('input[name=confirm_password]').val();
+    	console.log("confirm_pass = "+this.$('input[name=confirm_password]').val());
+    	$('#user_password').replaceWith('<input required id="user_password" type="text" class="password" name="user_password" maxlength="255">');
+    	$('#confirm_password').replaceWith('<input required id="confirm_password" type="text" class="password" name="confirm_password" maxlength="255">');
+    	$('#user_password').val(password);
+    	$('#confirm_password').val(confirm_password);
+    	$('.btn-eye').hide();
+    	$('.btn-eye-active').show();
+    	this.onInput();
+    },
+    
+    hidePassword: function() {
+    	console.log($('.show_password').val());
+    	var password = this.$('input[name=user_password]').val();
+    	var confirm_password = this.$('input[name=confirm_password]').val();
+    	$('#user_password').replaceWith('<input required id="user_password" type="password" class="password" name="user_password" maxlength="255">');
+    	$('#confirm_password').replaceWith('<input required id="confirm_password" type="password" class="password" name="confirm_password" maxlength="255">');
+    	$('#user_password').val(password);
+    	$('#confirm_password').val(confirm_password);
+    	$('.btn-eye').show();
+    	$('.btn-eye-active').hide();
+    	this.onInput();
+    },
+
+    
     onCreate: function(e){
     	console.log("on create");
     	console.log(this.$('input[name=user_password]').val());

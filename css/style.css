@@ -685,13 +685,21 @@ td .icon-updating.ajax-updating {
 }
 .modal fieldset .form-field .input .btn-eye,
 .modal fieldset .form-field .input .btn-eye-active {
-	width: 7%;
 	margin-bottom: 10px;
 } 
 
-.modal fieldset .form-field .input #show_password,
-.modal fieldset .form-field .input #user_password {
-	width: 85%; 
+.modal fieldset .form-field #password {
+	position: relative;
+}
+
+.modal fieldset .form-field a {
+	position: absolute;
+	top: 8px;
+	right: 7px;
+}
+
+.modal fieldset .form-field input {
+	text-indent: 16px;
 }
 
 .modal .modal-footer input {
