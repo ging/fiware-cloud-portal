@@ -52,7 +52,9 @@ var InstanceDetailView = Backbone.View.extend({
     },
 
     showOverview: function() {
-        this.options.subview = "overview";
+        if (this.options) {
+            this.options.subview = "overview";
+        }
         $('#instance_details__overview').addClass('active');
         $('#instance_details__vnc').removeClass('active');
         $('#instance_details__log').removeClass('active');
@@ -68,7 +70,9 @@ var InstanceDetailView = Backbone.View.extend({
     },
 
     showVNC: function() {
-        this.options.subview = "vnc";
+        if (this.options) {
+            this.options.subview = "vnc";
+        }
         $('#instance_details__overview').removeClass('active');
         $('#instance_details__log').removeClass('active');
         $('#instance_details__vnc').addClass('active');
@@ -84,7 +88,9 @@ var InstanceDetailView = Backbone.View.extend({
     },
 
     showLogs: function() {
-        this.options.subview = "logs";
+        if (this.options) {
+            this.options.subview = "logs";
+        }
         $('#instance_details__overview').removeClass('active');
         $('#instance_details__vnc').removeClass('active');
         $('#instance_details__log').addClass('active');
@@ -98,8 +104,10 @@ var InstanceDetailView = Backbone.View.extend({
     },
 
     showSoftware: function() {
-        this.options.subview = "software";
-        this.options.subsubview = "installed_software";
+        if (this.options) {
+            this.options.subview = "software";
+            this.options.subsubview = "installed_software";
+        }
         $('#instance_details__overview').removeClass('active');
         $('#instance_details__vnc').removeClass('active');
         $('#instance_details__log').removeClass('active');
@@ -115,7 +123,10 @@ var InstanceDetailView = Backbone.View.extend({
     },
 
     showInstalledSoftware: function() {
-        this.options.subsubview = "installed_software";
+        if (this.options) {
+            this.options.subview = "software";
+            this.options.subsubview = "installed_software";
+        }
         $('#installed_software').addClass('active');
         $('#instance_details__installed_software').addClass('active');
         $('#new_software').removeClass('active');
@@ -123,7 +134,10 @@ var InstanceDetailView = Backbone.View.extend({
     },
 
     showNewSoftware: function() {
-        this.options.subsubview = "new_software";
+        if (this.options) {
+            this.options.subview = "software";
+            this.options.subsubview = "new_software";
+        }
         $('#installed_software').removeClass('active');
         $('#instance_details__installed_software').removeClass('active');
         $('#new_software').addClass('active');
