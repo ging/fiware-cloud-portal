@@ -284,3 +284,39 @@ UTILS.i18n = (function(U, undefined) {
 })(UTILS);
 
 UTILS.i18n.init();
+
+UTILS.SM = (function(U, undefined) {
+    var check, obj;
+
+    // Private functions
+    // -----------------
+
+    // Function `_check` internally confirms that Keystone module is
+    // authenticated and it has the URL of the Nova service.
+    check = function () {
+        if (JSTACK.Keystone !== undefined &&
+                JSTACK.Keystone.params.currentstate === JSTACK.Keystone.STATES.AUTHENTICATED) {
+            return true;
+        }
+    };
+
+    obj = {};
+    var caller = function (funct) {
+        return function() {
+            if (!check()) {
+                return;
+            }
+            JSTACK.Nova.params.service = "sm";
+            JSTACK.Nova[funct].apply(this, arguments);
+            JSTACK.Nova.params.service = "compute";
+        }
+    };
+    for (var func in JSTACK.Nova) {
+        if (typeof(JSTACK.Nova[func]) === "function" && func !== "Volume") {
+            obj[func] = caller(func);
+        }
+    }
+    console.log(func);
+
+    return obj;
+})(UTILS);

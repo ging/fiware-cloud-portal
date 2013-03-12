@@ -104,15 +104,15 @@ var Instance = Backbone.Model.extend({
     sync: function(method, model, options) {
         switch(method) {
             case "create":
-                JSTACK.Nova.createserver(model.get("name"), model.get("imageReg"), model.get("flavorReg"), model.get("key_name"),
+                UTILS.SM.createserver(model.get("name"), model.get("imageReg"), model.get("flavorReg"), model.get("key_name"),
                     model.get("user_data"), model.get("security_groups"), model.get("min_count"), model.get("max_count"),
                     model.get("availability_zone"), options.success);
                 break;
             case "delete":
-                JSTACK.Nova.deleteserver(model.get("id"), options.success);
+                UTILS.SM.deleteserver(model.get("id"), options.success);
                 break;
             case "update":
-                JSTACK.Nova.updateserver(model.get("id"), model.get("name"), options.success);
+                UTILS.SM.updateserver(model.get("id"), model.get("name"), options.success);
                 break;
             case "read":
                 JSTACK.Nova.getserverdetail(model.get("id"), options.success);
@@ -152,7 +152,7 @@ var Instance = Backbone.Model.extend({
                 JSTACK.Nova.changepasswordserver(model.get("id"), options.adminPass, options.success);
                 break;
             case "create-image":
-                JSTACK.Nova.createimage(model.get("id"), options.name, undefined, options.success);
+                UTILS.SM.createimage(model.get("id"), options.name, undefined, options.success);
                 break;
             case "get-vncconsole":
                 JSTACK.Nova.getvncconsole(model.get("id"), "novnc", options.success);
