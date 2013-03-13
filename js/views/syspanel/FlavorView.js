@@ -6,6 +6,8 @@ var FlavorView = Backbone.View.extend({
     initialize: function() {
         this.model.unbind("reset");
         this.model.bind("reset", this.render, this);
+        //this.options.isProjectTab.unbind("reset");
+        //this.options.isProjectTab.bind("reset", this.render, this);
         this.renderFirst();
     },
 
@@ -58,7 +60,7 @@ var FlavorView = Backbone.View.extend({
     },
 
     renderFirst: function() {
-        UTILS.Render.animateRender(this.el, this._template, this.model);
+        UTILS.Render.animateRender(this.el, this._template, {models: this.model.models, isProjectTab:this.options.isProjectTab});
         this.enableDisableDeleteButton();
     },
 
@@ -67,7 +69,7 @@ var FlavorView = Backbone.View.extend({
             $('.messages').remove();
         }
         if ($("#flavors").html() != null) {
-            var new_template = this._template(this.model);
+            var new_template = this._template({models: this.model.models, isProjectTab:this.options.isProjectTab});
             var checkboxes = [];
             var index, flavorId, check;
             for (index in this.model.models) {

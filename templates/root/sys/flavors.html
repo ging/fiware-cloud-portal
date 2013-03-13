@@ -6,12 +6,14 @@ src: templates/root/sys/flavors.html
 <div id="flavors">
     <div class="table_wrapper">
         <div class='table_header'>
+        <% if (!isProjectTab) { %>
             <div class="table_actions clearfix">
                 <a href="#syspanel/flavors/create"  id="flavors__action_create__0" class="btn btn-blue btn-small ajax-modal" data-i18n="Create Flavor">Create Flavor</a>
                 <button class='btn  btn-small btn-danger btn-delete-group' name="action" id="flavors_delete" value="flavors__delete" disabled=true type="submit" data-i18n="Delete Flavors">
                     Delete Flavors
                 </button>
             </div>
+        <% } %>    
         </div>
         <table id="flavors" class="table table-bordered table-striped">
             <thead>
@@ -23,7 +25,9 @@ src: templates/root/sys/flavors.html
                     <th class="tip" data-tooltip="RAM availability." data-i18n="Memory">Memory</th>
                     <th class="tip" data-tooltip="User disk availability." data-i18n="User Disk">Disk</th>
                     <th class="hidden-phone tip" data-tooltip="Ephemeral disk availability." data-i18n="Ephemeral Disk">Ephemeral Disk</th>
+                    <% if (!isProjectTab) { %>
                     <th class="actions_column hidden-phone" data-i18n="Actions">Actions</th>
+                    <% } %>
                 </tr>
             </thead>
             <tbody>
@@ -45,10 +49,12 @@ src: templates/root/sys/flavors.html
                     <td class=""><%= flavor.get('ram')%></td>
                     <td class=""><%= flavor.get('disk')%></td>
                     <td class="hidden-phone"><%= flavor.get('OS-FLV-EXT-DATA:ephemeral') || flavor.get('ephemeral')%></td>
+                    <% if (!isProjectTab) { %>
                     <td class="actions_column hidden-phone">
                     <button id="flavors__action_delete__<%=i%>" class="btn btn-small btn-danger btn-delete" name="action" value="<%= flavor.get('id') %>" type="submit" data-i18n="Delete Flavor">
                         Delete Flavor
                     </button></td>
+                    <% } %>
                 </tr>
                 <% } %>
             </tbody>
