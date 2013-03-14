@@ -691,6 +691,7 @@ td .icon-updating.ajax-updating {
 .modal fieldset .form-field .input .btn-eye,
 .modal fieldset .form-field .input .btn-eye-active {
 	margin-bottom: 10px;
+  cursor: pointer;
 } 
 
 .modal fieldset .form-field #password {
