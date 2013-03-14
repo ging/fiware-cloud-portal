@@ -27,6 +27,12 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
         return this;
     },
 
+    autoRender: function () {
+
+        $(this.el).find("#edit_security_group_rule").remove();
+        $(this.el).append(self._template({model: this.model, securityGroupId: this.options.securityGroupId}));
+    },
+
     close: function(e) {
         this.onClose();
     },
@@ -73,31 +79,37 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
     deleteRule: function (e) {
         self = this;
         var secGroupRuleId = e.target.value;
+        var securityGroupsModel = this.model.get(this.options.securityGroupId);
 
         var subview = new ConfirmView({el: 'body', title: "Delete Security Group Rule", btn_message: "Delete Security Group Rule", style: "top: 80px; display: block; z-index: 10501010;", onAccept: function() {
-            self.model.get(self.options.securityGroupId).deleteSecurityGroupRule(secGroupRuleId);
-            var subview2 = new MessagesView({el: '#content', state: "Success", title: "Security Group Rule deleted."});
-            subview2.render();
-            self.render();
+            securityGroupsModel.deleteSecurityGroupRule(secGroupRuleId, {callback: function (resp) {
+                securityGroupsModel.fetch({success: function (resp) {
+                    self.autoRender();
+                    var subview2 = new MessagesView({el: '#edit_security_group_rules', state: "Success", title: "Security Group Rule deleted."});
+                    subview2.render();
+                }});
+            }});
         }});
         subview.render();
-
     },
-
 
     deleteRules: function(e) {
         var self = this;
         var subview = new ConfirmView({el: 'body', title: "Delete Security Group Rules", btn_message: "Delete Security Group Rules", style: "top: 80px; display: block; z-index: 10501010;", onAccept: function() {
             $(".checkbox_sec_group_rule:checked").each(function () {
                 var secGroupRuleId = $(this).val();
-                var subview2 = new MessagesView({el: '#content', state: "Success", title: "Security Group Rules deleted."});
-                self.model.get(self.options.securityGroupId).deleteSecurityGroupRule(secGroupRuleId);
-                subview2.render();
-                self.render();
+                var securityGroupsModel = self.model.get(self.options.securityGroupId);
+
+                securityGroupsModel.deleteSecurityGroupRule(secGroupRuleId, {callback: function (resp) {
+                    securityGroupsModel.fetch({success: function (resp) {
+                        self.autoRender();
+                        var subview2 = new MessagesView({el: '#edit_security_group_rules', state: "Success", title: "Security Group Rules deleted."});
+                        subview2.render();
+                    }});
+                }});
             });
         }});
         subview.render();
-
     },
 
     createRule: function(e) {
@@ -113,7 +125,7 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
         var ipProtocol = $('.IPProtocolSelect :selected').val();
         var fromPort = $('input[name=fromPort]').val();
         var toPort = $('input[name=toPort]').val();
-        var securityGroupId = $('.secGroupSelect :selected').val();
+        var sourceGroup = $('.secGroupSelect :selected').val();
         var cidr = $('input[name=cidr]').val();
 
         var subview;
@@ -122,31 +134,32 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
         fromPortOK = (fromPort >= -1 && fromPort <= 65535);
         toPortOK = (toPort >= -1 && toPort <= 65535);
 
-
-        console.log("ipProtocol "+ipProtocol);
-        console.log("fromPort "+fromPort);
-        console.log("toPort "+toPort);
-        console.log("cidr "+cidr);
-        console.log("securityGroupId "+securityGroupId);
-        console.log("parentGroupId "+parentGroupId);
-        console.log(cidrOK, fromPortOK, toPortOK);
-
         var securityGroupsModel = self.model.get(this.options.securityGroupId);
 
-        if ( cidrOK && fromPortOK && toPortOK ) {
+        if (cidrOK && fromPortOK && toPortOK) {
             if ($('.secGroupSelect :selected').val()!=='CIDR') {
-                securityGroupsModel.createSecurityGroupRule(ipProtocol, fromPort, toPort, "", securityGroupId, parentGroupId);
-            }else{
-                securityGroupsModel.createSecurityGroupRule(ipProtocol, fromPort, toPort, cidr, undefined , parentGroupId);
+                securityGroupsModel.createSecurityGroupRule(ipProtocol, fromPort, toPort, "", sourceGroup, parentGroupId, {callback: function (resp) {
+                   securityGroupsModel.fetch({success: function (resp) {
+                        self.autoRender();  
+                        subview = new MessagesView({el: '#edit_security_group_rules', state: "Success", title: "Security group rule created."});
+                        subview.render();              
+                    }});
+                }});
+            } else {
+                securityGroupsModel.createSecurityGroupRule(ipProtocol, fromPort, toPort, cidr, undefined , parentGroupId, {callback: function (resp) {
+                    securityGroupsModel.fetch({success: function (resp) {
+                        self.autoRender();    
+                        subview = new MessagesView({el: '#edit_security_group_rules', state: "Success", title: "Security group rule created."});
+                        subview.render();           
+                    }});
+                }});
             }
-            subview = new MessagesView({el: '#content', state: "Success", title: "Security group rule created."});
-            subview.render();
+            
 
-        }else{
-            subview = new MessagesView({el: '#content', state: "Error", title: "Wrong input values for Security Group Rule. Please try again."});
+        } else {
+            subview = new MessagesView({el: '#edit_security_group_rules', state: "Error", title: "Wrong input values for Security Group Rule. Please try again."});
             subview.render();
         }
-        this.close();
     },
 
     enableDisableDeleteButton: function (e) {

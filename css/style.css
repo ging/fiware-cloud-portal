@@ -460,6 +460,11 @@ table form {
     width: 1px;
 }
 
+.alertHeader{
+  position: absolute;
+  width: 100%;
+}
+
 .alert-block .alert-actions {
   margin-top: -23px;
   margin-right: -23px;
