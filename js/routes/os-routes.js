@@ -75,6 +75,7 @@ var OSRouter = Backbone.Router.extend({
         this.route('nova/instances/', 'instances', this.wrap(this.nova_instances, this.checkAuth));
         this.route('nova/instances/:id/detail', 'instances', this.wrap(this.nova_instance, this.checkAuth));
         this.route('nova/instances/:id/detail?view=:subview', 'instance', this.wrap(this.nova_instance, this.checkAuth));
+        this.route('nova/flavors/', 'flavors',  this.wrap(this.nova_flavors, this.checkAuth));
         this.route('nova/snapshots/', 'snapshots', this.wrap(this.nova_snapshots, this.checkAuth));
         this.route('nova/vdcs/', 'vdcs', this.wrap(this.nova_vdcs, this.checkAuth));
         this.route('nova/vdcs/:id', 'vdc', this.wrap(this.nova_vdc, this.checkAuth));
@@ -338,7 +339,7 @@ var OSRouter = Backbone.Router.extend({
 
     sys_projects: function(self) {
         if (self.showSysRoot(self, 'Projects')) {
-           var view = new ProjectView({model:self.projects, el: '#content'});
+           var view = new ProjectView({model:self.projects, quotas:self.quotas, el: '#content'});
            self.newContentView(self,view);
         }
     },
@@ -387,6 +388,7 @@ var OSRouter = Backbone.Router.extend({
                             //{name: 'Virtual Data Centers', active: false, url: '#nova/vdcs/'},
                             {name: 'Instances', active: false, url: '#nova/instances/'},
                             {name: 'Images', active: false, url: '#nova/images/'},
+                            {name: 'Flavors', active: false, url: '#nova/flavors/'},
                             {name: 'Access &amp; Security', active: false, url: '#nova/access_and_security/'},
                             {name: 'Snapshots', active: false, url: '#nova/snapshots/'},
                             {name: 'Storage', type: 'title'},
@@ -424,6 +426,12 @@ var OSRouter = Backbone.Router.extend({
         self.showNovaRoot(self, 'Images');
         //self.instancesModel.alltenants = false;
         var view = new ImagesView({model: self.images, volumeSnapshotsModel: self.volumeSnapshotsModel, instancesModel: self.instancesModel, volumesModel: self.volumesModel, flavors: self.flavors, keypairs: self.keypairsModel, el: '#content'});
+        self.newContentView(self,view);
+    },
+
+    nova_flavors: function(self) {
+        self.showNovaRoot(self, 'Flavors');
+        var view = new FlavorView({model: self.flavors, isProjectTab: true, el: '#content'});
         self.newContentView(self,view);
     },
 

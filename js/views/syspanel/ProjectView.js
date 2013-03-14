@@ -3,9 +3,13 @@ var ProjectView = Backbone.View.extend({
     _template: _.itemplate($('#projectsTemplate').html()),
 
     initialize: function() {
+        var self = this;
+        this.model.unbind("reset");
         this.model.bind("reset", this.render, this);
+        this.options.quotas.unbind("reset");
+        this.options.quotas.bind("reset", this.render, this);
         this.model.fetch();
-        this.render();
+        this.options.quotas.fetch();        
     },
 
     events: {
@@ -13,8 +17,14 @@ var ProjectView = Backbone.View.extend({
         'click .btn-edit' : 'onUpdate',
         'click .btn-delete':'onDelete',
         'click .btn-delete-group': 'onDeleteGroup',
+        'click .btn-modify-quotas': 'onModifyQuotas',
         'change .checkbox_projects':'enableDisableDeleteButton',
         'change .checkbox_all':'checkAll'
+    },  
+
+    onModifyQuotas: function(evt) {
+        var subview = new ModifyQuotasView({el: 'body', model:this.options.quotas.models[0], project: evt.target.value});
+        subview.render();
     },
 
     onCreate: function() {
@@ -81,6 +91,7 @@ var ProjectView = Backbone.View.extend({
         this.undelegateEvents();
         this.unbind();
     },
+
 
     render: function () {
         if ($("#tenants").html() != null) {

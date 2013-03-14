@@ -63,11 +63,11 @@ src: templates/root/sys/projects.html
 
                         <li class="clearfix">
 
-                            <a href='#syspanel/projects/<%=project.get('id')%>/users/' class="btn btn-small btn-modify" data-i18n="Modify Users">Modify Users</a>
+                            <a href='#syspanel/projects/<%=project.get('id')%>/users/' class="btn btn-small btn-modify"  value="<%= project.get('id')%>" data-i18n="Modify Users">Modify Users</a>
 
                         </li>
 
-                        <!--<li class="clearfix">
+                        <!-- <li class="clearfix">
 
                             <button class="btn btn-small btn-modify-quotas"  class="ajax-modal btn btn-small" value="<%= project.get('id')%>" data-i18n="Modify Quotas">
                             	Modify Quotas

@@ -1,5 +1,17 @@
 var Quota = Backbone.Model.extend({
     sync: function(method, model, options) {
+        switch(method) {
+               case "update":
+               console.log(model.get("instances"), model.get("cores"), model.get("ram"), model.get("volumes"),
+                    model.get("gigabytes"), model.get("floating_ips"), model.get("metadata_items"), model.get("injected_files"), 
+                    model.get("injected_file_content_bytes"), model.get("security_groups"), 
+                    model.get("security_group_rules"));
+                    JSTACK.Nova.updatequota(model.get("instances"), model.get("cores"), model.get("ram"), model.get("volumes"),
+                    model.get("gigabytes"), model.get("floating_ips"), model.get("metadata_items"), model.get("injected_files"), 
+                    model.get("injected_file_content_bytes"), model.get("security_groups"), 
+                    model.get("security_group_rules"), options.success);
+                    break;
+           }
     }
 
 });
