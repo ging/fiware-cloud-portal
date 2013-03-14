@@ -7,9 +7,9 @@ src: templates/root/sys/images.html
     <div class='table_header'>
         <h3>List of images</h3>
         <div class="table_actions clearfix">
-            <button  id="images_delete" disabled=true class="btn btn-small btn-danger btn-delete-group" name="action" value="images_delete" class="images_delete" type="submit" data-i18n="Delete Images">
+            <!--<button  id="images_delete" disabled=true class="btn btn-small btn-danger btn-delete-group" name="action" value="images_delete" class="images_delete" type="submit" data-i18n="Delete Images">
                 Delete Images
-            </button>
+            </button>-->
         </div>
     </div>
     <table id="images_tbl" class="table table-bordered table-striped">
@@ -21,7 +21,7 @@ src: templates/root/sys/images.html
                 <th class="tip" data-tooltip="Image's status: building, active, ..." data-i18n="Status">Status</th>
                 <th class="tip" data-tooltip="Check if the image is open to the public." data-i18n="Public">Public</th>
                 <th class="tip" data-tooltip="Image's container format." data-i18n="Container Format">Container Format</th>
-                <th class="actions_column hidden-phone"  data-i18n="Acciones">Actions</th>
+                <th class="actions_column hidden-phone"  data-i18n="Actions">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -47,21 +47,22 @@ src: templates/root/sys/images.html
                 <td class="" data-i18n="Yes"><%=image.get('is_public')%></td>
                 <td class=""><%=container_format%></td>
                 <td class="actions_column hidden-phone">
-                <div id="dropdown_<%= image.get('id') %>" class="btn-group">
-                    <button  id="images__action_launch__<%=i%>" class="ajax-modal btn btn-small btn-blue btn-launch" name="action" value="<%= image.id %>" type="submit" data-i18n="Launch">
-                        Launch
-                    </button>
-                    <a class="btn btn-small btn-blue dropdown-toggle" data-toggle="dropdown" href="#"> <span class="caret-white caret"></span> </a>
-                    <ul class="dropdown-menu row_actions clearfix">
-                        <li class="clearfix">
-                            <a href='#nova/images/<%= image.get('id')%>/update'  id= "image_edit" name="action" type="submit" class="btn btn-small btn-blue btn-edit"  data-i18n="Edit">Edit</a>
+                    <div id="dropdown_<%= image.get('id') %>" class="btn-group">
+                        <button  id="images__action_launch__<%=i%>" class="ajax-modal btn btn-small btn-blue btn-launch" name="action" value="<%= image.id %>" type="submit" data-i18n="Launch">        
+                            Launch
+                        </button>
+                        <!--<a class="btn btn-small btn-blue dropdown-toggle" data-toggle="dropdown" href="#"> <span class="caret-white caret"></span> </a>
+                        <ul class="dropdown-menu row_actions clearfix">
+                            <li class="clearfix">
+                                <a href='#nova/images/<%= image.get('id')%>/update'  id= "image_edit" name="action" type="submit" class="btn btn-small btn-blue btn-edit"  data-i18n="Edit">Edit</a>
 
-                            <button  id="images__action_delete__<%=i%>" class="btn btn-small btn-danger btn-delete" name="action" value="<%= image.id %>" type="submit" data-i18n="Delete">
-                                Delete
-                            </button>
-                        </li>
-                    </ul>
-                </div></td>
+                                <button  id="images__action_delete__<%=i%>" class="btn btn-small btn-danger btn-delete" name="action" value="<%= image.id %>" type="submit" data-i18n="Delete">
+                                    Delete
+                                </button>
+                            </li>
+                        </ul>-->
+                    </div>
+                </td>
             </tr>
             <% } %>
         </tbody>
