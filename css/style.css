@@ -883,6 +883,10 @@ td.multi_select_column {
   text-align: center;
 }
 
+th.multi_select_column {
+  text-align: center;
+}
+
 .table input[type="checkbox"] {
   display: inline;
 }
