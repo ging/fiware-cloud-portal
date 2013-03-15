@@ -15,7 +15,7 @@ src: templates/root/sys/images.html
     <table id="images_tbl" class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th class="multi_select_column"></th>
+                <!--<th class="multi_select_column"></th>-->
                 <th class="tip" data-tooltip="Name of the image." data-i18n="Image Name">Image Name</th>
                 <th class="hidden-phone tip" data-tooltip="Type of image: Image, Snapshot, ..." data-i18n="Type">Type</th>
                 <th class="tip" data-tooltip="Image's status: building, active, ..." data-i18n="Status">Status</th>
@@ -38,9 +38,9 @@ src: templates/root/sys/images.html
             <tr
             id="images__row__<%= models.length %>"
             class="ajax-update status_down">
-                <td class="multi_select_column">
+                <!--<td class="multi_select_column">
                 <input type="checkbox" name="object_ids" class="checkbox" id="checkbox_<%= image.get('id')%>" value="<%= image.get('id')%>" />
-                </td>
+                </td>-->
                 <td class=""><a href="#nova/images/<%= image.get('id')%>"> <%= image.get('name')%></a></td>
                 <td class="hidden-phone" data-i18n="Image">Image</td>
                 <td class=""><%=image.get('status').toLowerCase()%></td>

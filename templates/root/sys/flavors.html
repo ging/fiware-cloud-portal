@@ -18,7 +18,7 @@ src: templates/root/sys/flavors.html
         <table id="flavors" class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th class="multi_select_column"></th>
+                    <!--<th class="multi_select_column"></th>-->
                     <th class="hidden-phone tip" data-tooltip="Flavor's identifier." data-i18n="Id">Id</th>
                     <th class="tip" data-tooltip="Flavor's name." data-i18n="Flavor Name">Flavor Name</th>
                     <th class="tip" data-tooltip="Number of virtual CPUs." data-i18n="VCPUs">VCPUs</th>
@@ -40,9 +40,9 @@ src: templates/root/sys/flavors.html
                 <tr
                 id="flavors__row__<%= models.length %>"
                 class="ajax-update status_down">
-                    <td class="multi_select_column">
+                    <!--<td class="multi_select_column">
                     <input id="checkbox_<%= flavor.get('id')%>" class="checkbox" name="object_ids" value="<%= flavor.get('id') %>" type="checkbox"/>
-                    </td>
+                    </td>-->
                     <td class="hidden-phone"><%= flavor.get('id')%></td>
                     <td class=""><%= flavor.get('name')%></td>
                     <td class=""><%= flavor.get('vcpus')%></td>
