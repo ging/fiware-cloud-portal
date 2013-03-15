@@ -76,9 +76,6 @@ var CreateUserView = Backbone.View.extend({
 
     
     onCreate: function(e){
-        console.log("on create");
-        console.log(this.$('input[name=user_password]').val());
-        console.log(this.$('input[name=confirm_password]').val());
         e.preventDefault();
         var name = this.$('input[name=name]').val();
         var email = this.$('input[name=email]').val();

@@ -12,12 +12,50 @@ src: templates/root/sys/users.html
                     Filter
                 </button>
             </div>-->
+            <button class="btn btn-small btn-blue btn-create" data-i18n="Create User">Create User</button>
+            <div id="dropdown_users" class="btn-group">
 
-            <button class="btn btn-small btn-blue btn-create" data-i18n="Create User">Create User</a>
+                    <button class="btn btn-small btn-blue" data-toggle="dropdown" tdata-i18n="Edit">Actions</button>
 
-            <button class='btn btn-small btn-danger btn-delete-group' id='users_delete' disabled="disabled" name="action" value="users__delete" type="submit" data-i18n="Delete Users">
+                    <a class="btn dropdown-toggle btn-small btn-blue" data-toggle="dropdown"> <span class="caret caret-white"></span></a>
+                    <ul class="dropdown-menu row_actions clearfix">
+
+                        <li class="clearfix edit-actions">
+
+                            <button  class="btn btn-small btn-edit-actions"  disabled="disabled" data-i18n="Edit User">
+                                Edit User
+                            </button>
+                        </li>
+
+                        <li class="clearfix">
+                            <button  class="btn btn-small btn-enable-actions" disabled="disabled" data-i18n="Enable Users">
+                                Enable Users
+                            </button>   
+
+                        </li>
+
+                        <li class="clearfix">
+ 
+                            <button  class="btn btn-small btn-disable-actions" disabled="disabled" data-i18n="Disable Users">
+                                Disable Users
+                            </button>
+                        </li>                        
+
+                        <li class="clearfix">
+
+                            <button  class="btn btn-small btn-danger btn-delete-actions" disabled="disabled" data-i18n="Delete Users">
+                                Delete Users
+                            </button>
+
+                        </li>
+
+                    </ul>
+
+            </div>            
+
+            <!--<button class='btn btn-small btn-danger btn-delete-group' id='users_delete' disabled="disabled" name="action" value="users__delete" type="submit" data-i18n="Delete Users">
                 Delete Users
-            </button>
+            </button>-->
 
         </div>
 
@@ -47,13 +85,13 @@ src: templates/root/sys/users.html
             %>
             <tr id="users__row__" class="">
                 <td class="multi_select_column">
-                    <input type="checkbox" name="object_ids" class="checkbox checkbox_users" value="<%= user.get('id') %>" />
+                    <input id="checkbox_<%= user.get('id') %>" type="checkbox" name="object_ids" class="checkbox checkbox_users" value="<%= user.get('id') %>" />
                 </td>
                 <td class=""><%= user.get('name')%></td>
                 <td class=""><%= user.get('email')%></td>
                 <td class="status_up"><%= user.get('enabled')%></td>
                 <td class="actions_column hidden-phone">
-                <div class="btn-group">
+                <div id="dropdown_<%= user.get('id') %>" class="btn-group">
 
                     <button class="btn btn-small btn-blue btn-edit" value="<%=user.get('id')%>" tdata-i18n="Edit">Edit</button>
 

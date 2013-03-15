@@ -550,6 +550,18 @@ table form {
   float: none;
 }
 
+/* Style for Actions dropdown*/
+
+.table_header .table_actions .btn-group {
+  display: inline-block;
+  float: none;
+}
+
+.table_header .table_actions .btn-group .dropdown-toggle{
+  height: 18px;
+  margin-left: -4px;  
+}
+
 .table_actions form {
     float: right;
     margin-left: 10px;
@@ -789,7 +801,8 @@ td.actions_column {
 
 td.actions_column .row_actions a,
 td.actions_column .row_actions input,
-td.actions_column .row_actions button {
+td.actions_column .row_actions button,
+.table_header .table_actions .btn-group .dropdown-menu button {
   background: none;
   float: none;
   display: block;
@@ -839,6 +852,9 @@ td.actions_column .dropdown-menu a:hover,
 td.actions_column .dropdown-menu button:hover {
   background-color: #CDCDCD;
 }
+
+/*first line should be deleted*/
+#dropdown_users .dropdown-menu .btn-danger,
 .dropdown-menu .btn.btn-danger {
   color: #C43C35;
 }
@@ -889,12 +905,12 @@ th.multi_select_column {
 }
 
 .table input[type="checkbox"] {
-  display: inline;
+  display: block;
+  margin-left: 5px;
 }
 
 div.input input[type="checkbox"] {
-  float: left;
-  width: 25px;
+  float: left; 
 }
 
 .table_title a {

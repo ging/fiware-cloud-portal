@@ -545,7 +545,7 @@ var OSRouter = Backbone.Router.extend({
         model.fetch();
         var id = setInterval(function() {
             model.fetch();
-        }, seconds*1000);
+        }, seconds*10000);
 
         this.timers.push(id);
     }
