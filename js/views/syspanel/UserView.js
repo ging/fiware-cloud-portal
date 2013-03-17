@@ -38,7 +38,7 @@ var UserView = Backbone.View.extend({
     onDisableUsers: function(evt) {
         var self = this;
         var subview = new ConfirmView({el: 'body', title: "Confirm Disable Users", btn_message: "Disable Users", onAccept: function() {
-            $(".checkbox:checked").each(function () {
+            $(".checkbox_users:checked").each(function () {
                     var user = $(this).val();
                     var usr = self.model.get(user);
                         if (usr.get("enabled") === true) {
@@ -154,9 +154,9 @@ var UserView = Backbone.View.extend({
             $(".btn-disable-actions").attr("disabled", false);
             $(".btn-delete-actions").attr("disabled", false);  
                 if ($(".checkbox_users:checked").size() > 1) {
-                    $(".edit-actions").hide();
+                    $(".btn-edit-actions").hide();
                 } else {
-                    $(".edit-actions").show();
+                    $(".btn-edit-actions").show();
                 }        
         } else {
             $("#users_delete").attr("disabled", true);
@@ -164,7 +164,7 @@ var UserView = Backbone.View.extend({
             $(".btn-enable-actions").attr("disabled", true);
             $(".btn-disable-actions").attr("disabled", true);
             $(".btn-delete-actions").attr("disabled", true);
-            $(".edit-actions").show();
+            $(".btn-edit-actions").show();
         }
         
 
@@ -198,7 +198,7 @@ var UserView = Backbone.View.extend({
                 if ($("#dropdown_"+userId).hasClass('open')) {
                     dropdowns.push(userId);
                 }
-                if ($("#dropdown_users").hasClass('open')) {
+                if ($("#dropdown_actions").hasClass('open')) {
                     drop_actions_selected = true;
                 }              
             }
@@ -217,8 +217,8 @@ var UserView = Backbone.View.extend({
                     drop.addClass("open");
                 }
             }
-            if (($("#dropdown_users").html() !== null) && (drop_actions_selected)) {
-                $("#dropdown_users").addClass("open");
+            if (($("#dropdown_actions").html() !== null) && (drop_actions_selected)) {
+                $("#dropdown_actions").addClass("open");
             }
             this.enableDisableDeleteButton();
         }

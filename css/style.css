@@ -854,7 +854,7 @@ td.actions_column .dropdown-menu button:hover {
 }
 
 /*first line should be deleted*/
-#dropdown_users .dropdown-menu .btn-danger,
+#dropdown_actions .dropdown-menu .btn-danger,
 .dropdown-menu .btn.btn-danger {
   color: #C43C35;
 }
