@@ -11,12 +11,17 @@ var NovaInstanceSnapshotsView = Backbone.View.extend({
     },
 
     events:{
+        'click .btn-launch-instance-actions' : 'onLaunchInstance',
+        'click .btn-edit-image-actions':'onEditImage',
+        'click .btn-delete-snapshots-actions':'onDeleteGroupInstances',
+
         'change .checkbox_images':'enableDisableDeleteButtonImages',
         'click .btn-delete-group-images':'onDeleteGroupImages',
         'click .btn-edit-images':'onEditImages',
         'click .btn-launch-images':'onLaunchImages',
         //instance snapshots
         'change .checkbox_instances':'enableDisableDeleteButtonInstances',
+        'change .checkbox_all':'checkAll',
         'click .btn-delete-group-instances' : 'onDeleteGroupInstances',
         'click .btn-delete-instances' : 'onDeleteInstances',
         'click .btn-edit-instances' : 'onEditInstances',
@@ -67,11 +72,57 @@ var NovaInstanceSnapshotsView = Backbone.View.extend({
 
     // Instance snapshots
 
+    onLaunchInstance: function(evt) {
+        var self = this;
+        var instSnapshot = $(".checkbox_instances:checked").val();
+        var instanceSnapshot = self.model.get(instSnapshot);
+        var subview = new LaunchImageView({model: instanceSnapshot, flavors: this.options.flavors, keypairs: this.options.keypairs, el: 'body'});
+        subview.render();
+    },
+
+    onEditImage: function(evt) {
+        var self = this;
+        var img = $(".checkbox_instances:checked").val();
+        var image = this.model.get(img);
+        var subview = new UpdateImageView({model: image, el: 'body'});
+        subview.render();
+    },
+
+    checkAll: function () {
+        if ($(".checkbox_all:checked").size() > 0) {
+            $(".checkbox_instances").attr('checked','checked');
+            $(".btn-launch-instance-actions").hide();
+            $(".btn-edit-image-actions").hide();
+            this.enableDisableDeleteButtonInstances();
+        } else {
+            $(".checkbox_instances").attr('checked',false);
+            $(".btn-launch-instance-actions").show();
+            $(".btn-edit-image-actions").show();
+            this.enableDisableDeleteButtonInstances();
+        }
+        
+    },
+
     enableDisableDeleteButtonInstances: function () {
         if ($(".checkbox_instances:checked").size() > 0) {
             $("#instance_delete").attr("disabled", false);
+            $(".btn-launch-instance-actions").attr("disabled", false);
+            $(".btn-edit-image-actions").attr("disabled", false);
+            $(".btn-delete-snapshots-actions").attr("disabled", false); 
+            if ($(".checkbox_instances:checked").size() > 1) {
+                $(".btn-launch-instance-actions").hide();
+                $(".btn-edit-image-actions").hide();
+            } else {
+                $(".btn-launch-instance-actions").show();
+            $(".btn-edit-image-actions").show();
+            } 
         } else {
             $("#instance_delete").attr("disabled", true);
+            $(".btn-launch-instance-actions").attr("disabled", true);
+            $(".btn-edit-image-actions").attr("disabled", true);
+            $(".btn-delete-snapshots-actions").attr("disabled", true); 
+            $(".btn-launch-instance-actions").show();
+            $(".btn-edit-image-actions").show();
         }
     },
 
@@ -129,7 +180,7 @@ var NovaInstanceSnapshotsView = Backbone.View.extend({
             var dropdowns_images = [];
             var checkboxes_instances = [];
             var dropdowns_instances = [];
-            var index, imageId, instanceId, check, drop;
+            var index, imageId, instanceId, check, drop, drop_actions_selected;
             for (index in this.model.models) {
                 imageId = this.model.models[index].id;
                 if ($("#checkbox_images_"+imageId).is(':checked')) {
@@ -137,6 +188,9 @@ var NovaInstanceSnapshotsView = Backbone.View.extend({
                 }
                 if ($("#dropdown_images_"+imageId).hasClass('open')) {
                     dropdowns_images.push(imageId);
+                }
+                if ($("#dropdown_actions").hasClass('open')) {
+                    drop_actions_selected = true;
                 }
             }
             for (index in this.model.models) {
@@ -178,6 +232,9 @@ var NovaInstanceSnapshotsView = Backbone.View.extend({
                 if (drop.html() != null) {
                     drop.addClass("open");
                 }
+            }
+            if (($("#dropdown_actions").html() !== null) && (drop_actions_selected)) {
+                $("#dropdown_actions").addClass("open");
             }
         }
         this.enableDisableDeleteButtonImages();

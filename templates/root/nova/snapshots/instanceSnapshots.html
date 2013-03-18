@@ -8,15 +8,49 @@ src: templates/root/nova/snapshots/instanceSnapshots.html
     <div class='table_header'>
         <h3 class='table_title'>Instance Snapshots</h3>
         <div class="table_actions clearfix">
-            <button id='instance_delete' class='btn btn-small btn-danger btn-delete-group-instances' disabled=true name="action" value="snapshots__delete" type="submit">
+            <div id="dropdown_actions" class="btn-group">
+                    
+                <button class="btn btn-small btn-blue" data-toggle="dropdown" tdata-i18n="Actions">Actions</button>
+
+                <a class="btn dropdown-toggle btn-small btn-blue" data-toggle="dropdown"> <span class="caret caret-white"></span>
+                </a>
+                
+                <ul id="dropdown_options" class="dropdown-menu row_actions clearfix">
+
+                    <li class="clearfix">
+
+                        <button class="btn btn-small btn-launch-instance-actions" disabled="disabled" data-i18n="Launch Instance">
+                                Launch Instance
+                        </button>
+                    </li>
+
+                    <li class="clearfix">
+
+                        <button class="btn btn-small btn-edit-image-actions" disabled="disabled" data-i18n="Edit Image">
+                                Edit Image
+                        </button>
+                    </li>
+
+                    <li class="clearfix">
+
+                        <button class="btn btn-danger btn-delete-snapshots-actions" disabled="disabled" data-i18n="Delete Snapshots">Delete Snapshots
+                        </button>
+                    </li>
+
+                </ul>
+            </div>
+
+            <!--<button id='instance_delete' class='btn btn-small btn-danger btn-delete-group-instances' disabled=true name="action" value="snapshots__delete" type="submit">
                 Delete Snapshots
-            </button>
+            </button>-->
         </div>
     </div>
     <table id="instance_snapshots" class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th class="multi_select_column"></th>
+                <th class="multi_select_column">
+                    <input type="checkbox" class="checkbox checkbox_all">
+                </th>
                 <th class="tip" data-tooltip="Spanshots's name">Name</th>
                 <th class="tip" data-tooltip="Snapshot's type">Type</th>
                 <th class="tip" data-tooltip="Current status of the snapshot (active, saving, ...)">Status</th>
