@@ -8,16 +8,45 @@ src: templates/root/nova/securityGroups.html
             <h3 class='table_title'>Security Groups</h3>
             <div class="table_actions clearfix">
 
-                <button id="security_groups__action_create" class="btn btn-small btn-blue btn-create-sec-group">Create Security Group</button>
-                <button class='btn btn-small btn-danger btn-delete' disabled="disabled" name="action" id="sec_groups_delete" value="security_groups__delete" type="submit">
-                    Delete Security Groups
+                <button id="security_groups__action_create" class="btn btn-small btn-blue btn-create-sec-group">Create Security Group
                 </button>
+
+                <div id="dropdown_actions" class="btn-group">
+
+                    <button class="btn btn-small btn-blue" data-toggle="dropdown" tdata-i18n="Actions">Actions</button>
+
+                    <a class="btn dropdown-toggle btn-small btn-blue" data-toggle="dropdown"> <span class="caret caret-white"></span>
+                    </a>
+
+                    <ul id="dropdown_options" class="dropdown-menu row_actions clearfix">
+
+                        <li class="clearfix">
+
+                            <button class="btn btn-small btn-edit-rules-actions" disabled="disabled" data-i18n="Edit Rules">Edit Rules
+                            </button>
+                        </li>
+
+                        <li class="clearfix">
+                        
+                            <button class="btn btn-small btn-danger btn-delete-sec-group-actions" disabled="disabled" data-i18n="Delete Security Group">Delete Security Group
+                            </button>
+                        </li>
+
+                    </ul>
+                       
+                </div>
+
+                <!--<button class='btn btn-small btn-danger btn-delete' disabled="disabled" name="action" id="sec_groups_delete" value="security_groups__delete" type="submit">
+                    Delete Security Groups
+                </button>-->
             </div>
         </div>
         <table id="security_groups" class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th class="multi_select_column"></th>
+                    <th class="multi_select_column">
+                        <input type="checkbox" class="checkbox checkbox_all">
+                    </th>
                     <th class="tip" data-tooltip="Security Group's name.">Name</th>
                     <th class="tip" data-tooltip="Security Group's description">Description</th>
                     <th class="actions_column">Actions</th>

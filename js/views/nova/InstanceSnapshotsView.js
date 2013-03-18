@@ -22,7 +22,7 @@ var NovaInstanceSnapshotsView = Backbone.View.extend({
         //instance snapshots
         'change .checkbox_instances':'enableDisableDeleteButtonInstances',
         'change .checkbox_all':'checkAll',
-        'click .btn-delete-group-instances' : 'onDeleteGroupInstances',
+        //'click .btn-delete-group-instances' : 'onDeleteGroupInstances',
         'click .btn-delete-instances' : 'onDeleteInstances',
         'click .btn-edit-instances' : 'onEditInstances',
         'click .btn-launch-instances' : 'onLaunchInstances'

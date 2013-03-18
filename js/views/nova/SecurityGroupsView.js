@@ -9,11 +9,21 @@ var NovaSecurityGroupsView = Backbone.View.extend({
     },
 
     events: {
+        'click .btn-edit-rules-actions' : 'onEditRules',
+        'click .btn-delete-sec-group-actions':'deleteSecurityGroups',
         'change .checkbox_sec_groups':'enableDisableDeleteButton',
+        'change .checkbox_all':'checkAll',
         'click .btn-create-sec-group':'createSecurityGroup',
         'click .btn-edit':'editSecurityGroupRules',
-        'click #sec_groups_delete':'deleteSecurityGroups',
+        //'click #sec_groups_delete':'deleteSecurityGroups',
         'click #sec_delete':'deleteSecurityGroup'
+    },
+
+    onEditRules: function (e) {
+        var self = this;
+        var securityGroup = $(".checkbox_sec_groups:checked").val();
+        var subview = new EditSecurityGroupRulesView({el: 'body', securityGroupId: securityGroup, model: this.options.securityGroupsModel});
+        subview.render();
     },
 
     onClose: function() {
@@ -68,12 +78,49 @@ var NovaSecurityGroupsView = Backbone.View.extend({
         subview.render();
     },
 
+    checkAll: function () {
+        if ($(".checkbox_all:checked").size() > 0) {
+            $(".checkbox_sec_groups").attr('checked','checked');
+            $(".btn-edit-rules-actions").hide();
+            this.enableDisableDeleteButton();
+        } else {
+            $(".checkbox_sec_groups").attr('checked',false);
+            $(".btn-edit-rules-actions").show();
+            this.enableDisableDeleteButton();
+        }
+        
+    },
 
     enableDisableDeleteButton: function (e) {
-        if ($(".checkbox_sec_groups:checked").size() > 0) {
+        var self, secGroup, securityGroup;
+        self = this;
+        secGroup = $(".checkbox_sec_groups:checked").val();
+
+        for (var index in self.options.securityGroupsModel.models) {
+            if (self.options.securityGroupsModel.models[index].id == secGroup) {
+                securityGroup = self.options.securityGroupsModel.models[index];
+            }
+        }
+        if ($(".checkbox_sec_groups:checked").size() > 0) {       
             $("#sec_groups_delete").attr("disabled", false);
+            $(".btn-edit-rules-actions").attr("disabled", false);
+            $(".btn-delete-sec-group-actions").attr("disabled", false);
+
+            if (securityGroup.attributes.name !== 'default') {
+                $(".btn-delete-sec-group-actions").show();
+            } else {
+                $(".btn-delete-sec-group-actions").hide();
+            }
+            if ($(".checkbox_sec_groups:checked").size() > 1) {
+                $(".btn-edit-rules-actions").hide();
+                $(".btn-delete-sec-group-actions").show();
+            } else {
+                $(".btn-edit-rules-actions").show();
+            } 
         } else {
             $("#sec_groups_delete").attr("disabled", true);
+            $(".btn-edit-rules-actions").attr("disabled", true);
+            $(".btn-delete-sec-group-actions").attr("disabled", true);
         }
     },
 
@@ -96,12 +143,19 @@ var NovaSecurityGroupsView = Backbone.View.extend({
         if ($("#security_groups").html() != null) {
             var new_template = this._template({securityGroupsModel: this.options.securityGroupsModel});
             var checkboxes = [];
-            var index, secGroupsId, check;
+            var dropdowns = [];
+            var index, secGroupsId, check, drop, drop_actions_selected;
             for (index in this.options.securityGroupsModel.models) {
                 secGroupsId = this.options.securityGroupsModel.models[index].id;
                 if ($("#checkbox_sec_groups_"+secGroupsId).is(':checked')) {
                     checkboxes.push(secGroupsId);
                 }
+                if ($("#dropdown_"+secGroupsId).hasClass('open')) {
+                    dropdowns.push(secGroupsId);
+                }
+                if ($("#dropdown_actions").hasClass('open')) {
+                    drop_actions_selected = true;
+                } 
             }
             $(this.el).html(new_template);
             for (index in checkboxes) {
@@ -110,6 +164,16 @@ var NovaSecurityGroupsView = Backbone.View.extend({
                 if (check.html() != null) {
                     check.prop("checked", true);
                 }
+            }
+            for (index in dropdowns) { 
+                secGroupsId = dropdowns[index];
+                drop = $("#dropdown_"+secGroupsId);
+                if (drop.html() != null) {
+                    drop.addClass("open");
+                }
+            }
+            if (($("#dropdown_actions").html() !== null) && (drop_actions_selected)) {
+                $("#dropdown_actions").addClass("open");
             }
            this.enableDisableDeleteButton();
         }
