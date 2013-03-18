@@ -147,7 +147,7 @@ var ObjectStorageContainersView = Backbone.View.extend({
             var new_template = this._template(this.model);
             var checkboxes = [];
             var dropdowns = [];
-            var index, container, check, drop, drop_actions_selected;
+            var container, check, drop, drop_actions_selected;
             for (index in this.model.models) { 
                 container = this.model.models[index].id;
                 if ($("#checkbox_"+container).is(':checked')) {

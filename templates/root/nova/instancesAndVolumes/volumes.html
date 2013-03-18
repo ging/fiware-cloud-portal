@@ -11,15 +11,47 @@ src: templates/root/nova/instancesAndVolumes/volumes.html
             <button id="volumes_create" class="btn btn-small ajax-modal btn-create-volume btn-blue" name="action" value="volumes__create" type="submit" data-i18n="Create Volume">
                 Create Volume
             </button>
-            <button id="volumes_delete" disabled=true class="btn btn-small btn-danger btn-delete-group" name="action" value="volumes__delete" class="volumes_delete" type="submit" data-i18n="Delete Volume">
+
+            <div id="dropdown_actions" class="btn-group">
+
+                <button class="btn btn-small btn-blue" data-toggle="dropdown" tdata-i18n="Actions">Actions</button>
+
+                <a class="btn dropdown-toggle btn-small btn-blue" data-toggle="dropdown"> <span class="caret caret-white"></span>
+                </a>
+
+                <ul id="dropdown_options" class="dropdown-menu row_actions clearfix">
+
+                    <li class="clearfix">
+                        <button class="btn btn-small btn-edit-attachments-actions ellipsis w120" data-toggle="dropdown" tdata-i18n="Edit Attachments">Edit Attachments
+                        </button>
+                    </li>
+
+                    <li class="clearfix">
+
+                        <button class="btn btn-small btn-create-snapshot-actions" data-toggle="dropdown" tdata-i18n="Create Snapshot">Create Snapshot
+                        </button>
+                    </li>
+
+                    <li class="clearfix">
+
+                        <button class="btn btn-small btn-danger btn-delete-volume-actions" data-toggle="dropdown" tdata-i18n="Delete Volumes">Delete Volumes
+                        </button>
+                    </li>
+                </ul>
+           
+            </div>
+
+            <!--<button id="volumes_delete" disabled=true class="btn btn-small btn-danger btn-delete-group" name="action" value="volumes__delete" class="volumes_delete" type="submit" data-i18n="Delete Volume">
                 Delete Volumes
-            </button>
+            </button>-->
         </div>
     </div>
     <table id="volumes" class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th class="multi_select_column"></th>
+                <th class="multi_select_column">
+                    <input type="checkbox" class="checkbox checkbox_all">
+                </th>
                 <th class="tip" data-tooltip="Volume's name.">Name</th>
                 <th class="hidden-phone tip" data-tooltip="Volume's description.">Description</th>
                 <th class="tip" data-tooltip="Current volume size.">Size</th>
@@ -45,7 +77,7 @@ src: templates/root/nova/instancesAndVolumes/volumes.html
                 <td class="status_unknown"><%= volume.get("status")%></td>
                 <td class=""><%= (volume.get("attachments").length == 0) ? "-": volume.get("attachments").length%></td>
                 <td class="actions_column hidden-phone"> <% if (volume.get("status") != "error") {%>
-                <div class="btn-group">
+                <div id="dropdown_<%= volume.get('id') %>" class="btn-group">
                     <a id="volumes__row_<%= volume.get("id")%>__action_attachments" value="<%= volume.id %>" class="btn btn-blue ajax-modal btn-edit btn-small btn-edit-volumes ellipsis w120">Edit Attachments</a>
                     <% if (volume.get("status") != "in-use") {%>
                     <a class="btn dropdown-toggle ajax-modal btn-edit btn-blue btn-small" data-toggle="dropdown" href="#"> <span class="caret caret-white"></span> </a>
