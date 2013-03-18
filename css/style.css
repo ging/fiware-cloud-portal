@@ -537,6 +537,11 @@ table form {
     margin-left: 10px;
 }
 
+/*action buttons and links*/
+#dropdown_options a, #dropdown_options button {
+  float: right;
+}
+
 .table_actions button.filter {
   margin-left: 0;
 }

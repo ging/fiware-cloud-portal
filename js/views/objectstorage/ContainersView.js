@@ -9,20 +9,36 @@ var ObjectStorageContainersView = Backbone.View.extend({
     },
 
     events: {
+        'click .btn-list-objects-actions' : 'onListObjects',
+        'click .btn-delete-actions':'onDeleteGroup',
+        'click .btn-upload-actions':'onUploadObject',
         'change .checkbox_containers':'enableDisableDeleteButton',
         'change .checkbox_all':'checkAll',
-        'click #containers__action_create': 'onCreateContainer',
-        'click .btn-upload': 'onUploadObject',
+        'click .btn-create-container': 'onCreateContainer',
+        'click .btn-upload': 'onUpload',
         'click .btn-delete':'onDelete',
-        'click .btn-delete-group': 'onDeleteGroup'
+        //'click .btn-delete-group': 'onDeleteGroup'
     },
+
+    onUploadObject: function(evt) {  
+        var self = this;
+        var cont = $(".checkbox:checked").val();
+        var container = self.model.get(cont);
+        var subview = new UploadObjectView({el: 'body',  model: container});
+        subview.render();
+    }, 
+
+    onListObjects: function(evt) {  
+        var container = $(".checkbox:checked").val();
+        window.location.href = '#objectstorage/containers/'+container+'/';
+    }, 
 
     onCreateContainer: function(evt) {
         var subview = new CreateContainerView({el: 'body', model:this.model});
         subview.render();
     },
     
-    onUploadObject: function(evt) {  
+    onUpload: function(evt) {  
         var self = this;
         var cont = self.model.get(evt.target.value);
         var subview = new UploadObjectView({el: 'body',  model: cont});
@@ -80,22 +96,42 @@ var ObjectStorageContainersView = Backbone.View.extend({
     checkAll: function () {
         if ($(".checkbox_all:checked").size() > 0) {
             $(".checkbox_containers").attr('checked','checked');
+            $(".btn-list-objects-actions").hide();
+            $(".btn-upload-actions").hide();
             this.enableDisableDeleteButton();
         } else {
             $(".checkbox_containers").attr('checked',false);
+            $(".btn-list-objects-actions").show();
+            $(".btn-upload-actions").show();
             this.enableDisableDeleteButton();
         }
         
     },
     
     enableDisableDeleteButton: function () {
+
         if ($(".checkbox_containers:checked").size() > 0) { 
             $("#containers_terminate").attr("disabled", false);
+            $(".btn-list-objects-actions").attr("disabled", false);
+            $(".btn-upload-actions").attr("disabled", false);
+            $(".btn-delete-actions").attr("disabled", false);
+
+            if ($(".checkbox_containers:checked").size() > 1) {
+                $(".btn-list-objects-actions").hide();
+                $(".btn-upload-actions").hide();
+            } else {
+                $(".btn-list-objects-actions").show();
+                $(".btn-upload-actions").show();
+            }        
         } else {
             $("#containers_terminate").attr("disabled", true);
+            $(".btn-list-objects-actions").attr("disabled", true);
+            $(".btn-upload-actions").attr("disabled", true);
+            $(".btn-delete-actions").attr("disabled", true);
+            $(".btn-list-objects-actions").show();
+            $(".btn-upload-actions").show();
         }
-
-    },
+    },    
     
     renderFirst: function() {
         var self = this;
@@ -110,22 +146,39 @@ var ObjectStorageContainersView = Backbone.View.extend({
         if ($("#containers").html() != null) {
             var new_template = this._template(this.model);
             var checkboxes = [];
-            var index, containerId, check;
+            var dropdowns = [];
+            var index, container, check, drop, drop_actions_selected;
             for (index in this.model.models) { 
-                containerId = this.model.models[index].id;
-                if ($("#checkbox_"+containerId).is(':checked')) {
-                    checkboxes.push(containerId);
+                container = this.model.models[index].id;
+                if ($("#checkbox_"+container).is(':checked')) {
+                    checkboxes.push(container);
                 }
+                if ($("#dropdown_"+container).hasClass('open')) {
+                    dropdowns.push(container);
+                }
+                if ($("#dropdown_actions").hasClass('open')) {
+                    drop_actions_selected = true;
+                } 
             }
             $(this.el).html(new_template);
             for (index in checkboxes) { 
-                containerId = checkboxes[index];
-                check = $("#checkbox_"+containerId);
+                container = checkboxes[index];
+                check = $("#checkbox_"+container);
                 if (check.html() != null) {
                     check.prop("checked", true);
                 }
-            }    
-            this.enableDisableDeleteButton();       
+            } 
+            for (index in dropdowns) {
+                container = dropdowns[index];
+                drop = $("#dropdown_"+container);
+                if (drop.html() !== null) {
+                    drop.addClass("open");
+                }
+            }
+            if (($("#dropdown_actions").html() !== null) && (drop_actions_selected)) {
+                $("#dropdown_actions").addClass("open");
+            }
+            this.enableDisableDeleteButton();         
         }
         
         return this;

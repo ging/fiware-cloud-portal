@@ -6,13 +6,43 @@ src: templates/root/objectstorage/containers.html
 	<div class="table_wrapper">
     	<div class='table_header'>
         	<h3 class="table_title">Containers</h3>
+
 	        <div class="table_actions clearfix">
-	            <button id="containers__action_create" class="btn btn-small btn-blue btn-launch btn-create-container">
+	            <button id="containers__action_create" class="btn btn-small btn-blue btn-create-container">
 	                Create Container
 	            </button>
-	            <button id="containers_terminate" class="btn btn-small btn-danger btn-delete-group" disabled="disabled" name="action" value="containers__delete" type="submit">
+                
+                <div id="dropdown_actions" class="btn-group">
+
+                    <button class="btn btn-small btn-blue" data-toggle="dropdown" tdata-i18n="Edit">Actions</button>
+
+                    <a class="btn dropdown-toggle btn-small btn-blue" data-toggle="dropdown"> <span class="caret caret-white"></span>
+                    </a>
+                    <ul id="dropdown_options" class="dropdown-menu row_actions clearfix">
+
+                        <li class="clearfix">
+
+                            <button class="btn btn-small btn-list-objects-actions" disabled="disabled" data-i18n="List Objects">List Objects
+                            </button>
+                         </li>
+
+                        <li class="clearfix">
+
+                            <button class="btn btn-small btn-upload-actions" disabled="disabled" data-i18n="Upload Object">Upload Object
+                            </button>
+                        </li>
+                        
+                        <li class="clearfix">
+
+                            <button class="btn btn-small btn-danger btn-delete-actions" disabled="disabled" data-i18n="Delete Containers">Delete Containers
+                            </button>
+                        </li>
+                    
+                    </ul>
+                </div>
+	            <!--<button id="containers_terminate" class="btn btn-small btn-danger btn-delete-group" disabled="disabled" name="action" value="containers__delete" type="submit">
 	                Delete Containers
-	            </button>
+	            </button>-->
 	        </div>
 	     </div>
 	 </div>
@@ -55,14 +85,24 @@ src: templates/root/objectstorage/containers.html
                     <td class=""><%= container.get("count")%></td>
                     <td class=""><%= size%></td>
                     <td class="actions_column">
-                        <div class="btn-group">
-                            <a href="#objectstorage/containers/<%= container.get("name")%>/" id="containers__row_<%= container.name%>__action_list_objects" class="ajax-modal btn btn-small btn-blue btn-list-objects">List Objects</a>
+
+                        <div id="dropdown_<%= container.get('name') %>" class="btn-group">
+                            <a href="#objectstorage/containers/<%= container.get("name")%>/" id="containers__row_<%= container.name%>__action_list_objects" class="ajax-modal btn btn-small btn-blue btn-list-objects">List Objects
+                            </a>
                             <a class="btn dropdown-toggle btn-small btn-blue" data-toggle="dropdown" href="#">
                                 <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu row_actions clearfix">
-                                <li class="clearfix"><button class="ajax-modal btn btn-small ajax-modal btn-upload" name = "action" type = "submit" value="<%= container.get("name")%>">Upload Object</button></li>
-                                <li class="clearfix"><button id="containers__row_hola__action_delete" class="btn btn-small btn-danger btn-delete" name="action" value="<%=container.get("name")%>" type="submit">Delete Container</button></li>
+
+                                <li class="clearfix">
+                                    <button class="ajax-modal btn btn-small ajax-modal btn-upload" name = "action" type = "submit" value="<%= container.get("name")%>">Upload Object
+                                    </button>
+                                </li>
+
+                                <li class="clearfix">
+                                    <button id="containers__row_hola__action_delete" class="btn btn-small btn-danger btn-delete" name="action" value="<%=container.get("name")%>" type="submit">Delete Container
+                                    </button>
+                                </li>
                             </ul>
                         </div>
                     </td>
