@@ -110,8 +110,8 @@ var NovaVolumesView = Backbone.View.extend({
             if (volume.get("status") != "in-use") {
                 $(".btn-create-snapshot-actions").show();
             } else {
-                $(".btn-create-snapshot-actions").hide();
-                //$(".btn-create-snapshot-actions").attr("disabled", true); 
+                //$(".btn-create-snapshot-actions").hide();
+                $(".btn-create-snapshot-actions").attr("disabled", true); 
             }
             if ($(".checkbox_volumes:checked").size() > 1) {
                 $(".btn-edit-attachments-actions").hide();

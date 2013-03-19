@@ -11,8 +11,21 @@ var NovaInstancesView = Backbone.View.extend({
     },
 
     events:{
+        'click .btn-edit-instance-actions' : 'onEditInstance',
+        'click .btn-vnc-actions':'onVNC',
+        'click .btn-log-actions':'onLog',
+        'click .btn-snapshot-actions':'onSnapshotInstance',
+        'click .btn-pause-actions':'onPauseInstance',
+        'click .btn-unpause-actions':'onUnpauseInstance',
+        'click .btn-suspend-actions':'onSuspendInstance',
+        'click .btn-resume-actions':'onResumeInstance',
+        'click .btn-password-actions':'onChangePasswordInstance',
+        'click .btn-reboot-actions':'onRebootInstance',
+        'click .btn-terminate-actions':'onTerminateGroup',
+
         'change .checkbox_instances':'enableDisableTerminateButton',
-        'click .btn-edit-instances':'onEditInstance',
+        'change .checkbox_all':'checkAll',
+        'click .btn-edit-instances':'onEditInstances',
         'click .btn-snapshot':'onSnapshot',
         'click .btn-pause':'onPause',
         'click .btn-unpause':'onUnpause',
@@ -24,13 +37,99 @@ var NovaInstancesView = Backbone.View.extend({
         'click .btn-terminate-group':'onTerminateGroup'
     },
 
+    onEditInstance: function(evt) {
+        var instance = $(".checkbox:checked").val();
+        var subview = new UpdateInstanceView({el: 'body', model: this.model.get(instance)});
+        subview.render();
+    },
+
+    onVNC: function(evt) {
+        var instance = $(".checkbox:checked").val();
+        window.location.href = '#nova/instances/'+instance+'/detail?view=vnc';
+    },
+
+    onLog: function(evt) {
+        var instance = $(".checkbox:checked").val();
+        window.location.href = 'nova/instances/'+instance+'/detail?view=log';
+    },
+
+    onSnapshotInstance: function(evt) {
+        var instance = $(".checkbox:checked").val();
+        var subview = new CreateSnapshotView({el: 'body', model: this.model.get(instance)});
+        subview.render();
+    },
+
+    onPauseInstance: function(evt) {
+        var self = this;
+        $(".checkbox_instances:checked").each(function () {
+            var instance = $(this).val();
+            var inst = self.model.get(instance);
+            inst.pauseserver();
+            var subview = new MessagesView({el: '#content', state: "Success", title: "Instances "+inst.get("name")+" paused."});
+            subview.render();
+        });
+    },
+
+    onUnpauseInstance: function(evt) {
+        var self = this;
+        $(".checkbox_instances:checked").each(function () {
+            var instance = $(this).val();
+            var inst = self.model.get(instance);
+            inst.unpauseserver();
+            var subview = new MessagesView({el: '#content', state: "Success", title: "Instances "+inst.get("name")+" unpaused."});
+            subview.render();
+        });
+    },
+
+    onSuspendInstance: function(evt) {
+        var self = this;
+        $(".checkbox_instances:checked").each(function () {
+            var instance = $(this).val();
+            var inst = self.model.get(instance);
+            inst.suspendserver();
+            var subview = new MessagesView({el: '#content', state: "Success", title: "Instances "+inst.get("name")+" suspended."});
+            subview.render();
+        });
+    },
+
+    onResumeInstance: function(evt) {
+        var self = this;
+        $(".checkbox_instances:checked").each(function () {
+            var instance = $(this).val();
+            var inst = self.model.get(instance);
+            inst.resumeserver();
+            var subview = new MessagesView({el: '#content', state: "Success", title: "Instances "+inst.get("name")+" resumed."});
+            subview.render();
+        });
+    },
+
+    onChangePasswordInstance: function(evt) {
+        var instance = $(".checkbox:checked").val();
+        var subview = new ChangePasswordView({el: 'body', model: this.model.get(instance)});
+        subview.render();
+    },
+
+    onRebootInstance: function(evt) {
+        var self = this;
+        var subview = new ConfirmView({el: 'body', title: "Reboot Instances", btn_message: "Reboot Instances", onAccept: function() {
+            $(".checkbox_instances:checked").each(function () {
+                    var instance = $(this).val();
+                    var inst = self.model.get(instance);
+                    inst.reboot(true);
+                    var subview = new MessagesView({el: '#content', state: "Success", title: "Instances "+inst.get("name")+" rebooted."});
+                    subview.render();
+            });
+        }});
+        subview.render();
+    },
+
     onClose: function() {
         this.undelegateEvents();
         this.unbind();
         this.model.unbind("reset", this.render, this);
     },
 
-    onEditInstance: function(evt) {
+    onEditInstances: function(evt) {
         var instance = evt.target.value;
         var subview = new UpdateInstanceView({el: 'body', model: this.model.get(instance)});
         subview.render();
@@ -106,7 +205,7 @@ var NovaInstancesView = Backbone.View.extend({
     onTerminateGroup: function(evt) {
         var self = this;
         var subview = new ConfirmView({el: 'body', title: "Terminate Instances", btn_message: "Terminate Instances", onAccept: function() {
-            $(".checkbox:checked").each(function () {
+            $(".checkbox_instances:checked").each(function () {
                     var instance = $(this).val();
                     var inst = self.model.get(instance);
                     inst.destroy();
@@ -117,11 +216,84 @@ var NovaInstancesView = Backbone.View.extend({
         subview.render();
     },
 
+    checkAll: function () {
+        if ($(".checkbox_all:checked").size() > 0) {
+            $(".checkbox_instances").attr('checked','checked');
+            $(".btn-edit-instance-actions").hide();
+            $(".btn-vnc-actions").hide();
+            $(".btn-log-actions").hide();
+            $(".btn-snapshot-actions").hide();
+            $(".btn-password-actions").hide();
+            this.enableDisableTerminateButton();
+        } else {
+            $(".checkbox_instances").attr('checked',false);
+            $(".btn-edit-instance-actions").show();
+            $(".btn-vnc-actions").show();
+            $(".btn-log-actions").show();
+            $(".btn-snapshot-actions").show();
+            $(".btn-password-actions").show();
+            this.enableDisableTerminateButton();
+        }
+        
+    },
+
     enableDisableTerminateButton: function () {
+        var inst = $(".checkbox_instances:checked").val();
+        var instance = this.model.get(inst);
         if ($(".checkbox_instances:checked").size() > 0) {
             $("#instances_terminate").attr("disabled", false);
+            $(".btn-edit-instance-actions").attr("disabled", false);
+            $(".btn-vnc-actions").attr("disabled", false);
+            $(".btn-log-actions").attr("disabled", false);
+            $(".btn-snapshot-actions").attr("disabled", false);
+            $(".btn-pause-actions").attr("disabled", false);
+            $(".btn-unpause-actions").attr("disabled", false);
+            $(".btn-suspend-actions").attr("disabled", false);
+            $(".btn-resume-actions").attr("disabled", false);
+            $(".btn-password-actions").attr("disabled", false);
+            $(".btn-reboot-actions").attr("disabled", false);
+            $(".btn-terminate-actions").attr("disabled", false);
+            if (instance.get("status") != "PAUSED" && instance.get("status") != "SUSPENDED") {
+                $(".btn-unpause-actions").hide();                
+                $(".btn-resume-actions").hide();
+            } else if (instance.get("status") == "PAUSED") {
+                $(".btn-unpause-actions").show();
+                $(".btn-pause-actions").hide();   
+            } else {
+                $(".btn-resume-actions").show();
+                $(".btn-suspend-actions").hide();
+            }
+            if ($(".checkbox_instances:checked").size() > 1) {
+                $(".btn-edit-instance-actions").hide();
+                $(".btn-vnc-actions").hide();
+                $(".btn-log-actions").hide();
+                $(".btn-snapshot-actions").hide();
+                $(".btn-password-actions").hide();
+            } else {
+                $(".btn-edit-instance-actions").show();
+                $(".btn-vnc-actions").show();
+                $(".btn-log-actions").show();
+                $(".btn-snapshot-actions").show();
+                $(".btn-password-actions").show();
+            } 
         } else {
             $("#instances_terminate").attr("disabled", true);
+            $(".btn-edit-instance-actions").attr("disabled", true);
+            $(".btn-vnc-actions").attr("disabled", true);
+            $(".btn-log-actions").attr("disabled", true);
+            $(".btn-snapshot-actions").attr("disabled", true);
+            $(".btn-pause-actions").attr("disabled", true);
+            $(".btn-unpause-actions").attr("disabled", true);
+            $(".btn-suspend-actions").attr("disabled", true);
+            $(".btn-resume-actions").attr("disabled", true);
+            $(".btn-password-actions").attr("disabled", true);
+            $(".btn-reboot-actions").attr("disabled", true);
+            $(".btn-terminate-actions").attr("disabled", true);
+            $(".btn-edit-instance-actions").show();
+            $(".btn-vnc-actions").show();
+            $(".btn-log-actions").show();
+            $(".btn-snapshot-actions").show();
+            $(".btn-password-actions").show();
         }
 
     },
@@ -140,7 +312,7 @@ var NovaInstancesView = Backbone.View.extend({
             var new_template = this._template({models:this.model.models, flavors:this.options.flavors});
             var checkboxes = [];
             var dropdowns = [];
-            var index, instanceId, check, drop;
+            var index, instanceId, check, drop, drop_actions_selected;
             for (index in this.model.models) {
                 instanceId = this.model.models[index].id;
                 if ($("#checkbox_"+instanceId).is(':checked')) {
@@ -148,6 +320,9 @@ var NovaInstancesView = Backbone.View.extend({
                 }
                 if ($("#dropdown_"+instanceId).hasClass('open')) {
                     dropdowns.push(instanceId);
+                }
+                if ($("#dropdown_actions").hasClass('open')) {
+                    drop_actions_selected = true;
                 }
             }
             $(this.el).html(new_template);
@@ -165,6 +340,9 @@ var NovaInstancesView = Backbone.View.extend({
                 if (drop.html() != null) {
                     drop.addClass("open");
                 }
+            }
+            if (($("#dropdown_actions").html() !== null) && (drop_actions_selected)) {
+                $("#dropdown_actions").addClass("open");
             }
 
         }

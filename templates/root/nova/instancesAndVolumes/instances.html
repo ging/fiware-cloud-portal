@@ -8,15 +8,96 @@ src: templates/root/nova/instancesAndVolumes/instances.html
         <h3 class='table_title' data-i18n="Instances">Instances</h3>
         <div class="table_actions clearfix">
             <a href='#nova/images/'  id="instances__action_launch__1" class="btn btn-small btn-blue btn-launch" data-i18n="Launch New Instance">Launch New Instance</a>
-            <button  id="instances_terminate" disabled=true class="btn btn-small btn-danger btn-terminate-group" name="action" value="instances__terminate" class="instances_terminate" type="submit" data-i18n="Terminate Instances">
+
+            <div id="dropdown_actions" class="btn-group">
+
+                <button class="btn btn-small btn-blue" data-toggle="dropdown" tdata-i18n="Actions">Actions
+                </button>
+
+                <a class="btn dropdown-toggle btn-small btn-blue" data-toggle="dropdown"> <span class="caret caret-white"></span>
+                </a>             
+
+                    <ul id="dropdown_options" class="dropdown-menu row_actions clearfix">
+    
+                        <li class="clearfix">
+
+                            <button  class="btn btn-small btn-edit-instance-actions" disabled="disabled" data-i18n="Edit Instance">Edit Instance
+                            </button>
+                        </li>
+                                
+                        <li class="clearfix">
+
+                            <button class="btn btn-small btn-vnc-actions" disabled="disabled" data-i18n="VNC Console" >VNC Console
+                            </button>
+                        </li>
+
+                        <li class="clearfix">
+
+                            <button  class="btn btn-small btn-log-actions" disabled="disabled" data-i18n="View Log">View Log
+                            </button>
+                        </li>
+
+                        <li class="clearfix">
+
+                            <button class="btn btn-small btn-snapshot-actions" disabled="disabled" data-i18n="Create Snapshot">Create Snapshot
+                            </button>
+                        </li>
+
+                        <li class="clearfix">
+
+                            <button class="btn btn-small btn-pause-actions" disabled="disabled" data-i18n="Pause Instance">Pause Instance
+                            </button>
+                        </li>
+
+                        <li class="clearfix">
+
+                            <button class="btn btn-small btn-unpause-actions" disabled="disabled" data-i18n="Unpause Instance">Unpause Instance
+                            </button>
+                        </li>
+
+                        <li class="clearfix">
+
+                            <button class="btn btn-small btn-suspend-actions" disabled="disabled" data-i18n="Suspend Instance">Suspend Instance
+                            </button>
+                        </li>
+
+                        <li class="clearfix">
+
+                            <button class="btn  btn-blue btn-small btn-resume-actions" disabled="disabled" data-i18n="Resume Instance">Resume Instance
+                            </button>
+                        </li>
+
+                        <li class="clearfix">
+
+                            <button class="btn btn-small btn-danger btn-password-actions" disabled="disabled" data-i18n="Change Password">Change Password
+                            </button>
+                        </li>
+
+                        <li class="clearfix">
+
+                            <button class="btn btn-small btn-danger btn-reboot-actions" disabled="disabled" data-i18n="Reboot Instance">Reboot Instance
+                            </button>
+                        </li>                        
+
+                        <li class="clearfix">
+                            <button class="btn btn-small btn-danger btn-terminate-actions" disabled="disabled" data-i18n="Terminate Instance">Terminate Instance
+                            </button>
+                        </li>
+                    </ul>
+
+                </div>
+
+            <!--<button  id="instances_terminate" disabled=true class="btn btn-small btn-danger btn-terminate-group" name="action" value="instances__terminate" class="instances_terminate" type="submit" data-i18n="Terminate Instances">
                 Terminate Instances
-            </button>
+            </button>-->
         </div>
     </div>
     <table id="instances" class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th class="multi_select_column"></th>
+                <th class="multi_select_column">
+                    <input type="checkbox" class="checkbox checkbox_all">
+                </th>
                 <th class="tip" data-tooltip="Server's name" data-i18n="Instance Name">Instance Name</th>
                 <th class="hidden-phone tip" data-tooltip="IP addresses of the server" data-i18n="IP Address">IP Address</th>
                 <th class="tip" data-tooltip="Server's RAM, number of virtual CPUs, and user disk." data-i18n="Size">Size</th>
