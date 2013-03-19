@@ -179,7 +179,6 @@ var UserView = Backbone.View.extend({
 
     render: function () {
         UTILS.Render.animateRender(this.el, this._template, this.model);
-        $('.scrollable').jScrollPane();
         return this;
     },
 
