@@ -9,7 +9,7 @@
         <h3>Edit User</h3>
     </div>
 
-    <form class="" action="#" method="#">
+    <form id="form" onSubmit="return false;">
         <div class="modal-body clearfix">
 
             <div class="left">
@@ -37,8 +37,10 @@
                         <label for="id_description">Password *</label>
 
                         <span class="help-block" style="display: none; "></span>
-                        <div id="password" class="input">
-                            <a class="tip" data-tooltip="Show password"><img class="btn-eye" src="../../images/btn-eye.png"></a>
+
+                        <div id= "password" class="input">
+                        <a class="tip" data-tooltip="Show password"><img class="btn-eye" src="../../images/btn-eye.png"></a>
+
                             <a class="tip" data-tooltip="Hide password"><img class="btn-eye-active" src="../../images/btn-eye-active.png" style="display: none; "></a>
                             <input id="user_password" type="password" name="user_password" maxlength="255">
                         </div>
@@ -78,7 +80,8 @@
 
         </div>
         <div class="modal-footer">
-            <a id="updateBtn" class="btn btn-blue update-user pull-right" data-dismiss="modal">Edit User</a>
+            <p class="mandatoryMess">* Mandatory fields.</p>
+            <input type="submit" class="btn btn-blue edit-user pull-right"value="Edit User"/>
             <a id="cancelBtn" class="close btn seconday cancel close" data-dismiss="modal">Cancel</a>
         </div>
     </form>
