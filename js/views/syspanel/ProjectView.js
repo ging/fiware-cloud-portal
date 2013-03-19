@@ -5,7 +5,7 @@ var ProjectView = Backbone.View.extend({
     initialize: function() {
         var self = this;
         this.model.bind("reset", this.render, this);
-        this.options.quotas.bind("reset", this.render, this);
+        //this.options.quotas.bind("reset", this.render, this);
         this.model.fetch();
         this.options.quotas.fetch();
     },
