@@ -137,6 +137,7 @@ var OSRouter = Backbone.Router.extend({
             this.add_fetch(this.keypairsModel, seconds);
             this.add_fetch(this.floatingIPsModel, seconds);
             if (this.loginModel.isAdmin()) {
+                console.log("admin");
                 this.add_fetch(this.projects, seconds);
             }
         }
@@ -545,7 +546,7 @@ var OSRouter = Backbone.Router.extend({
         model.fetch();
         var id = setInterval(function() {
             model.fetch();
-        }, seconds*10000);
+        }, seconds*1000);
 
         this.timers.push(id);
     }

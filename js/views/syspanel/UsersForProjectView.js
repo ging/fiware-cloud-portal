@@ -74,9 +74,13 @@ var UsersForProjectView = Backbone.View.extend({
     },
 
     render: function () {
-        this.undelegateEvents();
+        //this.undelegateEvents();
+        var tab_active = $('.tab-pane:.active').attr('id');
+        var scroll = $('.tab-content-adjustable').scrollTop();
         $(this.el).empty().html(this._template({model: this.model, users: this.options.users.models, tenant: this.options.tenants.get(this.options.tenant)}));
-        this.delegateEvents(this.events);
+        $('#'+tab_active + "_tab").tab("show");
+        $('.tab-content-adjustable').scrollTop(scroll);
+        //this.delegateEvents(this.events);
         return this;
     }
 

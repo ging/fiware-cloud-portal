@@ -542,6 +542,11 @@ table form {
   float: right;
 }
 
+#dropdown_options a, #dropdown_options button:hover {
+  float: right;
+  background-color: #eeeeee;
+}
+
 .table_actions button.filter {
   margin-left: 0;
 }

@@ -16,10 +16,8 @@ var ConfirmView = Backbone.View.extend({
 
     onClose: function() {
         console.log("Closing", this.options.style);
-        if ((this.options.style === "") || (this.options.style === undefined)) {
-            this.undelegateEvents();
-            this.unbind();
-       }
+        this.undelegateEvents();
+        this.unbind();
     },
 
     render: function () {
@@ -39,6 +37,7 @@ var ConfirmView = Backbone.View.extend({
     },
 
     onAccept: function(e){
+        console.log("Accepted");
         this.options.onAccept();
         this.close();
     },
@@ -46,12 +45,7 @@ var ConfirmView = Backbone.View.extend({
     close: function(e) {
         console.log('Closing confirm', this.options.style);
         $('#confirm').remove();
-        if ((this.options.style === "")||(this.options.style === undefined)) {
-            console.log('Closing confirm 2');
-            this.undelegateEvents();
-            $('.modal-backdrop').remove();
-            this.onClose();
-        }
+        this.onClose();
     }
 
 });

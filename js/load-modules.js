@@ -140,6 +140,7 @@ var loadLibraries = function() {
                 "lib/jstack.js",
                 "lib/bootstrap.min.js",
                 "lib/jquery.selectbox-0.1.3.min.js",
+                "lib/jScrollPane.js",
                 "lib/sdc.js",
                 "lib/xml2json.js",
                 "lib/cdmi.js",

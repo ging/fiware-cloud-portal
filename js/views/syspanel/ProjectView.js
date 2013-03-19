@@ -4,9 +4,7 @@ var ProjectView = Backbone.View.extend({
 
     initialize: function() {
         var self = this;
-        this.model.unbind("reset");
         this.model.bind("reset", this.render, this);
-        this.options.quotas.unbind("reset");
         this.options.quotas.bind("reset", this.render, this);
         this.model.fetch();
         this.options.quotas.fetch();
@@ -120,6 +118,7 @@ var ProjectView = Backbone.View.extend({
     },
 
     onClose: function() {
+        this.options.quotas.unbind("reset");
         this.model.unbind("reset");
         this.undelegateEvents();
         this.unbind();
