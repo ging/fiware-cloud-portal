@@ -9,7 +9,7 @@ var ProjectView = Backbone.View.extend({
         this.options.quotas.unbind("reset");
         this.options.quotas.bind("reset", this.render, this);
         this.model.fetch();
-        this.options.quotas.fetch();        
+        this.options.quotas.fetch();
     },
 
     events: {
@@ -23,7 +23,7 @@ var ProjectView = Backbone.View.extend({
         'click .btn-modify-quotas': 'onModifyQuotas',
         'change .checkbox_projects':'enableDisableDeleteButton',
         'change .checkbox_all':'checkAll'
-    },  
+    },
 
     onUpdateProject: function(evt) {
         var self = this;
@@ -85,13 +85,13 @@ var ProjectView = Backbone.View.extend({
     checkAll: function () {
         if ($(".checkbox_all:checked").size() > 0) {
             $(".checkbox_projects").attr('checked','checked');
-            $(".btn-edit-actions").hide();
-            $(".btn-modify-users-actions").hide();
+            $(".btn-edit-actions").attr("disabled", true);
+            $(".btn-modify-users-actions").attr("disabled", true);
             this.enableDisableDeleteButton();
         } else {
             $(".checkbox_projects").attr('checked',false);
-            $(".btn-edit-actions").show();
-            $(".btn-modify-users-actions").show();
+            $(".btn-edit-actions").attr("disabled", false);
+            $(".btn-modify-users-actions").attr("disabled", false);
             this.enableDisableDeleteButton();
         }
 
@@ -102,20 +102,19 @@ var ProjectView = Backbone.View.extend({
             $("#projects_delete").attr("disabled", false);
             $(".btn-edit-actions").attr("disabled", false);
             $(".btn-modify-users-actions").attr("disabled", false);
-            $(".btn-delete-projects-actions").attr("disabled", false);             
+            $(".btn-delete-projects-actions").attr("disabled", false);
             if ($(".checkbox_projects:checked").size() > 1) {
-                    $(".btn-edit-actions").hide();
-                    $(".btn-modify-users-actions").hide();
+                    $(".btn-edit-actions").attr("disabled", true);
+                    $(".btn-modify-users-actions").attr("disabled", true);
                 } else {
-                    $(".btn-edit-actions").show();
-                    $(".btn-modify-users-actions").show();
-                }        
+                    $(".btn-edit-actions").attr("disabled", false);
+                    $(".btn-modify-users-actions").attr("disabled", false);
+                }
         } else {
             $("#projects_delete").attr("disabled", true);
             $(".btn-modify-users-actions").attr("disabled", true);
-            $(".btn-delete-projects-actions").attr("disabled", true); 
+            $(".btn-delete-projects-actions").attr("disabled", true);
             $(".btn-edit-actions").attr("disabled", true);
-            $(".btn-edit-actions").show();
         }
 
     },
@@ -146,9 +145,11 @@ var ProjectView = Backbone.View.extend({
                 }
                 if ($("#dropdown_actions").hasClass('open')) {
                     drop_actions_selected = true;
-                }              
+                }
             }
+            var scrollTo = $(".scrollable").scrollTop();
             $(this.el).html(new_template);
+            $(".scrollable").scrollTop(scrollTo);
             for (index in checkboxes) {
                 tenantId = checkboxes[index];
                 check = $("#checkbox_"+tenantId);
@@ -173,6 +174,6 @@ var ProjectView = Backbone.View.extend({
         }
 
         return this;
-    
+
     }
 });

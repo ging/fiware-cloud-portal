@@ -9,6 +9,7 @@ var UserView = Backbone.View.extend({
         this.timer = setInterval(function() {
             self.model.fetch();
         }, 10000);
+        this.model.fetch();
         this.render();
     },
 
@@ -44,7 +45,7 @@ var UserView = Backbone.View.extend({
                         if (usr.get("enabled") === true) {
                             usr.set("enabled", false);
                             usr.save();
-                        }                    
+                        }
                     var subview = new MessagesView({el: '#content', state: "Success", title: "Users disabled"});
                     subview.render();
             });
@@ -53,7 +54,7 @@ var UserView = Backbone.View.extend({
     },
 
     onEnableUsers: function(evt) {
-        var self = this; 
+        var self = this;
         var subview = new ConfirmView({el: 'body', title: "Confirm Enable User", btn_message: "Enable User", onAccept: function() {
             $(".checkbox_users:checked").each(function () {
                     var user = $(this).val();
@@ -119,7 +120,7 @@ var UserView = Backbone.View.extend({
     },
 
     onDeleteGroup: function(evt) {
-        var self = this;          
+        var self = this;
         var subview = new ConfirmView({el: 'body', title: "Confirm Delete Users", btn_message: "Delete Users", onAccept: function() {
             $(".checkbox_users:checked").each(function () {
                     var user = $(this).val();
@@ -136,11 +137,11 @@ var UserView = Backbone.View.extend({
     checkAll: function () {
         if ($(".checkbox_all:checked").size() > 0) {
             $(".checkbox_users").attr('checked','checked');
-            $(".edit-actions").hide();
+            $(".edit-actions").attr("disabled", true);
             this.enableDisableDeleteButton();
         } else {
             $(".checkbox_users").attr('checked',false);
-            $(".edit-actions").show();
+            $(".edit-actions").attr("disabled", false);
             this.enableDisableDeleteButton();
         }
 
@@ -152,21 +153,21 @@ var UserView = Backbone.View.extend({
             $(".btn-edit-actions").attr("disabled", false);
             $(".btn-enable-actions").attr("disabled", false);
             $(".btn-disable-actions").attr("disabled", false);
-            $(".btn-delete-actions").attr("disabled", false);  
+            $(".btn-delete-actions").attr("disabled", false);
                 if ($(".checkbox_users:checked").size() > 1) {
-                    $(".btn-edit-actions").hide();
+                    $(".btn-edit-actions").attr("disabled", true);
                 } else {
-                    $(".btn-edit-actions").show();
-                }        
+                    $(".btn-edit-actions").attr("disabled", false);
+                }
         } else {
             $("#users_delete").attr("disabled", true);
             $(".btn-edit-actions").attr("disabled", true);
             $(".btn-enable-actions").attr("disabled", true);
             $(".btn-disable-actions").attr("disabled", true);
             $(".btn-delete-actions").attr("disabled", true);
-            $(".btn-edit-actions").show();
+            $(".btn-edit-actions").attr("disabled", true);
         }
-        
+
 
     },
 
@@ -200,9 +201,11 @@ var UserView = Backbone.View.extend({
                 }
                 if ($("#dropdown_actions").hasClass('open')) {
                     drop_actions_selected = true;
-                }              
+                }
             }
+            var scrollTo = $(".scrollable").scrollTop();
             $(this.el).html(new_template);
+            $(".scrollable").scrollTop(scrollTo);
             for (index in checkboxes) {
                 userId = checkboxes[index];
                 check = $("#checkbox_"+userId);
@@ -224,6 +227,6 @@ var UserView = Backbone.View.extend({
         }
 
         return this;
-    
+
     }
 });

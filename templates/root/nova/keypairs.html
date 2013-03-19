@@ -5,7 +5,6 @@ src: templates/root/nova/keypairs.html
 -->
 <div id="keypairs">
     <div class='table_header'>
-        <h3 class='table_title'>Keypairs</h3>
         <div class="table_actions clearfix">
             <button class="btn btn-blue btn-small btn-create" id="keypair_create">Create Keypair</button>
             <button class="btn btn-blue btn-small btn-import" id="keypair_import">Import Keypair</button>
@@ -14,38 +13,44 @@ src: templates/root/nova/keypairs.html
             </button>
         </div>
     </div>
-    <table id="keypairs" class="table table-bordered table-striped">
-        <thead>
+    <table id="keypairs_head" class="table table-bordered table-striped table-header">
+    <thead>
             <tr>
-                <th class="multi_select_column"></th>
-                <th class="tip" data-tooltip="Keypair's name">Name</th>
-                <th class="tip" data-tooltip="Keypair's unique fingerprint">Fingerprint</th>
-                <th class="actions_column">Actions</th>
+                <td style="width:5%" class="multi_select_column"></td>
+                <td style="width:45%" class="tip" data-tooltip="Keypair's name">Name</td>
+                <td style="width:35%" class="tip" data-tooltip="Keypair's unique fingerprint">Fingerprint</td>
+                <td style="width:25%" class="actions_column">Actions</td>
             </tr>
         </thead>
+        </table>
+    <div class="scrollable">
+    <table id="keypairs" class="table table-without-margins table-bordered without-borders table-striped table-scrolled">
         <tbody>
-            <% 
-            if (models != "") { 
+            <%
+            if (models != "") {
 	            for (var index in models) {
 	            var keypair = models[index];
             %>
             <tr id="keypairs__row__<%=keypair.get('name')%>" class="">
-                <td class="multi_select_column">
+                <td style="width:5%" class="multi_select_column">
                 <input type="checkbox" name="object_ids" class="checkbox_keypairs" id="checkbox_keypairs_<%=keypair.get('name')%>" value="<%=keypair.get('name')%>" />
                 </td>
-                <td class=""><%=keypair.get('name')%></td>
-                <td class=""><%=keypair.get('fingerprint')%></td>
-                <td class="actions_column">
+                <td style="width:45%" class=""><%=keypair.get('name')%></td>
+                <td style="width:35%" class=""><%=keypair.get('fingerprint')%></td>
+                <td style="width:25%" class="actions_column">
                 <button class="btn btn-small btn-danger btn-delete" id="delete_keypair" value="<%=keypair.get('name')%>">
                     Delete Keypair
                 </button></td>
             </tr>
-           <% } } else { %>  
+           <% } } else { %>
                	<tr class="odd empty">
                     <td colspan="4">No items to display.</td>
-                </tr> 
+                </tr>
            <% } %>
         </tbody>
+        </table>
+        </div>
+        <table id="keypairs_foot" class="table-foot table table-bordered table-striped table-without-margins">
         <tfoot>
             <tr>
                 <td colspan="4"><span><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", models.length)%></span></td>

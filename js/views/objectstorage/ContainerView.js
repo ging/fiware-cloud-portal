@@ -19,8 +19,7 @@ var ObjectStorageContainerView = Backbone.View.extend({
         'click .btn-upload': 'onUploadObject',
         'click .btn-copy' : 'onCopy',
         'click .btn-download' : 'onDownload',
-        'click .btn-delete':'onDelete',
-        //'click #objects_delete': 'onDeleteGroup'
+        'click .btn-delete':'onDelete'
     },
 
     onCopyObject: function(evt) {
@@ -64,7 +63,7 @@ var ObjectStorageContainerView = Backbone.View.extend({
 
         mySucess = function(object) {
 
-            var typeMIME, blob, blobURL;    
+            var typeMIME, blob, blobURL;
             blob = new Blob([object], { type: "application/cdmi-object" });
             blobURL = window.URL.createObjectURL(blob);
             window.open(blobURL);
@@ -150,19 +149,19 @@ var ObjectStorageContainerView = Backbone.View.extend({
             $(".btn-delete-actions").attr("disabled", false);
 
             if ($(".checkbox_objects:checked").size() > 1) {
-                $(".btn-download-actions").hide();
-                $(".btn-copy-actions").hide();
+                $(".btn-download-actions").attr("disabled", true);
+                $(".btn-copy-actions").attr("disabled", true);
             } else {
-                $(".btn-download-actions").show();
-                $(".btn-copy-actions").show();
-            }     
+                $(".btn-download-actions").attr("disabled", false);
+                $(".btn-copy-actions").attr("disabled", false);
+            }
         } else {
             $("#objects_delete").attr("disabled", true);
             $(".btn-download-actions").attr("disabled", true);
             $(".btn-copy-actions").attr("disabled", true);
             $(".btn-delete-actions").attr("disabled", true);
-            $(".btn-download-actions").show();
-            $(".btn-copy-actions").show();
+            $(".btn-download-actions").attr("disabled", true);
+            $(".btn-copy-actions").attr("disabled", true);
         }
 
     },
@@ -175,7 +174,7 @@ var ObjectStorageContainerView = Backbone.View.extend({
             var new_template = this._template(this.model);
             var checkboxes = [];
             var dropdowns = [];
-            var object, check, drop, drop_actions_selected;
+            var object, check, drop, drop_actions_selected, index;
             for (index in this.model.models) {
                 object = this.model.models[index].id;
                 if ($("#checkbox_"+object).is(':checked')) {
@@ -186,9 +185,11 @@ var ObjectStorageContainerView = Backbone.View.extend({
                 }
                 if ($("#dropdown_actions").hasClass('open')) {
                     drop_actions_selected = true;
-                } 
+                }
             }
+            var scrollTo = $(".scrollable").scrollTop();
             $(this.el).html(new_template);
+            $(".scrollable").scrollTop(scrollTo);
             for (index in checkboxes) {
                 object = checkboxes[index];
                 check = $("#checkbox_"+object);

@@ -143,7 +143,8 @@ var loadLibraries = function() {
                 "lib/sdc.js",
                 "lib/xml2json.js",
                 "lib/cdmi.js",
-                "lib/ovf.js"
+                "lib/ovf.js",
+                "http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"
 
             ], function(someModule) {
                 loadUtils();

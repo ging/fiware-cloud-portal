@@ -72,7 +72,9 @@ var NovaFloatingIPsView = Backbone.View.extend({
                     checkboxes.push(floatingIpsId);
                 }
             }
+            var scrollTo = $(".scrollable").scrollTop();
             $(this.el).html(new_template);
+            $(".scrollable").scrollTop(scrollTo);
             for (index in checkboxes) {
                 floatingIpsId = checkboxes[index];
                 check = $("#checkbox_floating_ips_"+floatingIpsId);

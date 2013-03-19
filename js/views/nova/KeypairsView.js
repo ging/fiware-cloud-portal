@@ -92,7 +92,9 @@ var NovaKeypairsView = Backbone.View.extend({
                     checkboxes.push(keypairsName);
                 }
             }
+            var scrollTo = $(".scrollable").scrollTop();
             $(this.el).html(new_template);
+            $(".scrollable").scrollTop(scrollTo);
             for (index in checkboxes) {
                 keypairsName = checkboxes[index];
                 check = $("#checkbox_keypairs_"+keypairsName);

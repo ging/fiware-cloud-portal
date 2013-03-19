@@ -3,9 +3,18 @@
 Description: Snapshots
 src: templates/root/nova/snapshots.html
 -->
+<ul id="myTab" class="nav nav-tabs">
+  <li class="active">
+    <a href="#instance_snapshots" data-toggle="tab">Instance Snapshots</a>
+    </li>
+  <li class="">
+    <a href="#volume_snapshots" data-toggle="tab">Volume Snapshots</a>
+    </li>
+</ul>
 
-<div id="instance_snapshots"></div>
-
-<div id="volume_snapshots"></div>
+<div id="" class="tab-content tab-content-adjustable">
+    <div id="instance_snapshots" class="tab-pane tab-adjustable active"></div>
+    <div id="volume_snapshots" class="tab-pane tab-adjustable fade"></div>
+</div>
 
 </script>

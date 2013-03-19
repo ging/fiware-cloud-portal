@@ -91,16 +91,16 @@ var NovaInstanceSnapshotsView = Backbone.View.extend({
     checkAll: function () {
         if ($(".checkbox_all:checked").size() > 0) {
             $(".checkbox_instances").attr('checked','checked');
-            $(".btn-launch-instance-actions").hide();
-            $(".btn-edit-image-actions").hide();
+            $(".btn-launch-instance-actions").attr("disabled", true);
+            $(".btn-edit-image-actions").attr("disabled", true);
             this.enableDisableDeleteButtonInstances();
         } else {
             $(".checkbox_instances").attr('checked',false);
-            $(".btn-launch-instance-actions").show();
-            $(".btn-edit-image-actions").show();
+            $(".btn-launch-instance-actions").attr("disabled", false);
+            $(".btn-edit-image-actions").attr("disabled", false);
             this.enableDisableDeleteButtonInstances();
         }
-        
+
     },
 
     enableDisableDeleteButtonInstances: function () {
@@ -108,21 +108,21 @@ var NovaInstanceSnapshotsView = Backbone.View.extend({
             $("#instance_delete").attr("disabled", false);
             $(".btn-launch-instance-actions").attr("disabled", false);
             $(".btn-edit-image-actions").attr("disabled", false);
-            $(".btn-delete-snapshots-actions").attr("disabled", false); 
+            $(".btn-delete-snapshots-actions").attr("disabled", false);
             if ($(".checkbox_instances:checked").size() > 1) {
-                $(".btn-launch-instance-actions").hide();
-                $(".btn-edit-image-actions").hide();
+                $(".btn-launch-instance-actions").attr("disabled", true);
+                $(".btn-edit-image-actions").attr("disabled", true);
             } else {
-                $(".btn-launch-instance-actions").show();
-            $(".btn-edit-image-actions").show();
-            } 
+                $(".btn-launch-instance-actions").attr("disabled", false);
+            $(".btn-edit-image-actions").attr("disabled", false);
+            }
         } else {
             $("#instance_delete").attr("disabled", true);
             $(".btn-launch-instance-actions").attr("disabled", true);
             $(".btn-edit-image-actions").attr("disabled", true);
-            $(".btn-delete-snapshots-actions").attr("disabled", true); 
-            $(".btn-launch-instance-actions").show();
-            $(".btn-edit-image-actions").show();
+            $(".btn-delete-snapshots-actions").attr("disabled", true);
+            $(".btn-launch-instance-actions").attr("disabled", true);
+            $(".btn-edit-image-actions").attr("disabled", true);
         }
     },
 
@@ -202,7 +202,9 @@ var NovaInstanceSnapshotsView = Backbone.View.extend({
                     dropdowns_instances.push(instanceId);
                 }
             }
+            var scrollTo = $(".scrollable").scrollTop();
             $(this.el).html(new_template);
+            $(".scrollable").scrollTop(scrollTo);
             for (index in checkboxes_images) {
                 imageId = checkboxes_images[index];
                 check = $("#checkbox_images_"+imageId);

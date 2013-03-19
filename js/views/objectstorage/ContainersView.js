@@ -16,35 +16,33 @@ var ObjectStorageContainersView = Backbone.View.extend({
         'change .checkbox_all':'checkAll',
         'click .btn-create-container': 'onCreateContainer',
         'click .btn-upload': 'onUpload',
-        'click .btn-delete':'onDelete',
-        //'click .btn-delete-group': 'onDeleteGroup'
+        'click .btn-delete':'onDelete'
     },
 
-    onUploadObject: function(evt) {  
+    onUploadObject: function(evt) {
         var self = this;
         var cont = $(".checkbox:checked").val();
         var container = self.model.get(cont);
         var subview = new UploadObjectView({el: 'body',  model: container});
         subview.render();
-    }, 
+    },
 
-    onListObjects: function(evt) {  
+    onListObjects: function(evt) {
         var container = $(".checkbox:checked").val();
         window.location.href = '#objectstorage/containers/'+container+'/';
-    }, 
+    },
 
     onCreateContainer: function(evt) {
         var subview = new CreateContainerView({el: 'body', model:this.model});
         subview.render();
     },
-    
-    onUpload: function(evt) {  
+    onUpload: function(evt) {
         var self = this;
         var cont = self.model.get(evt.target.value);
         var subview = new UploadObjectView({el: 'body',  model: cont});
         subview.render();
-    },  
-    
+    },
+
     onClose: function() {
         this.undelegateEvents();
         this.unbind();
@@ -52,22 +50,22 @@ var ObjectStorageContainersView = Backbone.View.extend({
 
     onDelete: function(evt) {
         var container = evt.target.value;
-        var self = this;     
-        var cont;         
+        var self = this;
+        var cont;
         var subview = new ConfirmView({el: 'body', title: "Confirm Delete Container", btn_message: "Delete Container", onAccept: function() {
             cont = self.model.get(container);
                 if (cont.get("count")>0) {
                     console.log(cont);
-                    var subview2 = new MessagesView({el: '#content', state: "Error", title: "Unable to delete non-empty container "+cont.get("id")});     
+                    var subview2 = new MessagesView({el: '#content', state: "Error", title: "Unable to delete non-empty container "+cont.get("id")});
                     subview2.render();
-                    return; 
+                    return;
                 } else {
                 cont.destroy();
-      
-                var subview3 = new MessagesView({el: '#content', state: "Success", title: "Container "+cont.get("id")+" deleted."});  
-                subview3.render();   
+
+                var subview3 = new MessagesView({el: '#content', state: "Success", title: "Container "+cont.get("id")+" deleted."});
+                subview3.render();
                 }
-        }});        
+        }});
         subview.render();
     },
 
@@ -77,22 +75,22 @@ var ObjectStorageContainersView = Backbone.View.extend({
         var subview = new ConfirmView({el: 'body', title: "Delete Containers", btn_message: "Delete Containers", onAccept: function() {
             $(".checkbox_containers:checked").each(function () {
                     var container = $(this).val();
-                    
-                    cont = self.model.get(container);                    
+
+                    cont = self.model.get(container);
                     if (cont.get("count")>0) {
-                        var subview2 = new MessagesView({el: '#content', state: "Conflict", title: "Container "+cont.get("id")+" contains objects."});     
+                        var subview2 = new MessagesView({el: '#content', state: "Conflict", title: "Container "+cont.get("id")+" contains objects."});
                         subview2.render();
-                        return; 
-                    } else {        
-                    cont.destroy();    
-                    var subview3 = new MessagesView({el: '#content', state: "Success", title: "Container "+cont.get("name")+" deleted."});     
+                        return;
+                    } else {
+                    cont.destroy();
+                    var subview3 = new MessagesView({el: '#content', state: "Success", title: "Container "+cont.get("name")+" deleted."});
                     subview3.render();
                    }
             });
         }});
         subview.render();
     },
-    
+
     checkAll: function () {
         if ($(".checkbox_all:checked").size() > 0) {
             $(".checkbox_containers").attr('checked','checked');
@@ -105,40 +103,39 @@ var ObjectStorageContainersView = Backbone.View.extend({
             $(".btn-upload-actions").show();
             this.enableDisableDeleteButton();
         }
-        
-    },
-    
-    enableDisableDeleteButton: function () {
 
-        if ($(".checkbox_containers:checked").size() > 0) { 
+    },
+
+    enableDisableDeleteButton: function () {
+        if ($(".checkbox_containers:checked").size() > 0) {
             $("#containers_terminate").attr("disabled", false);
             $(".btn-list-objects-actions").attr("disabled", false);
             $(".btn-upload-actions").attr("disabled", false);
             $(".btn-delete-actions").attr("disabled", false);
 
             if ($(".checkbox_containers:checked").size() > 1) {
-                $(".btn-list-objects-actions").hide();
-                $(".btn-upload-actions").hide();
+                $(".btn-list-objects-actions").attr("disabled", true);
+                $(".btn-upload-actions").attr("disabled", true);
             } else {
-                $(".btn-list-objects-actions").show();
-                $(".btn-upload-actions").show();
-            }        
+                $(".btn-list-objects-actions").attr("disabled", false);
+                $(".btn-upload-actions").attr("disabled", false);
+            }
         } else {
             $("#containers_terminate").attr("disabled", true);
             $(".btn-list-objects-actions").attr("disabled", true);
             $(".btn-upload-actions").attr("disabled", true);
             $(".btn-delete-actions").attr("disabled", true);
-            $(".btn-list-objects-actions").show();
-            $(".btn-upload-actions").show();
+            $(".btn-list-objects-actions").attr("disabled", true);
+            $(".btn-upload-actions").attr("disabled", true);
         }
-    },    
-    
+    },
+
     renderFirst: function() {
         var self = this;
         UTILS.Render.animateRender(this.el, this._template, {models:this.model.models});
         this.enableDisableDeleteButton();
     },
-    
+
     render: function () {
         if ($('.messages').html() != null) {
             $('.messages').remove();
@@ -147,8 +144,8 @@ var ObjectStorageContainersView = Backbone.View.extend({
             var new_template = this._template(this.model);
             var checkboxes = [];
             var dropdowns = [];
-            var container, check, drop, drop_actions_selected;
-            for (index in this.model.models) { 
+            var container, check, drop, drop_actions_selected, index;
+            for (index in this.model.models) {
                 container = this.model.models[index].id;
                 if ($("#checkbox_"+container).is(':checked')) {
                     checkboxes.push(container);
@@ -158,16 +155,18 @@ var ObjectStorageContainersView = Backbone.View.extend({
                 }
                 if ($("#dropdown_actions").hasClass('open')) {
                     drop_actions_selected = true;
-                } 
+                }
             }
+            var scrollTo = $(".scrollable").scrollTop();
             $(this.el).html(new_template);
-            for (index in checkboxes) { 
+            $(".scrollable").scrollTop(scrollTo);
+            for (index in checkboxes) {
                 container = checkboxes[index];
                 check = $("#checkbox_"+container);
                 if (check.html() != null) {
                     check.prop("checked", true);
                 }
-            } 
+            }
             for (index in dropdowns) {
                 container = dropdowns[index];
                 drop = $("#dropdown_"+container);
@@ -178,9 +177,9 @@ var ObjectStorageContainersView = Backbone.View.extend({
             if (($("#dropdown_actions").html() !== null) && (drop_actions_selected)) {
                 $("#dropdown_actions").addClass("open");
             }
-            this.enableDisableDeleteButton();         
+            this.enableDisableDeleteButton();
         }
-        
+
         return this;
     }
 });

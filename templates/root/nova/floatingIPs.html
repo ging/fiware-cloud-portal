@@ -3,9 +3,7 @@
 Description: Access And Security
 src: templates/root/nova/floatingIPs.html
 -->
-<div id="floating_ips">
         <div class='table_header'>
-            <h3 class='table_title'>Floating IPs</h3>
             <div class="table_actions clearfix">
 
                 <button class="btn btn-small btn-blue btn-allocate ajax-modal" id="allocate_IP">Allocate IP To Project</button>
@@ -15,29 +13,31 @@ src: templates/root/nova/floatingIPs.html
                 </button>
             </div>
         </div>
-        <table id="floating_ips" class="table table-bordered table-striped">
+        <table id="floating_ips_head" class="table table-bordered table-striped table-header">
             <thead>
                 <tr>
-                    <th class="multi_select_column"></th>
-                    <th class="tip" data-tooltip="IP Address">IP Address</th>
-                    <th class="tip" data-tooltip="Instance the IP is attached to.">Instance</th>
-                    <th class="tip" data-tooltip="Corresponding Floating Pool.">Floating IP Pool</th>
-                    <th class="actions_column">Actions</th>
+                    <td style="width:5%" class="multi_select_column"></td>
+                    <td style="width:25%" class="tip" data-tooltip="IP Address">IP Address</td>
+                    <td style="width:15%" class="tip" data-tooltip="Instance the IP is attached to.">Instance</td>
+                    <td style="width:40%" class="tip" data-tooltip="Corresponding Floating Pool.">Floating IP Pool</td>
+                    <td style="width:15%" class="actions_column">Actions</td>
                 </tr>
             </thead>
+        </table>
+        <div class="scrollable">
+            <table id="floating_ips" class="table table-without-margins table-bordered without-borders table-striped table-scrolled">
+        <table id="floating_ips" class="table table-bordered table-striped">
             <tbody>
                 <tr class="odd empty">
-	                <td class="multi_select_column">
-	                	<input type="checkbox" name="object_ids" id="checkbox_floating_ips_" value="nubeblog" />
-	                </td>
-                    <td colspan="5">No items to display.</td>
                 </tr>
             </tbody>
+        </table>
+        </div>
+        <table id="floating_ips_foot" class="table-foot table table-bordered table-striped table-without-margins">
             <tfoot>
                 <tr>
                     <td colspan="5"><span>Displaying 0 items</span></td>
                     </td>
             </tfoot>
-        </table>
-</div>
+            </table>
 </script>

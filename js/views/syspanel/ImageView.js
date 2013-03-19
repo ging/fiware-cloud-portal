@@ -83,7 +83,9 @@ var ImagesView = Backbone.View.extend({
                     dropdowns.push(imageId);
                 }
             }
+            var scrollTo = $(".scrollable").scrollTop();
             $(this.el).html(new_template);
+            $(".scrollable").scrollTop(scrollTo);
             for (index in checkboxes) {
                 imageId = checkboxes[index];
                 check = $("#checkbox_"+imageId);

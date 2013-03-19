@@ -219,22 +219,22 @@ var NovaInstancesView = Backbone.View.extend({
     checkAll: function () {
         if ($(".checkbox_all:checked").size() > 0) {
             $(".checkbox_instances").attr('checked','checked');
-            $(".btn-edit-instance-actions").hide();
-            $(".btn-vnc-actions").hide();
-            $(".btn-log-actions").hide();
-            $(".btn-snapshot-actions").hide();
-            $(".btn-password-actions").hide();
+            $(".btn-edit-instance-actions").attr("disabled", true);
+            $(".btn-vnc-actions").attr("disabled", true);
+            $(".btn-log-actions").attr("disabled", true);
+            $(".btn-snapshot-actions").attr("disabled", true);
+            $(".btn-password-actions").attr("disabled", true);
             this.enableDisableTerminateButton();
         } else {
             $(".checkbox_instances").attr('checked',false);
-            $(".btn-edit-instance-actions").show();
-            $(".btn-vnc-actions").show();
-            $(".btn-log-actions").show();
-            $(".btn-snapshot-actions").show();
-            $(".btn-password-actions").show();
+            $(".btn-edit-instance-actions").attr("disabled", false);
+            $(".btn-vnc-actions").attr("disabled", false);
+            $(".btn-log-actions").attr("disabled", false);
+            $(".btn-snapshot-actions").attr("disabled", false);
+            $(".btn-password-actions").attr("disabled", false);
             this.enableDisableTerminateButton();
         }
-        
+
     },
 
     enableDisableTerminateButton: function () {
@@ -254,28 +254,28 @@ var NovaInstancesView = Backbone.View.extend({
             $(".btn-reboot-actions").attr("disabled", false);
             $(".btn-terminate-actions").attr("disabled", false);
             if (instance.get("status") != "PAUSED" && instance.get("status") != "SUSPENDED") {
-                $(".btn-unpause-actions").hide();                
-                $(".btn-resume-actions").hide();
+                $(".btn-unpause-actions").attr("disabled", true);
+                $(".btn-resume-actions").attr("disabled", true);
             } else if (instance.get("status") == "PAUSED") {
-                $(".btn-unpause-actions").show();
-                $(".btn-pause-actions").hide();   
+                $(".btn-unpause-actions").attr("disabled", false);
+                $(".btn-pause-actions").attr("disabled", true);
             } else {
-                $(".btn-resume-actions").show();
-                $(".btn-suspend-actions").hide();
+                $(".btn-resume-actions").attr("disabled", false);
+                $(".btn-suspend-actions").attr("disabled", true);
             }
             if ($(".checkbox_instances:checked").size() > 1) {
-                $(".btn-edit-instance-actions").hide();
-                $(".btn-vnc-actions").hide();
-                $(".btn-log-actions").hide();
-                $(".btn-snapshot-actions").hide();
-                $(".btn-password-actions").hide();
+                $(".btn-edit-instance-actions").attr("disabled", true);
+                $(".btn-vnc-actions").attr("disabled", true);
+                $(".btn-log-actions").attr("disabled", true);
+                $(".btn-snapshot-actions").attr("disabled", true);
+                $(".btn-password-actions").attr("disabled", true);
             } else {
-                $(".btn-edit-instance-actions").show();
-                $(".btn-vnc-actions").show();
-                $(".btn-log-actions").show();
-                $(".btn-snapshot-actions").show();
-                $(".btn-password-actions").show();
-            } 
+                $(".btn-edit-instance-actions").attr("disabled", false);
+                $(".btn-vnc-actions").attr("disabled", false);
+                $(".btn-log-actions").attr("disabled", false);
+                $(".btn-snapshot-actions").attr("disabled", false);
+                $(".btn-password-actions").attr("disabled", false);
+            }
         } else {
             $("#instances_terminate").attr("disabled", true);
             $(".btn-edit-instance-actions").attr("disabled", true);
@@ -289,11 +289,11 @@ var NovaInstancesView = Backbone.View.extend({
             $(".btn-password-actions").attr("disabled", true);
             $(".btn-reboot-actions").attr("disabled", true);
             $(".btn-terminate-actions").attr("disabled", true);
-            $(".btn-edit-instance-actions").show();
-            $(".btn-vnc-actions").show();
-            $(".btn-log-actions").show();
-            $(".btn-snapshot-actions").show();
-            $(".btn-password-actions").show();
+            $(".btn-edit-instance-actions").attr("disabled", true);
+            $(".btn-vnc-actions").attr("disabled", true);
+            $(".btn-log-actions").attr("disabled", true);
+            $(".btn-snapshot-actions").attr("disabled", true);
+            $(".btn-password-actions").attr("disabled", true);
         }
 
     },
@@ -325,7 +325,9 @@ var NovaInstancesView = Backbone.View.extend({
                     drop_actions_selected = true;
                 }
             }
+            var scrollTo = $(".scrollable").scrollTop();
             $(this.el).html(new_template);
+            $(".scrollable").scrollTop(scrollTo);
             for (index in checkboxes) {
                 instanceId = checkboxes[index];
                 check = $("#checkbox_"+instanceId);

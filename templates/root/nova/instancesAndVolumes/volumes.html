@@ -3,10 +3,8 @@
 Description: Volumes
 src: templates/root/nova/instancesAndVolumes/volumes.html
 -->
-<div id="volumes" class="table_wrapper">
     <div style='display:none'></div>
     <div class='table_header'>
-        <h3 class='table_title'>Volumes</h3>
         <div class="table_actions clearfix">
             <button id="volumes_create" class="btn btn-small ajax-modal btn-create-volume btn-blue" name="action" value="volumes__create" type="submit" data-i18n="Create Volume">
                 Create Volume
@@ -38,7 +36,7 @@ src: templates/root/nova/instancesAndVolumes/volumes.html
                         </button>
                     </li>
                 </ul>
-           
+
             </div>
 
             <!--<button id="volumes_delete" disabled=true class="btn btn-small btn-danger btn-delete-group" name="action" value="volumes__delete" class="volumes_delete" type="submit" data-i18n="Delete Volume">
@@ -46,20 +44,23 @@ src: templates/root/nova/instancesAndVolumes/volumes.html
             </button>-->
         </div>
     </div>
-    <table id="volumes" class="table table-bordered table-striped">
+    <table id="volumes_head" class="table table-bordered table-striped table-header">
         <thead>
             <tr>
-                <th class="multi_select_column">
+                <td style="width:5%" class="multi_select_column">
                     <input type="checkbox" class="checkbox checkbox_all">
-                </th>
-                <th class="tip" data-tooltip="Volume's name.">Name</th>
-                <th class="hidden-phone tip" data-tooltip="Volume's description.">Description</th>
-                <th class="tip" data-tooltip="Current volume size.">Size</th>
-                <th class="tip" data-tooltip="Current volume status (available, none, ...).">Status</th>
-                <th class="tip" data-tooltip="Servers the snapshot is attached to.">Attachments</th>
-                <th class="actions_column hidden-phone">Actions</th>
+                </td>
+                <td style="width:20%" class="tip" data-tooltip="Volume's name.">Name</td>
+                <td style="width:20%" class="hidden-phone tip" data-tooltip="Volume's description.">Description</td>
+                <td style="width:10%" class="tip" data-tooltip="Current volume size.">Size</td>
+                <td style="width:10%" class="tip" data-tooltip="Current volume status (available, none, ...).">Status</td>
+                <td style="width:10%" class="tip" data-tooltip="Servers the snapshot is attached to.">Attachments</td>
+                <td style="width:20%" class="actions_column hidden-phone">Actions</td>
             </tr>
         </thead>
+    </table>
+    <div class="scrollable">
+    <table id="volumes" class="table table-without-margins table-bordered without-borders table-striped table-scrolled">
         <tbody>
             <%
             var i = 0;
@@ -68,15 +69,15 @@ src: templates/root/nova/instancesAndVolumes/volumes.html
             var volume = models[index];
             %>
             <tr id="volumes__row__<%=volume.id%>" class="status_up">
-                <td class="multi_select_column">
+                <td style="width:5%" class="multi_select_column">
                 <input id="checkbox_<%= volume.get('id')%>" type="checkbox" name="object_ids" class="checkbox checkbox_volumes"  value="<%= volume.get('id') %>" />
                 </td>
-                <td class=""><a href="#nova/instances_and_volumes/volumes/<%=volume.id%>/detail"><%= (volume.get("display_name") !== '' && volume.get("display_name")!== null) ? volume.get("display_name"):'-'%></a></td>
-                <td class="hidden-phone"><%= (volume.get("display_description") !== '' && volume.get('display_description')!== null) ? volume.get("display_description"):'-'%></td>
-                <td class=""><%= volume.get("size")%> GB</td>
-                <td class="status_unknown"><%= volume.get("status")%></td>
-                <td class=""><%= (volume.get("attachments").length == 0) ? "-": volume.get("attachments").length%></td>
-                <td class="actions_column hidden-phone"> <% if (volume.get("status") != "error") {%>
+                <td style="width:20%" class=""><a href="#nova/instances_and_volumes/volumes/<%=volume.id%>/detail"><%= (volume.get("display_name") !== '' && volume.get("display_name")!== null) ? volume.get("display_name"):'-'%></a></td>
+                <td style="width:20%" class="hidden-phone"><%= (volume.get("display_description") !== '' && volume.get('display_description')!== null) ? volume.get("display_description"):'-'%></td>
+                <td style="width:10%" class=""><%= volume.get("size")%> GB</td>
+                <td style="width:10%" class="status_unknown"><%= volume.get("status")%></td>
+                <td style="width:10%" class=""><%= (volume.get("attachments").length == 0) ? "-": volume.get("attachments").length%></td>
+                <td style="width:20%" class="actions_column hidden-phone"> <% if (volume.get("status") != "error") {%>
                 <div id="dropdown_<%= volume.get('id') %>" class="btn-group">
                     <a id="volumes__row_<%= volume.get("id")%>__action_attachments" value="<%= volume.id %>" class="btn btn-blue ajax-modal btn-edit btn-small btn-edit-volumes ellipsis w120">Edit Attachments</a>
                     <% if (volume.get("status") != "in-use") {%>
@@ -102,11 +103,13 @@ src: templates/root/nova/instancesAndVolumes/volumes.html
             </tr>
             <% } %>
         </tbody>
+        </table>
+    </div>
+    <table id="volumes_foot" class="table-foot table table-bordered table-striped table-without-margins">
         <tfoot>
             <tr>
                 <td colspan="7"><span class="blue"><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", models.length)%></span></td>
             </tr>
         </tfoot>
     </table>
-</div>
 </script>

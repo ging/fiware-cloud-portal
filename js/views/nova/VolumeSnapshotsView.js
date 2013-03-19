@@ -83,7 +83,9 @@ var NovaVolumeSnapshotsView = Backbone.View.extend({
                     dropdowns.push(instanceId);
                 }
             }
+            var scrollTo = $(".scrollable").scrollTop();
             $(this.el).html(new_template);
+            $(".scrollable").scrollTop(scrollTo);
             for (index in checkboxes) {
                 volSnapshot = checkboxes[index];
                 check = $("#checkbox_"+volSnapshot);

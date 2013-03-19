@@ -78,7 +78,9 @@ var FlavorView = Backbone.View.extend({
                     checkboxes.push(flavorId);
                 }
             }
+            var scrollTo = $(".scrollable").scrollTop();
             $(this.el).html(new_template);
+            $(".scrollable").scrollTop(scrollTo);
             for (index in checkboxes) {
                 flavorId = checkboxes[index];
                 check = $("#checkbox_"+flavorId);

@@ -21,7 +21,8 @@ var InstanceView = Backbone.View.extend({
         'click .btn-password':'onChangePassword',
         'click .btn-reboot':'onReboot',
         'click .btn-terminate':'onTerminate',
-        'click .btn-terminate-group':'onTerminateGroup'
+        'click .btn-terminate-group':'onTerminateGroup',
+        'change .checkbox_all':'checkAll'
     },
 
     onClose: function() {
@@ -147,7 +148,9 @@ var InstanceView = Backbone.View.extend({
                     dropdowns.push(instanceId);
                 }
             }
+            var scrollTo = $(".scrollable").scrollTop();
             $(this.el).html(new_template);
+            $(".scrollable").scrollTop(scrollTo);
             for (index in checkboxes) {
                 instanceId = checkboxes[index];
                 check = $("#checkbox_"+instanceId);

@@ -148,8 +148,12 @@ var InstanceDetailView = Backbone.View.extend({
         this.undelegateEvents();
         this.unbind();
         this.model.unbind("change");
-        this.options.flavor.unbind("change");
-        this.options.image.unbind("change");
+        if (this.options.flavor) {
+            this.options.flavor.unbind("change");
+        }
+        if (this.options.image) {
+            this.options.image.unbind("change");
+        }
     },
 
     close: function(e) {

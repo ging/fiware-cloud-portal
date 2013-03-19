@@ -3,7 +3,7 @@
 Description: Instance Detail
 src: templates/root/nova/instanceDetail.html
 -->
-<div id="consult_instance" class="row-fluid">
+<div id="consult_instance" class="row-fluid entity_consult">
    <% if (vdc !== undefined) { %>
     <ul class="breadcrumb">
         <li>
@@ -36,7 +36,7 @@ src: templates/root/nova/instanceDetail.html
                 <a id="instance_software">Software Management</a>
             </li>-->
         </ul>
-        <div class="tab-content">
+        <div class="tab-content  entity_detail">
             <div id="instance_details__overview" class="tab-pane <%= (subview == 'overview') ? 'active':'' %>">
                 <div class="status row-fluid">
                     <h4>Info</h4>

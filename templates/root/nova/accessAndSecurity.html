@@ -3,11 +3,22 @@
 Description: Access and Security
 src: templates/root/nova/accessAndSecurity.html
 -->
+<ul id="myTab" class="nav nav-tabs">
+	<li class="active">
+    <a href="#floating_ips" data-toggle="tab">Floating IPs</a>
+    </li>
+  <li class="">
+    <a href="#security_groups" data-toggle="tab">Security Groups</a>
+    </li>
+    <li class="">
+    <a href="#keypairs" data-toggle="tab">Keypairs</a>
+    </li>
+</ul>
 
-<div id="floating_ips"></div>
-
-<div id="security_groups"></div>
-
-<div id="keypairs"></div>
+<div id="" class="tab-content tab-content-adjustable">
+	<div id="floating_ips" class="tab-pane tab-adjustable active"></div>
+	<div id="security_groups" class="tab-pane tab-adjustable fade"></div>
+	<div id="keypairs" class="tab-pane tab-adjustable fade"></div>
+</div>
 
 </script>

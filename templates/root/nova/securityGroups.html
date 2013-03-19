@@ -3,9 +3,7 @@
 Description: Access And Security
 src: templates/root/nova/securityGroups.html
 -->
-<div id="security_groups">
         <div class='table_header'>
-            <h3 class='table_title'>Security Groups</h3>
             <div class="table_actions clearfix">
 
                 <button id="security_groups__action_create" class="btn btn-small btn-blue btn-create-sec-group">Create Security Group
@@ -27,13 +25,13 @@ src: templates/root/nova/securityGroups.html
                         </li>
 
                         <li class="clearfix">
-                        
+
                             <button class="btn btn-small btn-danger btn-delete-sec-group-actions" disabled="disabled" data-i18n="Delete Security Group">Delete Security Group
                             </button>
                         </li>
 
                     </ul>
-                       
+
                 </div>
 
                 <!--<button class='btn btn-small btn-danger btn-delete' disabled="disabled" name="action" id="sec_groups_delete" value="security_groups__delete" type="submit">
@@ -41,17 +39,20 @@ src: templates/root/nova/securityGroups.html
                 </button>-->
             </div>
         </div>
-        <table id="security_groups" class="table table-bordered table-striped">
-            <thead>
+        <table id="security_groups_head" class="table table-bordered table-striped table-header">
+        <thead>
                 <tr>
-                    <th class="multi_select_column">
+                    <td style="width:5%" class="multi_select_column">
                         <input type="checkbox" class="checkbox checkbox_all">
-                    </th>
-                    <th class="tip" data-tooltip="Security Group's name.">Name</th>
-                    <th class="tip" data-tooltip="Security Group's description">Description</th>
-                    <th class="actions_column">Actions</th>
+                    </td>
+                    <td style="width:45%" class="tip" data-tooltip="Security Group's name.">Name</td>
+                    <td style="width:35%" class="tip" data-tooltip="Security Group's description">Description</td>
+                    <td style="width:25%" class="actions_column">Actions</td>
                 </tr>
             </thead>
+            </table>
+        <div class="scrollable">
+            <table id="security_groups" class="table table-without-margins table-bordered without-borders table-striped table-scrolled">
             <tbody>
             	<%  var sec_group;
             		var i = 0;
@@ -62,12 +63,12 @@ src: templates/root/nova/securityGroups.html
             	%>
                 <tr id="sec_groups__row__<%= securityGroupsModel.models.length %>"
                 class="ajax-update status_down">
-                    <td class="multi_select_column">
+                    <td style="width:5%" class="multi_select_column">
                     <input type="checkbox" id="checkbox_sec_groups_<%= sec_group.attributes.id%>" class="checkbox_sec_groups" name="object_ids" value="<%= sec_group.attributes.id%>" />
                     </td>
-                    <td class=""><%= sec_group.attributes.name%></td>
-                    <td class=""><%= sec_group.attributes.description%></td>
-                    <td class="actions_column hidden-phone">
+                    <td style="width:45%" class=""><%= sec_group.attributes.name%></td>
+                    <td style="width:35%" class=""><%= sec_group.attributes.description%></td>
+                    <td style="width:25%" class="actions_column hidden-phone">
 	                	<div id="dropdown_<%= sec_group.attributes.id %>" class="btn-group">
 		                    <button id="sec_group_edit" name="action" type="submit" class="ajax-modal btn btn-small btn-blue btn-edit" value="<%= sec_group.attributes.id %>" data-i18n="Edit Rules">Edit Rules</button>
 		                    <% if (sec_group.attributes.name !== 'default') { %>
@@ -89,11 +90,13 @@ src: templates/root/nova/securityGroups.html
                 </tr>
                 <% } %>
             </tbody>
+            </table>
+            </div>
+            <table id="security_groups_foot" class="table-foot table table-bordered table-striped table-without-margins">
             <tfoot>
                 <tr>
                     <td colspan="4"><span><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", securityGroupsModel.models.length)%></span></td>
                     </td>
             </tfoot>
         </table>
-</div>
 </script>

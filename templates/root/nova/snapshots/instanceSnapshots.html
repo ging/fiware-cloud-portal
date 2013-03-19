@@ -3,18 +3,15 @@
 Description: Instances Snapshots
 src: templates/root/nova/snapshots/instanceSnapshots.html
 -->
-<div class="table_wrapper">
-    <div style='display:none'></div>
     <div class='table_header'>
-        <h3 class='table_title'>Instance Snapshots</h3>
         <div class="table_actions clearfix">
             <div id="dropdown_actions" class="btn-group">
-                    
+
                 <button class="btn btn-small btn-blue" data-toggle="dropdown" tdata-i18n="Actions">Actions</button>
 
                 <a class="btn dropdown-toggle btn-small btn-blue" data-toggle="dropdown"> <span class="caret caret-white"></span>
                 </a>
-                
+
                 <ul id="dropdown_options" class="dropdown-menu row_actions clearfix">
 
                     <li class="clearfix">
@@ -45,65 +42,70 @@ src: templates/root/nova/snapshots/instanceSnapshots.html
             </button>-->
         </div>
     </div>
-    <table id="instance_snapshots" class="table table-bordered table-striped">
+    <table id="instance_snapshots_head" class="table table-bordered table-striped table-header">
         <thead>
             <tr>
-                <th class="multi_select_column">
+                <td style="width:5%" class="multi_select_column">
                     <input type="checkbox" class="checkbox checkbox_all">
-                </th>
-                <th class="tip" data-tooltip="Spanshots's name">Name</th>
-                <th class="tip" data-tooltip="Snapshot's type">Type</th>
-                <th class="tip" data-tooltip="Current status of the snapshot (active, saving, ...)">Status</th>
-                <th class="tip" data-tooltip="Check if the Snapshot is publicly available">Public</th>
-                <th class="hidden-phone tip" data-tooltip="Snapshot's container format (AMI, AKI, ...).">Container Format</th>
-                <th class="actions_column hidden-phone">Actions</th>
+                </td>
+                <td style="width:30%" class="tip" data-tooltip="Spanshots's name">Name</td>
+                <td style="width:10%" class="tip" data-tooltip="Snapshot's type">Type</td>
+                <td style="width:10%" class="tip" data-tooltip="Current status of the snapshot (active, saving, ...)">Status</td>
+                <td style="width:10%" class="tip" data-tooltip="Check if the Snapshot is publicly available">Public</td>
+                <td style="width:15%" class="hidden-phone tip" data-tooltip="Snapshot's container format (AMI, AKI, ...).">Container Format</td>
+                <td style="width:10%" class="actions_column hidden-phone">Actions</td>
             </tr>
         </thead>
-        <tbody>
-            <% 	var num_snapshots=0;
-            for (var index in models) {
-            var image = models[index];
-            if (image.get('metadata')) {
-           	    var image_type = image.get('metadata').image_type;
-                if (image_type == "snapshot") {
-                num_snapshots++;
-            %>
-            <tr id="images__row__<%= models.length %>" class="">
-                <td class="multi_select_column">
-                <input type="checkbox" name="object_ids" class="checkbox_instances" id="checkbox_instances_<%= image.get('id')%>" value="<%= image.get('id')%>" />
-                </td>
-                <td class=""><a href="#nova/images_and_snapshots/<%= image.get('id')%>"><%= image.get('name')%></a></td>
-                <td class="">Snapshot</td>
-                <td class=""><%=image.get('status').toLowerCase()%></td>
-                <td class="" data-i18n="Yes">Yes</td>
-                <td class="hidden-phone">AMI</td>
-                <td class="actions_column hidden-phone">
-                <div id="dropdown_instances_<%= image.get('id') %>" class="btn-group">
-                    <button class="ajax-modal btn btn-small btn-launch-instances btn-small btn-blue" value="<%= image.get('id')%>" data-i18n="Launch">
-                        Launch
-                    </button>
-                    <a class="btn dropdown-toggle btn-small btn-blue" data-toggle="dropdown" href="#"> <span class="caret caret-white"></span> </a>
-                    <ul class="dropdown-menu row_actions clearfix">
-                        <li class="clearfix">
-                            <button id="instance_snapshot__action_edit"  class="ajax-modal btn btn-small btn-edit-instances" value="<%= image.get('id')%>" name="action" type="submit" data-i18n="Edit">
-                                Edit
-                            </button>
-                        </li>
-                        <li class="clearfix">
-                            <button id="instance_snapshot__action_delete"  class="ajax-modal btn btn-danger btn-delete-instances" value="<%= image.get('id')%>" name="action" type="submit" data-i18n="Delete Snapshot">
-                                Delete Snapshot
-                            </button>
-                        </li>
-                    </ul>
-                </div></td>
-            </tr>
-            <% } } } %>
-        </tbody>
+    </table>
+    <div class="scrollable">
+        <table id="instance_snapshots" class="table table-without-margins table-bordered without-borders table-striped table-scrolled">
+            <tbody>
+                <% 	var num_snapshots=0;
+                for (var index in models) {
+                var image = models[index];
+                if (image.get('metadata')) {
+               	    var image_type = image.get('metadata').image_type;
+                    if (image_type == "snapshot") {
+                    num_snapshots++;
+                %>
+                <tr id="images__row__<%= models.length %>" class="">
+                    <td style="width:5%" class="multi_select_column">
+                        <input type="checkbox" name="object_ids" class="checkbox_instances" id="checkbox_instances_<%= image.get('id')%>" value="<%= image.get('id')%>">
+                    </td>
+                    <td style="width:30%" class=""><a href="#nova/images_and_snapshots/<%= image.get('id')%>"><%= image.get('name')%></a></td>
+                    <td style="width:10%" class="">Snapshot</td>
+                    <td style="width:10%" class=""><%=image.get('status').toLowerCase()%></td>
+                    <td style="width:10%" class="" data-i18n="Yes">Yes</td>
+                    <td style="width:15%" class="hidden-phone">AMI</td>
+                    <td style="width:10%" class="actions_column hidden-phone">
+                    <div id="dropdown_instances_<%= image.get('id') %>" class="btn-group">
+                        <button class="ajax-modal btn btn-small btn-launch-instances btn-small btn-blue" value="<%= image.get('id')%>" data-i18n="Launch">
+                            Launch
+                        </button>
+                        <a class="btn dropdown-toggle btn-small btn-blue" data-toggle="dropdown" href="#"> <span class="caret caret-white"></span> </a>
+                        <ul class="dropdown-menu row_actions clearfix">
+                            <li class="clearfix">
+                                <button id="instance_snapshot__action_edit"  class="ajax-modal btn btn-small btn-edit-instances" value="<%= image.get('id')%>" name="action" type="submit" data-i18n="Edit">
+                                    Edit
+                                </button>
+                            </li>
+                            <li class="clearfix">
+                                <button id="instance_snapshot__action_delete"  class="ajax-modal btn btn-danger btn-delete-instances" value="<%= image.get('id')%>" name="action" type="submit" data-i18n="Delete Snapshot">
+                                    Delete Snapshot
+                                </button>
+                            </li>
+                        </ul>
+                    </div></td>
+                </tr>
+                <% } } } %>
+            </tbody>
+        </table>
+    </div>
+    <table id="instance_snapshots_foot" class="table-foot table table-bordered table-striped table-without-margins">
         <tfoot>
             <tr>
                 <td colspan="7"><span class="blue"><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", num_snapshots)%></span></td>
             </tr>
         </tfoot>
     </table>
-</div>
 </script>

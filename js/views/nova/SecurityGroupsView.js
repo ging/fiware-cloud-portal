@@ -81,14 +81,14 @@ var NovaSecurityGroupsView = Backbone.View.extend({
     checkAll: function () {
         if ($(".checkbox_all:checked").size() > 0) {
             $(".checkbox_sec_groups").attr('checked','checked');
-            $(".btn-edit-rules-actions").hide();
+            $(".btn-edit-rules-actions").attr("disabled", true);
             this.enableDisableDeleteButton();
         } else {
             $(".checkbox_sec_groups").attr('checked',false);
-            $(".btn-edit-rules-actions").show();
+            $(".btn-edit-rules-actions").attr("disabled", false);
             this.enableDisableDeleteButton();
         }
-        
+
     },
 
     enableDisableDeleteButton: function (e) {
@@ -101,22 +101,22 @@ var NovaSecurityGroupsView = Backbone.View.extend({
                 securityGroup = self.options.securityGroupsModel.models[index];
             }
         }
-        if ($(".checkbox_sec_groups:checked").size() > 0) {       
+        if ($(".checkbox_sec_groups:checked").size() > 0) {
             $("#sec_groups_delete").attr("disabled", false);
             $(".btn-edit-rules-actions").attr("disabled", false);
             $(".btn-delete-sec-group-actions").attr("disabled", false);
 
             if (securityGroup.attributes.name !== 'default') {
-                $(".btn-delete-sec-group-actions").show();
+                $(".btn-delete-sec-group-actions").attr("disabled", false);
             } else {
-                $(".btn-delete-sec-group-actions").hide();
+                $(".btn-delete-sec-group-actions").attr("disabled", true);
             }
             if ($(".checkbox_sec_groups:checked").size() > 1) {
-                $(".btn-edit-rules-actions").hide();
-                $(".btn-delete-sec-group-actions").show();
+                $(".btn-edit-rules-actions").attr("disabled", true);
+                $(".btn-delete-sec-group-actions").attr("disabled", false);
             } else {
-                $(".btn-edit-rules-actions").show();
-            } 
+                $(".btn-edit-rules-actions").attr("disabled", false);
+            }
         } else {
             $("#sec_groups_delete").attr("disabled", true);
             $(".btn-edit-rules-actions").attr("disabled", true);
@@ -155,9 +155,11 @@ var NovaSecurityGroupsView = Backbone.View.extend({
                 }
                 if ($("#dropdown_actions").hasClass('open')) {
                     drop_actions_selected = true;
-                } 
+                }
             }
+            var scrollTo = $(".scrollable").scrollTop();
             $(this.el).html(new_template);
+            $(".scrollable").scrollTop(scrollTo);
             for (index in checkboxes) {
                 secGroupsId = checkboxes[index];
                 check = $("#checkbox_sec_groups_"+secGroupsId);
@@ -165,7 +167,7 @@ var NovaSecurityGroupsView = Backbone.View.extend({
                     check.prop("checked", true);
                 }
             }
-            for (index in dropdowns) { 
+            for (index in dropdowns) {
                 secGroupsId = dropdowns[index];
                 drop = $("#dropdown_"+secGroupsId);
                 if (drop.html() != null) {
