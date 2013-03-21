@@ -29,7 +29,7 @@ var ConfirmView = Backbone.View.extend({
 
         if ((this.options.style !== "")||(this.options.style !== undefined)) {
             $('.modal:last').modal();
-            //$(".modal-backdrop:last").css('z-index', '105010');
+            $(".modal-backdrop:last").css('z-index', '105010');
         }else{
             $('.modal:last').modal();
         }

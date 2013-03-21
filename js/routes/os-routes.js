@@ -390,7 +390,7 @@ var OSRouter = Backbone.Router.extend({
                             {name: 'Instances', active: false, url: '#nova/instances/'},
                             {name: 'Images', active: false, url: '#nova/images/'},
                             {name: 'Flavors', active: false, url: '#nova/flavors/'},
-                            {name: 'Access &amp; Security', active: false, url: '#nova/access_and_security/'},
+                            {name: 'Security', active: false, url: '#nova/access_and_security/'},
                             {name: 'Snapshots', active: false, url: '#nova/snapshots/'},
                             {name: 'Storage', type: 'title'},
                             {name: 'Containers', active: false, url: '#objectstorage/containers/'},

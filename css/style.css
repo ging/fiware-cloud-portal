@@ -826,6 +826,14 @@ td.actions_column .row_actions button,
   box-shadow: none;
 }
 
+#dropdown_options .danger button:disabled {
+  color: #db8a85;
+}
+
+#dropdown_options button:disabled {
+  color: #949494;
+}
+
 td.actions_column .row_actions .hide {
   display: none;
 }
@@ -842,6 +850,7 @@ td.actions_column .row_actions .hide {
   width: 100%;
 }
 .btn-group .dropdown-menu .btn {
+
   border-radius: 0;
 }
 .dropdown-menu .btn.btn-danger,
@@ -852,12 +861,19 @@ td.actions_column .row_actions .hide {
 .dropdown-menu .btn.btn-info:hover {
   text-shadow: none; /* remove default bootstrap shadowing from button text. */
 }
+
+/*first line is the hover for actions button*/
+#dropdown_options li:hover,
 .dropdown-menu li:hover {
   background: none;
 }
+
+#dropdown_options li.divider:hover,
 .dropdown-menu li.divider:hover {
   background-color: #E5E5E5;
 }
+
+#dropdown_options button:hover,
 td.actions_column .dropdown-menu a:hover,
 td.actions_column .dropdown-menu button:hover {
   background-color: #CDCDCD;
