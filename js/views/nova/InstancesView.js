@@ -64,26 +64,18 @@ var NovaInstancesView = Backbone.View.extend({
         $(".checkbox_instances:checked").each(function () {
             var instance = $(this).val();
             var inst = self.model.get(instance);
-            inst.pauseserver({callback: function () {
-                console.log('success');
-                var subview = new MessagesView({el: '#content', state: "Success", title: "Instance " + inst.get("name") + " paused."});
-                subview.render();
-            }, error: function (resp) {
-                console.log('error', resp);
-                var subview = new MessagesView({el: '#content', state: "Error", title: "Error pausing instance " + inst.get("name")});
-                subview.render();
-            }});
-            
+            inst.pauseserver();
+            var subview = new MessagesView({el: '#content', state: "Success", title: "Instance " + inst.get("name") + " paused."});
+            subview.render();
         });
     },
 
     onUnpauseInstance: function(evt) {
-        console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', evt.target.value);
         var self = this;
         $(".checkbox_instances:checked").each(function () {
             var instance = $(this).val();
             var inst = self.model.get(instance);
-            inst.unpauseserver(UTILS.Messages.getCallbacks("Instance " + inst.get("name") + " unpaused", "Error unpausing instance " + inst.get("name")));
+            inst.unpauseserver();
         });
     },
 
@@ -156,7 +148,6 @@ var NovaInstancesView = Backbone.View.extend({
     },
 
     onUnpause: function(evt) {
-        console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', evt);
         var instance = evt.target.value;
         var inst = this.model.get(instance);
         inst.unpauseserver();
