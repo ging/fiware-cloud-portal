@@ -285,6 +285,27 @@ UTILS.i18n = (function(U, undefined) {
 
 UTILS.i18n.init();
 
+UTILS.Messages = (function(U, undefined) {
+    var getCallbacks;
+
+    getCallbacks = function (successMess, errorMess) {
+
+        var opt = {callback: function () {
+            var subview = new MessagesView({el: '#content', state: "Success", title: successMess});
+            subview.render();
+        }, error: function (resp) {
+            var subview = new MessagesView({el: '#content', state: "Error", title: errorMess});
+            subview.render();
+        }};
+
+        return opt;
+    };
+
+    return {
+        getCallbacks: getCallbacks
+    };
+})(UTILS);
+
 UTILS.SM = (function(U, undefined) {
     var check, obj;
 
