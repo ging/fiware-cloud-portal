@@ -76,6 +76,8 @@ var NovaInstancesView = Backbone.View.extend({
             var instance = $(this).val();
             var inst = self.model.get(instance);
             inst.unpauseserver();
+            var subview = new MessagesView({el: '#content', state: "Success", title: "Instance "+inst.get("name")+" unpaused."});
+            subview.render();
         });
     },
 
