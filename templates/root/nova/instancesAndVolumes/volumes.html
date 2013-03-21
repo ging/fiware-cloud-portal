@@ -53,9 +53,9 @@ src: templates/root/nova/instancesAndVolumes/volumes.html
                 <td style="width:20%" class="tip" data-tooltip="Volume's name.">Name</td>
                 <td style="width:20%" class="hidden-phone tip" data-tooltip="Volume's description.">Description</td>
                 <td style="width:10%" class="tip" data-tooltip="Current volume size.">Size</td>
-                <td style="width:10%" class="tip" data-tooltip="Current volume status (available, none, ...).">Status</td>
+                <td style="width:7%" class="tip" data-tooltip="Current volume status (available, none, ...).">Status</td>
                 <td style="width:10%" class="tip" data-tooltip="Servers the snapshot is attached to.">Attachments</td>
-                <td style="width:20%" class="actions_column hidden-phone">Actions</td>
+                <td style="width:23%" class="actions_column hidden-phone">Actions</td>
             </tr>
         </thead>
     </table>
@@ -75,9 +75,9 @@ src: templates/root/nova/instancesAndVolumes/volumes.html
                 <td style="width:20%" class=""><a href="#nova/instances_and_volumes/volumes/<%=volume.id%>/detail"><%= (volume.get("display_name") !== '' && volume.get("display_name")!== null) ? volume.get("display_name"):'-'%></a></td>
                 <td style="width:20%" class="hidden-phone"><%= (volume.get("display_description") !== '' && volume.get('display_description')!== null) ? volume.get("display_description"):'-'%></td>
                 <td style="width:10%" class=""><%= volume.get("size")%> GB</td>
-                <td style="width:10%" class="status_unknown"><%= volume.get("status")%></td>
+                <td style="width:7%" class="status_unknown"><%= volume.get("status")%></td>
                 <td style="width:10%" class=""><%= (volume.get("attachments").length == 0) ? "-": volume.get("attachments").length%></td>
-                <td style="width:20%" class="actions_column hidden-phone"> <% if (volume.get("status") != "error") {%>
+                <td style="width:23%" class="actions_column hidden-phone"> <% if (volume.get("status") != "error") {%>
                 <div id="dropdown_<%= volume.get('id') %>" class="btn-group">
                     <a id="volumes__row_<%= volume.get("id")%>__action_attachments" value="<%= volume.id %>" class="btn btn-blue ajax-modal btn-edit btn-small btn-edit-volumes ellipsis w120">Edit Attachments</a>
                     <% if (volume.get("status") != "in-use") {%>

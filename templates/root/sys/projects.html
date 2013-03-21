@@ -69,13 +69,13 @@ src: templates/root/sys/projects.html
                     <input type="checkbox" class="checkbox checkbox_all">
                 </td>
 
-                <td style="width:35%" class="tip" data-tooltip="Project's name" data-i18n="Name">Name</td>
+                <td style="width:25%" class="tip" data-tooltip="Project's name" data-i18n="Name">Name</td>
 
                 <td style="width:35%" class="tip" data-tooltip="Project's description." data-i18n="Description">Description</td>
 
                 <td style="width:10%" class="tip" data-tooltip="Check if the project is available to be used." data-i18n="Enabled">Enabled</td>
 
-                <td style="width:15%" class="actions_column hidden-phone" data-i18n="Actions">Actions</td>
+                <td style="width:20%" class="actions_column hidden-phone" data-i18n="Actions">Actions</td>
 
             </tr>
         </thead>
@@ -92,10 +92,10 @@ src: templates/root/sys/projects.html
                 <td style="width:5%" class="multi_select_column">
                 <input id="checkbox_<%= project.get('id') %>" type="checkbox" name="object_ids" value="<%= project.get('id')%>" class="checkbox checkbox_projects"/>
                 </td>
-                <td style="width:35%" class=""><%= project.get('name')%></td>
+                <td style="width:25%" class=""><%= project.get('name')%></td>
                 <td style="width:35%" class=""><%= project.get('description')%></td>
                 <td style="width:10%" class="satus_up"><%= project.get('enabled')%></td>
-                <td style="width:105%" class="actions_column hidden-phone">
+                <td style="width:20%" class="actions_column hidden-phone">
                 <div id="dropdown_<%= project.get('id') %>" class="btn-group">
 
                     <button class="ajax-modal btn btn-small btn-blue btn-edit" value="<%= project.get('id')%>" data-i18n="Edit Project">Edit Project</button>

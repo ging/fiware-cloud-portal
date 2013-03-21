@@ -9,6 +9,7 @@
         <h3>Launch Instances</h3>
     </div>
 
+    <form id="form" onSubmit="return false;">
     <div class="modal-body clearfix">
 
         <div class="left">
@@ -19,7 +20,7 @@
 
                     <span class="help-block" style="display: none; "></span>
                     <div class="input">
-                        <input id="id_name" type="text" name="instance_name" maxlength="80">
+                        <input id="id_name" required type="text" name="instance_name" maxlength="80">
                     </div>
                 </div>
 
@@ -74,7 +75,7 @@
 
                     <span class="help-block" style="display: none; ">Number of instances to launch.</span>
                     <div class="input">
-                        <input type="text" name="count" value="1" id="id_count">
+                        <input type="text" required name="count" value="1" id="id_count">
                     </div>
                 </div>
 
@@ -187,10 +188,9 @@
     </div>
     <div class="modal-footer">
         <p class="mandatoryMess">* Mandatory fields.</p>
-        <button class="btn btn-blue pull-right btn-launch-image" name="action" type="submit" data-i18n="Launch Instance">
-            Launch Instance
-        </button>
+        <input type="submit" class="btn btn-blue btn-launch-image pull-right" value="Launch Instance"/>
         <a id="cancelBtn-image" class="btn secondary cancel close">Cancel</a>
     </div>
+    </form>
 </div>
 </script>

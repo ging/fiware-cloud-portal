@@ -59,6 +59,18 @@ overflow: scroll;
   height: 100%;
 }
 
+.sbSelector:link, .sbSelector:visited, .sbSelector:hover {
+  position: absolute;
+  left: 0px;
+  width: 80%;
+}
+
+.table-striped tr td,  .wrap_text, .sbSelector:link, .sbSelector:visited, .sbSelector:hover {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .footer {
   position: absolute;
   height: 20px;
@@ -76,6 +88,7 @@ overflow: scroll;
 .table {
   margin-bottom: 0px;
   margin-top: 0px;
+  table-layout: fixed;
 }
 
 .table-header {
@@ -148,6 +161,7 @@ height: 70%;
 .tab-adjustable {
   position:relative;
   height: 100%;
+  overflow: hidden;
 }
 
 @font-face {

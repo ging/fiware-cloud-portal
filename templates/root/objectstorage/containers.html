@@ -53,7 +53,7 @@ src: templates/root/objectstorage/containers.html
                     <td style="width:45%" class="tip" data-tooltip="Container's name.">Container Name</td>
                     <td style="width:10%" class="tip" data-tooltip="Number of objects on the container.">Objects</td>
                     <td style="width:20%" class="tip" data-tooltip="Current size of the container.">Size</td>
-                    <td style="width:20%" class="actions_column">Actions</td>
+                    <td style="width:20%" class="actions_column hidden-phone">Actions</td>
                 </tr>
             </thead>
         </table>
@@ -85,7 +85,7 @@ src: templates/root/objectstorage/containers.html
                     <td style="width:45%" class=""><a href="#objectstorage/containers/<%= container.get('name')%>/"><%= container.get("name")%></a></td>
                     <td style="width:10%" class=""><%= container.get("count")%></td>
                     <td style="width:20%" class=""><%= size%></td>
-                    <td style="width:20%" class="actions_column">
+                    <td style="width:20%" class="actions_column hidden-phone">
                         <div id="dropdown_<%= container.get('name') %>" class="btn-group">
                             <a href="#objectstorage/containers/<%= container.get("name")%>/" id="containers__row_<%= container.name%>__action_list_objects" class="ajax-modal btn btn-small btn-blue btn-list-objects">List Objects</a>
                             <a class="btn dropdown-toggle btn-small btn-blue" data-toggle="dropdown" href="#">

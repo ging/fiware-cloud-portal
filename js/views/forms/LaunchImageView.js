@@ -6,7 +6,7 @@ var LaunchImageView = Backbone.View.extend({
       'click #cancelBtn-image': 'close',
       'click #close-image': 'close',
       'click .modal-backdrop': 'close',
-      'click .btn-launch-image': 'launch'
+      'submit #form': 'launch'
     },
 
     initialize: function() {
@@ -72,6 +72,7 @@ var LaunchImageView = Backbone.View.extend({
         instance.set({"max_count": max_count});
         instance.set({"availability_zone": availability_zone});
         instance.save();
+
         //this.options.addInstance(instance);
         //var subview = new MessagesView({el: '#content', state: "Success", title: "Instance "+instance.get("name")+" launched."});
         //subview.render();
