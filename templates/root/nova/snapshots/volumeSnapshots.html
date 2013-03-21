@@ -17,7 +17,7 @@ src: templates/root/nova/snapshots/volumeSnapshots.html
                     <input type="checkbox" class="checkbox checkbox_all">
                 </td>
                 <td style="width:15%" class="tip" data-tooltip="Volume snapshot's name.">Name</td>
-                <td style="width:35%" class="hidden-phone tip" data-tooltip="Volume snapshot's description.">Description</td>
+                <td style="width:20%" class="hidden-phone tip" data-tooltip="Volume snapshot's description.">Description</td>
                 <td style="width:10%" class="tip" data-tooltip="Size of the volume snapshot.">Size</td>
                 <td style="width:15%" class="tip" data-tooltip="Current volume snapshot's status (available, none, ...).">Status</td>
                 <td style="width:10%" class="tip" data-tooltip="Identifier of the corresponding Volume.">Volume ID</td>
@@ -37,7 +37,7 @@ src: templates/root/nova/snapshots/volumeSnapshots.html
                         <input type="checkbox" name="object_ids" class="checkbox checkbox_volumes" id="checkbox_<%= volSnapshot.get('id')%>" value="<%= volSnapshot.get('id')%>" />
                     </td>
                     <td style="width:15%" class=""><a href="#nova/images_and_snapshots/<%= volSnapshot.get('id')%>"><%= volSnapshot.get('display_name')%></a></td>
-                    <td style="width:35%" class="hidden-phone"><%=volSnapshot.get('display_description')%></td>
+                    <td style="width:20%" class="hidden-phone"><%=volSnapshot.get('display_description')%></td>
                     <td style="width:10%" class=""><%=volSnapshot.get('size')+" GB"%></td>
                     <td style="width:15%" class=""><%=volSnapshot.get('status')%></td>
                     <td style="width:10%" class=""><%=volSnapshot.get('volume_id')%></td>

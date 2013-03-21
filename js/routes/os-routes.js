@@ -409,7 +409,7 @@ var OSRouter = Backbone.Router.extend({
     },
 
     nova_access_and_security: function(self) {
-        self.showNovaRoot(self, 'Access &amp; Security');
+        self.showNovaRoot(self, 'Security');
         var view = new AccessAndSecurityView({el: '#content', model: self.keypairsModel, floatingIPsModel: self.floatingIPsModel, securityGroupsModel: self.securityGroupsModel});
          self.newContentView(self,view);
     },

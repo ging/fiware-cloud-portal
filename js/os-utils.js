@@ -57,12 +57,15 @@ UTILS.Auth = (function(U, undefined) {
         var _authenticatedWithTenant = function (resp) {
             console.log(resp);
             console.log("Authenticated for tenant ", tenant);
-            /*var sm = JSTACK.Keystone.getservice("sm");
+            /*
             var compute = JSTACK.Keystone.getservice("compute");
+
             compute.endpoints = sm.endpoints;
-            compute.endpoints[0].adminURL = compute.endpoints[0].adminURL.replace(/130\.206\.80\.91:8774\/v2\.0\/FIWARE\/vdc/, "130.206.80.93/sm");
-            compute.endpoints[0].publicURL = compute.endpoints[0].publicURL.replace(/130\.206\.80\.91:8774\/v2\.0\/FIWARE\/vdc/, "130.206.80.93/sm");
-            compute.endpoints[0].internalURL = compute.endpoints[0].internalURL.replace(/130\.206\.80\.91:9292\/v2\.0\/FIWARE\/vdc/, "130.206.80.93/sm");*/
+            */
+            var sm = JSTACK.Keystone.getservice("sm");
+            sm.endpoints[0].adminURL = sm.endpoints[0].adminURL.replace(/130\.206\.80\.91:8774\/v2\.0\/FIWARE\/vdc/, "130.206.80.93/sm");
+            sm.endpoints[0].publicURL = sm.endpoints[0].publicURL.replace(/130\.206\.80\.91:8774\/v2\.0\/FIWARE\/vdc/, "130.206.80.93/sm");
+            sm.endpoints[0].internalURL = sm.endpoints[0].internalURL.replace(/130\.206\.80\.91:9292\/v2\.0\/FIWARE\/vdc/, "130.206.80.93/sm");
             var image = JSTACK.Keystone.getservice("image");
             image.endpoints[0].adminURL = image.endpoints[0].adminURL.replace(/130\.206\.80\.11:9292/, "130.206.80.93/glance");
             image.endpoints[0].publicURL = image.endpoints[0].publicURL.replace(/130\.206\.80\.11:9292/, "130.206.80.93/glance");

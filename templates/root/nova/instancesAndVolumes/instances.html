@@ -97,12 +97,12 @@ src: templates/root/nova/instancesAndVolumes/instances.html
                     <input type="checkbox" class="checkbox checkbox_all">
                 </td>
                 <td style="width:15%" class="tip" data-tooltip="Server's name" data-i18n="Instance Name">Instance Name</td>
-                <td style="width:15%" class="hidden-phone tip" data-tooltip="IP addresses of the server" data-i18n="IP Address">IP Address</td>
+                <td style="width:10%" class="hidden-phone tip" data-tooltip="IP addresses of the server" data-i18n="IP Address">IP Address</td>
                 <td style="width:15%" class="tip" data-tooltip="Server's RAM, number of virtual CPUs, and user disk." data-i18n="Size">Size</td>
                 <td style="width:10%" class="tip" data-tooltip="Current server status." data-i18n="Status">Status</td>
-                <td style="width:10%" class="hidden-phone tip" data-tooltip="Current tasks performed on the server." data-i18n="Task">Task</td>
+                <td style="width:5%" class="hidden-phone tip" data-tooltip="Current tasks performed on the server." data-i18n="Task">Task</td>
                 <td style="width:10%" class="hidden-phone tip" data-tooltip="Server's power state." data-i18n="Power State">Power State</td>
-                <td style="width:10%" class="actions_column hidden-phone" data-i18n="Actions">Actions</td>
+                <td style="width:20%" class="actions_column hidden-phone" data-i18n="Actions">Actions</td>
             </tr>
         </thead>
     </table>
@@ -138,7 +138,7 @@ src: templates/root/nova/instancesAndVolumes/instances.html
                 <input id="checkbox_<%= instance.get('id')%>" type="checkbox" name="object_ids" class="checkbox checkbox_instances"  value="<%= instance.get('id') %>" />
                 </td>
                 <td style="width:15%" class=""><a href="#nova/instances/<%= instance.id %>/detail"><%= instance.get("name") %></a></td>
-                <td style="width:15%" class="hidden-phone">
+                <td style="width:10%" class="hidden-phone">
                 <ul>
                     <%
                     if (instance.get("addresses") != null && (instance.get("addresses").public !== null || instance.get("addresses").private !== null)) {
@@ -167,9 +167,9 @@ src: templates/root/nova/instancesAndVolumes/instances.html
                 </ul></td>
                 <td style="width:15%" class=""><%=flavorlist[instance.get("flavor").id]%></td>
                 <td style="width:10%" class="status_down"><%= instance.get("status") %></td>
-                <td style="width:10%" class="status_unknown hidden-phone"><%= instance.get("OS-EXT-STS:task_state") ? instance.get("OS-EXT-STS:task_state") : "None"%></td>
+                <td style="width:5%" class="status_unknown hidden-phone"><%= instance.get("OS-EXT-STS:task_state") ? instance.get("OS-EXT-STS:task_state") : "None"%></td>
                 <td style="width:10%" class="hidden-phone"><%= POWER_STATES[instance.get("OS-EXT-STS:power_state")]%></td>
-                <td style="width:10%" class="actions_column hidden-phone">
+                <td style="width:20%" class="actions_column hidden-phone">
                 <div id="dropdown_<%= instance.get('id') %>" class="btn-group">
                     <button  id="instances__action_e__<%=i%>" class="btn btn-blue btn-small btn-edit btn-edit-instances" name="action" value="<%= instance.id %>" type="submit" data-i18n="Edit Instance">
                         Edit Instance

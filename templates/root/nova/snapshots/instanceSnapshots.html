@@ -53,7 +53,7 @@ src: templates/root/nova/snapshots/instanceSnapshots.html
                 <td style="width:10%" class="tip" data-tooltip="Current status of the snapshot (active, saving, ...)">Status</td>
                 <td style="width:10%" class="tip" data-tooltip="Check if the Snapshot is publicly available">Public</td>
                 <td style="width:15%" class="hidden-phone tip" data-tooltip="Snapshot's container format (AMI, AKI, ...).">Container Format</td>
-                <td style="width:10%" class="actions_column hidden-phone">Actions</td>
+                <td style="width:20%" class="actions_column hidden-phone">Actions</td>
             </tr>
         </thead>
     </table>
@@ -77,7 +77,7 @@ src: templates/root/nova/snapshots/instanceSnapshots.html
                     <td style="width:10%" class=""><%=image.get('status').toLowerCase()%></td>
                     <td style="width:10%" class="" data-i18n="Yes">Yes</td>
                     <td style="width:15%" class="hidden-phone">AMI</td>
-                    <td style="width:10%" class="actions_column hidden-phone">
+                    <td style="width:20%" class="actions_column hidden-phone">
                     <div id="dropdown_instances_<%= image.get('id') %>" class="btn-group">
                         <button class="ajax-modal btn btn-small btn-launch-instances btn-small btn-blue" value="<%= image.get('id')%>" data-i18n="Launch">
                             Launch

@@ -64,20 +64,26 @@ var NovaInstancesView = Backbone.View.extend({
         $(".checkbox_instances:checked").each(function () {
             var instance = $(this).val();
             var inst = self.model.get(instance);
-            inst.pauseserver();
-            var subview = new MessagesView({el: '#content', state: "Success", title: "Instances "+inst.get("name")+" paused."});
-            subview.render();
+            inst.pauseserver({callback: function () {
+                console.log('success');
+                var subview = new MessagesView({el: '#content', state: "Success", title: "Instance " + inst.get("name") + " paused."});
+                subview.render();
+            }, error: function (resp) {
+                console.log('error', resp);
+                var subview = new MessagesView({el: '#content', state: "Error", title: "Error pausing instance " + inst.get("name")});
+                subview.render();
+            }});
+            
         });
     },
 
     onUnpauseInstance: function(evt) {
+        console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', evt.target.value);
         var self = this;
         $(".checkbox_instances:checked").each(function () {
             var instance = $(this).val();
             var inst = self.model.get(instance);
-            inst.unpauseserver();
-            var subview = new MessagesView({el: '#content', state: "Success", title: "Instances "+inst.get("name")+" unpaused."});
-            subview.render();
+            inst.unpauseserver(UTILS.Messages.getCallbacks("Instance " + inst.get("name") + " unpaused", "Error unpausing instance " + inst.get("name")));
         });
     },
 
@@ -113,11 +119,11 @@ var NovaInstancesView = Backbone.View.extend({
         var self = this;
         var subview = new ConfirmView({el: 'body', title: "Reboot Instances", btn_message: "Reboot Instances", onAccept: function() {
             $(".checkbox_instances:checked").each(function () {
-                    var instance = $(this).val();
-                    var inst = self.model.get(instance);
-                    inst.reboot(true);
-                    var subview = new MessagesView({el: '#content', state: "Success", title: "Instances "+inst.get("name")+" rebooted."});
-                    subview.render();
+                var instance = $(this).val();
+                var inst = self.model.get(instance);
+                inst.reboot(true);
+                var subview = new MessagesView({el: '#content', state: "Success", title: "Instances "+inst.get("name")+" rebooted."});
+                subview.render();
             });
         }});
         subview.render();
@@ -150,6 +156,7 @@ var NovaInstancesView = Backbone.View.extend({
     },
 
     onUnpause: function(evt) {
+        console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', evt);
         var instance = evt.target.value;
         var inst = this.model.get(instance);
         inst.unpauseserver();

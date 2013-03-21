@@ -6,7 +6,7 @@ var LaunchImageView = Backbone.View.extend({
       'click #cancelBtn-image': 'close',
       'click #close-image': 'close',
       'click .modal-backdrop': 'close',
-      'click .btn-launch-image': 'launch'
+      'submit #form': 'launch'
     },
 
     initialize: function() {
@@ -73,6 +73,7 @@ var LaunchImageView = Backbone.View.extend({
         instance.set({"min_count": min_count});
         instance.set({"max_count": max_count});
         instance.set({"availability_zone": availability_zone});
+
         instance.save(undefined, {success: function () {
             self.close();
             window.location.href = "#nova/instances/";
@@ -85,6 +86,7 @@ var LaunchImageView = Backbone.View.extend({
             var subview = new MessagesView({el: '#content', state: "Error", title: " Error launching instance "+instance.get("name")});
             subview.render();
         }});
+
         //this.options.addInstance(instance);
     }
 });
