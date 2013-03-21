@@ -17,10 +17,11 @@ src: templates/root/sys/flavors.html
         <table id="flavors_head" class="table table-bordered table-striped table-header">
             <thead>
                 <tr>
+                    <% if (!isProjectTab) { %>
                     <td style="width:5%" class="multi_select_column">
                         <input id="checkbox_all" class="checkbox  checkbox_all" name="object_ids" type="checkbox"/>
                     </td>
-                    <% if (!isProjectTab) { %>
+
                     <td style="width:5%" class="tip hidden-phone" data-tooltip="Flavor's identifier." data-i18n="Id">Id</td>
                     <% } %>
                     <td style="width:35%" class="tip" data-tooltip="Flavor's name." data-i18n="Flavor Name">Flavor Name</td>
@@ -46,10 +47,10 @@ src: templates/root/sys/flavors.html
                     <tr
                     id="flavors__row__<%= models.length %>"
                     class="ajax-update status_down">
+                        <% if (!isProjectTab) { %>
                         <td style="width:5%" class="multi_select_column">
                         <input id="checkbox_<%= flavor.get('id')%>" class="checkbox" name="object_ids" value="<%= flavor.get('id') %>" type="checkbox"/>
                         </td>
-                        <% if (!isProjectTab) { %>
                         <td style="width:5%" class="hidden-phone"><%= flavor.get('id')%></td>
                         <% } %>
                         <td style="width:35%" class=""><%= flavor.get('name')%></td>
