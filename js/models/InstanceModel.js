@@ -104,70 +104,70 @@ var Instance = Backbone.Model.extend({
     sync: function(method, model, options) {
         switch(method) {
             case "create":
-                UTILS.SM.createserver(model.get("name"), model.get("imageReg"), model.get("flavorReg"), model.get("key_name"),
-                    model.get("user_data"), model.get("security_groups"), model.get("min_count"), model.get("max_count"),
-                    model.get("availability_zone"), options.success);
+                JSTACK.Nova.createserver(model.get("name"), model.get("imageReg"), model.get("flavorReg"), model.get("key_name"),
+                   model.get("user_data"), model.get("security_groups"), model.get("min_count"), model.get("max_count"),
+                   model.get("availability_zone"), options.success, options.error);
                 break;
             case "delete":
-                UTILS.SM.deleteserver(model.get("id"), options.success);
+                JSTACK.Nova.deleteserver(model.get("id"), options.success, options.error);
                 break;
             case "update":
-                UTILS.SM.updateserver(model.get("id"), model.get("name"), options.success);
+                JSTACK.Nova.updateserver(model.get("id"), model.get("name"), options.success, options.error);
                 break;
             case "read":
-                JSTACK.Nova.getserverdetail(model.get("id"), options.success);
+                JSTACK.Nova.getserverdetail(model.get("id"), options.success, options.error);
                 break;
             case "reboot":
                 if (options.soft !== undefined && options.soft) {
-                    JSTACK.Nova.rebootserversoft(model.get("id"), options.success);
+                    JSTACK.Nova.rebootserversoft(model.get("id"), options.success, options.error);
                 } else {
-                    JSTACK.Nova.rebootserverhard(model.get("id"), options.success);
+                    JSTACK.Nova.rebootserverhard(model.get("id"), options.success, options.error);
                 }
                 break;
             case "resize":
-                JSTACK.Nova.resizeserver(model.get("id"), options.flavor.id, options.success);
+                JSTACK.Nova.resizeserver(model.get("id"), options.flavor.id, options.success, options.error);
                 break;
             case "snapshot":
-                JSTACK.Nova.createsnapshot(model.get("id"), model.get("name"), options.success);
+                JSTACK.Nova.createsnapshot(model.get("id"), model.get("name"), options.success, options.error);
                 break;
             case "confirm-resize":
-                JSTACK.Nova.confirmresizedserver(model.get("id"), options.success);
+                JSTACK.Nova.confirmresizedserver(model.get("id"), options.success, options.error);
                 break;
             case "revert-resize":
-                JSTACK.Nova.revertresizedserver(model.get("id"), options.success);
+                JSTACK.Nova.revertresizedserver(model.get("id"), options.success, options.error);
                 break;
             case "pause":
-                JSTACK.Nova.pauseserver(model.get("id"), options.success);
+                JSTACK.Nova.pauseserver(model.get("id"), options.success, options.error);
                 break;
             case "unpause":
-                JSTACK.Nova.unpauseserver(model.get("id"), options.success);
+                JSTACK.Nova.unpauseserver(model.get("id"), options.success, options.error);
                 break;
             case "suspend":
-                JSTACK.Nova.suspendserver(model.get("id"), options.success);
+                JSTACK.Nova.suspendserver(model.get("id"), options.success, options.error);
                 break;
             case "resume":
-                JSTACK.Nova.resumeserver(model.get("id"), options.success);
+                JSTACK.Nova.resumeserver(model.get("id"), options.success, options.error);
                 break;
             case "change-password":
-                JSTACK.Nova.changepasswordserver(model.get("id"), options.adminPass, options.success);
+                JSTACK.Nova.changepasswordserver(model.get("id"), options.adminPass, options.success, options.error);
                 break;
             case "create-image":
-                UTILS.SM.createimage(model.get("id"), options.name, undefined, options.success);
+                UTILS.SM.createimage(model.get("id"), options.name, undefined, options.success, options.error);
                 break;
             case "get-vncconsole":
-                JSTACK.Nova.getvncconsole(model.get("id"), "novnc", options.success);
+                JSTACK.Nova.getvncconsole(model.get("id"), "novnc", options.success, options.error);
                 break;
             case "consoleoutput":
-                JSTACK.Nova.getconsoleoutput(model.get("id"), options.length, options.success);
+                JSTACK.Nova.getconsoleoutput(model.get("id"), options.length, options.success, options.error);
                 break;
             case "attachvolume":
-                JSTACK.Nova.attachvolume(model.get("id"), options.volume_id, options.device, options.success);
+                JSTACK.Nova.attachvolume(model.get("id"), options.volume_id, options.device, options.success, options.error);
                 break;
             case "detachvolume":
-                JSTACK.Nova.detachvolume(model.get("id"), options.volume_id, options.success);
+                JSTACK.Nova.detachvolume(model.get("id"), options.volume_id, options.success, options.error);
                 break;
             case "attachedvolumes":
-                JSTACK.Nova.getattachedvolumes(model.get("id"), options.success);
+                JSTACK.Nova.getattachedvolumes(model.get("id"), options.success, options.error);
                 break;
         }
     },
