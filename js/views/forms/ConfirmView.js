@@ -40,7 +40,6 @@ var ConfirmView = Backbone.View.extend({
     },
 
     close: function(e) {
-        console.log('Closing confirm', this.options.style);
         $('#confirm').remove();
         this.onClose();
     }

@@ -1,0 +1,128 @@
+<script id="modifyQuotasFormTemplate" type="text/html">
+<div id="modify_quota" class="modal hide in" style="display: block; ">
+	
+	    <!--
+    Description: Modify Quotas Form
+    src: templates/forms/modifyQuotas.html
+    -->
+    <div class="modal-header">
+        <a href="#" class="close" data-dismiss="modal">×</a>
+        <h3>Update Quota</h3>
+    </div>
+    
+	<div class="modal-body clearfix">
+	    
+				<div class="left">
+				    <fieldset>
+				    
+				  <input type="hidden" name="method" value="UpdateQuotas" id="id_method">
+				
+				
+				<% var attr;
+				attr = model.attributes;
+               	%>
+				  <div class="control-group form-field clearfix">
+				    <label for="id_tenant_id">ID (name)</label>
+				    
+				    <span class="help-block" style="display: none;"></span>
+				      <p>
+				      <%= project%>
+				      </p>
+				  </div>
+				
+				  <div class="control-group form-field clearfix">
+				    <label for="id_metadata_items">Metadata Items</label>
+				    
+				    <span class="help-block" style="display: none;"></span>
+				    <div class="input">
+				      <input type="number" name="metadata_items" value="<%= attr.metadata_items%>" id="id_metadata_items">
+				    </div>
+				  </div>
+				
+				  <div class="control-group form-field clearfix">
+				    <label for="id_injected_files">Injected Files</label>
+				    
+				    <span class="help-block" style="display: none;"></span>
+				    <div class="input">
+				      <input type="number" name="injected_files" value="<%= attr.injected_files%>" id="id_injected_files">
+				    </div>
+				  </div>
+				
+				  <div class="control-group form-field clearfix">
+				    <label for="id_injected_file_content_bytes">Injected File Content Bytes</label>
+				    
+				    <span class="help-block" style="display: none;"></span>
+				    <div class="input">
+				      <input type="number" name="injected_file_content_bytes" value="<%= attr.injected_file_content_bytes%>" id="id_injected_file_content_bytes">
+				    </div>
+				  </div>
+				
+				  <div class="control-group form-field clearfix">
+				    <label for="id_cores">VCPUs</label>
+				    
+				    <span class="help-block" style="display: none;"></span>
+				    <div class="input">
+				      <input type="number" name="cores" value="<%= attr.cores%>" id="id_cores">
+				    </div>
+				  </div>
+				
+				  <div class="control-group form-field clearfix">
+				    <label for="id_instances">Instances</label>
+				    
+				    <span class="help-block" style="display: none;"></span>
+				    <div class="input">
+				      <input type="number" name="instances" value="<%= attr.instances%>" id="id_instances">
+				    </div>
+				  </div>
+				
+				  <div class="control-group form-field clearfix">
+				    <label for="id_volumes">Volumes</label>
+				    
+				    <span class="help-block" style="display: none;"></span>
+				    <div class="input">
+				      <input type="number" name="volumes" value="<%= attr.volumes%>" id="id_volumes">
+				    </div>
+				  </div>
+				
+				  <div class="control-group form-field clearfix">
+				    <label for="id_gigabytes">Gigabytes</label>
+				    
+				    <span class="help-block" style="display: none;"></span>
+				    <div class="input">
+				      <input type="number" name="gigabytes" value="<%= attr.gigabytes%>" id="id_gigabytes">
+				    </div>
+				  </div>
+				
+				  <div class="control-group form-field clearfix">
+				    <label for="id_ram">RAM (in MB)</label>
+				    
+				    <span class="help-block" style="display: none;"></span>
+				    <div class="input">
+				      <input type="number" name="ram" value="<%= attr.ram%>" id="id_ram">
+				    </div>
+				  </div>
+				
+				  <div class="control-group form-field clearfix">
+				    <label for="id_floating_ips">Floating IPs</label>
+				    
+				    <span class="help-block" style="display: none;"></span>
+				    <div class="input">
+				      <input type="number" name="floating_ips" value="<%= attr.floating_ips%>" id="id_floating_ips">
+				    </div>
+				  </div>
+				
+				
+				    </fieldset>
+				</div>
+				<div class="right">
+				    <h3>Description:</h3>
+				    <p>From here you can edit quotas (max limits) for the project.</p>
+				</div>	
+	    </div>
+	    <div class="modal-footer">
+            <input type="submit" class="btn btn-blue update-quota pull-right" value="Update Quota"/>
+            <a id="cancelBtn" class="close btn seconday cancel close" data-dismiss="modal">Cancel</a>
+        </div>
+    </form>
+</div>
+</script>
