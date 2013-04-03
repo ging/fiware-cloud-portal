@@ -880,6 +880,10 @@ td.actions_column .dropdown-menu button:hover {
   background-color: #CDCDCD;
 }
 
+.btn-group .dropdown-menu .btn:hover {
+  background-color: #f6e0df;
+}
+
 /*first line should be deleted*/
 #dropdown_actions .dropdown-menu .btn-danger,
 .dropdown-menu .btn.btn-danger {

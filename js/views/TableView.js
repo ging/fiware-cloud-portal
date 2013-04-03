@@ -38,6 +38,9 @@ var TableView = Backbone.View.extend({
     },
 
     onAction: function(action, entries) {
+        entries.forEach(function(entry) {
+            entry.id = entry.id;
+        });
         return this.options.onAction.call(this.options.context, action, entries);
     },
 
@@ -64,8 +67,8 @@ var TableView = Backbone.View.extend({
 
     onEntryClick: function(evt) {
         var parentId = $(evt.target).parent()[0].id;
-        var checked = $("#"+parentId+" .checkbox").attr('checked');
-        $("#"+parentId+" .checkbox").attr('checked', !checked);
+        var checked = $("[id='"+parentId+"'] .checkbox").attr('checked');
+        $("[id='"+parentId+"'] .checkbox").attr('checked', !checked);
         this.changeActionButtons();
     },
 

@@ -10,7 +10,7 @@ var CopyObjectView = Backbone.View.extend({
     },
 
     close: function(e) {
-        $('#create_container').remove();
+        $('#copy_object').remove();
         $('.modal-backdrop').remove();
         this.onClose();
     },
@@ -37,6 +37,7 @@ var CopyObjectView = Backbone.View.extend({
         if (this.$('input[name=objName]').val() === undefined) {
           subview = new MessagesView({el: '#content', state: "Error", title: "Wrong input values for container. Please try again."});
           subview.render();
+          this.close();
           return;
         } else {
             currentContainer = this.model.get("name");
@@ -50,7 +51,8 @@ var CopyObjectView = Backbone.View.extend({
             subview = new MessagesView({el: '#content', state: "Success", title: "Object " + targetObject + " copied to conatainer " + targetContainer});
             subview.render();
         }
-        self.model.copyObject(currentContainer, currentObject, targetContainer, targetObject);
+        self.model.copyObject(currentObject, targetContainer, targetObject);
+        this.close();
     }
 
 });

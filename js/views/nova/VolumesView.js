@@ -2,18 +2,164 @@ var NovaVolumesView = Backbone.View.extend({
 
     _template: _.itemplate($('#novaVolumesTemplate').html()),
 
-    dropdownId: undefined,
+    tableView: undefined,
 
-    events: {
-        'click .btn-edit-attachments-actions' : 'onEditAttachments',
-        'click .btn-create-snapshot-actions':'onCreateSnapshot',
-        'click .btn-delete-volume-actions':'onDeleteGroup',
-        'change .checkbox_volumes':'enableDisableDeleteButton',
-        'change .checkbox_all':'checkAll',
-        'click .btn-create-volume':'onCreate',
-        'click .btn-edit-volumes':'onEdit',
-        'click .btn-delete-volume':'onDelete',
-        'click .btn-camera':'onCreateSnapshot'
+    initialize: function() {
+        this.model.unbind("reset");
+        this.model.bind("reset", this.render, this);
+        this.renderFirst();
+    },
+
+    getMainButtons: function() {
+        // main_buttons: [{label:label, url: #url, action: action_name}]
+        return [{
+            label: "Create Volume",
+            action: "create"
+        }];
+    },
+
+    getDropdownButtons: function() {
+        // dropdown_buttons: [{label:label, action: action_name}]
+        var self = this;
+        var oneSelected = function(size, id) {
+            if (size === 1) {
+                var entry = self.model.get(id);
+                if (entry.get("status") !== "error") {
+                    return true;
+                }
+            }
+        };
+        var groupSelected = function(size, id) {
+            if (size >= 1) {
+                return true;
+            }
+        };
+        var attachSelected = function(size, id) {
+            if (size === 1) {
+                var entry = self.model.get(id);
+                if (entry.get("status") === "available") {
+                    return true;
+                }
+            }
+        };
+        var groupAttachSelected = function(size, ids) {
+            if (size >= 1) {
+                for (var id in ids) {
+                    var entry = self.model.get(ids[id]);
+                    if (entry.get("status") === "in-use") {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        };
+        return [{
+                label: "Edit Attachments",
+                action: "attachment",
+                activatePattern: oneSelected
+            }, {
+                label: "Create Snapshot",
+                action: "snapshot",
+                activatePattern: attachSelected
+            }, {
+                label: "Delete Volumes",
+                action: "delete",
+                warn: true,
+                activatePattern: groupAttachSelected
+            }];
+    },
+
+    getHeaders: function() {
+        // headers: [{name:name, tooltip: "tooltip", size:"15%", hidden_phone: true, hidden_tablet:false}]
+        return [{
+                type: "checkbox",
+                size: "5%"
+            }, {
+                name: "Name",
+                tooltip: "Volume's name",
+                size: "25%",
+                hidden_phone: false,
+                hidden_tablet: false
+            }, {
+                name: "Description",
+                tooltip: "Volume's Description",
+                size: "15%",
+                hidden_phone: true,
+                hidden_tablet: false
+            }, {
+                name: "Size",
+                tooltip: "Current volume size",
+                size: "15%",
+                hidden_phone: true,
+                hidden_tablet: false
+            }, {
+                name: "Status",
+                tooltip: "Current volume status (available, none, ...)",
+                size: "15%",
+                hidden_phone: true,
+                hidden_tablet: false
+            }, {
+                name: "Attachments",
+                tooltip: "Servers the snapshot is attached to",
+                size: "15%",
+                hidden_phone: true,
+                hidden_tablet: false
+            }];
+    },
+
+    getEntries: function() {
+        var entries = [];
+        for (var index in this.model.models) {
+            var volume = this.model.models[index];
+            var entry = {
+                id: volume.get('id'),
+                cells: [{
+                    value: volume.get("display_name"),
+                    link: "#nova/images_and_snapshots/volumes/" + volume.get("id") + "/detail"
+                }, {
+                    value: (volume.get("display_description") !== '' && volume.get('display_description')!== null) ? volume.get("display_description"):'-'
+                }, {
+                    value: volume.get('size')+" GB"
+                }, {
+                    value: volume.get("status")
+                }, {
+                    value: (volume.get("attachments").length == 0) ? "-": volume.get("attachments").length
+                }]
+            };
+            entries.push(entry);
+        }
+        return entries;
+    },
+
+    onClose: function() {
+        this.undelegateEvents();
+        this.unbind();
+        this.model.unbind("reset", this.render, this);
+    },
+
+    onAction: function(action, volumeIds) {
+        var volume, vol, subview;
+        var self = this;
+        if (volumeIds.length === 1) {
+            volume = volumeIds[0];
+            vol = this.model.get(volume);
+        }
+        switch (action) {
+            case 'attachment':
+                subview = new EditVolumeAttachmentsView({el: 'body', model: vol, instances: this.options.instancesModel});
+                subview.render();
+                break;
+            case 'create':
+                subview = new CreateVolumeView({el: 'body'});
+                subview.render();
+                break;
+            case 'snapshot':
+                subview = new CreateVolumeSnapshotView({el: 'body', model: volume});
+                subview.render();
+                break;
+            case 'delete':
+               break;
+        }
     },
 
     onEditAttachments: function(evt) {
@@ -22,18 +168,6 @@ var NovaVolumesView = Backbone.View.extend({
         var volume = self.model.get(vol);
         var subview = new EditVolumeAttachmentsView({el: 'body', model: volume, instances: this.options.instancesModel});
         subview.render();
-    },
-
-    initialize: function() {
-        this.model.unbind("reset");
-        this.model.bind("reset", this.render, this);
-        this.render();
-    },
-
-    onClose: function() {
-        this.undelegateEvents();
-        this.unbind();
-        this.model.unbind("reset", this.render, this);
     },
 
     onCreate: function(evt) {
@@ -80,113 +214,28 @@ var NovaVolumesView = Backbone.View.extend({
         subview.render();
     },
 
-    checkAll: function () {
-        if ($(".checkbox_all:checked").size() > 0) {
-            $(".checkbox_volumes").attr('checked','checked');
-            $(".btn-edit-attachments-actions").attr("disabled", true);
-            $(".btn-create-snapshot-actions").attr("disabled", true);
-            this.enableDisableDeleteButton();
-        } else {
-            $(".checkbox_volumes").attr('checked',false);
-            $(".btn-edit-attachments-actions").attr("disabled", false);
-            $(".btn-create-snapshot-actions").attr("disabled", false);
-            this.enableDisableDeleteButton();
-        }
-
-    },
-
-    enableDisableDeleteButton: function () {
-        var vol, volume;
-        vol = $(".checkbox_volumes:checked").val();
-        volume = this.model.get(vol);
-        if ($(".checkbox_volumes:checked").size() > 0) {
-            $("#volumes_delete").attr("disabled", false);
-            $(".btn-edit-attachments-actions").attr("disabled", false);
-            $(".btn-create-snapshot-actions").attr("disabled", false);
-            $(".btn-delete-volume-actions").attr("disabled", false);
-
-            if (volume.get("status") != "in-use") {
-                $(".btn-create-snapshot-actions").attr("disabled", false);
-            } else {
-                $(".btn-create-snapshot-actions").attr("disabled", true);
-            }
-            if ($(".checkbox_volumes:checked").size() > 1) {
-                $(".btn-edit-attachments-actions").attr("disabled", true);
-                $(".btn-create-snapshot-actions").attr("disabled", true);
-            } else {
-                $(".btn-edit-attachments-actions").attr("disabled", false);
-                $(".btn-create-snapshot-actions").attr("disabled", false);
-            }
-        } else {
-            $("#volumes_delete").attr("disabled", true);
-            $(".btn-edit-attachments-actions").attr("disabled", true);
-            $(".btn-create-snapshot-actions").attr("disabled", true);
-            $(".btn-delete-volume-actions").attr("disabled", true);
-            $(".btn-edit-attachments-actions").attr("disabled", true);
-            $(".btn-create-snapshot-actions").attr("disabled", true);
-        }
-
-    },
-
-    render: function() {
-        if ($("#volumes").html() == null) {
-            this.renderFirst();
-        } else {
-            this.renderSecond();
-        }
-    },
-
     renderFirst: function() {
         this.undelegateEvents();
         this.delegateEvents(this.events);
         UTILS.Render.animateRender(this.el, this._template, {models:this.model.models, volumeSnapshotsModel:this.options.volumeSnapshotModel, instances: this.options.instancesModel});
-        this.undelegateEvents();
-        this.delegateEvents(this.events);
+        this.tableView = new TableView({
+            model: this.model,
+            el: '#volumes-table',
+            onAction: this.onAction,
+            getDropdownButtons: this.getDropdownButtons,
+            getMainButtons: this.getMainButtons,
+            getHeaders: this.getHeaders,
+            getEntries: this.getEntries,
+            context: this
+        });
+        this.tableView.render();
     },
 
-    renderSecond: function () {
-        this.undelegateEvents();
-        this.delegateEvents(this.events);
-        if ($("#volumes").html() != null) {
-            var new_template = this._template({models:this.model.models, volumeSnapshotsModel: this.options.volumeSnapshotModel, flavors:this.options.flavors});
-            var checkboxes = [];
-            var dropdowns = [];
-            var volume, check, drop, drop_actions_selected, index;
-            for (index in this.model.models) {
-                volume = this.model.models[index].id;
-                if ($("#checkbox_"+volume).is(':checked')) {
-                    checkboxes.push(volume);
-                }
-                if ($("#dropdown_"+volume).hasClass('open')) {
-                    dropdowns.push(volume);
-                }
-                if ($("#dropdown_actions").hasClass('open')) {
-                    drop_actions_selected = true;
-                }
-            }
-            var scrollTo = $(".scrollable").scrollTop();
-            $(this.el).html(new_template);
-            $(".scrollable").scrollTop(scrollTo);
-            for (index in checkboxes) {
-                volume = checkboxes[index];
-                check = $("#checkbox_"+volume);
-                if (check.html() != null) {
-                    check.prop("checked", true);
-                }
-            }
-            for (index in dropdowns) {
-                volume = dropdowns[index];
-                drop = $("#dropdown_"+volume);
-                if (drop.html() != null) {
-                    drop.addClass("open");
-                }
-            }
-            if (($("#dropdown_actions").html() !== null) && (drop_actions_selected)) {
-                $("#dropdown_actions").addClass("open");
-            }
-            this.enableDisableDeleteButton();
+    render: function() {
+        console.log("Rendering");
+        if ($(this.el).html() !== null) {
+            this.tableView.render();
         }
-
         return this;
     }
 

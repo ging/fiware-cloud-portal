@@ -44,7 +44,7 @@ var UploadObjectView = Backbone.View.extend({
             contName = self.model.get("name");
             objName = self.$('input[name=objName]').val();
             obj = document.getElementById("id_object_file").files[0];
-            self.model.uploadObject(contName, objName, obj);
+            self.model.uploadObject(objName, obj);
             subview = new MessagesView({el: '#content', state: "Success", title: "Object " + objName + " uploaded."});
             subview.render();
             this.close();

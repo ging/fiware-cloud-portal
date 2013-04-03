@@ -2,6 +2,8 @@ var MessagesView = Backbone.View.extend({
 
     _template: _.template($('#messagesTemplate').html()),
 
+    el: "#logs"
+
     initialize: function() {
         this.options.state = this.options.state || "Success";
     },
