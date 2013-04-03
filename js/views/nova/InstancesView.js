@@ -2,7 +2,7 @@ var NovaInstancesView = Backbone.View.extend({
 
     _template: _.itemplate($('#novaInstancesTemplate').html()),
 
-    dropdownId: undefined,
+    tableView: undefined,
 
     initialize: function() {
         this.model.unbind("reset");
@@ -10,345 +10,409 @@ var NovaInstancesView = Backbone.View.extend({
         this.renderFirst();
     },
 
-    events:{
-        'click .btn-edit-instance-actions' : 'onEditInstance',
-        'click .btn-vnc-actions':'onVNC',
-        'click .btn-log-actions':'onLog',
-        'click .btn-snapshot-actions':'onSnapshotInstance',
-        'click .btn-pause-actions':'onPauseInstance',
-        'click .btn-unpause-actions':'onUnpauseInstance',
-        'click .btn-suspend-actions':'onSuspendInstance',
-        'click .btn-resume-actions':'onResumeInstance',
-        'click .btn-password-actions':'onChangePasswordInstance',
-        'click .btn-reboot-actions':'onRebootInstance',
-        'click .btn-terminate-actions':'onTerminateGroup',
-
-        'change .checkbox_instances':'enableDisableTerminateButton',
-        'change .checkbox_all':'checkAll',
-        'click .btn-edit-instances':'onEditInstances',
-        'click .btn-snapshot':'onSnapshot',
-        'click .btn-pause':'onPause',
-        'click .btn-unpause':'onUnpause',
-        'click .btn-suspend':'onSuspend',
-        'click .btn-resume':'onResume',
-        'click .btn-password':'onChangePassword',
-        'click .btn-reboot':'onReboot',
-        'click .btn-terminate':'onTerminate',
-        'click .btn-terminate-group':'onTerminateGroup'
+    getMainButtons: function() {
+        // main_buttons: [{label:label, url: #url, action: action_name}]
+        return [{
+            label: "Launch New Instance",
+            url: "#nova/images/"
+        }];
     },
 
-    onEditInstance: function(evt) {
-        var instance = $(".checkbox:checked").val();
-        var subview = new UpdateInstanceView({el: 'body', model: this.model.get(instance)});
-        subview.render();
-    },
-
-    onVNC: function(evt) {
-        var instance = $(".checkbox:checked").val();
-        window.location.href = '#nova/instances/'+instance+'/detail?view=vnc';
-    },
-
-    onLog: function(evt) {
-        var instance = $(".checkbox:checked").val();
-        window.location.href = 'nova/instances/'+instance+'/detail?view=log';
-    },
-
-    onSnapshotInstance: function(evt) {
-        var instance = $(".checkbox:checked").val();
-        var subview = new CreateSnapshotView({el: 'body', model: this.model.get(instance)});
-        subview.render();
-    },
-
-    onPauseInstance: function(evt) {
+    getDropdownButtons: function() {
+        // dropdown_buttons: [{label:label, action: action_name}]
         var self = this;
-        $(".checkbox_instances:checked").each(function () {
-            var instance = $(this).val();
-            var inst = self.model.get(instance);
-            inst.pauseserver();
-            var subview = new MessagesView({el: '#content', state: "Success", title: "Instances "+inst.get("name")+" paused."});
-            subview.render();
-        });
+        var oneSelected = function(size, id) {
+            if (size === 1) {
+                return true;
+            }
+        };
+        var groupSelected = function(size, id) {
+            if (size >= 1) {
+                return true;
+            }
+        };
+        var activeSelected = function(size, id) {
+            if (size === 1) {
+                var entry = self.model.get(id);
+                if (entry.get("status") !== "PAUSED" && entry.get("status") !== "SUSPENDED") {
+                    return true;
+                }
+            }
+        };
+        var activeGroupSelected = function(size, ids) {
+            if (size >= 1) {
+                for (var id in ids) {
+                    var entry = self.model.get(ids[id]);
+                    if (entry.get("status") === "PAUSED" || entry.get("status") === "SUSPENDED") {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        };
+        var pausedSelected = function(size, ids) {
+            if (size >= 1) {
+                for (var id in ids) {
+                    var entry = self.model.get(ids[id]);
+                    if (entry.get("status") !== "PAUSED") {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        };
+        var suspendedSelected = function(size, ids) {
+            if (size >= 1) {
+                for (var id in ids) {
+                    var entry = self.model.get(ids[id]);
+                    if (entry.get("status") !== "SUSPENDED") {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        };
+        return [{
+            label: "Edit Instance",
+            action: "edit",
+            activatePattern: oneSelected
+        }, {
+            label: "VNC Console",
+            action: "vnc",
+            activatePattern: oneSelected
+        }, {
+            label: "View Log",
+            action: "log",
+            activatePattern: oneSelected
+        }, {
+            label: "Create Snapshot",
+            action: "snapshot",
+            activatePattern: oneSelected
+        }, {
+            label: "Pause Instance",
+            action: "pause",
+            activatePattern: activeGroupSelected
+        }, {
+            label: "Unpause Instance",
+            action: "unpause",
+            activatePattern: pausedSelected
+        }, {
+            label: "Suspend Instance",
+            action: "suspend",
+            activatePattern: activeGroupSelected
+        }, {
+            label: "Resume Instance",
+            action: "resume",
+            activatePattern: suspendedSelected
+        }, {
+            label: "Change Password",
+            action: "password",
+            warn: true,
+            activatePattern: activeSelected
+        }, {
+            label: "Reboot Instance",
+            action: "reboot",
+            warn: true,
+            activatePattern: groupSelected
+        }, {
+            label: "Terminate Instance",
+            action: "terminate",
+            warn: true,
+            activatePattern: groupSelected
+        }];
     },
 
-    onUnpauseInstance: function(evt) {
-        var self = this;
-        $(".checkbox_instances:checked").each(function () {
-            var instance = $(this).val();
-            var inst = self.model.get(instance);
-            inst.unpauseserver();
-            var subview = new MessagesView({el: '#content', state: "Success", title: "Instances "+inst.get("name")+" unpaused."});
-            subview.render();
-        });
+    getHeaders: function() {
+        // headers: [{name:name, tooltip: "tooltip", size:"15%", hidden_phone: true, hidden_tablet:false}]
+        return [{
+            type: "checkbox",
+            size: "5%"
+        }, {
+            name: "Instance Name",
+            tooltip: "Server's name",
+            size: "25%",
+            hidden_phone: false,
+            hidden_tablet: false
+        }, {
+            name: "IP Address",
+            tooltip: "IP Address",
+            size: "15%",
+            hidden_phone: true,
+            hidden_tablet: false
+        }, {
+            name: "Size",
+            tooltip: "Server's RAM, number of virtual CPUs, and user disk",
+            size: "25%",
+            hidden_phone: false,
+            hidden_tablet: false
+        }, {
+            name: "Status",
+            tooltip: "Current server status",
+            size: "10%",
+            hidden_phone: false,
+            hidden_tablet: false
+        }, {
+            name: "Task",
+            tooltip: "Current tasks performed on the server",
+            size: "10%",
+            hidden_phone: true,
+            hidden_tablet: false
+        }, {
+            name: "Power State",
+            tooltip: "Server's power state",
+            size: "15%",
+            hidden_phone: true,
+            hidden_tablet: false
+        }];
     },
 
-    onSuspendInstance: function(evt) {
-        var self = this;
-        $(".checkbox_instances:checked").each(function () {
-            var instance = $(this).val();
-            var inst = self.model.get(instance);
-            inst.suspendserver();
-            var subview = new MessagesView({el: '#content', state: "Success", title: "Instances "+inst.get("name")+" suspended."});
-            subview.render();
-        });
-    },
+    getEntries: function() {
+        var flavorlist = {};
+        for (var index in this.options.flavors.models) {
+            var flavor = this.options.flavors.models[index];
+            flavorlist[flavor.id] = flavor.get("ram") + " MB RAM | " + flavor.get("vcpus") + " VCPU | " + flavor.get("disk") + "GB Disk";
+        }
+        var POWER_STATES = {
+            0: "NO STATE",
+            1: "RUNNING",
+            2: "BLOCKED",
+            3: "PAUSED",
+            4: "SHUTDOWN",
+            5: "SHUTOFF",
+            6: "CRASHED",
+            7: "SUSPENDED",
+            8: "FAILED",
+            9: "BUILDING"
+        };
+        // entries: [{id:id, cells: [{value: value, link: link}] }]
+        var entries = [];
+        for (var instance_idx in this.model.models) {
+            var instance = this.model.models[instance_idx];
 
-    onResumeInstance: function(evt) {
-        var self = this;
-        $(".checkbox_instances:checked").each(function () {
-            var instance = $(this).val();
-            var inst = self.model.get(instance);
-            inst.resumeserver();
-            var subview = new MessagesView({el: '#content', state: "Success", title: "Instances "+inst.get("name")+" resumed."});
-            subview.render();
-        });
-    },
+            var address = "";
 
-    onChangePasswordInstance: function(evt) {
-        var instance = $(".checkbox:checked").val();
-        var subview = new ChangePasswordView({el: 'body', model: this.model.get(instance)});
-        subview.render();
-    },
+            if (instance.get("addresses") != null && (instance.get("addresses")["public"] !== null || instance.get("addresses")["private"] !== null)) {
+                var addresses = instance.get("addresses")["public"];
+                for (var addr_idx in addresses) {
+                    address += addresses[addr_idx].addr + "<br/>";
+                }
+                addresses = instance.get("addresses")["private"];
+                for (var addr_idx2 in addresses) {
+                    address += addresses[addr_idx2].addr + "<br/>";
+                }
+            }
+            var entry = {
+                id: instance.get('id'),
+                cells: [{
+                    value: instance.get("name"),
+                    link: "#nova/instances/" + instance.id + "/detail"
+                }, {
+                    value: address
+                }, {
+                    value: flavorlist[instance.get("flavor").id]
+                }, {
+                    value: instance.get("status")
+                }, {
+                    value: instance.get("OS-EXT-STS:task_state") ? instance.get("OS-EXT-STS:task_state") : "None"
+                }, {
+                    value: POWER_STATES[instance.get("OS-EXT-STS:power_state")]
+                }]
+            };
+            entries.push(entry);
 
-    onRebootInstance: function(evt) {
-        var self = this;
-        var subview = new ConfirmView({el: 'body', title: "Reboot Instances", btn_message: "Reboot Instances", onAccept: function() {
-            $(".checkbox_instances:checked").each(function () {
-                    var instance = $(this).val();
-                    var inst = self.model.get(instance);
-                    inst.reboot(true);
-                    var subview = new MessagesView({el: '#content', state: "Success", title: "Instances "+inst.get("name")+" rebooted."});
-                    subview.render();
-            });
-        }});
-        subview.render();
+        }
+        return entries;
     },
 
     onClose: function() {
+        this.tableView.close();
         this.undelegateEvents();
         this.unbind();
         this.model.unbind("reset", this.render, this);
     },
 
-    onEditInstances: function(evt) {
-        var instance = evt.target.value;
-        var subview = new UpdateInstanceView({el: 'body', model: this.model.get(instance)});
-        subview.render();
-    },
-
-    onSnapshot: function(evt) {
-        var instance = evt.target.value;
-        var subview = new CreateSnapshotView({el: 'body', model: this.model.get(instance)});
-        subview.render();
-    },
-
-    onPause: function(evt) {
-        var instance = evt.target.value;
-        var inst = this.model.get(instance);
-        inst.pauseserver();
-        var subview = new MessagesView({el: '#content', state: "Success", title: "Instance "+inst.get("name")+" paused."});
-        subview.render();
-    },
-
-    onUnpause: function(evt) {
-        var instance = evt.target.value;
-        var inst = this.model.get(instance);
-        inst.unpauseserver();
-        var subview = new MessagesView({el: '#content', state: "Success", title: "Instance "+inst.get("name")+" unpaused."});
-        subview.render();
-    },
-
-    onSuspend: function(evt) {
-        var instance = evt.target.value;
-        var inst = this.model.get(instance);
-        inst.suspendserver();
-        var subview = new MessagesView({el: '#content', state: "Success", title: "Instance "+inst.get("name")+" suspended."});
-        subview.render();
-    },
-
-    onResume: function(evt) {
-        var instance = evt.target.value;
-        var inst = this.model.get(instance);
-        inst.resumeserver();
-        var subview = new MessagesView({el: '#content', state: "Success", title: "Instance "+inst.get("name")+" resumed."});
-        subview.render();
-    },
-
-    onChangePassword: function(evt) {
-        var instance = evt.target.value;
-        var subview = new ChangePasswordView({el: 'body', model: this.model.get(instance)});
-        subview.render();
-    },
-
-    onReboot: function(evt) {
-        var instance = evt.target.value;
-        var inst = this.model.get(instance);
-        var subview = new ConfirmView({el: 'body', title: "Reboot Instance", btn_message: "Reboot Instance", onAccept: function() {
-            inst.reboot(true);
-            var subview = new MessagesView({el: '#content', state: "Success", title: "Instance "+inst.get("name")+" rebooted."});
-            subview.render();
-        }});
-        subview.render();
-    },
-
-    onTerminate: function(evt) {
-        var instance = evt.target.value;
-        var inst = this.model.get(instance);
-        var subview = new ConfirmView({el: 'body', title: "Terminate Instance", btn_message: "Terminate Instance", onAccept: function() {
-            inst.destroy();
-            var subview = new MessagesView({el: '#content', state: "Success", title: "Instance "+inst.get("name")+" terminated."});
-            subview.render();
-        }});
-
-        subview.render();
-    },
-
-    onTerminateGroup: function(evt) {
+    onAction: function(action, instanceIds) {
+        var instance, inst, subview;
         var self = this;
-        var subview = new ConfirmView({el: 'body', title: "Terminate Instances", btn_message: "Terminate Instances", onAccept: function() {
-            $(".checkbox_instances:checked").each(function () {
-                    var instance = $(this).val();
-                    var inst = self.model.get(instance);
-                    inst.destroy();
-                    var subview = new MessagesView({el: '#content', state: "Success", title: "Instances "+inst.get("name")+" terminated."});
-                    subview.render();
-            });
-        }});
-        subview.render();
-    },
-
-    checkAll: function () {
-        if ($(".checkbox_all:checked").size() > 0) {
-            $(".checkbox_instances").attr('checked','checked');
-            $(".btn-edit-instance-actions").attr("disabled", true);
-            $(".btn-vnc-actions").attr("disabled", true);
-            $(".btn-log-actions").attr("disabled", true);
-            $(".btn-snapshot-actions").attr("disabled", true);
-            $(".btn-password-actions").attr("disabled", true);
-            this.enableDisableTerminateButton();
-        } else {
-            $(".checkbox_instances").attr('checked',false);
-            $(".btn-edit-instance-actions").attr("disabled", false);
-            $(".btn-vnc-actions").attr("disabled", false);
-            $(".btn-log-actions").attr("disabled", false);
-            $(".btn-snapshot-actions").attr("disabled", false);
-            $(".btn-password-actions").attr("disabled", false);
-            this.enableDisableTerminateButton();
+        if (instanceIds.length === 1) {
+            instance = instanceIds[0];
+            inst = this.model.get(instance);
         }
-
-    },
-
-    enableDisableTerminateButton: function () {
-        var inst = $(".checkbox_instances:checked").val();
-        var instance = this.model.get(inst);
-        if ($(".checkbox_instances:checked").size() > 0) {
-            $("#instances_terminate").attr("disabled", false);
-            $(".btn-edit-instance-actions").attr("disabled", false);
-            $(".btn-vnc-actions").attr("disabled", false);
-            $(".btn-log-actions").attr("disabled", false);
-            $(".btn-snapshot-actions").attr("disabled", false);
-            $(".btn-pause-actions").attr("disabled", false);
-            $(".btn-unpause-actions").attr("disabled", false);
-            $(".btn-suspend-actions").attr("disabled", false);
-            $(".btn-resume-actions").attr("disabled", false);
-            $(".btn-password-actions").attr("disabled", false);
-            $(".btn-reboot-actions").attr("disabled", false);
-            $(".btn-terminate-actions").attr("disabled", false);
-            if (instance.get("status") != "PAUSED" && instance.get("status") != "SUSPENDED") {
-                $(".btn-unpause-actions").attr("disabled", true);
-                $(".btn-resume-actions").attr("disabled", true);
-            } else if (instance.get("status") == "PAUSED") {
-                $(".btn-unpause-actions").attr("disabled", false);
-                $(".btn-pause-actions").attr("disabled", true);
-            } else {
-                $(".btn-resume-actions").attr("disabled", false);
-                $(".btn-suspend-actions").attr("disabled", true);
-            }
-            if ($(".checkbox_instances:checked").size() > 1) {
-                $(".btn-edit-instance-actions").attr("disabled", true);
-                $(".btn-vnc-actions").attr("disabled", true);
-                $(".btn-log-actions").attr("disabled", true);
-                $(".btn-snapshot-actions").attr("disabled", true);
-                $(".btn-password-actions").attr("disabled", true);
-            } else {
-                $(".btn-edit-instance-actions").attr("disabled", false);
-                $(".btn-vnc-actions").attr("disabled", false);
-                $(".btn-log-actions").attr("disabled", false);
-                $(".btn-snapshot-actions").attr("disabled", false);
-                $(".btn-password-actions").attr("disabled", false);
-            }
-        } else {
-            $("#instances_terminate").attr("disabled", true);
-            $(".btn-edit-instance-actions").attr("disabled", true);
-            $(".btn-vnc-actions").attr("disabled", true);
-            $(".btn-log-actions").attr("disabled", true);
-            $(".btn-snapshot-actions").attr("disabled", true);
-            $(".btn-pause-actions").attr("disabled", true);
-            $(".btn-unpause-actions").attr("disabled", true);
-            $(".btn-suspend-actions").attr("disabled", true);
-            $(".btn-resume-actions").attr("disabled", true);
-            $(".btn-password-actions").attr("disabled", true);
-            $(".btn-reboot-actions").attr("disabled", true);
-            $(".btn-terminate-actions").attr("disabled", true);
-            $(".btn-edit-instance-actions").attr("disabled", true);
-            $(".btn-vnc-actions").attr("disabled", true);
-            $(".btn-log-actions").attr("disabled", true);
-            $(".btn-snapshot-actions").attr("disabled", true);
-            $(".btn-password-actions").attr("disabled", true);
+        switch (action) {
+            case 'edit':
+                subview = new UpdateInstanceView({
+                    el: 'body',
+                    model: inst
+                });
+                subview.render();
+                break;
+            case 'vnc':
+                window.location.href = '#nova/instances/' + instance + '/detail?view=vnc';
+                break;
+            case 'log':
+                window.location.href = 'nova/instances/' + instance + '/detail?view=log';
+                break;
+            case 'snapshot':
+                subview = new CreateSnapshotView({
+                    el: 'body',
+                    model: this.model.get(instance)
+                });
+                subview.render();
+                break;
+            case 'password':
+                subview = new ChangePasswordView({
+                    el: 'body',
+                    model: inst
+                });
+                subview.render();
+                break;
+            case 'pause':
+                subview = new ConfirmView({
+                    el: 'body',
+                    title: "Pause Instances",
+                    btn_message: "Pause Instances",
+                    onAccept: function() {
+                        instanceIds.forEach(function(instance) {
+                            inst = self.model.get(instance);
+                            inst.pauseserver();
+                            subview = new MessagesView({
+                                el: '#content',
+                                state: "Success",
+                                title: "Instances " + inst.get("name") + " paused."
+                            });
+                            subview.render();
+                        });
+                    }
+                });
+                subview.render();
+                break;
+            case 'unpause':
+                subview = new ConfirmView({
+                    el: 'body',
+                    title: "Unpause Instances",
+                    btn_message: "Unpause Instances",
+                    onAccept: function() {
+                        instanceIds.forEach(function(instance) {
+                            inst = self.model.get(instance);
+                            inst.unpauseserver();
+                            subview = new MessagesView({
+                                el: '#content',
+                                state: "Success",
+                                title: "Instance " + inst.get("name") + " unpaused."
+                            });
+                            subview.render();
+                        });
+                    }
+                });
+                subview.render();
+                break;
+            case 'suspend':
+                subview = new ConfirmView({
+                    el: 'body',
+                    title: "Suspend Instances",
+                    btn_message: "Suspend Instances",
+                    onAccept: function() {
+                        instanceIds.forEach(function(instance) {
+                            inst = self.model.get(instance);
+                            inst.suspendserver();
+                            subview = new MessagesView({
+                                el: '#content',
+                                state: "Success",
+                                title: "Instance " + inst.get("name") + " suspended."
+                            });
+                            subview.render();
+                        });
+                    }
+                });
+                subview.render();
+                break;
+            case 'resume':
+                subview = new ConfirmView({
+                    el: 'body',
+                    title: "Resume Instances",
+                    btn_message: "Resume Instances",
+                    onAccept: function() {
+                        instanceIds.forEach(function(instance) {
+                            inst = self.model.get(instance);
+                            inst.resumeserver();
+                            subview = new MessagesView({
+                                el: '#content',
+                                state: "Success",
+                                title: "Instance " + inst.get("name") + " resumed."
+                            });
+                            subview.render();
+                        });
+                    }
+                });
+                subview.render();
+                break;
+            case 'reboot':
+                subview = new ConfirmView({
+                    el: 'body',
+                    title: "Reboot Instances",
+                    btn_message: "Reboot Instances",
+                    onAccept: function() {
+                        instanceIds.forEach(function(instance) {
+                            inst = self.model.get(instance);
+                            inst.reboot(true);
+                            subview = new MessagesView({
+                                el: '#content',
+                                state: "Success",
+                                title: "Instances " + inst.get("name") + " rebooted."
+                            });
+                            subview.render();
+                        });
+                    }
+                });
+                subview.render();
+                break;
+            case 'terminate':
+                subview = new ConfirmView({
+                    el: 'body',
+                    title: "Terminate Instances",
+                    btn_message: "Terminate Instances",
+                    onAccept: function() {
+                        instanceIds.forEach(function(instance) {
+                            inst = self.model.get(instance);
+                            inst.destroy();
+                            subview = new MessagesView({
+                                el: '#content',
+                                state: "Success",
+                                title: "Instances " + inst.get("name") + " terminated."
+                            });
+                            subview.render();
+                        });
+                    }
+                });
+                subview.render();
+                break;
+            default:
+                break;
         }
-
     },
 
     renderFirst: function() {
-        UTILS.Render.animateRender(this.el, this._template, {models:this.model.models, flavors:this.options.flavors});
-        //$(this.el).html(this._template({models:this.model.models, flavors:this.options.flavors}));
-        this.undelegateEvents();
-        this.delegateEvents(this.events);
+        UTILS.Render.animateRender(this.el, this._template, {
+            models: this.model.models,
+            flavors: this.options.flavors
+        });
+        this.tableView = new TableView({
+            model: this.model,
+            el: '#instances-table',
+            onAction: this.onAction,
+            getDropdownButtons: this.getDropdownButtons,
+            getMainButtons: this.getMainButtons,
+            getHeaders: this.getHeaders,
+            getEntries: this.getEntries,
+            context: this
+        });
+        this.tableView.render();
     },
 
-    render: function () {
-        this.undelegateEvents();
-        this.delegateEvents(this.events);
-        if ($(this.el).html() != null) {
-            var new_template = this._template({models:this.model.models, flavors:this.options.flavors});
-            var checkboxes = [];
-            var dropdowns = [];
-            var index, instanceId, check, drop, drop_actions_selected;
-            for (index in this.model.models) {
-                instanceId = this.model.models[index].id;
-                if ($("#checkbox_"+instanceId).is(':checked')) {
-                    checkboxes.push(instanceId);
-                }
-                if ($("#dropdown_"+instanceId).hasClass('open')) {
-                    dropdowns.push(instanceId);
-                }
-                if ($("#dropdown_actions").hasClass('open')) {
-                    drop_actions_selected = true;
-                }
-            }
-            var scrollTo = $(".scrollable").scrollTop();
-            $(this.el).html(new_template);
-            $(".scrollable").scrollTop(scrollTo);
-            for (index in checkboxes) {
-                instanceId = checkboxes[index];
-                check = $("#checkbox_"+instanceId);
-                if (check.html() != null) {
-                    check.prop("checked", true);
-                }
-            }
-
-            for (index in dropdowns) {
-                instanceId = dropdowns[index];
-                drop = $("#dropdown_"+instanceId);
-                if (drop.html() != null) {
-                    drop.addClass("open");
-                }
-            }
-            if (($("#dropdown_actions").html() !== null) && (drop_actions_selected)) {
-                $("#dropdown_actions").addClass("open");
-            }
-
+    render: function() {
+        if ($(this.el).html() !== null) {
+            this.tableView.render();
         }
-        this.enableDisableTerminateButton();
         return this;
     }
 

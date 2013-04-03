@@ -2,89 +2,120 @@ var NovaFloatingIPsView = Backbone.View.extend({
 
     _template: _.itemplate($('#novaFloatingIPsTemplate').html()),
 
+    tableView: undefined,
+
     initialize: function() {
-        this.options.floatingIPsModel.unbind("reset");
-        this.options.floatingIPsModel.bind("reset", this.render, this);
+        this.model.unbind("reset");
+        this.model.bind("reset", this.render, this);
         this.renderFirst();
     },
 
-    events: {
-        'click #release_floating_IPs': 'releaseFloatingIPs',
-        'click #release_floating_IP': 'releaseFloatingIP',
-        'click .btn-allocate': 'allocateIP'
+    getMainButtons: function() {
+        // main_buttons: [{label:label, url: #url, action: action_name}]
+        return [{
+            label: "Allocate IP to Project",
+            action: "allocate"
+        }];
+    },
+
+    getDropdownButtons: function() {
+        // dropdown_buttons: [{label:label, action: action_name}]
+        var self = this;
+        var oneSelected = function(size, id) {
+            if (size === 1) {
+                return true;
+            }
+        };
+        var groupSelected = function(size, id) {
+            if (size >= 1) {
+                return true;
+            }
+        };
+        return [{
+            label: "Release Floating IPs",
+            action: "release",
+            activatePattern: groupSelected
+        }];
+    },
+
+    getHeaders: function() {
+        return [{
+            type: "checkbox",
+            size: "5%"
+        }, {
+            name: "IP Address",
+            tooltip: "IP Address",
+            size: "25%",
+            hidden_phone: false,
+            hidden_tablet: false
+        }, {
+            name: "Instance",
+            tooltip: "Instance the IP is attached to",
+            size: "35%",
+            hidden_phone: true,
+            hidden_tablet: false
+        }, {
+            name: "Floating IP Pool",
+            tooltip: "Corresponding Floating Pool",
+            size: "35%",
+            hidden_phone: false,
+            hidden_tablet: false
+        }];
+    },
+
+    getEntries: function() {
+        var entries = [];
+        return entries;
     },
 
     onClose: function() {
+        this.tableView.close();
         this.model.bind("change", this.onInstanceDetail, this);
         this.unbind();
         this.undelegateEvents();
     },
 
-    releaseFloatingIPs: function (e) {
-        var subview = new ConfirmView({el: 'body', title: "Release Floating IP", btn_message: "Release Floating IPs", onAccept: function() {
-            var subview2 = new MessagesView({el: '#content', state: "Success", title: "Floating IPs "+sec_group.name+" released."});
-            subview2.render();
-        }});
-        subview.render();
-
-    },
-
-    releaseFloatingIP: function (e) {
-    },
-
-    allocateIP: function(e) {
-        console.log("allocate IP");
-        var subview = new AllocateIPView({el: 'body',  model: this.model});
-        subview.render();
-    },
-
-
-    enableDisableDeleteButton: function () {
-        if ($(".checkbox_floating_ips_:checked").size() > 0) {
-            $("#ips_delete").attr("disabled", false);
-        } else {
-            $("#ips_delete").attr("disabled", true);
+    onAction: function(action, floatingIds) {
+        var floating, floa, subview;
+        var self = this;
+        if (floatingIds.length === 1) {
+            floating = floatingIds[0];
+            floa = this.model.get(floating);
+        }
+        switch (action) {
+            case 'allocate':
+                subview = new AllocateIPView({el: 'body',  model: this.model});
+                subview.render();
+            break;
+            case 'release':
+                subview = new ConfirmView({el: 'body', title: "Release Floating IP", btn_message: "Release Floating IPs", onAccept: function() {
+                    var subview2 = new MessagesView({el: '#content', state: "Success", title: "Floating IPs "+floa.get(name)+" released."});
+                    subview2.render();
+                }});
+                subview.render();
+            break;
         }
     },
 
-    renderFirst: function () {
-        this.undelegateEvents();
-        var that = this;
-        UTILS.Render.animateRender(this.el, this._template, {floatingIPsModel: this.options.floatingIPsModel}, function() {
-            that.enableDisableDeleteButton();
-            that.delegateEvents(that.events);
+    renderFirst: function() {
+        UTILS.Render.animateRender(this.el, this._template, this.model);
+        this.tableView = new TableView({
+            model: this.model,
+            el: '#floatingIPs-table',
+            onAction: this.onAction,
+            getDropdownButtons: this.getDropdownButtons,
+            getMainButtons: this.getMainButtons,
+            getHeaders: this.getHeaders,
+            getEntries: this.getEntries,
+            context: this
         });
+        this.tableView.render();
     },
 
-    render: function () {
-        var index, floatingIpsId, check;
-        this.undelegateEvents();
-        if ($('.messages').html() != null) {
-            $('.messages').remove();
+    render: function() {
+        if ($(this.el).html() !== null) {
+            this.tableView.render();
         }
-
-       if ($("#floating_ips").html() != null) {
-            var new_template = this._template({floatingIPsModels: this.options.floatingIPsModel.models});
-            var checkboxes = [];
-            for (index in this.options.floatingIPsModel.models) {
-                floatingIpsId = this.options.floatingIPsModel.models[index].id;
-                if ($("#checkbox_floating_ips_"+floatingIpsId).is(':checked')) {
-                    checkboxes.push(floatingIpsId);
-                }
-            }
-            var scrollTo = $(".scrollable").scrollTop();
-            $(this.el).html(new_template);
-            $(".scrollable").scrollTop(scrollTo);
-            for (index in checkboxes) {
-                floatingIpsId = checkboxes[index];
-                check = $("#checkbox_floating_ips_"+floatingIpsId);
-                if (check.html() != null) {
-                    check.prop("checked", true);
-                }
-            }
-            this.enableDisableDeleteButton();
-       }
-       this.delegateEvents(this.events);
-       return this;
+        return this;
     }
 });

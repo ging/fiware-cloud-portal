@@ -35,9 +35,9 @@ var loadViews = function() {
                 "js/views/TopBarView.js",
                 "js/views/SideBarView.js",
                 "js/views/RootView.js",
+                "js/views/TableView.js",
                 "js/views/syspanel/OverviewView.js",
                 "js/views/syspanel/ImageView.js",
-                "js/views/syspanel/InstanceView.js",
                 "js/views/syspanel/FlavorView.js",
                 "js/views/syspanel/ProjectView.js",
                 "js/views/syspanel/ServiceView.js",
@@ -139,6 +139,7 @@ var loadLibraries = function() {
     custom_require([   "lib/backbone.js",
                 "lib/jstack.js",
                 "lib/bootstrap.min.js",
+                "lib/bootstrap-contextmenu.js",
                 "lib/jquery.selectbox-0.1.3.min.js",
                 "lib/jScrollPane.js",
                 "lib/sdc.js",
@@ -221,6 +222,7 @@ var loadTemplates = function() {
                     'templates/root/sideBar.html',
                     'templates/root/confirm.html',
                     'templates/root/settings.html',
+                    'templates/root/table.html',
                     'templates/messages.html'
                 ], function(){
                     loadLibraries();

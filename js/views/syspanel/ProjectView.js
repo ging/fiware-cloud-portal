@@ -2,177 +2,161 @@ var ProjectView = Backbone.View.extend({
 
     _template: _.itemplate($('#projectsTemplate').html()),
 
+    tableView: undefined,
+
     initialize: function() {
         var self = this;
         this.model.bind("reset", this.render, this);
         //this.options.quotas.bind("reset", this.render, this);
         this.model.fetch();
         this.options.quotas.fetch();
+        this.renderFirst();
     },
 
-    events: {
-        'click .btn-edit-actions' : 'onUpdateProject',
-        'click .btn-delete-projects-actions':'onDeleteGroup',
-        'click .btn-modify-users-actions':'onModifyUsers',
-        'click .btn-create-project' : 'onCreate',
-        'click .btn-edit' : 'onUpdate',
-        'click .btn-delete':'onDelete',
-        //'click .btn-delete-group': 'onDeleteGroup',
-        'click .btn-modify-quotas': 'onModifyQuotas',
-        'change .checkbox_projects':'enableDisableDeleteButton',
-        'change .checkbox_all':'checkAll'
+    getMainButtons: function() {
+        // main_buttons: [{label:label, url: #url, action: action_name}]
+        return [{
+            label:  "Create New Project",
+            action:    "create"
+        }];
     },
 
-    onUpdateProject: function(evt) {
+    getDropdownButtons: function() {
         var self = this;
-        var pro = $(".checkbox:checked").val();
-        var project = self.model.get(pro);
-        var subview = new EditProjectView({el: 'body', model:project});
-        subview.render();
-    },
-
-    onModifyUsers: function(evt) {
-        var project = $(".checkbox:checked").val();
-        window.location.href = '#syspanel/projects/'+project+'/users/';
-    },
-
-    onModifyQuotas: function(evt) {
-        var subview = new ModifyQuotasView({el: 'body', model:this.options.quotas.models[0], project: evt.target.value});
-        subview.render();
-    },
-
-    onCreate: function() {
-        var subview = new CreateProjectView({el: 'body'});
-        subview.render();
-    },
-
-    onUpdate: function(evt) {
-        var project = this.model.get(evt.target.value);
-        var subview = new EditProjectView({el: 'body', model:project});
-        subview.render();
-    },
-
-    onDelete: function(evt) {
-        var project = evt.target.value;
-        var self = this;
-        var subview = new ConfirmView({el: 'body', title: "Confirm Delete Project", btn_message: "Delete Project", onAccept: function() {
-            var proj = self.model.get(project);
-            proj.destroy();
-            var subview = new MessagesView({el: '#content', state: "Success", title: "Project deleted."});
-            subview.render();
-        }});
-        subview.render();
-    },
-
-    onDeleteGroup: function(evt) {
-        var self = this;
-        var cont;
-        var subview = new ConfirmView({el: 'body', title: "Delete Projects", btn_message: "Delete Projects", onAccept: function() {
-            $(".checkbox_projects:checked").each(function () {
-                    var project = $(this).val();
-                    var proj = self.model.get(project);
-                    proj.destroy();
-                    var subview = new MessagesView({el: '#content', state: "Success", title: "Project deleted."});
-                    subview.render();
-
-            });
-        }});
-        subview.render();
-    },
-
-    checkAll: function () {
-        if ($(".checkbox_all:checked").size() > 0) {
-            $(".checkbox_projects").attr('checked','checked');
-            $(".btn-edit-actions").attr("disabled", true);
-            $(".btn-modify-users-actions").attr("disabled", true);
-            this.enableDisableDeleteButton();
-        } else {
-            $(".checkbox_projects").attr('checked',false);
-            $(".btn-edit-actions").attr("disabled", false);
-            $(".btn-modify-users-actions").attr("disabled", false);
-            this.enableDisableDeleteButton();
+        var oneSelected = function(size, id) {
+            if (size === 1) {
+                return true;
+            }
+        };
+        var groupSelected = function(size, id) {
+            if (size >= 1) {
+                return true;
+            }
+        };
+        return [{
+            label:"Edit Project", action:"edit", activatePattern: oneSelected
+        },
+        {
+            label: "Modify Users", action: "modify-users", activatePattern: oneSelected
+        },
+        {
+            label: "Delete Project", action:"delete", warn: true, activatePattern: groupSelected
         }
-
+        ];
     },
 
-    enableDisableDeleteButton: function () {
-        if ($(".checkbox_projects:checked").size() > 0) {
-            $("#projects_delete").attr("disabled", false);
-            $(".btn-edit-actions").attr("disabled", false);
-            $(".btn-modify-users-actions").attr("disabled", false);
-            $(".btn-delete-projects-actions").attr("disabled", false);
-            if ($(".checkbox_projects:checked").size() > 1) {
-                    $(".btn-edit-actions").attr("disabled", true);
-                    $(".btn-modify-users-actions").attr("disabled", true);
-                } else {
-                    $(".btn-edit-actions").attr("disabled", false);
-                    $(".btn-modify-users-actions").attr("disabled", false);
+    getHeaders: function() {
+        // headers: [{name:name, tooltip: "tooltip", size:"15%", hidden_phone: true, hidden_tablet:false}]
+        return [
+            {
+                type: "checkbox",
+                size: "5%"
+            },
+            {
+                name: "Name",
+                tooltip: "Project's name",
+                size: "35%",
+                hidden_phone: false,
+                hidden_tablet:false
+            },
+            {
+                name: "Project Description",
+                tooltip: "Project's Description",
+                size: "50%",
+                hidden_phone: true,
+                hidden_tablet:false
+            },
+            {
+                name: "Enabled",
+                tooltip: "Check if the project is available to be used",
+                size: "10%",
+                hidden_phone: false,
+                hidden_tablet:false
+            }
+        ];
+    },
+
+    getEntries: function() {
+        var entries = [];
+        for (var index in this.model.models) {
+            var project = this.model.models[index];
+            var entry = {id: project.get('id'), cells: [{
+                    value: project.get("name")
+                },
+                { value: project.get("description")
+                },
+                { value: project.get("enabled")
                 }
-        } else {
-            $("#projects_delete").attr("disabled", true);
-            $(".btn-modify-users-actions").attr("disabled", true);
-            $(".btn-delete-projects-actions").attr("disabled", true);
-            $(".btn-edit-actions").attr("disabled", true);
+                ]};
+            entries.push(entry);
         }
+        return entries;
+    },
 
+    onAction: function(action, projectIds) {
+        var project, proj, subview;
+        var self = this;
+        if (projectIds.length === 1) {
+            project = projectIds[0];
+            proj = this.model.get(project);
+        }
+        switch (action) {
+            case 'edit':
+                subview = new EditProjectView({el: 'body', model:proj});
+                subview.render();
+                break;
+            case 'modify-users':
+                window.location.href = '#syspanel/projects/'+project+'/users/';
+                break;
+            case 'modify-quotas':
+                subview = new ModifyQuotasView({el: 'body', model:this.options.quotas.models[0], project: evt.target.value});
+                subview.render();
+                break;
+            case 'create':
+                subview = new CreateProjectView({el: 'body'});
+                subview.render();
+                break;
+            case 'delete':
+                subview = new ConfirmView({el: 'body', title: "Confirm Delete Project", btn_message: "Delete Project", onAccept: function() {
+                    projectIds.forEach(function(project) {
+                        proj = self.model.get(project);
+                        proj.destroy();
+                        subview = new MessagesView({el: '#content', state: "Success", title: "Project deleted."});
+                        subview.render();
+                    });
+                }});
+                subview.render();
+                break;
+        }
     },
 
     onClose: function() {
+        this.tableView.close();
         this.options.quotas.unbind("reset");
         this.model.unbind("reset");
         this.undelegateEvents();
         this.unbind();
     },
 
+    renderFirst: function() {
+        UTILS.Render.animateRender(this.el, this._template, this.model);
+        this.tableView = new TableView({
+            model: this.model,
+            el: '#projects-table',
+            onAction: this.onAction,
+            getDropdownButtons: this.getDropdownButtons,
+            getMainButtons: this.getMainButtons,
+            getHeaders: this.getHeaders,
+            getEntries: this.getEntries,
+            context: this
+        });
+        this.tableView.render();
+    },
 
     render: function () {
-        if ($('.messages').html() != null) {
-            $('.messages').remove();
+        if ($(this.el).html() !== null) {
+            this.tableView.render();
         }
-        if ($("#tenants").html() != null) {
-            var new_template = this._template(this.model);
-            var checkboxes = [];
-            var dropdowns = [];
-            var index, tenantId, check, drop, drop_actions_selected;
-            for (index in this.model.models) {
-                tenantId = this.model.models[index].id;
-                if ($("#checkbox_"+tenantId).is(':checked')) {
-                    checkboxes.push(tenantId);
-                }
-                if ($("#dropdown_"+tenantId).hasClass('open')) {
-                    dropdowns.push(tenantId);
-                }
-                if ($("#dropdown_actions").hasClass('open')) {
-                    drop_actions_selected = true;
-                }
-            }
-            var scrollTo = $(".scrollable").scrollTop();
-            $(this.el).html(new_template);
-            $(".scrollable").scrollTop(scrollTo);
-            for (index in checkboxes) {
-                tenantId = checkboxes[index];
-                check = $("#checkbox_"+tenantId);
-                if (check.html() != null) {
-                    check.prop("checked", true);
-                }
-            }
-            for (index in dropdowns) {
-                tenantId = dropdowns[index];
-                drop = $("#dropdown_"+tenantId);
-                if (drop.html() !== null) {
-                    drop.addClass("open");
-                }
-            }
-            if (($("#dropdown_actions").html() !== null) && (drop_actions_selected)) {
-                $("#dropdown_actions").addClass("open");
-            }
-            this.enableDisableDeleteButton();
-
-        } else {
-            UTILS.Render.animateRender(this.el, this._template, this.model);
-        }
-
         return this;
-
     }
 });

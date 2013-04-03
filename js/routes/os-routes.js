@@ -34,11 +34,11 @@ var OSRouter = Backbone.Router.extend({
 
     initialize: function() {
         this.loginModel = new LoginStatus();
+        this.flavors = new Flavors();
         this.instancesModel = new Instances();
         this.volumesModel = new Volumes();
         this.volumeSnapshotsModel = new VolumeSnapshots();
         this.instanceSnapshotsModel = new InstanceSnapshots();
-        this.flavors = new Flavors();
         this.images = new Images();
         this.keypairsModel = new Keypairs();
         this.projects = new Projects();
@@ -370,7 +370,7 @@ var OSRouter = Backbone.Router.extend({
         if (self.showSysRoot(self, 'Quotas')) {
             var view = new QuotaView({model:self.quotas, el: '#content'});
             self.newContentView(self,view);
-            view.render();
+            //view.render();
         }
     },
 

@@ -8,8 +8,8 @@ var AccessAndSecurityView = Backbone.View.extend({
 
     initialize: function() {
         this.render();
-        this.floatingIPsView = new NovaFloatingIPsView({floatingIPsModel: this.options.floatingIPsModel, el: '#floating_ips'});
-        this.secuirtyGroupsView = new NovaSecurityGroupsView({securityGroupsModel: this.options.securityGroupsModel, el: '#security_groups'});
+        this.floatingIPsView = new NovaFloatingIPsView({model: this.options.floatingIPsModel, el: '#floating_ips'});
+        this.secuirtyGroupsView = new NovaSecurityGroupsView({model: this.options.securityGroupsModel, el: '#security_groups'});
         this.keyparisView = new NovaKeypairsView({model: this.model, el: '#keypairs'});
     },
 
