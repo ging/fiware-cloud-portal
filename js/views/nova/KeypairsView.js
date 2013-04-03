@@ -2,110 +2,145 @@ var NovaKeypairsView = Backbone.View.extend({
 
     _template: _.itemplate($('#novaKeypairsTemplate').html()),
 
-    initialize: function() {
+    tableView: undefined,
 
+    initialize: function() {
         this.model.unbind("reset");
         this.model.bind("reset", this.render, this);
         this.renderFirst();
     },
 
-    events: {
-        'change .checkbox_keypairs':'enableDisableDeleteButton',
-        'click #delete_keypair': 'deleteKeypair',
-        'click #delete_keypairs': 'deleteKeypairs',
-        'click .btn-create': 'createKeypair',
-        'click .btn-import': 'importKeypair'
+    getMainButtons: function() {
+        // main_buttons: [{label:label, url: #url, action: action_name}]
+        return [{
+            label: "Create Keypair",
+            action: "create"
+        }, {
+            label: "Import Keypair",
+            action: "import"
+        }];
+    },
+
+    getDropdownButtons: function() {
+        // dropdown_buttons: [{label:label, action: action_name}]
+        var self = this;
+        var groupSelected = function(size, id) {
+            if (size >= 1) {
+                return true;
+            }
+        };
+        return [{
+            label: "Delete Keypairs",
+            action: "delete",
+            warn: true,
+            activatePattern: groupSelected
+        }];
+    },
+
+    getHeaders: function() {
+        // headers: [{name:name, tooltip: "tooltip", size:"15%", hidden_phone: true, hidden_tablet:false}]
+        return [{
+            type: "checkbox",
+            size: "5%"
+        }, {
+            name: "Name",
+            tooltip: "Keypair's name",
+            size: "60%",
+            hidden_phone: false,
+            hidden_tablet: false
+        }, {
+            name: "Fingerprint",
+            tooltip: "Keypair's unique fingerprint",
+            size: "35%",
+            hidden_phone: false,
+            hidden_tablet: false
+        }];
+    },
+
+    getEntries: function() {
+        var entries = [];
+        for (var index in this.model.models) {
+            var keypair = this.model.models[index];
+            var entry = {
+                id: keypair.get('name'),
+                cells: [{
+                    value: keypair.get("name")
+                }, {
+                    value: keypair.get("fingerprint")
+                }]
+            };
+            entries.push(entry);
+        }
+        return entries;
+    },
+
+    onAction: function(action, keypairIds) {
+        var keypair, kp, subview;
+        var self = this;
+        if (keypairIds.length === 1) {
+            keypair = keypairIds[0];
+            kp = this.model.get(keypair);
+        }
+        switch (action) {
+            case 'create':
+                subview = new CreateKeypairView({el: 'body', model: this.model});
+                subview.render();
+                break;
+            case 'import':
+                subview = new ImportKeypairView({el: 'body',  model: this.model});
+                subview.render();
+                break;
+            case 'delete':
+                subview = new ConfirmView({
+                    el: 'body',
+                    title: "Delete Keypair",
+                    btn_message: "Delete Keypair",
+                    onAccept: function() {
+                        keypairIds.forEach(function(keypair) {
+                            kp = self.model.get(keypair);
+                            kp.destroy();
+                            subview = new MessagesView({
+                                el: '#content',
+                                state: "Success",
+                                title: "Keypair " + kp.get("name") + " deleted."
+                            });
+                            subview.render();
+                        });
+                    }
+                });
+                subview.render();
+                break;
+        }
     },
 
     onClose: function() {
+        this.tableView.close();
         this.model.unbind("reset", this.render, this);
         this.unbind();
         this.undelegateEvents();
     },
 
-    deleteKeypair: function (e) {
-        var keypair =  this.model.get(e.target.value);
-        var subview = new ConfirmView({el: 'body', title: "Delete Keypair", btn_message: "Delete Keypair", onAccept: function() {
-            keypair.destroy();
-            var subview2 = new MessagesView({el: '#content', state: "Success", title: "Keypair "+e.target.value+" deleted."});
-            subview2.render();
-        }});
-        subview.render();
-
-
-    },
-
-    deleteKeypairs: function (e) {
-        var self = this;
-        var subview = new ConfirmView({el: 'body', title: "Delete Keypairs", btn_message: "Delete Keypairs", onAccept: function() {
-            $(".checkbox_keypairs:checked").each(function () {
-                    var keyPair = $(this).val();
-                    var keypair = self.model.get(keyPair);
-                    keypair.destroy();
-                    var subview2 = new MessagesView({el: '#content', state: "Success", title: "Keypairs "+keyPair+" deleted."});
-                    subview2.render();
-            });
-        }});
-        subview.render();
-    },
-
-    createKeypair: function() {
-        var subview = new CreateKeypairView({el: 'body', model: this.model});
-        subview.render();
-    },
-
-    importKeypair: function() {
-        var subview = new ImportKeypairView({el: 'body',  model: this.model});
-        subview.render();
-    },
-
-    enableDisableDeleteButton: function () {
-        if ($(".checkbox_keypairs:checked").size() > 0) {
-            $("#delete_keypairs").attr("disabled", false);
-        } else {
-            $("#delete_keypairs").attr("disabled", true);
-        }
-
-    },
-
     renderFirst: function() {
         this.undelegateEvents();
         var that = this;
-        UTILS.Render.animateRender(this.el, this._template, {models: this.model.models}, function() {
-            that.enableDisableDeleteButton();
-            that.delegateEvents(that.events);
+        UTILS.Render.animateRender(this.el, this._template, {models: this.model.models});
+        this.tableView = new TableView({
+            model: this.model,
+            el: '#keypairs-table',
+            onAction: this.onAction,
+            getDropdownButtons: this.getDropdownButtons,
+            getMainButtons: this.getMainButtons,
+            getHeaders: this.getHeaders,
+            getEntries: this.getEntries,
+            context: this
         });
+        this.tableView.render();
     },
 
-    render: function () {
-        this.undelegateEvents();
-        if ($('.messages').html() != null) {
-            $('.messages').remove();
+    render: function() {
+        if ($(this.el).html() !== null) {
+            this.tableView.render();
         }
-        if ($("#keypairs").html() != null) {
-            var new_template = this._template({models: this.model.models});
-            var checkboxes = [];
-            var index, keypairsName, check;
-            for (index in this.model.models) {
-                keypairsName = this.model.models[index].id;
-                if ($("#checkbox_keypairs_"+keypairsName).is(':checked')) {
-                    checkboxes.push(keypairsName);
-                }
-            }
-            var scrollTo = $(".scrollable").scrollTop();
-            $(this.el).html(new_template);
-            $(".scrollable").scrollTop(scrollTo);
-            for (index in checkboxes) {
-                keypairsName = checkboxes[index];
-                check = $("#checkbox_keypairs_"+keypairsName);
-                if (check.html() != null) {
-                    check.prop("checked", true);
-                }
-            }
-            this.enableDisableDeleteButton();
-        }
-        this.delegateEvents(this.events);
-
         return this;
     }
 });

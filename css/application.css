@@ -142,13 +142,12 @@ overflow-x: hidden;
 position: absolute;
 top: 69px;
 width: 100%;
-height: 70%;
+bottom: 42px;
 }
 
 .table-foot {
   position: absolute;
-  margin-top: 69px;
-  top: 70%;
+  bottom: 10px;
 }
 
 .tab-content-adjustable {
@@ -156,6 +155,8 @@ height: 70%;
   padding-top: 10px;
   bottom: 20px;
   top: 50px;
+  right: 0px;
+  left: 0px;
 }
 
 .tab-adjustable {

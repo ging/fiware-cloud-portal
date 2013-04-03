@@ -26,8 +26,8 @@ body { min-height: 480px; }
 
 .tenant_switch {
     padding-bottom: 20px;
-    width: 90%; 
-    padding-left: 15px;  
+    width: 90%;
+    padding-left: 15px;
 }
 
 .clearfix:after {
@@ -173,7 +173,7 @@ h2 {
 }
 
 .input-login {
-    width: 96%;    
+    width: 96%;
 }
 
 #splash .help-block {
@@ -207,8 +207,8 @@ h2 {
 .sidebar h4 {
     margin-left: 18px;
     color: #777;
-    font-family: comfortaa; 
-    font-size: 21px; 
+    font-family: comfortaa;
+    font-size: 21px;
     font-weight: lighter;
 }
 
@@ -569,7 +569,7 @@ table form {
 
 .table_header .table_actions .btn-group .dropdown-toggle{
   height: 18px;
-  margin-left: -4px;  
+  margin-left: -4px;
 }
 
 .table_actions form {
@@ -714,7 +714,7 @@ td .icon-updating.ajax-updating {
 .modal fieldset .form-field .input .btn-eye-active {
 	margin-bottom: 10px;
   cursor: pointer;
-} 
+}
 
 .modal fieldset .form-field #password {
 	position: relative;
@@ -812,7 +812,8 @@ td.actions_column {
 td.actions_column .row_actions a,
 td.actions_column .row_actions input,
 td.actions_column .row_actions button,
-.table_header .table_actions .btn-group .dropdown-menu button {
+.table_header .table_actions .btn-group .dropdown-menu button,
+.btn-group .dropdown-menu .btn {
   background: none;
   float: none;
   display: block;
@@ -939,7 +940,7 @@ th.multi_select_column {
 }
 
 div.input input[type="checkbox"] {
-  float: left; 
+  float: left;
 }
 
 .table_title a {
@@ -1183,7 +1184,7 @@ background-color: #000000;
 
 @media (min-width: 980px) {
   .detail-case {
-    margin-top: 0px; 
+    margin-top: 0px;
   }
   #divider {
     margin-top: 80px;
@@ -1233,7 +1234,7 @@ width: 100%;
   width: 330px;
   margin-left: auto;
   margin-right: auto;
-} 
+}
 }
 
 @media (max-width: 979px){

@@ -2,6 +2,7 @@ var FlavorView = Backbone.View.extend({
 
     _template: _.itemplate($('#flavorsTemplate').html()),
 
+    tableView: undefined,
 
     initialize: function() {
         this.model.unbind("reset");
@@ -11,86 +12,166 @@ var FlavorView = Backbone.View.extend({
         this.renderFirst();
     },
 
-    events: {
-        'change .checkbox':'enableDisableDeleteButton',
-        'click .btn-delete':'onDelete',
-        'click .btn-delete-group':'onDeleteGroup'
-    },
-
     onClose: function() {
+        this.tableView.close();
         this.model.unbind("reset");
         this.undelegateEvents();
         this.unbind();
     },
 
-    enableDisableDeleteButton: function () {
-        if ($(".checkbox:checked").size() > 0) {
-            $("#flavors_delete").attr("disabled", false);
-        } else {
-            $("#flavors_delete").attr("disabled", true);
-        }
-
-    },
-
-    onDelete: function(evt) {
-        var flavor = evt.target.value;
-        var flav = this.model.get(flavor);
-        console.log(flav);
-        var subview = new ConfirmView({el: 'body', title: "Delete Flavor", btn_message: "Delete Flavor", onAccept: function() {
-            flav.destroy();
-            var subview = new MessagesView({el: '#content', state: "Success", title: "Flavor "+flav.get("name")+" deleted."});
-            subview.render();
-        }});
-        subview.render();
-    },
-
-    onDeleteGroup: function(evt) {
-        var self = this;
-        var subview = new ConfirmView({el: 'body', title: "Delete Flavors", btn_message: "Delete Flavor", onAccept: function() {
-            $(".checkbox:checked").each(function () {
-                    var flavor = $(this).val();
-                    var flav = self.model.get(flavor);
-                    console.log(flav);
-                    flav.destroy();
-                    var subview2 = new MessagesView({el: '#content', state: "Success", title: "Flavors "+flav.get("name")+" deleted."});
-                    subview2.render();
+    getMainButtons: function() {
+        // main_buttons: [{label:label, url: #url, action: action_name}]
+        var btns = [];
+        if (!this.options.isProjectTab) {
+            btns.push({
+                label:  "Create Flavor",
+                url:    "#syspanel/flavors/create"
             });
-        }});
-        subview.render();
+        }
+        return btns;
+    },
+
+    getDropdownButtons: function() {
+        var btns = [];
+        var groupSelected = function(size, id) {
+            if (size >= 1) {
+                return true;
+            }
+        };
+        if (!this.options.isProjectTab) {
+            btns.push({
+                label:"Delete Flavor",
+                action:"delete",
+                warn: true,
+                activatePattern: groupSelected
+            });
+        }
+        return btns;
+    },
+
+    getHeaders: function() {
+        var btns = [
+            {
+                name: "ID",
+                tooltip: "Flavor's identifier",
+                size: "5%",
+                hidden_phone: true,
+                hidden_tablet:false
+            },
+            {
+                name: "Name",
+                tooltip: "Flavor's name",
+                size: "35%",
+                hidden_phone: true,
+                hidden_tablet:false
+            },
+            {
+                name: "VCPUs",
+                tooltip: "Number of virtual CPUs",
+                size: "5%",
+                hidden_phone: false,
+                hidden_tablet:false
+            },
+            {
+                name: "Memory",
+                tooltip: "RAM availability",
+                size: "10%",
+                hidden_phone: false,
+                hidden_tablet:false
+            },
+            {
+                name: "User Disk",
+                tooltip: "User disk availability",
+                size: "10%",
+                hidden_phone: true,
+                hidden_tablet:false
+            },
+            {
+                name: "Ephemeral Disk",
+                tooltip: "Ephemeral disk availability",
+                size: "15%",
+                hidden_phone: true,
+                hidden_tablet:false
+            }
+        ];
+        if (!this.options.isProjectTab) {
+            btns.splice(0,0, {
+                type: "checkbox",
+                size: "5%"
+            });
+        }
+        return btns;
+    },
+
+    getEntries: function() {
+        var i = 0;
+        var entries = [];
+        for (var index in this.model.models) {
+            i++;
+            var flavor = this.model.models[index];
+
+            var entry = {id: flavor.get('id'), cells: [{
+                    value: flavor.get("id")
+                },
+                { value: flavor.get("name")
+                },
+                { value: flavor.get("vcpus")
+                },
+                { value: flavor.get("ram")
+                },
+                { value: flavor.get("disk")
+                },
+                { value: flavor.get('OS-FLV-EXT-DATA:ephemeral') || flavor.get('ephemeral')
+                }
+                ]};
+            entries.push(entry);
+        }
+        return entries;
+    },
+
+    onAction: function(action, flavorIds) {
+        var flavor, flav, subview;
+        var self = this;
+        if (flavorIds.length === 1) {
+            flavor = flavorIds[0];
+            flav = this.model.get(flavor);
+        }
+        switch (action) {
+            case 'delete':
+                subview = new ConfirmView({el: 'body', title: "Delete Flavor", btn_message: "Delete Flavor", onAccept: function() {
+                    flavorIds.forEach(function(flavor) {
+                        flav = self.model.get(flavor);
+                        flav.destroy();
+                        var subview = new MessagesView({el: '#content', state: "Success", title: "Flavor "+flav.get("name")+" deleted."});
+                        subview.render();
+                    });
+                }});
+                subview.render();
+                break;
+            case 'create':
+                break;
+        }
     },
 
     renderFirst: function() {
         UTILS.Render.animateRender(this.el, this._template, {models: this.model.models, isProjectTab:this.options.isProjectTab});
-        this.enableDisableDeleteButton();
+        this.tableView = new TableView({
+            model: this.model,
+            el: '#flavors-table',
+            onAction: this.onAction,
+            getDropdownButtons: this.getDropdownButtons,
+            getMainButtons: this.getMainButtons,
+            getHeaders: this.getHeaders,
+            getEntries: this.getEntries,
+            context: this
+        });
+        this.tableView.render();
     },
 
     render: function () {
-        if ($('.messages').html() != null) {
-            $('.messages').remove();
+        if ($(this.el).html() !== null) {
+            this.tableView.render();
         }
-        if ($("#flavors").html() != null) {
-            var new_template = this._template({models: this.model.models, isProjectTab:this.options.isProjectTab});
-            var checkboxes = [];
-            var index, flavorId, check;
-            for (index in this.model.models) {
-                flavorId = this.model.models[index].id;
-                if ($("#checkbox_"+flavorId).is(':checked')) {
-                    checkboxes.push(flavorId);
-                }
-            }
-            var scrollTo = $(".scrollable").scrollTop();
-            $(this.el).html(new_template);
-            $(".scrollable").scrollTop(scrollTo);
-            for (index in checkboxes) {
-                flavorId = checkboxes[index];
-                check = $("#checkbox_"+flavorId);
-                if (check.html() != null) {
-                    check.prop("checked", true);
-                }
-            }
-            this.enableDisableDeleteButton();
-        }
-
         return this;
     }
 

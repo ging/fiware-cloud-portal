@@ -12,13 +12,13 @@ var CreateSecurityGroupView = Backbone.View.extend({
     },
 
     render: function () {
-        $(this.el).append(this._template({securityGroupsModel: this.options.securityGroupsModel}));
+        $(this.el).append(this._template({securityGroupsModel: this.model}));
         $('.modal:last').modal();
         return this;
     },
 
     close: function(e) {
-        this.options.securityGroupsModel.unbind("change", this.render, this);
+        this.model.unbind("change", this.render, this);
         $('#create_security_group').remove();
         $('.modal-backdrop').remove();
         this.onClose();
@@ -39,8 +39,8 @@ var CreateSecurityGroupView = Backbone.View.extend({
         var name = $('input[name=name]').val();
         var message = '';
 
-        for (var index in self.options.securityGroupsModel.models) {
-            if (self.options.securityGroupsModel.models[index].attributes.name === name) {
+        for (var index in self.model.models) {
+            if (self.model.models[index].get('name') === name) {
                 message = "Security group already exists";
             }
         }
@@ -61,8 +61,8 @@ var CreateSecurityGroupView = Backbone.View.extend({
         descriptionOK = (description !== "" && description !== undefined) ? true : false;
 
         if (nameOK && descriptionOK) {
-            for (var index in self.options.securityGroupsModel.models) {
-                if (self.options.securityGroupsModel.models[index].attributes.name === name) {
+            for (var index in self.model.models) {
+                if (self.model.models[index].get('name') === name) {
                     subview = new MessagesView({el: '#content', state: "Error", title: "Security Group "+name+" already exists. Please try again."});
                     subview.render();
                     return;
