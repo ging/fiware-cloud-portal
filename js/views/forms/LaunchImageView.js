@@ -42,6 +42,8 @@ var LaunchImageView = Backbone.View.extend({
     },
 
     launch: function(e) {
+        var self = this;
+
         var instance = new Instance();
         var name = $('input[name=instance_name]').val();
         var imageReg = this.model.id;
@@ -71,12 +73,20 @@ var LaunchImageView = Backbone.View.extend({
         instance.set({"min_count": min_count});
         instance.set({"max_count": max_count});
         instance.set({"availability_zone": availability_zone});
-        instance.save();
+
+        instance.save(undefined, {success: function () {
+            self.close();
+            window.location.href = "#nova/instances/";
+            var subview = new MessagesView({el: '#content', state: "Success", title: "Instance "+instance.get("name")+" launched."});
+            subview.render();
+
+        }, error: function () {
+            self.close();
+            window.location.href = "#nova/instances/";
+            var subview = new MessagesView({el: '#content', state: "Error", title: " Error launching instance "+instance.get("name")});
+            subview.render();
+        }});
 
         //this.options.addInstance(instance);
-        //var subview = new MessagesView({el: '#content', state: "Success", title: "Instance "+instance.get("name")+" launched."});
-        //subview.render();
-        this.close();
     }
-
 });

@@ -219,7 +219,6 @@ var NovaInstancesView = Backbone.View.extend({
                 }]
             };
             entries.push(entry);
-
         }
         return entries;
     },
