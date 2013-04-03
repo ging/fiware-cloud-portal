@@ -110,6 +110,7 @@ var loadModels = function() {
                 "js/models/VolumeModel.js",
                 "js/models/VolumeSnapshotModel.js",
                 "js/models/InstanceSnapshotModel.js",
+                "js/models/SDCModel.js",
                 "js/models/UserModel.js",
                 "js/models/QuotaModel.js",
                 "js/models/KeypairModel.js",

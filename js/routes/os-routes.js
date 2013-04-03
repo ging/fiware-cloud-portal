@@ -404,14 +404,14 @@ var OSRouter = Backbone.Router.extend({
     nova_overview: function(self) {
         self.showNovaRoot(self, 'Overview');
         var view = new NovaOverviewView({el: '#content'});
-         self.newContentView(self,view);
+        self.newContentView(self,view);
         view.render();
     },
 
     nova_access_and_security: function(self) {
         self.showNovaRoot(self, 'Security');
         var view = new AccessAndSecurityView({el: '#content', model: self.keypairsModel, floatingIPsModel: self.floatingIPsModel, securityGroupsModel: self.securityGroupsModel});
-         self.newContentView(self,view);
+        self.newContentView(self,view);
     },
 
     nova_keypair_download: function(self, name) {
@@ -481,8 +481,10 @@ var OSRouter = Backbone.Router.extend({
         //self.instancesModel.alltenants = false;
         var instance = new Instance();
         instance.set({"id": id});
+        var sdc = new SDC();
+        sdc.set({"id": id});
         subview =  subview || 'overview';
-        var view = new InstanceDetailView({model: instance, subview: subview, subsubview: subsubview, el: '#content'});
+        var view = new InstanceDetailView({model: instance, sdcModel: sdc, subview: subview, subsubview: subsubview, el: '#content'});
         self.newContentView(self,view);
     },
 
