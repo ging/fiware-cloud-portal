@@ -104,7 +104,7 @@ var ObjectStorageContainerView = Backbone.View.extend({
             var entry = {
                 id: object.name,
                 cells: [{
-                    value: object.name,
+                    value: object.name
                 }, {
                     value: size
                 }]

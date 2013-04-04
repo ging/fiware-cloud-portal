@@ -25,7 +25,7 @@ var InstanceDetailView = Backbone.View.extend({
             'click #overviewBtn': "showOverview",
             'click #instance_vnc': 'showVNC',
             'click #instance_logs': 'showLogs',
-            'click #instance_software': 'showSoftware',
+            'click #instance_software': 'showSoftware'
         });
 
         this.model.fetch();

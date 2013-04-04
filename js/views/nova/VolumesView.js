@@ -123,7 +123,7 @@ var NovaVolumesView = Backbone.View.extend({
                 }, {
                     value: volume.get("status")
                 }, {
-                    value: (volume.get("attachments").length == 0) ? "-": volume.get("attachments").length
+                    value: (volume.get("attachments").length === 0) ? "-": volume.get("attachments").length
                 }]
             };
             entries.push(entry);

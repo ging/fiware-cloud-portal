@@ -37,5 +37,5 @@ var InstanceLogView = Backbone.View.extend({
         $(self.el).empty().html(template);
 
         return this;
-    },
+    }
 });

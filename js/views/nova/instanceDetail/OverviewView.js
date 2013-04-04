@@ -75,5 +75,5 @@ var InstanceOverviewView = Backbone.View.extend({
         $(self.el).empty().html(template);
 
         return this;
-    },
+    }
 });
