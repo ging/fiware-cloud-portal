@@ -52,13 +52,6 @@ src: templates/root/table.html
     <thead>
         <tr>
             <%
-                if (checkbox_enabled) {
-            %>
-                <td style="width:5%" class="multi_select_column">
-                    <input type="checkbox" class="checkbox checkbox_all checkbox_all_<%=cid%>">
-                </td>
-            <% } %>
-            <%
                 for (var header_idx in headers) {
                     var header = headers[header_idx];
                     if (header.type === "checkbox") {
@@ -66,7 +59,8 @@ src: templates/root/table.html
                         checkbox_size = header.size;
             %>
                 <td style="width:<%=header.size%>" class="multi_select_column">
-                    <input type="checkbox" class="checkbox checkbox_all checkbox_all_<%=cid%>">
+                    <input id="checkbox_<%= cid%>" type="checkbox" class="checkbox checkbox_all checkbox_all_<%=cid%>">
+                    <label for="checkbox_<%= cid%>"></label>
                 </td>
             <% } else { %>
                 <td style="width:<%=header.size%>" class="tip <%= (header.hidden_tablet) ? 'hidden-tablet':''%> <%=(header.hidden_phone) ? 'hidden-phone':''%>" data-tooltip="<%=header.tooltip%>" data-i18n="<%=header.name%>"><%=header.name%></td>
@@ -78,13 +72,13 @@ src: templates/root/table.html
     </thead>
 </table>
 <div class="scrollable scrollable_<%=cid%>">
-<table id="table_entries" class="table table-without-margins table-bordered without-borders table-striped table-scrolled">
+<table id="table_entries" class="table table-without-margins without-borders table-striped table-scrolled">
     <tbody>
         <%
             for (var entry_idx in entries) {
                 var entry = entries[entry_idx];
         %>
-        <tr id="entries__row__<%= entry.id %>" class="ajax-update status_down" data-toggle="context" data-target="#context-menu-<%=cid%>" style="position:relative">
+        <tr id="entries__row__<%= entry.id %>" class="ajax-update status_down" <% if (!disableContextMenu) { %> data-toggle="context" data-target="#context-menu-<%=cid%>" style="position:relative" <% } %>>
 
         <%
             var offset = 0;
@@ -93,6 +87,7 @@ src: templates/root/table.html
         %>
             <td style="width:<%= checkbox_size%>" class="multi_select_column entry_<%=cid%>">
                 <input id="checkbox_<%= entry.id%>" type="checkbox" name="object_ids" class="checkbox checkbox_entries checkbox_entries_<%=cid%>"  value="<%= entry.id%>" />
+                <label for="checkbox_<%= entry.id%>"></label>
             </td>
         <%  }
             for (var cell_idx in entry.cells) {
@@ -124,6 +119,7 @@ src: templates/root/table.html
         </tr>
     </tfoot>
 </table>
+<% if (!disableContextMenu) { %>
 <div id="context-menu-<%=cid%>" class="btn-group">
   <ul class="dropdown-menu" role="menu" class="clearfix">
     <%
@@ -136,4 +132,5 @@ src: templates/root/table.html
     %>
   </ul>
 </div>
+<% } %>
 </script>

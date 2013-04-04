@@ -1,6 +1,6 @@
 var Container = Backbone.Model.extend({
 
-    _action:function(method, options) {
+    _action: function(method, options) {
         var model = this;
         options = options || {};
         options.success = function(resp) {
@@ -15,94 +15,67 @@ var Container = Backbone.Model.extend({
         return xhr;
     },
 
-    copyObject: function(currentContainer, currentObject, targetContainer, targetObject, options) {
+    copyObject: function(currentObject, targetContainer, targetObject, options) {
         console.log("Copy object");
         options = options || {};
-        options.currentContainer = currentContainer;
         options.currentObject = currentObject;
         options.targetContainer = targetContainer;
         options.targetObject = targetObject;
         return this._action('copyObject', options);
     },
 
-    uploadObject: function(container, objectName, object, options) {
+    uploadObject: function(objectName, object, options) {
         console.log("Upload object");
         options = options || {};
-        options.container = container;
         options.objectName = objectName;
         options.object = object;
         return this._action('uploadObject', options);
     },
 
-    downloadObject: function(container, object, options) {
-        console.log("Download object");
+    downloadObject: function(objectName, options) {
         options = options || {};
-        options.container = container;
-        options.object = object;
+        options.objectName = objectName;
         return this._action('downloadObject', options);
     },
 
-    deleteObject: function(container, options) {
-        console.log("Delete object");
-        options = options || {};
-        options.container = container;
-        return this._action('deleteObject', options);
-    },
-
-    deleteObjects: function(container, options) {
+    deleteObject: function(objectName, options) {
         console.log("Delete objects");
         options = options || {};
-        options.container = container;
-        console.log(options.container);
+        options.objectName = objectName;
         return this._action('deleteObject', options);
     },
 
     sync: function(method, model, options) {
-           switch(method) {
-               case "read":
-                   mySucess = function(objects) {
-                        var cont = {};
-                        cont.objects = objects;
-                        return options.success(cont);
-                   };
-                   CDMI.Actions.getobjectlist(model.get('name'), mySucess);
-                   break;
-               case "delete":
-                   CDMI.Actions.deletecontainer(model.get('name'), options.success);
-                   console.log(options.success);
-                   break;
-               case "create":
-                   CDMI.Actions.createcontainer(model.get('name'), options.success);
-                   break;
-               case "copyObject":
-                    CDMI.Actions.copyobject(options.currentContainer, options.currentObject, options.targetContainer, options.targetObject, options.success);
-                    break;
-               case "uploadObject":
-                    CDMI.Actions.uploadobject(options.container, options.objectName, options.object, options.success);
-                    break;
-               case "downloadObject":
-                    mySucess = function(object) {
-                        var obj = {};
-                        obj.object = object;
-                        return options.success(obj);
-
-                    };
-                    CDMI.Actions.downloadobject(options.container, options.object, mySucess);
-                    break;
-               case "deleteObject":
-                    if (options.name !== undefined){
-                        CDMI.Actions.deleteobject(options.container, options.name, options.success);
-                        break;
-                    } else {
-                        for (var index in options) {
-                            options.name = options[index].name;
-                            if (options.name !== undefined && options.name !== ""){
-                                CDMI.Actions.deleteobject(options.container, options.name, options.success);
-                            }
-                    }
-                    break;
-                    }
-           }
+        switch (method) {
+            case "read":
+                mySucess = function(objects) {
+                    var cont = {};
+                    cont.objects = objects;
+                    return options.success(cont);
+                };
+                CDMI.Actions.getobjectlist(model.get('name'), mySucess);
+                break;
+            case "delete":
+                CDMI.Actions.deletecontainer(model.get('name'), options.success);
+                console.log(options.success);
+                break;
+            case "create":
+                CDMI.Actions.createcontainer(model.get('name'), options.success);
+                break;
+            case "copyObject":
+                CDMI.Actions.copyobject(model.get('name'), options.currentObject, options.targetContainer, options.targetObject, options.success);
+                break;
+            case "uploadObject":
+                CDMI.Actions.uploadobject(model.get('name'), options.objectName, options.object, options.success);
+                break;
+            case "downloadObject":
+                console.log("Download object, ", options.success);
+                CDMI.Actions.downloadobject(model.get('name'), options.objectName, options.success);
+                break;
+            case "deleteObject":
+                CDMI.Actions.deleteobject(model.get('name'), options.objectName, options.success);
+                break;
+        }
     },
 
     parse: function(resp) {

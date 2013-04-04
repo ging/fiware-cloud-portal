@@ -2,220 +2,210 @@ var ObjectStorageContainerView = Backbone.View.extend({
 
     _template: _.itemplate($('#objectstorageContainerTemplate').html()),
 
+    timer: undefined,
+
     initialize: function() {
-        this.model.unbind("reset");
-        this.model.bind("change", this.renderFirst, this);
-        this.model.bind("reset", this.render, this);
-        this.model.fetch();
-
-    },
-
-    events: {
-        'click .btn-download-actions' : 'onDownloadObject',
-        'click .btn-copy-actions':'onCopyObject',
-        'click .btn-delete-actions':'onDeleteGroup',
-        'change .checkbox_objects': 'enableDisableDeleteButton',
-        'change .checkbox_all':'checkAll',
-        'click .btn-upload': 'onUploadObject',
-        'click .btn-copy' : 'onCopy',
-        'click .btn-download' : 'onDownload',
-        'click .btn-delete':'onDelete'
-    },
-
-    onCopyObject: function(evt) {
         var self = this;
-        var object = $(".checkbox:checked").val();
-        this.options.title = object;
-        var container = this.options.model.get("name");
-        var subview = new CopyObjectView({el: 'body', model: this.model, title: this.options.title, container: container, containers: this.options.containers.models});
-        subview.render();
+        this.model.unbind("reset");
+        this.model.bind("change", this.render, this);
+        this.model.bind("reset", this.render, this);
+        this.timer = setInterval(function() {
+            self.model.fetch();
+        }, 10000);
+        this.model.fetch();
+        this.renderFirst();
+
     },
 
-    onDownloadObject: function() {
-        var self, url, urlAux, contaier, objName;
-        self = this;
+    getMainButtons: function() {
+        // main_buttons: [{label:label, url: #url, action: action_name}]
+        return [{
+            label: "Upload Object",
+            action: "upload"
+        }];
+    },
 
-        var object = $(".checkbox:checked").val();
-        var container = this.options.model.get("name");
-
-        mySucess = function(object) {
-
-            var typeMIME, blob, blobURL;
-            blob = new Blob([object], { type: "application/cdmi-object" });
-            blobURL = window.URL.createObjectURL(blob);
-            window.open(blobURL);
+    getDropdownButtons: function() {
+        // dropdown_buttons: [{label:label, action: action_name}]
+        var self = this;
+        var oneSelected = function(size, id) {
+            if (size === 1) {
+                return true;
+            }
         };
-        CDMI.Actions.downloadobject(container, object, mySucess);
-    },
-
-    onDownload: function(evt) {
-        var self, url, urlAux, contaier, objName;
-        self = this;
-
-        var object = evt.target.value;
-        var container = this.options.model.get("name");
-
-        /*url = $(".btn-download").attr("href");
-        console.log(url);
-        urlAux = url.split('/');
-        cont = urlAux[urlAux.length-2];
-        obj = urlAux[urlAux.length-1];*/
-
-        mySucess = function(object) {
-
-            var typeMIME, blob, blobURL;
-            blob = new Blob([object], { type: "application/cdmi-object" });
-            blobURL = window.URL.createObjectURL(blob);
-            window.open(blobURL);
+        var groupSelected = function(size, id) {
+            if (size >= 1) {
+                return true;
+            }
         };
-        CDMI.Actions.downloadobject(container, object, mySucess);
+        return [{
+            label: "Download Object",
+            action: "download",
+            activatePattern: oneSelected
+        }, {
+            label: "Copy Object",
+            action: "copy",
+            activatePattern: oneSelected
+        }, {
+            label: "Delete Object",
+            action: "delete",
+            warn: true,
+            activatePattern: groupSelected
+        }];
     },
 
-    onUploadObject: function(evt) {
-        var subview = new UploadObjectView({el: 'body', model: this.model});
-        subview.render();
+    getHeaders: function() {
+        // headers: [{name:name, tooltip: "tooltip", size:"15%", hidden_phone: true, hidden_tablet:false}]
+        return [{
+            type: "checkbox",
+            size: "5%"
+        }, {
+            name: "Name",
+            tooltip: "Object's name",
+            size: "70%",
+            hidden_phone: false,
+            hidden_tablet: false
+        }, {
+            name: "Size",
+            tooltip: "Object's size",
+            size: "25%",
+            hidden_phone: false,
+            hidden_tablet: false
+        }];
     },
 
-    onCopy: function(evt) {
-        this.options.title = evt.target.value;
-        var containerName = this.options.model.get("name");
-        var subview = new CopyObjectView({el: 'body', model: this.model, title: this.options.title, container: containerName, containers: this.options.containers.models});
-        subview.render();
+    getEntries: function() {
+        var entries = [];
+        var container = this.model;
+        var i = 0;
+        for (var index in container.get('objects')) {
+            var object = container.get('objects')[index];
+            var bytes = object.bytes;
+            var kbytes, mbytes, gbytes, size;
+            if (bytes >= 1024) {
+                kbytes = Math.round(bytes / 1024 * 10) / 10;
+                size = kbytes + " KB";
+                if (kbytes >= 1024) {
+                    mbytes = Math.round(kbytes / 1024 * 10) / 10;
+                    size = mbytes + " MB";
+                    if (mbytes >= 1024) {
+                        gbytes = Math.round(mbytes / 1024 * 10) / 10;
+                        size = gbytes + " GB";
+                    } else {
+                        size = Math.round(mbytes * 10) / 10 + " MB";
+                    }
+                } else {
+                    size = Math.round(kbytes * 10) / 10 + " KB";
+                }
+            } else {
+                size = Math.round(bytes * 10) / 10 + " bytes";
+            }
+
+            var entry = {
+                id: object.name,
+                cells: [{
+                    value: object.name,
+                }, {
+                    value: size
+                }]
+            };
+            entries.push(entry);
+
+        }
+        return entries;
+    },
+
+    onAction: function(action, objectIds) {
+        var object, obj, subview;
+        var self = this;
+        var container = this.options.model.get("name");
+        if (objectIds.length === 1) {
+            object = objectIds[0];
+        }
+        console.log(object);
+        switch (action) {
+            case 'upload':
+                subview = new UploadObjectView({
+                    el: 'body',
+                    model: this.model
+                });
+                subview.render();
+                break;
+            case 'download':
+                var options = {};
+                options.callback = function(object) {
+                    console.log("Downloaded");
+                    var typeMIME, blob, blobURL;
+                    blob = new Blob([object], {
+                        type: "application/cdmi-object"
+                    });
+                    blobURL = window.URL.createObjectURL(blob);
+                    window.open(blobURL);
+                };
+                this.model.downloadObject(object, options);
+                break;
+            case 'copy':
+                subview = new CopyObjectView({
+                    el: 'body',
+                    model: this.model,
+                    title: object,
+                    container: this.model.get("name"),
+                    containers: this.options.containers.models
+                });
+                subview.render();
+                break;
+            case 'delete':
+                subview = new ConfirmView({
+                    el: 'body',
+                    title: "Confirm Delete Object",
+                    btn_message: "Delete Object",
+                    onAccept: function() {
+                        objectIds.forEach(function(object) {
+                            self.model.deleteObject(object, {callback:function() {
+                                var subview3 = new MessagesView({
+                                    el: '#content',
+                                    state: "Success",
+                                    title: "Object " + object + " deleted."
+                                });
+                                subview3.render();
+                            }});
+                        });
+                    }
+                });
+                subview.render();
+                break;
+        }
     },
 
     onClose: function() {
+        this.tableView.close();
         this.undelegateEvents();
         this.unbind();
-    },
-
-    onDelete: function(evt) {
-        var obj, container;
-        var self = this;
-        for (var index in this.model.get("objects")) {
-             if (this.model.get("objects")[index].name === evt.target.value) {
-                obj = this.model.get("objects")[index];
-             }
-        }
-        //obj = object;
-        container = (this.model.get("name"));
-        var subview = new ConfirmView({el: 'body', title: "Confirm Delete Object", btn_message: "Delete Object", onAccept: function() {
-            self.model.deleteObject(container,obj);
-            var subview = new MessagesView({el: '#content', state: "Success", title: "Object "+obj.name+" deleted."});
-            subview.render();
-        }});
-        subview.render();
-    },
-
-    onDeleteGroup: function(evt) {
-        var self = this;
-        var container;
-        var objs= [];
-        var subview = new ConfirmView({el: 'body', title: "Delete Objects", btn_message: "Delete Objects", onAccept: function() {
-            var objects = [];
-            $(".checkbox_objects:checked").each(function () {
-                    var object = $(this).val();
-                    var obj = self.model.get('objects')[object];
-                    objects.push(obj);
-                    var subview = new MessagesView({el: '#content', state: "Success", title: "Object "+obj.name+" deleted."});
-                    subview.render();
-            });
-            objs = objects;
-            container = (self.model.get("name"));
-            self.model.deleteObjects(container, objs);
-        }});
-        subview.render();
-    },
-
-    checkAll: function () {
-        if ($(".checkbox_all:checked").size() > 0) {
-            $(".checkbox_objects").attr('checked','checked');
-            $(".btn-download-actions").hide();
-            $(".btn-copy-actions").hide();
-            this.enableDisableDeleteButton();
-        } else {
-            $(".checkbox_objects").attr('checked',false);
-            $(".btn-download-actions").show();
-            $(".btn-copy-actions").show();
-            this.enableDisableDeleteButton();
-        }
-
-    },
-
-    enableDisableDeleteButton: function () {
-        if ($(".checkbox_objects:checked").size() > 0) {
-            $("#objects_delete").attr("disabled", false);
-            $(".btn-download-actions").attr("disabled", false);
-            $(".btn-copy-actions").attr("disabled", false);
-            $(".btn-delete-actions").attr("disabled", false);
-
-            if ($(".checkbox_objects:checked").size() > 1) {
-                $(".btn-download-actions").attr("disabled", true);
-                $(".btn-copy-actions").attr("disabled", true);
-            } else {
-                $(".btn-download-actions").attr("disabled", false);
-                $(".btn-copy-actions").attr("disabled", false);
-            }
-        } else {
-            $("#objects_delete").attr("disabled", true);
-            $(".btn-download-actions").attr("disabled", true);
-            $(".btn-copy-actions").attr("disabled", true);
-            $(".btn-delete-actions").attr("disabled", true);
-            $(".btn-download-actions").attr("disabled", true);
-            $(".btn-copy-actions").attr("disabled", true);
-        }
-
-    },
-
-    render: function () {
-        if ($('.messages').html() != null) {
-            $('.messages').remove();
-        }
-        if ($("#objects").html() != null) {
-            var new_template = this._template(this.model);
-            var checkboxes = [];
-            var dropdowns = [];
-            var object, check, drop, drop_actions_selected, index;
-            for (index in this.model.models) {
-                object = this.model.models[index].id;
-                if ($("#checkbox_"+object).is(':checked')) {
-                    checkboxes.push(object);
-                }
-                if ($("#dropdown_"+object).hasClass('open')) {
-                    dropdowns.push(object);
-                }
-                if ($("#dropdown_actions").hasClass('open')) {
-                    drop_actions_selected = true;
-                }
-            }
-            var scrollTo = $(".scrollable").scrollTop();
-            $(this.el).html(new_template);
-            $(".scrollable").scrollTop(scrollTo);
-            for (index in checkboxes) {
-                object = checkboxes[index];
-                check = $("#checkbox_"+object);
-                if (check.html() != null) {
-                    check.prop("checked", true);
-                }
-            }
-            for (index in dropdowns) {
-                object = dropdowns[index];
-                drop = $("#dropdown_"+object);
-                if (drop.html() !== null) {
-                    drop.addClass("open");
-                }
-            }
-            if (($("#dropdown_actions").html() !== null) && (drop_actions_selected)) {
-                $("#dropdown_actions").addClass("open");
-            }
-            this.enableDisableDeleteButton();
-        }
-         this.delegateEvents(this.events);
-        return this;
+        this.model.unbind("change", this.render, this);
+        this.model.unbind("reset", this.render, this);
+        clearInterval(this.timer);
     },
 
     renderFirst: function() {
         var self = this;
-        UTILS.Render.animateRender(this.el, this._template, {model: this.model, models:this.model.get("objects")});
+        UTILS.Render.animateRender(this.el, this._template);
+        this.tableView = new TableView({
+            model: this.model,
+            el: '#container-table',
+            onAction: this.onAction,
+            getDropdownButtons: this.getDropdownButtons,
+            getMainButtons: this.getMainButtons,
+            getHeaders: this.getHeaders,
+            getEntries: this.getEntries,
+            context: this
+        });
+        this.tableView.render();
+    },
 
+    render: function() {
+        if ($(this.el).html() !== null) {
+            this.tableView.render();
+        }
+        return this;
     }
 });

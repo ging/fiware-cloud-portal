@@ -2,13 +2,7 @@ var NovaVolumeSnapshotsView = Backbone.View.extend({
 
     _template: _.itemplate($('#novaVolumeSnapshotsTemplate').html()),
 
-    dropdownId: undefined,
-
-    events:{
-        'change .checkbox':'enableDisableDeleteButton',
-        'click .btn-delete-volume':'onDelete',
-        'click .btn-delete-group':'onDeleteGroup'
-    },
+    tableView: undefined,
 
     initialize: function() {
         this.model.unbind("reset");
@@ -16,45 +10,127 @@ var NovaVolumeSnapshotsView = Backbone.View.extend({
         this.renderFirst();
     },
 
+    getMainButtons: function() {
+        // main_buttons: [{label:label, url: #url, action: action_name}]
+        return [];
+    },
+
+    getHeaders: function() {
+        // headers: [{name:name, tooltip: "tooltip", size:"15%", hidden_phone: true, hidden_tablet:false}]
+        return [{
+            type: "checkbox",
+            size: "5%"
+        }, {
+            name: "Name",
+            tooltip: "Volume Snapshot's name",
+            size: "40%",
+            hidden_phone: false,
+            hidden_tablet: false
+        }, {
+            name: "Description",
+            tooltip: "Volume Snapshot's name",
+            size: "10%",
+            hidden_phone: true,
+            hidden_tablet: false
+        }, {
+            name: "Size",
+            tooltip: "Size of volume snapshot",
+            size: "10%",
+            hidden_phone: false,
+            hidden_tablet: false
+        }, {
+            name: "Status",
+            tooltip: "Current status of the snapshot (active, none, ...)",
+            size: "10%",
+            hidden_phone: false,
+            hidden_tablet: false
+        }, {
+            name: "Identifier of the corresponding volume",
+            tooltip: "Snapshot's container format (AMI, AKI, ...)",
+            size: "20%",
+            hidden_phone: true,
+            hidden_tablet: false
+        }];
+    },
+
+    getDropdownButtons: function() {
+        // dropdown_buttons: [{label:label, action: action_name}]
+        var self = this;
+        var groupSelected = function(size, id) {
+            if (size >= 1) {
+                return true;
+            }
+        };
+        return [{
+            label: "Delete Snapshots",
+            action: "delete",
+            warn: true,
+            activatePattern: groupSelected
+        }];
+    },
+
+    getEntries: function() {
+        var entries = [];
+        for (var index in this.model.models) {
+            var volSnapshot = this.model.models[index];
+            var entry = {
+                id: volSnapshot.get('id'),
+                cells: [{
+                    value: volSnapshot.get("display_name"),
+                    link: "#nova/images_and_snapshots/" + volSnapshot.get("id")
+                }, {
+                    value: volSnapshot.get('description')
+                }, {
+                    value: volSnapshot.get('size')+" GB"
+                }, {
+                    value: volSnapshot.get("display_description")
+                }, {
+                    value: volSnapshot.get('volume_id')
+                }]
+            };
+            entries.push(entry);
+        }
+        return entries;
+    },
+
     onClose: function() {
+        this.tableView.close();
         this.undelegateEvents();
         this.unbind();
         this.model.unbind("reset", this.render, this);
     },
 
-    enableDisableDeleteButton: function () {
-        if ($(".checkbox:checked").size() > 0) {
-            $("#volume_snapshots_delete").attr("disabled", false);
-        } else {
-            $("#volume_snapshots_delete").attr("disabled", true);
+    onAction: function(action, snapshotIds) {
+        var snapshot, snap, subview;
+        var self = this;
+        if (snapshotIds.length === 1) {
+            snapshot = snapshotIds[0];
+            snap = this.model.get(snapshot);
         }
-    },
-
-    onDelete: function(evt) {
-        var self = this;
-        //var volumeSnapshot = $(this).val();
-        var volumeSnapshot = this.model.get(evt.target.value);
-        var volSnapshot = self.model.get(volumeSnapshot);
-        var subview = new ConfirmView({el: 'body', title: "Delete Volume Snapshot", btn_message: "Delete Volume Snapshot", onAccept: function() {
-            volSnapshot.destroy();
-            var subview2 = new MessagesView({el: '#content', state: "Success", title: "Volume snapshot "+volSnapshot.get("display_name")+" deleted."});
-            subview2.render();
-        }});
-        subview.render();
-    },
-
-    onDeleteGroup: function() {
-        var self = this;
-        var subview = new ConfirmView({el: 'body', title: "Delete Volume Snapshots", btn_message: "Delete Images", onAccept: function() {
-            $(".checkbox:checked").each(function () {
-                    var volumeSnapshot = $(this).val();
-                    var volSnapshot = self.model.get(volumeSnapshot);
-                    volSnapshot.destroy();
-                    var subview2 = new MessagesView({el: '#content', state: "Success", title: "Volume snapshot "+volSnapshot.get("display_name")+" deleted."});
-                    subview2.render();
-            });
-        }});
-        subview.render();
+        switch (action) {
+            case 'edit':
+                break;
+            case 'delete':
+                subview = new ConfirmView({
+                    el: 'body',
+                    title: "Delete Snapshots",
+                    btn_message: "Delete Snapshots",
+                    onAccept: function() {
+                        snapshotIds.forEach(function(snapshot) {
+                            snap = self.model.get(snapshot);
+                            snap.destroy();
+                            subview = new MessagesView({
+                                el: '#content',
+                                state: "Success",
+                                title: "Snapshot " + snap.get("name") + " deleted."
+                            });
+                            subview.render();
+                        });
+                    }
+                });
+                subview.render();
+                break;
+        }
     },
 
     renderFirst: function() {
@@ -62,47 +138,23 @@ var NovaVolumeSnapshotsView = Backbone.View.extend({
         this.delegateEvents(this.events);
         $(this.el).html(this._template({models:this.model.models, instancesModel:this.options.instancesModel, volumesModel:this.options.volumesModel, flavors:this.options.flavors}));
         //UTILS.Render.animateRender(this.el, this._template, this.model);
-        this.undelegateEvents();
-        this.delegateEvents(this.events);
+        this.tableView = new TableView({
+            model: this.model,
+            el: '#volume-snapshots-table',
+            onAction: this.onAction,
+            getDropdownButtons: this.getDropdownButtons,
+            getMainButtons: this.getMainButtons,
+            getHeaders: this.getHeaders,
+            getEntries: this.getEntries,
+            context: this
+        });
+        this.tableView.render();
     },
 
-    render: function () {
-        this.undelegateEvents();
-        this.delegateEvents(this.events);
-        if ($("#volume_snapshots").html() !== null) {
-            var new_template = this._template(this.model);
-            var checkboxes = [];
-            var dropdowns = [];
-            var index, volSnapshot, check, drop;
-            for (index in this.model.models) {
-                volSnapshot = this.model.models[index].id;
-                if ($("#checkbox_"+volSnapshot).is(':checked')) {
-                    checkboxes.push(volSnapshot);
-                }
-                if ($("#dropdown_"+volSnapshot).hasClass('open')) {
-                    dropdowns.push(instanceId);
-                }
-            }
-            var scrollTo = $(".scrollable").scrollTop();
-            $(this.el).html(new_template);
-            $(".scrollable").scrollTop(scrollTo);
-            for (index in checkboxes) {
-                volSnapshot = checkboxes[index];
-                check = $("#checkbox_"+volSnapshot);
-                if (check.html() !== null) {
-                    check.prop("checked", true);
-                }
-            }
-
-            for (index in dropdowns) {
-                volSnapshot = dropdowns[index];
-                drop = $("#dropdown_"+volSnapshot);
-                if (drop.html() !== null) {
-                    drop.addClass("open");
-                }
-            }
+    render: function() {
+        if ($(this.el).html() !== null) {
+            this.tableView.render();
         }
-        this.enableDisableDeleteButton();
         return this;
     }
 

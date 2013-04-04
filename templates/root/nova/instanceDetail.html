@@ -21,7 +21,6 @@ src: templates/root/nova/instanceDetail.html
     </ul>
     <% } %>
     <h2>Instance Detail</h2>
-    <div class="">
         <ul id="instance_details" class="nav nav-tabs">
             <li id="overview" class="<%= (subview == 'overview') ? 'active':'' %>">
                 <a id="overviewBtn" data-i18n="Overview">Overview</a>
@@ -45,7 +44,6 @@ src: templates/root/nova/instanceDetail.html
             </div>
             <div id="instance_details__software" class="tab-pane <%= (subview == 'software') ? 'active':'' %>">
             </div>
-		</div>
-    </div>
+        </div>
 </div>
 </script>
