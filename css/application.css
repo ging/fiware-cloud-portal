@@ -53,7 +53,7 @@ html, body {
   position: absolute;
   bottom: 25px;
   min-height: 200px;
-  top: 152px;
+  top: 104px;
 }
 
 #main_content {
@@ -71,6 +71,7 @@ html, body {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  border: 0;
 }
 
 .footer {
@@ -93,6 +94,49 @@ html, body {
   bottom: 0px;
   height: 30px;
   width: 100%;
+}
+
+#table_head {
+  position: absolute;
+  top: 32px;
+  height: 35px;
+  border: 0;
+}
+
+#table_head thead,
+#table_head thead tr {
+  height: 35px;
+}
+
+.table input[type=checkbox] {
+  display: none;
+}
+
+.table input[type=checkbox] + label {
+  content:"";
+  display:inline-block;
+  background-image:url(../images/checkbox.png);
+  background-position: 0px 0px;
+  width: 15px;
+  height: 15px;
+  margin-top: 5px;
+  cursor: pointer;
+}
+
+.table input[type=checkbox] + label:hover {
+  background-position: -15px 0px;
+}
+
+.table input[type=checkbox]:checked + label {
+  background-position: -30px 0px;
+}
+
+.table input[type=checkbox]:checked + label:hover {
+  background-position: -45px 0px;
+} ​
+
+.table_header .table_actions {
+  height: 23px;
 }
 
 .table {
@@ -143,8 +187,12 @@ td.actions_column {
   overflow-x: hidden;
 }
 
+.table-scrolled tr {
+  cursor: pointer;
+}
+
 .scrollable {
-background-color: #f1f1f1;
+/*background-color: #f1f1f1;*/
 right: 1px;
 left: 0px;
 overflow-y: auto;
@@ -158,6 +206,7 @@ bottom: 42px;
 .table-foot {
   position: absolute;
   bottom: 10px;
+  border: 0;
 }
 
 .tab-content-adjustable {
@@ -223,10 +272,15 @@ bottom: 42px;
   position: absolute;
 }
 
+.sidebar-menu {
+  margin-top: 44px;
+}
+
 .logo{
   margin-left: -4px !important;
   float: left;
-  margin-top: -15px;
+  top: 0px;
+  margin-top: 44px;
 }
 .text-logo{
   margin-left: 0px;
@@ -637,6 +691,7 @@ h6 {
   padding-bottom: none;
   /*margin: 18px 0;*/
   border-bottom: 1px solid #eeeeee;
+  margin-top: 10px;
 }
 
 /** line 407 boostrap.css**/
@@ -1005,7 +1060,7 @@ border: none;
 }
 @media (max-width: 979px) and (min-width: 768px) {
 
-  
+
 .row-fluid [class*="span"] {
 display: block;
 float: none;
