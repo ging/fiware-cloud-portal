@@ -146,8 +146,8 @@ var loadLibraries = function() {
                 "lib/bootstrap-contextmenu.js",
                 "lib/jquery.selectbox-0.1.3.min.js",
                 "lib/jScrollPane.js",
-                "lib/sdc.js",
                 "lib/xml2json.js",
+                "lib/sdc.js",
                 "lib/cdmi.js",
                 "lib/ovf.js",
                 "http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"

@@ -213,20 +213,21 @@ var TableView = Backbone.View.extend({
     },
 
     render: function() {
+        var entries = this.getEntries();
         var new_template = this._template({
             cid: this.cid,
             main_buttons: this.getMainButtons(),
             dropdown_buttons: this.getDropdownButtons(),
             headers: this.getHeaders(),
-            entries: this.getEntries(),
+            entries: entries,
             disableContextMenu: this.options.disableContextMenu
         });
         var checkboxes = [];
         var checkboxAll = false;
         var dropdowns = [];
         var index, id, check, drop, drop_actions_selected;
-        for (index in this.getEntries()) {
-            id = this.getEntries()[index].id;
+        for (index in entries) {
+            id = entries[index].id;
             if ($("#checkbox_" + id).is(':checked')) {
                 checkboxes.push(id);
             }

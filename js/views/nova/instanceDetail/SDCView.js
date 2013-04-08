@@ -6,6 +6,7 @@ var InstanceSDCView = Backbone.View.extend({
     tableViewNew: undefined,
 
     initialize: function() {
+        this.model.fetch();
         this.model.unbind("reset");
         this.model.bind("reset", this.render, this);
         this.renderFirst();
@@ -13,10 +14,11 @@ var InstanceSDCView = Backbone.View.extend({
 
     getMainButtons: function() {
         // main_buttons: [{label:label, url: #url, action: action_name}]
-        return [{
-            label: "Allocate IP to Project",
-            action: "allocate"
-        }];
+        return []; 
+        // [{
+        //     label: "Allocate IP to Project",
+        //     action: "allocate"
+        // }];
     },
 
     getDropdownButtons: function() {
@@ -32,34 +34,29 @@ var InstanceSDCView = Backbone.View.extend({
                 return true;
             }
         };
-        return [{
-            label: "Release Floating IPs",
-            action: "release",
-            activatePattern: groupSelected
-        }];
+        return [];
+        // [{
+        //     label: "Release Floating IPs",
+        //     action: "release",
+        //     activatePattern: groupSelected
+        // }];
     },
 
     getHeaders: function() {
         return [{
             type: "checkbox",
-            size: "5%"
+            size: "10%"
         }, {
             name: "Name",
             tooltip: "Software name",
-            size: "25%",
+            size: "40%",
             hidden_phone: false,
             hidden_tablet: false
         }, {
             name: "Version",
             tooltip: "Software version",
-            size: "10%",
+            size: "25%",
             hidden_phone: true,
-            hidden_tablet: false
-        }, {
-            name: "Description",
-            tooltip: "Description",
-            size: "35%",
-            hidden_phone: false,
             hidden_tablet: false
         }, {
             name: "Available",
@@ -77,10 +74,11 @@ var InstanceSDCView = Backbone.View.extend({
 
     getMainButtonsNew: function() {
         // main_buttons: [{label:label, url: #url, action: action_name}]
-        return [{
-            label: "Allocate IP to Project",
-            action: "allocate"
-        }];
+        return []; 
+        // [{
+        //     label: "Allocate IP to Project",
+        //     action: "allocate"
+        // }];
     },
 
     getDropdownButtonsNew: function() {
@@ -96,11 +94,12 @@ var InstanceSDCView = Backbone.View.extend({
                 return true;
             }
         };
-        return [{
-            label: "Release Floating IPs",
-            action: "release",
-            activatePattern: groupSelected
-        }];
+        return [];
+        // [{
+        //     label: "Release Floating IPs",
+        //     action: "release",
+        //     activatePattern: groupSelected
+        // }];
     },
 
     getHeadersNew: function() {
@@ -110,44 +109,44 @@ var InstanceSDCView = Backbone.View.extend({
         }, {
             name: "Name",
             tooltip: "Software name",
-            size: "25%",
+            size: "40%",
             hidden_phone: false,
-            hidden_tablet: false
-        }, {
-            name: "Version",
-            tooltip: "Software version",
-            size: "10%",
-            hidden_phone: true,
             hidden_tablet: false
         }, {
             name: "Description",
             tooltip: "Description",
-            size: "35%",
+            size: "55%",
             hidden_phone: false,
-            hidden_tablet: false
-        }, {
-            name: "Available",
-            tooltip: "Software availability",
-            size: "25%",
-            hidden_phone: true,
             hidden_tablet: false
         }];
     },
 
     getEntriesNew: function() {
         var entries = [];
+
+        if (this.model.models.length === 0) {
+            return entries;
+        }
+
+        var products = this.model.models[0].attributes.product;
+
+        for (var product in products) {
+            entries.push({id:product, cells:[
+                {value: products[product].name},
+                {value: products[product].description}]});
+        }
         return entries;
+
     },
 
     onClose: function() {
         this.tableView.close();
         this.tableViewNew.close();
-        this.model.bind("change", this.onInstanceDetail, this);
         this.unbind();
         this.undelegateEvents();
     },
 
-    onAction: function(action, floatingIds) {
+    onAction: function(action, ids) {
         // var floating, floa, subview;
         // var self = this;
         // if (floatingIds.length === 1) {
