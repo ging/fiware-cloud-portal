@@ -19,7 +19,7 @@ var InstanceDetailView = Backbone.View.extend({
         this.overviewView = new InstanceOverviewView({el: '#instance_details__overview', model: this.model});
         this.logView = new InstanceLogView({el: '#instance_details__log', model: this.model});
         this.vncView = new InstanceVNCView({el: '#instance_details__vnc', model: this.model});
-        this.softwareView = new InstanceSDCView({el: '#instance_details__software', model: this.model, sdcModel: this.options.sdcModel});
+        this.softwareView = new InstanceSDCView({el: '#instance_details__software', model: this.options.sdcs});
 
         this.delegateEvents({
             'click #overviewBtn': "showOverview",
@@ -30,7 +30,6 @@ var InstanceDetailView = Backbone.View.extend({
 
         this.model.fetch();
 
-        this.init_sdc_fetch();
     },
 
     showOverview: function() {
@@ -97,8 +96,6 @@ var InstanceDetailView = Backbone.View.extend({
         this.logView.close();
         this.vncView.close();
         this.softwareView.close();
-
-        this.remove_sdc_fetch();
     },
 
     close: function(e) {
@@ -138,18 +135,5 @@ var InstanceDetailView = Backbone.View.extend({
         $("#instance_logs").unbind();
         $("#instance_software").unbind();
         return this;
-    },
-
-    init_sdc_fetch: function() {
-
-        var self = this;
-        this.options.sdcModel.fetch();
-        this.sdcTimer = setInterval(function() {
-            self.options.sdcModel.fetch();
-        }, 10000);
-    },
-
-    remove_sdc_fetch: function() {
-        clearInterval(this.sdcTimer);
     }
 });

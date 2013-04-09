@@ -36,6 +36,7 @@ var OSRouter = Backbone.Router.extend({
         this.loginModel = new LoginStatus();
         this.flavors = new Flavors();
         this.instancesModel = new Instances();
+        this.sdcs = new SDCs();
         this.volumesModel = new Volumes();
         this.volumeSnapshotsModel = new VolumeSnapshots();
         this.instanceSnapshotsModel = new InstanceSnapshots();
@@ -486,10 +487,8 @@ var OSRouter = Backbone.Router.extend({
         //self.instancesModel.alltenants = false;
         var instance = new Instance();
         instance.set({"id": id});
-        var sdc = new SDC();
-        sdc.set({"id": id});
         subview =  subview || 'overview';
-        var view = new InstanceDetailView({model: instance, sdcModel: sdc, subview: subview, subsubview: subsubview, el: '#content'});
+        var view = new InstanceDetailView({model: instance, sdcs: self.sdcs, subview: subview, subsubview: subsubview, el: '#content'});
         self.newContentView(self,view);
     },
 

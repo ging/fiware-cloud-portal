@@ -24,7 +24,7 @@ var RootView = Backbone.View.extend({
             $('.content').animate({bottom: '356px'}, 500);
             $('#logs').animate({height: '348px'}, 500);
         }
-        this.consoleMaximizes!=this.consoleMaximizes;
+        this.consoleMaximizes = !this.consoleMaximizes;
     },
 
     onCredentialsSubmit: function(e){
