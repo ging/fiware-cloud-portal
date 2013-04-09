@@ -36,7 +36,7 @@ var UploadObjectView = Backbone.View.extend({
         var contName, objName, obj, subview;
         if (this.$('input[name=objName]').val() === "") {
             //this.close();
-          subview = new MessagesView({el: '#content', state: "Error", title: "Wrong input values for container. Please try again."});
+          subview = new MessagesView({state: "Error", title: "Wrong input values for container. Please try again."});
           subview.render();
           this.close();
           return;
@@ -45,7 +45,7 @@ var UploadObjectView = Backbone.View.extend({
             objName = self.$('input[name=objName]').val();
             obj = document.getElementById("id_object_file").files[0];
             self.model.uploadObject(objName, obj);
-            subview = new MessagesView({el: '#content', state: "Success", title: "Object " + objName + " uploaded."});
+            subview = new MessagesView({state: "Success", title: "Object " + objName + " uploaded."});
             subview.render();
             this.close();
         }

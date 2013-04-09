@@ -48,6 +48,18 @@ var OSRouter = Backbone.Router.extend({
         this.securityGroupsModel = new SecurityGroups();
         this.floatingIPsModel = new FloatingIPs();
 
+        this.instancesModel.bind("error", function(model, error) {
+            console.log("Error in instances:", error);
+        });
+
+        this.flavors.bind("error", function(model, error) {
+            console.log("Error in flavors:", error);
+        });
+
+        this.images.bind("error", function(model, error) {
+            console.log("Error in images:", error);
+        });
+
         Backbone.View.prototype.close = function(){
           //this.remove();
           this.unbind();
@@ -124,7 +136,7 @@ var OSRouter = Backbone.Router.extend({
 
     initFetch: function() {
         if (this.timers.length === 0) {
-            var seconds = 100;
+            var seconds = 10;
             this.add_fetch(this.instancesModel, seconds);
             this.add_fetch(this.volumesModel, seconds);
             this.add_fetch(this.images, seconds);

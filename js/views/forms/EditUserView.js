@@ -87,7 +87,7 @@ var EditUserView = Backbone.View.extend({
         this.model.set({'tenant_id': tenant_id});
         this.model.set({'enabled': true});
         this.model.save();
-        subview = new MessagesView({el: '#content', state: "Success", title: "User "+this.model.get('name')+" updated."});
+        subview = new MessagesView({state: "Success", title: "User "+this.model.get('name')+" updated."});
         subview.render();
         this.close();
     }

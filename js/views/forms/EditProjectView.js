@@ -38,7 +38,7 @@ var EditProjectView = Backbone.View.extend({
         this.model.set({'description': descr});
         this.model.set({'enabled': enabled});
         this.model.save();
-        subview = new MessagesView({el: '#content', state: "Success", title: "Project "+this.model.get('name')+" updated."});
+        subview = new MessagesView({state: "Success", title: "Project "+this.model.get('name')+" updated."});
         subview.render();
     }
 

@@ -151,7 +151,6 @@ var ObjectStorageContainersView = Backbone.View.extend({
                             if (cont.get("count") > 0) {
                                 console.log(cont);
                                 var subview2 = new MessagesView({
-                                    el: '#content',
                                     state: "Error",
                                     title: "Unable to delete non-empty container " + cont.get("id")
                                 });
@@ -161,7 +160,6 @@ var ObjectStorageContainersView = Backbone.View.extend({
                                 cont.destroy();
 
                                 var subview3 = new MessagesView({
-                                    el: '#content',
                                     state: "Success",
                                     title: "Container " + cont.get("id") + " deleted."
                                 });
@@ -196,7 +194,6 @@ var ObjectStorageContainersView = Backbone.View.extend({
                 if (cont.get("count") > 0) {
                     console.log(cont);
                     var subview2 = new MessagesView({
-                        el: '#content',
                         state: "Error",
                         title: "Unable to delete non-empty container " + cont.get("id")
                     });
@@ -206,7 +203,6 @@ var ObjectStorageContainersView = Backbone.View.extend({
                     cont.destroy();
 
                     var subview3 = new MessagesView({
-                        el: '#content',
                         state: "Success",
                         title: "Container " + cont.get("id") + " deleted."
                     });
@@ -231,7 +227,6 @@ var ObjectStorageContainersView = Backbone.View.extend({
                     cont = self.model.get(container);
                     if (cont.get("count") > 0) {
                         var subview2 = new MessagesView({
-                            el: '#content',
                             state: "Conflict",
                             title: "Container " + cont.get("id") + " contains objects."
                         });
@@ -240,7 +235,6 @@ var ObjectStorageContainersView = Backbone.View.extend({
                     } else {
                         cont.destroy();
                         var subview3 = new MessagesView({
-                            el: '#content',
                             state: "Success",
                             title: "Container " + cont.get("name") + " deleted."
                         });

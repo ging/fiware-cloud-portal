@@ -89,7 +89,7 @@ var NovaFloatingIPsView = Backbone.View.extend({
             break;
             case 'release':
                 subview = new ConfirmView({el: 'body', title: "Release Floating IP", btn_message: "Release Floating IPs", onAccept: function() {
-                    var subview2 = new MessagesView({el: '#content', state: "Success", title: "Floating IPs "+floa.get(name)+" released."});
+                    var subview2 = new MessagesView({state: "Success", title: "Floating IPs "+floa.get(name)+" released."});
                     subview2.render();
                 }});
                 subview.render();

@@ -44,7 +44,7 @@ var CreateKeypairView = Backbone.View.extend({
         if (nameOK) {
             for (var index in self.model.models) {
                 if (self.model.models[index].attributes.name === name) {
-                    subview = new MessagesView({el: '#content', state: "Error", title: "Keypair "+name+" already exists. Please try again."});
+                    subview = new MessagesView({state: "Error", title: "Keypair "+name+" already exists. Please try again."});
                     subview.render();
                     return;
                 }
@@ -53,7 +53,7 @@ var CreateKeypairView = Backbone.View.extend({
         window.location.href = '#nova/access_and_security/keypairs/'+name+'/download/';
 
         } else {
-            subview = new MessagesView({el: '#content', state: "Error", title: "Wrong values for Keypair. Please try again."});
+            subview = new MessagesView({state: "Error", title: "Wrong values for Keypair. Please try again."});
             subview.render();
         }
 

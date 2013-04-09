@@ -32,7 +32,7 @@ var AllocateIPView = Backbone.View.extend({
         var name = $('input[name=name]').val();
 
 
-        subview = new MessagesView({el: '#content', state: "Success", title: "IP allocated."});
+        subview = new MessagesView({state: "Success", title: "IP allocated."});
         subview.render();
         self.close();
     }

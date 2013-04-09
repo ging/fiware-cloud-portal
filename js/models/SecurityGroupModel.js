@@ -43,20 +43,20 @@ var SecurityGroup = Backbone.Model.extend({
     sync: function(method, model, options) {
            switch(method) {
                case "read":
-                   JSTACK.Nova.getsecuritygroupdetail(model.get("id"), options.success);
+                   JSTACK.Nova.getsecuritygroupdetail(model.get("id"), options.success, options.error);
                    break;
                case "delete":
-                   JSTACK.Nova.deletesecuritygroup(model.get("id"), options.success);
+                   JSTACK.Nova.deletesecuritygroup(model.get("id"), options.success, options.error);
                    break;
                case "create":
-                   JSTACK.Nova.createsecuritygroup( model.get("name"), model.get("description"), options.success);
+                   JSTACK.Nova.createsecuritygroup( model.get("name"), model.get("description"), options.success, options.error);
                    break;
                case "createSecurityGroupRule":
                //console.log(options.ip_protocol, options.from_port, options.to_port, options.cidr, options.group_id, options.parent_group_id);
-                   JSTACK.Nova.createsecuritygrouprule(options.ip_protocol, options.from_port, options.to_port, options.cidr, options.group_id, options.parent_group_id, options.success);
+                   JSTACK.Nova.createsecuritygrouprule(options.ip_protocol, options.from_port, options.to_port, options.cidr, options.group_id, options.parent_group_id, options.success, options.error);
                    break;
                 case "deleteSecurityGroupRule":
-                   JSTACK.Nova.deletesecuritygrouprule(options.secGroupRuleId, options.success);
+                   JSTACK.Nova.deletesecuritygrouprule(options.secGroupRuleId, options.success, options.error);
                    break;
                 case "getSecurityGroupforServer":
                     mySuccess = function(object) {
@@ -83,7 +83,7 @@ var SecurityGroups = Backbone.Collection.extend({
 
     sync: function(method, model, options) {
         if(method === "read") {
-            JSTACK.Nova.getsecuritygrouplist(options.success);
+            JSTACK.Nova.getsecuritygrouplist(options.success, options.error);
         }
     },
 

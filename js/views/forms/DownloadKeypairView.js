@@ -36,7 +36,7 @@ var DownloadKeypairView = Backbone.View.extend({
             $('.downloadKeypair').attr("href", blobURL);
             $('.downloadKeypair').attr("download", name+'.pem');
 
-            var subview = new MessagesView({el: '#content', state: "Success", title: "Keypair "+name+" created."});
+            var subview = new MessagesView({state: "Success", title: "Keypair "+name+" created."});
             subview.render();
         };
         JSTACK.Nova.createkeypair(name, undefined, mySuccess);

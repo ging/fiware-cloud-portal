@@ -187,7 +187,7 @@ var Instances = Backbone.Collection.extend({
 
     sync: function(method, model, options) {
         if (method === "read") {
-            JSTACK.Nova.getserverlist(true, this.alltenants, options.success);
+            JSTACK.Nova.getserverlist(true, this.alltenants, options.success, options.error);
         }
     },
 

@@ -6,7 +6,7 @@ var Roles = Backbone.Collection.extend({
 
     sync: function(method, model, options) {
         if(method === "read") {
-            var resp = JSTACK.Keystone.getroles(options.success);
+            var resp = JSTACK.Keystone.getroles(options.success, options.error);
         }
     },
 

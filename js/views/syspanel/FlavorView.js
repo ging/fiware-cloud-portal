@@ -142,7 +142,7 @@ var FlavorView = Backbone.View.extend({
                     flavorIds.forEach(function(flavor) {
                         flav = self.model.get(flavor);
                         flav.destroy();
-                        var subview = new MessagesView({el: '#content', state: "Success", title: "Flavor "+flav.get("name")+" deleted."});
+                        var subview = new MessagesView({state: "Success", title: "Flavor "+flav.get("name")+" deleted."});
                         subview.render();
                     });
                 }});

@@ -121,7 +121,7 @@ var ProjectView = Backbone.View.extend({
                     projectIds.forEach(function(project) {
                         proj = self.model.get(project);
                         proj.destroy();
-                        subview = new MessagesView({el: '#content', state: "Success", title: "Project deleted."});
+                        subview = new MessagesView({state: "Success", title: "Project deleted."});
                         subview.render();
                     });
                 }});

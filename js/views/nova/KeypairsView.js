@@ -100,7 +100,6 @@ var NovaKeypairsView = Backbone.View.extend({
                             kp = self.model.get(keypair);
                             kp.destroy();
                             subview = new MessagesView({
-                                el: '#content',
                                 state: "Success",
                                 title: "Keypair " + kp.get("name") + " deleted."
                             });

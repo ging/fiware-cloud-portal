@@ -123,7 +123,6 @@ var ImagesView = Backbone.View.extend({
                             img = self.model.get(image);
                             img.destroy();
                             subview = new MessagesView({
-                                el: '#content',
                                 state: "Success",
                                 title: "Image " + img.get("name") + " deleted."
                             });

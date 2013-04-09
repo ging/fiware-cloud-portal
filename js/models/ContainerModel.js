@@ -56,24 +56,24 @@ var Container = Backbone.Model.extend({
                 CDMI.Actions.getobjectlist(model.get('name'), mySucess);
                 break;
             case "delete":
-                CDMI.Actions.deletecontainer(model.get('name'), options.success);
-                console.log(options.success);
+                CDMI.Actions.deletecontainer(model.get('name'), options.success, options.error);
+                console.log(options.success, options.error);
                 break;
             case "create":
-                CDMI.Actions.createcontainer(model.get('name'), options.success);
+                CDMI.Actions.createcontainer(model.get('name'), options.success, options.error);
                 break;
             case "copyObject":
-                CDMI.Actions.copyobject(model.get('name'), options.currentObject, options.targetContainer, options.targetObject, options.success);
+                CDMI.Actions.copyobject(model.get('name'), options.currentObject, options.targetContainer, options.targetObject, options.success, options.error);
                 break;
             case "uploadObject":
-                CDMI.Actions.uploadobject(model.get('name'), options.objectName, options.object, options.success);
+                CDMI.Actions.uploadobject(model.get('name'), options.objectName, options.object, options.success, options.error);
                 break;
             case "downloadObject":
-                console.log("Download object, ", options.success);
-                CDMI.Actions.downloadobject(model.get('name'), options.objectName, options.success);
+                console.log("Download object, ", options.success, options.error);
+                CDMI.Actions.downloadobject(model.get('name'), options.objectName, options.success, options.error);
                 break;
             case "deleteObject":
-                CDMI.Actions.deleteobject(model.get('name'), options.objectName, options.success);
+                CDMI.Actions.deleteobject(model.get('name'), options.objectName, options.success, options.error);
                 break;
         }
     },
@@ -94,7 +94,7 @@ var Containers = Backbone.Collection.extend({
 
     sync: function(method, model, options) {
         if (method === "read") {
-            CDMI.Actions.getcontainerlist(options.success);
+            CDMI.Actions.getcontainerlist(options.success, options.error);
         }
     },
 

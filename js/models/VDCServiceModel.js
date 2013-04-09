@@ -3,7 +3,7 @@ var VDCService = Backbone.Model.extend({
     sync: function(method, model, options) {
            switch(method) {
                case "read":
-                   //JSTACK.Nova.getcontainerdetail(model.get("id"), options.success);
+                   //JSTACK.Nova.getcontainerdetail(model.get("id"), options.success, options.error);
                   // TODO Get Instances for this service.
                    var result = function(servers) {
                         var instances = servers.servers;
@@ -21,10 +21,10 @@ var VDCService = Backbone.Model.extend({
 
                    break;
                case "delete":
-                   //JSTACK.Nova.deletecontainer(model.get("id"), options.success);
+                   //JSTACK.Nova.deletecontainer(model.get("id"), options.success, options.error);
                    break;
                case "create":
-                   //JSTACK.Nova.createcontainer( model.get("name"), undefined, undefined, options.success);
+                   //JSTACK.Nova.createcontainer( model.get("name"), undefined, undefined, options.success, options.error);
                    break;
            }
     },
@@ -58,8 +58,8 @@ var VDCServices = Backbone.Collection.extend({
 
     sync: function(method, model, options) {
         if(method == "read") {
-          //JSTACK.Nova.getcontainerlist(true, options.success);
-          //OVF.API.getServices(_vdc, options.success);
+          //JSTACK.Nova.getcontainerlist(true, options.success, options.error);
+          //OVF.API.getServices(_vdc, options.success, options.error);
           var service = new VDCService({id: "mockService", name: "mockService", vcpus: 1, disk: 10, ram: 1, vcpu_hours: 1, disk_hours: 1});
           options.success([service]);
         }

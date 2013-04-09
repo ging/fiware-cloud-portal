@@ -275,7 +275,6 @@ var NovaInstancesView = Backbone.View.extend({
                             inst = self.model.get(instance);
                             inst.pauseserver();
                             subview = new MessagesView({
-                                el: '#content',
                                 state: "Success",
                                 title: "Instances " + inst.get("name") + " paused."
                             });
@@ -295,7 +294,6 @@ var NovaInstancesView = Backbone.View.extend({
                             inst = self.model.get(instance);
                             inst.unpauseserver();
                             subview = new MessagesView({
-                                el: '#content',
                                 state: "Success",
                                 title: "Instance " + inst.get("name") + " unpaused."
                             });
@@ -315,7 +313,6 @@ var NovaInstancesView = Backbone.View.extend({
                             inst = self.model.get(instance);
                             inst.suspendserver();
                             subview = new MessagesView({
-                                el: '#content',
                                 state: "Success",
                                 title: "Instance " + inst.get("name") + " suspended."
                             });
@@ -335,7 +332,6 @@ var NovaInstancesView = Backbone.View.extend({
                             inst = self.model.get(instance);
                             inst.resumeserver();
                             subview = new MessagesView({
-                                el: '#content',
                                 state: "Success",
                                 title: "Instance " + inst.get("name") + " resumed."
                             });
@@ -355,7 +351,6 @@ var NovaInstancesView = Backbone.View.extend({
                             inst = self.model.get(instance);
                             inst.reboot(true);
                             subview = new MessagesView({
-                                el: '#content',
                                 state: "Success",
                                 title: "Instances " + inst.get("name") + " rebooted."
                             });
@@ -375,7 +370,6 @@ var NovaInstancesView = Backbone.View.extend({
                             inst = self.model.get(instance);
                             inst.destroy();
                             subview = new MessagesView({
-                                el: '#content',
                                 state: "Success",
                                 title: "Instances " + inst.get("name") + " terminated."
                             });

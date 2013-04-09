@@ -47,7 +47,7 @@ var AddUserToProjectView = Backbone.View.extend({
         console.log(tenant);
         if (roleReg && tenant) {
             this.model.addRole(roleReg, tenant);
-            var subview = new MessagesView({el: '#content', state: "Success", title: "User Added."});
+            var subview = new MessagesView({state: "Success", title: "User Added."});
             subview.render();
             this.close();
         }

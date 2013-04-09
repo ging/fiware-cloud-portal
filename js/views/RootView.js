@@ -4,12 +4,27 @@ var RootView = Backbone.View.extend({
 
     _authtemplate: _.itemplate($('#not_logged_in').html()),
 
+    consoleMaximizes: false,
+
     initialize: function () {
         $(this.options.auth_el).empty().html(this._authtemplate(this.model)).css('display', 'None');
         $(this.options.root_el).empty().html(this._roottemplate()).css('display', 'None');
         this.model.bind('change:loggedIn', this.onLogin, this);
         this.model.bind('auth-error', this.renderAuthonerror, this);
         this.onLogin();
+    },
+
+    toggleMaxConsole: function() {
+        if (this.consoleMaximizes) {
+            $('#logs').css('overflow', 'hidden');
+            $('.content').animate({bottom: '56px'}, 500);
+            $('#logs').animate({height: '48px'}, 500);
+        } else {
+            $('#logs').css('overflow', 'auto');
+            $('.content').animate({bottom: '356px'}, 500);
+            $('#logs').animate({height: '348px'}, 500);
+        }
+        this.consoleMaximizes!=this.consoleMaximizes;
     },
 
     onCredentialsSubmit: function(e){

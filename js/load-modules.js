@@ -13,10 +13,10 @@ function custom_require(urls, callback) {
 
 var loadOS = function() {
     $(document).ready(function(){
-        console.log("Initializing");
-        UTILS.Auth.initialize("http://130.206.80.93/keystone/v2.0/", "http://130.206.80.93/keystone-admin/v2.0/");
+        var host = "http://localhost:8080";
+        host = document.URL.match(/(http.?:\/\/[^\/]*)\/.*/)[1];
+        UTILS.Auth.initialize(host + "/keystone/v2.0/", host + "/keystone-admin/v2.0/");
         //UTILS.Auth.initialize("http://mcu5.dit.upm.es:5000/v2.0/");
-        console.log("Initialized");
         var fiRouter = new OSRouter();
         Backbone.history.start();
     });
@@ -145,6 +145,7 @@ var loadLibraries = function() {
                 "lib/bootstrap.min.js",
                 "lib/bootstrap-contextmenu.js",
                 "lib/jquery.selectbox-0.1.3.min.js",
+                "lib/jquery.knob.js",
                 "lib/jScrollPane.js",
                 "lib/sdc.js",
                 "lib/xml2json.js",

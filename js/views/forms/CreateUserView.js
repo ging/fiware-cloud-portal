@@ -94,7 +94,7 @@ var CreateUserView = Backbone.View.extend({
         user.set({'tenant_id': tenant_id});
         user.set({'enabled': true});
         user.save();
-        subview = new MessagesView({el: '#content', state: "Success", title: "User "+user.get('name')+" created."});
+        subview = new MessagesView({state: "Success", title: "User "+user.get('name')+" created."});
         subview.render();
         this.close();
     }

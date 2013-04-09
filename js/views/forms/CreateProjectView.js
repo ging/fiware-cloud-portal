@@ -40,7 +40,7 @@ var CreateProjectView = Backbone.View.extend({
         project.set({'description': descr});
         project.set({'enabled': enabled});
         project.save();
-        subview = new MessagesView({el: '#content', state: "Success", title: "Project "+project.get('name')+" created."});
+        subview = new MessagesView({state: "Success", title: "Project "+project.get('name')+" created."});
         subview.render();
         this.close();
     }

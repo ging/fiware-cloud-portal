@@ -34,7 +34,7 @@ html, body {
   position: absolute;
   left: 0px;
   right: 0px;
-  top: 99px;
+  top: 51px;
   bottom: 0px;
   overflow: scroll;
 }
@@ -84,16 +84,30 @@ html, body {
 
 #content {
   position: absolute;
+  margin-top: 10px;
   top: 0px;
-  bottom: 36px;
+  bottom: 56px;
   width: 100%;
+  box-shadow: rgb(211, 211, 211) 0px 0px 10px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
 }
 
 #logs {
   position: absolute;
+  overflow: hidden;
   bottom: 0px;
-  height: 30px;
+  height: 48px;
   width: 100%;
+  box-shadow: rgb(211, 211, 211) 0px 0px 10px;
+  border-radius: 6px;
+}
+
+.messages .alert{
+  margin-bottom: 0px;
+  margin-top: 0px;
 }
 
 #table_head {
@@ -101,6 +115,7 @@ html, body {
   top: 32px;
   height: 35px;
   border: 0;
+  border-bottom: 1px solid #dddddd;
 }
 
 #table_head thead,
@@ -119,7 +134,8 @@ html, body {
   background-position: 0px 0px;
   width: 15px;
   height: 15px;
-  margin-top: 5px;
+  margin-top: 1px;
+  margin-bottom: -1px;
   cursor: pointer;
 }
 
@@ -198,7 +214,7 @@ left: 0px;
 overflow-y: auto;
 overflow-x: hidden;
 position: absolute;
-top: 69px;
+top: 68px;
 width: 100%;
 bottom: 42px;
 }
@@ -211,9 +227,9 @@ bottom: 42px;
 
 .tab-content-adjustable {
   position: absolute;
-  padding-top: 10px;
-  bottom: 20px;
-  top: 50px;
+  padding-top: 0px;
+  bottom: 0px;
+  top: 51px;
   right: 0px;
   left: 0px;
 }
@@ -222,6 +238,15 @@ bottom: 42px;
   position:relative;
   height: 100%;
   overflow: hidden;
+}
+
+.table_header .table_actions a, .table_header .table_actions button {
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+}
+
+.btn-group > .btn:first-child {
+  border-top-left-radius: 0px;
 }
 
 @font-face {

@@ -152,7 +152,6 @@ var NovaInstanceSnapshotsView = Backbone.View.extend({
                             snap = self.model.get(snapshot);
                             snap.destroy();
                             subview = new MessagesView({
-                                el: '#content',
                                 state: "Success",
                                 title: "Snapshot " + snap.get("name") + " deleted."
                             });

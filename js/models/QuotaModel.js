@@ -8,7 +8,7 @@ var Quota = Backbone.Model.extend({
             JSTACK.Nova.updatequota(model.get("instances"), model.get("cores"), model.get("ram"), model.get("volumes"),
             model.get("gigabytes"), model.get("floating_ips"), model.get("metadata_items"), model.get("injected_files"), 
             model.get("injected_file_content_bytes"), model.get("security_groups"), 
-            model.get("security_group_rules"), options.success);
+            model.get("security_group_rules"), options.success, options.error);
        }
     }
 
@@ -19,7 +19,7 @@ var Quotas = Backbone.Collection.extend({
 
     sync: function(method, model, options) {
         if(method === "read") {
-            JSTACK.Nova.getquotalist(options.success);
+            JSTACK.Nova.getquotalist(options.success, options.error);
         }
     },
 

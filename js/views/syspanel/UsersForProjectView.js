@@ -42,7 +42,7 @@ var UsersForProjectView = Backbone.View.extend({
         console.log("User to delete: ", user);
         var tenant = self.options.tenants.get(self.options.tenant);
         var success = function() {
-            var subview = new MessagesView({el: '#content', state: "Success", title: "User removed."});
+            var subview = new MessagesView({state: "Success", title: "User removed."});
             subview.render();
         };
         var subview = new ConfirmView({el: 'body', title: "Confirm Remove User from Project", btn_message: "Remove User", onAccept: function() {

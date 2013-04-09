@@ -77,13 +77,13 @@ var LaunchImageView = Backbone.View.extend({
         instance.save(undefined, {success: function () {
             self.close();
             window.location.href = "#nova/instances/";
-            var subview = new MessagesView({el: '#content', state: "Success", title: "Instance "+instance.get("name")+" launched."});
+            var subview = new MessagesView({state: "Success", title: "Instance "+instance.get("name")+" launched."});
             subview.render();
 
         }, error: function () {
             self.close();
             window.location.href = "#nova/instances/";
-            var subview = new MessagesView({el: '#content', state: "Error", title: " Error launching instance "+instance.get("name")});
+            var subview = new MessagesView({state: "Error", title: " Error launching instance "+instance.get("name")});
             subview.render();
         }});
 

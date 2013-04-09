@@ -2,19 +2,19 @@ var Project = Backbone.Model.extend({
     sync: function(method, model, options) {
            switch(method) {
                case "read":
-                   //JSTACK.Keystone.gettenant(model.get("id"), options.success);
+                   //JSTACK.Keystone.gettenant(model.get("id"), options.success, options.error);
                    break;
                case "delete":
-                   JSTACK.Keystone.deletetenant(model.get("id"), options.success);
+                   JSTACK.Keystone.deletetenant(model.get("id"), options.success, options.error);
                     break;
                case "create":
-                   JSTACK.Keystone.createtenant(model.get("name"), model.get("description"), model.get("enabled"), options.success);
+                   JSTACK.Keystone.createtenant(model.get("name"), model.get("description"), model.get("enabled"), options.success, options.error);
                    break;
                case "update":
-                    JSTACK.Keystone.edittenant(model.get("id"), model.get("name"), model.get("description"), model.get("enabled"), options.success);
+                    JSTACK.Keystone.edittenant(model.get("id"), model.get("name"), model.get("description"), model.get("enabled"), options.success, options.error);
                     break;
                //case "filter":
-               //    JSTACK.Keystone.filtertenant(model.get("id"), options.success);
+               //    JSTACK.Keystone.filtertenant(model.get("id"), options.success, options.error);
                //    break;
            }
    }

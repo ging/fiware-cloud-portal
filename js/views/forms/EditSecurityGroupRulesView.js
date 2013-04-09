@@ -86,7 +86,7 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
             securityGroupsModel.deleteSecurityGroupRule(secGroupRuleId, {callback: function (resp) {
                 securityGroupsModel.fetch({success: function (resp) {
                     self.autoRender();
-                    var subview2 = new MessagesView({el: '#edit_security_group_rules', state: "Success", title: "Security Group Rule deleted."});
+                    var subview2 = new MessagesView({state: "Success", title: "Security Group Rule deleted."});
                     subview2.render();
                 }});
             }});
@@ -104,7 +104,7 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
                 securityGroupsModel.deleteSecurityGroupRule(secGroupRuleId, {callback: function (resp) {
                     securityGroupsModel.fetch({success: function (resp) {
                         self.autoRender();
-                        var subview2 = new MessagesView({el: '#edit_security_group_rules', state: "Success", title: "Security Group Rules deleted."});
+                        var subview2 = new MessagesView({state: "Success", title: "Security Group Rules deleted."});
                         subview2.render();
                     }});
                 }});
@@ -149,36 +149,36 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
             if ((ipProtocol == thisIpProtocol)&&(fromPort == thisFromPort)&&(toPort == thisToPort)) {
                 console.log("first three equal");
                 if ((sourceGroup == thisSourceGroup)||(cidr == thisCidr)) {
-                    subview = new MessagesView({el: '#edit_security_group_rules', state: "Error", title: "Security Group Rule already exists. Please try again."});
+                    subview = new MessagesView({state: "Error", title: "Security Group Rule already exists. Please try again."});
                     subview.render();
                     return false;
                 }
-            }          
-                
-        }                    
+            }
+
+        }
 
         if (cidrOK && fromPortOK && toPortOK) {
             if ($('.secGroupSelect :selected').val()!=='CIDR') {
                 securityGroupsModel.createSecurityGroupRule(ipProtocol, fromPort, toPort, "", sourceGroup, parentGroupId, {callback: function (resp) {
                    securityGroupsModel.fetch({success: function (resp) {
-                        self.autoRender();  
-                        subview = new MessagesView({el: '#edit_security_group_rules', state: "Success", title: "Security group rule created."});
-                        subview.render();              
+                        self.autoRender();
+                        subview = new MessagesView({state: "Success", title: "Security group rule created."});
+                        subview.render();
                     }});
                 }});
             } else {
                 securityGroupsModel.createSecurityGroupRule(ipProtocol, fromPort, toPort, cidr, undefined , parentGroupId, {callback: function (resp) {
                     securityGroupsModel.fetch({success: function (resp) {
-                        self.autoRender();    
-                        subview = new MessagesView({el: '#edit_security_group_rules', state: "Success", title: "Security group rule created."});
-                        subview.render();           
+                        self.autoRender();
+                        subview = new MessagesView({state: "Success", title: "Security group rule created."});
+                        subview.render();
                     }});
                 }});
             }
-            
+
 
         } else {
-            subview = new MessagesView({el: '#edit_security_group_rules', state: "Error", title: "Wrong input values for Security Group Rule. Please try again."});
+            subview = new MessagesView({state: "Error", title: "Wrong input values for Security Group Rule. Please try again."});
             subview.render();
         }
     },
