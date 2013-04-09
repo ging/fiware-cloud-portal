@@ -24,10 +24,12 @@ app.use(function (req, res, next) {
     "use strict";
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, DELETE');
-    res.header('Access-Control-Allow-Headers', 'origin, content-type');
+    res.header('Access-Control-Allow-Headers', 'origin, content-type, X-Auth-Token');
     if (req.method == 'OPTIONS') {
         res.statusCode = 200;
+        res.header('Content-Length', '0');
         res.send();
+        res.end();
     }
     else {
         next();
