@@ -66,6 +66,8 @@ UTILS.Auth = (function(U, undefined) {
             var host = "localhost:8080";
             host = document.URL.match(/http.?:\/\/([^\/]*)\/.*/)[1];
 
+            console.log("Changing endpoint URLS to ", host);
+
             var compute = JSTACK.Keystone.getservice("compute");
             compute.endpoints[0].adminURL = compute.endpoints[0].adminURL.replace(/130\.206\.80\.11:8774/, host + "/nova");
             compute.endpoints[0].publicURL = compute.endpoints[0].publicURL.replace(/130\.206\.80\.11:8774/, host + "/nova");
