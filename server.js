@@ -26,7 +26,8 @@ app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, DELETE');
     res.header('Access-Control-Allow-Headers', 'origin, content-type');
     if (req.method == 'OPTIONS') {
-        res.send(200);
+        res.statusCode = 200;
+        res.send();
     }
     else {
         next();
