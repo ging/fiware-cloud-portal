@@ -1,7 +1,6 @@
 var express = require('express'),
     http = require('http'),
-    https = require('https'),
-    httpProxy = require('http-proxy');
+    https = require('https');
 
 process.on('uncaughtException', function (err) {
   console.log('Caught exception: ' + err);
@@ -15,7 +14,7 @@ app.configure(function () {
     "use strict";
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
     app.use(express.logger());
-    app.use(express.static(__dirname + '/'));
+    app.use(express.static(__dirname + '/dist/'));
     //app.set('views', __dirname + '/../views/');
     //disable layout
     //app.set("view options", {layout: false});
@@ -137,4 +136,15 @@ app.all('/sm/*', function(req, resp) {
     sendData(http, options, req.body, resp);
 });
 
-app.listen(8080);
+app.all('/sdc/rest/*', function(req, resp) {
+    var options = {
+        host: '130.206.80.112',
+        port: 8080,
+        path: req.url,
+        method: req.method,
+        headers: req.headers
+    };
+    sendData(http, options, req.body, resp);
+});
+
+app.listen(80);
