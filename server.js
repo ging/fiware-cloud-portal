@@ -20,7 +20,7 @@ app.configure(function () {
     //app.set("view options", {layout: false});
 });
 
-/*app.use(function (req, res, next) {
+app.use(function (req, res, next) {
     "use strict";
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, DELETE');
@@ -31,7 +31,7 @@ app.configure(function () {
     else {
         next();
     }
-});*/
+});
 
 function sendData(port, options, data, res) {
     var callback = function(response) {

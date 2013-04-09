@@ -142,7 +142,8 @@
                                 require(["routes.js"], function() {
                                     $('.bar').css({width: "100%"});
                                     $('#initbar').hide();
-                                    UTILS.Auth.initialize("http://130.206.80.93/keystone/v2.0/", "http://130.206.80.93/keystone-admin/v2.0/");
+                                    host = document.URL.match(/(http.?:\/\/[^\/]*)\/.*/)[1];
+                                    UTILS.Auth.initialize(host + "/keystone/v2.0/", host + "/keystone-admin/v2.0/");
                                     //UTILS.Auth.initialize("http://mcu5.dit.upm.es:5000/v2.0/");
                                     var fiRouter = new OSRouter();
                                     Backbone.history.start();
