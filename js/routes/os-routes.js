@@ -49,6 +49,19 @@ var OSRouter = Backbone.Router.extend({
         this.securityGroupsModel = new SecurityGroups();
         this.floatingIPsModel = new FloatingIPs();
 
+        Backbone.wrapError = function(onError, originalModel, options) {
+            return function(model, resp) {
+              resp = model === originalModel ? resp : model;
+              if (onError) {
+                onError(originalModel, resp, options);
+              } else {
+                originalModel.trigger('error', originalModel, resp, options);
+                var subview = new MessagesView({state: "Error", title: error.toString()});
+                subview.render();
+              }
+            };
+          };
+
         this.instancesModel.bind("error", function(model, error) {
             console.log("Error in instances:", error);
         });

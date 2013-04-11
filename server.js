@@ -40,20 +40,18 @@ app.use(function (req, res, next) {
 function sendData(port, options, data, res) {
     var xhr, body, result, callbackError, callBackOK;
 
-    callbackError = callbackError || function(resp, headers) {
-        console.log("Error: ", resp);
-        res.statusCode = 500;
-        res.send();
+    callbackError = callbackError || function(status, resp) {
+        console.log("Error: ", status, resp);
+        res.statusCode = status;
+        res.send(resp);
     };
     callBackOK = callBackOK || function(status, resp, headers) {
         res.statusCode = status;
-        console.log(headers);
         for (var idx in headers) {
             var header = headers[idx];
-            console.log(idx, header);
             res.setHeader(idx, headers[idx]);
         }
-        console.log("Response: ", status, resp);
+        console.log("Response: ", status);
         res.send(resp);
     };
 
@@ -73,6 +71,7 @@ function sendData(port, options, data, res) {
             case "accept-encoding":
             case "accept-charset":
             case "cookie":
+            case "content-length":
             case "origin":
                 break;
             default:
