@@ -9,7 +9,20 @@ process.on('uncaughtException', function (err) {
 
 var app = express();
 
-app.use(express.bodyParser());
+//app.use(express.bodyParser());
+
+app.use (function(req, res, next) {
+    var data='';
+    req.setEncoding('utf8');
+    req.on('data', function(chunk) { 
+       data += chunk;
+    });
+
+    req.on('end', function() {
+        req.body = data;
+        next();
+    });
+});
 
 app.configure(function () {
     "use strict";
@@ -61,7 +74,6 @@ function sendData(port, options, data, res) {
     if (options.headers["content-type"]) {
         xhr.setRequestHeader("Content-Type", options.headers["content-type"]);
     }
-    //xhr.setRequestHeader("Accept", "application/json");
     for (var headerIdx in options.headers) {
         switch (headerIdx) {
             // Unsafe headers
@@ -81,7 +93,6 @@ function sendData(port, options, data, res) {
     }
 
     xhr.onerror = function(error) {
-        //callbackError({message:"Error", body:error});
     }
     xhr.onreadystatechange = function () {
 
@@ -117,13 +128,8 @@ function sendData(port, options, data, res) {
     var flag = false;
     console.log("Sending ", options.method, " to: " + url);
     if (data !== undefined) {
-        if (options.headers["content-type"] === "application/json") {
-            body = JSON.stringify(data);
-        } else {
-            body = data;
-        }
         try {
-            xhr.send(body);
+            xhr.send(data);
         } catch (e) {
             //callbackError(e.message);
             return;
