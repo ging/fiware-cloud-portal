@@ -27,9 +27,7 @@ var MessagesView = Backbone.View.extend({
         var self = this;
         evt.preventDefault();
         evt.stopPropagation();
-        var subview = new ConfirmView({el: 'body', title: this.options.title, message: this.safe_tags_replace(this.options.info), btn_message: "Ok", onAccept: function() {
-            self.close();
-        }});
+        var subview = new ConfirmView({el: 'body', title: this.options.title, message: this.safe_tags_replace(this.options.info), btn_message: "Ok"});
         subview.render();
     },
 
