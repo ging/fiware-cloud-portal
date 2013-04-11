@@ -37,7 +37,6 @@ var loadViews = function() {
                 "js/views/RootView.js",
                 "js/views/TableView.js",
                 "js/views/syspanel/OverviewView.js",
-                "js/views/syspanel/ImageView.js",
                 "js/views/syspanel/FlavorView.js",
                 "js/views/syspanel/ProjectView.js",
                 "js/views/syspanel/ServiceView.js",
@@ -50,12 +49,14 @@ var loadViews = function() {
                 "js/views/nova/InstancesAndVolumesView.js",
                 "js/views/nova/VolumeDetailView.js",
                 "js/views/nova/VolumesView.js",
+                "js/views/nova/ImagesView.js",
                 "js/views/nova/InstancesView.js",
                 "js/views/nova/InstanceDetailView.js",
                 "js/views/nova/instanceDetail/LogView.js",
                 "js/views/nova/instanceDetail/OverviewView.js",
                 "js/views/nova/instanceDetail/VNCView.js",
                 "js/views/nova/instanceDetail/SDCView.js",
+                "js/views/nova/ImageDetailView.js",
                 "js/views/nova/SnapshotsView.js",
                 "js/views/nova/InstanceSnapshotsView.js",
                 "js/views/nova/VolumeSnapshotsView.js",
@@ -69,7 +70,6 @@ var loadViews = function() {
                 "js/views/forms/CreateFlavorView.js",
                 "js/views/forms/UpdateImageView.js",
                 "js/views/forms/LaunchImageView.js",
-                "js/views/forms/ConsultImageDetailView.js",
                 "js/views/forms/ChangePasswordView.js",
                 "js/views/forms/CreateSnapshotView.js",
                 "js/views/forms/CreateVolumeSnapshotView.js",
@@ -88,7 +88,6 @@ var loadViews = function() {
                 "js/views/forms/DownloadKeypairView.js",
                 "js/views/forms/AllocateIPView.js",
                 "js/views/forms/InstallSoftwareView.js",
-                "js/views/SettingsView.js",
                 "js/views/forms/MessagesView.js",
                 "js/views/forms/CreateProjectView.js",
                 "js/views/forms/EditProjectView.js",
@@ -97,7 +96,8 @@ var loadViews = function() {
                 "js/views/forms/ModifyUsersView.js",
 //              "js/views/forms/ModifyQuotasView.js",
                 "js/views/syspanel/NewUsersView.js",
-                "js/views/syspanel/UsersForProjectView.js"
+                "js/views/syspanel/UsersForProjectView.js",
+                "js/views/SettingsView.js"
             ], function(someModule) {
                 loadRoutes();
         });

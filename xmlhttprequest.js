@@ -237,6 +237,15 @@ exports.XMLHttpRequest = function() {
   };
 
   /**
+   * Gets all the response headers.
+   *
+   * @return string A string with all response headers separated by CR+LF
+   */
+  this.getAllResponseHeadersList = function() {
+    return response.headers;
+  };
+
+  /**
    * Gets a request header
    *
    * @param string name Name of header to get

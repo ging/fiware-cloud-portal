@@ -26,7 +26,6 @@ app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'HEAD, POST, GET, OPTIONS, DELETE');
     res.header('Access-Control-Allow-Headers', 'origin, content-type, X-Auth-Token');
-    res.header('Access-Control-Expose-Headers', 'x-image-meta-uri, x-image-meta-name, x-image-meta-disk_format');
     if (req.method == 'OPTIONS') {
         res.statusCode = 200;
         res.header('Content-Length', '0');
@@ -48,9 +47,13 @@ function sendData(port, options, data, res) {
     };
     callBackOK = callBackOK || function(status, resp, headers) {
         res.statusCode = status;
-        res.setHeader('Content-Type', headers['content-type']);
-        res.setHeader('Content-Length', headers['content-length']);
-        console.log("Response: ", status);
+        console.log(headers);
+        for (var idx in headers) {
+            var header = headers[idx];
+            console.log(idx, header);
+            res.setHeader(idx, headers[idx]);
+        }
+        console.log("Response: ", status, resp);
         res.send(resp);
     };
 
@@ -102,8 +105,7 @@ function sendData(port, options, data, res) {
             case 205:
             case 206:
             case 207:
-                result = xhr.responseText
-                callBackOK(xhr.status, result, xhr.getAllResponseHeaders());
+                callBackOK(xhr.status, xhr.responseText, xhr.getAllResponseHeadersList());
                 break;
 
             // In case of error it sends an error message to `callbackError`.

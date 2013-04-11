@@ -4,69 +4,85 @@
     Description: Consult Image Detail
     src: templates/root/nova/imageDetail.html
     -->
-    <div class="row-fluid entity_consult">
-        <div class="span12">
-            <!--<h2>Image Detail</h2>-->
-            <ul id="image_details" class="nav nav-tabs ajax-tabs">
-                <li class="active">
-                    <a href="?tab=image_details__overview" data-toggle="tab" data-target="#image_details__overview" data-loaded="true">Overview</a>
-                </li>
-            </ul>
-            <div class="tab-content entity_detail">
-                <div id="image_details__overview" class="tab-pane active">
-                    <div class="status row-fluid">
-                        <h4>Info</h4>
-                        <hr class="header_rule">
-                        <ul>
-                            <li>
-                                <strong>Name:</strong>&nbsp;<%= model.get('name')%>
-                            </li>
-                            <li>
-                                <strong>ID:</strong>&nbsp;<%= model.get('id')%>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="status row-fluid">
-                        <h4>Status</h4>
-                        <hr class="header_rule">
-                        <ul>
-                            <li>
-                                <strong>Status:</strong>&nbsp;<%=model.get('status')%>
-                            </li>
-                            <li>
-                                <strong>Public:</strong>&nbsp;True
-                            </li>
-                            <li>
-                                <strong>Checksum:</strong>&nbsp;2cec138d7dae2aa59038ef8c9aec2390
-                            </li>
-                            <li>
-                                <strong>Created:</strong>&nbsp;<%=model.get('created')%>
-                            </li>
-                            <li>
-                                <strong>Updated:</strong>&nbsp;Never updated
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="specs row-fluid">
-                        <h4>Specs</h4>
-                        <hr class="header_rule">
-                        <ul>
-                            <li>
-                                <strong>Size:</strong>&nbsp;2.1 MB
-                            </li>
-                            <li>
-                                <strong>Container Format:</strong>&nbsp;ARI
-                            </li>
-                            <li>
-                                <strong>Disk Format:</strong>&nbsp;ARI
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="properties row-fluid">
-                        <h4>Custom Properties</h4>
-                        <hr class="header_rule">
-                        <ul></ul>
-                    </div>
+
+    <%
+    var bytes = model.get("size");
+    var kbytes, mbytes, gbytes, size;
+    if (bytes >= 1024) {
+        kbytes = Math.round(bytes / 1024 * 10) / 10;
+        size = kbytes + " KB";
+        if (kbytes >= 1024) {
+            mbytes = Math.round(kbytes / 1024 * 10) / 10;
+            size = mbytes + " MB";
+            if (mbytes >= 1024) {
+                gbytes = Math.round(mbytes / 1024 * 10) / 10;
+                size = gbytes + " GB";
+            } else {
+                size = Math.round(mbytes * 10) / 10 + " MB";
+            }
+        } else {
+            size = Math.round(kbytes * 10) / 10 + " KB";
+        }
+    } else {
+        size = Math.round(bytes * 10) / 10 + " bytes";
+    }
+
+    %>
+    <div class="entity_consult">
+        <div class="entity_detail">
+            <div id="image_details__overview" class="active row-fluid">
+                <div class="status span4">
+                    <h4>Info</h4>
+                    <hr class="header_rule">
+                    <ul>
+                        <li>
+                            <strong>Name:</strong>&nbsp;<%= model.get('name')%>
+                        </li>
+                        <li>
+                            <strong>ID:</strong>&nbsp;<%= model.get('id')%>
+                        </li>
+                    </ul>
+                </div>
+                <div class="status span4">
+                    <h4>Status</h4>
+                    <hr class="header_rule">
+                    <ul>
+                        <li>
+                            <strong>Status:</strong>&nbsp;<%=model.get('status')%>
+                        </li>
+                        <li>
+                            <strong>Public:</strong>&nbsp;<%= model.get('is_public')%>
+                        </li>
+                        <li>
+                            <strong>Checksum:</strong>&nbsp;<%= model.get('checksum')%>
+                        </li>
+                        <li>
+                            <strong>Created:</strong>&nbsp;<%=model.get('created_at')%>
+                        </li>
+                        <li>
+                            <strong>Updated:</strong>&nbsp;<%= model.get('updated_at')%>
+                        </li>
+                    </ul>
+                </div>
+                <div class="specs span4">
+                    <h4>Specs</h4>
+                    <hr class="header_rule">
+                    <ul>
+                        <li>
+                            <strong>Size:</strong>&nbsp;<%= size%>
+                        </li>
+                        <li>
+                            <strong>Container Format:</strong>&nbsp;<%= model.get('container_format')%>
+                        </li>
+                        <li>
+                            <strong>Disk Format:</strong>&nbsp;<%= model.get('disk_format')%>
+                        </li>
+                    </ul>
+                </div>
+                <div class="properties span11">
+                    <h4>Custom Properties</h4>
+                    <hr class="header_rule">
+                    <ul></ul>
                 </div>
             </div>
         </div>
