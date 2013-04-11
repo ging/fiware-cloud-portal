@@ -38,7 +38,7 @@ html, body {
   margin-right: 10px;
   top: 51px;
   bottom: 0px;
-  overflow: scroll;
+  overflow: auto;
 }
 
 .entity_detail h4 {
