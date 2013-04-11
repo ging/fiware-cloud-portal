@@ -68,6 +68,8 @@ function sendData(port, options, data, res) {
             case "referer":
             case "accept-encoding":
             case "accept-charset":
+            case "cookie":
+            case "origin":
                 break;
             default:
                 xhr.setRequestHeader(headerIdx, options.headers[headerIdx]);
