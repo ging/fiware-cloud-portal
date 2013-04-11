@@ -2,7 +2,7 @@ var MessagesView = Backbone.View.extend({
 
     _template: _.template($('#messagesTemplate').html()),
 
-    el: "#logs",
+    el: "#log-messages",
 
     cid: undefined,
 

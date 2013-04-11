@@ -24,6 +24,20 @@ html, body {
   height: 100%;
 }
 
+#message-resize-icon {
+  cursor: pointer;
+  position: absolute;
+  top: 6px;
+  right: 6px;
+}
+
+#edit_security_group_rules {
+  position: relative;
+  width: 100%;
+  height: 266px;
+  margin-top: -31px;
+}
+
 .open {
   z-index: 10;
 }
@@ -93,12 +107,17 @@ html, body {
   padding-top: 10px;
 }
 
+.modal .table-foot {
+  margin-bottom: 0px;
+}
+
 #content {
   position: absolute;
   margin-top: 10px;
   top: 0px;
   bottom: 56px;
-  width: 100%;
+  right: 3px;
+  left: 0px;
   box-shadow: rgb(211, 211, 211) 0px 0px 10px;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
@@ -111,15 +130,20 @@ html, body {
   overflow: hidden;
   bottom: 0px;
   height: 48px;
-  width: 100%;
+  right: 3px;
+  left: 0px;
   box-shadow: rgb(211, 211, 211) 0px 0px 10px;
   border-radius: 6px;
+  background-color: white;
 }
 
 .messages .alert{
   z-index: 10;
   margin-bottom: 0px;
   margin-top: 0px;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
 }
 
 #table_head {
