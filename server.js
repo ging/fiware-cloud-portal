@@ -1,6 +1,7 @@
 var express = require('express'),
     http = require('http'),
-    https = require('https');
+    https = require('https'),
+    XMLHttpRequest = require("./xmlhttprequest").XMLHttpRequest;
 
 process.on('uncaughtException', function (err) {
   console.log('Caught exception: ' + err);
@@ -37,40 +38,96 @@ app.use(function (req, res, next) {
 });
 
 function sendData(port, options, data, res) {
-    var callback = function(response) {
-        var str = '';
-        res.statusCode = response.statusCode;
-        res.headers = response.headers;
-        try {
-            res.setHeader('Content-Type', response.headers['content-type']);
-            res.setHeader('Content-Length', response.headers['content-length']);
-        } catch(err) {
-            console.log("Error");
+    var xhr, body, result, callbackError, callBackOK;
+
+    callbackError = callbackError || function(resp, headers) {
+        console.log("Error: ", resp);
+        res.statusCode = 500;
+        res.send();
+    };
+    callBackOK = callBackOK || function(status, resp, headers) {
+        res.statusCode = status;
+        res.setHeader('Content-Type', headers['content-type']);
+        res.setHeader('Content-Length', headers['content-length']);
+        console.log("Response: ", status);
+        res.send(resp);
+    };
+
+    var url = "http://" + options.host + ":" + options.port + options.path;
+    xhr = new XMLHttpRequest();
+    xhr.open(options.method, url, true);
+    if (options.method !== 'get') {
+        xhr.setRequestHeader("Content-Type", "application/json");
+    }
+    xhr.setRequestHeader("Accept", "application/json");
+    for (var headerIdx in options.headers) {
+        switch (headerIdx) {
+            // Unsafe headers
+            case "host":
+            case "connection":
+            case "referer":
+            case "accept-encoding":
+            case "accept-charset":
+                break;
+            default:
+                xhr.setRequestHeader(headerIdx, options.headers[headerIdx]);
+                break;
+        }
+    }
+
+    xhr.onerror = function(error) {
+        //callbackError({message:"Error", body:error});
+    }
+    xhr.onreadystatechange = function () {
+
+        // This resolves an error with Zombie.js
+        if (flag) {
             return;
         }
 
-        //another chunk of data has been recieved, so append it to `str`
-        response.on('data', function(chunk) {
-            str += chunk;
-        });
+        if (xhr.readyState === 4) {
+            flag = true;
+            switch (xhr.status) {
 
-        //the whole response has been recieved, so we just print it out here
-        response.on('end', function() {
-            res.send(str);
-        });
+            // In case of successful response it calls the `callbackOK` function.
+            case 100:
+            case 200:
+            case 201:
+            case 202:
+            case 203:
+            case 204:
+            case 205:
+            case 206:
+            case 207:
+                result = xhr.responseText
+                callBackOK(xhr.status, result, xhr.getAllResponseHeaders());
+                break;
+
+            // In case of error it sends an error message to `callbackError`.
+            default:
+                callbackError(xhr.status, xhr.responseText);
+            }
+        }
+    };
+
+    var flag = false;
+    console.log("Sending ", options.method, " to: " + url);
+    if (data !== undefined) {
+        body = JSON.stringify(data);
+        try {
+            xhr.send(body);
+        } catch (e) {
+            //callbackError(e.message);
+            return;
+        }
+    } else {
+        try {
+            xhr.send();
+        } catch (e) {
+            //callbackError(e.message);
+            return;
+        }
     }
-    console.log("Sending ", options.method, " to: " + options.host + ":" + options.port + options.path);
-    var request = port.request(options, callback);
-    request.setTimeout(10000, function() {
-        //request.abort();
-        res.statusCode = 500;
-        res.send();
-    });
-    if (data) {
-        console.log("Sending data");
-        request.write(JSON.stringify(data));
-    }
-    request.end();
 }
 
 app.all('/keystone/*', function(req, resp) {
