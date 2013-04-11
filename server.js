@@ -58,10 +58,10 @@ function sendData(port, options, data, res) {
     var url = "http://" + options.host + ":" + options.port + options.path;
     xhr = new XMLHttpRequest();
     xhr.open(options.method, url, true);
-    if (options.method !== 'get') {
-        xhr.setRequestHeader("Content-Type", "application/json");
+    if (options.headers["content-type"]) {
+        xhr.setRequestHeader("Content-Type", options.headers["content-type"]);
     }
-    xhr.setRequestHeader("Accept", "application/json");
+    //xhr.setRequestHeader("Accept", "application/json");
     for (var headerIdx in options.headers) {
         switch (headerIdx) {
             // Unsafe headers
@@ -117,7 +117,11 @@ function sendData(port, options, data, res) {
     var flag = false;
     console.log("Sending ", options.method, " to: " + url);
     if (data !== undefined) {
-        body = JSON.stringify(data);
+        if (options.headers["content-type"] === "application/json") {
+            body = JSON.stringify(data);
+        } else {
+            body = data;
+        }
         try {
             xhr.send(body);
         } catch (e) {

@@ -4,12 +4,14 @@ var MessagesView = Backbone.View.extend({
 
     el: "#logs",
 
-    events: {
-        'click #info': "showInfo"
-    },
+    cid: undefined,
 
     initialize: function() {
+        this.cid = Math.round(Math.random() * 1000000);
         this.options.state = this.options.state || "Success";
+        var events = {};
+        events['click #info_' + this.cid] = 'showInfo';
+        this.delegateEvents(events);
     },
 
     safe_tags_replace: function (str) {
@@ -33,11 +35,12 @@ var MessagesView = Backbone.View.extend({
 
     close: function() {
         $('.messages').remove();
+        this.undelegateEvents();
     },
 
     render: function () {
         var self = this;
-        $(this.el).append(this._template({title:this.options.title, state:this.options.state}));
+        $(this.el).append(this._template({title:this.options.title, state:this.options.state, info:this.options.info, cid: this.cid}));
         $(this.el).animate({scrollTop: ($('.messages').length-1)*(48)+'px'}, 500);
         /*$('.messages').fadeOut(4000, function() {
             self.close();
