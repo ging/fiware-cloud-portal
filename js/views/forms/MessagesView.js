@@ -12,11 +12,13 @@ var MessagesView = Backbone.View.extend({
         this.options.state = this.options.state || "Success";
     },
 
-    showInfo: function() {
+    showInfo: function(evt) {
         var subview = new ConfirmView({el: 'body', title: this.options.title, message: escape(this.options.info), btn_message: "Ok", onAccept: function() {
             this.close();
         }});
         subview.render();
+        evt.preventDefault();
+        evt.stopPropagation();
     },
 
     close: function() {
