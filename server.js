@@ -26,6 +26,7 @@ app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, DELETE');
     res.header('Access-Control-Allow-Headers', 'origin, content-type, X-Auth-Token');
+    res.header('Access-Control-Expose-Headers', 'x-image-meta-uri, x-image-meta-name, x-image-meta-disk_format');
     if (req.method == 'OPTIONS') {
         res.statusCode = 200;
         res.header('Content-Length', '0');
