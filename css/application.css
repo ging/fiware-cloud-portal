@@ -337,6 +337,14 @@ bottom: 42px;
   margin-top: 44px;
 }
 
+@media (max-width: 979px) {
+
+.sidebar-menu {
+  margin-top: 0px;
+}
+
+}
+
 .logo{
   margin-left: -4px !important;
   float: left;
