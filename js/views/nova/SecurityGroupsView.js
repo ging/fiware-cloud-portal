@@ -106,13 +106,7 @@ var NovaSecurityGroupsView = Backbone.View.extend({
                     onAccept: function() {
                         secGroupIds.forEach(function(securityGroup) {
                             sg = self.model.get(securityGroup);
-                            sg.destroy();
-                            subview = new MessagesView({
-                                el: '#content',
-                                state: "Success",
-                                title: "Security Group " + sg.get("name") + " deleted."
-                            });
-                            subview.render();
+                            sg.destroy(UTILS.Messages.getCallbacks("Security group "+ sg.get("name") + " deleted.", "Error deleting security group "+sg.get("name")));
                         });
                     }
                 });

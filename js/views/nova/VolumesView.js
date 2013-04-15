@@ -193,7 +193,7 @@ var NovaVolumesView = Backbone.View.extend({
         var vol = this.model.get(volume);
         var subview = new ConfirmView({el: 'body', title: "Delete Volume", btn_message: "Delete Volume", onAccept: function() {
             vol.destroy();
-            var subview = new MessagesView({el: '#content', state: "Success", title: "Volume "+vol.get("display_name")+" deleted."});
+            var subview = new MessagesView({state: "Success", title: "Volume "+vol.get("display_name")+" deleted."});
             subview.render();
         }});
 
@@ -207,7 +207,7 @@ var NovaVolumesView = Backbone.View.extend({
                     var volume = $(this).val();
                     var vol = self.model.get(volume);
                     vol.destroy();
-                    var subview = new MessagesView({el: '#content', state: "Success", title: "Volume "+vol.get("display_name")+" deleted."});
+                    var subview = new MessagesView({state: "Success", title: "Volume "+vol.get("display_name")+" deleted."});
                     subview.render();
             });
         }});

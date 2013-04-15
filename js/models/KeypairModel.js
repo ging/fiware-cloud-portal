@@ -28,7 +28,7 @@ var Keypair = Backbone.Model.extend({
     sync: function(method, model, options) {
            switch(method) {
                case "create":
-                   JSTACK.Nova.createkeypair(model.get("name"), model.get("public_key"), options.success);
+                   JSTACK.Nova.createkeypair(model.get("name"), model.get("public_key"), options.success, options.error);
                    break;
                case "createkeypair":
                   console.log(model.get("name"), model.get("public_key"));
@@ -40,7 +40,7 @@ var Keypair = Backbone.Model.extend({
                    JSTACK.Nova.createkeypair(model.get("name"), model.get("public_key"), mySuccess);
                    break;
                case "delete":
-                   JSTACK.Nova.deletekeypair(model.get("name"), options.success);
+                   JSTACK.Nova.deletekeypair(model.get("name"), options.success, options.error);
                    break;
            }
    }
@@ -52,7 +52,7 @@ var Keypairs = Backbone.Collection.extend({
 
     sync: function(method, model, options) {
         if (method === "read") {
-            JSTACK.Nova.getkeypairlist(options.success);
+            JSTACK.Nova.getkeypairlist(options.success, options.error);
         }
     },
 

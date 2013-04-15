@@ -62,14 +62,31 @@ UTILS.Auth = (function(U, undefined) {
 
             compute.endpoints = sm.endpoints;
             */
+
+            var host = "localhost:8080";
+            host = document.URL.match(/http.?:\/\/([^\/]*)\/.*/)[1];
+
+            console.log("Changing endpoint URLS to ", host);
+
+            var compute = JSTACK.Keystone.getservice("compute");
+            compute.endpoints[0].adminURL = compute.endpoints[0].adminURL.replace(/130\.206\.80\.11:8774/, host + "/nova");
+            compute.endpoints[0].publicURL = compute.endpoints[0].publicURL.replace(/130\.206\.80\.11:8774/, host + "/nova");
+            compute.endpoints[0].internalURL = compute.endpoints[0].internalURL.replace(/130\.206\.80\.11:8774/, host + "/nova");
+
+            var volume = JSTACK.Keystone.getservice("volume");
+            volume.endpoints[0].adminURL = volume.endpoints[0].adminURL.replace(/130\.206\.80\.11:8776/, host + "/nova-volume");
+            volume.endpoints[0].publicURL = volume.endpoints[0].publicURL.replace(/130\.206\.80\.11:8776/, host + "/nova-volume");
+            volume.endpoints[0].internalURL = volume.endpoints[0].internalURL.replace(/130\.206\.80\.11:8776/, host + "/nova-volume");
+
             var sm = JSTACK.Keystone.getservice("sm");
-            sm.endpoints[0].adminURL = sm.endpoints[0].adminURL.replace(/130\.206\.80\.91:8774\/v2\.0\/FIWARE\/vdc/, "130.206.80.93/sm");
-            sm.endpoints[0].publicURL = sm.endpoints[0].publicURL.replace(/130\.206\.80\.91:8774\/v2\.0\/FIWARE\/vdc/, "130.206.80.93/sm");
-            sm.endpoints[0].internalURL = sm.endpoints[0].internalURL.replace(/130\.206\.80\.91:9292\/v2\.0\/FIWARE\/vdc/, "130.206.80.93/sm");
+            sm.endpoints[0].adminURL = sm.endpoints[0].adminURL.replace(/130\.206\.80\.91:8774/, host + "/sm");
+            sm.endpoints[0].publicURL = sm.endpoints[0].publicURL.replace(/130\.206\.80\.91:8774/, host + "/sm");
+            sm.endpoints[0].internalURL = sm.endpoints[0].internalURL.replace(/130\.206\.80\.91:8774/, host + "/sm");
+
             var image = JSTACK.Keystone.getservice("image");
-            image.endpoints[0].adminURL = image.endpoints[0].adminURL.replace(/130\.206\.80\.11:9292/, "130.206.80.93/glance");
-            image.endpoints[0].publicURL = image.endpoints[0].publicURL.replace(/130\.206\.80\.11:9292/, "130.206.80.93/glance");
-            image.endpoints[0].internalURL = image.endpoints[0].internalURL.replace(/130\.206\.80\.11:9292/, "130.206.80.93/glance");
+            image.endpoints[0].adminURL = image.endpoints[0].adminURL.replace(/130\.206\.80\.11:9292/, host + "/glance");
+            image.endpoints[0].publicURL = image.endpoints[0].publicURL.replace(/130\.206\.80\.11:9292/, host + "/glance");
+            image.endpoints[0].internalURL = image.endpoints[0].internalURL.replace(/130\.206\.80\.11:9292/, host + "/glance");
 
             OVF.API.configure(JSTACK.Keystone.getservice("sm").endpoints[0].publicURL, JSTACK.Keystone.params.access.token.id);
             callback();
@@ -288,18 +305,42 @@ UTILS.i18n = (function(U, undefined) {
 
 UTILS.i18n.init();
 
+Utils.Me = (function(U, undefined) {
+    var userInfo = JSTACK.Keystone.params.access.user;
+    var user = new User({
+        name: userInfo.name,
+        id: userInfo.id
+    });
+    return user;
+});
+
 UTILS.Messages = (function(U, undefined) {
     var getCallbacks;
 
-    getCallbacks = function (successMess, errorMess) {
+    getCallbacks = function (successMess, errorMess, options) {
+
+        var check = function() {
+            if (options) {
+                if (options.context) {
+                    options.context.close();
+                }
+                if (options.href) {
+                    window.location.href = options.href;
+                }
+            }
+        };
 
         var opt = {callback: function () {
-            var subview = new MessagesView({el: '#content', state: "Success", title: successMess});
+            check();
+            var subview = new MessagesView({state: "Success", title: successMess});
             subview.render();
-        }, error: function (resp) {
-            var subview = new MessagesView({el: '#content', state: "Error", title: errorMess});
+        }, error: function (model, error) {
+            check();
+            var subview = new MessagesView({state: "Error", title: errorMess + ". Cause: " + error.message, info: error.body});
             subview.render();
         }};
+
+        opt.success = opt.callback;
 
         return opt;
     };

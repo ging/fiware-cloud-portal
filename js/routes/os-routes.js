@@ -49,6 +49,35 @@ var OSRouter = Backbone.Router.extend({
         this.securityGroupsModel = new SecurityGroups();
         this.floatingIPsModel = new FloatingIPs();
 
+        Backbone.wrapError = function(onError, originalModel, options) {
+            return function(model, resp) {
+              resp = model === originalModel ? resp : model;
+              if (onError) {
+                onError(originalModel, resp, options);
+              } else {
+                originalModel.trigger('error', originalModel, resp, options);
+                var subview = new MessagesView({state: "Error", title: "Error. Cause: " + resp.message, info: resp.body});
+                subview.render();
+              }
+            };
+          };
+
+        this.instancesModel.bind("error", function(model, error) {
+            console.log("Error in instances:", error);
+        });
+
+        this.projects.bind("error", function(model, error) {
+            console.log("Error in projects:", error);
+        });
+
+        this.flavors.bind("error", function(model, error) {
+            console.log("Error in flavors:", error);
+        });
+
+        this.images.bind("error", function(model, error) {
+            console.log("Error in images:", error);
+        });
+
         Backbone.View.prototype.close = function(){
           //this.remove();
           this.unbind();
@@ -125,7 +154,7 @@ var OSRouter = Backbone.Router.extend({
 
     initFetch: function() {
         if (this.timers.length === 0) {
-            var seconds = 100;
+            var seconds = 30;
             this.add_fetch(this.instancesModel, seconds);
             this.add_fetch(this.volumesModel, seconds);
             this.add_fetch(this.images, seconds);

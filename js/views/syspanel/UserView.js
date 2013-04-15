@@ -148,7 +148,7 @@ var UserView = Backbone.View.extend({
                             usr.set("enabled", false);
                             usr.save();
                         }
-                        subview = new MessagesView({el: '#content', state: "Success", title: "Users disabled"});
+                        subview = new MessagesView({state: "Success", title: "Users disabled"});
                         subview.render();
                     });
                 }});
@@ -162,7 +162,7 @@ var UserView = Backbone.View.extend({
                             usr.set("enabled", true);
                             usr.save();
                         }
-                        subview = new MessagesView({el: '#content', state: "Success", title: "Users enabled"});
+                        subview = new MessagesView({state: "Success", title: "Users enabled"});
                         subview.render();
                     });
                 }});
@@ -173,7 +173,7 @@ var UserView = Backbone.View.extend({
                     userIds.forEach(function(user) {
                         usr = self.model.get(user);
                         user.destroy();
-                        var subview = new MessagesView({el: '#content', state: "Success", title: "User deleted."});
+                        var subview = new MessagesView({state: "Success", title: "User deleted."});
                         subview.render();
                     });
                 }});

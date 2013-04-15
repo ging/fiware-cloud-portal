@@ -43,7 +43,7 @@ var VDCView = Backbone.View.extend({
         var service = this.model.get(evt.target.value);
         var subview = new ConfirmView({el: 'body', title: "Delete Service", btn_message: "Delete VDC", message: "Please confirm your selection. This action cannot be undone and will delete all Instances associated to this Service.", onAccept: function() {
             vdc.destroy();
-            var subview = new MessagesView({el: '#content', state: "Success", title: "Service " + service.get("name") + " deleted."});
+            var subview = new MessagesView({state: "Success", title: "Service " + service.get("name") + " deleted."});
             subview.render();
         }});
 

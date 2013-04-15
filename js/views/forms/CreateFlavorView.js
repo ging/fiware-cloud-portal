@@ -108,7 +108,7 @@ var CreateFlavorView = Backbone.View.extend({
                 console.log($('input[name=disk_gb]').val());
                 console.log($('input[name=eph_gb]').val());
 
-              subview = new MessagesView({el: '#content', state: "Error", title: "Wrong input values for flavor. Please try again."});
+              subview = new MessagesView({state: "Error", title: "Wrong input values for flavor. Please try again."});
               subview.render();
         } else {
             var newFlavor = new Flavor();
@@ -130,14 +130,14 @@ var CreateFlavorView = Backbone.View.extend({
                         flav.get('disk') === newFlavor.get('disk') &&
                         flav.get('ephemeral') === newFlavor.get('ephemeral')
                         ) {
-                        subview = new MessagesView({el: '#content', state: "Error", title: "This flavor already exists. Please try again."});
+                        subview = new MessagesView({state: "Error", title: "This flavor already exists. Please try again."});
                         subview.render();
                     }
                 }
             }
 
             newFlavor.save();
-            subview = new MessagesView({el: '#content', state: "Success", title: "Flavor "+newFlavor.get('name')+" created."});
+            subview = new MessagesView({state: "Success", title: "Flavor "+newFlavor.get('name')+" created."});
             subview.render();
             this.close();
         }

@@ -23,13 +23,12 @@ var AddUserToProjectView = Backbone.View.extend({
         if ($('#add_user').html() != null) {
             return;
         }
-        $(this.el).append(this._template({model:this.model, roles: this.options.roles}));
+        $(this.el).append(this._template({roles: this.options.roles}));
         $('.modal:last').modal();
         return this;
     },
 
     close: function(e) {
-        this.model.unbind("change", this.render, this);
         $('#add_user').remove();
         $('.modal-backdrop').remove();
         this.onClose();
@@ -44,12 +43,11 @@ var AddUserToProjectView = Backbone.View.extend({
                 }
         });
         var tenant = this.options.tenant.get('id');
-        console.log(tenant);
         if (roleReg && tenant) {
-            this.model.addRole(roleReg, tenant);
-            var subview = new MessagesView({el: '#content', state: "Success", title: "User Added."});
-            subview.render();
-            this.close();
+            for (var user in this.options.users) {
+                var usr = this.options.users[user];
+                usr.addRole(roleReg, tenant, UTILS.Messages.getCallbacks("User "+usr.get("name") + " added.", "Error adding user "+usr.get("name"), {context: this}));
+            }
         }
 
     }

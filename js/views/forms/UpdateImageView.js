@@ -30,7 +30,7 @@ var UpdateImageView = Backbone.View.extend({
         e.preventDefault();
         this.model.set({"name": this.$('input[name=name]').val()});
         this.model.save();
-        var subview = new MessagesView({el: '#content', state: "Success", title: "Image "+this.model.get('name')+" updated."});
+        var subview = new MessagesView({state: "Success", title: "Image "+this.model.get('name')+" updated."});
         subview.render();
         this.close();
         $('#update_image').remove();

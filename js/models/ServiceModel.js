@@ -2,10 +2,10 @@ var Service = Backbone.Model.extend({
     sync: function(method, model, options) {
            switch(method) {
                case "read":
-                   JSTACK.Keystone.getservice(model.get("id"), options.success);
+                   JSTACK.Keystone.getservice(model.get("id"), options.success, options.error);
                    break;
                case "filter":
-                   JSTACK.Keystone.filterservice(model.get("id"), options.success);
+                   JSTACK.Keystone.filterservice(model.get("id"), options.success, options.error);
                    break;
            }
    }

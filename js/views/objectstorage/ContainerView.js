@@ -163,7 +163,6 @@ var ObjectStorageContainerView = Backbone.View.extend({
                         objectIds.forEach(function(object) {
                             self.model.deleteObject(object, {callback:function() {
                                 var subview3 = new MessagesView({
-                                    el: '#content',
                                     state: "Success",
                                     title: "Object " + object + " deleted."
                                 });

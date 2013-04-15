@@ -36,14 +36,14 @@ var CreateContainerView = Backbone.View.extend({
         //Check if the field is empty
 
         if ((this.$('input[name=name]').val() === "")||(this.$('input[name=name]').val() === undefined)) {
-          subview = new MessagesView({el: '#content', state: "Error", title: "Wrong input values for container. Please try again."});
+          subview = new MessagesView({state: "Error", title: "Wrong input values for container. Please try again."});
           subview.render();
           this.close();
           return;
         } else {
             for (index in this.model.models) {
                 if (this.$('input[name=name]').val() === this.model.models[index].get("id")) {
-                    subview = new MessagesView({el: '#content', state: "Error", title: "Container with the same name already exists."});
+                    subview = new MessagesView({state: "Error", title: "Container with the same name already exists."});
                     subview.render();
                     this.close();
                     return;
@@ -52,7 +52,7 @@ var CreateContainerView = Backbone.View.extend({
             var newContainer = new Container();
             newContainer.set({'name': this.$('input[name=name]').val()});
             newContainer.save();
-            subview = new MessagesView({el: '#content', state: "Success", title: "Container " + newContainer.get('name') + " created."});
+            subview = new MessagesView({state: "Success", title: "Container " + newContainer.get('name') + " created."});
             subview.render();
             this.close();
         }

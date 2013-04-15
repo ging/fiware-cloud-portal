@@ -13,10 +13,10 @@ function custom_require(urls, callback) {
 
 var loadOS = function() {
     $(document).ready(function(){
-        console.log("Initializing");
-        UTILS.Auth.initialize("http://130.206.80.93/keystone/v2.0/", "http://130.206.80.93/keystone-admin/v2.0/");
+        var host = "http://localhost:8080";
+        host = document.URL.match(/(http.?:\/\/[^\/]*)\/.*/)[1];
+        UTILS.Auth.initialize(host + "/keystone/v2.0/", host + "/keystone-admin/v2.0/");
         //UTILS.Auth.initialize("http://mcu5.dit.upm.es:5000/v2.0/");
-        console.log("Initialized");
         var fiRouter = new OSRouter();
         Backbone.history.start();
     });
@@ -37,7 +37,6 @@ var loadViews = function() {
                 "js/views/RootView.js",
                 "js/views/TableView.js",
                 "js/views/syspanel/OverviewView.js",
-                "js/views/syspanel/ImageView.js",
                 "js/views/syspanel/FlavorView.js",
                 "js/views/syspanel/ProjectView.js",
                 "js/views/syspanel/ServiceView.js",
@@ -50,6 +49,7 @@ var loadViews = function() {
                 "js/views/nova/InstancesAndVolumesView.js",
                 "js/views/nova/VolumeDetailView.js",
                 "js/views/nova/VolumesView.js",
+                "js/views/nova/ImagesView.js",
                 "js/views/nova/InstancesView.js",
                 "js/views/nova/InstanceDetailView.js",
                 "js/views/nova/instanceDetail/LogView.js",
@@ -57,6 +57,7 @@ var loadViews = function() {
                 "js/views/nova/instanceDetail/VNCView.js",
                 "js/views/nova/instanceDetail/SDCView.js",
                 "js/views/nova/instanceDetail/ViewProductAttributes.js",
+                "js/views/nova/ImageDetailView.js",
                 "js/views/nova/SnapshotsView.js",
                 "js/views/nova/InstanceSnapshotsView.js",
                 "js/views/nova/VolumeSnapshotsView.js",
@@ -70,7 +71,6 @@ var loadViews = function() {
                 "js/views/forms/CreateFlavorView.js",
                 "js/views/forms/UpdateImageView.js",
                 "js/views/forms/LaunchImageView.js",
-                "js/views/forms/ConsultImageDetailView.js",
                 "js/views/forms/ChangePasswordView.js",
                 "js/views/forms/CreateSnapshotView.js",
                 "js/views/forms/CreateVolumeSnapshotView.js",
@@ -89,7 +89,6 @@ var loadViews = function() {
                 "js/views/forms/DownloadKeypairView.js",
                 "js/views/forms/AllocateIPView.js",
                 "js/views/forms/InstallSoftwareView.js",
-                "js/views/SettingsView.js",
                 "js/views/forms/MessagesView.js",
                 "js/views/forms/CreateProjectView.js",
                 "js/views/forms/EditProjectView.js",
@@ -98,7 +97,8 @@ var loadViews = function() {
                 "js/views/forms/ModifyUsersView.js",
 //              "js/views/forms/ModifyQuotasView.js",
                 "js/views/syspanel/NewUsersView.js",
-                "js/views/syspanel/UsersForProjectView.js"
+                "js/views/syspanel/UsersForProjectView.js",
+                "js/views/SettingsView.js"
             ], function(someModule) {
                 loadRoutes();
         });
@@ -146,6 +146,7 @@ var loadLibraries = function() {
                 "lib/bootstrap.min.js",
                 "lib/bootstrap-contextmenu.js",
                 "lib/jquery.selectbox-0.1.3.min.js",
+                "lib/jquery.knob.js",
                 "lib/jScrollPane.js",
                 "lib/xml2json.js",
                 "lib/sdc.js",
@@ -217,7 +218,6 @@ var loadTemplates = function() {
                     'templates/root/objectstorage/container.html',
                     'templates/root/sys/images.html',
                     'templates/root/sys/overview.html',
-                    'templates/root/sys/instances.html',
                     'templates/root/sys/services.html',
                     'templates/root/sys/flavors.html',
                     'templates/root/sys/projects.html',

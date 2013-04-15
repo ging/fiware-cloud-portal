@@ -9,6 +9,12 @@ var CreateProjectView = Backbone.View.extend({
         'click .modal-backdrop': 'close'
     },
 
+    initialize: function() {
+        this.options = this.options || {};
+        this.options.roles = new Roles();
+        this.options.roles.fetch();
+    },
+
     close: function(e) {
         $('#create_project').remove();
         $('.modal-backdrop').remove();
@@ -31,6 +37,7 @@ var CreateProjectView = Backbone.View.extend({
     },
 
     onCreate: function(e){
+        var self = this;
         e.preventDefault();
         var name = this.$('input[name=name]').val();
         var descr = this.$('textarea[name=description]').val();
@@ -39,10 +46,27 @@ var CreateProjectView = Backbone.View.extend({
         project.set({'name': name});
         project.set({'description': descr});
         project.set({'enabled': enabled});
-        project.save();
-        subview = new MessagesView({el: '#content', state: "Success", title: "Project "+project.get('name')+" created."});
-        subview.render();
-        this.close();
+        var callbacks = UTILS.Messages.getCallbacks("Project "+project.get("name") + " created.", "Error creating project "+project.get("name"));
+        var cbs = {};
+        cbs.success = function(resp) {
+            console.log("resp ", resp);
+            var proj = resp.get('tenant').id;
+            //TODO Add user to project
+            var myId = Utils.Me().get('id');
+            var roleReg;
+            for (var idx in self.options.roles.models) {
+                var role = self.options.roles.models[idx];
+                if (role.get('name') === "admin") {
+                    roleReg = role.get('id');
+                }
+            }
+            if (roleReg) {
+                Utils.Me().addRole(roleReg, proj, UTILS.Messages.getCallbacks("User added to project.", "Error adding user to project", {context: self}));
+            }
+        };
+        cbs.error = callbacks.error;
+        project.save(undefined, cbs);
+
     }
 
 });

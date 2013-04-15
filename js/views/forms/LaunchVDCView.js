@@ -89,7 +89,7 @@ var LaunchVDCView = Backbone.View.extend({
         vdc.set("memory", memory);
 
         vdc.save();
-        var subview = new MessagesView({el: '#content', state: "Success", title: "Virtual Data Center "+vdc.get("name")+" launched."});
+        var subview = new MessagesView({state: "Success", title: "Virtual Data Center "+vdc.get("name")+" launched."});
         subview.render();
         this.close();
     }

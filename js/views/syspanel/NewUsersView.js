@@ -3,7 +3,6 @@ var NewUsersView = Backbone.View.extend({
     _template: _.itemplate($('#newUsersTemplate').html()),
 
     initialize: function() {
-        console.log("new user view");
         this.model.unbind("reset");
         this.model.bind("reset", this.render, this);
         this.renderFirst();
@@ -39,8 +38,7 @@ var NewUsersView = Backbone.View.extend({
         var self = this;
         var subview = new ConfirmView({el: 'body', title: "Confirm Delete Project", btn_message: "Delete Project", onAccept: function() {
             cont = self.model.get(container);
-                var subview = new MessagesView({el: '#content', state: "Success", title: "Project deleted."});
-                subview.render();
+            cont.destroy(UTILS.Messages.getCallbacks("Project "+cont.get("name") + " deleted.", "Error deleting project "+cont.get("name")));
         }});
         subview.render();
     },
@@ -48,9 +46,11 @@ var NewUsersView = Backbone.View.extend({
     onDeleteGroup: function(evt) {
         var self = this;
         var cont;
+        // TODO: Delete group
+
         var subview = new ConfirmView({el: 'body', title: "Delete Projects", btn_message: "Delete Projects", onAccept: function() {
             $(".checkbox_containers:checked").each(function () {
-                    var subview = new MessagesView({el: '#content', state: "Success", title: "Project deleted."});
+                    var subview = new MessagesView({state: "Success", title: "Project deleted."});
                     subview.render();
 
             });

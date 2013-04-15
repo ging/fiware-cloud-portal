@@ -40,7 +40,7 @@ var CreateVolumeView = Backbone.View.extend({
         this.model = new Volume();
         this.model.set({name: name, description: description, size: size});
         this.model.save();
-        var subview = new MessagesView({el: '#content', state: "Success", title: "Volume "+name+" created."});
+        var subview = new MessagesView({state: "Success", title: "Volume "+name+" created."});
         subview.render();
         this.close();
     }

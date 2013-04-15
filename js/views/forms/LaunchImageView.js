@@ -74,18 +74,22 @@ var LaunchImageView = Backbone.View.extend({
         instance.set({"max_count": max_count});
         instance.set({"availability_zone": availability_zone});
 
-        instance.save(undefined, {success: function () {
+
+        instance.save(undefined, UTILS.Messages.getCallbacks("Instance "+instance.get("name") + " launched.", "Error launching instance "+instance.get("name"), 
+            {context:self, href:"#nova/instances/"}));
+        /*instance.save(undefined, {success: function () {
             self.close();
             window.location.href = "#nova/instances/";
-            var subview = new MessagesView({el: '#content', state: "Success", title: "Instance "+instance.get("name")+" launched."});
+            var subview = new MessagesView({state: "Success", title: "Instance "+instance.get("name")+" launched."});
             subview.render();
 
-        }, error: function () {
+        }, error: function (model, error) {
             self.close();
+            console.log("Error: ", error);
             window.location.href = "#nova/instances/";
-            var subview = new MessagesView({el: '#content', state: "Error", title: " Error launching instance "+instance.get("name")});
+            var subview = new MessagesView({state: "Error", title: " Error launching instance "+instance.get("name") + ". Cause: " + error.message, info: error.body});
             subview.render();
-        }});
+        }});*/
 
         //this.options.addInstance(instance);
     }

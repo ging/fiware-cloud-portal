@@ -53,7 +53,7 @@ var ModifyQuotasView = Backbone.View.extend({
         this.model.set({'floating_ips': floating_ips});
 
         this.model.save();
-        subview = new MessagesView({el: '#content', state: "Success", title: "Quota updated"});
+        subview = new MessagesView({state: "Success", title: "Quota updated"});
         subview.render();
         this.close();
     }

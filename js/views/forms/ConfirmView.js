@@ -17,6 +17,7 @@ var ConfirmView = Backbone.View.extend({
     onClose: function() {
         this.undelegateEvents();
         this.unbind();
+        $('#confirm').remove();
     },
 
     render: function () {
@@ -35,12 +36,11 @@ var ConfirmView = Backbone.View.extend({
 
     onAccept: function(e){
         console.log("Accepted");
-        this.options.onAccept();
         this.close();
+        this.options.onAccept();
     },
 
     close: function(e) {
-        $('#confirm').remove();
         this.onClose();
     }
 

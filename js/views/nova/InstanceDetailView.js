@@ -135,5 +135,5 @@ var InstanceDetailView = Backbone.View.extend({
         $("#instance_logs").unbind();
         $("#instance_software").unbind();
         return this;
-    },
+    }
 });

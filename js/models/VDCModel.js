@@ -3,15 +3,15 @@ var VDC = Backbone.Model.extend({
     sync: function(method, model, options) {
                switch(method) {
                    case "read":
-                       //JSTACK.Nova.getcontainerdetail(model.get("id"), options.success);
+                       //JSTACK.Nova.getcontainerdetail(model.get("id"), options.success, options.error);
                        options.success({vdc:{_name: "mockVDC", vcpus: 1, disk: 10, ram: 1, vcpu_hours: 1, disk_hours: 1}});
-                       //OVF.API.getVDC(model.get("id"), options.success);
+                       //OVF.API.getVDC(model.get("id"), options.success, options.error);
                        break;
                    case "delete":
-                       //JSTACK.Nova.deletecontainer(model.get("id"), options.success);
+                       //JSTACK.Nova.deletecontainer(model.get("id"), options.success, options.error);
                        break;
                    case "create":
-                       //JSTACK.Nova.createcontainer( model.get("name"), undefined, undefined, options.success);
+                       //JSTACK.Nova.createcontainer( model.get("name"), undefined, undefined, options.success, options.error);
                        /*var vdc = OVF.VDC({description: model.get("description"),
                             name: model.get("name"),
                             id: 3,
@@ -46,10 +46,10 @@ var VDCs = Backbone.Collection.extend({
 
     sync: function(method, model, options) {
         if(method === "read") {
-            //JSTACK.Nova.getcontainerlist(true, options.success);
+            //JSTACK.Nova.getcontainerlist(true, options.success, options.error);
             var vdc = new VDC({id: "mockVDC", name: "mockVDC", vcpus: 1, disk: 10, ram: 1, vcpu_hours: 1, disk_hours: 1});
             options.success([vdc]);
-            //OVF.API.getVDCs(options.success);
+            //OVF.API.getVDCs(options.success, options.error);
         }
     },
 

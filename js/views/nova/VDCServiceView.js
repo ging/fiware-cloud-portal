@@ -50,7 +50,7 @@ var VDCServiceView = Backbone.View.extend({
         var instance = evt.target.value;
         var inst = this.model.getInstance(instance);
         inst.pauseserver();
-        var subview = new MessagesView({el: '#content', state: "Success", title: "Instance "+inst.get("name")+" paused."});
+        var subview = new MessagesView({state: "Success", title: "Instance "+inst.get("name")+" paused."});
         subview.render();
     },
 
@@ -58,7 +58,7 @@ var VDCServiceView = Backbone.View.extend({
         var instance = evt.target.value;
         var inst = this.model.getInstance(instance);
         inst.unpauseserver();
-        var subview = new MessagesView({el: '#content', state: "Success", title: "Instance "+inst.get("name")+" unpaused."});
+        var subview = new MessagesView({state: "Success", title: "Instance "+inst.get("name")+" unpaused."});
         subview.render();
     },
 
@@ -66,7 +66,7 @@ var VDCServiceView = Backbone.View.extend({
         var instance = evt.target.value;
         var inst = this.model.getInstance(instance);
         inst.suspendserver();
-        var subview = new MessagesView({el: '#content', state: "Success", title: "Instance "+inst.get("name")+" suspended."});
+        var subview = new MessagesView({state: "Success", title: "Instance "+inst.get("name")+" suspended."});
         subview.render();
     },
 
@@ -74,7 +74,7 @@ var VDCServiceView = Backbone.View.extend({
         var instance = evt.target.value;
         var inst = this.model.getInstance(instance);
         inst.resumeserver();
-        var subview = new MessagesView({el: '#content', state: "Success", title: "Instance "+inst.get("name")+" resumed."});
+        var subview = new MessagesView({state: "Success", title: "Instance "+inst.get("name")+" resumed."});
         subview.render();
     },
 
@@ -89,7 +89,7 @@ var VDCServiceView = Backbone.View.extend({
         var inst = this.model.getInstance(instance);
         var subview = new ConfirmView({el: 'body', title: "Reboot Instance", btn_message: "Reboot Instance", onAccept: function() {
             inst.reboot(false);
-            var subview = new MessagesView({el: '#content', state: "Success", title: "Instance "+inst.get("name")+" rebooted."});
+            var subview = new MessagesView({state: "Success", title: "Instance "+inst.get("name")+" rebooted."});
             subview.render();
         }});
         subview.render();
@@ -100,7 +100,7 @@ var VDCServiceView = Backbone.View.extend({
         var inst = this.model.getInstance(instance);
         var subview = new ConfirmView({el: 'body', title: "Terminate Instance", btn_message: "Terminate Instance", onAccept: function() {
             inst.destroy();
-            var subview = new MessagesView({el: '#content', state: "Success", title: "Instance "+inst.get("name")+" terminated."});
+            var subview = new MessagesView({state: "Success", title: "Instance "+inst.get("name")+" terminated."});
             subview.render();
         }});
         subview.render();
@@ -113,7 +113,7 @@ var VDCServiceView = Backbone.View.extend({
                     var instance = $(this).val();
                     var inst = self.model.getInstance(instance);
                     inst.destroy();
-                    var subview = new MessagesView({el: '#content', state: "Success", title: "Instances "+inst.get("name")+" terminated."});
+                    var subview = new MessagesView({state: "Success", title: "Instances "+inst.get("name")+" terminated."});
                     subview.render();
             });
         }});

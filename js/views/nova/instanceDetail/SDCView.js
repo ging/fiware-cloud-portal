@@ -179,7 +179,7 @@ var InstanceSDCView = Backbone.View.extend({
     },
 
     onAction: function(action, ids) {
-
+        
         var ip = this.options.instanceModel.get("addresses").private[0].addr;
         var fqn = this.options.instanceModel.get("id");
 

@@ -120,9 +120,7 @@ var ProjectView = Backbone.View.extend({
                 subview = new ConfirmView({el: 'body', title: "Confirm Delete Project", btn_message: "Delete Project", onAccept: function() {
                     projectIds.forEach(function(project) {
                         proj = self.model.get(project);
-                        proj.destroy();
-                        subview = new MessagesView({el: '#content', state: "Success", title: "Project deleted."});
-                        subview.render();
+                        proj.destroy(UTILS.Messages.getCallbacks("Project "+proj.get("name") + " deleted.", "Error deleting project "+proj.get("name")));
                     });
                 }});
                 subview.render();

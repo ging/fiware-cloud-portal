@@ -60,14 +60,14 @@ var CreateVDCServiceView = Backbone.View.extend({
         //Check if the fields are not empty, and the numbers are not negative nor decimal
         this.close();
         if (this.$('input[name=name]').val()==="") {
-          subview = new MessagesView({el: '#content', state: "Error", title: "Wrong input values for service. Please try again."});
+          subview = new MessagesView({state: "Error", title: "Wrong input values for service. Please try again."});
           subview.render();
           return;
         } else {
             var newService = new VDCService();
             newService.set({'name': this.$('input[name=name]').val()});
             //newService.save();
-            subview = new MessagesView({el: '#content', state: "Success", title: "Service " + newService.get('name') + " created."});
+            subview = new MessagesView({state: "Success", title: "Service " + newService.get('name') + " created."});
             subview.render();
         }
     }
