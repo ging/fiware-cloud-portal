@@ -39,10 +39,7 @@ var CreateProjectView = Backbone.View.extend({
         project.set({'name': name});
         project.set({'description': descr});
         project.set({'enabled': enabled});
-        project.save();
-        subview = new MessagesView({state: "Success", title: "Project "+project.get('name')+" created."});
-        subview.render();
-        this.close();
+        project.save(undefined, UTILS.Messages.getCallbacks("Project "+project.get("name") + " created.", "Error creating project "+project.get("name"), {context: this}));
     }
 
 });

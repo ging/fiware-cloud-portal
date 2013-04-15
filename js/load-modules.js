@@ -216,7 +216,6 @@ var loadTemplates = function() {
                     'templates/root/objectstorage/container.html',
                     'templates/root/sys/images.html',
                     'templates/root/sys/overview.html',
-                    'templates/root/sys/instances.html',
                     'templates/root/sys/services.html',
                     'templates/root/sys/flavors.html',
                     'templates/root/sys/projects.html',

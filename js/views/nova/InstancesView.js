@@ -273,12 +273,7 @@ var NovaInstancesView = Backbone.View.extend({
                     onAccept: function() {
                         instanceIds.forEach(function(instance) {
                             inst = self.model.get(instance);
-                            inst.pauseserver();
-                            subview = new MessagesView({
-                                state: "Success",
-                                title: "Instances " + inst.get("name") + " paused."
-                            });
-                            subview.render();
+                            inst.pauseserver(UTILS.Messages.getCallbacks("Instance "+inst.get("name") + " paused.", "Error pausing instance "+inst.get("name")));
                         });
                     }
                 });
@@ -292,12 +287,7 @@ var NovaInstancesView = Backbone.View.extend({
                     onAccept: function() {
                         instanceIds.forEach(function(instance) {
                             inst = self.model.get(instance);
-                            inst.unpauseserver();
-                            subview = new MessagesView({
-                                state: "Success",
-                                title: "Instance " + inst.get("name") + " unpaused."
-                            });
-                            subview.render();
+                            inst.unpauseserver(UTILS.Messages.getCallbacks("Instance "+inst.get("name") + " unpaused.", "Error unpausing instance "+inst.get("name")));
                         });
                     }
                 });
@@ -311,12 +301,7 @@ var NovaInstancesView = Backbone.View.extend({
                     onAccept: function() {
                         instanceIds.forEach(function(instance) {
                             inst = self.model.get(instance);
-                            inst.suspendserver();
-                            subview = new MessagesView({
-                                state: "Success",
-                                title: "Instance " + inst.get("name") + " suspended."
-                            });
-                            subview.render();
+                            inst.suspendserver(UTILS.Messages.getCallbacks("Instance "+inst.get("name") + " suspended.", "Error suspending instance "+inst.get("name")));
                         });
                     }
                 });
@@ -330,12 +315,7 @@ var NovaInstancesView = Backbone.View.extend({
                     onAccept: function() {
                         instanceIds.forEach(function(instance) {
                             inst = self.model.get(instance);
-                            inst.resumeserver();
-                            subview = new MessagesView({
-                                state: "Success",
-                                title: "Instance " + inst.get("name") + " resumed."
-                            });
-                            subview.render();
+                            inst.resumeserver(UTILS.Messages.getCallbacks("Instance "+inst.get("name") + " resumed.", "Error resuming instance "+inst.get("name")));
                         });
                     }
                 });
@@ -349,12 +329,7 @@ var NovaInstancesView = Backbone.View.extend({
                     onAccept: function() {
                         instanceIds.forEach(function(instance) {
                             inst = self.model.get(instance);
-                            inst.reboot(true);
-                            subview = new MessagesView({
-                                state: "Success",
-                                title: "Instances " + inst.get("name") + " rebooted."
-                            });
-                            subview.render();
+                            inst.reboot(true, UTILS.Messages.getCallbacks("Instance "+inst.get("name") + " rebooted.", "Error rebooting instance "+inst.get("name")));
                         });
                     }
                 });
@@ -368,12 +343,7 @@ var NovaInstancesView = Backbone.View.extend({
                     onAccept: function() {
                         instanceIds.forEach(function(instance) {
                             inst = self.model.get(instance);
-                            inst.destroy();
-                            subview = new MessagesView({
-                                state: "Success",
-                                title: "Instances " + inst.get("name") + " terminated."
-                            });
-                            subview.render();
+                            inst.destroy(UTILS.Messages.getCallbacks("Instance "+inst.get("name") + " terminated.", "Error terminating instance "+inst.get("name")));
                         });
                     }
                 });

@@ -192,6 +192,10 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
                                     title: "Security Group Rule deleted."
                                 });
                                 subview2.render();
+                            }, error: function(model, resp) {
+                                var subview3 = new MessagesView({
+                                    state: "Error", title: "Error deleting security group rule. Cause: " + resp.message, info: resp.body});
+                                subview3.render();
                             }
                         });
                     }
@@ -217,11 +221,9 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
                             securityGroupsModel.fetch({
                                 success: function(resp) {
                                     self.autoRender();
-                                    var subview2 = new MessagesView({
-                                        state: "Success",
-                                        title: "Security Group Rules deleted."
-                                    });
-                                    subview2.render();
+                                    var subview3 = new MessagesView({
+                                        state: "Error", title: "Error deleting security group rule. Cause: " + resp.message, info: resp.body});
+                                    subview3.render();
                                 }
                             });
                         }
@@ -291,6 +293,11 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
                                     title: "Security group rule created."
                                 });
                                 subview.render();
+                            },
+                            error: function(model, resp) {
+                                var subview3 = new MessagesView({
+                                    state: "Error", title: "Error creating security group rule. Cause: " + resp.message, info: resp.body});
+                                subview3.render();
                             }
                         });
                     }
@@ -306,6 +313,10 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
                                     title: "Security group rule created."
                                 });
                                 subview.render();
+                            }, error: function(model, resp) {
+                                var subview3 = new MessagesView({
+                                    state: "Error", title: "Error creating security group rule. Cause: " + resp.message, info: resp.body});
+                                subview3.render();
                             }
                         });
                     }

@@ -28,6 +28,14 @@ var TableView = Backbone.View.extend({
         }
     },
 
+    getSelectedEntries: function() {
+        var entries = [];
+        var data_entries = $(".checkbox_entries_" + this.cid + ":checked").each(function(id, cb) {
+            entries.push($(cb).val());
+        });
+        return entries;
+    },
+
     getEntries: function() {
         return this.options.getEntries.call(this.options.context);
     },

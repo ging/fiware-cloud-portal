@@ -308,15 +308,30 @@ UTILS.i18n.init();
 UTILS.Messages = (function(U, undefined) {
     var getCallbacks;
 
-    getCallbacks = function (successMess, errorMess) {
+    getCallbacks = function (successMess, errorMess, options) {
+
+        var check = function() {
+            if (options) {
+                if (options.context) {
+                    options.context.close();
+                }
+                if (options.href) {
+                    window.location.href = options.href;
+                }
+            }
+        };
 
         var opt = {callback: function () {
-            var subview = new MessagesView({el: '#content', state: "Success", title: successMess});
+            check();
+            var subview = new MessagesView({state: "Success", title: successMess});
             subview.render();
-        }, error: function (resp) {
-            var subview = new MessagesView({el: '#content', state: "Error", title: errorMess});
+        }, error: function (model, error) {
+            check();
+            var subview = new MessagesView({state: "Error", title: errorMess + ". Cause: " + error.message, info: error.body});
             subview.render();
         }};
+
+        opt.success = opt.callback;
 
         return opt;
     };

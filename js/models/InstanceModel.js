@@ -2,11 +2,18 @@ var Instance = Backbone.Model.extend({
 
     _action:function(method, options) {
         var model = this;
+        var error = options.error;
         options = options || {};
         options.success = function(resp) {
             model.trigger('sync', model, resp, options);
             if (options.callback!==undefined) {
                 options.callback(resp);
+            }
+        };
+        options.error = function(resp) {
+            model.trigger('error', model, resp, options);
+            if (error!==undefined) {
+                error(model, resp);
             }
         };
         var xhr = (this.sync || Backbone.sync).call(this, method, this, options);

@@ -56,7 +56,7 @@ var OSRouter = Backbone.Router.extend({
                 onError(originalModel, resp, options);
               } else {
                 originalModel.trigger('error', originalModel, resp, options);
-                var subview = new MessagesView({state: "Error", title: error.toString()});
+                var subview = new MessagesView({state: "Error", title: "Error. Cause: " + resp.message, info: resp.body});
                 subview.render();
               }
             };
@@ -64,6 +64,10 @@ var OSRouter = Backbone.Router.extend({
 
         this.instancesModel.bind("error", function(model, error) {
             console.log("Error in instances:", error);
+        });
+
+        this.projects.bind("error", function(model, error) {
+            console.log("Error in projects:", error);
         });
 
         this.flavors.bind("error", function(model, error) {

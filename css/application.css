@@ -24,6 +24,16 @@ html, body {
   height: 100%;
 }
 
+.fill-height {
+  height: 100%;
+  position: relative;
+}
+
+.separation {
+  line-height: 750%;
+  text-align: center;
+}
+
 #message-resize-icon {
   cursor: pointer;
   position: absolute;
@@ -123,6 +133,11 @@ html, body {
   border-top-right-radius: 6px;
   border-bottom-right-radius: 6px;
   border-bottom-left-radius: 6px;
+}
+
+#log-messages {
+  height: 48px;
+  overflow: hidden;
 }
 
 #logs {
