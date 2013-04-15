@@ -1,0 +1,54 @@
+<script id="viewProductAttributesTemplate" type="text/html">
+<div id="view_product_attributes" class="modal in">
+    <!--
+    Description: View Product Attributes
+    src: templates/root/nova/instanceDetail/viewProductAttributes.html
+    -->
+    <div class="modal-header">
+        <a id="closeModal" href="#" class="close" data-dismiss="modal">&times;</a>
+        <h3>Product Attributes</h3>
+    </div>
+    <div id="messHeader" class="modal-body clearfix">
+
+    	<table id="product_attributes" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th style="width: 30%;">Attribute</th>
+                    <th style="width: 30%;">Value</th>
+                    <th style="width: 40%;">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+            	<%
+                var attr;
+            	var i = 0;
+            	if (productAttributes !== undefined) {
+	            	for (var i in productAttributes) {
+		           		attr = productAttributes[i];
+            	%>
+                <tr id="sec_groups__row__"
+                class="ajax-update status_down">
+                    <td><%=attr.key%></td>
+                    <td><%=attr.value%></td>
+                    <td><%=attr.description%></td>
+                 </tr>
+               <% } } else { 
+                i = -1;
+                %>
+               	<tr class="odd empty">
+                    <td colspan="6">No items to display.</td>
+                </tr>
+                <% } %>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="6"><span><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", (parseInt(i)+1))%></span></td>
+                    </td>
+            </tfoot>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <a id="cancel" class="btn btn-blue pull-right" data-dismiss="modal">Accept</a>
+    </div>
+</div>
+</script>

@@ -179,16 +179,18 @@ var InstanceSDCView = Backbone.View.extend({
     },
 
     onAction: function(action, ids) {
-        
-        var ip = this.options.instanceModel.get("addresses").private[0].addr;
+
+        var ip = this.options.instanceModel.get("addresses")["private"][0].addr;
         var fqn = this.options.instanceModel.get("id");
 
         console.log("vaaaaaaaaaa", action, ids, ip);
 
+        var product;
+
         switch (action) {
             case 'install':
 
-                var product = new SDC();
+                product = new SDC();
 
                 product.set({"ip": ip});
                 product.set({"product": {name: ids[0]}});
@@ -203,7 +205,7 @@ var InstanceSDCView = Backbone.View.extend({
             case 'uninstall':
 
                 //var product = this.model.get(ids[0]);
-                var product = this.model.findWhere({name: ids[0]});
+                product = this.model.findWhere({name: ids[0]});
                 console.log('UNISNDT', product);
                 product.destroy({success: function (model, resp) {
                     console.log('Success uninstalling ', resp);
@@ -223,7 +225,7 @@ var InstanceSDCView = Backbone.View.extend({
                               
                 break;
             case 'edit':
-                var product = this.model.findWhere({name: ids[0]});
+                product = this.model.findWhere({name: ids[0]});
                 product.fetch({success: function (model, resp) {
                     var attr = resp.productRelease.product.attributes_asArray;
                     subview = new EditProductAttributesView({el: 'body', model: this.model, productAttributes: attr});

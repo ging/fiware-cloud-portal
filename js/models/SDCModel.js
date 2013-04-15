@@ -21,9 +21,9 @@ var SDC = Backbone.Model.extend({
             case "create":
                 ServiceDC.API.getProductReleases(model.get('product').name, function (resp) {
                     var lastRelease = resp.productRelease_asArray[0].version;
-                    var p = model.get('product')
+                    var p = model.get('product');
                     p.version = lastRelease;
-                    model.set({'product': p})
+                    model.set({'product': p});
                     model.set({"name": model.get('fqn') + '_' + p.name + '_' + p.version});
                     ServiceDC.API.installProductInstance(model.get('ip'), model.get('fqn'), model.get('product'), options.success, options.error);                
                 }, options.error);
@@ -33,7 +33,7 @@ var SDC = Backbone.Model.extend({
                 break;
             
         }
-    },
+    }
 });
 
 var SDCs = Backbone.Collection.extend({
