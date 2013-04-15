@@ -305,6 +305,15 @@ UTILS.i18n = (function(U, undefined) {
 
 UTILS.i18n.init();
 
+Utils.Me = (function(U, undefined) {
+    var userInfo = JSTACK.Keystone.params.access.user;
+    var user = new User({
+        name: userInfo.name,
+        id: userInfo.id
+    });
+    return user;
+});
+
 UTILS.Messages = (function(U, undefined) {
     var getCallbacks;
 
