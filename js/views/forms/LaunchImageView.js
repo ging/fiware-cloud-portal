@@ -36,9 +36,7 @@ var LaunchImageView = Backbone.View.extend({
         $('#launch_image').remove();
         $('.modal-backdrop:last').remove();
         this.onClose();
-        if (this.model.unbond !== undefined) {
-            this.model.unbind("reset", this.render, this);
-        }
+        this.model.unbind("sync", this.render, this);
     },
 
     launch: function(e) {

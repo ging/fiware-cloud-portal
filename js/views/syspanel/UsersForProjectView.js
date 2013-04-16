@@ -13,8 +13,8 @@ var UsersForProjectView = Backbone.View.extend({
 
     initialize: function() {
         var self = this;
-        this.model.unbind("reset");
-        this.model.bind("reset", this.render, this);
+        this.model.unbind("sync");
+        this.model.bind("sync", this.render, this);
         this.options.users.unbind("reset");
         this.options.users.bind("reset", this.render, this);
         this.renderFirst();
@@ -179,7 +179,7 @@ var UsersForProjectView = Backbone.View.extend({
 
     onClose: function() {
         this.undelegateEvents();
-        this.model.unbind("reset");
+        this.model.unbind("sync");
         this.options.tenants.unbind('reset');
         this.options.users.unbind('reset');
         clearInterval(this.interval);

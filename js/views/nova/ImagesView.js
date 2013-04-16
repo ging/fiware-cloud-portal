@@ -5,8 +5,8 @@ var ImagesView = Backbone.View.extend({
     tableView: undefined,
 
     initialize: function() {
-         this.model.unbind("reset");
-         this.model.bind("reset", this.render, this);
+         this.model.unbind("sync");
+         this.model.bind("sync", this.render, this);
          this.renderFirst();
     },
 
@@ -123,12 +123,7 @@ var ImagesView = Backbone.View.extend({
                     onAccept: function() {
                         imageIds.forEach(function(image) {
                             img = self.model.get(image);
-                            img.destroy();
-                            subview = new MessagesView({
-                                state: "Success",
-                                title: "Image " + img.get("name") + " deleted."
-                            });
-                            subview.render();
+                            img.destroy(UTILS.Messages.getCallbacks("Image " + img.get("name") + " deleted", "Error deleting image " + img.get("name")));
                         });
                     }
                 });

@@ -5,8 +5,8 @@ var NovaVolumesView = Backbone.View.extend({
     tableView: undefined,
 
     initialize: function() {
-        this.model.unbind("reset");
-        this.model.bind("reset", this.render, this);
+        this.model.unbind("sync");
+        this.model.bind("sync", this.render, this);
         this.renderFirst();
     },
 
@@ -134,7 +134,7 @@ var NovaVolumesView = Backbone.View.extend({
     onClose: function() {
         this.undelegateEvents();
         this.unbind();
-        this.model.unbind("reset", this.render, this);
+        this.model.unbind("sync", this.render, this);
     },
 
     onAction: function(action, volumeIds) {
@@ -158,60 +158,20 @@ var NovaVolumesView = Backbone.View.extend({
                 subview.render();
                 break;
             case 'delete':
+                subview = new ConfirmView({
+                    el: 'body',
+                    title: "Delete Volumes",
+                    btn_message: "Delete Volumes",
+                    onAccept: function() {
+                        volumeIds.forEach(function(volume) {
+                            vol = self.model.get(volume);
+                            vol.destroy(UTILS.Messages.getCallbacks("Volume " + vol.get("display_name") + " deleted", "Error deleting volume " + vol.get("display_name")));
+                        });
+                    }
+                });
+                subview.render();
                break;
         }
-    },
-
-    onEditAttachments: function(evt) {
-        var self = this;
-        var vol = $(".checkbox:checked").val();
-        var volume = self.model.get(vol);
-        var subview = new EditVolumeAttachmentsView({el: 'body', model: volume, instances: this.options.instancesModel});
-        subview.render();
-    },
-
-    onCreate: function(evt) {
-        var subview = new CreateVolumeView({el: 'body'});
-        subview.render();
-    },
-    onCreateSnapshot: function(evt) {
-        var volumeSnapshot = evt.target.value;
-        var volumeSnap = this.model.get(volumeSnapshot);
-        var subview = new CreateVolumeSnapshotView({el: 'body', model: volumeSnap});
-        subview.render();
-    },
-
-    onEdit: function(evt) {
-        var vol = evt.target.getAttribute("value");
-        var volume = this.model.get(vol);
-        var subview = new EditVolumeAttachmentsView({el: 'body', model: volume, instances: this.options.instancesModel});
-        subview.render();
-    },
-
-    onDelete: function(evt) {
-        var volume = evt.target.value;
-        var vol = this.model.get(volume);
-        var subview = new ConfirmView({el: 'body', title: "Delete Volume", btn_message: "Delete Volume", onAccept: function() {
-            vol.destroy();
-            var subview = new MessagesView({state: "Success", title: "Volume "+vol.get("display_name")+" deleted."});
-            subview.render();
-        }});
-
-        subview.render();
-    },
-
-    onDeleteGroup: function(evt) {
-        var self = this;
-        var subview = new ConfirmView({el: 'body', title: "Delete Volume", btn_message: "Delete Volumes", onAccept: function() {
-            $(".checkbox_volumes:checked").each(function () {
-                    var volume = $(this).val();
-                    var vol = self.model.get(volume);
-                    vol.destroy();
-                    var subview = new MessagesView({state: "Success", title: "Volume "+vol.get("display_name")+" deleted."});
-                    subview.render();
-            });
-        }});
-        subview.render();
     },
 
     renderFirst: function() {

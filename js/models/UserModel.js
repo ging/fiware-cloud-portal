@@ -62,6 +62,7 @@ var Users = Backbone.Collection.extend({
     },
 
     parse: function(resp) {
+      console.log("Parse users");
         return resp.users;
     },
 

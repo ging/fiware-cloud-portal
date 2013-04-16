@@ -32,7 +32,7 @@ var CreateUserView = Backbone.View.extend({
         $('.modal:last').modal();
         return this;
     },
-   
+
     onInput: function() {
         console.log("on input");
         console.log(this.$('input[name=user_password]').val());
@@ -74,7 +74,6 @@ var CreateUserView = Backbone.View.extend({
         this.onInput();
     },
 
-    
     onCreate: function(e){
         e.preventDefault();
         var name = this.$('input[name=name]').val();
@@ -93,10 +92,7 @@ var CreateUserView = Backbone.View.extend({
         user.set({'password': password});
         user.set({'tenant_id': tenant_id});
         user.set({'enabled': true});
-        user.save();
-        subview = new MessagesView({state: "Success", title: "User "+user.get('name')+" created."});
-        subview.render();
-        this.close();
+        user.save(UTILS.Messages.getCallbacks("User "+user.get("name") + " created.", "Error creating user "+user.get("name"), {context: this}));
     }
 
 });
