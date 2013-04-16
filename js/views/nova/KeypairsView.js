@@ -5,8 +5,8 @@ var NovaKeypairsView = Backbone.View.extend({
     tableView: undefined,
 
     initialize: function() {
-        this.model.unbind("reset");
-        this.model.bind("reset", this.render, this);
+        this.model.unbind("sync");
+        this.model.bind("sync", this.render, this);
         this.renderFirst();
     },
 
@@ -109,7 +109,7 @@ var NovaKeypairsView = Backbone.View.extend({
 
     onClose: function() {
         this.tableView.close();
-        this.model.unbind("reset", this.render, this);
+        this.model.unbind("sync", this.render, this);
         this.unbind();
         this.undelegateEvents();
     },

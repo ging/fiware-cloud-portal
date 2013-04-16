@@ -3,8 +3,8 @@ var NewUsersView = Backbone.View.extend({
     _template: _.itemplate($('#newUsersTemplate').html()),
 
     initialize: function() {
-        this.model.unbind("reset");
-        this.model.bind("reset", this.render, this);
+        this.model.unbind("sync");
+        this.model.bind("sync", this.render, this);
         this.renderFirst();
     },
 
@@ -79,7 +79,7 @@ var NewUsersView = Backbone.View.extend({
     },
 
     onClose: function() {
-        this.model.unbind("reset");
+        this.model.unbind("sync");
     },
 
     render: function () {

@@ -5,8 +5,8 @@ var ObjectStorageContainersView = Backbone.View.extend({
     tableView: undefined,
 
     initialize: function() {
-        this.model.unbind("reset");
-        this.model.bind("reset", this.render, this);
+        this.model.unbind("sync");
+        this.model.bind("sync", this.render, this);
         this.renderFirst();
     },
 
@@ -178,7 +178,7 @@ var ObjectStorageContainersView = Backbone.View.extend({
         this.tableView.close();
         this.undelegateEvents();
         this.unbind();
-        this.model.unbind("reset", this.render, this);
+        this.model.unbind("sync", this.render, this);
     },
 
     onDelete: function(evt) {

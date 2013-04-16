@@ -6,8 +6,8 @@ var InstanceSDCView = Backbone.View.extend({
     tableViewNew: undefined,
 
     initialize: function() {
-        
-        this.model.bind("reset", this.render, this);
+
+        this.model.bind("sync", this.render, this);
         this.model.fetch();
 
         this.options.instanceModel.bind("change", this.render, this);
@@ -172,7 +172,7 @@ var InstanceSDCView = Backbone.View.extend({
     onClose: function() {
         this.tableView.close();
         this.tableViewNew.close();
-        this.model.unbind("reset");
+        this.model.unbind("sync");
         this.options.instanceModel.unbind("change");
         this.unbind();
         this.undelegateEvents();

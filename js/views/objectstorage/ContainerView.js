@@ -6,9 +6,8 @@ var ObjectStorageContainerView = Backbone.View.extend({
 
     initialize: function() {
         var self = this;
-        this.model.unbind("reset");
-        this.model.bind("change", this.render, this);
-        this.model.bind("reset", this.render, this);
+        this.model.unbind("sync");
+        this.model.bind("sync", this.render, this);
         this.timer = setInterval(function() {
             self.model.fetch();
         }, 10000);
@@ -181,7 +180,7 @@ var ObjectStorageContainerView = Backbone.View.extend({
         this.undelegateEvents();
         this.unbind();
         this.model.unbind("change", this.render, this);
-        this.model.unbind("reset", this.render, this);
+        this.model.unbind("sync", this.render, this);
         clearInterval(this.timer);
     },
 

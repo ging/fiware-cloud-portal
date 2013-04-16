@@ -5,8 +5,8 @@ var NovaSecurityGroupsView = Backbone.View.extend({
     tableView: undefined,
 
     initialize: function() {
-        this.model.unbind("reset");
-        this.model.bind("reset", this.render, this);
+        this.model.unbind("sync");
+        this.model.bind("sync", this.render, this);
         this.renderFirst();
     },
 

@@ -5,8 +5,8 @@ var NovaInstanceSnapshotsView = Backbone.View.extend({
     tableView: undefined,
 
     initialize: function() {
-        this.model.unbind("reset");
-        this.model.bind("reset", this.render, this);
+        this.model.unbind("sync");
+        this.model.bind("sync", this.render, this);
         this.renderFirst();
     },
 
@@ -115,7 +115,7 @@ var NovaInstanceSnapshotsView = Backbone.View.extend({
         this.tableView.close();
         this.undelegateEvents();
         this.unbind();
-        this.model.unbind("reset", this.render, this);
+        this.model.unbind("sync", this.render, this);
     },
 
     onAction: function(action, snapshotIds) {
@@ -150,12 +150,7 @@ var NovaInstanceSnapshotsView = Backbone.View.extend({
                     onAccept: function() {
                         snapshotIds.forEach(function(snapshot) {
                             snap = self.model.get(snapshot);
-                            snap.destroy();
-                            subview = new MessagesView({
-                                state: "Success",
-                                title: "Snapshot " + snap.get("name") + " deleted."
-                            });
-                            subview.render();
+                            snap.destroy(UTILS.Messages.getCallbacks("Snapshot " + snap.get("name") + " deleted", "Error deleting snapshot " + snap.get("name")));
                         });
                     }
                 });

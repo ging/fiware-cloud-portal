@@ -136,10 +136,7 @@ var CreateFlavorView = Backbone.View.extend({
                 }
             }
 
-            newFlavor.save();
-            subview = new MessagesView({state: "Success", title: "Flavor "+newFlavor.get('name')+" created."});
-            subview.render();
-            this.close();
+            newFlavor.save(UTILS.Messages.getCallbacks("Flavor "+newFlavor.get("name") + " created.", "Error creating flavor "+newFlavor.get("name"), {context: this}));
         }
     }
 
