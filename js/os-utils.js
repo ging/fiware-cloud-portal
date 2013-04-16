@@ -334,13 +334,16 @@ UTILS.Messages = (function(U, undefined) {
             check();
             var subview = new MessagesView({state: "Success", title: successMess});
             subview.render();
+            $('body').spin("modal");
         }, error: function (model, error) {
             check();
             var subview = new MessagesView({state: "Error", title: errorMess + ". Cause: " + error.message, info: error.body});
             subview.render();
+            $('body').spin("modal");
         }};
-
         opt.success = opt.callback;
+
+        $('body').spin("modal");
 
         return opt;
     };

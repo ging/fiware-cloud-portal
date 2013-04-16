@@ -41,10 +41,8 @@ var ImportKeypairView = Backbone.View.extend({
             }
         }
         newKeypair.set({'name': name, 'public_key': publicKey});
-        newKeypair.save();
+        newKeypair.save(UTILS.Messages.getCallbacks("Keypair "+ name + " imported.", "Error importing keypair "+ name));
 
-        subview = new MessagesView({state: "Success", title: "Keypair "+name+" imported."});
-        subview.render();
         this.close();
     }
 

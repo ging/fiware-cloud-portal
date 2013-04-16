@@ -2,8 +2,8 @@ var Instance = Backbone.Model.extend({
 
     _action:function(method, options) {
         var model = this;
-        var error = options.error;
         options = options || {};
+        var error = options.error;
         options.success = function(resp) {
             model.trigger('sync', model, resp, options);
             if (options.callback!==undefined) {

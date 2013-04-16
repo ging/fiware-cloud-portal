@@ -6,16 +6,21 @@ var Keypair = Backbone.Model.extend({
 
     _action:function(method, options) {
         var model = this;
-        if (options == null) options = {};
+        options = options || {};
+        var error = options.error;
         options.success = function(resp) {
-
             model.trigger('sync', model, resp, options);
-            if (options.callback !== undefined) {
+            if (options.callback!==undefined) {
                 options.callback(resp);
             }
         };
+        options.error = function(resp) {
+            model.trigger('error', model, resp, options);
+            if (error!==undefined) {
+                error(model, resp);
+            }
+        };
         var xhr = (this.sync || Backbone.sync).call(this, method, this, options);
-
         return xhr;
     },
 

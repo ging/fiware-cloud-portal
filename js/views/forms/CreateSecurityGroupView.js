@@ -70,12 +70,12 @@ var CreateSecurityGroupView = Backbone.View.extend({
             }
             var newSecurityGroup = new SecurityGroup();
             newSecurityGroup.set({'name': name, 'description': description});
-            newSecurityGroup.save(UTILS.Messages.getCallbacks("Security group "+name + " created.", "Error creating security group "+name));
+            newSecurityGroup.save(undefined, UTILS.Messages.getCallbacks("Security group "+name + " created.", "Error creating security group "+name, {context: self}));
         } else {
             subview = new MessagesView({state: "Error", title: "Wrong values for Security Group. Please try again."});
             subview.render();
+            self.close();
         }
-        self.close();
     }
 
 });

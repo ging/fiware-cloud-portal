@@ -2,16 +2,22 @@ var SecurityGroup = Backbone.Model.extend({
 
     _action:function(method, options) {
         var model = this;
-        if (options == null) options = {};
+        options = options || {};
+        var error = options.error;
         options.success = function(resp) {
-
+          console.log("Success");
             model.trigger('sync', model, resp, options);
-            if (options.callback !== undefined) {
+            if (options.callback!==undefined) {
                 options.callback(resp);
             }
         };
+        options.error = function(resp) {
+            model.trigger('error', model, resp, options);
+            if (error!==undefined) {
+                error(model, resp);
+            }
+        };
         var xhr = (this.sync || Backbone.sync).call(this, method, this, options);
-
         return xhr;
     },
 
@@ -49,6 +55,7 @@ var SecurityGroup = Backbone.Model.extend({
                    JSTACK.Nova.deletesecuritygroup(model.get("id"), options.success, options.error);
                    break;
                case "create":
+               console.log("Creating, ", options.success);
                    JSTACK.Nova.createsecuritygroup( model.get("name"), model.get("description"), options.success, options.error);
                    break;
                case "createSecurityGroupRule":
@@ -64,7 +71,7 @@ var SecurityGroup = Backbone.Model.extend({
                         obj.object = object;
                         return options.success(obj);
                     };
-                   JSTACK.Nova.getsecuritygroupforserver(options.serverId, mySuccess);
+                   JSTACK.Nova.getsecuritygroupforserver(options.serverId, mySuccess, options.error);
                    break;
            }
     },

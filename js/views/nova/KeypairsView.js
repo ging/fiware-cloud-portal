@@ -98,12 +98,7 @@ var NovaKeypairsView = Backbone.View.extend({
                     onAccept: function() {
                         keypairIds.forEach(function(keypair) {
                             kp = self.model.get(keypair);
-                            kp.destroy();
-                            subview = new MessagesView({
-                                state: "Success",
-                                title: "Keypair " + kp.get("name") + " deleted."
-                            });
-                            subview.render();
+                            kp.destroy(UTILS.Messages.getCallbacks("Keypair "+kp.get("name") + " deleted.", "Error deleting keypair "+ kp.get("name")));
                         });
                     }
                 });
