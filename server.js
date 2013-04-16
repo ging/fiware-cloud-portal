@@ -24,11 +24,16 @@ app.use (function(req, res, next) {
     });
 });
 
+var dirName = '/dist/';
+if (process.argv[2] === 'debug') {
+    dirName = '/';
+}
+
 app.configure(function () {
     "use strict";
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
     app.use(express.logger());
-    app.use(express.static(__dirname + '/dist/'));
+    app.use(express.static(__dirname + dirName));
     //app.set('views', __dirname + '/../views/');
     //disable layout
     //app.set("view options", {layout: false});
