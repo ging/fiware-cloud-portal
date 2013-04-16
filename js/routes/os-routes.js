@@ -17,7 +17,6 @@ var OSRouter = Backbone.Router.extend({
     keypairsModel: undefined,
     projects: undefined,
     containers: undefined,
-    vdcs: undefined,
     quotas: undefined,
     securityGroupsModel: undefined,
     floatingIPsModel: undefined,
@@ -44,7 +43,6 @@ var OSRouter = Backbone.Router.extend({
         this.keypairsModel = new Keypairs();
         this.projects = new Projects();
         this.containers = new Containers();
-        this.vdcs = new VDCs();
         this.quotas = new Quotas();
         this.securityGroupsModel = new SecurityGroups();
         this.floatingIPsModel = new FloatingIPs();
@@ -107,11 +105,6 @@ var OSRouter = Backbone.Router.extend({
         this.route('nova/instances/:id/detail?view=:subview', 'instance', this.wrap(this.nova_instance, this.checkAuth));
         this.route('nova/flavors/', 'flavors',  this.wrap(this.nova_flavors, this.checkAuth));
         this.route('nova/snapshots/', 'snapshots', this.wrap(this.nova_snapshots, this.checkAuth));
-        this.route('nova/vdcs/', 'vdcs', this.wrap(this.nova_vdcs, this.checkAuth));
-        this.route('nova/vdcs/:id', 'vdc', this.wrap(this.nova_vdc, this.checkAuth));
-        this.route('nova/vdcs/:id/:idservice', 'vdcservice', this.wrap(this.nova_vdc_service, this.checkAuth));
-        this.route('nova/vdcs/:id/:idservice/:idinstance/?view=:subview', 'instance', this.wrap(this.nova_vdc_instance, this.checkAuth));
-        this.route('nova/vdcs/:id/:idservice/:idinstance', 'instance', this.wrap(this.nova_vdc_instance, this.checkAuth));
 
         this.route('home/', 'home', this.wrap(this.init, this.checkAuth));
         this.route('syspanel/images/images/', 'images',  this.wrap(this.sys_images, this.checkAuth));
@@ -162,7 +155,6 @@ var OSRouter = Backbone.Router.extend({
             this.add_fetch(this.volumeSnapshotsModel, seconds);
             this.add_fetch(this.instanceSnapshotsModel, seconds);
             this.add_fetch(this.containers, seconds);
-            this.add_fetch(this.vdcs, seconds);
             this.add_fetch(this.securityGroupsModel, seconds);
             this.add_fetch(this.keypairsModel, seconds);
             this.add_fetch(this.floatingIPsModel, seconds);
@@ -466,30 +458,6 @@ var OSRouter = Backbone.Router.extend({
         self.newContentView(self,view);
     },
 
-    nova_vdcs: function(self) {
-        self.showNovaRoot(self, 'Virtual Data Centers');
-        //self.instancesModel.alltenants = false;
-        var view = new VDCsView({model: self.vdcs, el: '#content'});
-        self.newContentView(self,view);
-    },
-
-    nova_vdc: function(self, id) {
-        self.showNovaRoot(self, 'Virtual Data Centers');
-        //self.instancesModel.alltenants = false;
-        var services = new VDCServices();
-        services.vdc(id);
-        var view = new VDCView({model: services, vdc: id, el: '#content', flavors: self.flavors, images: self.images, keypairs: self.keypairsModel});
-        self.newContentView(self,view);
-    },
-
-    nova_vdc_service: function(self, id, idservice) {
-        self.showNovaRoot(self, 'Virtual Data Centers');
-        //self.instancesModel.alltenants = false;¡
-        var service = new VDCService({id: idservice});
-        var view = new VDCServiceView({model: service, flavors: self.flavors, vdc: id, el: '#content'});
-        self.newContentView(self,view);
-    },
-
     nova_instances: function(self) {
         self.showNovaRoot(self, 'Instances');
         //self.instancesModel.unbind("change");
@@ -506,16 +474,6 @@ var OSRouter = Backbone.Router.extend({
         instance.set({"id": id});
         subview =  subview || 'overview';
         var view = new InstanceDetailView({model: instance, sdcs: self.sdcs, subview: subview, subsubview: subsubview, el: '#content'});
-        self.newContentView(self,view);
-    },
-
-    nova_vdc_instance: function(self, id, idservice, idinstance, subview, subsubview) {
-        self.showNovaRoot(self, 'Virtual Data Centers');
-        //self.instancesModel.alltenants = false;
-        var instance = new Instance();
-        instance.set({"id": idinstance});
-        subview =  subview || 'overview';
-        var view = new InstanceDetailView({model: instance, subview: subview, subsubview: subsubview, vdc: id, service: idservice, el: '#content'});
         self.newContentView(self,view);
     },
 
