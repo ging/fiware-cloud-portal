@@ -6,7 +6,7 @@ var EditProductAttributesView = Backbone.View.extend({
       'click #closeModal': 'close',
       'click #cancel': 'close',
       'click .clickOut': 'close',
-      'click #accept': 'editAttributes',
+      'click #accept': 'editAttributes'
     },
 
     initialize: function() {

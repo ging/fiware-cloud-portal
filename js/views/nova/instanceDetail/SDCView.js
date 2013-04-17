@@ -199,9 +199,9 @@ var InstanceSDCView = Backbone.View.extend({
 
             case 'uninstall':
 
-                for (var i in ids) {
-                    product = this.model.findWhere({name: ids[i]});
-                    product.destroy(UTILS.Messages.getCallbacks('Product "' + ids[i] + '" uninstalled', 'Error uninstalling product "' + ids[i] + '"'));
+                for (var j in ids) {
+                    product = this.model.findWhere({name: ids[j]});
+                    product.destroy(UTILS.Messages.getCallbacks('Product "' + ids[j] + '" uninstalled', 'Error uninstalling product "' + ids[j] + '"'));
                 }
                 break;
 
