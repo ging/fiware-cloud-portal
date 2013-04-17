@@ -18,7 +18,7 @@ var InstanceSDCView = Backbone.View.extend({
 
     getMainButtons: function() {
         // main_buttons: [{label:label, url: #url, action: action_name}]
-        return []; 
+        return [];
         // [{
         //     label: "Allocate IP to Project",
         //     action: "allocate"
@@ -96,7 +96,7 @@ var InstanceSDCView = Backbone.View.extend({
 
     getMainButtonsNew: function() {
         // main_buttons: [{label:label, url: #url, action: action_name}]
-        return []; 
+        return [];
         // [{
         //     label: "Allocate IP to Project",
         //     action: "allocate"
@@ -208,10 +208,10 @@ var InstanceSDCView = Backbone.View.extend({
             case 'view':
                 this.model.getCatalogueProductDetails({id: ids[0], callback: function (resp) {
                     subview = new ViewProductAttributesView({el: 'body', productAttributes: resp});
-                    subview.render();  
+                    subview.render();
                 }, error: function (model, e) {
                     console.log('Error attr ', e);
-                }});         
+                }});
                 break;
 
             case 'edit':
