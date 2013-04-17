@@ -149,6 +149,7 @@ var OSRouter = Backbone.Router.extend({
         if (this.timers.length === 0) {
             var seconds = 30;
             this.add_fetch(this.instancesModel, seconds);
+            this.add_fetch(this.sdcs, seconds);
             this.add_fetch(this.volumesModel, seconds);
             this.add_fetch(this.images, seconds);
             this.add_fetch(this.flavors, seconds);

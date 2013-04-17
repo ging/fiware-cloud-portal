@@ -81,8 +81,6 @@ var InstanceSDCView = Backbone.View.extend({
 
             var products= this.model.models;
 
-            console.log('PPP', products, id);
-
             for (var product in products) {
                 var stat = products[product].get('status');
                 if (products[product].get('vm').fqn === id) {// && stat !== 'ERROR' && stat !== 'UNINSTALLED') {
@@ -158,8 +156,6 @@ var InstanceSDCView = Backbone.View.extend({
 
         var products = this.model.catalogueList;
 
-        console.log('papapappapa', this.model);
-
         for (var product in products) {
             entries.push({id:products[product].name, cells:[
                 {value: products[product].name},
@@ -180,37 +176,33 @@ var InstanceSDCView = Backbone.View.extend({
 
     onAction: function(action, ids) {
 
+        var self = this;
+
         var ip = this.options.instanceModel.get("addresses")["private"][0].addr;
         var fqn = this.options.instanceModel.get("id");
-
-        console.log("vaaaaaaaaaa", action, ids, ip);
 
         var product;
 
         switch (action) {
             case 'install':
 
-                product = new SDC();
+                for (var i in ids) {
+                    product = new SDC();
 
-                product.set({"ip": ip});
-                product.set({"product": {name: ids[0]}});
-                product.set({"fqn": fqn});
+                    product.set({"ip": ip});
+                    product.set({"product": {name: ids[i]}});
+                    product.set({"fqn": fqn});
 
-                product.save(undefined, {success: function (model, resp) {
-                    console.log('Success Installing ', model, resp);
-                }, error: function (model, e) {
-                    console.log('Error installing ', e);
-                }});
+                    product.save(undefined, UTILS.Messages.getCallbacks('Product "' + ids[i] + '" installed', 'Error installing product "' + ids[i] + '"'));
+                }
                 break;
 
             case 'uninstall':
-                product = this.model.findWhere({name: ids[0]});
-                console.log('UNISNDT', product);
-                product.destroy({success: function (model, resp) {
-                    console.log('Success uninstalling ', resp);
-                }, error: function (model, e) {
-                    console.log('Error uninstalling ', e);
-                }});
+
+                for (var i in ids) {
+                    product = this.model.findWhere({name: ids[i]});
+                    product.destroy(UTILS.Messages.getCallbacks('Product "' + ids[i] + '" uninstalled', 'Error uninstalling product "' + ids[i] + '"'));
+                }
                 break;
 
             case 'view':
@@ -226,14 +218,11 @@ var InstanceSDCView = Backbone.View.extend({
                 product = this.model.findWhere({name: ids[0]});
                 product.fetch({success: function (model, resp) {
                     var attr = resp.productRelease.product.attributes_asArray;
-                    subview = new EditProductAttributesView({el: 'body', model: this.model, productAttributes: attr});
+                    subview = new EditProductAttributesView({el: 'body', model: model, productAttributes: attr});
                     subview.render();
                 }, error: function (model, e) {
                     console.log('Error attr ', e);
                 }});
-                //getProductInstance(id)
-                //reconfigureProductInstance(id, att)
-
                 break;
         }
     },
@@ -266,10 +255,9 @@ var InstanceSDCView = Backbone.View.extend({
         this.tableViewNew.render();
     },
 
-    render: function() {
-        console.log('joseantonio francisco');
-        var product = this.model;
-            if ($(this.el).html() !== null) {
+    render: function(e) {
+
+        if ($(this.el).html() !== null) {
             this.tableView.render();
             this.tableViewNew.render();
         }

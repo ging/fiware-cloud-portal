@@ -5,7 +5,8 @@ var EditProductAttributesView = Backbone.View.extend({
     events: {
       'click #closeModal': 'close',
       'click #cancel': 'close',
-      'click .clickOut': 'close'
+      'click .clickOut': 'close',
+      'click #accept': 'editAttributes',
     },
 
     initialize: function() {
@@ -13,7 +14,6 @@ var EditProductAttributesView = Backbone.View.extend({
     },
 
     render: function () {
-        console.log(this.options);
         $(this.el).append(this._template({productAttributes: this.options.productAttributes}));
         $('.modal:last').modal();
         $('.modal-backdrop').addClass("clickOut");
@@ -35,6 +35,25 @@ var EditProductAttributesView = Backbone.View.extend({
         $('.modal-backdrop').remove();
         this.undelegateEvents();
         this.unbind();
+    },
+
+    editAttributes: function (e) {
+
+        if (this.options.productAttributes === undefined) {
+            return;
+        }
+
+        var newAttributes = this.options.productAttributes;
+
+        for (var i in newAttributes) {
+            newAttributes[i].value = $('input[name=attr_' + i + ']').val();
+        }
+
+        this.model.save(undefined, {success: function (model, resp) {
+            console.log('Succ ', resp);
+        }, error: function (model, e) {
+            console.log('Error attr ', e);
+        }});
     }
 
 });

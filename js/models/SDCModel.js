@@ -38,6 +38,10 @@ var SDC = Backbone.Model.extend({
             case "delete":
                 ServiceDC.API.uninstallProductInstance(model.get('name'), options.success, options.error);                
                 break;
+            case "update":
+                var att = model.get('productRelease').product.attributes;
+                ServiceDC.API.reconfigureProductInstance(model.get('name'), att, options.success, options.error);             
+                break;
             
         }
     }
