@@ -23,7 +23,7 @@ var OSRouter = Backbone.Router.extend({
 
     currentView: undefined,
 
-    timers: [],
+    timers: {},
 
     routes: {
         'auth/login': 'login',
@@ -136,7 +136,10 @@ var OSRouter = Backbone.Router.extend({
 
     },
 
-    wrap: function(func, wrapper) {
+    wrap: function(func, wrapper, modelName) {
+        if (modelName !== undefined) {
+            update_fetch(modelName, 5, 60);
+        };
         var ArrayProto = Array.prototype;
         var slice = ArrayProto.slice;
         return function() {
@@ -146,22 +149,22 @@ var OSRouter = Backbone.Router.extend({
     },
 
     initFetch: function() {
-        if (this.timers.length === 0) {
-            var seconds = 30;
-            this.add_fetch(this.instancesModel, seconds);
-            this.add_fetch(this.sdcs, seconds);
-            this.add_fetch(this.volumesModel, seconds);
-            this.add_fetch(this.images, seconds);
-            this.add_fetch(this.flavors, seconds);
-            this.add_fetch(this.volumeSnapshotsModel, seconds);
-            this.add_fetch(this.instanceSnapshotsModel, seconds);
-            this.add_fetch(this.containers, seconds);
-            this.add_fetch(this.securityGroupsModel, seconds);
-            this.add_fetch(this.keypairsModel, seconds);
-            this.add_fetch(this.floatingIPsModel, seconds);
+        if (Object.keys(this.timers).length === 0) {
+            var seconds = 60;
+            this.add_fetch("instancesModel", seconds);
+            this.add_fetch("sdcs", seconds);
+            this.add_fetch("volumesModel", seconds);
+            this.add_fetch("images", seconds);
+            this.add_fetch("flavors", seconds);
+            this.add_fetch("volumeSnapshotsModel", seconds);
+            this.add_fetch("instanceSnapshotsModel", seconds);
+            this.add_fetch("containers", seconds);
+            this.add_fetch("securityGroupsModel", seconds);
+            this.add_fetch("keypairsModel", seconds);
+            this.add_fetch("floatingIPsModel", seconds);
             if (this.loginModel.isAdmin()) {
                 console.log("admin");
-                this.add_fetch(this.projects, seconds);
+                this.add_fetch("projects", seconds);
             }
         }
     },
@@ -515,21 +518,40 @@ var OSRouter = Backbone.Router.extend({
         self.newContentView(self,view);
     },
 
+    update_fetch: function (modelName, currentSeconds, backgroundSeconds) {
+
+        if (modelName === this.timers.current) {
+            console.log('No change in current timer');
+            return;
+        }
+
+        if (this.timers.current !== undefined) {
+            console.log('Old Current ', this.timers.current, 'New Current ', modelName);
+            clearInterval(this.timers[this.timers.current]);
+            this.add_fetch(this.timers.current, backgroundSeconds);
+        }
+        clearInterval(this.timers[modelName]);
+        this.add_fetch(modelName, currentSeconds);
+        this.timers.current = modelName;
+    },
+
     clear_fetch: function() {
         var self = this;
         for (var index in this.timers) {
             var timer_id = this.timers[index];
             clearInterval(timer_id);
         }
-        this.timers = [];
+        this.timers = {};
     },
 
-    add_fetch: function(model, seconds) {
-        model.fetch();
+    add_fetch: function(modelName, seconds) {
+        var self = this;
+        this[modelName].fetch();
         var id = setInterval(function() {
-            model.fetch();
+            console.log("Fetch", modelName);
+            self[modelName].fetch();
         }, seconds*1000);
 
-        this.timers.push(id);
+        this.timers[modelName] = id;
     }
 });
