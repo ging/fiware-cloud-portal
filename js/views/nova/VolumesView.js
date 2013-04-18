@@ -115,7 +115,7 @@ var NovaVolumesView = Backbone.View.extend({
                 id: volume.get('id'),
                 cells: [{
                     value: volume.get("display_name"),
-                    link: "#nova/images_and_snapshots/volumes/" + volume.get("id") + "/detail"
+                    link: "#nova/volumes/" + volume.get("id") + "/detail"
                 }, {
                     value: (volume.get("display_description") !== '' && volume.get('display_description')!== null) ? volume.get("display_description"):'-'
                 }, {
