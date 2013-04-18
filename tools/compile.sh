@@ -28,7 +28,6 @@ cat ../templates/root/nova/accessAndSecurity.html >> $TEMP
 cat ../templates/root/nova/snapshots.html >> $TEMP
 cat ../templates/root/nova/snapshots/instanceSnapshots.html >> $TEMP
 cat ../templates/root/nova/snapshots/volumeSnapshots.html >> $TEMP
-cat ../templates/root/nova/instancesAndVolumes.html >> $TEMP
 cat ../templates/root/nova/instancesAndVolumes/instances.html >> $TEMP
 cat ../templates/root/nova/instancesAndVolumes/volumes.html >> $TEMP
 cat ../templates/root/nova/instanceDetail.html >> $TEMP

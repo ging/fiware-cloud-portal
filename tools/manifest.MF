@@ -42,7 +42,6 @@
 ..\js\views\nova\AccessAndSecurityView.js
 ..\js\views\nova\InstanceDetailView.js
 ..\js\views\nova\InstanceSnapshotsView.js
-..\js\views\nova\InstancesAndVolumesView.js
 ..\js\views\nova\InstancesView.js
 ..\js\views\nova\OverviewView.js
 ..\js\views\nova\ServiceView.js
