@@ -104,7 +104,10 @@ var OSRouter = Backbone.Router.extend({
         this.route('nova/instances/:id/detail', 'instances', this.wrap(this.nova_instance, this.checkAuthAndTimers));
         this.route('nova/instances/:id/detail?view=:subview', 'instance', this.wrap(this.nova_instance, this.checkAuthAndTimers));
         this.route('nova/flavors/', 'flavors',  this.wrap(this.nova_flavors, this.checkAuthAndTimers));
+        
         this.route('nova/snapshots/', 'snapshots', this.wrap(this.nova_snapshots, this.checkAuthAndTimers));
+        this.route('nova/snapshots/instances/:id/detail/', 'instance_snapshot', this.wrap(this.instance_snapshot, this.checkAuthAndTimers));
+        this.route('nova/snapshots/volumes/:id/detail/', 'volume_snapshot', this.wrap(this.volume_snapshot, this.checkAuthAndTimers));
 
         this.route('home/', 'home', this.wrap(this.init, this.checkAuthAndTimers));
         this.route('syspanel/images/images/', 'images',  this.wrap(this.sys_images, this.checkAuthAndTimers));
@@ -457,8 +460,24 @@ var OSRouter = Backbone.Router.extend({
     nova_snapshots: function(self) {
         self.showNovaRoot(self, 'Snapshots');
         //self.instancesModel.alltenants = false;
-        var view = new NovaSnapshotsView({images: self.instanceSnapshotsModel, volumeSnapshotsModel: self.volumeSnapshotsModel, instancesModel: self.instancesModel, volumesModel: self.volumesModel, flavors: self.flavors, keypairs: self.keypairsModel, el: '#content'});
+        var view = new NovaSnapshotsView({instanceSnapshotsModel: self.instanceSnapshotsModel, volumeSnapshotsModel: self.volumeSnapshotsModel, instancesModel: self.instancesModel, volumesModel: self.volumesModel, flavors: self.flavors, keypairs: self.keypairsModel, el: '#content'});
         self.newContentView(self,view);
+    },
+
+    instance_snapshot: function(self, id) {
+        self.showNovaRoot(self, 'Snapshots');
+        var snapshot = new InstanceSnapshot();
+        snapshot.set({"id": id});
+        var view = new NovaInstanceSnapshotDetailView({model: snapshot, el: '#content'});
+        self.newContentView(self, view);
+    },
+
+    volume_snapshot: function(self, id) {
+        self.showNovaRoot(self, 'Snapshots');
+        var snapshot = new VolumeSnapshot();
+        snapshot.set({"id": id});
+        var view = new NovaVolumeSnapshotDetailView({model: snapshot, el: '#content'});
+        self.newContentView(self, view);
     },
 
     nova_instances: function(self) {

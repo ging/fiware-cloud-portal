@@ -93,7 +93,7 @@ var NovaInstanceSnapshotsView = Backbone.View.extend({
                         id: image.get('id'),
                         cells: [{
                             value: image.get("name"),
-                            link: "#nova/images_and_snapshots/" + image.get("id")
+                            link: "#nova/snapshots/instances/" + image.get("id") + "/detail/"
                         }, {
                             value: "Snapshot"
                         }, {

@@ -77,7 +77,7 @@ var NovaVolumeSnapshotsView = Backbone.View.extend({
                 id: volSnapshot.get('id'),
                 cells: [{
                     value: volSnapshot.get("display_name"),
-                    link: "#nova/images_and_snapshots/" + volSnapshot.get("id")
+                    link: "#nova/snapshots/volumes/" + volSnapshot.get("id")+ "/detail/"
                 }, {
                     value: volSnapshot.get('description')
                 }, {

@@ -7,6 +7,12 @@ var VolumeDetailView = Backbone.View.extend({
         this.model.fetch();
     },
 
+    onClose: function () {
+        this.model.unbind("change", this.render, this);
+        this.undelegateEvents();
+        this.unbind();
+    },
+
     render: function () {
         if ($("#volume_details").html() == null) {
             UTILS.Render.animateRender(this.el, this._template, {model:this.model});

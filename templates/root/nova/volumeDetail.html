@@ -8,7 +8,7 @@ src: templates/root/nova/volumeDetail.html
 
     <div class="entity_consult">
         <div class="entity_detail">
-            <div id="volume_details__overview" class="active row-fluid">
+            <div id="volume_details" class="active row-fluid">
                 <div class="status span4">
                     <h4>Info</h4>
                     <hr class="header_rule">
@@ -22,9 +22,6 @@ src: templates/root/nova/volumeDetail.html
                         <li>
                             <strong>Description:</strong>&nbsp;<%= model.get("display_description") %>
                         </li>
-                        <li>
-                            <strong>Status:</strong>&nbsp;<%= model.get("status") %>
-                        </li>
                     </ul>
                 </div>
                 <div class="status span4">
@@ -32,10 +29,19 @@ src: templates/root/nova/volumeDetail.html
                     <hr class="header_rule">
                     <ul>
                         <li>
+                            <strong>Status:</strong>&nbsp;<%= model.get("status") %>
+                        </li>
+                        <li>
                             <strong>Size:</strong>&nbsp;<%= model.get("size") %> GB
                         </li>
                         <li>
-                            <strong>Created:</strong>&nbsp;<%= model.get("created") %>
+                            <strong>Volume type:</strong>&nbsp;<%= model.get("volume_type") %>
+                        </li>
+                        <li>
+                            <strong>Availability zone:</strong>&nbsp;<%= model.get("availability_zone") %>
+                        </li>
+                        <li>
+                            <strong>Created:</strong>&nbsp;<%= model.get("created_at") %>
                         </li>
                     </ul>
                 </div>
