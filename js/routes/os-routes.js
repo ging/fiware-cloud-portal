@@ -125,9 +125,6 @@ var OSRouter = Backbone.Router.extend({
         this.route('nova/images/:id/launch/', 'launch_image',  this.wrap(this.launch_image, this.checkAuthAndTimers));
         this.route('nova/images/:name/update', 'edit_image',  this.wrap(this.edit_image, this.checkAuthAndTimers));
 
-        //this.route('nova/instances_and_volumes/instances/:id/detail', 'consult_instance',  _.wrap(this.consult_instance, this.checkAuthAndTimers));
-        this.route('nova/instances_and_volumes/instances/:id/detail?view=:subview', 'consult_instance',  this.wrap(this.consult_instance, this.checkAuthAndTimers));
-        this.route('nova/instances_and_volumes/instances/:id/detail', 'consult_instance',  this.wrap(this.consult_instance, this.checkAuthAndTimers));
         this.route('nova/volumes/:id/detail', 'consult_volume',  this.wrap(this.consult_volume, this.checkAuthAndTimers));
 
         this.route('objectstorage/containers/', 'consult_containers',  this.wrap(this.objectstorage_consult_containers, this.checkAuthAndTimers));
