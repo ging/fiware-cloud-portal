@@ -24,6 +24,8 @@ var OSRouter = Backbone.Router.extend({
     currentView: undefined,
 
     timers: {},
+    backgroundTime: 60,
+    foregroundTime: 5,
 
     routes: {
         'auth/login': 'login',
@@ -87,68 +89,59 @@ var OSRouter = Backbone.Router.extend({
         this.rootView = new RootView({model:this.loginModel, auth_el: '#auth', root_el: '#root'});
         this.route('', 'init', this.wrap(this.init, this.checkAuthAndTimers));
         this.route('#', 'init', this.wrap(this.init, this.checkAuthAndTimers));
-        this.route('syspanel', 'syspanel', this.wrap(this.sys_projects, this.checkAuthAndTimers));
-        this.route('syspanel/', 'syspanel', this.wrap(this.sys_projects, this.checkAuthAndTimers));
+
+        this.route('home/', 'home', this.wrap(this.init, this.checkAuthAndTimers));
+
+        this.route('syspanel', 'syspanel', this.wrap(this.sys_projects, this.checkAuthAndTimers, ["projects"]));
+        this.route('syspanel/', 'syspanel', this.wrap(this.sys_projects, this.checkAuthAndTimers, ["projects"]));
 
         this.route('settings/', 'settings', this.wrap(this.showSettings, this.checkAuthAndTimers));
 
-        this.route('nova', 'nova', this.wrap(this.nova_instances, this.checkAuthAndTimers));
-        this.route('nova/', 'nova', this.wrap(this.nova_instances, this.checkAuthAndTimers));
+        this.route('nova', 'nova', this.wrap(this.nova_instances, this.checkAuthAndTimers, ["instancesModel"]));
+        this.route('nova/', 'nova', this.wrap(this.nova_instances, this.checkAuthAndTimers, ["instancesModel"]));
 
-        this.route('nova/volumes/', 'volumes', this.wrap(this.nova_volumes, this.checkAuthAndTimers));
-        this.route('nova/access_and_security/', 'access_and_security', this.wrap(this.nova_access_and_security, this.checkAuthAndTimers));
+        this.route('nova/volumes/', 'volumes', this.wrap(this.nova_volumes, this.checkAuthAndTimers, ["volumesModel"]));
+        this.route('nova/volumes/:id/detail', 'consult_volume',  this.wrap(this.consult_volume, this.checkAuthAndTimers));
+
+        this.route('nova/access_and_security/', 'access_and_security', this.wrap(this.nova_access_and_security, this.checkAuthAndTimers, ["keypairsModel", "securityGroupsModel", "floatingIPsModel"]));
         this.route('nova/access_and_security/keypairs/:name/download/', 'keypair_download', this.wrap(this.nova_keypair_download, this.checkAuthAndTimers));
 
-        this.route('nova/images/', 'images', this.wrap(this.nova_images, this.checkAuthAndTimers));
-        this.route('nova/instances/', 'instances', this.wrap(this.nova_instances, this.checkAuthAndTimers));
+        this.route('nova/images/', 'images', this.wrap(this.nova_images, this.checkAuthAndTimers, ["images"]));
+        this.route('nova/images/:id', 'images',  this.wrap(this.nova_image, this.checkAuthAndTimers));
+        this.route('nova/instances/', 'instances', this.wrap(this.nova_instances, this.checkAuthAndTimers, ["instancesModel"]));
         this.route('nova/instances/:id/detail', 'instances', this.wrap(this.nova_instance, this.checkAuthAndTimers));
         this.route('nova/instances/:id/detail?view=:subview', 'instance', this.wrap(this.nova_instance, this.checkAuthAndTimers));
-        this.route('nova/flavors/', 'flavors',  this.wrap(this.nova_flavors, this.checkAuthAndTimers));
-        
-        this.route('nova/snapshots/', 'snapshots', this.wrap(this.nova_snapshots, this.checkAuthAndTimers));
+        this.route('nova/flavors/', 'flavors',  this.wrap(this.nova_flavors, this.checkAuthAndTimers, ["flavors"]));
+
+        this.route('nova/snapshots/', 'snapshots', this.wrap(this.nova_snapshots, this.checkAuthAndTimers, ["volumeSnapshotsModel", "instanceSnapshotsModel"]));
         this.route('nova/snapshots/instances/:id/detail/', 'instance_snapshot', this.wrap(this.instance_snapshot, this.checkAuthAndTimers));
         this.route('nova/snapshots/volumes/:id/detail/', 'volume_snapshot', this.wrap(this.volume_snapshot, this.checkAuthAndTimers));
 
-        this.route('home/', 'home', this.wrap(this.init, this.checkAuthAndTimers));
-        this.route('syspanel/images/images/', 'images',  this.wrap(this.sys_images, this.checkAuthAndTimers));
-        this.route('syspanel/instances/', 'instances',  this.wrap(this.sys_instances, this.checkAuthAndTimers));
         this.route('syspanel/services/', 'services',  this.wrap(this.sys_services, this.checkAuthAndTimers));
-        this.route('syspanel/flavors/', 'flavors',  this.wrap(this.sys_flavors, this.checkAuthAndTimers));
-        this.route('syspanel/projects/', 'projects',  this.wrap(this.sys_projects, this.checkAuthAndTimers));
+        this.route('syspanel/flavors/', 'flavors',  this.wrap(this.sys_flavors, this.checkAuthAndTimers, ["flavors"]));
+        this.route('syspanel/projects/', 'projects',  this.wrap(this.sys_projects, this.checkAuthAndTimers, ["projects"]));
         this.route('syspanel/projects/:id/users/', 'users_projects',  this.wrap(this.sys_users_projects, this.checkAuthAndTimers));
         this.route('syspanel/users/', 'users',  this.wrap(this.sys_users, this.checkAuthAndTimers));
-        this.route('syspanel/quotas/', 'quotas',  this.wrap(this.sys_quotas, this.checkAuthAndTimers));
-        //this.route('syspanel/projects/:id/users', 'modify_users',  this.wrap(this.modify_users, this.checkAuthAndTimers));
+        this.route('syspanel/quotas/', 'quotas',  this.wrap(this.sys_quotas, this.checkAuthAndTimers, ["quotas"]));
 
-        this.route('syspanel/flavors/create', 'create_flavor',  this.wrap(this.create_flavor, this.checkAuthAndTimers));
-
-        this.route('nova/images/:id/delete', 'delete_image',  this.wrap(this.delete_image, this.checkAuthAndTimers));
-        this.route('nova/images/:id/update', 'edit_image',  this.wrap(this.edit_image, this.checkAuthAndTimers));
-        this.route('nova/images/:id', 'consult_image',  this.wrap(this.consult_image, this.checkAuthAndTimers));
-        this.route('nova/images/:id/launch/', 'launch_image',  this.wrap(this.launch_image, this.checkAuthAndTimers));
-        this.route('nova/images/:name/update', 'edit_image',  this.wrap(this.edit_image, this.checkAuthAndTimers));
-
-        this.route('nova/volumes/:id/detail', 'consult_volume',  this.wrap(this.consult_volume, this.checkAuthAndTimers));
-
-        this.route('objectstorage/containers/', 'consult_containers',  this.wrap(this.objectstorage_consult_containers, this.checkAuthAndTimers));
+        this.route('objectstorage/containers/', 'consult_containers',  this.wrap(this.objectstorage_consult_containers, this.checkAuthAndTimers, ["containers"]));
         this.route('objectstorage/containers/:name/', 'consult_container',  this.wrap(this.objectstorage_consult_container, this.checkAuthAndTimers));
-        //this.route('objectstorage/containers/:name/:object/', 'download_object',  this.wrap(this.objectstorage_download_object, this.checkAuthAndTimers));
 
     },
 
-    wrap: function(func, wrapper, modelName) {
+    wrap: function(func, wrapper, modelArray) {
         var ArrayProto = Array.prototype;
         var slice = ArrayProto.slice;
         return function() {
           var args = [func].concat(slice.call(arguments, 0));
-          return wrapper.apply(this, [args, modelName]);
+          return wrapper.apply(this, [args, modelArray]);
         };
     },
 
     initFetch: function() {
 
         if (Object.keys(this.timers).length === 0) {
-            var seconds = 30;
+            var seconds = this.backgroundTime;
             this.add_fetch("instancesModel", seconds);
             this.add_fetch("sdcs", seconds);
             this.add_fetch("volumesModel", seconds);
@@ -169,10 +162,6 @@ var OSRouter = Backbone.Router.extend({
 
     checkAuthAndTimers: function() {
 
-        if (arguments[1] !== undefined && Object.keys(this.timers).length !== 0) {
-            this.update_fetch(arguments[1], 5, 60);
-        }
-
         var next = arguments[0][0];
         this.rootView.options.next_view = Backbone.history.fragment;
         if (!this.loginModel.get("loggedIn")) {
@@ -180,6 +169,7 @@ var OSRouter = Backbone.Router.extend({
             return;
         } else {
             this.initFetch();
+            this.update_fetch(arguments[1], this.foregroundTime, this.backgroundTime);
         }
         var args = [this].concat(Array.prototype.slice.call(arguments[0], 1));
         if (next) {
@@ -198,11 +188,7 @@ var OSRouter = Backbone.Router.extend({
     },
 
     init: function(self) {
-        if (self.loginModel.isAdmin()) {
-            window.location.href = "#syspanel";
-        } else {
-            window.location.href = "#nova";
-        }
+        window.location.href = "#nova";
     },
 
     login: function() {
@@ -286,61 +272,6 @@ var OSRouter = Backbone.Router.extend({
         }
     },
 
-    sys_images: function(self) {
-        if (self.showSysRoot(self, 'Images')) {
-            //self.add_fetch(self.images, 4);
-            var view = new ImagesView({model: self.images, el: '#content'});
-            self.newContentView(self,view);
-        }
-    },
-
-    delete_images: function(self) {
-        var view = new DeleteImagesView({model: self.images, el: 'body'});
-        view.render();
-        self.navigate('#syspanel/images/images/', {trigger: false, replace: true});
-    },
-
-    delete_image: function(self, id) {
-        var image = new ImageVM();
-        image.set({"id": id});
-        var view = new DeleteImageView({model: image, el: 'body'});
-        view.render();
-        self.navigate('#syspanel/images/images/', {trigger: false, replace: true});
-    },
-
-    edit_image: function(self, id) {
-        var image = new ImageVM();
-        image.set({"id": id});
-        var view = new UpdateImageView({model: image, el: 'body'});
-        self.navigate('#syspanel/images/images/', {trigger: false, replace: true});
-    },
-
-    consult_image: function(self, id) {
-        console.log("View image");
-        self.showNovaRoot(self, 'Images');
-        var image = new ImageVM();
-        image.set({"id": id});
-        var view = new ConsultImageDetailView({model: image, el: '#content'});
-         self.newContentView(self,view);
-    },
-
-    launch_image: function(self, id) {
-        var image = new ImageVM();
-        image.set({"id": id});
-        var view = new LaunchImageView({model: image, flavors: self.flavors, keypairs: self.keypairsModel, el: 'body'});
-        self.navigate('#nova/images_and_snapshots/', {trigger: false, replace: true});
-    },
-
-    sys_instances: function(self) {
-        if (self.showSysRoot(self, 'Instances')) {
-            //self.instancesModel.unbind("change");
-            self.instancesModel.alltenants = true;
-            //self.add_fetch(self.instancesModel, 4);
-            var view = new InstanceView({model: self.instancesModel, projects: self.projects, flavors: self.flavors, el: '#content'});
-            self.newContentView(self,view);
-        }
-    },
-
     sys_services: function(self) {
         if (self.showSysRoot(self, 'Services')) {
             var services = new Services();
@@ -357,13 +288,6 @@ var OSRouter = Backbone.Router.extend({
             var view = new FlavorView({model: self.flavors, el: '#content'});
             self.newContentView(self,view);
         }
-    },
-
-    create_flavor: function(self) {
-        var flavor = new Flavor();
-        var view = new CreateFlavorView({model: flavor, el: 'body', flavors: self.flavors});
-        view.render();
-        self.navigate('#syspanel/flavors/', {trigger: false, replace: true});
     },
 
     sys_projects: function(self) {
@@ -451,6 +375,14 @@ var OSRouter = Backbone.Router.extend({
         self.newContentView(self,view);
     },
 
+    nova_image: function(self, id) {
+        self.showNovaRoot(self, 'Images');
+        var image = new ImageVM();
+        image.set({"id": id});
+        var view = new ConsultImageDetailView({model: image, el: '#content'});
+         self.newContentView(self,view);
+    },
+
     nova_flavors: function(self) {
         self.showNovaRoot(self, 'Flavors');
         var view = new FlavorView({model: self.flavors, isProjectTab: true, el: '#content'});
@@ -536,21 +468,26 @@ var OSRouter = Backbone.Router.extend({
         self.newContentView(self,view);
     },
 
-    update_fetch: function (modelName, currentSeconds, backgroundSeconds) {
+    update_fetch: function (modelArray, currentSeconds, backgroundSeconds) {
 
-        if (modelName === this.timers.current) {
-            console.log('No change in current timer');
-            return;
-        }
+        var self = this;
+
+        modelArray = modelArray || [];
 
         if (this.timers.current !== undefined) {
-            console.log('Old Current ', this.timers.current, 'New Current ', modelName);
-            clearInterval(this.timers[this.timers.current]);
-            this.add_fetch(this.timers.current, backgroundSeconds);
+            this.timers.current.forEach(function(oldModel) {
+                clearInterval(self.timers[oldModel]);
+                self.add_fetch(oldModel, backgroundSeconds);
+            });
         }
-        clearInterval(this.timers[modelName]);
-        this.add_fetch(modelName, currentSeconds);
-        this.timers.current = modelName;
+
+        modelArray.forEach(function(modelName) {
+            clearInterval(self.timers[modelName]);
+            self.add_fetch(modelName, currentSeconds);
+        });
+
+        this.timers.current = modelArray;
+
     },
 
     clear_fetch: function() {
@@ -566,7 +503,6 @@ var OSRouter = Backbone.Router.extend({
         var self = this;
         this[modelName].fetch();
         var id = setInterval(function() {
-            console.log("Fetch", modelName);
             self[modelName].fetch();
         }, seconds*1000);
 

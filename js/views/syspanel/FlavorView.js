@@ -25,7 +25,7 @@ var FlavorView = Backbone.View.extend({
         if (!this.options.isProjectTab) {
             btns.push({
                 label:  "Create Flavor",
-                url:    "#syspanel/flavors/create"
+                action:    "create"
             });
         }
         return btns;
@@ -147,6 +147,8 @@ var FlavorView = Backbone.View.extend({
                 subview.render();
                 break;
             case 'create':
+                view = new CreateFlavorView({model: new Flavor(), el: 'body', flavors: self.model});
+                view.render();
                 break;
         }
     },
