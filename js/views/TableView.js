@@ -4,6 +4,7 @@ var TableView = Backbone.View.extend({
     cid: undefined,
     lastEntryClicked: undefined,
     lastEntries: [],
+    orderByColumn: 0,
 
     initialize: function() {
         // main_buttons: [{label:label, url: #url, action: action_name}]
@@ -20,6 +21,7 @@ var TableView = Backbone.View.extend({
         events['contextmenu .entry_' + this.cid] = 'onContextMenu';
         events['click .btn-' + this.cid] = 'onContextMenuBtn';
         events['click .entry_' + this.cid] = 'onEntryClick';
+        events['click .header_entry_' + this.cid] = 'onHeaderEntryClick';
         events['mousedown .entry_' + this.cid] = 'onEntryMouseDown';
         this.delegateEvents(events);
         this.options.disableContextMenu = this.options.disableContextMenu || false;
@@ -37,7 +39,17 @@ var TableView = Backbone.View.extend({
     },
 
     getEntries: function() {
-        return this.options.getEntries.call(this.options.context);
+        var self = this;
+        var entries = this.options.getEntries.call(this.options.context);
+        return entries.sort(function (a,b) {
+            if (a.cells[self.orderByColumn].value === b.cells[self.orderByColumn].value) {
+                return 0;
+            } 
+            if (a.cells[self.orderByColumn].value > b.cells[self.orderByColumn].value) {
+                return 1;
+            } 
+            return -1;
+        });
     },
 
     getHeaders: function() {
@@ -96,6 +108,17 @@ var TableView = Backbone.View.extend({
                     me.onselectstart = null;
                 }, 0);
             }
+        }
+    },
+
+    onHeaderEntryClick: function(evt) {
+        var node = $(evt.target)[0].nodeName;
+        var self = this;
+        if (node === "IMG") {
+            var column = $(evt.target)[0].id.toString().substring(10);
+            console.log(column);
+            this.orderByColumn = column;
+            this.render();
         }
     },
 

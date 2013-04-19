@@ -52,6 +52,7 @@ src: templates/root/table.html
     <thead>
         <tr>
             <%
+                var colNum = 0;
                 for (var header_idx in headers) {
                     var header = headers[header_idx];
                     if (header.type === "checkbox") {
@@ -63,8 +64,9 @@ src: templates/root/table.html
                     <label for="checkbox_<%= cid%>"></label>
                 </td>
             <% } else { %>
-                <td style="width:<%=header.size%>" class="tip <%= (header.hidden_tablet) ? 'hidden-tablet':''%> <%=(header.hidden_phone) ? 'hidden-phone':''%>" data-tooltip="<%=header.tooltip%>" data-i18n="<%=header.name%>"><%=header.name%></td>
+                <td style="width:<%=header.size%>;" class="tip <%= (header.hidden_tablet) ? 'hidden-tablet':''%> <%=(header.hidden_phone) ? 'hidden-phone':''%>" data-tooltip="<%=header.tooltip%>"><div style="float:left;" data-i18n="<%=header.name%>"><%=header.name%></div><img id="header_id_<%=colNum%>" style="width: 15px;margin-left: 15px;cursor:pointer;" class="header_entry_<%=cid%>" src="/images/triangle.png"></img></td>
             <%
+                colNum++;
                 }
                }
             %>
