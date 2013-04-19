@@ -13,8 +13,7 @@ var ViewProductAttributesView = Backbone.View.extend({
     },
 
     render: function () {
-        console.log(this.options);
-        $(this.el).append(this._template({productAttributes: this.options.productAttributes}));
+        $(this.el).append(this._template({product: this.options.product, productAttributes: this.options.productAttributes}));
         $('.modal:last').modal();
         $('.modal-backdrop').addClass("clickOut");
         return this;
@@ -23,7 +22,7 @@ var ViewProductAttributesView = Backbone.View.extend({
     autoRender: function () {
 
         $(this.el).find("#view_product_attributes").remove();
-        $(this.el).append(self._template({productAttributes: this.options.attributes}));
+        $(this.el).append(self._template({product: this.options.product, productAttributes: this.options.attributes}));
     },
 
     close: function(e) {
