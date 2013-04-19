@@ -14,7 +14,7 @@ var EditProductAttributesView = Backbone.View.extend({
     },
 
     render: function () {
-        $(this.el).append(this._template({productAttributes: this.options.productAttributes}));
+        $(this.el).append(this._template({model: this.model, productAttributes: this.options.productAttributes}));
         $('.modal:last').modal();
         $('.modal-backdrop').addClass("clickOut");
         return this;
@@ -23,7 +23,7 @@ var EditProductAttributesView = Backbone.View.extend({
     autoRender: function () {
 
         $(this.el).find("#edit_product_attributes").remove();
-        $(this.el).append(self._template({productAttributes: this.options.attributes}));
+        $(this.el).append(self._template({model: this.model, productAttributes: this.options.attributes}));
     },
 
     close: function(e) {

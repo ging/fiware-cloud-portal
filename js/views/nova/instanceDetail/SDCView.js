@@ -207,7 +207,7 @@ var InstanceSDCView = Backbone.View.extend({
 
             case 'view':
                 this.model.getCatalogueProductDetails({id: ids[0], callback: function (resp) {
-                    subview = new ViewProductAttributesView({el: 'body', productAttributes: resp});
+                    subview = new ViewProductAttributesView({el: 'body', productAttributes: resp, product: ids[0]});
                     subview.render();
                 }, error: function (model, e) {
                     console.log('Error attr ', e);
