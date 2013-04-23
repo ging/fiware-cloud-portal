@@ -60,7 +60,8 @@ var ImagesView = Backbone.View.extend({
             tooltip: "Actions",
             size: "15%",
             hidden_phone: false,
-            hidden_tablet: false
+            hidden_tablet: false,
+            type: "button"
         }];
     },
 
