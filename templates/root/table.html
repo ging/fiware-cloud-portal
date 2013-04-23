@@ -64,7 +64,10 @@ src: templates/root/table.html
                     <label for="checkbox_<%= cid%>"></label>
                 </td>
             <% } else { %>
-                <td style="width:<%=header.size%>;" class="tip <%= (header.hidden_tablet) ? 'hidden-tablet':''%> <%=(header.hidden_phone) ? 'hidden-phone':''%>" data-tooltip="<%=header.tooltip%>"><div style="float:left;" data-i18n="<%=header.name%>"><%=header.name%></div><img id="header_id_<%=colNum%>" style="width: 15px;margin-left: 15px;cursor:pointer;" class="header_entry_<%=cid%>" src="/images/triangle.png"></img></td>
+                <td id="header_id_<%=colNum%>" style="width:<%=header.size%>;" class="tip <%= (header.hidden_tablet) ? 'hidden-tablet':''%> <%=(header.hidden_phone) ? 'hidden-phone':''%>" data-tooltip="<%=header.tooltip%>">
+                <div class="header_entry_<%=cid%>" style="float:left;cursor:pointer;" data-i18n="<%=header.name%>"><%=header.name%></div>
+                <img class="header_entry_<%=cid%>" style="width: 15px;margin-left: 15px;cursor:pointer;" src="/images/triangle.png"></img>
+                </td>
             <%
                 colNum++;
                 }

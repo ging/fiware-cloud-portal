@@ -87,7 +87,7 @@ var NovaVolumesView = Backbone.View.extend({
                 hidden_phone: true,
                 hidden_tablet: false
             }, {
-                name: "Size",
+                name: "Size (GB)",
                 tooltip: "Current volume size",
                 size: "15%",
                 hidden_phone: true,
@@ -119,7 +119,7 @@ var NovaVolumesView = Backbone.View.extend({
                 }, {
                     value: (volume.get("display_description") !== '' && volume.get('display_description')!== null) ? volume.get("display_description"):'-'
                 }, {
-                    value: volume.get('size')+" GB"
+                    value: volume.get('size')
                 }, {
                     value: volume.get("status")
                 }, {

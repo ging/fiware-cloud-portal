@@ -114,9 +114,9 @@ var TableView = Backbone.View.extend({
     onHeaderEntryClick: function(evt) {
         var node = $(evt.target)[0].nodeName;
         var self = this;
-        if (node === "IMG") {
-            var column = $(evt.target)[0].id.toString().substring(10);
-            console.log(column);
+        if (node === "IMG" || node == "DIV") {
+            var column = $(evt.target).parent()[0].id.toString().substring(10);
+            //console.log(column);
             this.orderByColumn = column;
             this.render();
         }

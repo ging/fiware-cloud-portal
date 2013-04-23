@@ -56,7 +56,7 @@ var FlavorView = Backbone.View.extend({
                 tooltip: "Flavor's identifier",
                 size: "5%",
                 hidden_phone: true,
-                hidden_tablet:false
+                hidden_tablet:false,
             },
             {
                 name: "Name",
@@ -110,8 +110,10 @@ var FlavorView = Backbone.View.extend({
             i++;
             var flavor = this.model.models[index];
 
+
+
             var entry = {id: flavor.get('id'), cells: [{
-                    value: flavor.get("id")
+                  value: parseInt(flavor.get("id"))
                 },
                 { value: flavor.get("name")
                 },
