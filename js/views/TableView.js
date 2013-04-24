@@ -120,7 +120,7 @@ var TableView = Backbone.View.extend({
         var node = $(evt.target)[0].nodeName;
         var self = this;
         if (node === "IMG" || node == "DIV") {
-            var column =  parseInt($(evt.target).parent()[0].id.toString().substring(10));
+            var column =  parseInt($(evt.target).parent()[0].id.toString().substring(10), 10);
             //console.log(column);
             if (this.orderBy.column === column) {
                 if (this.orderBy.direction === 'up') {
