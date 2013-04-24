@@ -61,7 +61,7 @@ var ImagesView = Backbone.View.extend({
             size: "15%",
             hidden_phone: false,
             hidden_tablet: false,
-            type: "button"
+            order: "none"
         }];
     },
 

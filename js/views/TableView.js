@@ -4,7 +4,7 @@ var TableView = Backbone.View.extend({
     cid: undefined,
     lastEntryClicked: undefined,
     lastEntries: [],
-    orderByColumn: 0,
+    orderBy: {},
 
     initialize: function() {
         // main_buttons: [{label:label, url: #url, action: action_name}]
@@ -12,6 +12,7 @@ var TableView = Backbone.View.extend({
         // headers: [{name:name, tooltip: "tooltip", size:"15%", hidden_phone: true, hidden_tablet:false}]
         // entries: [{id:id, cells: [{value: value, link: link}] }]
         // onAction: function() {}
+        this.orderBy = {column: 0, direction: 'down'};
         this.cid = Math.round(Math.random() * 1000000);
         var events = {};
         events['click .btn-action-' + this.cid] = 'onDropdownAction';
@@ -41,14 +42,18 @@ var TableView = Backbone.View.extend({
     getEntries: function() {
         var self = this;
         var entries = this.options.getEntries.call(this.options.context);
+        var order = 1;
+        if (this.orderBy.direction === 'up') {
+            order = -1;
+        }
         return entries.sort(function (a,b) {
-            if (a.cells[self.orderByColumn].value === b.cells[self.orderByColumn].value) {
+            if (a.cells[self.orderBy.column].value === b.cells[self.orderBy.column].value) {
                 return 0;
             } 
-            if (a.cells[self.orderByColumn].value > b.cells[self.orderByColumn].value) {
-                return 1;
+            if (a.cells[self.orderBy.column].value > b.cells[self.orderBy.column].value) {
+                return order * 1;
             } 
-            return -1;
+            return order * -1;
         });
     },
 
@@ -115,9 +120,18 @@ var TableView = Backbone.View.extend({
         var node = $(evt.target)[0].nodeName;
         var self = this;
         if (node === "IMG" || node == "DIV") {
-            var column = $(evt.target).parent()[0].id.toString().substring(10);
+            var column =  parseInt($(evt.target).parent()[0].id.toString().substring(10));
             //console.log(column);
-            this.orderByColumn = column;
+            if (this.orderBy.column === column) {
+                if (this.orderBy.direction === 'up') {
+                    this.orderBy.direction = 'down';
+                } else {
+                    this.orderBy.direction = 'up';
+                }
+            } else {
+                this.orderBy.column = column;
+                this.orderBy.direction = 'down';
+            }
             this.render();
         }
     },
@@ -251,7 +265,8 @@ var TableView = Backbone.View.extend({
             dropdown_buttons: this.getDropdownButtons(),
             headers: this.getHeaders(),
             entries: entries,
-            disableContextMenu: this.options.disableContextMenu
+            disableContextMenu: this.options.disableContextMenu, 
+            orderBy: this.orderBy
         });
         var checkboxes = [];
         var checkboxAll = false;
