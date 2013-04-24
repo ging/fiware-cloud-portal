@@ -109,7 +109,7 @@ var OSRouter = Backbone.Router.extend({
         this.route('nova/images/', 'images', this.wrap(this.nova_images, this.checkAuthAndTimers, ["images"]));
         this.route('nova/images/:id', 'images',  this.wrap(this.nova_image, this.checkAuthAndTimers));
         this.route('nova/instances/', 'instances', this.wrap(this.nova_instances, this.checkAuthAndTimers, ["instancesModel"]));
-        this.route('nova/instances/:id/detail', 'instances', this.wrap(this.nova_instance, this.checkAuthAndTimers));
+        this.route('nova/instances/:id/detail', 'instances', this.wrap(this.nova_instance, this.checkAuthAndTimers, ["instancesModel", "sdcs"]));
         this.route('nova/instances/:id/detail?view=:subview', 'instance', this.wrap(this.nova_instance, this.checkAuthAndTimers));
         this.route('nova/flavors/', 'flavors',  this.wrap(this.nova_flavors, this.checkAuthAndTimers, ["flavors"]));
 
