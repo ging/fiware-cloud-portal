@@ -371,7 +371,7 @@ var OSRouter = Backbone.Router.extend({
     nova_images: function(self) {
         self.showNovaRoot(self, 'Images');
         //self.instancesModel.alltenants = false;
-        var view = new ImagesView({model: self.images, volumeSnapshotsModel: self.volumeSnapshotsModel, instancesModel: self.instancesModel, volumesModel: self.volumesModel, flavors: self.flavors, keypairs: self.keypairsModel, el: '#content'});
+        var view = new ImagesView({model: self.images, volumeSnapshotsModel: self.volumeSnapshotsModel, instancesModel: self.instancesModel, volumesModel: self.volumesModel, flavors: self.flavors, keypairs: self.keypairsModel, securityGroupsModel: self.securityGroupsModel, el: '#content'});
         self.newContentView(self,view);
     },
 

@@ -11,6 +11,8 @@ var LaunchImageView = Backbone.View.extend({
 
     initialize: function() {
         this.options.keypairs.fetch();
+        this.options.flavors.fetch();
+        this.options.secGroups.fetch();
     },
 
     render: function () {
@@ -18,7 +20,7 @@ var LaunchImageView = Backbone.View.extend({
         if ($('#launch_image').html() != null) {
             return;
         }
-        $(this.el).append(this._template({model:this.model.models, flavors: flavors, keypairs: this.options.keypairs}));
+        $(this.el).append(this._template({model:this.model.models, flavors: flavors, keypairs: this.options.keypairs, secGroups: this.options.secGroups}));
         $('#launch_image').modal();
         return this;
     },
@@ -45,19 +47,19 @@ var LaunchImageView = Backbone.View.extend({
         var instance = new Instance();
         var name = $('input[name=instance_name]').val();
         var imageReg = this.model.id;
-        var flavorReg, key_name, security_groups, availability_zone;
-        $("#id_flavor option:selected").each(function () {
-                var flavor = $(this).val();
-                if (flavor !== "") {
-                    flavorReg = flavor;
-                }
+        var flavorReg, key_name, availability_zone;
+        var security_groups = [];
+
+        if ($("#id_keypair option:selected")[0].value !== '') {
+            key_name = $("#id_keypair option:selected")[0].value;
+        }
+        
+        flavorReg = $("#id_flavor option:selected")[0].value;
+
+        $('input[name=security_groups]:checked').each(function () {
+            security_groups.push($(this)[0].value);
         });
-        $("#id_keypair option:selected").each(function () {
-                var keypair = $(this).val();
-                if (keypair !== "") {
-                    key_name = keypair;
-                }
-        });
+
         var user_data = $('textarea[name=user_data]').val();
         var min_count = $('input[name=count]').val();
         var max_count = $('input[name=count]').val();
@@ -72,9 +74,10 @@ var LaunchImageView = Backbone.View.extend({
         instance.set({"max_count": max_count});
         instance.set({"availability_zone": availability_zone});
 
-
         instance.save(undefined, UTILS.Messages.getCallbacks("Instance "+instance.get("name") + " launched.", "Error launching instance "+instance.get("name"), 
             {context:self, href:"#nova/instances/"}));
+       
+
         /*instance.save(undefined, {success: function () {
             self.close();
             window.location.href = "#nova/instances/";
