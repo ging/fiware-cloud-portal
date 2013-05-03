@@ -42,11 +42,11 @@ var InstanceSDCView = Backbone.View.extend({
             label: "Uninstall",
             action: "uninstall",
             activatePattern: groupSelected
-            },
-            {
-            label: "Edit attributes",
-            action: "edit",
-            activatePattern: oneSelected
+            // },
+            // {
+            // label: "Edit attributes",
+            // action: "edit",
+            // activatePattern: oneSelected
         }];
     },
 
@@ -149,10 +149,6 @@ var InstanceSDCView = Backbone.View.extend({
 
     getEntriesNew: function() {
         var entries = [];
-
-        if (this.model.models.length === 0) {
-            return entries;
-        }
 
         var products = this.model.catalogueList;
 
