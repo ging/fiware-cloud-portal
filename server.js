@@ -149,13 +149,32 @@ function sendData(port, options, data, res) {
     }
 }
 
+function getClientIp(req, headers) {
+  var ipAddress = req.connection.remoteAddress;
+
+  var forwardedIpsStr = req.header('x-forwarded-for');
+
+  if (forwardedIpsStr) {
+    // 'x-forwarded-for' header may return multiple IP addresses in
+    // the format: "client IP, proxy 1 IP, proxy 2 IP" so take the
+    // the first one
+    forwardedIpsStr += "," + ipAddress;
+  } else {
+    forwardedIpsStr = "" + ipAddress;
+  }
+
+  headers['x-forwarded-for'] = forwardedIpsStr;
+
+  return headers;
+};
+
 app.all('/keystone/*', function(req, resp) {
     var options = {
         host: '130.206.80.100',
         port: 5000,
         path: req.url.split('keystone')[1],
         method: req.method,
-        headers: req.headers
+        headers: getClientIp(req, req.headers)
     };
     sendData(http, options, req.body, resp);
 });
@@ -166,7 +185,7 @@ app.all('/keystone-admin/*', function(req, resp) {
         port: 35357,
         path: req.url.split('keystone-admin')[1],
         method: req.method,
-        headers: req.headers
+        headers: getClientIp(req, req.headers)
     };
     sendData(http, options, req.body, resp);
 });
