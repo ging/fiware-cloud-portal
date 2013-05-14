@@ -1,0 +1,91 @@
+.tier-row {
+    height: 150px;
+}
+
+.table-striped tbody tr.tier-row:hover td, .table-striped tbody tr.tier-row td {
+    background-color: white;
+    cursor: auto;
+}
+
+.tier-row td {
+    height: 150px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    position: relative;
+}
+
+.tier-row td .tier-image {
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    top: 50%;
+    margin-top: -15px;
+    left: 50%;
+    margin-left: -25px;
+    border-style: none;
+    border-radius: 10px;
+}
+
+.tier-row td .tier-image-back {
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    top: 50%;
+    margin-top: -15px;
+    left: 50%;
+    margin-left: -25px;
+    border-radius: 10px;
+    background-color: #999;
+    line-height: 50px;
+    text-align: center;
+    vertical-align: middle;
+    color: white;
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.tier-min-value {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    left: 50%;
+    margin-left: 5px;
+    top: 1px;
+    font-size: 10px;
+    text-align: center;
+    border: solid 1px;
+    border-radius: 4px;
+    color: #999;
+}
+
+.tier-max-value {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    left: 50%;
+    margin-left: -27px;
+    top: 1px;
+    font-size: 10px;
+    text-align: center;
+    border: solid 1px;
+    border-radius: 4px;
+    color: #999;
+}
+
+.tier-data {
+    margin-top: 25px;
+    font-size: 10px;
+    height: 100%;
+}
+
+.tier-data p {
+    margin-top: 0.2em;
+    margin-bottom: 0em;
+    position: relative;
+}
+
+.tier-data span {
+    position: absolute;
+    left: 70px;
+    color: #999;
+}

@@ -63,27 +63,27 @@ src: templates/root/table.html
                     <input id="checkbox_<%= cid%>" type="checkbox" class="checkbox checkbox_all checkbox_all_<%=cid%>">
                     <label for="checkbox_<%= cid%>"></label>
                 </td>
-            <%  } else if (header.order === 'none') { 
+            <%  } else if (header.order === 'none') {
             %>
                 <td style="width:<%=header.size%>;" class="tip <%= (header.hidden_tablet) ? 'hidden-tablet':''%> <%=(header.hidden_phone) ? 'hidden-phone':''%>" data-tooltip="<%=header.tooltip%>" data-i18n="<%=header.name%>"><%=header.name%>
                 </td>
             <%
                 colNum++;
-                
-                } else { 
+
+                } else {
 
             %>
                     <td id="header_id_<%=colNum%>" style="width:<%=header.size%>;" class="tip <%= (header.hidden_tablet) ? 'hidden-tablet':''%> <%=(header.hidden_phone) ? 'hidden-phone':''%>" data-tooltip="<%=header.tooltip%>">
                     <div class="header_entry_<%=cid%>" style="float:left;cursor:pointer;" data-i18n="<%=header.name%>"><%=header.name%></div>
-            <% 
+            <%
 
                     if (colNum === orderBy.column) {
             %>
-                    
+
                     <img class="header_entry_<%=cid%>" style="width: 15px;margin-left: 15px;cursor:pointer;" src="/images/triangle_active_<%=orderBy.direction%>.png"></img>
                     </td>
-            <%  
-                    } else { 
+            <%
+                    } else {
             %>
                     <img class="header_entry_<%=cid%>" style="width: 15px;margin-left: 15px;cursor:pointer;" src="/images/triangle.png"></img>
                     </td>

@@ -100,6 +100,9 @@ var OSRouter = Backbone.Router.extend({
         this.route('nova', 'nova', this.wrap(this.nova_instances, this.checkAuthAndTimers, ["instancesModel"]));
         this.route('nova/', 'nova', this.wrap(this.nova_instances, this.checkAuthAndTimers, ["instancesModel"]));
 
+        this.route('nova/blueprints/', 'blueprint_templates', this.wrap(this.blueprint_templates, this.checkAuthAndTimers));
+        this.route('nova/blueprints/:id', 'blueprint_template', this.wrap(this.blueprint_template, this.checkAuthAndTimers));
+
         this.route('nova/volumes/', 'volumes', this.wrap(this.nova_volumes, this.checkAuthAndTimers, ["volumesModel"]));
         this.route('nova/volumes/:id/detail', 'consult_volume',  this.wrap(this.consult_volume, this.checkAuthAndTimers));
 
@@ -332,13 +335,17 @@ var OSRouter = Backbone.Router.extend({
         self.newContentView(self,view);
     },
 
-    showNovaRoot: function(self, option) {
+    showNovaRoot: function(self, option, title) {
         //this.clear_fetch();
-        self.top.set({"title":option});
+        if (!title) {
+            title = option;
+        }
+        self.top.set({"title": title});
         self.navs = new NavTabModels([
                             {name: 'Compute', type: 'title'},
                             //{name: 'Overview', active: true, url: '#nova/'},
                             //{name: 'Virtual Data Centers', active: false, url: '#nova/vdcs/'},
+                            {name: 'Blueprint Templates', active: false, url: '#nova/blueprints/'},
                             {name: 'Instances', active: false, url: '#nova/instances/'},
                             {name: 'Images', active: false, url: '#nova/images/'},
                             {name: 'Flavors', active: false, url: '#nova/flavors/'},
@@ -351,6 +358,18 @@ var OSRouter = Backbone.Router.extend({
         self.navs.setActive(option);
         self.tabs.setActive('Project');
         self.showRoot(self, 'Project Name');
+    },
+
+    blueprint_templates: function(self) {
+        self.showNovaRoot(self, 'Blueprint Templates');
+        var view = new BlueprintTemplatesView({el: '#content'});
+        self.newContentView(self,view);
+    },
+
+    blueprint_template: function(self, id) {
+        self.showNovaRoot(self, 'Blueprint Template', 'Blueprint Template / ' + id);
+        var view = new BlueprintTemplateView({el: '#content'});
+        self.newContentView(self,view);
     },
 
     nova_access_and_security: function(self) {

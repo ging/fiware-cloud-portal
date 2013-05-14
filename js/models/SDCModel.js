@@ -32,17 +32,17 @@ var SDC = Backbone.Model.extend({
                     p.version = lastRelease;
                     model.set({'product': p});
                     model.set({"name": model.get('fqn') + '_' + p.name + '_' + p.version});
-                    ServiceDC.API.installProductInstance(model.get('ip'), model.get('fqn'), model.get('product'), options.success, options.error);                
+                    ServiceDC.API.installProductInstance(model.get('ip'), model.get('fqn'), model.get('product'), options.success, options.error);
                 }, options.error);
                 break;
             case "delete":
-                ServiceDC.API.uninstallProductInstance(model.get('name'), options.success, options.error);                
+                ServiceDC.API.uninstallProductInstance(model.get('name'), options.success, options.error);
                 break;
             case "update":
                 var att = model.get('productRelease').product.attributes;
-                ServiceDC.API.reconfigureProductInstance(model.get('name'), att, options.success, options.error);             
+                ServiceDC.API.reconfigureProductInstance(model.get('name'), att, options.success, options.error);
                 break;
-            
+
         }
     }
 });

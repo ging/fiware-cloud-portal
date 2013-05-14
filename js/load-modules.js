@@ -36,11 +36,14 @@ var loadViews = function() {
                 "js/views/SideBarView.js",
                 "js/views/RootView.js",
                 "js/views/TableView.js",
+                "js/views/TableTiersView.js",
                 "js/views/syspanel/FlavorView.js",
                 "js/views/syspanel/ProjectView.js",
                 "js/views/syspanel/ServiceView.js",
                 "js/views/syspanel/UserView.js",
                 "js/views/syspanel/QuotaView.js",
+                "js/views/nova/BlueprintTemplatesView.js",
+                "js/views/nova/BlueprintTemplateView.js",
                 "js/views/nova/AccessAndSecurityView.js",
                 "js/views/nova/KeypairsView.js",
                 "js/views/nova/SecurityGroupsView.js",
@@ -185,6 +188,8 @@ var loadTemplates = function() {
                     'templates/forms/editUser.html',
                     'templates/forms/modifyUsers.html',
 //                  'templates/forms/modifyQuotas.html',
+                    'templates/root/nova/blueprintTemplates.html',
+                    'templates/root/nova/blueprintTemplate.html',
                     'templates/root/nova/accessAndSecurity.html',
                     'templates/root/nova/keypairs.html',
                     'templates/root/nova/securityGroups.html',
@@ -222,6 +227,7 @@ var loadTemplates = function() {
                     'templates/root/confirm.html',
                     'templates/root/settings.html',
                     'templates/root/table.html',
+                    'templates/root/table-tiers.html',
                     'templates/messages.html'
                 ], function(){
                     loadLibraries();
