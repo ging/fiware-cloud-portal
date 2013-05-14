@@ -43,7 +43,7 @@ app.use(function (req, res, next) {
     "use strict";
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'HEAD, POST, GET, OPTIONS, DELETE');
-    res.header('Access-Control-Allow-Headers', 'origin, content-type, X-Auth-Token');
+    res.header('Access-Control-Allow-Headers', 'origin, content-type, X-Auth-Token, Tenant-ID');
     if (req.method == 'OPTIONS') {
         res.statusCode = 200;
         res.header('Content-Length', '0');
@@ -235,6 +235,17 @@ app.all('/sm/*', function(req, resp) {
 });
 
 app.all('/sdc/rest/*', function(req, resp) {
+    var options = {
+        host: '130.206.80.112',
+        port: 8080,
+        path: req.url,
+        method: req.method,
+        headers: req.headers
+    };
+    sendData(http, options, req.body, resp);
+});
+
+app.all('/paasmanager/rest/*', function(req, resp) {
     var options = {
         host: '130.206.80.112',
         port: 8080,
