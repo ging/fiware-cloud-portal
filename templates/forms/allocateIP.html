@@ -15,8 +15,14 @@
                         <label for="id_pool">Pool</label>
                         <span class="help-block" style="display: none;"></span>
                         <div class="input">
-                        <select name="pool" id="id_pool">
-                            <option value="None">No floating IP pools available.</option>
+
+                        <select id="pool_switcher" tabindex="1" class="inline">
+                            <%
+                                for (var index in pools.models) {
+                                var pool = pools.models[index].get("name");
+                            %>
+                            <option value="<%= pool%>"><%= pool%></option>
+                            <% } %>
                         </select>
                         </div>
                     </div>

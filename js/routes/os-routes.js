@@ -21,6 +21,7 @@ var OSRouter = Backbone.Router.extend({
     quotas: undefined,
     securityGroupsModel: undefined,
     floatingIPsModel: undefined,
+    floatingIPPoolsModel: undefined,
 
     currentView: undefined,
 
@@ -47,6 +48,7 @@ var OSRouter = Backbone.Router.extend({
         this.quotas = new Quotas();
         this.securityGroupsModel = new SecurityGroups();
         this.floatingIPsModel = new FloatingIPs();
+        this.floatingIPPoolsModel = new FloatingIPPools();
 
         Backbone.View.prototype.close = function(){
           //this.remove();
@@ -136,6 +138,7 @@ var OSRouter = Backbone.Router.extend({
             this.add_fetch(this.securityGroupsModel, seconds);
             this.add_fetch(this.keypairsModel, seconds);
             this.add_fetch(this.floatingIPsModel, seconds);
+            this.add_fetch(this.floatingIPPoolsModel, seconds);
             if (this.loginModel.isAdmin()) {
                 console.log("admin");
                 this.add_fetch(this.projects, seconds);
@@ -410,7 +413,7 @@ var OSRouter = Backbone.Router.extend({
 
     nova_access_and_security: function(self) {
         self.showNovaRoot(self, 'Security');
-        var view = new AccessAndSecurityView({el: '#content', model: self.keypairsModel, floatingIPsModel: self.floatingIPsModel, securityGroupsModel: self.securityGroupsModel});
+        var view = new AccessAndSecurityView({el: '#content', model: self.keypairsModel, floatingIPsModel: self.floatingIPsModel, floatingIPPoolsModel: self.floatingIPPoolsModel, instances: self.instancesModel, quotas: self.quotas, securityGroupsModel: self.securityGroupsModel});
          self.newContentView(self,view);
     },
 
