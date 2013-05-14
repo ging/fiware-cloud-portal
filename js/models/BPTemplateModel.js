@@ -1,4 +1,4 @@
-var SDC = Backbone.Model.extend({
+var BPTemplate = Backbone.Model.extend({
 
     _action:function(method, options) {
         var model = this;
@@ -23,33 +23,25 @@ var SDC = Backbone.Model.extend({
     sync: function(method, model, options) {
         switch(method) {
             case "read":
-                ServiceDC.API.getProductInstance(model.get('name'), options.success, options.error);
+                BP.API.getBlueprintTemplate(model.get('name'), options.success, options.error);
                 break;
             case "create":
-                ServiceDC.API.getProductReleases(model.get('product').name, function (resp) {
-                    var lastRelease = resp.productRelease_asArray[0].version;
-                    var p = model.get('product');
-                    p.version = lastRelease;
-                    model.set({'product': p});
-                    model.set({"name": model.get('fqn') + '_' + p.name + '_' + p.version});
-                    ServiceDC.API.installProductInstance(model.get('ip'), model.get('fqn'), model.get('product'), options.success, options.error);                
-                }, options.error);
+                BP.API.createBlueprintTempate(model, options.success, options.error);
                 break;
             case "delete":
-                ServiceDC.API.uninstallProductInstance(model.get('name'), options.success, options.error);                
+                BP.API.deleteBlueprintTemplate(model.get('name'), options.success, options.error);
                 break;
             case "update":
-                var att = model.get('productRelease').product.attributes;
-                ServiceDC.API.reconfigureProductInstance(model.get('name'), att, options.success, options.error);             
+           
                 break;
             
         }
     }
 });
 
-var SDCs = Backbone.Collection.extend({
+var BPTemplates = Backbone.Collection.extend({
 
-    model: SDC,
+    model: BPTemplate,
 
     catalogueList: {},
 
@@ -66,18 +58,18 @@ var SDCs = Backbone.Collection.extend({
         return xhr;
     },
 
-    getCatalogueProductDetails: function(options) {
-        options = options || {};
-        return this._action('getCatalogueProductDetails', options);
-    },
+    // getCatalogueProductDetails: function(options) {
+    //     options = options || {};
+    //     return this._action('getCatalogueProductDetails', options);
+    // },
 
     fetchCollection: function(options) {
 
         var self = this;
 
-        ServiceDC.API.getProductList(function (resp) {
-            ServiceDC.API.getProductInstanceList(function (resp2) {
-                self.catalogueList = resp.product_asArray;
+        BP.API.getBlueprintList(function (resp) {
+            BP.API.getBlueprintTemplateList(function (resp2) {
+                self.catalogueList = resp;
                 options.success(resp2);
             }, options.error);
 
@@ -90,7 +82,7 @@ var SDCs = Backbone.Collection.extend({
                 this.fetchCollection(options);
                 break;
             case 'getCatalogueProductDetails':
-                ServiceDC.API.getProductAttributes(options.id, options.success, options.error);
+                // ServiceDC.API.getProductAttributes(options.id, options.success, options.error);
                 break;
         }
     },
