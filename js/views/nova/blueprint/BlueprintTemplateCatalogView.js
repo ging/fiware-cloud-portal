@@ -1,6 +1,6 @@
-var BlueprintTemplatesView = Backbone.View.extend({
+var BlueprintTemplateCatalogView = Backbone.View.extend({
 
-    _template: _.itemplate($('#blueprintTemplatesTemplate').html()),
+    _template: _.itemplate($('#blueprintTemplateCatalogTemplate').html()),
 
     tableView: undefined,
 
@@ -18,8 +18,7 @@ var BlueprintTemplatesView = Backbone.View.extend({
 
     getMainButtons: function() {
         // main_buttons: [{label:label, url: #url, action: action_name}]
-        return [{label: "Open Catalog", action: "catalog"},
-                {label: "Create New Template", action: "create"}];
+        return [{label: "Add Tier", action: "add"}];
     },
 
     getDropdownButtons: function() {
@@ -34,15 +33,11 @@ var BlueprintTemplatesView = Backbone.View.extend({
             }
         };
         return [{
-            label: "Launch Template",
-            action: "launch",
+            label: "Edit Tier",
+            action: "edit",
             activatePattern: oneSelected
             }, {
-            label: "Clone Template",
-            action: "clone",
-            activatePattern: oneSelected
-            }, {
-            label: "Delete Template",
+            label: "Delete Tier",
             action: "delete",
             warn: true,
             activatePattern: groupSelected
@@ -52,24 +47,21 @@ var BlueprintTemplatesView = Backbone.View.extend({
     getHeaders: function() {
         // headers: [{name:name, tooltip: "tooltip", size:"15%", hidden_phone: true, hidden_tablet:false}]
         return [{
-            type: "checkbox",
-            size: "5%"
-        }, {
-            name: "Name",
-            tooltip: "Template's name",
-            size: "45%",
+            name: "Graph",
+            tooltip: "Graph",
+            size: "25%",
             hidden_phone: false,
             hidden_tablet: false
         }, {
-            name: "Description",
-            tooltip: "Template's description",
-            size: "45%",
+            name: "Info",
+            tooltip: "Template's info",
+            size: "25%",
             hidden_phone: false,
             hidden_tablet: false
         }, {
-            name: "Tiers",
-            tooltip: "Number of tiers defined in this tier",
-            size: "10%",
+            name: "Software",
+            tooltip: "Software in tier",
+            size: "50%",
             hidden_phone: false,
             hidden_tablet: false
         }];
@@ -78,20 +70,20 @@ var BlueprintTemplatesView = Backbone.View.extend({
     getEntries: function() {
         var entries = [];
         var i = 0;
-        this.model = {models:[{id:1}]};
+        this.model = {models:[{id:1},{id:2},{id:3}]};
         for (var index in this.model.models) {
             var template = this.model.models[index];
             i++;
             var entry = {
                 id: template.id,
-                cells: [{
-                    value: "test",
-                    link: "#nova/blueprints/" + template.id
-                }, {
-                    value: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"
-                }, {
-                    value: 3
-                }]
+                minValue: 1,
+                maxValue: 10,
+                bootValue: 7,
+                name: "test",
+                flavor: "flavor",
+                image: "image",
+                keypair: "keypair",
+                publicIP: "yes"
             };
             entries.push(entry);
         }
@@ -112,22 +104,18 @@ var BlueprintTemplatesView = Backbone.View.extend({
             bp = blueprint;
         }
         switch (action) {
-            case 'catalog':
+            case 'add':
                 break;
-            case 'create':
-                break;
-            case 'launch':
-                break;
-            case 'clone':
+            case 'edit':
                 break;
             case 'delete':
                 subview = new ConfirmView({
                     el: 'body',
-                    title: "Delete Blueprint Template",
-                    btn_message: "Delete Blueprint Template",
+                    title: "Delete Tier",
+                    btn_message: "Delete Tier",
                     onAccept: function() {
                         blueprintIds.forEach(function(blueprint) {
-                            bp.destroy(UTILS.Messages.getCallbacks("Blueprint Template deleted", "Error deleting Blueprint Template."));
+                            bp.destroy(UTILS.Messages.getCallbacks("Tier deleted", "Error deleting Tier."));
                         });
                     }
                 });
@@ -138,9 +126,9 @@ var BlueprintTemplatesView = Backbone.View.extend({
 
     renderFirst: function() {
         UTILS.Render.animateRender(this.el, this._template);
-        this.tableView = new TableView({
+        this.tableView = new TableTiersView({
             model: this.model,
-            el: '#blueprint-templates-table',
+            el: '#blueprint-template-table',
             onAction: this.onAction,
             getDropdownButtons: this.getDropdownButtons,
             getMainButtons: this.getMainButtons,

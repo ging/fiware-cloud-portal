@@ -37,6 +37,7 @@ var OSRouter = Backbone.Router.extend({
         this.loginModel = new LoginStatus();
         this.flavors = new Flavors();
         this.instancesModel = new Instances();
+        this.bpTemplatesModel = new BPTemplates();
         this.sdcs = new SDCs();
         this.volumesModel = new Volumes();
         this.volumeSnapshotsModel = new VolumeSnapshots();
@@ -102,6 +103,8 @@ var OSRouter = Backbone.Router.extend({
 
         this.route('nova/blueprints/', 'blueprint_templates', this.wrap(this.blueprint_templates, this.checkAuthAndTimers));
         this.route('nova/blueprints/:id', 'blueprint_template', this.wrap(this.blueprint_template, this.checkAuthAndTimers));
+        this.route('nova/blueprints/catalog', 'blueprint_templates_catalog', this.wrap(this.blueprint_templates_catalog, this.checkAuthAndTimers));
+        this.route('nova/blueprints/catalog/:id', 'blueprint_template_catalog', this.wrap(this.blueprint_template_catalog, this.checkAuthAndTimers));
 
         this.route('nova/volumes/', 'volumes', this.wrap(this.nova_volumes, this.checkAuthAndTimers, ["volumesModel"]));
         this.route('nova/volumes/:id/detail', 'consult_volume',  this.wrap(this.consult_volume, this.checkAuthAndTimers));
@@ -362,13 +365,25 @@ var OSRouter = Backbone.Router.extend({
 
     blueprint_templates: function(self) {
         self.showNovaRoot(self, 'Blueprint Templates');
-        var view = new BlueprintTemplatesView({el: '#content'});
+        var view = new BlueprintTemplatesView({el: '#content', model: self.bpTemplatesModel});
         self.newContentView(self,view);
     },
 
     blueprint_template: function(self, id) {
         self.showNovaRoot(self, 'Blueprint Template', 'Blueprint Template / ' + id);
         var view = new BlueprintTemplateView({el: '#content'});
+        self.newContentView(self,view);
+    },
+
+    blueprint_templates_catalog: function(self) {
+        self.showNovaRoot(self, 'Blueprint Templates / Catalog');
+        var view = new BlueprintTemplatesCatalogView({el: '#content', model: self.bpTemplatesModel});
+        self.newContentView(self,view);
+    },
+
+    blueprint_template_catalog: function(self, id) {
+        self.showNovaRoot(self, 'Blueprint Template', 'Blueprint Template / Catalog / ' + id);
+        var view = new BlueprintTemplateCatalogView({el: '#content'});
         self.newContentView(self,view);
     },
 
