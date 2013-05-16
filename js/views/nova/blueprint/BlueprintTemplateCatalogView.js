@@ -1,8 +1,9 @@
 var BlueprintTemplateCatalogView = Backbone.View.extend({
 
-    _template: _.itemplate($('#blueprintTemplateCatalogTemplate').html()),
+    _template: _.itemplate($('#blueprintTemplateTemplate').html()),
 
     tableView: undefined,
+    sdcs: {},
 
     initialize: function() {
         if (this.model) {
@@ -83,7 +84,8 @@ var BlueprintTemplateCatalogView = Backbone.View.extend({
                 flavor: "flavor",
                 image: "image",
                 keypair: "keypair",
-                publicIP: "yes"
+                publicIP: "yes",
+                products: ["uno", "dos"]
             };
             entries.push(entry);
         }
@@ -125,6 +127,7 @@ var BlueprintTemplateCatalogView = Backbone.View.extend({
     },
 
     renderFirst: function() {
+        console.log("Rendering Blueprint Template");
         UTILS.Render.animateRender(this.el, this._template);
         this.tableView = new TableTiersView({
             model: this.model,

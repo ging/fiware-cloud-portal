@@ -96,10 +96,6 @@ var BlueprintTemplateView = Backbone.View.extend({
         this.undelegateEvents();
         this.unbind();
         this.tableView.close();
-        for (var idx in this.sdcs) {
-            var entry = this.sdcs[idx];
-            entry.close();
-        }
     },
 
     onAction: function(action, blueprintIds) {
@@ -144,23 +140,11 @@ var BlueprintTemplateView = Backbone.View.extend({
             context: this
         });
         this.tableView.render();
-
-        var entries = this.getEntries();
-        var self = this;
-        console.log("Printing software");
-        entries.forEach(function(entry) {
-            self.sdcs[entry.id] = new SoftwareTierView({el: '#software-subview'+entry.id, id: entry.id, model: entry});
-            self.sdcs[entry.id].render();
-        });
     },
 
     render: function() {
         if ($(this.el).html() !== null) {
             this.tableView.render();
-            for (var idx in this.sdcs) {
-                var entry = this.sdcs[idx];
-                entry.render();
-            }
         }
         return this;
     }
