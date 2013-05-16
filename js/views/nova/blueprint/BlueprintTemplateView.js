@@ -72,21 +72,25 @@ var BlueprintTemplateView = Backbone.View.extend({
     getEntries: function() {
         var entries = [];
         var i = 0;
-        this.model = {models:[{id:1},{id:2},{id:3}]};
-        for (var index in this.model.models) {
-            var template = this.model.models[index];
-            i++;
+        for (var index in this.model.get('tierDtos_asArray')) {
+            var template = this.model.get('tierDtos_asArray')[index];
+
+            var products = [];
+            for (var p in template.productReleaseDtos_asArray) {
+                products.push(template.productReleaseDtos_asArray[p].productName);
+            }
+
             var entry = {
-                id: template.id,
-                minValue: 1,
-                maxValue: 10,
-                bootValue: 7,
-                name: "test",
+                id: template.name,
+                minValue: template.minimum_number_instances,
+                maxValue: template.maximum_number_instances,
+                bootValue: template.initial_number_instances,
+                name: template.name,
                 flavor: "flavor",
                 image: "image",
                 keypair: "keypair",
                 publicIP: "yes",
-                products: ["uno", "dos"]
+                products: products
             };
             entries.push(entry);
         }
@@ -128,7 +132,6 @@ var BlueprintTemplateView = Backbone.View.extend({
     },
 
     renderFirst: function() {
-        console.log("Rendering Blueprint Template");
         UTILS.Render.animateRender(this.el, this._template);
         this.tableView = new TableTiersView({
             model: this.model,

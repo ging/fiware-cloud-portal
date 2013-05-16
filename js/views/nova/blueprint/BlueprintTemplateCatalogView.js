@@ -1,16 +1,21 @@
 var BlueprintTemplateCatalogView = Backbone.View.extend({
 
-    _template: _.itemplate($('#blueprintTemplateTemplate').html()),
+    _template: _.itemplate($('#blueprintTemplateCatalogTemplate').html()),
 
     tableView: undefined,
     sdcs: {},
+    bpTemplate: {},
 
     initialize: function() {
-        if (this.model) {
-            this.model.unbind("sync");
-            this.model.bind("sync", this.render, this);
-        }
-        this.renderFirst();
+
+        var self = this;
+        this.model.getCatalogBlueprint({id: this.options.templateId, callback: function (bpTemplate) {
+            self.bpTemplate = bpTemplate;
+            self.renderFirst();
+        }, error: function (e) {
+            console.log('Error getting catalog bp detail');
+        }});
+        
     },
 
     events: {
@@ -71,21 +76,25 @@ var BlueprintTemplateCatalogView = Backbone.View.extend({
     getEntries: function() {
         var entries = [];
         var i = 0;
-        this.model = {models:[{id:1},{id:2},{id:3}]};
-        for (var index in this.model.models) {
-            var template = this.model.models[index];
-            i++;
+        for (var index in this.bpTemplate.tierDtos_asArray) {
+            var template = this.bpTemplate.tierDtos_asArray[index];
+
+            var products = [];
+            for (var p in template.productReleaseDtos_asArray) {
+                products.push(template.productReleaseDtos_asArray[p].productName);
+            }
+
             var entry = {
-                id: template.id,
-                minValue: 1,
-                maxValue: 10,
-                bootValue: 7,
-                name: "test",
+                id: template.name,
+                minValue: template.minimum_number_instances,
+                maxValue: template.maximum_number_instances,
+                bootValue: template.initial_number_instances,
+                name: template.name,
                 flavor: "flavor",
                 image: "image",
                 keypair: "keypair",
                 publicIP: "yes",
-                products: ["uno", "dos"]
+                products: products
             };
             entries.push(entry);
         }
@@ -127,7 +136,7 @@ var BlueprintTemplateCatalogView = Backbone.View.extend({
     },
 
     renderFirst: function() {
-        console.log("Rendering Blueprint Template");
+
         UTILS.Render.animateRender(this.el, this._template);
         this.tableView = new TableTiersView({
             model: this.model,
@@ -142,11 +151,5 @@ var BlueprintTemplateCatalogView = Backbone.View.extend({
         this.tableView.render();
     },
 
-    render: function() {
-        if ($(this.el).html() !== null) {
-            this.tableView.render();
-        }
-        return this;
-    }
 
 });

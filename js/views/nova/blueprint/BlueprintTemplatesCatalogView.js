@@ -5,6 +5,7 @@ var BlueprintTemplatesCatalogView = Backbone.View.extend({
     tableView: undefined,
 
     initialize: function() {
+
         if (this.model) {
             this.model.unbind("sync");
             this.model.bind("sync", this.render, this);
@@ -78,9 +79,9 @@ var BlueprintTemplatesCatalogView = Backbone.View.extend({
                     value: template.name,
                     link: "#nova/blueprints/catalog/" + template.name
                 }, {
-                    value: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"
+                    value: template.description
                 }, {
-                    value: 3
+                    value: template.tierDtos_asArray.length
                 }]
             };
             entries.push(entry);

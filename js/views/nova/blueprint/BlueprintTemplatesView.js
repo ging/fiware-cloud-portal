@@ -88,9 +88,9 @@ var BlueprintTemplatesView = Backbone.View.extend({
                     value: template.get('name'),
                     link: "#nova/blueprints/" + template.get('name')
                 }, {
-                    value: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"
+                    value: template.get('description')
                 }, {
-                    value: 3
+                    value: template.get('tierDtos').length
                 }]
             };
             entries.push(entry);

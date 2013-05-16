@@ -23,7 +23,6 @@ var BPTemplate = Backbone.Model.extend({
     sync: function(method, model, options) {
         switch(method) {
             case "read":
-            console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
                 BP.API.getBlueprintTemplate(model.get('name'), options.success, options.error);
                 break;
             case "create":
@@ -80,10 +79,10 @@ var BPTemplates = Backbone.Collection.extend({
     sync: function(method, model, options) {
         switch(method) {
             case "read":
-            console.log('feeeeeeeeeeeeeeee')
                 this.fetchCollection(options);
                 break;
             case 'getCatalogBlueprint':
+            console.log(options);
                 BP.API.getBlueprintCatalog(options.id, options.success, options.error);
                 break;
         }
