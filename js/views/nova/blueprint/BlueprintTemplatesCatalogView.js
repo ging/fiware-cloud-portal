@@ -18,8 +18,7 @@ var BlueprintTemplatesCatalogView = Backbone.View.extend({
 
     getMainButtons: function() {
         // main_buttons: [{label:label, url: #url, action: action_name}]
-        return [{label: "Open Catalog", action: "catalog"},
-                {label: "Create New Template", action: "create"}];
+        return [{label: "Close Catalog", url: "#nova/blueprints/"}];
     },
 
     getDropdownButtons: function() {
@@ -34,18 +33,9 @@ var BlueprintTemplatesCatalogView = Backbone.View.extend({
             }
         };
         return [{
-            label: "Launch Template",
-            action: "launch",
-            activatePattern: oneSelected
-            }, {
             label: "Clone Template",
             action: "clone",
             activatePattern: oneSelected
-            }, {
-            label: "Delete Template",
-            action: "delete",
-            warn: true,
-            activatePattern: groupSelected
             }];
     },
 
@@ -78,15 +68,15 @@ var BlueprintTemplatesCatalogView = Backbone.View.extend({
     getEntries: function() {
         var entries = [];
         var i = 0;
-        this.model = {models:[{id:1}]};
-        for (var index in this.model.models) {
-            var template = this.model.models[index];
+
+        for (var index in this.model.catalogList) {
+            var template = this.model.catalogList[index];
             i++;
             var entry = {
-                id: template.id,
+                id: template.name,
                 cells: [{
-                    value: "test",
-                    link: "#nova/blueprints/" + template.id
+                    value: template.name,
+                    link: "#nova/blueprints/catalog/" + template.name
                 }, {
                     value: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"
                 }, {

@@ -101,10 +101,10 @@ var OSRouter = Backbone.Router.extend({
         this.route('nova', 'nova', this.wrap(this.nova_instances, this.checkAuthAndTimers, ["instancesModel"]));
         this.route('nova/', 'nova', this.wrap(this.nova_instances, this.checkAuthAndTimers, ["instancesModel"]));
 
-        this.route('nova/blueprints/', 'blueprint_templates', this.wrap(this.blueprint_templates, this.checkAuthAndTimers));
-        this.route('nova/blueprints/:id', 'blueprint_template', this.wrap(this.blueprint_template, this.checkAuthAndTimers));
-        this.route('nova/blueprints/catalog', 'blueprint_templates_catalog', this.wrap(this.blueprint_templates_catalog, this.checkAuthAndTimers));
-        this.route('nova/blueprints/catalog/:id', 'blueprint_template_catalog', this.wrap(this.blueprint_template_catalog, this.checkAuthAndTimers));
+        this.route('nova/blueprints/', 'blueprint_templates', this.wrap(this.blueprint_templates, this.checkAuthAndTimers, ["bpTemplatesModel"]));
+        this.route('nova/blueprints/:id', 'blueprint_template', this.wrap(this.blueprint_template, this.checkAuthAndTimers, ["bpTemplatesModel"]));
+        this.route('nova/blueprints/catalog/', 'blueprint_templates_catalog', this.wrap(this.blueprint_templates_catalog, this.checkAuthAndTimers, ["bpTemplatesModel"]));
+        this.route('nova/blueprints/catalog/:id', 'blueprint_template_catalog', this.wrap(this.blueprint_template_catalog, this.checkAuthAndTimers, ["bpTemplatesModel"]));
 
         this.route('nova/volumes/', 'volumes', this.wrap(this.nova_volumes, this.checkAuthAndTimers, ["volumesModel"]));
         this.route('nova/volumes/:id/detail', 'consult_volume',  this.wrap(this.consult_volume, this.checkAuthAndTimers));
@@ -150,6 +150,7 @@ var OSRouter = Backbone.Router.extend({
             var seconds = this.backgroundTime;
             this.add_fetch("instancesModel", seconds);
             this.add_fetch("sdcs", seconds);
+            this.add_fetch("bpTemplatesModel", seconds);
             this.add_fetch("volumesModel", seconds);
             this.add_fetch("images", seconds);
             this.add_fetch("flavors", seconds);
@@ -370,20 +371,23 @@ var OSRouter = Backbone.Router.extend({
     },
 
     blueprint_template: function(self, id) {
-        self.showNovaRoot(self, 'Blueprint Template', 'Blueprint Template / ' + id);
-        var view = new BlueprintTemplateView({el: '#content'});
+        self.showNovaRoot(self, 'Blueprint Templates', 'Blueprint Templates / ' + id);
+        var bp = new BPTemplate();
+        bp.set({'name': id});
+        console.log('a', bp, self.bpTemplatesModel);
+        var view = new BlueprintTemplateView({el: '#content', model: bp});
         self.newContentView(self,view);
     },
 
     blueprint_templates_catalog: function(self) {
-        self.showNovaRoot(self, 'Blueprint Templates / Catalog');
+        self.showNovaRoot(self, 'Blueprint Templates', 'Blueprint Templates / Catalog');
         var view = new BlueprintTemplatesCatalogView({el: '#content', model: self.bpTemplatesModel});
         self.newContentView(self,view);
     },
 
     blueprint_template_catalog: function(self, id) {
-        self.showNovaRoot(self, 'Blueprint Template', 'Blueprint Template / Catalog / ' + id);
-        var view = new BlueprintTemplateCatalogView({el: '#content'});
+        self.showNovaRoot(self, 'Blueprint Templates', 'Blueprint Templates / Catalog / ' + id);
+        var view = new BlueprintTemplateCatalogView({el: '#content', model: self.bpTemplatesModel, templateId: id});
         self.newContentView(self,view);
     },
 
@@ -479,7 +483,6 @@ var OSRouter = Backbone.Router.extend({
        self.showNovaRoot(self, 'Containers');
 
        self.containers.unbind("change");
-       console.log();
         //self.add_fetch(self.containers, 4);
         var view = new ObjectStorageContainersView({model: self.containers, el: '#content'});
         self.newContentView(self,view);

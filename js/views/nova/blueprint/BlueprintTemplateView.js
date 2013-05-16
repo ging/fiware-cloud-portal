@@ -9,6 +9,7 @@ var BlueprintTemplateView = Backbone.View.extend({
             this.model.unbind("sync");
             this.model.bind("sync", this.render, this);
         }
+        this.model.fetch();
         this.renderFirst();
     },
 

@@ -18,7 +18,7 @@ var BlueprintTemplatesView = Backbone.View.extend({
 
     getMainButtons: function() {
         // main_buttons: [{label:label, url: #url, action: action_name}]
-        return [{label: "Open Catalog", url: "#nova/blueprints/catalog"},
+        return [{label: "Open Catalog", url: "#nova/blueprints/catalog/"},
                 {label: "Create New Template", action: "create"}];
     },
 
@@ -78,15 +78,15 @@ var BlueprintTemplatesView = Backbone.View.extend({
     getEntries: function() {
         var entries = [];
         var i = 0;
-        this.model = {models:[{id:1}]};
+        
         for (var index in this.model.models) {
             var template = this.model.models[index];
             i++;
             var entry = {
-                id: template.id,
+                id: template.get('name'),
                 cells: [{
-                    value: "test",
-                    link: "#nova/blueprints/" + template.id
+                    value: template.get('name'),
+                    link: "#nova/blueprints/" + template.get('name')
                 }, {
                     value: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"
                 }, {

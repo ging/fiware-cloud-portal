@@ -18,7 +18,7 @@ var BlueprintTemplateCatalogView = Backbone.View.extend({
 
     getMainButtons: function() {
         // main_buttons: [{label:label, url: #url, action: action_name}]
-        return [{label: "Add Tier", action: "add"}];
+        return [{label: "Back Catalog", url: "#nova/blueprints/catalog/"}];
     },
 
     getDropdownButtons: function() {
@@ -128,7 +128,7 @@ var BlueprintTemplateCatalogView = Backbone.View.extend({
         UTILS.Render.animateRender(this.el, this._template);
         this.tableView = new TableTiersView({
             model: this.model,
-            el: '#blueprint-template-table',
+            el: '#blueprint-templateCatalog-table',
             onAction: this.onAction,
             getDropdownButtons: this.getDropdownButtons,
             getMainButtons: this.getMainButtons,

@@ -23,6 +23,7 @@ var BPTemplate = Backbone.Model.extend({
     sync: function(method, model, options) {
         switch(method) {
             case "read":
+            console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
                 BP.API.getBlueprintTemplate(model.get('name'), options.success, options.error);
                 break;
             case "create":
@@ -43,7 +44,7 @@ var BPTemplates = Backbone.Collection.extend({
 
     model: BPTemplate,
 
-    catalogueList: {},
+    catalogList: {},
 
     _action: function(method, options) {
         var model = this;
@@ -58,18 +59,18 @@ var BPTemplates = Backbone.Collection.extend({
         return xhr;
     },
 
-    // getCatalogueProductDetails: function(options) {
-    //     options = options || {};
-    //     return this._action('getCatalogueProductDetails', options);
-    // },
+    getCatalogBlueprint: function(options) {
+        options = options || {};
+        return this._action('getCatalogBlueprint', options);
+    },
 
     fetchCollection: function(options) {
 
         var self = this;
 
-        BP.API.getBlueprintList(function (resp) {
+        BP.API.getBlueprintCatalogList(function (resp) {
             BP.API.getBlueprintTemplateList(function (resp2) {
-                self.catalogueList = resp;
+                self.catalogList = resp;
                 options.success(resp2);
             }, options.error);
 
@@ -79,10 +80,11 @@ var BPTemplates = Backbone.Collection.extend({
     sync: function(method, model, options) {
         switch(method) {
             case "read":
+            console.log('feeeeeeeeeeeeeeee')
                 this.fetchCollection(options);
                 break;
-            case 'getCatalogueProductDetails':
-                // ServiceDC.API.getProductAttributes(options.id, options.success, options.error);
+            case 'getCatalogBlueprint':
+                BP.API.getBlueprintCatalog(options.id, options.success, options.error);
                 break;
         }
     },
