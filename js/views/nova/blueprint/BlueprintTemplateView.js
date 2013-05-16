@@ -3,6 +3,7 @@ var BlueprintTemplateView = Backbone.View.extend({
     _template: _.itemplate($('#blueprintTemplateTemplate').html()),
 
     tableView: undefined,
+    sdcs: {},
 
     initialize: function() {
         if (this.model) {
@@ -84,7 +85,8 @@ var BlueprintTemplateView = Backbone.View.extend({
                 flavor: "flavor",
                 image: "image",
                 keypair: "keypair",
-                publicIP: "yes"
+                publicIP: "yes",
+                products: ["uno", "dos"]
             };
             entries.push(entry);
         }
@@ -95,6 +97,10 @@ var BlueprintTemplateView = Backbone.View.extend({
         this.undelegateEvents();
         this.unbind();
         this.tableView.close();
+        for (var idx in this.sdcs) {
+            var entry = this.sdcs[idx];
+            entry.close();
+        }
     },
 
     onAction: function(action, blueprintIds) {
@@ -126,6 +132,7 @@ var BlueprintTemplateView = Backbone.View.extend({
     },
 
     renderFirst: function() {
+        console.log("Rendering Blueprint Template");
         UTILS.Render.animateRender(this.el, this._template);
         this.tableView = new TableTiersView({
             model: this.model,
@@ -138,11 +145,23 @@ var BlueprintTemplateView = Backbone.View.extend({
             context: this
         });
         this.tableView.render();
+
+        var entries = this.getEntries();
+        var self = this;
+        console.log("Printing software");
+        entries.forEach(function(entry) {
+            self.sdcs[entry.id] = new SoftwareTierView({el: '#software-subview'+entry.id, id: entry.id, model: entry});
+            self.sdcs[entry.id].render();
+        });
     },
 
     render: function() {
         if ($(this.el).html() !== null) {
             this.tableView.render();
+            for (var idx in this.sdcs) {
+                var entry = this.sdcs[idx];
+                entry.render();
+            }
         }
         return this;
     }

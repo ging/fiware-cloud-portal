@@ -7,19 +7,44 @@
     cursor: auto;
 }
 
-.tier-row td {
+tr.tier-row td {
     height: 150px;
     padding-top: 0px;
     padding-bottom: 0px;
     position: relative;
 }
 
+tr.tier-row .progress-wgt {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    top: 0px;
+    position: relative;
+}
+
+.tier-row td .progress-circle {
+    width: 140px;
+    height: 160px;
+    text-align: center;
+    position: absolute;
+    top: 0px;
+    left: 50%;
+    margin-left: -70px;
+}
+
+.tier-row td .circle-progress-data {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    position: absolute;
+    top: 0px;
+}
+
 .tier-row td .tier-image {
     position: absolute;
     height: 50px;
     width: 50px;
-    top: 50%;
-    margin-top: -15px;
+    margin-top: 70px;
     left: 50%;
     margin-left: -25px;
     border-style: none;
@@ -30,8 +55,7 @@
     position: absolute;
     height: 50px;
     width: 50px;
-    top: 50%;
-    margin-top: -15px;
+    margin-top: 70px;
     left: 50%;
     margin-left: -25px;
     border-radius: 10px;
@@ -50,7 +74,7 @@
     height: 20px;
     left: 50%;
     margin-left: 5px;
-    top: 1px;
+    top: 12px;
     font-size: 10px;
     text-align: center;
     border: solid 1px;
@@ -64,7 +88,7 @@
     height: 20px;
     left: 50%;
     margin-left: -27px;
-    top: 1px;
+    top: 12px;
     font-size: 10px;
     text-align: center;
     border: solid 1px;
@@ -73,9 +97,7 @@
 }
 
 .tier-data {
-    margin-top: 25px;
     font-size: 10px;
-    height: 100%;
 }
 
 .tier-data p {
@@ -88,4 +110,16 @@
     position: absolute;
     left: 70px;
     color: #999;
+}
+
+.software-tier {
+    width: 80%;
+    height: 100px;
+    border: solid 1px;
+    margin-bottom: 20px;
+    overflow-y: auto;
+}
+
+.software-tier ul {
+    margin: 5px;
 }
