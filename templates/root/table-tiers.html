@@ -31,11 +31,15 @@ src: templates/root/table-tiers.html
         <tr id="entries__row__<%= entry.id %>" class="ajax-update status_down tier-row">
 
             <td style="width:25%" class="entry_<%=entry.id%> circle_progress">
-                <input class="dial" data-width="140" data-height="160" data-offset="25" data-min="<%=entry.minValue%>" data-max="<%=entry.maxValue%>" data-displayinput="false" data-displayprevious="false" value="<%=entry.bootValue%>" data-thickness="0.12" data-readonly="true" data-fgcolor="#0093C6" data-bgcolor="#0093C6" data-linecolor="#999">
-                <label class="tier-min-value"><%=entry.minValue%></label>
-                <label class="tier-max-value"><%=entry.maxValue%></label>
-                <img class="tier-image" src="dwqewq"></img>
-                <span class="tier-image-back">?</span>
+                <div class="progress-wgt">
+                    <input class="dial" data-width="140" data-height="160" data-offset="25" data-min="<%=entry.minValue%>" data-max="<%=entry.maxValue%>" data-displayinput="false" data-displayprevious="false" value="<%=entry.bootValue%>" data-thickness="0.12" data-readonly="true" data-fgcolor="#0093C6" data-bgcolor="#0093C6" data-linecolor="#999">
+                    <div class="circle-progress-data">
+                        <label class="tier-min-value"><%=entry.minValue%></label>
+                        <label class="tier-max-value"><%=entry.maxValue%></label>
+                        <span class="tier-image-back">?</span>
+                        <img class="tier-image" src="dwqewq"></img>
+                    </div>
+                </div>
             </td>
 
             <td style="width:25%" class="entry_<%=entry.id%> tier_info">
@@ -49,7 +53,18 @@ src: templates/root/table-tiers.html
             </td>
 
             <td style="width:50%" class="entry_<%=entry.id%> tier_software">
-
+            <h2>Software in Tier</h2>
+                <div id="software-subview-<%= entry.id %>" class="software-tier">
+                   <ul>
+                        <%
+                        entry.products.forEach(function(product) {
+                        %>
+                            <li><%=product%></li>
+                        <%
+                        });
+                        %>
+                   </ul>
+               </div>
             </td>
         </tr>
         <% } %>

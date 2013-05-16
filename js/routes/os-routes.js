@@ -370,19 +370,19 @@ var OSRouter = Backbone.Router.extend({
     },
 
     blueprint_template: function(self, id) {
-        self.showNovaRoot(self, 'Blueprint Template', 'Blueprint Template / ' + id);
+        self.showNovaRoot(self, 'Blueprint Templates', 'Blueprint Templates / ' + id);
         var view = new BlueprintTemplateView({el: '#content'});
         self.newContentView(self,view);
     },
 
     blueprint_templates_catalog: function(self) {
-        self.showNovaRoot(self, 'Blueprint Templates / Catalog');
+        self.showNovaRoot(self, 'Blueprint Templates', 'Blueprint Templates / Catalog');
         var view = new BlueprintTemplatesCatalogView({el: '#content', model: self.bpTemplatesModel});
         self.newContentView(self,view);
     },
 
     blueprint_template_catalog: function(self, id) {
-        self.showNovaRoot(self, 'Blueprint Template', 'Blueprint Template / Catalog / ' + id);
+        self.showNovaRoot(self, 'Blueprint Templates', 'Blueprint Templates / Catalog / ' + id);
         var view = new BlueprintTemplateCatalogView({el: '#content'});
         self.newContentView(self,view);
     },
