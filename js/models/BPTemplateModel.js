@@ -26,7 +26,7 @@ var BPTemplate = Backbone.Model.extend({
                 BP.API.getBlueprintTemplate(model.get('name'), options.success, options.error);
                 break;
             case "create":
-                BP.API.createBlueprintTempate(model, options.success, options.error);
+                BP.API.createBlueprintTempate(model.toJSON(), options.success, options.error);
                 break;
             case "delete":
                 BP.API.deleteBlueprintTemplate(model.get('name'), options.success, options.error);
