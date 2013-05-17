@@ -84,6 +84,10 @@ var BlueprintTemplatesView = Backbone.View.extend({
 
         for (var index in this.model.models) {
             var template = this.model.models[index];
+            var nTiers = 0;
+            if (template.get('tierDtos_asArray')) {
+                nTiers = template.get('tierDtos_asArray').length;
+            }
             var entry = {
                 id: index,
                 cells: [{
@@ -92,7 +96,7 @@ var BlueprintTemplatesView = Backbone.View.extend({
                 }, {
                     value: template.get('description')
                 }, {
-                    value: template.get('tierDtos_asArray').length
+                    value: nTiers
                 }]
             };
             entries.push(entry);

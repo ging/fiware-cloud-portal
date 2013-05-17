@@ -71,6 +71,10 @@ var BlueprintTemplatesCatalogView = Backbone.View.extend({
 
         for (var index in this.model.catalogList) {
             var template = this.model.catalogList[index];
+            var nTiers = 0;
+            if (template.tierDtos_asArray) {
+                nTiers = template.tierDtos_asArray.length;
+            }
             var entry = {
                 id: index,
                 cells: [{
@@ -80,7 +84,7 @@ var BlueprintTemplatesCatalogView = Backbone.View.extend({
                 }, {
                     value: template.description
                 }, {
-                    value: template.tierDtos_asArray.length
+                    value: nTiers
                 }]
             };
             entries.push(entry);
