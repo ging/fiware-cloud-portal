@@ -43,6 +43,11 @@ var BPTemplate = Backbone.Model.extend({
                 BP.API.createBlueprintTemplateTier(options.tier, options.success, options.error);
                 break;
         }
+    },
+
+    parse: function(resp) {
+        resp.id = resp.name;
+        return resp;
     }
 });
 
