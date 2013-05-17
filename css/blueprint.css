@@ -14,7 +14,7 @@ tr.tier-row td {
     position: relative;
 }
 
-tr.tier-row .progress-wgt {
+.progress-wgt {
     width: 100%;
     height: 100%;
     text-align: center;
@@ -40,7 +40,7 @@ tr.tier-row .progress-wgt {
     top: 0px;
 }
 
-.tier-row td .tier-image {
+.tier-image {
     position: absolute;
     height: 50px;
     width: 50px;
@@ -51,7 +51,7 @@ tr.tier-row .progress-wgt {
     border-radius: 10px;
 }
 
-.tier-row td .tier-image-back {
+.tier-image-back {
     position: absolute;
     height: 50px;
     width: 50px;
@@ -129,4 +129,35 @@ tr.tier-row .progress-wgt {
 
 .link-catalog, .link-catalog:hover, .link-catalog:active {
     color: #95C11F;
+}
+
+.form-progress {
+    position: relative;
+    height: 250px;
+}
+
+.form-progress .progress-circle {
+    width: 200px;
+    height: 230px;
+    text-align: center;
+    position: absolute;
+    top: 0px;
+    left: 50%;
+    margin-left: -100px;
+}
+
+.form-progress .tier-image {
+    margin-top: 75px;
+    height: 90px;
+    width: 90px;
+    margin-left: -45px;
+}
+
+.form-progress .tier-image-back {
+    margin-top: 75px;
+    height: 90px;
+    width: 90px;
+    line-height: 90px;
+    font-size: 90px;
+    margin-left: -45px;
 }

@@ -18,7 +18,7 @@ var BlueprintInstancesView = Backbone.View.extend({
 
     getMainButtons: function() {
         // main_buttons: [{label:label, url: #url, action: action_name}]
-        return [{label: "Launch New Blueprint", url: "#nova/blueprints/"}];
+        return [{label: "Launch New Blueprint", url: "#nova/blueprints/templates/"}];
     },
 
     getDropdownButtons: function() {

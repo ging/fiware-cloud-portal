@@ -15,7 +15,6 @@ var BlueprintTemplateView = Backbone.View.extend({
     },
 
     events: {
-        'click .btn-launch': 'onLaunch'
     },
 
     getMainButtons: function() {
@@ -112,6 +111,9 @@ var BlueprintTemplateView = Backbone.View.extend({
         }
         switch (action) {
             case 'add':
+                subview = new CreateTierView({el: 'body'});
+                subview.render();
+                break;
                 break;
             case 'edit':
                 break;

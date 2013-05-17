@@ -19,7 +19,7 @@ var BlueprintTemplatesCatalogView = Backbone.View.extend({
 
     getMainButtons: function() {
         // main_buttons: [{label:label, url: #url, action: action_name}]
-        return [{label: "Close Catalog", url: "#nova/blueprints/", cssclass: "btn-catalog"}];
+        return [{label: "Close Catalog", url: "#nova/blueprints/templates/", cssclass: "btn-catalog"}];
     },
 
     getDropdownButtons: function() {

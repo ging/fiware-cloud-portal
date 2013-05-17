@@ -102,6 +102,7 @@ var loadViews = function() {
                 "js/views/forms/CreateBlueprintView.js",
                 "js/views/forms/CloneBlueprintView.js",
                 "js/views/forms/EditBlueprintView.js",
+                "js/views/forms/CreateTierView.js",
                 "js/views/syspanel/NewUsersView.js",
                 "js/views/syspanel/UsersForProjectView.js",
                 "js/views/SettingsView.js"
@@ -200,6 +201,7 @@ var loadTemplates = function() {
                     'templates/forms/createBlueprint.html',
                     'templates/forms/cloneBlueprint.html',
                     'templates/forms/editBlueprint.html',
+                    'templates/forms/createTier.html',
                     'templates/root/nova/blueprint/blueprintInstances.html',
                     'templates/root/nova/blueprint/blueprintInstance.html',
                     'templates/root/nova/blueprint/blueprintTemplates.html',

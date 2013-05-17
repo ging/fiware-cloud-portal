@@ -104,8 +104,8 @@ var OSRouter = Backbone.Router.extend({
         this.route('nova/blueprints/instances/', 'blueprint_instances', this.wrap(this.blueprint_instances, this.checkAuthAndTimers, ["bpTemplatesModel"]));
         this.route('nova/blueprints/instances/:id', 'blueprint_instance', this.wrap(this.blueprint_instance, this.checkAuthAndTimers, ["bpTemplatesModel"]));
 
-        this.route('nova/blueprints/', 'blueprint_templates', this.wrap(this.blueprint_templates, this.checkAuthAndTimers, ["bpTemplatesModel"]));
-        this.route('nova/blueprints/:id', 'blueprint_template', this.wrap(this.blueprint_template, this.checkAuthAndTimers, ["bpTemplatesModel"]));
+        this.route('nova/blueprints/templates/', 'blueprint_templates', this.wrap(this.blueprint_templates, this.checkAuthAndTimers, ["bpTemplatesModel"]));
+        this.route('nova/blueprints/templates/:id', 'blueprint_template', this.wrap(this.blueprint_template, this.checkAuthAndTimers, ["bpTemplatesModel"]));
         this.route('nova/blueprints/catalog/', 'blueprint_templates_catalog', this.wrap(this.blueprint_templates_catalog, this.checkAuthAndTimers, ["bpTemplatesModel"]));
         this.route('nova/blueprints/catalog/:id', 'blueprint_template_catalog', this.wrap(this.blueprint_template_catalog, this.checkAuthAndTimers));
 
@@ -353,7 +353,7 @@ var OSRouter = Backbone.Router.extend({
                             //{name: 'Overview', active: true, url: '#nova/'},
                             //{name: 'Virtual Data Centers', active: false, url: '#nova/vdcs/'},
                             {name: 'Blueprint Instances', active: false, url: '#nova/blueprints/instances/'},
-                            {name: 'Blueprint Templates', active: false, url: '#nova/blueprints/'},
+                            {name: 'Blueprint Templates', active: false, url: '#nova/blueprints/templates/'},
                             {name: 'Instances', active: false, url: '#nova/instances/'},
                             {name: 'Images', active: false, url: '#nova/images/'},
                             {name: 'Flavors', active: false, url: '#nova/flavors/'},
