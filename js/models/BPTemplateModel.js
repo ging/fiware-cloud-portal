@@ -20,21 +20,28 @@ var BPTemplate = Backbone.Model.extend({
         return xhr;
     },
 
+    addTier: function(options) {
+        options = options || {};
+        return this._action('addTier', options);
+    },
+
+
     sync: function(method, model, options) {
         switch(method) {
             case "read":
                 BP.API.getBlueprintTemplate(model.get('name'), options.success, options.error);
                 break;
             case "create":
-                BP.API.createBlueprintTempate(model.toJSON(), options.success, options.error);
+                BP.API.createBlueprintTemplate(model.toJSON(), options.success, options.error);
                 break;
             case "delete":
                 BP.API.deleteBlueprintTemplate(model.get('name'), options.success, options.error);
                 break;
             case "update":
-           
                 break;
-            
+            case "addTier":
+                BP.API.createBlueprintTemplateTier(options.tier, options.success, options.error);
+                break;
         }
     }
 });

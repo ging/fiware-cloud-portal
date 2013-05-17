@@ -42,6 +42,10 @@ var CreateBlueprintView = Backbone.View.extend({
         var name = this.$('input[name=name]').val();
         var descr = this.$('textarea[name=description]').val();
         var callbacks = UTILS.Messages.getCallbacks("Blueprint "+name + " created.", "Error creating blueprint "+name);
-        //blueprint.save(undefined, callbacks);
+        var bp = new BPTemplate();
+        bp.set({'name': name});
+        bp.set({'description': descr});
+        bp.set({'tierDtos': {}});
+        bp.save(undefined, callbacks);
     }
 });

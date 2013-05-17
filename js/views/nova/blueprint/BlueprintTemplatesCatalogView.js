@@ -68,13 +68,11 @@ var BlueprintTemplatesCatalogView = Backbone.View.extend({
 
     getEntries: function() {
         var entries = [];
-        var i = 0;
 
         for (var index in this.model.catalogList) {
             var template = this.model.catalogList[index];
-            i++;
             var entry = {
-                id: template.name,
+                id: index,
                 cells: [{
                     value: template.name,
                     link: "#nova/blueprints/catalog/" + template.name,
@@ -101,24 +99,11 @@ var BlueprintTemplatesCatalogView = Backbone.View.extend({
         var self = this;
         if (blueprintIds.length === 1) {
             blueprint = blueprintIds[0];
-            bp = blueprint;
+            bp = this.model.catalogList[blueprint];
         }
         switch (action) {
             case 'clone':
                 subview = new CloneBlueprintView({el: 'body', model: bp});
-                subview.render();
-                break;
-            case 'delete':
-                subview = new ConfirmView({
-                    el: 'body',
-                    title: "Delete Blueprint Template",
-                    btn_message: "Delete Blueprint Template",
-                    onAccept: function() {
-                        blueprintIds.forEach(function(blueprint) {
-                            //bp.destroy(UTILS.Messages.getCallbacks("Blueprint Template deleted", "Error deleting Blueprint Template."));
-                        });
-                    }
-                });
                 subview.render();
                 break;
         }

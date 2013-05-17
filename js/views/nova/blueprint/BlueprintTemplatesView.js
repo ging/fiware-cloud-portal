@@ -42,10 +42,10 @@ var BlueprintTemplatesView = Backbone.View.extend({
             action: "clone",
             activatePattern: oneSelected
             }, {
-            label: "Edit Template",
-            action: "edit",
-            activatePattern: oneSelected
-            }, {
+            // label: "Edit Template",
+            // action: "edit",
+            // activatePattern: oneSelected
+            // }, {
             label: "Delete Template",
             action: "delete",
             warn: true,
@@ -81,11 +81,8 @@ var BlueprintTemplatesView = Backbone.View.extend({
 
     getEntries: function() {
         var entries = [];
-        var i = 0;
-        console.log(this.model);
         for (var index in this.model.models) {
             var template = this.model.models[index];
-            i++;
             var entry = {
                 id: index,
                 cells: [{
@@ -148,7 +145,8 @@ var BlueprintTemplatesView = Backbone.View.extend({
                     title: "Delete Blueprint Template",
                     btn_message: "Delete Blueprint Template",
                     onAccept: function() {
-                        blueprintIds.forEach(function(blueprint) {
+                        blueprintIds.forEach(function(bp) {
+                            console.log('delete', bp);
                             //bp.destroy(UTILS.Messages.getCallbacks("Blueprint Template deleted", "Error deleting Blueprint Template."));
                         });
                     }

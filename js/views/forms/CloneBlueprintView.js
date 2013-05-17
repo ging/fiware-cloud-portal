@@ -42,6 +42,13 @@ var CloneBlueprintView = Backbone.View.extend({
         var name = this.$('input[name=name]').val();
         var descr = this.$('textarea[name=description]').val();
         var callbacks = UTILS.Messages.getCallbacks("Blueprint "+name + " cloned.", "Error cloning blueprint "+name);
-        //blueprint.clone(undefined, callbacks);
+        
+        console.log('cloning', this.model);
+        
+        var bp = new BPTemplate();
+        bp.set({'name': name});
+        bp.set({'description': descr});
+        bp.set({'tierDtos': this.model.get("tierDtos")});
+        bp.save(undefined, callbacks);
     }
 });

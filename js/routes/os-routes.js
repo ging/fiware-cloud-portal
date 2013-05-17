@@ -374,7 +374,7 @@ var OSRouter = Backbone.Router.extend({
         self.showNovaRoot(self, 'Blueprint Templates', 'Blueprint Templates / ' + id);
         var bp = new BPTemplate();
         bp.set({'name': id});
-        var view = new BlueprintTemplateView({el: '#content', model: bp});
+        var view = new BlueprintTemplateView({el: '#content', model: bp, flavors: self.flavors, keypairs: self.keypairsModel, securityGroupsModel: self.securityGroupsModel});
         self.newContentView(self,view);
     },
 
