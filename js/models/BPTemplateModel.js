@@ -82,7 +82,6 @@ var BPTemplates = Backbone.Collection.extend({
                 this.fetchCollection(options);
                 break;
             case 'getCatalogBlueprint':
-            console.log(options);
                 BP.API.getBlueprintCatalog(options.id, options.success, options.error);
                 break;
         }

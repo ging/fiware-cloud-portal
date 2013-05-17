@@ -90,7 +90,7 @@ var BlueprintTemplatesView = Backbone.View.extend({
                 }, {
                     value: template.get('description')
                 }, {
-                    value: template.get('tierDtos').length
+                    value: template.get('tierDtos_asArray').length
                 }]
             };
             entries.push(entry);
