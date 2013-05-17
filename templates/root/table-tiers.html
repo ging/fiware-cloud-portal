@@ -12,9 +12,9 @@ src: templates/root/table-tiers.html
             var main_button = main_buttons[btn_idx];
             if (main_button.url) {
         %>
-            <a href='<%=main_button.url%>'  class="btn btn-small btn-blue btn_action" style="<%if (main_button.color) {%>background-color: <%=main_button.color%><%}%>" data-i18n="<%=main_button.label%>"><%=main_button.label%></a>
+            <a href='<%=main_button.url%>'  class="btn btn-small btn-blue btn_action <%= (main_button.cssclass) ? main_button.cssclass:''%>" data-i18n="<%=main_button.label%>"><%=main_button.label%></a>
             <% } else { %>
-            <button id="<%=btn_idx%>_<%=cid%>_main" class="btn btn-small btn-blue btn-main btn-main-<%=cid%>" data-i18n="<%=main_button.label%>" style="<%if (main_button.color) {%>background-color: <%=main_button.color%><%}%>" ><%=main_button.label%></button>
+            <button id="<%=btn_idx%>_<%=cid%>_main" class="btn btn-small btn-blue btn-main btn-main-<%=cid%> <%= (main_button.cssclass) ? main_button.cssclass:''%>" data-i18n="<%=main_button.label%>"><%=main_button.label%></button>
         <%  }
           }
         %>

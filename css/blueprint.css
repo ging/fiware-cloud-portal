@@ -74,7 +74,7 @@ tr.tier-row .progress-wgt {
     height: 20px;
     left: 50%;
     margin-left: 5px;
-    top: 12px;
+    top: 7px;
     font-size: 10px;
     text-align: center;
     border: solid 1px #DDD;
@@ -87,7 +87,7 @@ tr.tier-row .progress-wgt {
     height: 20px;
     left: 50%;
     margin-left: -27px;
-    top: 12px;
+    top: 7px;
     font-size: 10px;
     text-align: center;
     border: solid 1px #DDD;
@@ -127,6 +127,6 @@ tr.tier-row .progress-wgt {
     background-color: #95C11F;
 }
 
-.link-catalog {
+.link-catalog, .link-catalog:hover, .link-catalog:active {
     color: #95C11F;
 }
