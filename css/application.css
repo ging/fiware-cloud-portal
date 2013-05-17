@@ -352,6 +352,14 @@ bottom: 42px;
   margin-top: 44px;
 }
 
+.form-horizontal .control-label {
+  width: 80px;
+}
+
+.form-horizontal .controls {
+  margin-left: 90px;
+}
+
 @media (max-width: 979px) {
 
 .sidebar-menu {

@@ -61,6 +61,7 @@ var TableTiersView = Backbone.View.extend({
             headers: this.getHeaders(),
             entries: entries,
             color: this.options.color,
+            color2: this.options.color2,
             dropdown_buttons_class: this.options.dropdown_buttons_class
         });
 

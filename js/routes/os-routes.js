@@ -101,8 +101,11 @@ var OSRouter = Backbone.Router.extend({
         this.route('nova', 'nova', this.wrap(this.nova_instances, this.checkAuthAndTimers, ["instancesModel"]));
         this.route('nova/', 'nova', this.wrap(this.nova_instances, this.checkAuthAndTimers, ["instancesModel"]));
 
-        this.route('nova/blueprints/', 'blueprint_templates', this.wrap(this.blueprint_templates, this.checkAuthAndTimers, ["bpTemplatesModel"]));
-        this.route('nova/blueprints/:id', 'blueprint_template', this.wrap(this.blueprint_template, this.checkAuthAndTimers, ["bpTemplatesModel"]));
+        this.route('nova/blueprints/instances/', 'blueprint_instances', this.wrap(this.blueprint_instances, this.checkAuthAndTimers, ["bpTemplatesModel"]));
+        this.route('nova/blueprints/instances/:id', 'blueprint_instance', this.wrap(this.blueprint_instance, this.checkAuthAndTimers, ["bpTemplatesModel"]));
+
+        this.route('nova/blueprints/templates/', 'blueprint_templates', this.wrap(this.blueprint_templates, this.checkAuthAndTimers, ["bpTemplatesModel"]));
+        this.route('nova/blueprints/templates/:id', 'blueprint_template', this.wrap(this.blueprint_template, this.checkAuthAndTimers, ["bpTemplatesModel"]));
         this.route('nova/blueprints/catalog/', 'blueprint_templates_catalog', this.wrap(this.blueprint_templates_catalog, this.checkAuthAndTimers, ["bpTemplatesModel"]));
         this.route('nova/blueprints/catalog/:id', 'blueprint_template_catalog', this.wrap(this.blueprint_template_catalog, this.checkAuthAndTimers));
 
@@ -349,7 +352,8 @@ var OSRouter = Backbone.Router.extend({
                             {name: 'Compute', type: 'title'},
                             //{name: 'Overview', active: true, url: '#nova/'},
                             //{name: 'Virtual Data Centers', active: false, url: '#nova/vdcs/'},
-                            {name: 'Blueprint Templates', active: false, url: '#nova/blueprints/'},
+                            {name: 'Blueprint Instances', active: false, url: '#nova/blueprints/instances/'},
+                            {name: 'Blueprint Templates', active: false, url: '#nova/blueprints/templates/'},
                             {name: 'Instances', active: false, url: '#nova/instances/'},
                             {name: 'Images', active: false, url: '#nova/images/'},
                             {name: 'Flavors', active: false, url: '#nova/flavors/'},
@@ -362,6 +366,20 @@ var OSRouter = Backbone.Router.extend({
         self.navs.setActive(option);
         self.tabs.setActive('Project');
         self.showRoot(self, 'Project Name');
+    },
+
+    blueprint_instances: function(self) {
+        self.showNovaRoot(self, 'Blueprint Instances');
+        var view = new BlueprintInstancesView({el: '#content', model: self.bpTemplatesModel});
+        self.newContentView(self,view);
+    },
+
+    blueprint_instance: function(self, id) {
+        self.showNovaRoot(self, 'Blueprint Instances', 'Blueprint Instances / ' + id);
+        var bp = new BPTemplate();
+        bp.set({'name': id});
+        var view = new BlueprintInstanceView({el: '#content', model: bp});
+        self.newContentView(self,view);
     },
 
     blueprint_templates: function(self) {

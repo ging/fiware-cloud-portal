@@ -1,0 +1,77 @@
+<script id="createTierFormTemplate" type="text/html">
+<div id="create_tier" class="modal hide in" style="display: block; ">
+    <!--
+    Description: Create Tier Form
+    src: templates/forms/createTier.html
+    -->
+    <div class="modal-header">
+        <a href="#" class="close" data-dismiss="modal">×</a>
+        <h3>Create Tier</h3>
+    </div>
+
+    <form id="form" onSubmit="return false;" class="form-horizontal">
+        <div class="modal-body clearfix">
+
+            <div class="left form-progress" style="position:relative">
+                <div class="progress-wgt">
+                    <input class="dial-form" data-width="200" data-height="230" data-offset="25" data-min="1" data-max="10" data-displayinput="false" data-displayprevious="false" value="5" data-thickness="0.12" data-readonly="false" data-fgcolor="#0093C6" data-bgcolor="#0093C6" data-linecolor="#999">
+                    <div class="circle-progress-data">
+                        <input id="tier-min-value" class="tier-min-value tier-values" value="1">
+                        <input id="tier-max-value" class="tier-max-value tier-values" value="10">
+                        <span class="tier-image-back">?</span>
+                        <img class="tier-image" src=""></img>
+                    </div>
+                </div>
+            </div>
+            <div class="right form-horizontal">
+                <fieldset>
+
+                    <div class="control-group form-field clearfix">
+                        <label class="control-label" for="name">Name *:</label>
+                        <div class="controls">
+                            <input required id="name" type="text" name="name" maxlength="255">
+                        </div>
+                    </div>
+
+                    <div class="control-group form-field clearfix">
+                        <label class="control-label" for="flavor">Flavor *:</label>
+                        <div class="controls">
+                            <input required id="flavor" type="text" name="flavor" maxlength="255">
+                        </div>
+                    </div>
+
+                    <div class="control-group form-field clearfix">
+                        <label class="control-label" for="image">Image *:</label>
+                        <div class="controls">
+                            <input required id="image" type="text" name="image" maxlength="255">
+                        </div>
+                    </div>
+
+                    <div class="control-group form-field clearfix">
+                        <label class="control-label" for="id_icon">Icon:</label>
+
+                        <div class="controls">
+                            <input required id="icon" type="text" name="icon" maxlength="255">
+                        </div>
+                    </div>
+
+                    <div class="control-group form-field clearfix">
+                        <label class="control-label" for="id_keypair">Keypair:</label>
+
+                        <div class="controls">
+                            <input required id="keypair" type="text" name="keypair" maxlength="255">
+                        </div>
+                    </div>
+
+                </fieldset>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <p class="mandatoryMess">* Mandatory fields.</p>
+            <input type="submit" class="btn btn-blue create-tier pull-right" value="Create Tier"/>
+            <a id="cancelBtn" class="close btn seconday cancel close" data-dismiss="modal">Cancel</a>
+        </div>
+    </form>
+</div>
+</script>

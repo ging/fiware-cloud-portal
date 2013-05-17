@@ -1,6 +1,6 @@
-var BlueprintTemplateView = Backbone.View.extend({
+var BlueprintInstanceView = Backbone.View.extend({
 
-    _template: _.itemplate($('#blueprintTemplateTemplate').html()),
+    _template: _.itemplate($('#blueprintInstanceTemplate').html()),
 
     tableView: undefined,
     sdcs: {},
@@ -15,11 +15,12 @@ var BlueprintTemplateView = Backbone.View.extend({
     },
 
     events: {
+        'click .btn-launch': 'onLaunch'
     },
 
     getMainButtons: function() {
         // main_buttons: [{label:label, url: #url, action: action_name}]
-        return [{label: "Add Tier", action: "add"}];
+        return [{label: "Back to instances", url: "#nova/blueprints/instances/"}];
     },
 
     getDropdownButtons: function() {
@@ -83,6 +84,8 @@ var BlueprintTemplateView = Backbone.View.extend({
                 id: tier.name,
                 minValue: tier.minimum_number_instances,
                 maxValue: tier.maximum_number_instances,
+                //currentValue: tier.current_number_instances,
+                currentValue: 1,
                 bootValue: tier.initial_number_instances,
                 name: tier.name,
                 flavor: tier.flavour,
@@ -111,9 +114,6 @@ var BlueprintTemplateView = Backbone.View.extend({
         }
         switch (action) {
             case 'add':
-                subview = new CreateTierView({el: 'body'});
-                subview.render();
-                break;
                 break;
             case 'edit':
                 break;
@@ -137,7 +137,7 @@ var BlueprintTemplateView = Backbone.View.extend({
         UTILS.Render.animateRender(this.el, this._template);
         this.tableView = new TableTiersView({
             model: this.model,
-            el: '#blueprint-template-table',
+            el: '#blueprint-instance-table',
             onAction: this.onAction,
             getDropdownButtons: this.getDropdownButtons,
             getMainButtons: this.getMainButtons,
@@ -145,7 +145,7 @@ var BlueprintTemplateView = Backbone.View.extend({
             getEntries: this.getEntries,
             context: this,
             color: "#0093C6",
-            color2: "#0093C6"
+            color2: "#DDD"
         });
         this.tableView.render();
     },

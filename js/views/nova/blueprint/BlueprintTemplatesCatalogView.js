@@ -19,7 +19,7 @@ var BlueprintTemplatesCatalogView = Backbone.View.extend({
 
     getMainButtons: function() {
         // main_buttons: [{label:label, url: #url, action: action_name}]
-        return [{label: "Close Catalog", url: "#nova/blueprints/", cssclass: "btn-catalog"}];
+        return [{label: "Close Catalog", url: "#nova/blueprints/templates/", cssclass: "btn-catalog"}];
     },
 
     getDropdownButtons: function() {
@@ -50,19 +50,22 @@ var BlueprintTemplatesCatalogView = Backbone.View.extend({
             tooltip: "Template's name",
             size: "45%",
             hidden_phone: false,
-            hidden_tablet: false
+            hidden_tablet: false,
+            cssclass: "link-catalog"
         }, {
             name: "Description",
             tooltip: "Template's description",
             size: "45%",
             hidden_phone: false,
-            hidden_tablet: false
+            hidden_tablet: false,
+            cssclass: "link-catalog"
         }, {
             name: "Tiers",
             tooltip: "Number of tiers defined in this tier",
             size: "10%",
             hidden_phone: false,
-            hidden_tablet: false
+            hidden_tablet: false,
+            cssclass: "link-catalog"
         }];
     },
 
@@ -79,8 +82,7 @@ var BlueprintTemplatesCatalogView = Backbone.View.extend({
                 id: index,
                 cells: [{
                     value: template.name,
-                    link: "#nova/blueprints/catalog/" + template.name,
-                    cssclass: "link-catalog"
+                    link: "#nova/blueprints/catalog/" + template.name
                 }, {
                     value: template.description
                 }, {
