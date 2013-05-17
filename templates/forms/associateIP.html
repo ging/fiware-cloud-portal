@@ -1,0 +1,52 @@
+<script id="associateIPFormTemplate" type="text/html">
+<div id="associate_IP" class="modal hide ">
+    <form id="form" onSubmit="return false;">
+        <div class="modal-header">
+            <a id="closeModal" href="#" class="close" data-dismiss="modal">&times;</a>
+            <h3>Associate Floating IP</h3>
+        </div>
+
+        <div class="modal-body clearfix">
+            <div class="left">
+                <fieldset>
+                    <input type="hidden" name="method" value="FloatingIpAllocate" id="id_method">
+                    <input type="hidden" name="tenant_name" value="demo" id="id_tenant_name">
+                    <div class="control-group form-field clearfix">
+
+                        <label for="id_floating_ip">Floating IP</label>
+                        <span class="help-block" style="display: none;"></span>
+                        <div class="input">
+                        <input readonly="readonly" type="text" name="floating_ip" value="<%= model.get("ip")%>" id="id_floating_ip">
+                        </div>
+
+                        <label for="id_pool">Instance</label>
+                        <span class="help-block" style="display: none;"></span>
+                        <div class="input">
+
+                        <select id="instance_switcher" tabindex="1" class="inline">
+                            <option value="">Select an instance</option>
+                            <%
+                                for (var index in instances.models) {
+                                var instance = instances.models[index].get("name");
+                                var id = instances.models[index].get("id");
+                            %>
+                            <option value="<%= id%>"><%= instance%></option>
+                            <% }%>
+
+                        </select>
+                        </div>
+                    </div>
+                 </fieldset>
+            </div>
+            <div class="right">
+                <h3>Description</h3>
+                <p>Associate a floating ip with an instance.</p>                
+            </div>
+        </div>
+        <div class="modal-footer">
+            <input type="submit" class="btn btn-blue pull-right" value="Associate IP">
+            <a id="cancelBtn" class="btn secondary cancel close" data-dismiss="modal">Cancel</a>
+        </div>
+    </form>
+</div>
+</script>
