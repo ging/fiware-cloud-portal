@@ -18,7 +18,7 @@ var BlueprintTemplatesView = Backbone.View.extend({
 
     getMainButtons: function() {
         // main_buttons: [{label:label, url: #url, action: action_name}]
-        return [{label: "Open Catalog", url: "#nova/blueprints/catalog/", class: "btn-catalog"},
+        return [{label: "Open Catalog", url: "#nova/blueprints/catalog/", cssclass: "btn-catalog"},
                 {label: "Create New Template", action: "create"}];
     },
 
@@ -82,7 +82,6 @@ var BlueprintTemplatesView = Backbone.View.extend({
     getEntries: function() {
         var entries = [];
         var i = 0;
-        console.log(this.model);
         for (var index in this.model.models) {
             var template = this.model.models[index];
             i++;
@@ -114,7 +113,6 @@ var BlueprintTemplatesView = Backbone.View.extend({
         if (blueprintIds.length === 1) {
             blueprint = blueprintIds[0];
             bp = this.model.models[blueprint];
-            console.log(blueprint, bp);
         }
         switch (action) {
             case 'create':
