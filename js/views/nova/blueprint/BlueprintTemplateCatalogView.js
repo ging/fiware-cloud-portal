@@ -146,7 +146,8 @@ var BlueprintTemplateCatalogView = Backbone.View.extend({
             getHeaders: this.getHeaders,
             getEntries: this.getEntries,
             context: this,
-            color: "#95C11F"
+            color: "#95C11F",
+            color2: "#95C11F"
         });
         this.tableView.render();
     }

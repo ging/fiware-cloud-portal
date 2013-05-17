@@ -32,7 +32,7 @@ src: templates/root/table-tiers.html
 
             <td style="width:25%" class="entry_<%=entry.id%> circle_progress">
                 <div class="progress-wgt">
-                    <input class="dial" data-width="140" data-height="160" data-offset="25" data-min="<%=entry.minValue%>" data-max="<%=entry.maxValue%>" data-displayinput="false" data-displayprevious="false" value="<%=entry.bootValue%>" data-thickness="0.12" data-readonly="true" data-fgcolor="<%=color%>" data-bgcolor="<%=color%>" data-linecolor="#999">
+                    <input class="dial" data-width="140" data-height="160" data-offset="25" data-min="<%=entry.minValue%>" data-max="<%=entry.maxValue%>" <%=(entry.currentValue) ? 'data-currentvalue="'+entry.currentValue+'"':'' %> data-displayinput="false" data-displayprevious="false" value="<%=entry.bootValue%>" data-thickness="0.12" data-readonly="true" data-fgcolor="<%=color%>" data-bgcolor="<%=color2%>" data-linecolor="#999">
                     <div class="circle-progress-data">
                         <label class="tier-min-value"><%=entry.minValue%></label>
                         <label class="tier-max-value"><%=entry.maxValue%></label>

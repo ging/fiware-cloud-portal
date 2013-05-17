@@ -67,7 +67,7 @@ src: templates/root/table.html
                 </td>
             <%  } else if (header.order === 'none') {
             %>
-                <td style="width:<%=header.size%>;" class="tip <%= (header.hidden_tablet) ? 'hidden-tablet':''%> <%=(header.hidden_phone) ? 'hidden-phone':''%>" data-tooltip="<%=header.tooltip%>" data-i18n="<%=header.name%>"><%=header.name%>
+                <td style="width:<%=header.size%>;" class="tip <%= (header.hidden_tablet) ? 'hidden-tablet':''%> <%=(header.hidden_phone) ? 'hidden-phone':''%> <%= (header.cssclass) ? header.cssclass:''%>" data-tooltip="<%=header.tooltip%>" data-i18n="<%=header.name%>"><%=header.name%>
                 </td>
             <%
                 colNum++;
@@ -75,8 +75,8 @@ src: templates/root/table.html
                 } else {
 
             %>
-                    <td id="header_id_<%=colNum%>" style="width:<%=header.size%>;" class="tip <%= (header.hidden_tablet) ? 'hidden-tablet':''%> <%=(header.hidden_phone) ? 'hidden-phone':''%>" data-tooltip="<%=header.tooltip%>">
-                    <div class="header_entry_<%=cid%>" style="float:left;cursor:pointer;" data-i18n="<%=header.name%>"><%=header.name%></div>
+                    <td id="header_id_<%=colNum%>" style="width:<%=header.size%>;" class="tip <%= (header.hidden_tablet) ? 'hidden-tablet':''%> <%=(header.hidden_phone) ? 'hidden-phone':''%> <%= (header.cssclass) ? header.cssclass:''%>" data-tooltip="<%=header.tooltip%>">
+                    <div class="header_entry_<%=cid%> <%= (header.cssclass) ? header.cssclass:''%>" style="float:left;cursor:pointer;" data-i18n="<%=header.name%>"><%=header.name%></div>
             <%
 
                     if (colNum === orderBy.column) {
