@@ -104,10 +104,11 @@ var BlueprintTemplatesCatalogView = Backbone.View.extend({
         if (blueprintIds.length === 1) {
             blueprint = blueprintIds[0];
             bp = this.model.catalogList[blueprint];
+            console.log(bp);
         }
         switch (action) {
             case 'clone':
-                subview = new CloneBlueprintView({el: 'body', model: bp});
+                subview = new CloneBlueprintView({el: 'body', bpTemplate: bp});
                 subview.render();
                 break;
         }

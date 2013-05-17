@@ -41,14 +41,24 @@ var CloneBlueprintView = Backbone.View.extend({
         e.preventDefault();
         var name = this.$('input[name=name]').val();
         var descr = this.$('textarea[name=description]').val();
-        var callbacks = UTILS.Messages.getCallbacks("Blueprint "+name + " cloned.", "Error cloning blueprint "+name);
+        var callbacks = UTILS.Messages.getCallbacks("Blueprint "+name + " cloned.", "Error cloning blueprint "+name, {context: self});
         
-        console.log('cloning', this.model);
+        console.log('cloning', this.model, this.options.bpTemplate);
         
         var bp = new BPTemplate();
         bp.set({'name': name});
         bp.set({'description': descr});
-        bp.set({'tierDtos': this.model.get("tierDtos")});
+
+        if (this.options.bpTemplate) {
+            if (this.options.bpTemplate.tierDtos_asArray) {
+                bp.set({'tierDtos': this.options.bpTemplate.tierDtos_asArray});
+            }
+        } else {
+            if (this.model.get("tierDtos_asArray")) {
+                bp.set({'tierDtos': this.model.get("tierDtos_asArray")});
+            }
+        }
+
         bp.save(undefined, callbacks);
     }
 });
