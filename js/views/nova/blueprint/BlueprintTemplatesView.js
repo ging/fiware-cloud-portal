@@ -18,7 +18,7 @@ var BlueprintTemplatesView = Backbone.View.extend({
 
     getMainButtons: function() {
         // main_buttons: [{label:label, url: #url, action: action_name}]
-        return [{label: "Open Catalog", url: "#nova/blueprints/catalog/"},
+        return [{label: "Open Catalog", url: "#nova/blueprints/catalog/", class: "btn-catalog"},
                 {label: "Create New Template", action: "create"}];
     },
 
@@ -40,6 +40,10 @@ var BlueprintTemplatesView = Backbone.View.extend({
             }, {
             label: "Clone Template",
             action: "clone",
+            activatePattern: oneSelected
+            }, {
+            label: "Edit Template",
+            action: "edit",
             activatePattern: oneSelected
             }, {
             label: "Delete Template",
@@ -78,12 +82,12 @@ var BlueprintTemplatesView = Backbone.View.extend({
     getEntries: function() {
         var entries = [];
         var i = 0;
-        
+        console.log(this.model);
         for (var index in this.model.models) {
             var template = this.model.models[index];
             i++;
             var entry = {
-                id: template.get('name'),
+                id: index,
                 cells: [{
                     value: template.get('name'),
                     link: "#nova/blueprints/" + template.get('name')
@@ -109,14 +113,34 @@ var BlueprintTemplatesView = Backbone.View.extend({
         var self = this;
         if (blueprintIds.length === 1) {
             blueprint = blueprintIds[0];
-            bp = blueprint;
+            bp = this.model.models[blueprint];
+            console.log(blueprint, bp);
         }
         switch (action) {
             case 'create':
+                subview = new CreateBlueprintView({el: 'body'});
+                subview.render();
                 break;
             case 'launch':
+                subview = new ConfirmView({
+                    el: 'body',
+                    title: "Launch Blueprint Template",
+                    btn_message: "Launch Blueprint Template",
+                    onAccept: function() {
+                        blueprintIds.forEach(function(blueprint) {
+                            //bp.launch(UTILS.Messages.getCallbacks("Blueprint Template launched", "Error launching Blueprint Template."));
+                        });
+                    }
+                });
+                subview.render();
                 break;
             case 'clone':
+                subview = new CloneBlueprintView({el: 'body', model: bp});
+                subview.render();
+                break;
+            case 'edit':
+                subview = new EditBlueprintView({el: 'body', model: bp});
+                subview.render();
                 break;
             case 'delete':
                 subview = new ConfirmView({
@@ -125,7 +149,7 @@ var BlueprintTemplatesView = Backbone.View.extend({
                     btn_message: "Delete Blueprint Template",
                     onAccept: function() {
                         blueprintIds.forEach(function(blueprint) {
-                            bp.destroy(UTILS.Messages.getCallbacks("Blueprint Template deleted", "Error deleting Blueprint Template."));
+                            //bp.destroy(UTILS.Messages.getCallbacks("Blueprint Template deleted", "Error deleting Blueprint Template."));
                         });
                     }
                 });

@@ -77,9 +77,8 @@ tr.tier-row .progress-wgt {
     top: 12px;
     font-size: 10px;
     text-align: center;
-    border: solid 1px;
+    border: solid 1px #DDD;
     border-radius: 4px;
-    color: #999;
 }
 
 .tier-max-value {
@@ -91,9 +90,8 @@ tr.tier-row .progress-wgt {
     top: 12px;
     font-size: 10px;
     text-align: center;
-    border: solid 1px;
+    border: solid 1px #DDD;
     border-radius: 4px;
-    color: #999;
 }
 
 .tier-data {
@@ -115,11 +113,20 @@ tr.tier-row .progress-wgt {
 .software-tier {
     width: 80%;
     height: 100px;
-    border: solid 1px;
+    border: solid 1px #DDD;
     margin-bottom: 20px;
     overflow-y: auto;
+    border-radius: 5px;
 }
 
 .software-tier ul {
     margin: 5px;
+}
+
+.btn-catalog, .btn-catalog:hover, .btn-catalog:active {
+    background-color: #95C11F;
+}
+
+.link-catalog {
+    color: #95C11F;
 }

@@ -15,7 +15,7 @@ var BlueprintTemplateCatalogView = Backbone.View.extend({
         }, error: function (e) {
             console.log('Error getting catalog bp detail');
         }});
-        
+
     },
 
     events: {
@@ -24,7 +24,7 @@ var BlueprintTemplateCatalogView = Backbone.View.extend({
 
     getMainButtons: function() {
         // main_buttons: [{label:label, url: #url, action: action_name}]
-        return [{label: "Back Catalog", url: "#nova/blueprints/catalog/"}];
+        return [{label: "Back Catalog", url: "#nova/blueprints/catalog/", class: "btn-catalog"}];
     },
 
     getDropdownButtons: function() {
@@ -95,6 +95,7 @@ var BlueprintTemplateCatalogView = Backbone.View.extend({
                 products: products,
                 icon: tier.icono
             };
+
             entries.push(entry);
         }
         return entries;
@@ -135,7 +136,6 @@ var BlueprintTemplateCatalogView = Backbone.View.extend({
     },
 
     renderFirst: function() {
-
         UTILS.Render.animateRender(this.el, this._template);
         this.tableView = new TableTiersView({
             model: this.model,
@@ -145,7 +145,8 @@ var BlueprintTemplateCatalogView = Backbone.View.extend({
             getMainButtons: this.getMainButtons,
             getHeaders: this.getHeaders,
             getEntries: this.getEntries,
-            context: this
+            context: this,
+            color: "#95C11F"
         });
         this.tableView.render();
     },

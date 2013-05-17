@@ -19,7 +19,7 @@ var BlueprintTemplatesCatalogView = Backbone.View.extend({
 
     getMainButtons: function() {
         // main_buttons: [{label:label, url: #url, action: action_name}]
-        return [{label: "Close Catalog", url: "#nova/blueprints/"}];
+        return [{label: "Close Catalog", url: "#nova/blueprints/", class: "btn-catalog"}];
     },
 
     getDropdownButtons: function() {
@@ -77,7 +77,8 @@ var BlueprintTemplatesCatalogView = Backbone.View.extend({
                 id: template.name,
                 cells: [{
                     value: template.name,
-                    link: "#nova/blueprints/catalog/" + template.name
+                    link: "#nova/blueprints/catalog/" + template.name,
+                    class: "link-catalog"
                 }, {
                     value: template.description
                 }, {
@@ -103,13 +104,9 @@ var BlueprintTemplatesCatalogView = Backbone.View.extend({
             bp = blueprint;
         }
         switch (action) {
-            case 'catalog':
-                break;
-            case 'create':
-                break;
-            case 'launch':
-                break;
             case 'clone':
+                subview = new CloneBlueprintView({el: 'body', model: bp});
+                subview.render();
                 break;
             case 'delete':
                 subview = new ConfirmView({
@@ -118,7 +115,7 @@ var BlueprintTemplatesCatalogView = Backbone.View.extend({
                     btn_message: "Delete Blueprint Template",
                     onAccept: function() {
                         blueprintIds.forEach(function(blueprint) {
-                            bp.destroy(UTILS.Messages.getCallbacks("Blueprint Template deleted", "Error deleting Blueprint Template."));
+                            //bp.destroy(UTILS.Messages.getCallbacks("Blueprint Template deleted", "Error deleting Blueprint Template."));
                         });
                     }
                 });
@@ -137,7 +134,8 @@ var BlueprintTemplatesCatalogView = Backbone.View.extend({
             getMainButtons: this.getMainButtons,
             getHeaders: this.getHeaders,
             getEntries: this.getEntries,
-            context: this
+            context: this,
+            dropdown_buttons_class: "btn-catalog"
         });
         this.tableView.render();
     },

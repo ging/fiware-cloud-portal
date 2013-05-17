@@ -265,7 +265,8 @@ var TableView = Backbone.View.extend({
             dropdown_buttons: this.getDropdownButtons(),
             headers: this.getHeaders(),
             entries: entries,
-            disableContextMenu: this.options.disableContextMenu, 
+            disableContextMenu: this.options.disableContextMenu,
+            dropdown_buttons_class: this.options.dropdown_buttons_class,
             orderBy: this.orderBy
         });
         var checkboxes = [];

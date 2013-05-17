@@ -141,7 +141,8 @@ var BlueprintTemplateView = Backbone.View.extend({
             getMainButtons: this.getMainButtons,
             getHeaders: this.getHeaders,
             getEntries: this.getEntries,
-            context: this
+            context: this,
+            color: "#0093C6"
         });
         this.tableView.render();
     },

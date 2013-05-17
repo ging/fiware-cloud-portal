@@ -1,6 +1,7 @@
 var TableTiersView = Backbone.View.extend({
 
     _template: _.itemplate($('#tableTiersTemplate').html()),
+
     cid: undefined,
 
     initialize: function() {
@@ -58,7 +59,9 @@ var TableTiersView = Backbone.View.extend({
             cid: this.cid,
             main_buttons: this.getMainButtons(),
             headers: this.getHeaders(),
-            entries: entries
+            entries: entries,
+            color: this.options.color,
+            dropdown_buttons_class: this.options.dropdown_buttons_class
         });
 
         var scrollTo = $(".scrollable_" + this.cid).scrollTop();
