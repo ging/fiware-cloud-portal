@@ -141,9 +141,10 @@ tr.tier-row td {
     height: 230px;
     text-align: center;
     position: absolute;
-    top: 0px;
+    top: 2px;
     left: 50%;
     margin-left: -100px;
+    cursor: pointer;
 }
 
 .form-progress .tier-image {
@@ -160,4 +161,55 @@ tr.tier-row td {
     line-height: 90px;
     font-size: 90px;
     margin-left: -45px;
+}
+
+.tier-sdc {
+    position: relative;
+    float: right;
+    height: 200px;
+}
+
+.modal fieldset .form-field .controls select {
+    width: 100%;
+}
+
+.actionsSDCTier {
+    display: none;
+}
+
+.headerSDCTier {
+    display: none;
+}
+
+.bodySDCTier {
+    top: 0px;
+    border: solid 1px #DDD;
+}
+
+.footerSDCTier {
+    display: none;
+}
+
+.tier-sdc-title {
+    height: 50px;
+}
+
+.title-catalogue {
+    color: #95C11F;
+}
+
+#edit-software-attributes {
+    float: left;
+    width: 768px;
+    margin-left: 28px;
+}
+
+#cancel-attrs {
+    float: right;
+}
+
+.blur {
+    -webkit-filter: blur(1px);
+    opacity: 0.3;
+    cursor: default;
 }

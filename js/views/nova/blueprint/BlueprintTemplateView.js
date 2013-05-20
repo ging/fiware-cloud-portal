@@ -111,7 +111,7 @@ var BlueprintTemplateView = Backbone.View.extend({
         }
         switch (action) {
             case 'add':
-                subview = new CreateTierView({el: 'body'});
+                subview = new CreateTierView({el: 'body', flavors: self.options.flavors, keypairs: self.options.keypairs, securityGroupsModel: self.options.securityGroupsModel, images: self.options.images});
                 subview.render();
                 break;
                 break;

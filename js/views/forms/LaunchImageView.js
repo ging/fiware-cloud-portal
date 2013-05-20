@@ -53,7 +53,7 @@ var LaunchImageView = Backbone.View.extend({
         if ($("#id_keypair option:selected")[0].value !== '') {
             key_name = $("#id_keypair option:selected")[0].value;
         }
-        
+
         flavorReg = $("#id_flavor option:selected")[0].value;
 
         $('input[name=security_groups]:checked').each(function () {
@@ -74,9 +74,9 @@ var LaunchImageView = Backbone.View.extend({
         instance.set({"max_count": max_count});
         instance.set({"availability_zone": availability_zone});
 
-        instance.save(undefined, UTILS.Messages.getCallbacks("Instance "+instance.get("name") + " launched.", "Error launching instance "+instance.get("name"), 
+        instance.save(undefined, UTILS.Messages.getCallbacks("Instance "+instance.get("name") + " launched.", "Error launching instance "+instance.get("name"),
             {context:self, href:"#nova/instances/"}));
-       
+
 
         /*instance.save(undefined, {success: function () {
             self.close();

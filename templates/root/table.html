@@ -3,7 +3,7 @@
 Description: Table
 src: templates/root/table.html
 -->
-<div class='table_header'>
+<div class='table_header <%=actionsClass%>'>
     <div class="table_actions clearfix">
         <%
           var checkbox_enabled = false;
@@ -50,7 +50,7 @@ src: templates/root/table.html
         %>
     </div>
 </div>
-<table id="table_head" class="table table-bordered table-striped table-header">
+<table id="table_head" class="table table-bordered table-striped table-header <%=headerClass%>">
     <thead>
         <tr>
             <%
@@ -98,7 +98,7 @@ src: templates/root/table.html
         </tr>
     </thead>
 </table>
-<div class="scrollable scrollable_<%=cid%>">
+<div class="scrollable scrollable_<%=cid%> <%=bodyClass%>">
 <table id="table_entries" class="table table-without-margins without-borders table-striped table-scrolled">
     <tbody>
         <%
@@ -139,7 +139,7 @@ src: templates/root/table.html
     </tbody>
     </table>
 </div>
-<table id="table_foot" class="table-foot table table-bordered table-striped table-without-margins">
+<table id="table_foot" class="table-foot table table-bordered table-striped table-without-margins <%=footerClass%>">
     <tfoot>
         <tr>
             <td colspan="8"><span class="blue"><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", entries.length)%></span></td>

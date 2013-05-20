@@ -300,6 +300,10 @@ bottom: 42px;
   border-top-left-radius: 0px;
 }
 
+.modal-body {
+  max-height: 450px;
+}
+
 @font-face {
     font-family: "Comfortaa_Regular";
     src: url("assets/fonts/comfortaa_regular-webfont.eot");
