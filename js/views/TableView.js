@@ -82,6 +82,7 @@ var TableView = Backbone.View.extend({
     },
 
     onContextMenuBtn: function(evt) {
+        evt.preventDefault();
         var btn_idx = $(evt.target)[0].id.split("_" + this.cid)[0];
         var btn = this.getDropdownButtons()[btn_idx];
         var entry = $("#context-menu-" + this.cid).attr("data-id");
@@ -248,6 +249,7 @@ var TableView = Backbone.View.extend({
     },
 
     onDropdownAction: function(evt) {
+        evt.preventDefault();
         var btn_idx = $(evt.target)[0].id.split("_" + this.cid)[0];
         var btn = this.getDropdownButtons()[btn_idx];
         var entries = [];
@@ -261,8 +263,13 @@ var TableView = Backbone.View.extend({
         var entries = this.getEntries();
         var new_template = this._template({
             cid: this.cid,
+            actionsClass: this.options.actionsClass,
+            headerClass: this.options.headerClass,
+            bodyClass: this.options.bodyClass,
+            footerClass: this.options.footerClass,
             main_buttons: this.getMainButtons(),
             dropdown_buttons: this.getDropdownButtons(),
+            disableActionButton: this.options.disableActionButton,
             headers: this.getHeaders(),
             entries: entries,
             disableContextMenu: this.options.disableContextMenu,

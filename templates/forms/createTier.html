@@ -5,72 +5,152 @@
     src: templates/forms/createTier.html
     -->
     <div class="modal-header">
-        <a href="#" class="close" data-dismiss="modal">×</a>
+        <a class="close" data-dismiss="modal">×</a>
         <h3>Create Tier</h3>
     </div>
 
     <form id="form" onSubmit="return false;" class="form-horizontal">
-        <div class="modal-body clearfix">
+        <div class="modal-body clearfix" style="overflow: hidden">
+            <div id="scroll-based-layer" style="overflow: hidden; width: 100%">
+            <div style="
+                    width: 1600px;
+                    height: 250px;
+                ">
 
-            <div class="left form-progress" style="position:relative">
-                <div class="progress-wgt">
-                    <input class="dial-form" data-width="200" data-height="230" data-offset="25" data-min="1" data-max="10" data-displayinput="false" data-displayprevious="false" value="5" data-thickness="0.12" data-readonly="false" data-fgcolor="#0093C6" data-bgcolor="#0093C6" data-linecolor="#999">
-                    <div class="circle-progress-data">
-                        <input id="tier-min-value" class="tier-min-value tier-values" value="1">
-                        <input id="tier-max-value" class="tier-max-value tier-values" value="10">
-                        <span class="tier-image-back">?</span>
-                        <img class="tier-image" src=""></img>
+                <div class="left form-progress" style="position:relative">
+                    <div class="progress-wgt">
+                        <input name="tier-initial-value" class="dial-form" data-width="200" data-height="230" data-offset="25" data-min="1" data-max="10" data-displayinput="false" data-displayprevious="false" value="5" data-thickness="0.08" data-valuesize="10" data-readonly="false" data-fgcolor="#0093C6" data-bgcolor="#0093C6" data-linecolor="#999">
+                        <div class="circle-progress-data">
+                            <input name="tier-max-value" id="tier-max-value" class="tier-max-value tier-values" required value="10">
+                            <input name="tier-min-value" id="tier-min-value" class="tier-min-value tier-values" required value="1">
+                            <span class="tier-image-back">?</span>
+                            <img class="tier-image" src=""></img>
+                        </div>
+                    </div>
+                </div>
+                <div class="right form-horizontal">
+                    <fieldset>
+
+                        <div class="control-group form-field clearfix">
+                            <label class="control-label" for="name">Name *:</label>
+                            <div class="controls">
+                                <input required id="name" type="text" name="name" maxlength="255">
+                            </div>
+                        </div>
+
+                        <div class="control-group form-field clearfix">
+                            <label class="control-label" for="flavor">Flavor *:</label>
+                            <div class="controls">
+                                <select name="flavor" id="id_flavor">
+
+                                    <%
+                                    for (var index in flavors.models) {
+                                    var flavor = flavors.models[index];
+                                    %>
+                                    <option value="<%=flavor.id%>"><%=flavor.get("name") + " (" + flavor.get("vcpus") + "VCPU / " + flavor.get("disk") + "GB Disk / " + flavor.get("ram") + "MB Ram )" %></option>
+                                    <%}%>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="control-group form-field clearfix">
+                            <label class="control-label" for="image">Image *:</label>
+                            <div class="controls">
+                                <select name="image" id="id_image">
+                                    <% if (images.size() == 0) { %>
+                                    <option value="" selected="selected">No images available.</option>
+                                    <% } else {
+                                    for (var index in images.models) {
+                                    var image = images.models[index];
+                                    %>
+                                    <option value="<%=image.get('id')%>"><%= image.get("name")%></option>
+                                    <%  }
+                                    }%>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="control-group form-field clearfix">
+                            <label class="control-label" for="id_icon">Icon:</label>
+
+                            <div class="controls">
+                                <input id="icon" type="text" name="icon" maxlength="255">
+                            </div>
+                        </div>
+
+                        <div class="control-group form-field clearfix">
+                            <label class="control-label" for="id_keypair">Keypair:</label>
+
+                            <div class="controls">
+                                <select name="keypair" id="id_keypair">
+                                    <option value="" selected="selected">Select a keypair</option>
+                                    <% if (keypairs.size() == 0) { %>
+                                    <option value="" selected="selected">No keypairs available.</option>
+                                    <% } else {
+                                    for (var index in keypairs.models) {
+                                    var keypair = keypairs.models[index];
+                                    %>
+                                    <option value="<%=keypair.get('name')%>"><%= keypair.get("name")%></option>
+                                    <%  }
+                                    }%>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="control-group form-field clearfix">
+                            <label class="control-label" for="id_public_ip">Public IP:</label>
+
+                            <div class="controls">
+                                <input type="checkbox" name="public_ip" value="true">
+                            </div>
+                        </div>
+
+                    </fieldset>
+                </div>
+                <div id="edit-software-attributes" class="right">
+                        <table id="product_attributes" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width: 30%;">Attribute</th>
+                                    <th style="width: 30%;">Value</th>
+                                    <th style="width: 40%;">Description</th>
+                                </tr>
+                            </thead>
+                            <tbody id="software-attrs-table">
+                                <tr class="odd empty">
+                                    <td colspan="6">No items to display.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="submodal-footer">
+                            <a id="accept-attrs" class="btn btn-blue pull-right">Accept</a>
+                            <a id="cancel-attrs" class="btn seconday cancel">Cancel</a>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="right form-horizontal">
-                <fieldset>
 
-                    <div class="control-group form-field clearfix">
-                        <label class="control-label" for="name">Name *:</label>
-                        <div class="controls">
-                            <input required id="name" type="text" name="name" maxlength="255">
-                        </div>
+            <div class="row-fluid tier-sdc blurable">
+                <div style="height: 100%; position: relative" class="span6">
+                    <h2 class="tier-sdc-title">Software in Tier</h2>
+                    <div style="position: absolute; top: 45px; bottom: 0px; width: 100%">
+                       <div id="installedSoftware-table"></div>
+                   </div>
+                </div>
+                <div style="height: 100%; position: relative" class="span6">
+                    <h2 class="tier-sdc-title title-catalogue">Software in Catalogue</h2>
+                    <div style="position: absolute; top: 45px; bottom: 0px; width: 100%">
+                        <div id="newSoftware-table"></div>
                     </div>
+                </div>
 
-                    <div class="control-group form-field clearfix">
-                        <label class="control-label" for="flavor">Flavor *:</label>
-                        <div class="controls">
-                            <input required id="flavor" type="text" name="flavor" maxlength="255">
-                        </div>
-                    </div>
-
-                    <div class="control-group form-field clearfix">
-                        <label class="control-label" for="image">Image *:</label>
-                        <div class="controls">
-                            <input required id="image" type="text" name="image" maxlength="255">
-                        </div>
-                    </div>
-
-                    <div class="control-group form-field clearfix">
-                        <label class="control-label" for="id_icon">Icon:</label>
-
-                        <div class="controls">
-                            <input required id="icon" type="text" name="icon" maxlength="255">
-                        </div>
-                    </div>
-
-                    <div class="control-group form-field clearfix">
-                        <label class="control-label" for="id_keypair">Keypair:</label>
-
-                        <div class="controls">
-                            <input required id="keypair" type="text" name="keypair" maxlength="255">
-                        </div>
-                    </div>
-
-                </fieldset>
             </div>
 
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer blurable">
             <p class="mandatoryMess">* Mandatory fields.</p>
-            <input type="submit" class="btn btn-blue create-tier pull-right" value="Create Tier"/>
-            <a id="cancelBtn" class="close btn seconday cancel close" data-dismiss="modal">Cancel</a>
+            <input type="submit" class="btn btn-blue create-tier pull-right blurable" value="Create Tier"/>
+            <a id="cancelBtn" class="close btn seconday cancel close blurable" data-dismiss="modal">Cancel</a>
         </div>
     </form>
 </div>
