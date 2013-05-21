@@ -21,6 +21,8 @@ var CreateTierView = Backbone.View.extend({
         this.options = this.options || {};
         this.options.roles = new Roles();
         this.options.roles.fetch();
+
+        this.addedProducts = [];
     },
 
     close: function(e) {
@@ -86,7 +88,7 @@ var CreateTierView = Backbone.View.extend({
             }
         };
         return [{
-            label: "Uninstall",
+            label: "Remove",
             action: "uninstall",
             activatePattern: groupSelected
         }, {
@@ -109,29 +111,15 @@ var CreateTierView = Backbone.View.extend({
     getEntries: function() {
         var entries = [];
 
-        //if (this.model.models.length === 0) {
-        //    return entries;
-        //}
+        for (var product in this.addedProducts) {
 
-        //var id = this.options.instanceModel.get("id");
-        //if (id) {
+            entries.push(
+                {id: product, cells:[
+                    {value: this.addedProducts[product].name}
+                    ]
+                });
 
-            //var products= this.model.models;
-            var products = [1, 2, 3];
-
-            for (var product in products) {
-                //var stat = products[product].get('status');
-                //if (products[product].get('vm').fqn === id) {// && stat !== 'ERROR' && stat !== 'UNINSTALLED') {
-                    entries.push(
-                        //{id:products[product].get('name'), cells:[
-                        {id:1, cells:[
-                            //{value: products[product].get('productRelease').product.name},
-                            {value: "name"}
-                            ]
-                        });
-                //}
-            }
-        //}
+        }
 
         return entries;
     },
@@ -159,7 +147,7 @@ var CreateTierView = Backbone.View.extend({
             }
         };
         return [{
-            label: "Install",
+            label: "Add",
             action: "install",
             activatePattern: groupSelected
         }];
@@ -178,20 +166,16 @@ var CreateTierView = Backbone.View.extend({
     getEntriesNew: function() {
         var entries = [];
 
-        //var products = this.model.catalogueList;
-        var products = [1, 2, 3];
+        var products = this.options.sdcs.catalogueList;
+
+        console.log(products);
 
         for (var product in products) {
-            //entries.push({id:products[product].name, cells:[
-            //    {value: products[product].name},
-            //    {value: products[product].description}]});
-            entries.push(
-                //{id:products[product].get('name'), cells:[
-                {id:1, cells:[
-                    //{value: products[product].get('productRelease').product.name},
-                    {value: "name"}
-                    ]
-                });
+              entries.push(
+
+                {id: product, cells:[
+                {value: products[product].name}]});
+
         }
         return entries;
 
@@ -203,12 +187,16 @@ var CreateTierView = Backbone.View.extend({
 
         var product;
 
-        console.log("onAction");
-
         switch (action) {
             case 'install':
+                product = this.options.sdcs.catalogueList[ids];
+                console.log(ids, product);
+                this.addedProducts.push(product);
+                this.tableView.render();
             break;
             case 'uninstall':
+                this.addedProducts.splice(ids, 1);
+                this.tableView.render();
             break;
             case 'edit':
             var productAttributes = [{key:'key1', value: 'value1', description: "descr1"}, {key:'key2', value: 'value2', description: "descr2"}];
@@ -290,7 +278,23 @@ var CreateTierView = Backbone.View.extend({
 
         console.log(name, flavorReg, image, icon, key_name, public_ip, min, max, initial);
 
-        var callbacks = UTILS.Messages.getCallbacks("Tier "+name + " created.", "Error creating tier "+name);
+        var tier = {
+            name: name,
+            flavour: flavorReg,
+            floatingip: public_ip,
+            image: image,
+            icon: icon,
+            keypair: key_name,
+            minimum_number_instances: min, 
+            maximum_number_instances: max,
+            initial_number_instances: initial
+        };
+
+        var options = UTILS.Messages.getCallbacks("Tier "+name + " created.", "Error creating tier "+name, {context: self});
+
+        options.tier = tier;
+
+        //this.model.addTier(options);
     },
 
     render: function () {

@@ -48,12 +48,12 @@ var CloneBlueprintView = Backbone.View.extend({
         bp.set({'description': descr});
 
         if (this.options.bpTemplate) {
-            if (this.options.bpTemplate.tierDtos_asArray) {
-                bp.set({'tierDtos': this.options.bpTemplate.tierDtos_asArray});
+            if (this.options.bpTemplate.tierDto_asArray) {
+                bp.set({'tierDto': this.options.bpTemplate.tierDto_asArray});
             }
         } else {
-            if (this.model.get("tierDtos_asArray")) {
-                bp.set({'tierDtos': this.model.get("tierDtos_asArray")});
+            if (this.model.get("tierDto_asArray")) {
+                bp.set({'tierDto': this.model.get("tierDto_asArray")});
             }
         }
 

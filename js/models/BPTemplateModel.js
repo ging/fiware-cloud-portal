@@ -40,7 +40,7 @@ var BPTemplate = Backbone.Model.extend({
             case "update":
                 break;
             case "addTier":
-                BP.API.createBlueprintTemplateTier(options.tier, options.success, options.error);
+                BP.API.createBlueprintTemplateTier(model.get('name'), options.tier, options.success, options.error);
                 break;
         }
     },

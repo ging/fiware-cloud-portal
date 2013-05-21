@@ -72,8 +72,8 @@ var BlueprintTemplateView = Backbone.View.extend({
     getEntries: function() {
         var entries = [];
         var i = 0;
-        for (var index in this.model.get('tierDtos_asArray')) {
-            var tier = this.model.get('tierDtos_asArray')[index];
+        for (var index in this.model.get('tierDto_asArray')) {
+            var tier = this.model.get('tierDto_asArray')[index];
 
             var products = [];
             for (var p in tier.productReleaseDtos_asArray) {
@@ -112,7 +112,7 @@ var BlueprintTemplateView = Backbone.View.extend({
         }
         switch (action) {
             case 'add':
-                subview = new CreateTierView({el: 'body', flavors: self.options.flavors, keypairs: self.options.keypairs, securityGroupsModel: self.options.securityGroupsModel, images: self.options.images});
+                subview = new CreateTierView({el: 'body', model: this.model, sdcs: self.options.sdcs, flavors: self.options.flavors, keypairs: self.options.keypairs, securityGroupsModel: self.options.securityGroupsModel, images: self.options.images});
                 subview.render();
                 break;
                 break;
@@ -124,9 +124,9 @@ var BlueprintTemplateView = Backbone.View.extend({
                     title: "Delete Tier",
                     btn_message: "Delete Tier",
                     onAccept: function() {
-                        blueprintIds.forEach(function(blueprint) {
-                            bp.destroy(UTILS.Messages.getCallbacks("Tier deleted", "Error deleting Tier."));
-                        });
+                        // blueprintIds.forEach(function(blueprint) {
+                        //     bp.destroy(UTILS.Messages.getCallbacks("Tier deleted", "Error deleting Tier."));
+                        // });
                     }
                 });
                 subview.render();

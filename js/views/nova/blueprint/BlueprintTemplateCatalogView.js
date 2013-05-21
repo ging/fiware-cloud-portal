@@ -76,12 +76,12 @@ var BlueprintTemplateCatalogView = Backbone.View.extend({
     getEntries: function() {
         var entries = [];
         var i = 0;
-        for (var index in this.bpTemplate.tierDtos_asArray) {
-            var tier = this.bpTemplate.tierDtos_asArray[index];
+        for (var index in this.bpTemplate.tierDto_asArray) {
+            var tier = this.bpTemplate.tierDto_asArray[index];
 
             var products = [];
-            for (var p in tier.productReleaseDtos_asArray) {
-                products.push(tier.productReleaseDtos_asArray[p].productName);
+            for (var p in tier.productReleaseDto_asArray) {
+                products.push(tier.productReleaseDto_asArray[p].productName);
             }
 
             var entry = {
