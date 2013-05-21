@@ -118,6 +118,7 @@ var loadModels = function() {
                 "js/models/ProjectModel.js",
                 "js/models/InstanceModel.js",
                 "js/models/BPTemplateModel.js",
+                "js/models/BPInstanceModel.js",
                 "js/models/VolumeModel.js",
                 "js/models/VolumeSnapshotModel.js",
                 "js/models/InstanceSnapshotModel.js",

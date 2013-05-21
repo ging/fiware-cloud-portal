@@ -38,6 +38,7 @@ var OSRouter = Backbone.Router.extend({
         this.flavors = new Flavors();
         this.instancesModel = new Instances();
         this.bpTemplatesModel = new BPTemplates();
+        this.bpInstancesModel = new BPInstances();
         this.sdcs = new SDCs();
         this.volumesModel = new Volumes();
         this.volumeSnapshotsModel = new VolumeSnapshots();
@@ -101,8 +102,8 @@ var OSRouter = Backbone.Router.extend({
         this.route('nova', 'nova', this.wrap(this.nova_instances, this.checkAuthAndTimers, ["instancesModel"]));
         this.route('nova/', 'nova', this.wrap(this.nova_instances, this.checkAuthAndTimers, ["instancesModel"]));
 
-        this.route('nova/blueprints/instances/', 'blueprint_instances', this.wrap(this.blueprint_instances, this.checkAuthAndTimers, ["bpTemplatesModel"]));
-        this.route('nova/blueprints/instances/:id', 'blueprint_instance', this.wrap(this.blueprint_instance, this.checkAuthAndTimers, ["bpTemplatesModel"]));
+        this.route('nova/blueprints/instances/', 'blueprint_instances', this.wrap(this.blueprint_instances, this.checkAuthAndTimers, ["bpInstancesModel"]));
+        this.route('nova/blueprints/instances/:id', 'blueprint_instance', this.wrap(this.blueprint_instance, this.checkAuthAndTimers, ["bpInstancesModel"]));
 
         this.route('nova/blueprints/templates/', 'blueprint_templates', this.wrap(this.blueprint_templates, this.checkAuthAndTimers, ["bpTemplatesModel"]));
         this.route('nova/blueprints/templates/:id', 'blueprint_template', this.wrap(this.blueprint_template, this.checkAuthAndTimers, ["bpTemplatesModel"]));
@@ -154,6 +155,7 @@ var OSRouter = Backbone.Router.extend({
             this.add_fetch("instancesModel", seconds);
             this.add_fetch("sdcs", seconds);
             this.add_fetch("bpTemplatesModel", seconds);
+            this.add_fetch("bpInstancesModel", seconds);
             this.add_fetch("volumesModel", seconds);
             this.add_fetch("images", seconds);
             this.add_fetch("flavors", seconds);
@@ -370,7 +372,7 @@ var OSRouter = Backbone.Router.extend({
 
     blueprint_instances: function(self) {
         self.showNovaRoot(self, 'Blueprint Instances');
-        var view = new BlueprintInstancesView({el: '#content', model: self.bpTemplatesModel});
+        var view = new BlueprintInstancesView({el: '#content', model: self.bpInstancesModel});
         self.newContentView(self,view);
     },
 

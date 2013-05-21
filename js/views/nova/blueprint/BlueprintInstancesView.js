@@ -5,6 +5,7 @@ var BlueprintInstancesView = Backbone.View.extend({
     tableView: undefined,
 
     initialize: function() {
+        console.log(this.model);
         if (this.model) {
             this.model.unbind("sync");
             this.model.bind("sync", this.render, this);

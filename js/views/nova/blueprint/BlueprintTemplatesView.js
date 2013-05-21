@@ -127,9 +127,13 @@ var BlueprintTemplatesView = Backbone.View.extend({
                     title: "Launch Blueprint Template",
                     btn_message: "Launch Blueprint Template",
                     onAccept: function() {
-                        blueprintIds.forEach(function(blueprint) {
-                            //bp.launch(UTILS.Messages.getCallbacks("Blueprint Template launched", "Error launching Blueprint Template."));
-                        });
+
+                        var bpi = new BPInstance();
+                        bpi.set({"name": bp.get("name")});
+                        bpi.set({"description": bp.get("description")});
+                        bpi.set({"tierDtos": bp.get("tierDtos_asArray")});
+
+                        bpi.save(undefined, UTILS.Messages.getCallbacks("Blueprint Template launched", "Error launching Blueprint Template.", {context: self}));
                     }
                 });
                 subview.render();
