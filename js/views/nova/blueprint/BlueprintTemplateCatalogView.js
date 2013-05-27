@@ -76,8 +76,8 @@ var BlueprintTemplateCatalogView = Backbone.View.extend({
     getEntries: function() {
         var entries = [];
         var i = 0;
-        for (var index in this.bpTemplate.tierDto_asArray) {
-            var tier = this.bpTemplate.tierDto_asArray[index];
+        for (var index in this.bpTemplate.tierDtos_asArray) {
+            var tier = this.bpTemplate.tierDtos_asArray[index];
 
             var products = [];
             for (var p in tier.productReleaseDto_asArray) {
@@ -86,9 +86,9 @@ var BlueprintTemplateCatalogView = Backbone.View.extend({
 
             var entry = {
                 id: tier.name,
-                minValue: tier.minimum_number_instances,
-                maxValue: tier.maximum_number_instances,
-                bootValue: tier.initial_number_instances,
+                minValue: tier.minimumNumberInstances,
+                maxValue: tier.maximumNumberInstances,
+                bootValue: tier.initialNumberInstances,
                 name: tier.name,
                 flavor: tier.flavour,
                 image: tier.image,

@@ -71,6 +71,11 @@ var SDCs = Backbone.Collection.extend({
         return this._action('getCatalogueProductDetails', options);
     },
 
+    getCatalogueProductReleases: function(options) {
+        options = options || {};
+        return this._action('getCatalogueProductReleases', options);
+    },
+
     fetchCollection: function(options) {
 
         var self = this;
@@ -91,6 +96,9 @@ var SDCs = Backbone.Collection.extend({
                 break;
             case 'getCatalogueProductDetails':
                 ServiceDC.API.getProductAttributes(options.id, options.success, options.error);
+                break;
+            case 'getCatalogueProductReleases':
+                ServiceDC.API.getProductReleases(options.name, options.success, options.error);
                 break;
         }
     },

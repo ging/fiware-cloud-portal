@@ -84,8 +84,8 @@ var BlueprintTemplatesView = Backbone.View.extend({
         for (var index in this.model.models) {
             var template = this.model.models[index];
             var nTiers = 0;
-            if (template.get('tierDto_asArray')) {
-                nTiers = template.get('tierDto_asArray').length;
+            if (template.get('tierDtos_asArray')) {
+                nTiers = template.get('tierDtos_asArray').length;
             }
             var entry = {
                 id: index,
@@ -131,7 +131,7 @@ var BlueprintTemplatesView = Backbone.View.extend({
                         var bpi = new BPInstance();
                         bpi.set({"name": bp.get("name")});
                         bpi.set({"description": bp.get("description")});
-                        bpi.set({"tierDto": bp.get("tierDto_asArray")});
+                        bpi.set({"tierDtos": bp.get("tierDtos_asArray")});
 
                         bpi.save(undefined, UTILS.Messages.getCallbacks("Blueprint Template launched", "Error launching Blueprint Template.", {context: self}));
                     }

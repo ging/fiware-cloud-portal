@@ -23,6 +23,7 @@ var CreateTierView = Backbone.View.extend({
         this.options.roles.fetch();
 
         this.addedProducts = [];
+        this.editing = -1;
     },
 
     close: function(e) {
@@ -190,34 +191,57 @@ var CreateTierView = Backbone.View.extend({
         switch (action) {
             case 'install':
                 product = this.options.sdcs.catalogueList[ids];
-                console.log(ids, product);
-                this.addedProducts.push(product);
-                this.tableView.render();
+                var exists = false;
+                for (var a in this.addedProducts) {
+                    if (this.addedProducts[a].name === product.name) {
+                        exists = true;
+                        continue;
+                    }
+                }
+                if (!exists) {
+
+                    this.options.sdcs.getCatalogueProductReleases({name: product.name, callback: function (resp) {
+                        var lastRelease = resp.productRelease_asArray[0].version;
+
+                        product.version = lastRelease;
+                        self.addedProducts.push(product);
+                        self.tableView.render();
+                    }});
+                    
+                }
+                
             break;
             case 'uninstall':
                 this.addedProducts.splice(ids, 1);
                 this.tableView.render();
             break;
             case 'edit':
-            var productAttributes = [{key:'key1', value: 'value1', description: "descr1"}, {key:'key2', value: 'value2', description: "descr2"}];
-            var str='';
-            for (var i in productAttributes) {
-                attr = productAttributes[i];
-                str += '<tr id="sec_groups__row__" class="ajax-update status_down"><td>'+attr.key+'</td><td><input type="text" name="attr_'+i+'" value="'+attr.value+'""></td><td>'+attr.description+'</td></tr>';
-            }
-            $('#software-attrs-table').html(str);
-            $('#scroll-based-layer').animate({
-                scrollLeft: $('#scroll-based-layer').width()
-            }, 500, function() {
-                // Animation complete.
-            });
-            var effects = {};
-            effects["-webkit-filter"] = "blur(1px)";
-            effects["opacity"] = "0.3";
-            $('.blurable').animate(effects, 500, function() {
-                $('.blurable').addClass("blur");
-                $('.blurable').bind("click", false);
-            });
+                product = this.addedProducts[ids];
+                this.edit = ids;
+                console.log(product);
+                var productAttributes = product.attributes_asArray;
+                var str='';
+                for (var i in productAttributes) {
+                    attr = productAttributes[i];
+                    str += '<tr id="sec_groups__row__" class="ajax-update status_down"><td>'+attr.key+'</td><td><input type="text" name="attr_'+i+'" value="'+attr.value+'""></td><td>'+attr.description+'</td></tr>';
+                }
+                if (str === '') {
+                    str = '<tr id="sec_groups__row__" class="ajax-update status_down"><td></td><td style="text-align: center;">No items to display</td><td></td></tr>';
+
+                }
+                $('#software-attrs-table').html(str);
+                $('#scroll-based-layer').animate({
+                    scrollLeft: $('#scroll-based-layer').width()
+                }, 500, function() {
+                    // Animation complete.
+                });
+                var effects = {};
+                effects["-webkit-filter"] = "blur(1px)";
+                effects["opacity"] = "0.3";
+                $('.blurable').animate(effects, 500, function() {
+                    $('.blurable').addClass("blur");
+                    $('.blurable').bind("click", false);
+                });
             break;
         }
         return false;
@@ -236,6 +260,17 @@ var CreateTierView = Backbone.View.extend({
             $('.blurable').removeClass("blur");
             $('.blurable').unbind("click", false);
         });
+
+        if (this.addedProducts[this.edit].attributes_asArray) {
+
+            for (var at in this.addedProducts[this.edit].attributes_asArray) {
+                var inp = 'input[name=attr_'+ at+']';
+                console.log(inp);
+                this.addedProducts[this.edit].attributes_asArray[at].value = this.$(inp).val();
+
+                console.log('newattr', this.addedProducts[this.edit]);
+            }
+        }
     },
 
     cancelAttrs: function(evt) {
@@ -285,16 +320,38 @@ var CreateTierView = Backbone.View.extend({
             image: image,
             icon: icon,
             keypair: key_name,
-            minimum_number_instances: min, 
-            maximum_number_instances: max,
-            initial_number_instances: initial
+            minimumNumberInstances: min, 
+            maximumNumberInstances: max,
+            initialNumberInstances: initial
         };
+
+        if (this.addedProducts.length !== 0) {
+            console.log('list', this.addedProducts);
+            tier.productReleaseDtos = [];
+            for (p in this.addedProducts) {
+                var nP = {productName: this.addedProducts[p].name, version: this.addedProducts[p].version};
+                if (this.addedProducts[p].attributes_asArray) {
+                    nP.attributes = [];
+                    for (var at in this.addedProducts[p].attributes_asArray) {
+                        var inp = 'input[name=attr_'+ this.addedProducts[p].name+'_'+ at+']';
+                        console.log(inp);
+                        var attrib = {key: this.addedProducts[p].attributes_asArray[at].key, value: this.addedProducts[p].attributes_asArray[at].value};
+                        console.log('newattr', at, attrib);
+                        nP.attributes.push(attrib);
+                    }
+                }
+                console.log('newP', p, nP);
+                tier.productReleaseDtos.push(nP);
+            }
+        }
+
+        console.log('tier', tier);
 
         var options = UTILS.Messages.getCallbacks("Tier "+name + " created.", "Error creating tier "+name, {context: self});
 
         options.tier = tier;
 
-        //this.model.addTier(options);
+        this.model.addTier(options);
     },
 
     render: function () {
