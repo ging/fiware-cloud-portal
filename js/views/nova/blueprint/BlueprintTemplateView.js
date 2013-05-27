@@ -6,7 +6,6 @@ var BlueprintTemplateView = Backbone.View.extend({
     sdcs: {},
 
     initialize: function() {
-        console.log('template ', this.model);
         if (this.model) {
             this.model.unbind("sync");
             this.model.bind("sync", this.render, this);
@@ -112,7 +111,11 @@ var BlueprintTemplateView = Backbone.View.extend({
         }
         switch (action) {
             case 'add':
-                subview = new CreateTierView({el: 'body', model: this.model, sdcs: self.options.sdcs, flavors: self.options.flavors, keypairs: self.options.keypairs, securityGroupsModel: self.options.securityGroupsModel, images: self.options.images});
+                subview = new CreateTierView({el: 'body', model: this.model, sdcs: self.options.sdcs, flavors: self.options.flavors, keypairs: self.options.keypairs, securityGroupsModel: self.options.securityGroupsModel, images: self.options.images, callback: function () {
+                    self.model.fetch({success: function () {
+                        self.render();
+                    }});
+                }});
                 subview.render();
                 break;
                 break;

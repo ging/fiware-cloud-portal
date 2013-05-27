@@ -27,7 +27,6 @@ var CreateTierView = Backbone.View.extend({
     },
 
     close: function(e) {
-        console.log(e);
         this.onClose();
     },
 
@@ -169,8 +168,6 @@ var CreateTierView = Backbone.View.extend({
 
         var products = this.options.sdcs.catalogueList;
 
-        console.log(products);
-
         for (var product in products) {
               entries.push(
 
@@ -218,7 +215,6 @@ var CreateTierView = Backbone.View.extend({
             case 'edit':
                 product = this.addedProducts[ids];
                 this.edit = ids;
-                console.log(product);
                 var productAttributes = product.attributes_asArray;
                 var str='';
                 for (var i in productAttributes) {
@@ -265,10 +261,7 @@ var CreateTierView = Backbone.View.extend({
 
             for (var at in this.addedProducts[this.edit].attributes_asArray) {
                 var inp = 'input[name=attr_'+ at+']';
-                console.log(inp);
                 this.addedProducts[this.edit].attributes_asArray[at].value = this.$(inp).val();
-
-                console.log('newattr', this.addedProducts[this.edit]);
             }
         }
     },
@@ -311,8 +304,6 @@ var CreateTierView = Backbone.View.extend({
 
         initial = this.$('input[name=tier-initial-value]').val();
 
-        console.log(name, flavorReg, image, icon, key_name, public_ip, min, max, initial);
-
         var tier = {
             name: name,
             flavour: flavorReg,
@@ -326,7 +317,7 @@ var CreateTierView = Backbone.View.extend({
         };
 
         if (this.addedProducts.length !== 0) {
-            console.log('list', this.addedProducts);
+
             tier.productReleaseDtos = [];
             for (p in this.addedProducts) {
                 var nP = {productName: this.addedProducts[p].name, version: this.addedProducts[p].version};
@@ -334,22 +325,24 @@ var CreateTierView = Backbone.View.extend({
                     nP.attributes = [];
                     for (var at in this.addedProducts[p].attributes_asArray) {
                         var inp = 'input[name=attr_'+ this.addedProducts[p].name+'_'+ at+']';
-                        console.log(inp);
                         var attrib = {key: this.addedProducts[p].attributes_asArray[at].key, value: this.addedProducts[p].attributes_asArray[at].value};
-                        console.log('newattr', at, attrib);
                         nP.attributes.push(attrib);
                     }
                 }
-                console.log('newP', p, nP);
                 tier.productReleaseDtos.push(nP);
             }
         }
 
-        console.log('tier', tier);
-
         var options = UTILS.Messages.getCallbacks("Tier "+name + " created.", "Error creating tier "+name, {context: self});
 
         options.tier = tier;
+
+        var cb2 = options.callback;
+
+        options.callback = function () {
+            cb2();
+            self.options.callback();
+        }
 
         this.model.addTier(options);
     },
