@@ -44,7 +44,9 @@ app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'HEAD, POST, GET, OPTIONS, DELETE');
     res.header('Access-Control-Allow-Headers', 'origin, content-type, X-Auth-Token, Tenant-ID');
+    console.log("New Request: ", req.method);
     if (req.method == 'OPTIONS') {
+        console.log("CORS request");
         res.statusCode = 200;
         res.header('Content-Length', '0');
         res.send();
@@ -170,7 +172,8 @@ function getClientIp(req, headers) {
 
 app.all('/keystone/*', function(req, resp) {
     var options = {
-        host: '130.206.80.100',
+        host: '130.206.80.63',
+        //host: '130.206.80.100',
         port: 5000,
         path: req.url.split('keystone')[1],
         method: req.method,
@@ -181,7 +184,8 @@ app.all('/keystone/*', function(req, resp) {
 
 app.all('/keystone-admin/*', function(req, resp) {
     var options = {
-        host: '130.206.80.100',
+        host: '130.206.80.63',
+        //host: '130.206.80.100',
         port: 35357,
         path: req.url.split('keystone-admin')[1],
         method: req.method,
@@ -192,7 +196,8 @@ app.all('/keystone-admin/*', function(req, resp) {
 
 app.all('/nova/*', function(req, resp) {
     var options = {
-        host: '130.206.80.11',
+        host: '130.206.80.63',
+        //host: '130.206.80.11',
         port: 8774,
         path: req.url.split('nova')[1],
         method: req.method,
@@ -203,7 +208,8 @@ app.all('/nova/*', function(req, resp) {
 
 app.all('/nova-volume/*', function(req, resp) {
     var options = {
-        host: '130.206.80.11',
+        host: '130.206.80.63',
+        //host: '130.206.80.11',
         port: 8776,
         path: req.url.split('nova-volume')[1],
         method: req.method,
@@ -214,7 +220,8 @@ app.all('/nova-volume/*', function(req, resp) {
 
 app.all('/glance/*', function(req, resp) {
     var options = {
-        host: '130.206.80.11',
+        host: '130.206.80.63',
+        //host: '130.206.80.11',
         port: 9292,
         path: req.url.split('glance')[1],
         method: req.method,
@@ -225,7 +232,8 @@ app.all('/glance/*', function(req, resp) {
 
 app.all('/sm/*', function(req, resp) {
     var options = {
-        host: '130.206.80.91',
+        host: '130.206.80.63',
+        //host: '130.206.80.91',
         port: 8774,
         path: req.url.split('sm')[1],
         method: req.method,
@@ -236,6 +244,7 @@ app.all('/sm/*', function(req, resp) {
 
 app.all('/sdc/rest/*', function(req, resp) {
     var options = {
+        //host: '130.206.80.63',
         host: '130.206.80.112',
         port: 8080,
         path: req.url,
@@ -247,6 +256,7 @@ app.all('/sdc/rest/*', function(req, resp) {
 
 app.all('/paasmanager/rest/*', function(req, resp) {
     var options = {
+        //host: '130.206.80.63',
         host: '130.206.80.112',
         port: 8080,
         path: req.url,

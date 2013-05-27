@@ -42,7 +42,7 @@ var CloneBlueprintView = Backbone.View.extend({
         var name = this.$('input[name=name]').val();
         var descr = this.$('textarea[name=description]').val();
         var callbacks = UTILS.Messages.getCallbacks("Blueprint "+name + " cloned.", "Error cloning blueprint "+name, {context: self});
-        
+
         var bp = new BPTemplate();
         bp.set({'name': name});
         bp.set({'description': descr});
