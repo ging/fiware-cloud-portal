@@ -41,12 +41,8 @@ tr.tier-row td {
 }
 
 .tier-image {
-    position: absolute;
-    height: 50px;
-    width: 50px;
-    margin-top: 70px;
-    left: 50%;
-    margin-left: -25px;
+    max-height: 50px;
+    max-width: 50px;
     border-style: none;
     border-radius: 10px;
 }
@@ -238,4 +234,29 @@ tr.tier-row td {
     -webkit-filter: blur(1px);
     opacity: 0.3;
     cursor: default;
+}
+
+.image-container {
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    margin-top: 70px;
+    left: 50%;
+    margin-left: -25px;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.image-container #wrapper {
+    margin: 0;
+       padding: 0;
+       border: 0;
+}
+.image-container #wrapper td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    height: 50px;
+    width: 50px;
 }

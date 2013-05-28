@@ -38,7 +38,14 @@ src: templates/root/table-tiers.html
                         <label class="tier-max-value"><%=entry.maxValue%></label>
                         <% if (!entry.icono || entry.icono === "" || entry.icono === "icono") { %><span class="tier-image-back">?</span>
                         <% } else { %>
-                        <img class="tier-image" src=<%=entry.icono%>></img>
+                        <div class="image-container">
+                            <table id="wrapper">
+                              <tr>
+                                 <td><img class="tier-image" src=<%=entry.icono%>></img></td>
+                              </tr>
+                            </table>
+                            
+                        </div>
                         <% } %>
                     </div>
                 </div>
