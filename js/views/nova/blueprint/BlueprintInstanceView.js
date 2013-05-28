@@ -95,7 +95,6 @@ var BlueprintInstanceView = Backbone.View.extend({
                 minValue: tier.tierDto.minimumNumberInstances,
                 maxValue: tier.tierDto.maximumNumberInstances,
                 currentValue: tier.replicaNumber,
-                currentValue: 1,
                 icono: tier.tierDto.icono,
                 bootValue: tier.tierDto.initialNumberInstances,
                 name: tier.tierDto.name,

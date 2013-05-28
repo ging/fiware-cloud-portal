@@ -14,7 +14,7 @@ var CreateTierView = Backbone.View.extend({
         'click .modal-backdrop': 'close',
         'change .tier-values': 'onInput',
         'click #cancel-attrs': 'cancelAttrs',
-        'click #accept-attrs': 'acceptAttrs',
+        'click #accept-attrs': 'acceptAttrs'
     },
 
     initialize: function() {
@@ -51,8 +51,8 @@ var CreateTierView = Backbone.View.extend({
             this.$('input[name=tier-max-value]')[0].setCustomValidity("");
         }
 
-        dial.o.min = parseInt(min);
-        dial.o.max = parseInt(max);
+        dial.o.min = parseInt(min, 0);
+        dial.o.max = parseInt(max, 0);
 
 
         if (dial.cv > dial.o.max) {
@@ -233,7 +233,7 @@ var CreateTierView = Backbone.View.extend({
                 });
                 var effects = {};
                 effects["-webkit-filter"] = "blur(1px)";
-                effects["opacity"] = "0.3";
+                effects.opacity = "0.3";
                 $('.blurable').animate(effects, 500, function() {
                     $('.blurable').addClass("blur");
                     $('.blurable').bind("click", false);
@@ -251,7 +251,7 @@ var CreateTierView = Backbone.View.extend({
         });
         var effects = {};
         effects["-webkit-filter"] = "blur(0px)";
-        effects["opacity"] = "1";
+        effects.opacity = "1";
         $('.blurable').animate(effects, 500, function() {
             $('.blurable').removeClass("blur");
             $('.blurable').unbind("click", false);
@@ -319,7 +319,7 @@ var CreateTierView = Backbone.View.extend({
         if (this.addedProducts.length !== 0) {
 
             tier.productReleaseDtos = [];
-            for (p in this.addedProducts) {
+            for (var p in this.addedProducts) {
                 var nP = {productName: this.addedProducts[p].name, version: this.addedProducts[p].version};
                 if (this.addedProducts[p].attributes_asArray) {
                     nP.attributes = [];
@@ -342,7 +342,7 @@ var CreateTierView = Backbone.View.extend({
         options.callback = function () {
             cb2();
             self.options.callback();
-        }
+        };
 
         this.model.addTier(options);
     },

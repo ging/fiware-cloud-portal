@@ -139,6 +139,8 @@ var BlueprintInstancesView = Backbone.View.extend({
                 });
                 subview.render();
                 break;
+            case 'other':
+                break;
         }
     },
 

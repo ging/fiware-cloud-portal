@@ -113,6 +113,8 @@ var BlueprintTemplatesCatalogView = Backbone.View.extend({
                 subview = new CloneBlueprintView({el: 'body', bpTemplate: bp});
                 subview.render();
                 break;
+            case 'other':
+                break;
         }
     },
 
