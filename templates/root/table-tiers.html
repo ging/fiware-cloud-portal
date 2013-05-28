@@ -27,6 +27,7 @@ src: templates/root/table-tiers.html
         <%
             for (var entry_idx in entries) {
                 var entry = entries[entry_idx];
+                console.log(entry);
         %>
         <tr id="entries__row__<%= entry.id %>" class="ajax-update status_down tier-row">
 
@@ -37,7 +38,7 @@ src: templates/root/table-tiers.html
                         <label class="tier-min-value"><%=entry.minValue%></label>
                         <label class="tier-max-value"><%=entry.maxValue%></label>
                         <span class="tier-image-back">?</span>
-                        <img class="tier-image" src=<%=entry.icon%>></img>
+                        <img class="tier-image" src=<%=entry.icono%>></img>
                     </div>
                 </div>
             </td>

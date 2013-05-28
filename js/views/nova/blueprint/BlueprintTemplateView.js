@@ -85,6 +85,7 @@ var BlueprintTemplateView = Backbone.View.extend({
                 maxValue: tier.maximumNumberInstances,
                 bootValue: tier.initialNumberInstances,
                 name: tier.name,
+                icono: tier.icono,
                 flavor: tier.flavour,
                 image: tier.image,
                 keypair: tier.keypair,
@@ -138,6 +139,7 @@ var BlueprintTemplateView = Backbone.View.extend({
     },
 
     renderFirst: function() {
+        console.log(this.model);
         UTILS.Render.animateRender(this.el, this._template);
         this.tableView = new TableTiersView({
             model: this.model,
