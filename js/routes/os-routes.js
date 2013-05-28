@@ -381,7 +381,7 @@ var OSRouter = Backbone.Router.extend({
         self.showNovaRoot(self, 'Blueprint Instances', 'Blueprint Instances / ' + id);
         var bp = new BPInstance();
         bp.set({'name': id});
-        var view = new BlueprintInstanceView({el: '#content', model: bp});
+        var view = new BlueprintInstanceView({el: '#content', model: bp, flavors: self.flavors, images: self.images});
         self.newContentView(self,view);
     },
 
@@ -393,7 +393,6 @@ var OSRouter = Backbone.Router.extend({
             var tiers = instance.get('tierInstanceDtos_asArray');
             tiers.forEach(function(tier) {
                 if (tier.tierInstanceName === tier_id) {
-                    
                     var vms = tier.vm_asArray;
                     var insts = new Instances();
                     vms.forEach(function(vm) {

@@ -40,9 +40,12 @@ tr.tier-row td {
     top: 0px;
 }
 
-.tier-image {
+.tier-row td .tier-image {
     max-height: 50px;
     max-width: 50px;
+}
+
+.tier-image {
     border-style: none;
     border-radius: 10px;
 }
@@ -108,9 +111,9 @@ tr.tier-row td {
 
 .tier-icons {
     width: 100%;
-    height: 14px;
-    margin-left: 10px;
-    margin-top: 10px;
+    height: 20px;
+    margin-left: 2px;
+    margin-top: 5px;
 }
 
 .tier-icons .fi-icon-actions {
@@ -131,12 +134,16 @@ tr.tier-row td {
     border-top-right-radius: 5px;
 }
 
+.tier_software h2 {
+    margin-bottom: 10px;
+    margin-top: 7px;
+}
 
 .software-tier {
     width: 80%;
-    height: 100px;
+    height: 115px;
     border: solid 1px #DDD;
-    margin-bottom: 20px;
+    margin-bottom: 12px;
     overflow-y: auto;
     border-radius: 5px;
 }
@@ -170,14 +177,14 @@ tr.tier-row td {
 }
 
 .form-progress .tier-image {
-    margin-top: 75px;
-    height: 90px;
-    width: 90px;
+    margin-top: 80px;
+    max-height: 90px;
+    max-width: 90px;
     margin-left: -45px;
 }
 
 .form-progress .tier-image-back {
-    margin-top: 75px;
+    margin-top: 80px;
     height: 90px;
     width: 90px;
     line-height: 90px;

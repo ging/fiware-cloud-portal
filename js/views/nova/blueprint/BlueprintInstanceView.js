@@ -99,8 +99,8 @@ var BlueprintInstanceView = Backbone.View.extend({
                 icono: tier.tierDto.icono,
                 bootValue: tier.tierDto.initialNumberInstances,
                 name: tier.tierDto.name,
-                flavor: tier.tierDto.flavour,
-                image: tier.tierDto.image,
+                flavor: this.options.flavors.get(tier.tierDto.flavour).get("name"),
+                image: this.options.images.get(tier.tierDto.image).get("name"),
                 keypair: tier.tierDto.keypair,
                 publicIP: tier.tierDto.floatingip,
                 products: products

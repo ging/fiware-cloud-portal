@@ -89,6 +89,8 @@ var BlueprintTemplateView = Backbone.View.extend({
                 products.push(tier.productReleaseDtos_asArray[p].productName);
             }
 
+            console.log(tier);
+
             var entry = {
                 id: tier.name,
                 minValue: tier.minimumNumberInstances,
@@ -96,8 +98,8 @@ var BlueprintTemplateView = Backbone.View.extend({
                 bootValue: tier.initialNumberInstances,
                 name: tier.name,
                 icono: tier.icono,
-                flavor: tier.flavour,
-                image: tier.image,
+                flavor: this.options.flavors.get(tier.flavour).get("name"),
+                image: this.options.images.get(tier.image).get("name"),
                 keypair: tier.keypair,
                 publicIP: tier.floatingip,
                 products: products
@@ -128,7 +130,6 @@ var BlueprintTemplateView = Backbone.View.extend({
                     }});
                 }});
                 subview.render();
-                break;
                 break;
             case 'edit':
                 break;
