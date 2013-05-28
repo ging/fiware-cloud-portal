@@ -68,6 +68,16 @@ var BlueprintTemplateView = Backbone.View.extend({
         }];
     },
 
+    getActionButtons: function() {
+        return [{
+            icon: "fi-icon-edit",
+            action: "edit"
+            }, {
+            icon: "fi-icon-delete",
+            action: "delete"
+            }];
+    },
+
     getEntries: function() {
         var entries = [];
         var i = 0;
@@ -103,12 +113,12 @@ var BlueprintTemplateView = Backbone.View.extend({
         this.tableView.close();
     },
 
-    onAction: function(action, blueprintIds) {
-        var blueprint, bp, subview;
+    onAction: function(action, tierIds) {
+        var tier, tr, subview;
         var self = this;
-        if (blueprintIds.length === 1) {
-            blueprint = blueprintIds[0];
-            bp = blueprint;
+        if (tierIds.length === 1) {
+            tier = tierIds[0];
+            tr = tier;
         }
         switch (action) {
             case 'add':
@@ -128,9 +138,18 @@ var BlueprintTemplateView = Backbone.View.extend({
                     title: "Delete Tier",
                     btn_message: "Delete Tier",
                     onAccept: function() {
-                        // blueprintIds.forEach(function(blueprint) {
-                        //     bp.destroy(UTILS.Messages.getCallbacks("Tier deleted", "Error deleting Tier."));
-                        // });
+                        tierIds.forEach(function(tier) {
+                            var options = UTILS.Messages.getCallbacks("Tier deleted", "Error deleting Tier.");
+                            options.tier = tier;
+                            var cb = options.callback;
+                            options.callback = function() {
+                                self.model.fetch({success: function () {
+                                    self.render();
+                                }});
+                                cb();
+                            };
+                            self.model.deleteTier(options);
+                        });
                     }
                 });
                 subview.render();
@@ -147,6 +166,7 @@ var BlueprintTemplateView = Backbone.View.extend({
             onAction: this.onAction,
             getDropdownButtons: this.getDropdownButtons,
             getMainButtons: this.getMainButtons,
+            getActionButtons: this.getActionButtons,
             getHeaders: this.getHeaders,
             getEntries: this.getEntries,
             context: this,

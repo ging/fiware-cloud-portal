@@ -110,6 +110,32 @@ tr.tier-row td {
     color: #999;
 }
 
+.tier-icons {
+    width: 100%;
+    height: 14px;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.tier-icons .fi-icon-actions {
+    border: solid 1px #0093C6;
+}
+
+.tier-icons .fi-icon-actions:hover {
+    border: solid 1px #DDD;
+}
+
+.tier-icons .fi-icon-actions:first-child {
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+}
+
+.tier-icons .fi-icon-actions:last-child {
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+
 .software-tier {
     width: 80%;
     height: 100px;

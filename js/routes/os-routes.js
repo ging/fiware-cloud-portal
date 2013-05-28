@@ -104,6 +104,7 @@ var OSRouter = Backbone.Router.extend({
 
         this.route('nova/blueprints/instances/', 'blueprint_instances', this.wrap(this.blueprint_instances, this.checkAuthAndTimers, ["bpInstancesModel"]));
         this.route('nova/blueprints/instances/:id', 'blueprint_instance', this.wrap(this.blueprint_instance, this.checkAuthAndTimers, ["bpInstancesModel"]));
+        this.route('nova/blueprints/instances/:id/tiers/:tier_id/instances', 'blueprint_instance_tier_instances', this.wrap(this.blueprint_instance_tier_instances, this.checkAuthAndTimers, ["bpInstancesModel"]));
 
         this.route('nova/blueprints/templates/', 'blueprint_templates', this.wrap(this.blueprint_templates, this.checkAuthAndTimers, ["bpTemplatesModel"]));
         this.route('nova/blueprints/templates/:id', 'blueprint_template', this.wrap(this.blueprint_template, this.checkAuthAndTimers, ["bpTemplatesModel"]));
@@ -378,10 +379,38 @@ var OSRouter = Backbone.Router.extend({
 
     blueprint_instance: function(self, id) {
         self.showNovaRoot(self, 'Blueprint Instances', 'Blueprint Instances / ' + id);
-        var bp = new BPTemplate();
+        var bp = new BPInstance();
         bp.set({'name': id});
         var view = new BlueprintInstanceView({el: '#content', model: bp});
         self.newContentView(self,view);
+    },
+
+    blueprint_instance_tier_instances: function(self, id, tier_id) {
+        self.showNovaRoot(self, 'Blueprint Instances', 'Blueprint Instances / ' + id + ' / ' + tier_id);
+        var bp = new BPInstance();
+        bp.set({'name': id});
+        bp.fetch({success: function(instance) {
+            var tiers = instance.get('tierInstanceDtos_asArray');
+            tiers.forEach(function(tier) {
+                if (tier.tierInstanceName === tier_id) {
+                    
+                    var vms = tier.vm_asArray;
+                    var insts = new Instances();
+                    vms.forEach(function(vm) {
+                        console.log("Hostname:", vm, self.instancesModel);
+                        var inst = self.instancesModel.findWhere({name: vm.hostname});
+                        console.log("Hostname:", inst);
+                        if (inst) {
+                            insts.add(inst);
+                        }
+                    });
+                    console.log("OK!!!!!", insts);
+                    var view = new BlueprintInstanceTierInstancesView({model: insts, projects: self.projects, flavors: self.flavors, el: '#content'});
+                    self.newContentView(self,view);
+                }
+            });
+        }
+        });
     },
 
     blueprint_templates: function(self) {

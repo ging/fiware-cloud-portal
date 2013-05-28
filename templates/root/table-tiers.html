@@ -27,7 +27,6 @@ src: templates/root/table-tiers.html
         <%
             for (var entry_idx in entries) {
                 var entry = entries[entry_idx];
-                console.log(entry);
         %>
         <tr id="entries__row__<%= entry.id %>" class="ajax-update status_down tier-row">
 
@@ -37,8 +36,10 @@ src: templates/root/table-tiers.html
                     <div class="circle-progress-data">
                         <label class="tier-min-value"><%=entry.minValue%></label>
                         <label class="tier-max-value"><%=entry.maxValue%></label>
-                        <span class="tier-image-back">?</span>
+                        <% if (!entry.icono || entry.icono === "" || entry.icono === "icono") { %><span class="tier-image-back">?</span>
+                        <% } else { %>
                         <img class="tier-image" src=<%=entry.icono%>></img>
+                        <% } %>
                     </div>
                 </div>
             </td>
@@ -50,6 +51,14 @@ src: templates/root/table-tiers.html
                     <p><strong>Image:</strong> <span><%=entry.image%></span></p>
                     <%if (entry.keypair) {%><p><strong>Keypair:</strong> <span><%=entry.keypair%></span></p><%}%>
                     <%if (entry.publicIP) {%><p><strong>Public IP:</strong> <span><%=entry.publicIP%></span></p><%}%>
+                </div>
+                <div class="tier-icons">
+                    <%
+                        for (var action_idx in actions) {
+                            var action = actions[action_idx];
+                    %>
+                        <button id="<%=action_idx%>_<%=cid%>_actions" class="fi-icon-actions-<%=cid%> fi-icon-actions <%= action.icon%>"/>
+                    <% } %>
                 </div>
             </td>
 

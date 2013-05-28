@@ -42,7 +42,7 @@ var BlueprintInstancesView = Backbone.View.extend({
             action: "stop",
             activatePattern: oneSelected
             }, {
-            label: "Delete Instance",
+            label: "Terminate Instance",
             action: "delete",
             warn: true,
             activatePattern: groupSelected
@@ -125,39 +125,15 @@ var BlueprintInstancesView = Backbone.View.extend({
             bp = this.model.models[blueprint];
         }
         switch (action) {
-            case 'create':
-                subview = new CreateBlueprintView({el: 'body'});
-                subview.render();
-                break;
-            case 'launch':
-                subview = new ConfirmView({
-                    el: 'body',
-                    title: "Launch Blueprint Template",
-                    btn_message: "Launch Blueprint Template",
-                    onAccept: function() {
-                        blueprintIds.forEach(function(blueprint) {
-                            //bp.launch(UTILS.Messages.getCallbacks("Blueprint Template launched", "Error launching Blueprint Template."));
-                        });
-                    }
-                });
-                subview.render();
-                break;
-            case 'clone':
-                subview = new CloneBlueprintView({el: 'body', model: bp});
-                subview.render();
-                break;
-            case 'edit':
-                subview = new EditBlueprintView({el: 'body', model: bp});
-                subview.render();
-                break;
             case 'delete':
                 subview = new ConfirmView({
                     el: 'body',
-                    title: "Delete Blueprint Template",
-                    btn_message: "Delete Blueprint Template",
+                    title: "Terminate Blueprint Template",
+                    btn_message: "Terminate Blueprint Template",
                     onAccept: function() {
                         blueprintIds.forEach(function(blueprint) {
-                            //bp.destroy(UTILS.Messages.getCallbacks("Blueprint Template deleted", "Error deleting Blueprint Template."));
+                            bp = self.model.models[blueprint];
+                            bp.destroy(UTILS.Messages.getCallbacks("Blueprint Instance terminated", "Error terminating Blueprint Instance."));
                         });
                     }
                 });

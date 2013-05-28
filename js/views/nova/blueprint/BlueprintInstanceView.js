@@ -46,6 +46,17 @@ var BlueprintInstanceView = Backbone.View.extend({
             }];
     },
 
+    getActionButtons: function() {
+        return [{
+            icon: "fi-icon-play",
+            action: "play"
+            }, {
+            icon: "fi-icon-instances",
+            action: "show-instances"
+            }];
+    },
+
+
     getHeaders: function() {
         // headers: [{name:name, tooltip: "tooltip", size:"15%", hidden_phone: true, hidden_tablet:false}]
         return [{
@@ -72,26 +83,26 @@ var BlueprintInstanceView = Backbone.View.extend({
     getEntries: function() {
         var entries = [];
         var i = 0;
-        for (var index in this.model.get('tierDtos_asArray')) {
-            var tier = this.model.get('tierDtos_asArray')[index];
+        for (var index in this.model.get('tierInstanceDtos_asArray')) {
+            var tier = this.model.get('tierInstanceDtos_asArray')[index];
 
             var products = [];
-            for (var p in tier.productReleaseDto_asArray) {
-                products.push(tier.productReleaseDto_asArray[p].productName);
+            for (var p in tier.productInstanceDtos_asArray) {
+                products.push(tier.productInstanceDtos_asArray[p].productReleaseDto.productName);
             }
-
             var entry = {
-                id: tier.name,
-                minValue: tier.minimumNumberInstances,
-                maxValue: tier.maximumNumberInstances,
-                //currentValue: tier.current_number_instances,
+                id: tier.tierInstanceName,
+                minValue: tier.tierDto.minimumNumberInstances,
+                maxValue: tier.tierDto.maximumNumberInstances,
+                currentValue: tier.replicaNumber,
                 currentValue: 1,
-                bootValue: tier.initialNumberInstances,
-                name: tier.name,
-                flavor: tier.flavour,
-                image: tier.image,
-                keypair: tier.keypair,
-                publicIP: tier.floatingip,
+                icono: tier.tierDto.icono,
+                bootValue: tier.tierDto.initialNumberInstances,
+                name: tier.tierDto.name,
+                flavor: tier.tierDto.flavour,
+                image: tier.tierDto.image,
+                keypair: tier.tierDto.keypair,
+                publicIP: tier.tierDto.floatingip,
                 products: products
             };
             entries.push(entry);
@@ -105,30 +116,19 @@ var BlueprintInstanceView = Backbone.View.extend({
         this.tableView.close();
     },
 
-    onAction: function(action, blueprintIds) {
-        var blueprint, bp, subview;
+    onAction: function(action, tierIds) {
+        var tier, tr, subview;
         var self = this;
-        if (blueprintIds.length === 1) {
-            blueprint = blueprintIds[0];
-            bp = blueprint;
+        if (tierIds.length === 1) {
+            tier = tierIds[0];
+            tr = tier;
         }
+        console.log(tierIds);
         switch (action) {
-            case 'add':
+            case 'show-instances':
+                window.location.href = "#nova/blueprints/instances/"+self.model.get("name")+"/tiers/"+tier+"/instances";
                 break;
             case 'edit':
-                break;
-            case 'delete':
-                subview = new ConfirmView({
-                    el: 'body',
-                    title: "Delete Tier",
-                    btn_message: "Delete Tier",
-                    onAccept: function() {
-                        blueprintIds.forEach(function(blueprint) {
-                            bp.destroy(UTILS.Messages.getCallbacks("Tier deleted", "Error deleting Tier."));
-                        });
-                    }
-                });
-                subview.render();
                 break;
         }
     },
@@ -141,6 +141,7 @@ var BlueprintInstanceView = Backbone.View.extend({
             onAction: this.onAction,
             getDropdownButtons: this.getDropdownButtons,
             getMainButtons: this.getMainButtons,
+            getActionButtons: this.getActionButtons,
             getHeaders: this.getHeaders,
             getEntries: this.getEntries,
             context: this,

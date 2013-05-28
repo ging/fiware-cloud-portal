@@ -13,6 +13,7 @@ var TableTiersView = Backbone.View.extend({
         this.cid = Math.round(Math.random() * 1000000);
         var events = {};
         events['click .btn-main-' + this.cid] = 'onMainAction';
+        events['click .fi-icon-actions-' + this.cid] = 'onIconAction';
         this.delegateEvents(events);
         this.options.disableContextMenu = true;
     },
@@ -34,6 +35,14 @@ var TableTiersView = Backbone.View.extend({
         return this.options.getMainButtons.call(this.options.context);
     },
 
+    getActionButtons: function() {
+        if (this.options.getActionButtons) {
+            return this.options.getActionButtons.call(this.options.context);
+        } else {
+            return [];
+        }
+    },
+
     onAction: function(action, entries) {
         entries.forEach(function(entry) {
             entry.id = entry.id;
@@ -44,6 +53,14 @@ var TableTiersView = Backbone.View.extend({
     onClose: function() {
         this.undelegateEvents();
         this.unbind();
+    },
+
+    onIconAction: function(evt) {
+        var btn_idx = $(evt.target)[0].id.split("_" + this.cid)[0];
+        var btn = this.getActionButtons()[btn_idx];
+        var entry = $(evt.target).parent().parent().parent()[0].id.split("entries__row__")[1];
+        var entries = [entry];
+        this.onAction(btn.action, entries);
     },
 
     onMainAction: function(evt) {
@@ -58,6 +75,7 @@ var TableTiersView = Backbone.View.extend({
         var new_template = this._template({
             cid: this.cid,
             main_buttons: this.getMainButtons(),
+            actions: this.getActionButtons(),
             headers: this.getHeaders(),
             entries: entries,
             color: this.options.color,

@@ -1,0 +1,28 @@
+.fi-icon-actions {
+    background-image: url('/ico/icon-actions.png');
+    width: 20px;
+    height: 20px;
+    border: none;
+    margin-right: -2px;
+    margin-left: -2px;
+}
+
+.fi-icon-actions:hover {
+    background-position-x: -18px;
+}
+
+.fi-icon-play {
+    background-position-y: -18px;
+}
+
+.fi-icon-delete {
+    background-position-y: -54px;
+}
+
+.fi-icon-edit {
+    background-position-y: -90px;
+}
+
+.fi-icon-instances {
+    background-position-y: -252px;
+}

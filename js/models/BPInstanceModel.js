@@ -23,19 +23,26 @@ var BPInstance = Backbone.Model.extend({
     sync: function(method, model, options) {
         switch(method) {
             case "read":
-                //BP.API.getBlueprintInstance(model.get('name'), options.success, options.error);
+                BP.API.getBlueprintInstance(model.get('name'), options.success, options.error);
                 break;
             case "create":
                 BP.API.launchBlueprintInstance(model.toJSON(), options.success, options.error);
                 break;
             case "delete":
-                //BP.API.stopBlueprintInstance(model.get('name'), options.success, options.error);
+                BP.API.stopBlueprintInstance(model.get('name'), options.success, options.error);
                 break;
             case "update":
            
                 break;
             
         }
+    },
+
+    parse: function(resp) {
+        resp.id = resp.environmentInstanceName;
+        resp.name = resp.environmentInstanceName;
+        console.log(resp);
+        return resp;
     }
 });
 
