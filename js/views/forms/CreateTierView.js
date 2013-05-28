@@ -204,9 +204,9 @@ var CreateTierView = Backbone.View.extend({
                         self.addedProducts.push(product);
                         self.tableView.render();
                     }});
-                    
+
                 }
-                
+
             break;
             case 'uninstall':
                 this.addedProducts.splice(ids, 1);
@@ -309,9 +309,9 @@ var CreateTierView = Backbone.View.extend({
             flavour: flavorReg,
             floatingip: public_ip,
             image: image,
-            icon: icon,
+            icono: icon,
             keypair: key_name,
-            minimumNumberInstances: min, 
+            minimumNumberInstances: min,
             maximumNumberInstances: max,
             initialNumberInstances: initial
         };
