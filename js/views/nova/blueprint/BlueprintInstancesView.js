@@ -85,21 +85,21 @@ var BlueprintInstancesView = Backbone.View.extend({
         var entries = [];
         var i = 0;
         for (var index in this.model.models) {
-            var template = this.model.models[index];
+            var bpInstance = this.model.models[index];
             i++;
 
             var nTiers = 0;
-            if (template.get('tierDtos_asArray')) {
-                nTiers = template.get('tierDtos_asArray').length;
+            if (bpInstance.get('tierInstanceDtos_asArray')) {
+                nTiers = bpInstance.get('tierInstanceDtos_asArray').length;
             }
 
             var entry = {
                 id: index,
                 cells: [{
-                    value: template.get('name'),
-                    link: "#nova/blueprints/instances/" + template.get('name')
+                    value: bpInstance.get('environmentInstanceName'),
+                    link: "#nova/blueprints/instances/" + bpInstance.get('environmentInstanceName')
                 }, {
-                    value: template.get('description')
+                    value: bpInstance.get('description')
                 }, {
                     value: nTiers
                 }, {
