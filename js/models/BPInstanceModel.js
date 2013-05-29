@@ -32,16 +32,17 @@ var BPInstance = Backbone.Model.extend({
                 BP.API.stopBlueprintInstance(model.get('name'), options.success, options.error);
                 break;
             case "update":
-           
+
                 break;
-            
+
         }
     },
 
     parse: function(resp) {
-        resp.id = resp.environmentInstanceName;
-        resp.name = resp.environmentInstanceName;
-        console.log(resp);
+        if (resp) {
+            resp.id = resp.environmentInstanceName;
+            resp.name = resp.environmentInstanceName;
+        }
         return resp;
     }
 });

@@ -4,17 +4,72 @@ var BlueprintInstanceTierInstancesView = Backbone.View.extend({
 
     tableView: undefined,
 
+    qtip: undefined,
+
     initialize: function() {
+        var self = this;
         this.model.unbind("sync");
         this.model.bind("sync", this.render, this);
+        this.qtip = {
+            content: '<input id="instances-to-add" type="test" value="1" class="tier-instances-num"><div class="btns"><a class="btn-plus">+</a><a class="btn-minus">-</a></div> instances <a id="add-instances" class="btn btn-blue btn-small">Add</a>',
+            position: {
+                my: 'top center',
+                at: 'bottom center'
+            },
+            show: 'click',
+            hide: 'unfocus',
+            style: {
+                tip: true,
+                classes: 'ui-tooltip-add-instances'
+            },
+            events: {
+                show: function(event, api) {
+                    $('.btn-minus').bind('click', self.reduceNumInstances);
+                    $('.btn-plus').bind('click', self.increaseNumInstances);
+                    $('#add-instances').bind('click', self.addNumInstances);
+                    $("#instances-to-add").val(1);
+                },
+                hide: function() {
+                    $('.btn-minus').unbind();
+                    $('.btn-plus').unbind();
+                    $('#add-instances').unbind();
+                }
+            }
+        };
         this.renderFirst();
+    },
+
+    addNumInstances: function() {
+        var num = parseInt($("#instances-to-add").val(), 0);
+        subview = new ConfirmView({
+            el: 'body',
+            title: "Add " + num + " Instances",
+            btn_message: "Add Instances",
+            onAccept: function() {
+                console.log("Ahi");
+            }
+        });
+        subview.render();
+    },
+
+    reduceNumInstances: function() {
+        var num = parseInt($("#instances-to-add").val(), 0);
+        if (num>1) {
+            $("#instances-to-add").val(num-1);
+        }
+    },
+
+    increaseNumInstances: function() {
+        var num = parseInt($("#instances-to-add").val(), 0);
+        $("#instances-to-add").val(num+1);
     },
 
     getMainButtons: function() {
         // main_buttons: [{label:label, url: #url, action: action_name}]
         return [{
             label: "Add Instances",
-            action: "add"
+            action: "add",
+            cssclass: "btn-add-instances"
         }];
     },
 
@@ -372,12 +427,14 @@ var BlueprintInstanceTierInstancesView = Backbone.View.extend({
             context: this
         });
         this.tableView.render();
+        $('.btn-add-instances').qtip(this.qtip);
     },
 
     render: function() {
         if ($(this.el).html() !== null) {
             this.tableView.render();
         }
+        $('.btn-add-instances').qtip(this.qtip);
         return this;
     }
 

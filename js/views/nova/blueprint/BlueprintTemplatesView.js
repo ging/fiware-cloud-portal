@@ -122,20 +122,7 @@ var BlueprintTemplatesView = Backbone.View.extend({
                 subview.render();
                 break;
             case 'launch':
-                subview = new ConfirmView({
-                    el: 'body',
-                    title: "Launch Blueprint Template",
-                    btn_message: "Launch Blueprint Template",
-                    onAccept: function() {
-
-                        var bpi = new BPInstance();
-                        bpi.set({"name": bp.get("name")});
-                        bpi.set({"description": bp.get("description")});
-                        bpi.set({"tierDtos": bp.get("tierDtos_asArray")});
-
-                        bpi.save(undefined, UTILS.Messages.getCallbacks("Blueprint Template launched", "Error launching Blueprint Template.", {context: self}));
-                    }
-                });
+                subview = new CreateBlueprintInstanceView({el: 'body', model: bp});
                 subview.render();
                 break;
             case 'clone':

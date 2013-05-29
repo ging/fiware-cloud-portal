@@ -295,3 +295,69 @@ tr.tier-row td {
     line-height: 23px;
     right: 0px;
 }
+
+.ui-tooltip-add-instances {
+    background-color: #DDD;
+    border-color: #DDD;
+    box-shadow: rgb(211, 211, 211) 0px 0px 10px;
+    border-radius: 5px;
+}
+
+.ui-tooltip-add-instances .tier-instances-num {
+    width: 20px;
+    font-size: 12px;
+    text-align: center;
+    line-height: 20px;
+    border: solid 1px #DDD;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    float: left;
+    z-index: 3;
+    background-color: white;
+}
+
+.ui-tooltip-add-instances .btns {
+    float: left;
+    position: relative;
+    height: 22px;
+    width: 10px;
+    margin-left: -1px;
+    background-color: white;
+    z-index: 1;
+    margin-right: 15px;
+}
+
+.ui-tooltip-add-instances .btns .btn-plus {
+    width: 10px;
+    position: absolute;
+    padding-left: 4px;
+    height: 11px;
+    font-size: 10px;
+    line-height: 11px;
+    border: solid 1px #DDD;
+    z-index: 1;
+    border-top-right-radius: 5px;
+    cursor: pointer;
+    background-color: white;
+}
+
+.ui-tooltip-add-instances .btns .btn-minus {
+    width: 10px;
+    position: absolute;
+    top: 11px;
+    padding-left: 4px;
+    height: 11px;
+    font-size: 10px;
+    line-height: 11px;
+    border: solid 1px #DDD;
+    z-index: 1;
+    border-bottom-right-radius: 5px;
+    cursor: pointer;
+    background-color: white;
+}
+
+.ui-tooltip-add-instances .btn {
+    margin-left: 10px;
+    padding-left: 2px;
+    padding-right: 2px;
+}

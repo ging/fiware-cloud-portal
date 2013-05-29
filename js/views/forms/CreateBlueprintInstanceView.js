@@ -1,6 +1,6 @@
-var CreateBlueprintView = Backbone.View.extend({
+var CreateBlueprintInstanceView = Backbone.View.extend({
 
-    _template: _.itemplate($('#createBlueprintFormTemplate').html()),
+    _template: _.itemplate($('#createBlueprintInstanceFormTemplate').html()),
 
     events: {
         'submit #form': 'onCreate',
@@ -16,7 +16,7 @@ var CreateBlueprintView = Backbone.View.extend({
     },
 
     close: function(e) {
-        $('#create_blueprint').remove();
+        $('#create_blueprint_instance').remove();
         $('.modal-backdrop').remove();
         this.onClose();
     },
@@ -27,8 +27,8 @@ var CreateBlueprintView = Backbone.View.extend({
     },
 
     render: function () {
-        if ($('#create_blueprint').html() != null) {
-            $('#create_blueprint').remove();
+        if ($('#create_blueprint_instance').html() != null) {
+            $('#create_blueprint_instance').remove();
             $('.modal-backdrop').remove();
         }
         $(this.el).append(this._template({model:this.model}));
@@ -41,10 +41,13 @@ var CreateBlueprintView = Backbone.View.extend({
         e.preventDefault();
         var name = this.$('input[name=name]').val();
         var descr = this.$('textarea[name=description]').val();
-        var callbacks = UTILS.Messages.getCallbacks("Blueprint "+name + " created.", "Error creating blueprint "+name, {context: self});
-        var bp = new BPTemplate();
-        bp.set({'name': name});
-        bp.set({'description': descr});
-        bp.save(undefined, callbacks);
+        var callbacks = UTILS.Messages.getCallbacks("Blueprint "+name + " launched.", "Error launching blueprint "+name, {context: self});
+
+        var bp = this.model;
+        var bpi = new BPInstance();
+        bpi.set({"name": name});
+        bpi.set({"description": descr});
+        bpi.set({"tierDtos": bp.get("tierDtos_asArray")});
+        bpi.save(undefined, callbacks);
     }
 });

@@ -104,6 +104,7 @@ var loadViews = function() {
                 "js/views/forms/CloneBlueprintView.js",
                 "js/views/forms/EditBlueprintView.js",
                 "js/views/forms/CreateTierView.js",
+                "js/views/forms/CreateBlueprintInstanceView.js",
                 "js/views/syspanel/NewUsersView.js",
                 "js/views/syspanel/UsersForProjectView.js",
                 "js/views/SettingsView.js"
@@ -155,6 +156,7 @@ var loadLibraries = function() {
                 "lib/jquery.selectbox-0.1.3.min.js",
                 "lib/spin.min.js",
                 "lib/jquery.knob.js",
+                "lib/jquery.qtip.min.js",
                 "lib/jScrollPane.js",
                 "lib/xml2json.js",
                 "lib/sdc.js",
@@ -204,6 +206,7 @@ var loadTemplates = function() {
                     'templates/forms/cloneBlueprint.html',
                     'templates/forms/editBlueprint.html',
                     'templates/forms/createTier.html',
+                    'templates/forms/createBlueprintInstance.html',
                     'templates/root/nova/blueprint/blueprintInstances.html',
                     "templates/root/nova/blueprint/blueprintInstanceTierInstances.html",
                     'templates/root/nova/blueprint/blueprintInstance.html',
