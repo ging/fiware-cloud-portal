@@ -403,7 +403,7 @@ var OSRouter = Backbone.Router.extend({
                             insts.add(inst);
                         }
                     });
-                    console.log("OK!!!!!", insts);
+                    self.showNovaRoot(self, 'Blueprint Instances', 'Blueprint Instances / ' + id + ' / ' + tier.tierDto.name);
                     var view = new BlueprintInstanceTierInstancesView({model: insts, projects: self.projects, flavors: self.flavors, el: '#content'});
                     self.newContentView(self,view);
                 }

@@ -120,7 +120,12 @@ var BlueprintTemplateView = Backbone.View.extend({
         var self = this;
         if (tierIds.length === 1) {
             tier = tierIds[0];
-            tr = tier;
+            this.model.get('tierDtos_asArray').forEach(function(cur) {
+                if (cur.name === tier) {
+                    console.log(cur.name, tier);
+                    tr = cur;
+                }
+            });
         }
         switch (action) {
             case 'add':
@@ -132,6 +137,12 @@ var BlueprintTemplateView = Backbone.View.extend({
                 subview.render();
                 break;
             case 'edit':
+                subview = new EditTierView({el: 'body', model: this.model, tier: tr, sdcs: self.options.sdcs, flavors: self.options.flavors, keypairs: self.options.keypairs, securityGroupsModel: self.options.securityGroupsModel, images: self.options.images, callback: function () {
+                    self.model.fetch({success: function () {
+                        self.render();
+                    }});
+                }});
+                subview.render();
                 break;
             case 'delete':
                 subview = new ConfirmView({
