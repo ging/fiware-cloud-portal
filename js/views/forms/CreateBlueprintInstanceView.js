@@ -49,5 +49,7 @@ var CreateBlueprintInstanceView = Backbone.View.extend({
         bpi.set({"description": descr});
         bpi.set({"tierDtos": bp.get("tierDtos_asArray")});
         bpi.save(undefined, callbacks);
+
+        window.location.href = "#nova/blueprints/instances/";
     }
 });

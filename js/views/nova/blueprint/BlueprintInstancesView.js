@@ -128,8 +128,8 @@ var BlueprintInstancesView = Backbone.View.extend({
             case 'delete':
                 subview = new ConfirmView({
                     el: 'body',
-                    title: "Terminate Blueprint Template",
-                    btn_message: "Terminate Blueprint Template",
+                    title: "Terminate Blueprint Instance",
+                    btn_message: "Terminate Blueprint Instance",
                     onAccept: function() {
                         blueprintIds.forEach(function(blueprint) {
                             bp = self.model.models[blueprint];
