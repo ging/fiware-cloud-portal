@@ -144,9 +144,11 @@ var BlueprintTemplateView = Backbone.View.extend({
                             options.tier = tier;
                             var cb = options.callback;
                             options.callback = function() {
-                                self.model.fetch({success: function () {
-                                    self.render();
-                                }});
+                                setTimeout(function() {
+                                    self.model.fetch({success: function () {
+                                        self.render();
+                                    }});
+                                }, 1000);
                                 cb();
                             };
                             self.model.deleteTier(options);
