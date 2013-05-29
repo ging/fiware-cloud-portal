@@ -177,10 +177,8 @@ tr.tier-row td {
 }
 
 .form-progress .tier-image {
-    margin-top: 80px;
     max-height: 90px;
     max-width: 90px;
-    margin-left: -45px;
 }
 
 .form-progress .tier-image-back {
@@ -243,6 +241,22 @@ tr.tier-row td {
     cursor: default;
 }
 
+.form-progress .image-container {
+    height: 90px;
+    width: 90px;
+    margin-top: 82px;
+    margin-left: -45px;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.form-progress #wrapper td {
+    height: 90px;
+    width: 90px;
+}
+
+
 .image-container {
     position: absolute;
     height: 50px;
@@ -255,15 +269,29 @@ tr.tier-row td {
     vertical-align: middle;
 }
 
-.image-container #wrapper {
+#wrapper {
     margin: 0;
-       padding: 0;
-       border: 0;
+    padding: 0;
+    border: 0;
 }
-.image-container #wrapper td {
+#wrapper td {
     margin: 0;
     padding: 0;
     border: 0;
     height: 50px;
     width: 50px;
+}
+
+.form-field #icon {
+    width: 65%;
+}
+
+.form-field #btn-apply-icon {
+    position: relative;
+    float: right;
+    top: 0px;
+    height: 23px;
+    vertical-align: middle;
+    line-height: 23px;
+    right: 0px;
 }

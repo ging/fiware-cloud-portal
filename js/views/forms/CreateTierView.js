@@ -14,7 +14,8 @@ var CreateTierView = Backbone.View.extend({
         'click .modal-backdrop': 'close',
         'change .tier-values': 'onInput',
         'click #cancel-attrs': 'cancelAttrs',
-        'click #accept-attrs': 'acceptAttrs'
+        'click #accept-attrs': 'acceptAttrs',
+        'click #btn-apply-icon': 'applyIcon'
     },
 
     initialize: function() {
@@ -40,8 +41,8 @@ var CreateTierView = Backbone.View.extend({
     },
 
     onInput: function() {
-        var min = $('#tier-min-value').val();
-        var max = $('#tier-max-value').val();
+        var min = parseInt($('#tier-min-value').val(), 0);
+        var max = parseInt($('#tier-max-value').val(), 0);
         var dial = this.dial[0];
 
         if (min > max) {
@@ -51,8 +52,8 @@ var CreateTierView = Backbone.View.extend({
             this.$('input[name=tier-max-value]')[0].setCustomValidity("");
         }
 
-        dial.o.min = parseInt(min, 0);
-        dial.o.max = parseInt(max, 0);
+        dial.o.min = min;
+        dial.o.max = max;
 
 
         if (dial.cv > dial.o.max) {
@@ -61,7 +62,6 @@ var CreateTierView = Backbone.View.extend({
             dial.cv = dial.o.min;
         }
         dial.v = dial.cv;
-        console.log(min, max, dial.cv);
         dial._draw();
     },
 
@@ -345,6 +345,19 @@ var CreateTierView = Backbone.View.extend({
         };
 
         this.model.addTier(options);
+    },
+
+    applyIcon: function() {
+        var icon = this.$('input[name=icon]').val();
+        if (icon !== "") {
+            this.$('#edit-tier-image').attr("src", icon);
+            this.$('#edit-tier-image').show();
+            this.$('.tier-image-back').hide();
+        } else {
+            this.$('#edit-tier-image').attr("src", "");
+            this.$('#edit-tier-image').hide();
+            this.$('.tier-image-back').show();
+        }
     },
 
     render: function () {
