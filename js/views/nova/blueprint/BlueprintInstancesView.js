@@ -63,7 +63,7 @@ var BlueprintInstancesView = Backbone.View.extend({
         }, {
             name: "Description",
             tooltip: "Instance's description",
-            size: "45%",
+            size: "35%",
             hidden_phone: false,
             hidden_tablet: false
         }, {
@@ -75,7 +75,7 @@ var BlueprintInstancesView = Backbone.View.extend({
         }, {
             name: "Status",
             tooltip: "Current status of the instances",
-            size: "10%",
+            size: "20%",
             hidden_phone: false,
             hidden_tablet: false
         }];
@@ -96,14 +96,14 @@ var BlueprintInstancesView = Backbone.View.extend({
             var entry = {
                 id: index,
                 cells: [{
-                    value: bpInstance.get('environmentInstanceName'),
+                    value: bpInstance.get('blueprintName'),
                     link: "#nova/blueprints/instances/" + bpInstance.get('environmentInstanceName')
                 }, {
                     value: bpInstance.get('description')
                 }, {
                     value: nTiers
                 }, {
-                    value: "running"
+                    value: bpInstance.get('status')
                 }]
             };
             entries.push(entry);

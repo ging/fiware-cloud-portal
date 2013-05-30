@@ -378,11 +378,14 @@ var OSRouter = Backbone.Router.extend({
     },
 
     blueprint_instance: function(self, id) {
-        self.showNovaRoot(self, 'Blueprint Instances', 'Blueprint Instances / ' + id);
         var bp = new BPInstance();
         bp.set({'name': id});
-        var view = new BlueprintInstanceView({el: '#content', model: bp, flavors: self.flavors, images: self.images});
-        self.newContentView(self,view);
+        bp.fetch({success: function() {
+            self.showNovaRoot(self, 'Blueprint Instances', 'Blueprint Instances / ' + bp.get('blueprintName'));
+            var view = new BlueprintInstanceView({el: '#content', model: bp, flavors: self.flavors, images: self.images});
+            self.newContentView(self,view);
+        }});
+        
     },
 
     blueprint_instance_tier_instances: function(self, id, tier_id) {

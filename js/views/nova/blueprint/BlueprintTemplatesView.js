@@ -122,24 +122,24 @@ var BlueprintTemplatesView = Backbone.View.extend({
                 subview.render();
                 break;
             case 'launch':
-                //subview = new CreateBlueprintInstanceView({el: 'body', model: bp});
-                //subview.render();
-                subview = new ConfirmView({
-                    el: 'body',
-                    title: "Launch Blueprint Instance",
-                    btn_message: "Launch Blueprint Instance",
-                    onAccept: function() {
-                        var bpi = new BPInstance();
-                        bpi.set({"name": bp.get('name')});
-                        bpi.set({"description": bp.get('description')});
-                        bpi.set({"tierDtos": bp.get("tierDtos_asArray")});
-                        var callbacks = UTILS.Messages.getCallbacks("Blueprint "+name + " launched.", "Error launching blueprint "+name, {context: self});
-                        bpi.save(undefined, callbacks);
-
-                        window.location.href = "#nova/blueprints/instances/";
-                    }
-                });
+                subview = new CreateBlueprintInstanceView({el: 'body', model: bp});
                 subview.render();
+                // subview = new ConfirmView({
+                //     el: 'body',
+                //     title: "Launch Blueprint Instance",
+                //     btn_message: "Launch Blueprint Instance",
+                //     onAccept: function() {
+                //         var bpi = new BPInstance();
+                //         bpi.set({"name": bp.get('name')});
+                //         bpi.set({"description": bp.get('description')});
+                //         bpi.set({"tierDtos": bp.get("tierDtos_asArray")});
+                //         var callbacks = UTILS.Messages.getCallbacks("Blueprint "+name + " launched.", "Error launching blueprint "+name, {context: self});
+                //         bpi.save(undefined, callbacks);
+
+                //         window.location.href = "#nova/blueprints/instances/";
+                //     }
+                // });
+                // subview.render();
                 break;
             case 'clone':
                 subview = new CloneBlueprintView({el: 'body', model: bp});
