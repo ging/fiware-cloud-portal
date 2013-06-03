@@ -97,7 +97,7 @@ var BlueprintInstancesView = Backbone.View.extend({
                 id: index,
                 cells: [{
                     value: bpInstance.get('blueprintName'),
-                    link: "#nova/blueprints/instances/" + bpInstance.get('environmentInstanceName')
+                    link: "#nova/blueprints/instances/" + bpInstance.get('blueprintName')
                 }, {
                     value: bpInstance.get('description')
                 }, {

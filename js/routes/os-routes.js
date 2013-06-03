@@ -379,7 +379,7 @@ var OSRouter = Backbone.Router.extend({
 
     blueprint_instance: function(self, id) {
         var bp = new BPInstance();
-        bp.set({'name': id});
+        bp.set({'blueprintName': id});
         bp.fetch({success: function() {
             self.showNovaRoot(self, 'Blueprint Instances', 'Blueprint Instances / ' + bp.get('blueprintName'));
             var view = new BlueprintInstanceView({el: '#content', model: bp, flavors: self.flavors, images: self.images});

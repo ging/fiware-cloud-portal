@@ -6,6 +6,7 @@ var BlueprintInstanceView = Backbone.View.extend({
     sdcs: {},
 
     initialize: function() {
+        console.log('iii', this.model);
         if (this.model) {
             this.model.unbind("sync");
             this.model.bind("sync", this.render, this);
