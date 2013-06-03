@@ -42,6 +42,9 @@ var TableView = Backbone.View.extend({
     getEntries: function() {
         var self = this;
         var entries = this.options.getEntries.call(this.options.context);
+        if (this.options.order === false) {
+            return entries;
+        }
         var order = 1;
         if (this.orderBy.direction === 'up') {
             order = -1;
