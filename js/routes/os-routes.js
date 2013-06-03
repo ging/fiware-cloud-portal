@@ -391,8 +391,9 @@ var OSRouter = Backbone.Router.extend({
     blueprint_instance_tier_instances: function(self, id, tier_id) {
         self.showNovaRoot(self, 'Blueprint Instances', 'Blueprint Instances / ' + id + ' / ' + tier_id);
         var bp = new BPInstance();
-        bp.set({'name': id});
+        bp.set({'blueprintName': id});
         bp.fetch({success: function(instance) {
+            console.log('instance', instance);
             var tiers = instance.get('tierInstanceDtos_asArray');
             tiers.forEach(function(tier) {
                 if (tier.tierInstanceName === tier_id) {
