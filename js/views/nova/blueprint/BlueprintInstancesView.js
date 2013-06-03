@@ -34,14 +34,14 @@ var BlueprintInstancesView = Backbone.View.extend({
             }
         };
         return [{
-            label: "Start Instance",
-            action: "start",
-            activatePattern: oneSelected
-            },{
-            label: "Stop Instance",
-            action: "stop",
-            activatePattern: oneSelected
-            }, {
+            // label: "Start Instance",
+            // action: "start",
+            // activatePattern: oneSelected
+            // },{
+            // label: "Stop Instance",
+            // action: "stop",
+            // activatePattern: oneSelected
+            // }, {
             label: "Terminate Instance",
             action: "delete",
             warn: true,
