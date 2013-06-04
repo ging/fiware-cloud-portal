@@ -6,6 +6,7 @@ var BlueprintInstanceView = Backbone.View.extend({
     sdcs: {},
 
     initialize: function() {
+        console.log('iii', this.model);
         if (this.model) {
             this.model.unbind("sync");
             this.model.bind("sync", this.render, this);
@@ -87,8 +88,8 @@ var BlueprintInstanceView = Backbone.View.extend({
             var tier = this.model.get('tierInstanceDtos_asArray')[index];
 
             var products = [];
-            for (var p in tier.productInstanceDtos_asArray) {
-                products.push(tier.productInstanceDtos_asArray[p].productReleaseDto.productName);
+            for (var p in tier.tierDto.productReleaseDtos_asArray) {
+                products.push(tier.tierDto.productReleaseDtos_asArray[p].productName);
             }
             var entry = {
                 id: tier.tierInstanceName,
@@ -125,7 +126,7 @@ var BlueprintInstanceView = Backbone.View.extend({
         console.log(tierIds);
         switch (action) {
             case 'show-instances':
-                window.location.href = "#nova/blueprints/instances/"+self.model.get("name")+"/tiers/"+tier+"/instances";
+                window.location.href = "#nova/blueprints/instances/"+self.model.get("blueprintName")+"/tiers/"+tier+"/instances";
                 break;
             case 'edit':
                 break;

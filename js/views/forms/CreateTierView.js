@@ -378,7 +378,8 @@ var CreateTierView = Backbone.View.extend({
             getHeaders: this.getHeaders,
             getEntries: this.getEntries,
             disableActionButton: true,
-            context: this
+            context: this,
+            order: false
         });
 
         this.tableViewNew = new TableView({

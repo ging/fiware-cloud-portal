@@ -23,13 +23,13 @@ var BPInstance = Backbone.Model.extend({
     sync: function(method, model, options) {
         switch(method) {
             case "read":
-                BP.API.getBlueprintInstance(model.get('name'), options.success, options.error);
+                BP.API.getBlueprintInstance(model.get('blueprintName'), options.success, options.error);
                 break;
             case "create":
                 BP.API.launchBlueprintInstance(model.toJSON(), options.success, options.error);
                 break;
             case "delete":
-                BP.API.stopBlueprintInstance(model.get('name'), options.success, options.error);
+                BP.API.stopBlueprintInstance(model.get('blueprintName'), options.success, options.error);
                 break;
             case "update":
 
