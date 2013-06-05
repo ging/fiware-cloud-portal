@@ -59,8 +59,7 @@ var FloatingIP = Backbone.Model.extend({
                    JSTACK.Nova.releasefloatingIP(model.get("id"), options.success, options.error);
                    break;               
            }
-   },
-
+    }
 
 });
 
