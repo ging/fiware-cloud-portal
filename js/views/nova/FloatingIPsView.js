@@ -32,6 +32,31 @@ var NovaFloatingIPsView = Backbone.View.extend({
                 return true;
             }
         };
+        var associateSelected = function(size, ids) {
+            if (size >= 1) {                 
+                for (var id in ids) {
+                    var entry = self.model.get(ids[id]);
+                    if (entry.get("instance_id") !== null) {
+                        return true;
+                    }
+                }
+                return false;
+            } 
+        };
+        var disassociateSelected = function(size, ids) {
+            if (size === 1) {
+                
+                for (var id in ids) {
+                    var entry = self.model.get(ids[id]);
+                    if (entry.get("instance_id") !== null) {
+                        return false;
+                    }
+                }
+                return true;
+            } else {
+                return false;
+            }
+        };
 
         btns.push ({
             label: "Release Floating IPs",
@@ -41,12 +66,12 @@ var NovaFloatingIPsView = Backbone.View.extend({
         }, {
             label: "Associate IP",
             action: "associate",            
-            activatePattern: groupSelected
+            activatePattern: disassociateSelected
         }, {
             label: "Dissasociate Floating IP",
             action: "disassociate",
             warn: true,
-            activatePattern: groupSelected
+            activatePattern: associateSelected
         });
         return btns;
     },
@@ -87,13 +112,18 @@ var NovaFloatingIPsView = Backbone.View.extend({
         var entries = [];
         for (var index in this.model.models) {
             var floating_ip = this.model.models[index];
-
+            var instance_id = floating_ip.get("instance_id");
+            for (var i in this.options.instances.models) {
+                if (this.options.instances.models[i].get("id") == instance_id) {
+                    var instance_name = this.options.instances.models[i].get("name");
+                }
+            }                
             var entry = {
                 id: floating_ip.get('id'),
                 cells: [{
                     value: floating_ip.get("ip")
                 }, {
-                    value:  floating_ip.get("instance_id") || "-" //(floating_ip.get("instance_id") === null) ? "-" : floating_ip.get("instance_id")
+                    value:  instance_name || "-"
                 }, {  
                     value: floating_ip.get("pool")
                 }]
