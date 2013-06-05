@@ -5,8 +5,8 @@ var NovaSecurityGroupsView = Backbone.View.extend({
     tableView: undefined,
 
     initialize: function() {
-        this.model.unbind("reset");
-        this.model.bind("reset", this.render, this);
+        this.model.unbind("sync");
+        this.model.bind("sync", this.render, this);
         this.renderFirst();
     },
 
@@ -106,13 +106,7 @@ var NovaSecurityGroupsView = Backbone.View.extend({
                     onAccept: function() {
                         secGroupIds.forEach(function(securityGroup) {
                             sg = self.model.get(securityGroup);
-                            sg.destroy();
-                            subview = new MessagesView({
-                                el: '#content',
-                                state: "Success",
-                                title: "Security Group " + sg.get("name") + " deleted."
-                            });
-                            subview.render();
+                            sg.destroy(UTILS.Messages.getCallbacks("Security group "+ sg.get("name") + " deleted.", "Error deleting security group "+sg.get("name")));
                         });
                     }
                 });

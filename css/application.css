@@ -24,6 +24,34 @@ html, body {
   height: 100%;
 }
 
+.fill-height {
+  height: 100%;
+  position: relative;
+}
+
+.separation {
+  line-height: 750%;
+  text-align: center;
+}
+
+#message-resize-icon {
+  cursor: pointer;
+  position: absolute;
+  top: 6px;
+  right: 6px;
+}
+
+#edit_security_group_rules {
+  position: relative;
+  width: 100%;
+  height: 266px;
+  margin-top: -31px;
+}
+
+.open {
+  z-index: 10;
+}
+
 .entity_consult {
   position: absolute;
   width: 100%;
@@ -31,11 +59,19 @@ html, body {
 }
 
 .entity_detail {
-position: absolute;
-width: 100%;
-top: 99px;
-bottom: 0px;
-overflow: scroll;
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  margin-left: 10px;
+  margin-right: 10px;
+  top: 51px;
+  bottom: 0px;
+  overflow: auto;
+}
+
+.entity_detail h4 {
+  font-size: 24px;
+  line-height: 2px;
 }
 
 #root {
@@ -52,11 +88,12 @@ overflow: scroll;
   position: absolute;
   bottom: 25px;
   min-height: 200px;
-  top: 152px;
+  top: 104px;
 }
 
 #main_content {
   height: 100%;
+  position: relative;
 }
 
 .sbSelector:link, .sbSelector:visited, .sbSelector:hover {
@@ -69,6 +106,7 @@ overflow: scroll;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  border: 0;
 }
 
 .footer {
@@ -79,10 +117,93 @@ overflow: scroll;
   padding-top: 10px;
 }
 
+.modal .table-foot {
+  margin-bottom: 0px;
+}
+
 #content {
-  position: relative;
-  height: 100%;
-  width: 100%;
+  position: absolute;
+  margin-top: 10px;
+  top: 0px;
+  bottom: 56px;
+  right: 3px;
+  left: 0px;
+  box-shadow: rgb(211, 211, 211) 0px 0px 10px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+
+#log-messages {
+  height: 48px;
+  overflow: hidden;
+}
+
+#logs {
+  position: absolute;
+  overflow: hidden;
+  bottom: 0px;
+  height: 48px;
+  right: 3px;
+  left: 0px;
+  box-shadow: rgb(211, 211, 211) 0px 0px 10px;
+  border-radius: 6px;
+  background-color: white;
+}
+
+.messages .alert{
+  z-index: 10;
+  margin-bottom: 0px;
+  margin-top: 0px;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
+}
+
+#table_head {
+  position: absolute;
+  top: 32px;
+  height: 35px;
+  border: 0;
+  border-bottom: 1px solid #dddddd;
+}
+
+#table_head thead,
+#table_head thead tr {
+  height: 35px;
+}
+
+.table input[type=checkbox] {
+  display: none;
+}
+
+.table input[type=checkbox] + label {
+  content:"";
+  display:inline-block;
+  background-image:url(../images/checkbox.png);
+  background-position: 0px 0px;
+  width: 15px;
+  height: 15px;
+  margin-top: 1px;
+  margin-bottom: -1px;
+  cursor: pointer;
+}
+
+.table input[type=checkbox] + label:hover {
+  background-position: -15px 0px;
+}
+
+.table input[type=checkbox]:checked + label {
+  background-position: -30px 0px;
+}
+
+.table input[type=checkbox]:checked + label:hover {
+  background-position: -45px 0px;
+} ​
+
+.table_header .table_actions {
+  height: 23px;
 }
 
 .table {
@@ -133,14 +254,18 @@ td.actions_column {
   overflow-x: hidden;
 }
 
+.table-scrolled tr {
+  cursor: pointer;
+}
+
 .scrollable {
-background-color: #f1f1f1;
+/*background-color: #f1f1f1;*/
 right: 1px;
 left: 0px;
 overflow-y: auto;
 overflow-x: hidden;
 position: absolute;
-top: 69px;
+top: 68px;
 width: 100%;
 bottom: 42px;
 }
@@ -148,13 +273,14 @@ bottom: 42px;
 .table-foot {
   position: absolute;
   bottom: 10px;
+  border: 0;
 }
 
 .tab-content-adjustable {
   position: absolute;
-  padding-top: 10px;
-  bottom: 20px;
-  top: 50px;
+  padding-top: 0px;
+  bottom: 0px;
+  top: 51px;
   right: 0px;
   left: 0px;
 }
@@ -163,6 +289,15 @@ bottom: 42px;
   position:relative;
   height: 100%;
   overflow: hidden;
+}
+
+.table_header .table_actions a, .table_header .table_actions button {
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+}
+
+.btn-group > .btn:first-child {
+  border-top-left-radius: 0px;
 }
 
 @font-face {
@@ -213,10 +348,23 @@ bottom: 42px;
   position: absolute;
 }
 
+.sidebar-menu {
+  margin-top: 44px;
+}
+
+@media (max-width: 979px) {
+
+.sidebar-menu {
+  margin-top: 0px;
+}
+
+}
+
 .logo{
   margin-left: -4px !important;
   float: left;
-  margin-top: -15px;
+  top: 0px;
+  margin-top: 44px;
 }
 .text-logo{
   margin-left: 0px;
@@ -627,6 +775,7 @@ h6 {
   padding-bottom: none;
   /*margin: 18px 0;*/
   border-bottom: 1px solid #eeeeee;
+  margin-top: 10px;
 }
 
 /** line 407 boostrap.css**/
@@ -995,7 +1144,7 @@ border: none;
 }
 @media (max-width: 979px) and (min-width: 768px) {
 
-  
+
 .row-fluid [class*="span"] {
 display: block;
 float: none;

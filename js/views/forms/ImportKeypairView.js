@@ -35,16 +35,14 @@ var ImportKeypairView = Backbone.View.extend({
         var subview;
         for (var index in self.model.models) {
             if (self.model.models[index].attributes.name === name) {
-                subview = new MessagesView({el: '#content', state: "Error", title: "Keypair "+name+" already exists. Please try again."});
+                subview = new MessagesView({state: "Error", title: "Keypair "+name+" already exists. Please try again."});
                 subview.render();
                 return;
             }
         }
         newKeypair.set({'name': name, 'public_key': publicKey});
-        newKeypair.save();
+        newKeypair.save(UTILS.Messages.getCallbacks("Keypair "+ name + " imported.", "Error importing keypair "+ name));
 
-        subview = new MessagesView({el: '#content', state: "Success", title: "Keypair "+name+" imported."});
-        subview.render();
         this.close();
     }
 

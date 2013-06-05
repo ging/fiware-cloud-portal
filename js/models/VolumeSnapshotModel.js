@@ -2,11 +2,18 @@ var VolumeSnapshot = Backbone.Model.extend({
 
     _action:function(method, options) {
         var model = this;
-        if (options === undefined) options = {};
+        options = options || {};
+        var error = options.error;
         options.success = function(resp) {
             model.trigger('sync', model, resp, options);
-            if (options.callback !== undefined) {
+            if (options.callback!==undefined) {
                 options.callback(resp);
+            }
+        };
+        options.error = function(resp) {
+            model.trigger('error', model, resp, options);
+            if (error!==undefined) {
+                error(model, resp);
             }
         };
         var xhr = (this.sync || Backbone.sync).call(this, method, this, options);
@@ -16,15 +23,15 @@ var VolumeSnapshot = Backbone.Model.extend({
     sync: function(method, model, options) {
         switch(method) {
             case "create":
-                JSTACK.Nova.Volume.createsnapshot(model.get("volume_id"), model.get("name"), model.get("description"), options.success);
+                JSTACK.Nova.Volume.createsnapshot(model.get("volume_id"), model.get("name"), model.get("description"), options.success, options.error);
                 break;
             case "delete":
-                JSTACK.Nova.Volume.deletesnapshot(model.get("id"), options.success);
+                JSTACK.Nova.Volume.deletesnapshot(model.get("id"), options.success, options.error);
                 break;
             case "update":
                 break;
             case "read":
-                JSTACK.Nova.Volume.getsnapshot(model.get("id"), options.success);
+                JSTACK.Nova.Volume.getsnapshot(model.get("id"), options.success, options.error);
                 break;
         }
     },
@@ -44,7 +51,7 @@ var VolumeSnapshots = Backbone.Collection.extend({
 
     sync: function(method, model, options) {
         if(method === "read") {
-            JSTACK.Nova.Volume.getsnapshotlist(true, options.success);
+            JSTACK.Nova.Volume.getsnapshotlist(true, options.success, options.error);
         }
     },
 

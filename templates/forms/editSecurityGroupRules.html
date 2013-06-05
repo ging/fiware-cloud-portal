@@ -19,6 +19,9 @@
     %>
 
     	<div class='table_header'><h3 class='table_title'>Security Group Rules</h3></div>
+
+        <div id="edit_security_group_rules"></div>
+        <!--
     	<% if (securityGroupsModel.get('rules') !== "") { %>
     	<div class="table_actions clearfix">
           <button class='btn btn-small btn-danger btn-delete' disabled="disabled" name="action" id='deleteRulesBtn' value="security_group_rules__delete" type="submit">
@@ -73,6 +76,8 @@
                     </td>
             </tfoot>
         </table>
+
+        -->
 
         <form id="rulesForm" onSubmit="return false;">
            	<div class='table_header'><h3 class='table_title'>Add Rule</h3></div>

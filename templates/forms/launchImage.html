@@ -80,16 +80,21 @@
                 </div>
 
                 <div class="control-group form-field clearfix">
-                    <label for="id_security_groups_0">Security Groups</label>
+                    <label for="id_security_groups">Security Groups</label>
 
                     <span class="help-block" style="display: none; ">Launch instance in these security groups.</span>
                     <div class="input">
                         <ul>
+                        <%  for (var index in secGroups.models) {
+                                var sec = secGroups.models[index];
+                        %>
                             <li>
-                                <label for="id_security_groups_0">
-                                    <input checked="checked" type="checkbox" name="security_groups" value="default" id="id_security_groups_0">
-                                    default</label>
+                            <input style="width: 15px;float:none;" type="checkbox" name="security_groups" value="<%=sec.get('name')%>">
+                            <%=sec.get('name')%>
                             </li>
+                        <%
+                            }
+                        %>
                         </ul>
                     </div>
                 </div>

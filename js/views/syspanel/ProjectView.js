@@ -6,7 +6,7 @@ var ProjectView = Backbone.View.extend({
 
     initialize: function() {
         var self = this;
-        this.model.bind("reset", this.render, this);
+        this.model.bind("sync", this.render, this);
         //this.options.quotas.bind("reset", this.render, this);
         this.model.fetch();
         this.options.quotas.fetch();
@@ -120,9 +120,7 @@ var ProjectView = Backbone.View.extend({
                 subview = new ConfirmView({el: 'body', title: "Confirm Delete Project", btn_message: "Delete Project", onAccept: function() {
                     projectIds.forEach(function(project) {
                         proj = self.model.get(project);
-                        proj.destroy();
-                        subview = new MessagesView({el: '#content', state: "Success", title: "Project deleted."});
-                        subview.render();
+                        proj.destroy(UTILS.Messages.getCallbacks("Project "+proj.get("name") + " deleted.", "Error deleting project "+proj.get("name")));
                     });
                 }});
                 subview.render();
@@ -133,7 +131,7 @@ var ProjectView = Backbone.View.extend({
     onClose: function() {
         this.tableView.close();
         this.options.quotas.unbind("reset");
-        this.model.unbind("reset");
+        this.model.unbind("sync");
         this.undelegateEvents();
         this.unbind();
     },

@@ -4,12 +4,38 @@ var RootView = Backbone.View.extend({
 
     _authtemplate: _.itemplate($('#not_logged_in').html()),
 
+    consoleMaximizes: false,
+
+    events: {
+        "click #message-resize-icon": "toggleMaxConsole"
+    },
+
     initialize: function () {
         $(this.options.auth_el).empty().html(this._authtemplate(this.model)).css('display', 'None');
         $(this.options.root_el).empty().html(this._roottemplate()).css('display', 'None');
         this.model.bind('change:loggedIn', this.onLogin, this);
         this.model.bind('auth-error', this.renderAuthonerror, this);
+        $("#message-resize-icon").live("click", this.toggleMaxConsole);
         this.onLogin();
+    },
+
+    toggleMaxConsole: function() {
+        console.log("Maximizing");
+        $('#message-resize-icon').removeClass('icon-resize-full');
+        $('#message-resize-icon').removeClass('icon-resize-small');
+        if (this.consoleMaximizes) {
+            $('#log-messages').css('overflow', 'hidden');
+            $('#logs').animate({height: '48px'}, 500);
+            $('#log-messages').animate({height: '48px'}, 500);
+            $('#message-resize-icon').addClass('icon-resize-full');
+        } else {
+            $('#log-messages').css('overflow', 'auto');
+            $('#message-resize-icon').addClass('icon-resize-small');
+            $('#logs').animate({height: '348px'}, 500);
+            $('#log-messages').animate({height: '348px'}, 500);
+        }
+        $('#log-messages').animate({scrollTop: ($('.messages').length-1)*(48)+'px'}, 500);
+        this.consoleMaximizes = !this.consoleMaximizes;
     },
 
     onCredentialsSubmit: function(e){

@@ -38,10 +38,7 @@ var UpdateInstanceView = Backbone.View.extend({
         e.preventDefault();
         this.model.set({"name": this.$('input[name=name]').val()});
         var newName = $('input[name=name]').val();
-        this.model.save();
-        var subview = new MessagesView({el: '#content', state: "Success", title: "Instance "+newName+" updated."});
-        subview.render();
-        this.close();
+        this.model.save(UTILS.Messages.getCallbacks("Instance "+ newName + " updated", "Error updating instance "+ newName, {context: this}));
     }
 
 });

@@ -3,15 +3,15 @@ var Flavor = Backbone.Model.extend({
     sync: function(method, model, options) {
            switch(method) {
                case "read":
-                   JSTACK.Nova.getflavordetail(model.get("id"), options.success);
+                   JSTACK.Nova.getflavordetail(model.get("id"), options.success, options.error);
                    break;
                case "delete":
-                   JSTACK.Nova.deleteflavor(model.get("id"), options.success);
+                   JSTACK.Nova.deleteflavor(model.get("id"), options.success, options.error);
                    break;
                case "create":
                    JSTACK.Nova.createflavor( model.get("name"), model.get("ram"), model.get("vcpus"),
                             model.get("disk"), model.get("flavor_id"), model.get("ephemeral"), undefined,
-                            undefined, options.success);
+                            undefined, options.success, options.error);
                    break;
            }
     },
@@ -30,7 +30,7 @@ var Flavors = Backbone.Collection.extend({
 
     sync: function(method, model, options) {
         if (method === "read") {
-            JSTACK.Nova.getflavorlist(true, options.success);
+            JSTACK.Nova.getflavorlist(true, options.success, options.error);
         }
     },
 

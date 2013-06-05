@@ -63,21 +63,19 @@ var CreateSecurityGroupView = Backbone.View.extend({
         if (nameOK && descriptionOK) {
             for (var index in self.model.models) {
                 if (self.model.models[index].get('name') === name) {
-                    subview = new MessagesView({el: '#content', state: "Error", title: "Security Group "+name+" already exists. Please try again."});
+                    subview = new MessagesView({state: "Error", title: "Security Group "+name+" already exists. Please try again."});
                     subview.render();
                     return;
                 }
             }
             var newSecurityGroup = new SecurityGroup();
             newSecurityGroup.set({'name': name, 'description': description});
-            newSecurityGroup.save();
-            subview = new MessagesView({el: '#content', state: "Success", title: "Security group "+name+" created."});
-            subview.render();
+            newSecurityGroup.save(undefined, UTILS.Messages.getCallbacks("Security group "+name + " created.", "Error creating security group "+name, {context: self}));
         } else {
-            subview = new MessagesView({el: '#content', state: "Error", title: "Wrong values for Security Group. Please try again."});
+            subview = new MessagesView({state: "Error", title: "Wrong values for Security Group. Please try again."});
             subview.render();
+            self.close();
         }
-        self.close();
     }
 
 });

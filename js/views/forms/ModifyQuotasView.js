@@ -52,10 +52,7 @@ var ModifyQuotasView = Backbone.View.extend({
         this.model.set({'ram': ram});
         this.model.set({'floating_ips': floating_ips});
 
-        this.model.save();
-        subview = new MessagesView({el: '#content', state: "Success", title: "Quota updated"});
-        subview.render();
-        this.close();
+        this.model.save(UTILS.Messages.getCallbacks("Quota updated", "Error updating quotas", {context: this}));
     }
 
 });

@@ -2,13 +2,13 @@ var ImageVM = Backbone.Model.extend({
     sync: function(method, model, options) {
            switch(method) {
                case "read":
-                   JSTACK.Nova.getimagedetail(model.get("id"), options.success);
+                   JSTACK.Glance.getimagedetail(model.get("id"), options.success, options.error);
                    break;
                case "delete":
-                   JSTACK.Nova.deleteimage(model.get("id"), options.success);
+                   JSTACK.Nova.deleteimage(model.get("id"), options.success, options.error);
                    break;
                case "update":
-                    JSTACK.Nova.updateimage(model.get("id"), model.get("name"), options.success);
+                    JSTACK.Nova.updateimage(model.get("id"), model.get("name"), options.success, options.error);
                     break;
            }
    },
@@ -27,7 +27,7 @@ var Images = Backbone.Collection.extend({
 
     sync: function(method, model, options) {
         if (method === "read") {
-            JSTACK.Glance.getimagelist(true, options.success);
+            JSTACK.Glance.getimagelist(true, options.success, options.error);
         }
     },
 

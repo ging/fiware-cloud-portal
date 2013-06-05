@@ -8,7 +8,7 @@ var UserView = Backbone.View.extend({
 
     initialize: function() {
         var self = this;
-        this.model.bind("reset", this.render, this);
+        this.model.bind("sync", this.render, this);
         this.timer = setInterval(function() {
             self.model.fetch();
         }, 10000);
@@ -146,10 +146,8 @@ var UserView = Backbone.View.extend({
                         usr = self.model.get(user);
                         if (usr.get("enabled") === true) {
                             usr.set("enabled", false);
-                            usr.save();
+                            usr.save(UTILS.Messages.getCallbacks("User " + usr.get("name") + " disabled", "Error disabling user " + usr.get("name")));
                         }
-                        subview = new MessagesView({el: '#content', state: "Success", title: "Users disabled"});
-                        subview.render();
                     });
                 }});
                 subview.render();
@@ -160,10 +158,8 @@ var UserView = Backbone.View.extend({
                         usr = self.model.get(user);
                         if (usr.get("enabled") === false) {
                             usr.set("enabled", true);
-                            usr.save();
+                            usr.save(UTILS.Messages.getCallbacks("User " + usr.get("name") + " enabled", "Error enabling user " + usr.get("name")));
                         }
-                        subview = new MessagesView({el: '#content', state: "Success", title: "Users enabled"});
-                        subview.render();
                     });
                 }});
                 subview.render();
@@ -172,9 +168,7 @@ var UserView = Backbone.View.extend({
                 subview = new ConfirmView({el: 'body', title: "Confirm Delete Users", btn_message: "Delete Users", onAccept: function() {
                     userIds.forEach(function(user) {
                         usr = self.model.get(user);
-                        user.destroy();
-                        var subview = new MessagesView({el: '#content', state: "Success", title: "User deleted."});
-                        subview.render();
+                        user.destroy(UTILS.Messages.getCallbacks("User " + usr.get("name") + " deleted", "Error deleting user " + usr.get("name")));
                     });
                 }});
                 subview.render();

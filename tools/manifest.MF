@@ -41,8 +41,7 @@
 ..\js\views\forms\UploadObjectView.js
 ..\js\views\nova\AccessAndSecurityView.js
 ..\js\views\nova\InstanceDetailView.js
-..\js\views\nova\InstanceSnapshotsView.js
-..\js\views\nova\InstancesAndVolumesView.js
+..\js\views\nova\snapshots\InstanceSnapshotsView.js
 ..\js\views\nova\InstancesView.js
 ..\js\views\nova\OverviewView.js
 ..\js\views\nova\ServiceView.js
@@ -51,7 +50,7 @@
 ..\js\views\nova\VDCView.js
 ..\js\views\nova\VDCsView.js
 ..\js\views\nova\VolumeDetailView.js
-..\js\views\nova\VolumeSnapshotsView.js
+..\js\views\nova\snapshots\VolumeSnapshotsView.js
 ..\js\views\nova\VolumesView.js
 ..\js\views\objectstorage\ContainerView.js
 ..\js\views\objectstorage\ContainersView.js

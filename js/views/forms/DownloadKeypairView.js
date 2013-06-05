@@ -3,8 +3,8 @@ var DownloadKeypairView = Backbone.View.extend({
     _template: _.itemplate($('#downloadKeypairFormTemplate').html()),
 
     initialize: function() {
-        this.model.unbind("reset");
-        this.model.bind("reset", this.render, this);
+        this.model.unbind("sync");
+        this.model.bind("sync", this.render, this);
     },
 
     events: {
@@ -36,7 +36,7 @@ var DownloadKeypairView = Backbone.View.extend({
             $('.downloadKeypair').attr("href", blobURL);
             $('.downloadKeypair').attr("download", name+'.pem');
 
-            var subview = new MessagesView({el: '#content', state: "Success", title: "Keypair "+name+" created."});
+            var subview = new MessagesView({state: "Success", title: "Keypair "+name+" created."});
             subview.render();
         };
         JSTACK.Nova.createkeypair(name, undefined, mySuccess);

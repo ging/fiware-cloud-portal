@@ -1,0 +1,56 @@
+<script id="editProductAttributesTemplate" type="text/html">
+<div id="edit_product_attributes" class="modal in">
+    <!--
+    Description: View Product Attributes
+    src: templates/root/nova/instanceDetail/editProductAttributes.html
+    -->
+    <div class="modal-header">
+        <a id="closeModal" href="#" class="close" data-dismiss="modal">&times;</a>
+        <h3>Product "<%=model.get("productRelease").product.name%>" Attributes</h3>
+    </div>
+    <div id="messHeader" class="modal-body clearfix">
+
+        <div class='table_header'><h3 class='table_title'>Edit Attributes</h3></div>
+        <table id="product_attributes" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th style="width: 30%;">Attribute</th>
+                    <th style="width: 30%;">Value</th>
+                    <th style="width: 40%;">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <%
+                var attr;
+                var i = 0;
+                if (productAttributes !== undefined) {
+                    for (var i in productAttributes) {
+                        attr = productAttributes[i];
+                %>
+                <tr id="sec_groups__row__"
+                class="ajax-update status_down">
+                    <td><%=attr.key%></td>
+                    <td><input type="text" name="attr_<%=i%>" value="<%=attr.value%>"></td>
+                    <td><%=attr.description%></td>
+                 </tr>
+               <% } } else { 
+                i = -1;
+                %>
+                <tr class="odd empty">
+                    <td colspan="6">No items to display.</td>
+                </tr>
+                <% } %>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="6"><span><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", (parseInt(i)+1))%></span></td>
+                    </td>
+            </tfoot>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <a id="accept" class="btn btn-blue pull-right" data-dismiss="modal">Accept</a>
+        <a id="cancel" class="close btn seconday cancel close" data-dismiss="modal">Cancel</a>
+    </div>
+</div>
+</script>

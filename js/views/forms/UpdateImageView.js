@@ -29,12 +29,7 @@ var UpdateImageView = Backbone.View.extend({
     onUpdateImage: function(e){
         e.preventDefault();
         this.model.set({"name": this.$('input[name=name]').val()});
-        this.model.save();
-        var subview = new MessagesView({el: '#content', state: "Success", title: "Image "+this.model.get('name')+" updated."});
-        subview.render();
-        this.close();
-        $('#update_image').remove();
-        $('.modal-backdrop').remove();
+        this.model.save(UTILS.Messages.getCallbacks("Image "+this.model.get("name") + " updated", "Error updating image "+this.model.get("name"), {context: this}));
     },
 
     close: function(e) {

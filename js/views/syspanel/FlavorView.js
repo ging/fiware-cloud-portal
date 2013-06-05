@@ -5,8 +5,8 @@ var FlavorView = Backbone.View.extend({
     tableView: undefined,
 
     initialize: function() {
-        this.model.unbind("reset");
-        this.model.bind("reset", this.render, this);
+        this.model.unbind("sync");
+        this.model.bind("sync", this.render, this);
         //this.options.isProjectTab.unbind("reset");
         //this.options.isProjectTab.bind("reset", this.render, this);
         this.renderFirst();
@@ -14,7 +14,7 @@ var FlavorView = Backbone.View.extend({
 
     onClose: function() {
         this.tableView.close();
-        this.model.unbind("reset");
+        this.model.unbind("sync");
         this.undelegateEvents();
         this.unbind();
     },
@@ -25,7 +25,7 @@ var FlavorView = Backbone.View.extend({
         if (!this.options.isProjectTab) {
             btns.push({
                 label:  "Create Flavor",
-                url:    "#syspanel/flavors/create"
+                action:    "create"
             });
         }
         return btns;
@@ -110,8 +110,10 @@ var FlavorView = Backbone.View.extend({
             i++;
             var flavor = this.model.models[index];
 
+
+
             var entry = {id: flavor.get('id'), cells: [{
-                    value: flavor.get("id")
+                  value: parseInt(flavor.get("id"), 10)
                 },
                 { value: flavor.get("name")
                 },
@@ -141,14 +143,14 @@ var FlavorView = Backbone.View.extend({
                 subview = new ConfirmView({el: 'body', title: "Delete Flavor", btn_message: "Delete Flavor", onAccept: function() {
                     flavorIds.forEach(function(flavor) {
                         flav = self.model.get(flavor);
-                        flav.destroy();
-                        var subview = new MessagesView({el: '#content', state: "Success", title: "Flavor "+flav.get("name")+" deleted."});
-                        subview.render();
+                        flav.destroy(UTILS.Messages.getCallbacks("Flavor " + flav.get("name") + " deleted", "Error deleting flavor " + flav.get("name")));
                     });
                 }});
                 subview.render();
                 break;
             case 'create':
+                view = new CreateFlavorView({model: new Flavor(), el: 'body', flavors: self.model});
+                view.render();
                 break;
         }
     },

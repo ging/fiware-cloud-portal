@@ -3,88 +3,60 @@
 Description: Volume Detail
 src: templates/root/nova/volumeDetail.html
 -->
-<div class="row-fluid entity_consult">
-    <div class="span12">
-        <h2>Volume Detail</h2>
-        <ul id="volume_details" class="nav nav-tabs ajax-tabs">
 
-            <li class="active">
-                <a href="" data-toggle="tab" data-target="#volume_details__overview" data-loaded="true">Overview</a>
-            </li>
+<div id="consult_volume" class="help_page">
 
-        </ul>
-
-        <div class="tab-content entity_detail">
-
-            <div id="volume_details__overview" class="tab-pane active">
-                <div class="status row-fluid">
+    <div class="entity_consult">
+        <div class="entity_detail">
+            <div id="volume_details" class="active row-fluid">
+                <div class="status span4">
                     <h4>Info</h4>
                     <hr class="header_rule">
-                    <dl>
-                        <dt>
-                            Name
-                        </dt>
-                        <dd>
-                            <%= model.get("display_name") %>
-                        </dd>
-                        <dt>
-                            ID
-                        </dt>
-                        <dd>
-                            <%= model.get("id") %>
-                        </dd>
-
-                        <dt>
-                            Description
-                        </dt>
-                        <dd>
-                            <%= model.get("display_description") %>
-                        </dd>
-
-                        <dt>
-                            Status
-                        </dt>
-                        <dd>
-                            <%= model.get("status") %>
-                        </dd>
-                    </dl>
+                    <ul>
+                        <li>
+                            <strong>Name:</strong>&nbsp;<%= model.get("display_name") %>
+                        </li>
+                        <li>
+                            <strong>ID:</strong>&nbsp;<%= model.get("id") %>
+                        </li>
+                        <li>
+                            <strong>Description:</strong>&nbsp;<%= model.get("display_description") %>
+                        </li>
+                    </ul>
                 </div>
-
-                <div class="specs row-fluid">
-                    <h4>Specs</h4>
+                <div class="status span4">
+                    <h4>Status</h4>
                     <hr class="header_rule">
-                    <dl>
-                        <dt>
-                            Size
-                        </dt>
-                        <dd>
-                            <%= model.get("size") %> GB
-                        </dd>
-                        <dt>
-                            Created
-                        </dt>
-                        <dd>
-                            <%= model.get("created") %>
-                        </dd>
-                    </dl>
+                    <ul>
+                        <li>
+                            <strong>Status:</strong>&nbsp;<%= model.get("status") %>
+                        </li>
+                        <li>
+                            <strong>Size:</strong>&nbsp;<%= model.get("size") %> GB
+                        </li>
+                        <li>
+                            <strong>Volume type:</strong>&nbsp;<%= model.get("volume_type") %>
+                        </li>
+                        <li>
+                            <strong>Availability zone:</strong>&nbsp;<%= model.get("availability_zone") %>
+                        </li>
+                        <li>
+                            <strong>Created:</strong>&nbsp;<%= model.get("created_at") %>
+                        </li>
+                    </ul>
                 </div>
-
-                <div class="status row-fluid">
+                <div class="specs span4">
                     <h4>Attachments</h4>
                     <hr class="header_rule">
-
                     <ul>
                         <li>
                             <em>Not attached</em>
                         </li>
                     </ul>
-
                 </div>
-
             </div>
-
         </div>
-
     </div>
 </div>
+
 </script>

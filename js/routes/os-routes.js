@@ -17,7 +17,6 @@ var OSRouter = Backbone.Router.extend({
     keypairsModel: undefined,
     projects: undefined,
     containers: undefined,
-    vdcs: undefined,
     quotas: undefined,
     securityGroupsModel: undefined,
     floatingIPsModel: undefined,
@@ -25,7 +24,9 @@ var OSRouter = Backbone.Router.extend({
 
     currentView: undefined,
 
-    timers: [],
+    timers: {},
+    backgroundTime: 60,
+    foregroundTime: 5,
 
     routes: {
         'auth/login': 'login',
@@ -37,6 +38,7 @@ var OSRouter = Backbone.Router.extend({
         this.loginModel = new LoginStatus();
         this.flavors = new Flavors();
         this.instancesModel = new Instances();
+        this.sdcs = new SDCs();
         this.volumesModel = new Volumes();
         this.volumeSnapshotsModel = new VolumeSnapshots();
         this.instanceSnapshotsModel = new InstanceSnapshots();
@@ -44,11 +46,39 @@ var OSRouter = Backbone.Router.extend({
         this.keypairsModel = new Keypairs();
         this.projects = new Projects();
         this.containers = new Containers();
-        this.vdcs = new VDCs();
         this.quotas = new Quotas();
         this.securityGroupsModel = new SecurityGroups();
         this.floatingIPsModel = new FloatingIPs();
         this.floatingIPPoolsModel = new FloatingIPPools();
+
+        Backbone.wrapError = function(onError, originalModel, options) {
+            return function(model, resp) {
+              resp = model === originalModel ? resp : model;
+              if (onError) {
+                onError(originalModel, resp, options);
+              } else {
+                originalModel.trigger('error', originalModel, resp, options);
+                var subview = new MessagesView({state: "Error", title: "Error. Cause: " + resp.message, info: resp.body});
+                subview.render();
+              }
+            };
+          };
+
+        this.instancesModel.bind("error", function(model, error) {
+            console.log("Error in instances:", error);
+        });
+
+        this.projects.bind("error", function(model, error) {
+            console.log("Error in projects:", error);
+        });
+
+        this.flavors.bind("error", function(model, error) {
+            console.log("Error in flavors:", error);
+        });
+
+        this.images.bind("error", function(model, error) {
+            console.log("Error in images:", error);
+        });
 
         Backbone.View.prototype.close = function(){
           //this.remove();
@@ -59,104 +89,91 @@ var OSRouter = Backbone.Router.extend({
         };
 
         this.rootView = new RootView({model:this.loginModel, auth_el: '#auth', root_el: '#root'});
-        this.route('', 'init', this.wrap(this.init, this.checkAuth));
-        this.route('#', 'init', this.wrap(this.init, this.checkAuth));
-        this.route('syspanel', 'syspanel', this.wrap(this.sys_projects, this.checkAuth));
-        this.route('syspanel/', 'syspanel', this.wrap(this.sys_projects, this.checkAuth));
+        this.route('', 'init', this.wrap(this.init, this.checkAuthAndTimers));
+        this.route('#', 'init', this.wrap(this.init, this.checkAuthAndTimers));
 
-        this.route('settings/', 'settings', this.wrap(this.showSettings, this.checkAuth));
+        this.route('home/', 'home', this.wrap(this.init, this.checkAuthAndTimers));
 
-        this.route('nova', 'nova', this.wrap(this.nova_instances, this.checkAuth));
-        this.route('nova/', 'nova', this.wrap(this.nova_instances, this.checkAuth));
+        this.route('syspanel', 'syspanel', this.wrap(this.sys_projects, this.checkAuthAndTimers, ["projects"]));
+        this.route('syspanel/', 'syspanel', this.wrap(this.sys_projects, this.checkAuthAndTimers, ["projects"]));
 
-        this.route('nova/volumes/', 'volumes', this.wrap(this.nova_volumes, this.checkAuth));
-        this.route('nova/access_and_security/', 'access_and_security', this.wrap(this.nova_access_and_security, this.checkAuth));
-        this.route('nova/access_and_security/keypairs/:name/download/', 'keypair_download', this.wrap(this.nova_keypair_download, this.checkAuth));
+        this.route('settings/', 'settings', this.wrap(this.showSettings, this.checkAuthAndTimers));
 
-        this.route('nova/images/', 'images', this.wrap(this.nova_images, this.checkAuth));
-        this.route('nova/instances/', 'instances', this.wrap(this.nova_instances, this.checkAuth));
-        this.route('nova/instances/:id/detail', 'instances', this.wrap(this.nova_instance, this.checkAuth));
-        this.route('nova/instances/:id/detail?view=:subview', 'instance', this.wrap(this.nova_instance, this.checkAuth));
-        this.route('nova/flavors/', 'flavors',  this.wrap(this.nova_flavors, this.checkAuth));
-        this.route('nova/snapshots/', 'snapshots', this.wrap(this.nova_snapshots, this.checkAuth));
-        this.route('nova/vdcs/', 'vdcs', this.wrap(this.nova_vdcs, this.checkAuth));
-        this.route('nova/vdcs/:id', 'vdc', this.wrap(this.nova_vdc, this.checkAuth));
-        this.route('nova/vdcs/:id/:idservice', 'vdcservice', this.wrap(this.nova_vdc_service, this.checkAuth));
-        this.route('nova/vdcs/:id/:idservice/:idinstance/?view=:subview', 'instance', this.wrap(this.nova_vdc_instance, this.checkAuth));
-        this.route('nova/vdcs/:id/:idservice/:idinstance', 'instance', this.wrap(this.nova_vdc_instance, this.checkAuth));
+        this.route('nova', 'nova', this.wrap(this.nova_instances, this.checkAuthAndTimers, ["instancesModel"]));
+        this.route('nova/', 'nova', this.wrap(this.nova_instances, this.checkAuthAndTimers, ["instancesModel"]));
 
-        this.route('home/', 'home', this.wrap(this.init, this.checkAuth));
-        this.route('syspanel/images/images/', 'images',  this.wrap(this.sys_images, this.checkAuth));
-        this.route('syspanel/instances/', 'instances',  this.wrap(this.sys_instances, this.checkAuth));
-        this.route('syspanel/services/', 'services',  this.wrap(this.sys_services, this.checkAuth));
-        this.route('syspanel/flavors/', 'flavors',  this.wrap(this.sys_flavors, this.checkAuth));
-        this.route('syspanel/projects/', 'projects',  this.wrap(this.sys_projects, this.checkAuth));
-        this.route('syspanel/projects/:id/users/', 'users_projects',  this.wrap(this.sys_users_projects, this.checkAuth));
-        this.route('syspanel/users/', 'users',  this.wrap(this.sys_users, this.checkAuth));
-        this.route('syspanel/quotas/', 'quotas',  this.wrap(this.sys_quotas, this.checkAuth));
-        //this.route('syspanel/projects/:id/users', 'modify_users',  this.wrap(this.modify_users, this.checkAuth));
+        this.route('nova/volumes/', 'volumes', this.wrap(this.nova_volumes, this.checkAuthAndTimers, ["volumesModel"]));
+        this.route('nova/volumes/:id/detail', 'consult_volume',  this.wrap(this.consult_volume, this.checkAuthAndTimers));
 
-        this.route('syspanel/flavors/create', 'create_flavor',  this.wrap(this.create_flavor, this.checkAuth));
+        this.route('nova/access_and_security/', 'access_and_security', this.wrap(this.nova_access_and_security, this.checkAuthAndTimers, ["keypairsModel", "securityGroupsModel", "floatingIPsModel"]));
+        this.route('nova/access_and_security/keypairs/:name/download/', 'keypair_download', this.wrap(this.nova_keypair_download, this.checkAuthAndTimers));
 
-        this.route('nova/images/:id/delete', 'delete_image',  this.wrap(this.delete_image, this.checkAuth));
-        this.route('nova/images/:id/update', 'edit_image',  this.wrap(this.edit_image, this.checkAuth));
-        this.route('nova/images/:id', 'consult_image',  this.wrap(this.consult_image, this.checkAuth));
-        this.route('nova/images/:id/launch/', 'launch_image',  this.wrap(this.launch_image, this.checkAuth));
-        this.route('nova/images/:name/update', 'edit_image',  this.wrap(this.edit_image, this.checkAuth));
+        this.route('nova/images/', 'images', this.wrap(this.nova_images, this.checkAuthAndTimers, ["images"]));
+        this.route('nova/images/:id', 'images',  this.wrap(this.nova_image, this.checkAuthAndTimers));
+        this.route('nova/instances/', 'instances', this.wrap(this.nova_instances, this.checkAuthAndTimers, ["instancesModel"]));
+        this.route('nova/instances/:id/detail', 'instances', this.wrap(this.nova_instance, this.checkAuthAndTimers, ["instancesModel", "sdcs"]));
+        this.route('nova/instances/:id/detail?view=:subview', 'instance', this.wrap(this.nova_instance, this.checkAuthAndTimers));
+        this.route('nova/flavors/', 'flavors',  this.wrap(this.nova_flavors, this.checkAuthAndTimers, ["flavors"]));
 
-        //this.route('nova/instances_and_volumes/instances/:id/detail', 'consult_instance',  _.wrap(this.consult_instance, this.checkAuth));
-        this.route('nova/instances_and_volumes/instances/:id/detail?view=:subview', 'consult_instance',  this.wrap(this.consult_instance, this.checkAuth));
-        this.route('nova/instances_and_volumes/instances/:id/detail', 'consult_instance',  this.wrap(this.consult_instance, this.checkAuth));
-        this.route('nova/instances_and_volumes/volumes/:id/detail', 'consult_volume',  this.wrap(this.consult_volume, this.checkAuth));
+        this.route('nova/snapshots/', 'snapshots', this.wrap(this.nova_snapshots, this.checkAuthAndTimers, ["volumeSnapshotsModel", "instanceSnapshotsModel"]));
+        this.route('nova/snapshots/instances/:id/detail/', 'instance_snapshot', this.wrap(this.instance_snapshot, this.checkAuthAndTimers));
+        this.route('nova/snapshots/volumes/:id/detail/', 'volume_snapshot', this.wrap(this.volume_snapshot, this.checkAuthAndTimers));
 
-        this.route('objectstorage/containers/', 'consult_containers',  this.wrap(this.objectstorage_consult_containers, this.checkAuth));
-        this.route('objectstorage/containers/:name/', 'consult_container',  this.wrap(this.objectstorage_consult_container, this.checkAuth));
-        //this.route('objectstorage/containers/:name/:object/', 'download_object',  this.wrap(this.objectstorage_download_object, this.checkAuth));
+        this.route('syspanel/services/', 'services',  this.wrap(this.sys_services, this.checkAuthAndTimers));
+        this.route('syspanel/flavors/', 'flavors',  this.wrap(this.sys_flavors, this.checkAuthAndTimers, ["flavors"]));
+        this.route('syspanel/projects/', 'projects',  this.wrap(this.sys_projects, this.checkAuthAndTimers, ["projects"]));
+        this.route('syspanel/projects/:id/users/', 'users_projects',  this.wrap(this.sys_users_projects, this.checkAuthAndTimers));
+        this.route('syspanel/users/', 'users',  this.wrap(this.sys_users, this.checkAuthAndTimers));
+        this.route('syspanel/quotas/', 'quotas',  this.wrap(this.sys_quotas, this.checkAuthAndTimers, ["quotas"]));
+
+        this.route('objectstorage/containers/', 'consult_containers',  this.wrap(this.objectstorage_consult_containers, this.checkAuthAndTimers, ["containers"]));
+        this.route('objectstorage/containers/:name/', 'consult_container',  this.wrap(this.objectstorage_consult_container, this.checkAuthAndTimers));
 
     },
 
-    wrap: function(func, wrapper) {
+    wrap: function(func, wrapper, modelArray) {
         var ArrayProto = Array.prototype;
         var slice = ArrayProto.slice;
         return function() {
           var args = [func].concat(slice.call(arguments, 0));
-          return wrapper.apply(this, args);
+          return wrapper.apply(this, [args, modelArray]);
         };
     },
 
     initFetch: function() {
-        if (this.timers.length === 0) {
-            var seconds = 10;
-            this.add_fetch(this.instancesModel, seconds);
-            this.add_fetch(this.volumesModel, seconds);
-            this.add_fetch(this.images, seconds);
-            this.add_fetch(this.flavors, seconds);
-            this.add_fetch(this.volumeSnapshotsModel, seconds);
-            this.add_fetch(this.instanceSnapshotsModel, seconds);
-            this.add_fetch(this.containers, seconds);
-            this.add_fetch(this.vdcs, seconds);
-            this.add_fetch(this.securityGroupsModel, seconds);
-            this.add_fetch(this.keypairsModel, seconds);
-            this.add_fetch(this.floatingIPsModel, seconds);
-            this.add_fetch(this.floatingIPPoolsModel, seconds);
+        if (Object.keys(this.timers).length === 0) {
+            var seconds = this.backgroundTime;
+            this.add_fetch("instancesModel", seconds);
+            this.add_fetch("sdcs", seconds);
+            this.add_fetch("volumesModel", seconds);
+            this.add_fetch("images", seconds);
+            this.add_fetch("flavors", seconds);
+            this.add_fetch("volumeSnapshotsModel", seconds);
+            this.add_fetch("instanceSnapshotsModel", seconds);
+            this.add_fetch("containers", seconds);
+            this.add_fetch("securityGroupsModel", seconds);
+            this.add_fetch("keypairsModel", seconds);
+            this.add_fetch("floatingIPsModel", seconds);
+            this.add_fetch("floatingIPPoolsModel", seconds);
             if (this.loginModel.isAdmin()) {
                 console.log("admin");
-                this.add_fetch(this.projects, seconds);
+                this.add_fetch("projects", seconds);
             }
         }
     },
 
-    checkAuth: function() {
+    checkAuthAndTimers: function() {
 
-        var next = arguments[0];
+        var next = arguments[0][0];
         this.rootView.options.next_view = Backbone.history.fragment;
         if (!this.loginModel.get("loggedIn")) {
             window.location.href = "#auth/login";
             return;
         } else {
             this.initFetch();
+            this.update_fetch(arguments[1], this.foregroundTime, this.backgroundTime);
         }
-        var args = [this].concat(Array.prototype.slice.call(arguments, 1));
+        var args = [this].concat(Array.prototype.slice.call(arguments[0], 1));
         if (next) {
             next.apply(this, args);
         }
@@ -173,11 +190,7 @@ var OSRouter = Backbone.Router.extend({
     },
 
     init: function(self) {
-        if (self.loginModel.isAdmin()) {
-            window.location.href = "#syspanel";
-        } else {
-            window.location.href = "#nova";
-        }
+        window.location.href = "#nova";
     },
 
     login: function() {
@@ -261,61 +274,6 @@ var OSRouter = Backbone.Router.extend({
         }
     },
 
-    sys_images: function(self) {
-        if (self.showSysRoot(self, 'Images')) {
-            //self.add_fetch(self.images, 4);
-            var view = new ImagesView({model: self.images, el: '#content'});
-            self.newContentView(self,view);
-        }
-    },
-
-    delete_images: function(self) {
-        var view = new DeleteImagesView({model: self.images, el: 'body'});
-        view.render();
-        self.navigate('#syspanel/images/images/', {trigger: false, replace: true});
-    },
-
-    delete_image: function(self, id) {
-        var image = new ImageVM();
-        image.set({"id": id});
-        var view = new DeleteImageView({model: image, el: 'body'});
-        view.render();
-        self.navigate('#syspanel/images/images/', {trigger: false, replace: true});
-    },
-
-    edit_image: function(self, id) {
-        var image = new ImageVM();
-        image.set({"id": id});
-        var view = new UpdateImageView({model: image, el: 'body'});
-        self.navigate('#syspanel/images/images/', {trigger: false, replace: true});
-    },
-
-    consult_image: function(self, id) {
-        console.log("View image");
-        self.showNovaRoot(self, 'Images');
-        var image = new ImageVM();
-        image.set({"id": id});
-        var view = new ConsultImageDetailView({model: image, el: '#content'});
-         self.newContentView(self,view);
-    },
-
-    launch_image: function(self, id) {
-        var image = new ImageVM();
-        image.set({"id": id});
-        var view = new LaunchImageView({model: image, flavors: self.flavors, keypairs: self.keypairsModel, el: 'body'});
-        self.navigate('#nova/images_and_snapshots/', {trigger: false, replace: true});
-    },
-
-    sys_instances: function(self) {
-        if (self.showSysRoot(self, 'Instances')) {
-            //self.instancesModel.unbind("change");
-            self.instancesModel.alltenants = true;
-            //self.add_fetch(self.instancesModel, 4);
-            var view = new InstanceView({model: self.instancesModel, projects: self.projects, flavors: self.flavors, el: '#content'});
-            self.newContentView(self,view);
-        }
-    },
-
     sys_services: function(self) {
         if (self.showSysRoot(self, 'Services')) {
             var services = new Services();
@@ -332,13 +290,6 @@ var OSRouter = Backbone.Router.extend({
             var view = new FlavorView({model: self.flavors, el: '#content'});
             self.newContentView(self,view);
         }
-    },
-
-    create_flavor: function(self) {
-        var flavor = new Flavor();
-        var view = new CreateFlavorView({model: flavor, el: 'body', flavors: self.flavors});
-        view.render();
-        self.navigate('#syspanel/flavors/', {trigger: false, replace: true});
     },
 
     sys_projects: function(self) {
@@ -404,13 +355,6 @@ var OSRouter = Backbone.Router.extend({
         self.showRoot(self, 'Project Name');
     },
 
-    nova_overview: function(self) {
-        self.showNovaRoot(self, 'Overview');
-        var view = new NovaOverviewView({el: '#content'});
-         self.newContentView(self,view);
-        view.render();
-    },
-
     nova_access_and_security: function(self) {
         self.showNovaRoot(self, 'Security');
         var view = new AccessAndSecurityView({el: '#content', model: self.keypairsModel, floatingIPsModel: self.floatingIPsModel, floatingIPPoolsModel: self.floatingIPPoolsModel, instances: self.instancesModel, quotas: self.quotas, securityGroupsModel: self.securityGroupsModel});
@@ -429,8 +373,16 @@ var OSRouter = Backbone.Router.extend({
     nova_images: function(self) {
         self.showNovaRoot(self, 'Images');
         //self.instancesModel.alltenants = false;
-        var view = new ImagesView({model: self.images, volumeSnapshotsModel: self.volumeSnapshotsModel, instancesModel: self.instancesModel, volumesModel: self.volumesModel, flavors: self.flavors, keypairs: self.keypairsModel, el: '#content'});
+        var view = new ImagesView({model: self.images, volumeSnapshotsModel: self.volumeSnapshotsModel, instancesModel: self.instancesModel, volumesModel: self.volumesModel, flavors: self.flavors, keypairs: self.keypairsModel, securityGroupsModel: self.securityGroupsModel, el: '#content'});
         self.newContentView(self,view);
+    },
+
+    nova_image: function(self, id) {
+        self.showNovaRoot(self, 'Images');
+        var image = new ImageVM();
+        image.set({"id": id});
+        var view = new ConsultImageDetailView({model: image, el: '#content'});
+         self.newContentView(self,view);
     },
 
     nova_flavors: function(self) {
@@ -442,32 +394,24 @@ var OSRouter = Backbone.Router.extend({
     nova_snapshots: function(self) {
         self.showNovaRoot(self, 'Snapshots');
         //self.instancesModel.alltenants = false;
-        var view = new NovaSnapshotsView({images: self.instanceSnapshotsModel, volumeSnapshotsModel: self.volumeSnapshotsModel, instancesModel: self.instancesModel, volumesModel: self.volumesModel, flavors: self.flavors, keypairs: self.keypairsModel, el: '#content'});
+        var view = new NovaSnapshotsView({instanceSnapshotsModel: self.instanceSnapshotsModel, volumeSnapshotsModel: self.volumeSnapshotsModel, instancesModel: self.instancesModel, volumesModel: self.volumesModel, flavors: self.flavors, keypairs: self.keypairsModel, el: '#content'});
         self.newContentView(self,view);
     },
 
-    nova_vdcs: function(self) {
-        self.showNovaRoot(self, 'Virtual Data Centers');
-        //self.instancesModel.alltenants = false;
-        var view = new VDCsView({model: self.vdcs, el: '#content'});
-        self.newContentView(self,view);
+    instance_snapshot: function(self, id) {
+        self.showNovaRoot(self, 'Snapshots');
+        var snapshot = new InstanceSnapshot();
+        snapshot.set({"id": id});
+        var view = new NovaInstanceSnapshotDetailView({model: snapshot, el: '#content'});
+        self.newContentView(self, view);
     },
 
-    nova_vdc: function(self, id) {
-        self.showNovaRoot(self, 'Virtual Data Centers');
-        //self.instancesModel.alltenants = false;
-        var services = new VDCServices();
-        services.vdc(id);
-        var view = new VDCView({model: services, vdc: id, el: '#content', flavors: self.flavors, images: self.images, keypairs: self.keypairsModel});
-        self.newContentView(self,view);
-    },
-
-    nova_vdc_service: function(self, id, idservice) {
-        self.showNovaRoot(self, 'Virtual Data Centers');
-        //self.instancesModel.alltenants = false;¡
-        var service = new VDCService({id: idservice});
-        var view = new VDCServiceView({model: service, flavors: self.flavors, vdc: id, el: '#content'});
-        self.newContentView(self,view);
+    volume_snapshot: function(self, id) {
+        self.showNovaRoot(self, 'Snapshots');
+        var snapshot = new VolumeSnapshot();
+        snapshot.set({"id": id});
+        var view = new NovaVolumeSnapshotDetailView({model: snapshot, el: '#content'});
+        self.newContentView(self, view);
     },
 
     nova_instances: function(self) {
@@ -485,17 +429,7 @@ var OSRouter = Backbone.Router.extend({
         var instance = new Instance();
         instance.set({"id": id});
         subview =  subview || 'overview';
-        var view = new InstanceDetailView({model: instance, subview: subview, subsubview: subsubview, el: '#content'});
-        self.newContentView(self,view);
-    },
-
-    nova_vdc_instance: function(self, id, idservice, idinstance, subview, subsubview) {
-        self.showNovaRoot(self, 'Virtual Data Centers');
-        //self.instancesModel.alltenants = false;
-        var instance = new Instance();
-        instance.set({"id": idinstance});
-        subview =  subview || 'overview';
-        var view = new InstanceDetailView({model: instance, subview: subview, subsubview: subsubview, vdc: id, service: idservice, el: '#content'});
+        var view = new InstanceDetailView({model: instance, sdcs: self.sdcs, subview: subview, subsubview: subsubview, el: '#content'});
         self.newContentView(self,view);
     },
 
@@ -536,21 +470,44 @@ var OSRouter = Backbone.Router.extend({
         self.newContentView(self,view);
     },
 
+    update_fetch: function (modelArray, currentSeconds, backgroundSeconds) {
+
+        var self = this;
+
+        modelArray = modelArray || [];
+
+        if (this.timers.current !== undefined) {
+            this.timers.current.forEach(function(oldModel) {
+                clearInterval(self.timers[oldModel]);
+                self.add_fetch(oldModel, backgroundSeconds);
+            });
+        }
+
+        modelArray.forEach(function(modelName) {
+            clearInterval(self.timers[modelName]);
+            self.add_fetch(modelName, currentSeconds);
+        });
+
+        this.timers.current = modelArray;
+
+    },
+
     clear_fetch: function() {
         var self = this;
         for (var index in this.timers) {
             var timer_id = this.timers[index];
             clearInterval(timer_id);
         }
-        this.timers = [];
+        this.timers = {};
     },
 
-    add_fetch: function(model, seconds) {
-        model.fetch();
+    add_fetch: function(modelName, seconds) {
+        var self = this;
+        this[modelName].fetch();
         var id = setInterval(function() {
-            model.fetch();
+            self[modelName].fetch();
         }, seconds*1000);
 
-        this.timers.push(id);
+        this.timers[modelName] = id;
     }
 });

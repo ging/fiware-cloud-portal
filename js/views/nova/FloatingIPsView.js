@@ -5,8 +5,8 @@ var NovaFloatingIPsView = Backbone.View.extend({
     tableView: undefined,
 
     initialize: function() {
-        this.model.unbind("reset");
-        this.model.bind("reset", this.render, this);
+        this.model.unbind("sync");
+        this.model.bind("sync", this.render, this);
         this.renderFirst();
     },
 
@@ -127,6 +127,7 @@ var NovaFloatingIPsView = Backbone.View.extend({
                 subview.render();
             break;
             case 'release':
+<<<<<<< HEAD
                 subview = new ConfirmView({el: 'body', title: "Confirm Release Floating IPs", btn_message: "Release Floating IPs", onAccept: function() {
                     floatingIds.forEach(function(floating) {
                         floa = self.model.get(floating);
@@ -141,6 +142,11 @@ var NovaFloatingIPsView = Backbone.View.extend({
                         floa = self.model.get(floating);
                         floa.dissasociate(floa.get("instance_id"), UTILS.Messages.getCallbacks("Successfully disassociated Floating IP " + floa.get("ip"), "Error releasing floating IP " + floa.get("ip")));
                     });
+=======
+                subview = new ConfirmView({el: 'body', title: "Release Floating IP", btn_message: "Release Floating IPs", onAccept: function() {
+                    var subview2 = new MessagesView({state: "Success", title: "Floating IPs "+floa.get(name)+" released."});
+                    subview2.render();
+>>>>>>> master
                 }});
                 subview.render();
             break;

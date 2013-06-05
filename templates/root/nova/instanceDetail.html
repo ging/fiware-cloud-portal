@@ -20,8 +20,7 @@ src: templates/root/nova/instanceDetail.html
         </li>
     </ul>
     <% } %>
-    <h2>Instance Detail</h2>
-    <div class="">
+    <!--<h2>Instance Detail</h2>-->
         <ul id="instance_details" class="nav nav-tabs">
             <li id="overview" class="<%= (subview == 'overview') ? 'active':'' %>">
                 <a id="overviewBtn" data-i18n="Overview">Overview</a>
@@ -32,233 +31,19 @@ src: templates/root/nova/instanceDetail.html
             <li id="vnc" class="<%= (subview == 'vnc') ? 'active':'' %>">
                 <a id="instance_vnc">VNC</a>
             </li>
-            <!--<li id="software" class="<%= (subview == 'software') ? 'active':'' %>">
+            <li id="software" class="<%= (subview == 'software') ? 'active':'' %>">
                 <a id="instance_software">Software Management</a>
-            </li>-->
+            </li>
         </ul>
         <div class="tab-content  entity_detail">
             <div id="instance_details__overview" class="tab-pane <%= (subview == 'overview') ? 'active':'' %>">
-                <div class="status row-fluid">
-                    <h4>Info</h4>
-                    <hr class="header_rule">
-                    <ul>
-                        <li>
-                            <strong>Name:</strong>&nbsp;<%=model.get("name")%>
-                        </li>
-                        <li>
-                            <strong>ID:</strong>&nbsp;<%=model.get("id")%>
-                        </li>
-                        <li>
-                            <strong>Status:</strong>&nbsp;<%=model.get("status")%>
-                        </li>
-                    </ul>
-                </div>
-                <div class="specs row-fluid">
-                    <h4>Specs</h4>
-                    <hr class="header_rule">
-                    <ul>
-                        <li>
-                            <strong>RAM:</strong>&nbsp;<%=flavor.get("ram")%>MB
-                        </li>
-                        <li>
-                            <strong>VCPUs:</strong>&nbsp;<%=flavor.get("vcpus")%> VCPU
-                        </li>
-                        <li>
-                            <strong>Disk:</strong>&nbsp;<%=flavor.get("disk")%>GB
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="addresses row-fluid">
-                    <h4>IP Addresses</h4>
-                    <hr class="header_rule">
-                    <ul>
-                        <li>
-                            <%=(model.get("addresses").public)?model.get("addresses").public[0].addr+'<br/>':''%>
-                            <%=(model.get("addresses").private)?model.get("addresses").private[0].addr:''%>
-                        </li>
-                    </ul>
-                </div>
-                <div class="security_groups row-fluid">
-                    <h4>Security Groups</h4>
-                    <hr class="header_rule">
-                    <ul>
-                        <li>
-                            <strong>default</strong>
-                            <ul>
-          						<%
-                                for (var idx in security_groups) {
-                                    var sec_group = security_groups[idx];
-                                    var rules = sec_group.rules;
-                                        for (index in rules) {
-          						            var rule = rules[index];
-          						%>
-          						<li>
-                                  <em>ALLOW <%=rule.from_port%>:<%=rule.to_port%> from <%=rule.ip_range.cidr%></em>
-                                </li>
-                                <% }} %>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-                <div class="meta row-fluid">
-                    <h4>Meta</h4>
-                    <hr class="header_rule">
-                    <ul>
-                        <li>
-                            <strong>Key name:</strong>&nbsp;<%=model.get("key_name")!==undefined?model.get("key_name"):"<em>None</em>"%>
-                        </li>
-                        <li>
-                            <strong>Image Name:</strong>&nbsp;<a href="#nova/images/<%=image.get("id")%>"><%=image.get("id")%></a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="volumes row-fluid">
-                    <h4>Volumes</h4>
-                    <hr class="header_rule">
-                    <ul>
-                        <li>
-                            <em>No volumes attached.</em>
-                        </li>
-
-                    </ul>
-                </div>
             </div>
             <div id="instance_details__log" class="tab-pane <%= (subview == 'logs') ? 'active':'' %>">
-                <div class="clearfix">
-                    <h3 class="pull-left">Instance Console Log</h3>
-                </div>
-                <pre class="logs"><%= logs %></pre>
             </div>
             <div id="instance_details__vnc" class="tab-pane <%= (subview == 'vnc') ? 'active':'' %>">
-                <h3>Instance VNC Console</h3>
-
-                <%
-                if (vncUrl === undefined) { %>
-                    <img id="vnc_spinner" src="images/spinner2.gif"></img>
-                <% } else { %>
-                    <p class="alert alert-info">
-                        If VNC console is not responding to keyboard input: click the grey status bar below.
-                    </p>
-                    <iframe src="<%= vncUrl %>" width="1024" height="768"></iframe>
-                <% } %>
             </div>
-            <!--<div id="instance_details__software" class="tab-pane <%= (subview == 'software') ? 'active':'' %>">
-                <div class="btn-group" data-toggle="buttons-radio">
-				  <button class="btn <%= (subsubview == 'installed_software') ? 'active':''  %> span6" id="installed_software" data-target="#installed_software" data-toggle="tab">Installed Software</button>
-				  <button class="btn <%= (subsubview == 'new_software') ? 'active':''  %> span6" id="new_software" data-target="#new_software" data-toggle="tab">New Software</button>
-				</div>
+            <div id="instance_details__software" style="position:relative" class="tab-pane <%= (subview == 'software') ? 'active':'' %>">
             </div>
-            <div id="instance_details__installed_software" class="tab-pane <%= (subsubview == 'installed_software') ? 'active':'' %>">
-	            <div id="installed_software" class="table_wrapper">
-					    <div class='table_header'>
-					        <h3>Installed Software in <%= model.get("name") %></h3>
-					    </div>
-					    <table id="images_tbl" class="table table-bordered table-striped">
-					        <thead>
-					            <tr>
-					                <th class="" data-i18n="Name">Name</th>
-					                <th class="hidden-phone" data-i18n="Version">Version</th>
-					                <th class="" data-i18n="Status">Status</th>
-					                <th class="actions_column hidden-phone"  data-i18n="Actions">Actions</th>
-					            </tr>
-					        </thead>
-					        <tbody>
-					            <tr
-					            class="ajax-update status_down">
-					                <td class=""><a href="">Tomcat</a></td>
-					                <td class="hidden-phone" data-i18n="7">7</td>
-					                <td class="">INSTALLED</td>
-					                <td class="actions_column">
-					                <div id="" class="btn-group">
-					                    <button  id="software__action_uninstall" class="ajax-modal btn btn-small btn-blue btn-uninstall" name="action" value="" type="submit" data-i18n="Uninstall">
-					                        Uninstall
-					                    </button>
-					                    <a class="btn btn-small btn-blue dropdown-toggle" data-toggle="dropdown" href="#"> <span class="caret-white caret"></span> </a>
-					                    <ul class="dropdown-menu row_actions clearfix">
-					                        <li class="clearfix">
-					                            <button  id="images__action_launch_" class="ajax-modal btn btn-small btn-blue btn-configure" name="action" value="" type="submit" data-i18n="Configure">
-					                        		Configure
-					                    		</button>
-					                        </li>
-					                    </ul>
-					                </div></td>
-					            </tr>
-					        </tbody>
-					        <tfoot>
-					            <tr>
-					                <td colspan="4"><span class="blue"><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", 1)%></span></td>
-					                </td>
-					        </tfoot>
-					    </table>
-					</div>
-				</div>
-				<div id="instance_details__new_software" class="tab-pane <%= (subsubview == 'new_software') ? 'active':'' %>">
-					<div id="new_software" class="table_wrapper">
-						<div class='table_header'>
-					        <h3>Software Catalogue</h3>
-					    </div>
-					    <table id="images_tbl" class="table table-bordered table-striped">
-					        <thead>
-					            <tr>
-					                <th class="" data-i18n="Name">Name</th>
-					                <th class="hidden-phone" data-i18n="Version">Version</th>
-					                <th class="" data-i18n="Description">Description</th>
-					                <th class="" data-i18n="Available">Available</th>
-					                <th class="actions_column hidden-phone"  data-i18n="Actions">Actions</th>
-					            </tr>
-					        </thead>
-					        <tbody>
-					            <tr
-					            class="ajax-update status_down">
-					                <td class=""><a href="">Tomcat</a></td>
-					                <td class="hidden-phone" data-i18n="6">6</td>
-					                <td class="">Tomcat J2EE container</td>
-					                <td class="">Yes</td>
-					                <td class="actions_column">
-					                <div id="" class="btn-group">
-					                    <button  id="software__action_install" class="ajax-modal btn btn-small btn-blue btn-install" name="action" value="Tomcat" type="submit" data-i18n="Install">
-					                        Install
-					                    </button>
-					                </div></td>
-					            </tr>
-					            <tr
-					            class="ajax-update status_down">
-					                <td class=""><a href="">PostgreSQL</a></td>
-					                <td class="hidden-phone" data-i18n="8.4">8.4</td>
-					                <td class="">DB Manager</td>
-					                <td class="">Yes</td>
-					                <td class="actions_column">
-					                <div id="" class="btn-group">
-					                    <button  id="software__action_install" class="ajax-modal btn btn-small btn-blue btn-install" name="action" value="" type="submit" data-i18n="Install">
-					                        Install
-					                    </button>
-					                </div></td>
-					            </tr>
-					            <tr
-					            class="ajax-update status_down">
-					                <td class=""><a href="">Mediawiki</a></td>
-					                <td class="hidden-phone" data-i18n="1.17">1.17</td>
-					                <td class="">Mediawiki product</td>
-					                <td class="">Yes</td>
-					                <td class="actions_column">
-					                <div id="" class="btn-group">
-					                   <button  id="software__action_install" class="ajax-modal btn btn-small btn-blue btn-install" name="action" value="" type="submit" data-i18n="Install">
-					                        Install
-					                    </button>
-					                </div></td>
-					            </tr>
-					        </tbody>
-					        <tfoot>
-					            <tr>
-					                <td colspan="5"><span class="blue"><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", 3)%></span></td>
-					                </td>
-					        </tfoot>
-					    </table>
-					</div>
-				</div>-->
-			</div>
         </div>
-    </div>
 </div>
 </script>

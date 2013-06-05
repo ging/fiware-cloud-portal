@@ -37,9 +37,7 @@ var EditProjectView = Backbone.View.extend({
         this.model.set({'name': name});
         this.model.set({'description': descr});
         this.model.set({'enabled': enabled});
-        this.model.save();
-        subview = new MessagesView({el: '#content', state: "Success", title: "Project "+this.model.get('name')+" updated."});
-        subview.render();
+        this.model.save(UTILS.Messages.getCallbacks("Project "+proj.get("name") + " updated.", "Error updating project "+proj.get("name"), {context: this}));
     }
 
 });

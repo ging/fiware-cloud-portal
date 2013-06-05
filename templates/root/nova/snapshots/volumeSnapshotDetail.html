@@ -1,0 +1,56 @@
+<script id="volumeSnapshotDetailTemplate" type="text/html">
+<!--
+Description: Volume Snapshot Detail
+src: templates/root/nova/snapshots/volumeInstanceDetail.html
+-->
+
+<div id="consult_volume" class="help_page">
+
+    <div class="entity_consult">
+        <div class="entity_detail">
+            <div id="volumeSnapshot_details" class="active row-fluid">
+                <div class="status span4">
+                    <h4>Info</h4>
+                    <hr class="header_rule">
+                    <ul>
+                        <li>
+                            <strong>Name:</strong>&nbsp;<%= model.get("display_name") %>
+                        </li>
+                        <li>
+                            <strong>ID:</strong>&nbsp;<%= model.get("id") %>
+                        </li>
+                        <li>
+                            <strong>Description:</strong>&nbsp;<%= model.get("display_description") %>
+                        </li>
+                    </ul>
+                </div>
+                <div class="status span4">
+                    <h4>Status</h4>
+                    <hr class="header_rule">
+                    <ul>
+                        <li>
+                            <strong>Status:</strong>&nbsp;<%= model.get("status") %>
+                        </li>
+                        <li>
+                            <strong>Size:</strong>&nbsp;<%= model.get("size") %> GB
+                        </li>
+                        <li>
+                            <strong>Created:</strong>&nbsp;<%= model.get("created_at") %>
+                        </li>
+                    </ul>
+                </div>
+                <div class="specs span4">
+                    <h4>Attachments</h4>
+                    <hr class="header_rule">
+                    <ul>
+                        <li>
+                            <em>Not attached</em>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</script>

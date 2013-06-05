@@ -41,7 +41,7 @@ var EditVolumeAttachmentsView = Backbone.View.extend({
         var self = this;
         var subview = new ConfirmView({el: 'body', title: "Detach Volume", btn_message: "Detach Volume", style: "top: 80px; display: block; z-index: 10501010;", onAccept: function() {
             self.options.instances.get(instance).detachvolume({volume_id: self.model.id});
-            var subview2 = new MessagesView({el: '#content', state: "Success", title: "Volume "+name+" detached."});
+            var subview2 = new MessagesView({state: "Success", title: "Volume "+name+" detached."});
             subview2.render();
         }});
         subview.render();
@@ -52,7 +52,7 @@ var EditVolumeAttachmentsView = Backbone.View.extend({
         var instance = $('select[id=id_instance]').val();
         var device = $('input[name=device]').val();
         this.options.instances.get(instance).attachvolume({volume_id: this.model.id, device:device});
-        var subview = new MessagesView({el: '#content', state: "Success", title: "Volume "+name+" attached."});
+        var subview = new MessagesView({state: "Success", title: "Volume "+name+" attached."});
         subview.render();
         this.close();
     },
@@ -66,7 +66,7 @@ var EditVolumeAttachmentsView = Backbone.View.extend({
                     var instance = $(this).val();
                     var inst = self.options.instances.get(instance);
                     self.options.instances.get(instance).detachvolume({volume_id: self.model.id});
-                    var subview2 = new MessagesView({el: '#content', state: "Success", title: "Volumes "+inst.get("name")+" detached."});
+                    var subview2 = new MessagesView({state: "Success", title: "Volumes "+inst.get("name")+" detached."});
                     subview2.render();
             });
         }});

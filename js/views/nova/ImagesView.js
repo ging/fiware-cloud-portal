@@ -5,8 +5,8 @@ var ImagesView = Backbone.View.extend({
     tableView: undefined,
 
     initialize: function() {
-         this.model.unbind("reset");
-         this.model.bind("reset", this.render, this);
+         this.model.unbind("sync");
+         this.model.bind("sync", this.render, this);
          this.renderFirst();
     },
 
@@ -32,12 +32,6 @@ var ImagesView = Backbone.View.extend({
             hidden_phone: false,
             hidden_tablet: false
         }, {
-            name: "Type",
-            tooltip: "Type of image: Image, Snapshot, ...",
-            size: "10%",
-            hidden_phone: false,
-            hidden_tablet: false
-        }, {
             name: "Status",
             tooltip: "Image's status: building, active, ...",
             size: "10%",
@@ -52,7 +46,13 @@ var ImagesView = Backbone.View.extend({
         }, {
             name: "Container Format",
             tooltip: "Image's container format",
-            size: "20%",
+            size: "15%",
+            hidden_phone: false,
+            hidden_tablet: false
+        }, {
+            name: "Disk Format",
+            tooltip: "Image's disk format",
+            size: "15%",
             hidden_phone: false,
             hidden_tablet: false
         }, {
@@ -60,7 +60,8 @@ var ImagesView = Backbone.View.extend({
             tooltip: "Actions",
             size: "15%",
             hidden_phone: false,
-            hidden_tablet: false
+            hidden_tablet: false,
+            order: "none"
         }];
     },
 
@@ -74,6 +75,8 @@ var ImagesView = Backbone.View.extend({
             }
             var container_format = image.get('container_format') || '-';
             container_format = container_format.toUpperCase();
+            var disk_format = image.get('disk_format') || '-';
+            disk_format = disk_format.toUpperCase();
             i++;
             var entry = {
                 id: image.get('id'),
@@ -81,13 +84,13 @@ var ImagesView = Backbone.View.extend({
                     value: image.get("name"),
                     link: "#nova/images/" + image.id
                 }, {
-                    value: "Image"
+                    value: image.get("status")
                 }, {
                     value: image.get('is_public')
                 }, {
-                    value: image.get("status")
-                }, {
                     value: container_format
+                }, {
+                    value: disk_format
                 }, {
                     value: '<button  id="images__action_launch__'+i+'" class="ajax-modal btn btn-small btn-blue btn-launch" name="action" value="' + image.id + '" type="submit" data-i18n="Launch">Launch</button>'
                 }]
@@ -121,13 +124,7 @@ var ImagesView = Backbone.View.extend({
                     onAccept: function() {
                         imageIds.forEach(function(image) {
                             img = self.model.get(image);
-                            img.destroy();
-                            subview = new MessagesView({
-                                el: '#content',
-                                state: "Success",
-                                title: "Image " + img.get("name") + " deleted."
-                            });
-                            subview.render();
+                            img.destroy(UTILS.Messages.getCallbacks("Image " + img.get("name") + " deleted", "Error deleting image " + img.get("name")));
                         });
                     }
                 });
@@ -141,7 +138,7 @@ var ImagesView = Backbone.View.extend({
         var img = this.model.get(image);
         var self = this;
         console.log('Showing Instance Creation');
-        var subview = new LaunchImageView({el: 'body', images: this.options.images, flavors: this.options.flavors, keypairs: this.options.keypairs, model: img});
+        var subview = new LaunchImageView({el: 'body', images: this.options.images, flavors: this.options.flavors, keypairs: this.options.keypairs, secGroups: this.options.securityGroupsModel, model: img});
         subview.render();
     },
 

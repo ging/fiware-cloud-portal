@@ -3,141 +3,21 @@
 Description: Users for Project
 src: templates/root/sys/usersForProject.html
 -->
-<div id="users_for_project">
-
-    <ul id="myTab" class="nav nav-tabs">
-      <li class="active">
-        <a id="users_project_tab" href="#users_project" data-toggle="tab">Users in Project</a>
-        </li>
-      <li class="">
-        <a id="new_users_tab" href="#new_users" data-toggle="tab">Add Users</a>
-        </li>
-    </ul>
-
-    <div id="" class="tab-content tab-content-adjustable active">
-        <div id="users_project" class="tab-pane tab-adjustable active">
-            <div class='table_header'>
-                <h3 class="table_title">Users For Project: <%= (tenant)?tenant.get('name'):'' %></h3>
-
-                <div class="table_actions clearfix">
-
-                    <button class='btn btn-small btn-danger btn-delete-group' id='users_remove' disabled="disabled" name="action" value="users__remove" type="submit" data-i18n="Remove Users">
-                        Remove Users
-                    </button>
-
-                </div>
-
-            </div>
-
-            <table id="users" class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-
-                        <th class="multi_select_column" style="width:5%">
-                            <input type="checkbox" class="checkbox checkbox_all">
-                        </th>
-
-                        <th class="" data-i18n="Name" style="width:30%">Name</th>
-
-                        <th class="" data-i18n="Email" style="width:40%">Email</th>
-
-                        <th class="" data-i18n="Enabled" style="width:5%">Enabled</th>
-
-                        <th class="actions_column hidden-phone" data-i18n="Actions" style="width:13%">Actions</th>
-
-                    </tr>
-                </thead>
-                <tbody>
-                    <%
-                    for (var index in model.models) {
-                    var user = model.models[index];
-                    %>
-                    <tr id="users__row__" class="">
-                        <td class="multi_select_column">
-                        <input type="checkbox" name="object_ids" value="<%= user.get('id')%>" class="checkbox checkbox_projects"/>
-                        </td>
-                        <td class=""><%=user.get('name')%></td>
-                        <td class=""><%=user.get('email')%></td>
-                        <td class="status_up"><%=user.get('enabled')%></td>
-                        <td class="actions_column hidden-phone">
-                        <div class="btn-group">
-
-                            <button class="btn btn-small btn-danger btn-delete" value="<%= user.get('id')%>" data-i18n="Remove User">Remove User</button>
-
-                        </div></td>
-                    </tr>
-                    <%
-                }
-                %>
-
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="5"><span class="blue"><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", model.models.length)%></span></td>
-                        </td>
-                </tfoot>
-            </table>
-        </div>
-
-        <div id="new_users" class="tab-pane tab-adjustable fade">
-            <div id="add_new_users">
-                <div class='table_header'>
-                    <h3 class="table_title">Add New Users</h3>
-
-                </div>
-
-                <table id="users" class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-
-                            <th class="" data-i18n="Name" style="width:35%">Name</th>
-
-                            <th class="" data-i18n="Email" style="width:40%">Email</th>
-
-                            <th class="" data-i18n="Enabled" style="width:5%">Enabled</th>
-
-                            <th class="actions_column hidden-phone" data-i18n="Actions" style="width:13%">Actions</th>
-
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <%
-                        var total = 0;
-                        for (var index2 in users) {
-                        var user2 = users[index2];
-                        if (model.get(user2.get('id'))) {
-                            continue;
-                        } else {
-                            total += 1;
-                        }
-                        %>
-                        <tr id="users__row__" class="">
-                            <td class=""><%=user2.get('name')%></td>
-                            <td class=""><%=user2.get('email')%></td>
-                            <td class="status_up"><%=user2.get('enabled')%></td>
-                            <td class="actions_column hidden-phone">
-                            <div class="btn-group">
-                                <button class="btn btn-small btn-blue btn-add" value="<%= user2.get('id')%>" data-i18n="Add User">Add User</button>
-                            </div></td>
-                        </tr>
-                        <%
-                    }
-                    %>
-
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="5"><span class="blue"><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", total)%></span></td>
-                            </td>
-                    </tfoot>
-                </table>
-             </div>
-             </div>
-
-        </div>
+<div id="users_for_project" class="row-fluid fill-height">
+    <div class="span6 fill-height">
+        <h2>Users in Project</h2>
+        <div id="new-users-table"></div>
+    </div>
+    <div class="separation span1 fill-height">
+        <br/>
+        <button id="gthan">&gt</button>
+        <br/>
+        <button id="lthan">&lt</button>
+    </div>
+    <div class="span5 fill-height">
+        <h2>All Users</h2>
+        <div id="all-users-table"></div>
     </div>
 
-
-
-
+</div>
 </script>
