@@ -115,7 +115,7 @@ var CreateTierView = Backbone.View.extend({
 
             entries.push(
                 {id: product, cells:[
-                    {value: this.addedProducts[product].name}
+                    {value: this.addedProducts[product].name + ' ' + this.addedProducts[product].version}
                     ]
                 });
 
@@ -166,13 +166,13 @@ var CreateTierView = Backbone.View.extend({
     getEntriesNew: function() {
         var entries = [];
 
-        var products = this.options.sdcs.catalogueList;
+        var products = this.options.catalogueList;
 
         for (var product in products) {
               entries.push(
 
                 {id: product, cells:[
-                {value: products[product].name}]});
+                {value: products[product].name + ' ' + products[product].version}]});
 
         }
         return entries;
@@ -187,7 +187,8 @@ var CreateTierView = Backbone.View.extend({
 
         switch (action) {
             case 'install':
-                product = this.options.sdcs.catalogueList[ids];
+                product = this.options.catalogueList[ids];
+                console.log(product);
                 var exists = false;
                 for (var a in this.addedProducts) {
                     if (this.addedProducts[a].name === product.name) {
@@ -196,15 +197,8 @@ var CreateTierView = Backbone.View.extend({
                     }
                 }
                 if (!exists) {
-
-                    this.options.sdcs.getCatalogueProductReleases({name: product.name, callback: function (resp) {
-                        var lastRelease = resp.productRelease_asArray[0].version;
-
-                        product.version = lastRelease;
-                        self.addedProducts.push(product);
-                        self.tableView.render();
-                    }});
-
+                    self.addedProducts.push(product);
+                    self.tableView.render();
                 }
 
             break;
@@ -215,6 +209,7 @@ var CreateTierView = Backbone.View.extend({
             case 'edit':
                 product = this.addedProducts[ids];
                 this.edit = ids;
+                console.log(product);
                 var productAttributes = product.attributes_asArray;
                 var str='';
                 for (var i in productAttributes) {
@@ -274,7 +269,6 @@ var CreateTierView = Backbone.View.extend({
     acceptAttrs: function(evt) {
         evt.preventDefault();
         this.attrsDone();
-        // TODO Update attributes in JSON
     },
 
     onCreate: function(e){

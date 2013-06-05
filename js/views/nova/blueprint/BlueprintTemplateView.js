@@ -89,8 +89,6 @@ var BlueprintTemplateView = Backbone.View.extend({
                 products.push(tier.productReleaseDtos_asArray[p].productName);
             }
 
-            console.log(tier);
-
             var entry = {
                 id: tier.name,
                 minValue: tier.minimumNumberInstances,
@@ -129,12 +127,19 @@ var BlueprintTemplateView = Backbone.View.extend({
         }
         switch (action) {
             case 'add':
-                subview = new CreateTierView({el: 'body', model: this.model, sdcs: self.options.sdcs, flavors: self.options.flavors, keypairs: self.options.keypairs, securityGroupsModel: self.options.securityGroupsModel, images: self.options.images, callback: function () {
-                    self.model.fetch({success: function () {
-                        self.render();
+
+                self.options.sdcs.getCatalogueListWithReleases({callback: function (resp) {
+
+                    subview = new CreateTierView({el: 'body', model: self.model, catalogueList: resp, flavors: self.options.flavors, keypairs: self.options.keypairs, securityGroupsModel: self.options.securityGroupsModel, images: self.options.images, callback: function () {
+                        self.model.fetch({success: function () {
+                            self.render();
+                        }});
                     }});
+                    subview.render();
+
+                }, error: function (e) {
+                    console.log(e);
                 }});
-                subview.render();
                 break;
             case 'edit':
                 subview = new EditTierView({el: 'body', model: this.model, tier: tr, sdcs: self.options.sdcs, flavors: self.options.flavors, keypairs: self.options.keypairs, securityGroupsModel: self.options.securityGroupsModel, images: self.options.images, callback: function () {
@@ -172,7 +177,6 @@ var BlueprintTemplateView = Backbone.View.extend({
     },
 
     renderFirst: function() {
-        console.log(this.model);
         UTILS.Render.animateRender(this.el, this._template);
         this.tableView = new TableTiersView({
             model: this.model,

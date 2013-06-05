@@ -7,14 +7,25 @@ var InstanceSDCView = Backbone.View.extend({
 
     initialize: function() {
 
-        this.model.bind("sync", this.render, this);
-        this.model.fetch();
+        var self = this;
+        self.catalogueList = [];
 
-        this.options.instanceModel.bind("change", this.render, this);
-        this.options.instanceModel.fetch();
+        this.model.getCatalogueListWithReleases({callback: function (resp) {
 
-        this.renderFirst();
+            self.catalogueList = resp;
+            self.model.bind("sync", self.render, self);
+            self.model.fetch();
+
+            self.options.instanceModel.bind("change", self.render, self);
+            self.options.instanceModel.fetch();
+
+            self.renderFirst();
+        }, error: function (e) {
+            console.log(e);
+        }});
     },
+
+    
 
     getMainButtons: function() {
         // main_buttons: [{label:label, url: #url, action: action_name}]
@@ -135,13 +146,19 @@ var InstanceSDCView = Backbone.View.extend({
         }, {
             name: "Name",
             tooltip: "Software name",
-            size: "40%",
+            size: "30%",
             hidden_phone: false,
             hidden_tablet: false
         }, {
+            name: "Release",
+            tooltip: "Software name",
+            size: "20%",
+            hidden_phone: false,
+            hidden_tablet: false
+        },{
             name: "Description",
             tooltip: "Software description",
-            size: "55%",
+            size: "45%",
             hidden_phone: false,
             hidden_tablet: false
         }];
@@ -150,12 +167,14 @@ var InstanceSDCView = Backbone.View.extend({
     getEntriesNew: function() {
         var entries = [];
 
-        var products = this.model.catalogueList;
+        var products = this.catalogueList;
 
         for (var product in products) {
-            entries.push({id:products[product].name, cells:[
-                {value: products[product].name},
-                {value: products[product].description}]});
+            entries.push({id:product, cells:[
+                    {value: products[product].name},
+                    {value: products[product].version},
+                    {value: products[product].description}]});
+
         }
         return entries;
 
@@ -185,11 +204,15 @@ var InstanceSDCView = Backbone.View.extend({
                 for (var i in ids) {
                     product = new SDC();
 
+                    var name = this.catalogueList[ids[i]].name;
+                    var version = this.catalogueList[ids[i]].version;
+
+                    product.set({"name": fqn + '_' + name + '_' + version});
                     product.set({"ip": ip});
-                    product.set({"product": {name: ids[i]}});
+                    product.set({"product": {name: name, version: version}});
                     product.set({"fqn": fqn});
 
-                    product.save(undefined, UTILS.Messages.getCallbacks('Product "' + ids[i] + '" installed', 'Error installing product "' + ids[i] + '"'));
+                    product.save(undefined, UTILS.Messages.getCallbacks('Product "' + this.catalogueList[ids[i]].name + '" installed', 'Error installing product "' + ids[i] + '"'));
                 }
                 break;
 
@@ -197,13 +220,15 @@ var InstanceSDCView = Backbone.View.extend({
 
                 for (var j in ids) {
                     product = this.model.findWhere({name: ids[j]});
-                    product.destroy(UTILS.Messages.getCallbacks('Product "' + ids[j] + '" uninstalled', 'Error uninstalling product "' + ids[j] + '"'));
+                    console.log(product);
+                    var name = product.get('productRelease').product.name;
+                    product.destroy(UTILS.Messages.getCallbacks('Product "' + name + '" uninstalled', 'Error uninstalling product "' + ids[j] + '"'));
                 }
                 break;
 
             case 'view':
-                this.model.getCatalogueProductDetails({id: ids[0], callback: function (resp) {
-                    subview = new ViewProductAttributesView({el: 'body', productAttributes: resp, product: ids[0]});
+                this.model.getCatalogueProductDetails({id: this.catalogueList[ids[0]].name, callback: function (resp) {
+                    subview = new ViewProductAttributesView({el: 'body', productAttributes: resp, product: self.catalogueList[ids[0]].name});
                     subview.render();
                 }, error: function (model, e) {
                     console.log('Error attr ', e);
@@ -211,7 +236,7 @@ var InstanceSDCView = Backbone.View.extend({
                 break;
 
             case 'edit':
-                product = this.model.findWhere({name: ids[0]});
+                product = this.model.findWhere({name: this.catalogueList[ids[0]].name});
                 product.fetch({success: function (model, resp) {
                     var attr = resp.productRelease.product.attributes_asArray;
                     subview = new EditProductAttributesView({el: 'body', model: model, productAttributes: attr});
