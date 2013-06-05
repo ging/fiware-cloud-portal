@@ -111,7 +111,7 @@ var Instance = Backbone.Model.extend({
     sync: function(method, model, options) {
         switch(method) {
             case "create":
-                UTILS.SM.createserver(model.get("name"), model.get("imageReg"), model.get("flavorReg"), model.get("key_name"),
+                JSTACK.Nova.createserver(model.get("name"), model.get("imageReg"), model.get("flavorReg"), model.get("key_name"),
                    model.get("user_data"), model.get("security_groups"), model.get("min_count"), model.get("max_count"),
                    model.get("availability_zone"), options.success, options.error);
                 break;
