@@ -138,7 +138,5 @@ var SDCs = Backbone.Collection.extend({
             }
 
         }, error: error});
-
-    },
-
+    }
 });
