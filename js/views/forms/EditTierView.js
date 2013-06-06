@@ -25,6 +25,8 @@ var EditTierView = Backbone.View.extend({
 
         this.addedProducts = [];
         this.editing = -1;
+
+        console.log(this.model);
     },
 
     close: function(e) {

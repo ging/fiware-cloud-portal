@@ -11,16 +11,17 @@ var NovaFloatingIPsView = Backbone.View.extend({
     },
 
     getMainButtons: function() {
-        // main_buttons: [{label:label, url: #url, action: action_name}]
-        return [{
-            label: "Allocate IP to Project",
+        var btns = [];
+        btns.push({
+            label:  "Allocate IP to Project",
             action: "allocate"
-        }];
+        });
+        return btns;
     },
 
     getDropdownButtons: function() {
-        // dropdown_buttons: [{label:label, action: action_name}]
         var self = this;
+        var btns = [];
         var oneSelected = function(size, id) {
             if (size === 1) {
                 return true;
@@ -31,46 +32,80 @@ var NovaFloatingIPsView = Backbone.View.extend({
                 return true;
             }
         };
-        return [{
+
+        btns.push ({
             label: "Release Floating IPs",
             action: "release",
+            warn: true,
             activatePattern: groupSelected
-        }];
+        }, {
+            label: "Associate IP",
+            action: "associate",            
+            activatePattern: groupSelected
+        }, {
+            label: "Dissasociate Floating IP",
+            action: "disassociate",
+            warn: true,
+            activatePattern: groupSelected
+        });
+        return btns;
     },
 
     getHeaders: function() {
-        return [{
-            type: "checkbox",
-            size: "5%"
-        }, {
+        var btns = [
+        {
             name: "IP Address",
             tooltip: "IP Address",
             size: "25%",
             hidden_phone: false,
             hidden_tablet: false
-        }, {
+        }, 
+        {
             name: "Instance",
             tooltip: "Instance the IP is attached to",
             size: "35%",
             hidden_phone: true,
             hidden_tablet: false
-        }, {
+        }, 
+        {
             name: "Floating IP Pool",
             tooltip: "Corresponding Floating Pool",
             size: "35%",
             hidden_phone: false,
             hidden_tablet: false
         }];
+
+        btns.splice(0,0, {
+            type: "checkbox",
+            size: "5%"
+        });
+
+        return btns;
     },
 
     getEntries: function() {
         var entries = [];
+        for (var index in this.model.models) {
+            var floating_ip = this.model.models[index];
+
+            var entry = {
+                id: floating_ip.get('id'),
+                cells: [{
+                    value: floating_ip.get("ip")
+                }, {
+                    value:  floating_ip.get("instance_id") || "-" //(floating_ip.get("instance_id") === null) ? "-" : floating_ip.get("instance_id")
+                }, {  
+                    value: floating_ip.get("pool")
+                }]
+            };
+            entries.push(entry);
+        }
         return entries;
     },
 
     onClose: function() {
         this.tableView.close();
-        this.model.bind("change", this.onInstanceDetail, this);
+        this.model.unbind("sync");
         this.unbind();
         this.undelegateEvents();
     },
@@ -80,17 +115,32 @@ var NovaFloatingIPsView = Backbone.View.extend({
         var self = this;
         if (floatingIds.length === 1) {
             floating = floatingIds[0];
-            floa = this.model.get(floating);
+            floa = self.model.get(floating);
         }
         switch (action) {
             case 'allocate':
-                subview = new AllocateIPView({el: 'body',  model: this.model});
+                subview = new AllocateIPView({el: 'body', pools: this.options.pools});
+                subview.render();
+            break;
+            case 'associate':
+                subview = new AssociateIPView({el: 'body',  model: floa, instances: this.options.instances});
                 subview.render();
             break;
             case 'release':
-                subview = new ConfirmView({el: 'body', title: "Release Floating IP", btn_message: "Release Floating IPs", onAccept: function() {
-                    var subview2 = new MessagesView({state: "Success", title: "Floating IPs "+floa.get(name)+" released."});
-                    subview2.render();
+                subview = new ConfirmView({el: 'body', title: "Confirm Release Floating IPs", btn_message: "Release Floating IPs", onAccept: function() {
+                    floatingIds.forEach(function(floating) {
+                        floa = self.model.get(floating);
+                        floa.destroy(UTILS.Messages.getCallbacks("Released Floating IP " + floa.get("ip"), "Error releasing floating IP " + floa.get("ip")));
+                    });
+                }});
+                subview.render();
+            break;
+            case 'disassociate':
+                subview = new ConfirmView({el: 'body', title: "Confirm Dissasociate IPs", btn_message: "Dissasociate IPs", onAccept: function() {
+                    floatingIds.forEach(function(floating) {
+                        floa = self.model.get(floating);
+                        floa.dissasociate(floa.get("instance_id"), UTILS.Messages.getCallbacks("Successfully disassociated Floating IP " + floa.get("ip"), "Error releasing floating IP " + floa.get("ip")));
+                    });
                 }});
                 subview.render();
             break;
@@ -98,7 +148,7 @@ var NovaFloatingIPsView = Backbone.View.extend({
     },
 
     renderFirst: function() {
-        UTILS.Render.animateRender(this.el, this._template, this.model);
+        UTILS.Render.animateRender(this.el, this._template, {models: this.model.models, pools: this.options.pools, instances: this.options.instances});       
         this.tableView = new TableView({
             model: this.model,
             el: '#floatingIPs-table',

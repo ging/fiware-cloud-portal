@@ -20,6 +20,7 @@ var OSRouter = Backbone.Router.extend({
     quotas: undefined,
     securityGroupsModel: undefined,
     floatingIPsModel: undefined,
+    floatingIPPoolsModel: undefined,
 
     currentView: undefined,
 
@@ -50,6 +51,7 @@ var OSRouter = Backbone.Router.extend({
         this.quotas = new Quotas();
         this.securityGroupsModel = new SecurityGroups();
         this.floatingIPsModel = new FloatingIPs();
+        this.floatingIPPoolsModel = new FloatingIPPools();
 
         Backbone.wrapError = function(onError, originalModel, options) {
             return function(model, resp) {
@@ -150,7 +152,6 @@ var OSRouter = Backbone.Router.extend({
     },
 
     initFetch: function() {
-
         if (Object.keys(this.timers).length === 0) {
             var seconds = this.backgroundTime;
             this.add_fetch("instancesModel", seconds);
@@ -166,6 +167,7 @@ var OSRouter = Backbone.Router.extend({
             this.add_fetch("securityGroupsModel", seconds);
             this.add_fetch("keypairsModel", seconds);
             this.add_fetch("floatingIPsModel", seconds);
+            this.add_fetch("floatingIPPoolsModel", seconds);
             if (this.loginModel.isAdmin()) {
                 console.log("admin");
                 this.add_fetch("projects", seconds);
@@ -385,7 +387,6 @@ var OSRouter = Backbone.Router.extend({
             var view = new BlueprintInstanceView({el: '#content', model: bp, flavors: self.flavors, images: self.images});
             self.newContentView(self,view);
         }});
-        
     },
 
     blueprint_instance_tier_instances: function(self, id, tier_id) {
@@ -393,16 +394,13 @@ var OSRouter = Backbone.Router.extend({
         var bp = new BPInstance();
         bp.set({'blueprintName': id});
         bp.fetch({success: function(instance) {
-            console.log('instance', instance);
             var tiers = instance.get('tierInstanceDtos_asArray');
             tiers.forEach(function(tier) {
                 if (tier.tierInstanceName === tier_id) {
                     var vms = tier.vm_asArray;
                     var insts = new Instances();
                     vms.forEach(function(vm) {
-                        console.log("Hostname:", vm, self.instancesModel);
                         var inst = self.instancesModel.findWhere({name: vm.hostname});
-                        console.log("Hostname:", inst);
                         if (inst) {
                             insts.add(inst);
                         }
@@ -444,8 +442,8 @@ var OSRouter = Backbone.Router.extend({
 
     nova_access_and_security: function(self) {
         self.showNovaRoot(self, 'Security');
-        var view = new AccessAndSecurityView({el: '#content', model: self.keypairsModel, floatingIPsModel: self.floatingIPsModel, securityGroupsModel: self.securityGroupsModel});
-        self.newContentView(self,view);
+        var view = new AccessAndSecurityView({el: '#content', model: self.keypairsModel, floatingIPsModel: self.floatingIPsModel, floatingIPPoolsModel: self.floatingIPPoolsModel, instances: self.instancesModel, quotas: self.quotas, securityGroupsModel: self.securityGroupsModel});
+         self.newContentView(self,view);
     },
 
     nova_keypair_download: function(self, name) {

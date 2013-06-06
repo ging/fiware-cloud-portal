@@ -92,6 +92,7 @@ var loadViews = function() {
                 "js/views/forms/ImportKeypairView.js",
                 "js/views/forms/DownloadKeypairView.js",
                 "js/views/forms/AllocateIPView.js",
+                "js/views/forms/AssociateIPView.js",
                 "js/views/forms/InstallSoftwareView.js",
                 "js/views/forms/MessagesView.js",
                 "js/views/forms/CreateProjectView.js",
@@ -136,6 +137,7 @@ var loadModels = function() {
                 "js/models/ContainerModel.js",
                 "js/models/SecurityGroupModel.js",
                 "js/models/FloatingIPModel.js",
+                "js/models/FloatingIPPoolModel.js",
                 "js/models/RoleModel.js"
             ], function(someModule) {
                 loadViews();
@@ -196,6 +198,7 @@ var loadTemplates = function() {
                     'templates/forms/importKeypair.html',
                     'templates/forms/downloadKeypair.html',
                     'templates/forms/allocateIP.html',
+                    'templates/forms/associateIP.html',
                     'templates/forms/installSoftware.html',
                     'templates/forms/createProject.html',
                     'templates/forms/editProject.html',

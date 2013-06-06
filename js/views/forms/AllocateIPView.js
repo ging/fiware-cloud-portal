@@ -5,19 +5,18 @@ var AllocateIPView = Backbone.View.extend({
     events: {
       'click #cancelCreateBtn': 'close',
       'click #close': 'close',
-      'submit #form': 'create',
+      'submit #form': 'allocate',
       'click .modal-backdrop': 'close'
     },
 
     render: function () {
-        $(this.el).append(this._template({model:this.model}));
+        $(this.el).append(this._template({pools: this.options.pools}));
         $('.modal:last').modal();
         return this;
     },
 
     close: function(e) {
-        //this.model.unbind("change", this.render, this);
-        $('#create_keypair').remove();
+        $('#allocate_IP').remove();
         $('.modal-backdrop').remove();
         this.onClose();
     },
@@ -27,13 +26,11 @@ var AllocateIPView = Backbone.View.extend({
         this.unbind();
     },
 
-    create: function(e) {
+    allocate: function(e) {
         self = this;
-        var name = $('input[name=name]').val();
-
-
-        subview = new MessagesView({state: "Success", title: "IP allocated."});
-        subview.render();
+        var pool = this.$("#pool_switcher option:selected").val();
+        var newIP = new FloatingIP();
+        newIP.allocate(pool, UTILS.Messages.getCallbacks("Successfully allocated floating IP"));
         self.close();
     }
 
