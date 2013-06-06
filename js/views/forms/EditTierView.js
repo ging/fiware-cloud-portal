@@ -26,7 +26,15 @@ var EditTierView = Backbone.View.extend({
         this.addedProducts = [];
         this.editing = -1;
 
-        console.log(this.model);
+        console.log("Model", this.options.tier);
+
+        var self = this;
+        if (this.options.tier.productReleaseDtos_asArray) {
+            this.options.tier.productReleaseDtos_asArray.forEach(function(product) {
+                product.name = product.productName + " " + product.version;
+                self.addedProducts.push(product);
+            });
+        }
     },
 
     close: function(e) {
@@ -168,82 +176,76 @@ var EditTierView = Backbone.View.extend({
     getEntriesNew: function() {
         var entries = [];
 
-        var products = this.options.sdcs.catalogueList;
+        var products = this.options.catalogueList;
 
         for (var product in products) {
               entries.push(
 
                 {id: product, cells:[
-                {value: products[product].name}]});
+                {value: products[product].name + ' ' + products[product].version}]});
 
         }
         return entries;
-
     },
 
     onAction: function(action, ids) {
 
-        var self = this;
+            var self = this;
 
-        var product;
+            var product;
 
-        switch (action) {
-            case 'install':
-                product = this.options.sdcs.catalogueList[ids];
-                var exists = false;
-                for (var a in this.addedProducts) {
-                    if (this.addedProducts[a].name === product.name) {
-                        exists = true;
-                        continue;
+            switch (action) {
+                case 'install':
+                    product = this.options.catalogueList[ids];
+                    console.log(product);
+                    var exists = false;
+                    for (var a in this.addedProducts) {
+                        if (this.addedProducts[a].name === product.name) {
+                            exists = true;
+                            continue;
+                        }
                     }
-                }
-                if (!exists) {
-
-                    this.options.sdcs.getCatalogueProductReleases({name: product.name, callback: function (resp) {
-                        var lastRelease = resp.productRelease_asArray[0].version;
-
-                        product.version = lastRelease;
+                    if (!exists) {
                         self.addedProducts.push(product);
                         self.tableView.render();
-                    }});
+                    }
 
-                }
+                break;
+                case 'uninstall':
+                    this.addedProducts.splice(ids, 1);
+                    this.tableView.render();
+                break;
+                case 'edit':
+                    product = this.addedProducts[ids];
+                    this.edit = ids;
+                    console.log(product);
+                    var productAttributes = product.attributes_asArray;
+                    var str='';
+                    for (var i in productAttributes) {
+                        attr = productAttributes[i];
+                        str += '<tr id="sec_groups__row__" class="ajax-update status_down"><td>'+attr.key+'</td><td><input type="text" name="attr_'+i+'" value="'+attr.value+'""></td><td>'+attr.description+'</td></tr>';
+                    }
+                    if (str === '') {
+                        str = '<tr id="sec_groups__row__" class="ajax-update status_down"><td></td><td style="text-align: center;">No items to display</td><td></td></tr>';
 
-            break;
-            case 'uninstall':
-                this.addedProducts.splice(ids, 1);
-                this.tableView.render();
-            break;
-            case 'edit':
-                product = this.addedProducts[ids];
-                this.edit = ids;
-                var productAttributes = product.attributes_asArray;
-                var str='';
-                for (var i in productAttributes) {
-                    attr = productAttributes[i];
-                    str += '<tr id="sec_groups__row__" class="ajax-update status_down"><td>'+attr.key+'</td><td><input type="text" name="attr_'+i+'" value="'+attr.value+'""></td><td>'+attr.description+'</td></tr>';
-                }
-                if (str === '') {
-                    str = '<tr id="sec_groups__row__" class="ajax-update status_down"><td></td><td style="text-align: center;">No items to display</td><td></td></tr>';
-
-                }
-                $('#software-attrs-table').html(str);
-                $('#scroll-based-layer').animate({
-                    scrollLeft: $('#scroll-based-layer').width()
-                }, 500, function() {
-                    // Animation complete.
-                });
-                var effects = {};
-                effects["-webkit-filter"] = "blur(1px)";
-                effects.opacity = "0.3";
-                $('.blurable').animate(effects, 500, function() {
-                    $('.blurable').addClass("blur");
-                    $('.blurable').bind("click", false);
-                });
-            break;
-        }
-        return false;
-    },
+                    }
+                    $('#software-attrs-table').html(str);
+                    $('#scroll-based-layer').animate({
+                        scrollLeft: $('#scroll-based-layer').width()
+                    }, 500, function() {
+                        // Animation complete.
+                    });
+                    var effects = {};
+                    effects["-webkit-filter"] = "blur(1px)";
+                    effects.opacity = "0.3";
+                    $('.blurable').animate(effects, 500, function() {
+                        $('.blurable').addClass("blur");
+                        $('.blurable').bind("click", false);
+                    });
+                break;
+            }
+            return false;
+        },
 
     attrsDone: function() {
         $('#scroll-based-layer').animate({
@@ -346,7 +348,7 @@ var EditTierView = Backbone.View.extend({
             self.options.callback();
         };
 
-        this.model.addTier(options);
+        self.model.updateTier(options);
     },
 
     applyIcon: function() {

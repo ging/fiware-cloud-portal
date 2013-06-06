@@ -25,6 +25,11 @@ var BPTemplate = Backbone.Model.extend({
         return this._action('addTier', options);
     },
 
+    updateTier: function(options) {
+        options = options || {};
+        return this._action('updateTier', options);
+    },
+
     deleteTier: function(options) {
         options = options || {};
         return this._action('deleteTier', options);
@@ -45,6 +50,9 @@ var BPTemplate = Backbone.Model.extend({
                 break;
             case "addTier":
                 BP.API.createBlueprintTemplateTier(model.get('name'), options.tier, options.success, options.error);
+                break;
+            case "updateTier":
+                BP.API.updateBlueprintTemplateTier(model.get('name'), options.tier, options.success, options.error);
                 break;
             case "deleteTier":
                 BP.API.deleteBlueprintTemplateTier(model.get('name'), options.tier, options.success, options.error);
