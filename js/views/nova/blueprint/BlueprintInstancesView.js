@@ -89,8 +89,8 @@ var BlueprintInstancesView = Backbone.View.extend({
             i++;
 
             var nTiers = 0;
-            if (bpInstance.get('tierInstanceDtos_asArray')) {
-                nTiers = bpInstance.get('tierInstanceDtos_asArray').length;
+            if (bpInstance.get('tierDto_asArray')) {
+                nTiers = bpInstance.get('tierDto_asArray').length;
             }
 
             var entry = {

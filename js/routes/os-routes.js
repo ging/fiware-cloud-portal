@@ -394,18 +394,18 @@ var OSRouter = Backbone.Router.extend({
         var bp = new BPInstance();
         bp.set({'blueprintName': id});
         bp.fetch({success: function(instance) {
-            var tiers = instance.get('tierInstanceDtos_asArray');
+            var tiers = instance.get('tierDto_asArray');
             tiers.forEach(function(tier) {
-                if (tier.tierInstanceName === tier_id) {
-                    var vms = tier.vm_asArray;
+                if (tier.name === tier_id) {
+                    var vms = tier.tierInstancePDto_asArray;
                     var insts = new Instances();
                     vms.forEach(function(vm) {
-                        var inst = self.instancesModel.findWhere({name: vm.hostname});
+                        var inst = self.instancesModel.findWhere({name: vm.vm.hostname});
                         if (inst) {
                             insts.add(inst);
                         }
                     });
-                    self.showNovaRoot(self, 'Blueprint Instances', 'Blueprint Instances / ' + id + ' / ' + tier.tierDto.name);
+                    self.showNovaRoot(self, 'Blueprint Instances', 'Blueprint Instances / ' + id + ' / ' + tier.name);
                     var view = new BlueprintInstanceTierInstancesView({model: insts, projects: self.projects, flavors: self.flavors, el: '#content'});
                     self.newContentView(self,view);
                 }

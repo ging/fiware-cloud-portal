@@ -39,6 +39,7 @@ var BPInstance = Backbone.Model.extend({
     },
 
     parse: function(resp) {
+        console.log("BPInstance: ", resp);
         if (resp) {
             resp.id = resp.environmentInstanceName;
             resp.name = resp.environmentInstanceName;

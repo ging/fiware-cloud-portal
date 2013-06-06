@@ -84,25 +84,26 @@ var BlueprintInstanceView = Backbone.View.extend({
     getEntries: function() {
         var entries = [];
         var i = 0;
-        for (var index in this.model.get('tierInstanceDtos_asArray')) {
-            var tier = this.model.get('tierInstanceDtos_asArray')[index];
+        for (var index in this.model.get('tierDto_asArray')) {
+            var tier = this.model.get('tierDto_asArray')[index];
+            console.log("Tier:", tier);
 
             var products = [];
-            for (var p in tier.tierDto.productReleaseDtos_asArray) {
-                products.push(tier.tierDto.productReleaseDtos_asArray[p].productName);
+            for (var p in tier.productReleaseDtos_asArray) {
+                products.push(tier.productReleaseDtos_asArray[p].productName + " " + tier.productReleaseDtos_asArray[p].version);
             }
             var entry = {
-                id: tier.tierInstanceName,
-                minValue: tier.tierDto.minimumNumberInstances,
-                maxValue: tier.tierDto.maximumNumberInstances,
-                currentValue: tier.replicaNumber,
-                icono: tier.tierDto.icono,
-                bootValue: tier.tierDto.initialNumberInstances,
-                name: tier.tierDto.name,
-                flavor: this.options.flavors.get(tier.tierDto.flavour).get("name"),
-                image: this.options.images.get(tier.tierDto.image).get("name"),
-                keypair: tier.tierDto.keypair,
-                publicIP: tier.tierDto.floatingip,
+                id: tier.name,
+                minValue: tier.minimumNumberInstances,
+                maxValue: tier.maximumNumberInstances,
+                currentValue: tier.tierInstancePDto_asArray.length,
+                icono: tier.icono,
+                bootValue: tier.initialNumberInstances,
+                name: tier.name,
+                flavor: this.options.flavors.get(tier.flavour).get("name"),
+                image: this.options.images.get(tier.image).get("name"),
+                keypair: tier.keypair,
+                publicIP: tier.floatingip,
                 products: products
             };
             entries.push(entry);
