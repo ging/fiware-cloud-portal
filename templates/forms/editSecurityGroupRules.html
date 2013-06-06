@@ -4,6 +4,7 @@
     Description: Create Security Group Form
     src: templates/forms/createSecurityGroup.html
     -->
+    <form id="rulesForm" onSubmit="console.log('hola');return false;">
     <div class="modal-header">
         <a id="closeModal" href="#" class="close" data-dismiss="modal">&times;</a>
         <h3>Edit Security Group Rules</h3>
@@ -17,70 +18,11 @@
     console.log("rules", securityGroupsModel.get('rules'));
 
     %>
+    	   <div class='table_header'><h3 class='table_title'>Security Group Rules</h3></div>
 
-    	<div class='table_header'><h3 class='table_title'>Security Group Rules</h3></div>
+            <div id="edit_security_group_rules"></div>
 
-        <div id="edit_security_group_rules"></div>
-        <!--
-    	<% if (securityGroupsModel.get('rules') !== "") { %>
-    	<div class="table_actions clearfix">
-          <button class='btn btn-small btn-danger btn-delete' disabled="disabled" name="action" id='deleteRulesBtn' value="security_group_rules__delete" type="submit">
-                    Delete Rules
-          </button>
-         </div>
-         <% } %>
-    	 <table id="edit_security_group_rules" class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th class="multi_select_column"></th>
-                    <th class="">IP Protocol</th>
-                    <th class="">From Port</th>
-                    <th class="">To Port</th>
-                    <th class="">Source</th>
-                    <th class="actions_column">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-            	<%
-
-                var securityGroupRules;
-            		var i = 0;
-            		if (securityGroupsModel.get('rules') != "") {
-	            		for (var i in securityGroupsModel.get('rules')) {
-		            		securityGroupRules = securityGroupsModel.get('rules')[i];
-            	%>
-                <tr id="sec_groups__row__"
-                class="ajax-update status_down">
-                    <td class="multi_select_column">
-                    <input type="checkbox" id="checkbox_sec_group_rule" class="checkbox_sec_group_rule" name="object_ids" value="<%=securityGroupRules.id%>" />
-                    </td>
-                    <td class=""><%= securityGroupRules.ip_protocol.toUpperCase()%></td>
-                    <td class=""><%= securityGroupRules.from_port%></td>
-                    <td class=""><%= securityGroupRules.to_port%></td>
-                    <td class=""><%= securityGroupRules.group.name !== undefined ? securityGroupRules.group.name : securityGroupRules.ip_range.cidr+" (CIDR)"%></td>
-                    <td class="actions_column hidden-phone">
-	                	<div id="dropdown_" class="btn-group">
-		                    <button id="deleteRuleBtn" value="<%=securityGroupRules.id%>" class="ajax-modal btn btn-small btn-blue btn-delete btn-danger"  data-i18n="Delete Rule">Delete Rule</button>
-	                	</div>
-                	</td>
-                 </tr>
-               <% } } else { %>
-               	<tr class="odd empty">
-                    <td colspan="6">No items to display.</td>
-                </tr>
-                <% } %>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="6"><span><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", (parseInt(i)+1))%></span></td>
-                    </td>
-            </tfoot>
-        </table>
-
-        -->
-
-        <form id="rulesForm" onSubmit="return false;">
-           	<div class='table_header'><h3 class='table_title'>Add Rule</h3></div>
+            <div class='table_header'><h3 class='table_title'>Add Rule</h3></div>
 
         	<fieldset class="row-fluid">
     	    	<div class="control-group form-field span3 inline IPProtocolSelect">
