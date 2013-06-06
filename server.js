@@ -234,10 +234,10 @@ app.all('/sm/*', function(req, resp) {
     sendData(http, options, req.body, resp);
 });
 
-app.all('/sdc/rest/*', function(req, resp) {
+app.all('/sdc2/rest/*', function(req, resp) {
     var options = {
-        host: '130.206.80.112',
-        port: 8080,
+        host: '130.206.80.119',
+        port: 8081,
         path: req.url,
         method: req.method,
         headers: req.headers
