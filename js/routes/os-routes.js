@@ -406,7 +406,7 @@ var OSRouter = Backbone.Router.extend({
                         }
                     });
                     self.showNovaRoot(self, 'Blueprint Instances', 'Blueprint Instances / ' + id + ' / ' + tier.name);
-                    var view = new BlueprintInstanceTierInstancesView({model: insts, projects: self.projects, flavors: self.flavors, el: '#content'});
+                    var view = new BlueprintInstanceTierInstancesView({model: insts, blueprint: bp, tier: tier, projects: self.projects, flavors: self.flavors, el: '#content'});
                     self.newContentView(self,view);
                 }
             });

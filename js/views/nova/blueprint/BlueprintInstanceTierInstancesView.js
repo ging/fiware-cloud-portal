@@ -24,9 +24,9 @@ var BlueprintInstanceTierInstancesView = Backbone.View.extend({
             },
             events: {
                 show: function(event, api) {
-                    $('.btn-minus').bind('click', self.reduceNumInstances);
-                    $('.btn-plus').bind('click', self.increaseNumInstances);
-                    $('#add-instances').bind('click', self.addNumInstances);
+                    $('.btn-minus').bind('click', {self: self}, self.reduceNumInstances);
+                    $('.btn-plus').bind('click', {self: self}, self.increaseNumInstances);
+                    $('#add-instances').bind('click', {self: self}, self.addNumInstances);
                     $("#instances-to-add").val(1);
                 },
                 hide: function() {
@@ -39,14 +39,33 @@ var BlueprintInstanceTierInstancesView = Backbone.View.extend({
         this.renderFirst();
     },
 
-    addNumInstances: function() {
+    addNumInstances: function(evt) {
+        var self = evt.data.self;
+        console.log("Self:",self);
         var num = parseInt($("#instances-to-add").val(), 0);
         subview = new ConfirmView({
             el: 'body',
             title: "Add " + num + " Instances",
             btn_message: "Add Instances",
             onAccept: function() {
-                console.log("Ahi");
+                var bp = self.options.blueprint;
+                var tier = self.options.tier;
+                var options = UTILS.Messages.getCallbacks("VMs were succesfully added to tier", "Error adding VM to tier.");
+                var finalCB = options.callback;
+                var resp = 0;
+                var cb = function() {
+                    resp++;
+                    if (resp === num) {
+                        finalCB();
+                    }
+                }
+                options.callback = cb;
+                for (var i = 0; i<num; i++) {
+                    delete tier.tierInstancePDto;
+                    delete tier.tierInstancePDto_asArray;
+                    options.tier = tier;
+                    bp.addVMToTier(options);
+                }
             }
         });
         subview.render();

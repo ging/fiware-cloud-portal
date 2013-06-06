@@ -86,7 +86,7 @@ var BlueprintTemplateView = Backbone.View.extend({
 
             var products = [];
             for (var p in tier.productReleaseDtos_asArray) {
-                products.push(tier.productReleaseDtos_asArray[p].productName);
+                products.push(tier.productReleaseDtos_asArray[p].productName + " " + tier.productReleaseDtos_asArray[p].version);
             }
 
             var entry = {

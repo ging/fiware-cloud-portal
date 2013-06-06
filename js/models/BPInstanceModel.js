@@ -20,8 +20,15 @@ var BPInstance = Backbone.Model.extend({
         return xhr;
     },
 
+    addVMToTier: function(options) {
+        this._action("addVM", options);
+    },
+
     sync: function(method, model, options) {
         switch(method) {
+            case "addVM":
+                BP.API.addVMToTier(model.get('blueprintName'), options.tier, options.success, options.error);
+                break;
             case "read":
                 BP.API.getBlueprintInstance(model.get('blueprintName'), options.success, options.error);
                 break;
