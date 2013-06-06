@@ -1,5 +1,5 @@
 .fi-icon-actions {
-    background-image: url('/ico/icon-actions.png');
+    background-image: url('/ico/icon-actions-normal.png');
     width: 20px;
     height: 20px;
     border: none;
@@ -8,21 +8,21 @@
 }
 
 .fi-icon-actions:hover {
-    background-position-x: -18px;
+    background-image: url('/ico/icon-actions-hover.png');
 }
 
 .fi-icon-play {
-    background-position-y: -18px;
+    background-position: 0px -18px;
 }
 
 .fi-icon-delete {
-    background-position-y: -54px;
+    background-position: 0px -54px;
 }
 
 .fi-icon-edit {
-    background-position-y: -90px;
+    background-position: 0px -90px;
 }
 
 .fi-icon-instances {
-    background-position-y: -252px;
+    background-position: 0px -252px;
 }

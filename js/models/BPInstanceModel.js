@@ -24,10 +24,17 @@ var BPInstance = Backbone.Model.extend({
         this._action("addVM", options);
     },
 
+    removeVMFromTier: function(options) {
+        this._action("removeVM", options);
+    },
+
     sync: function(method, model, options) {
         switch(method) {
             case "addVM":
                 BP.API.addVMToTier(model.get('blueprintName'), options.tier, options.success, options.error);
+                break;
+            case "removeVM":
+                BP.API.removeVMFromTier(model.get('blueprintName'), options.instance_name, options.success, options.error);
                 break;
             case "read":
                 BP.API.getBlueprintInstance(model.get('blueprintName'), options.success, options.error);
@@ -46,7 +53,6 @@ var BPInstance = Backbone.Model.extend({
     },
 
     parse: function(resp) {
-        console.log("BPInstance: ", resp);
         if (resp) {
             resp.id = resp.environmentInstanceName;
             resp.name = resp.environmentInstanceName;

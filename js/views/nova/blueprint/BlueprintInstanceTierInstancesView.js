@@ -419,7 +419,11 @@ var BlueprintInstanceTierInstancesView = Backbone.View.extend({
                     onAccept: function() {
                         instanceIds.forEach(function(instance) {
                             inst = self.model.get(instance);
-                            inst.destroy(UTILS.Messages.getCallbacks("Instance "+inst.get("name") + " terminated.", "Error terminating instance "+inst.get("name")));
+                            var options = UTILS.Messages.getCallbacks("VMs were succesfully added to tier", "Error adding VM to tier.");
+                            var bp = self.options.blueprint;
+                            options.instance_name = inst.get("name");
+                            bp.removeVMFromTier(options);
+                            //inst.destroy(UTILS.Messages.getCallbacks("Instance "+inst.get("name") + " terminated.", "Error terminating instance "+inst.get("name")));
                         });
                     }
                 });

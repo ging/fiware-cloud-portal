@@ -36,7 +36,7 @@ src: templates/root/table-tiers.html
                     <div class="circle-progress-data">
                         <label class="tier-min-value"><%=entry.minValue%></label>
                         <label class="tier-max-value"><%=entry.maxValue%></label>
-                        <% if (!entry.icono || entry.icono === "" || entry.icono === "icono") { %><span class="tier-image-back">?</span>
+                        <% if (!entry.icono || entry.icono === "" || entry.icono === "icono" || entry.icono.toString() === "[object Object]") { %><span class="tier-image-back">?</span>
                         <% } else { %>
                         <div class="image-container">
                             <table id="wrapper">
@@ -44,7 +44,6 @@ src: templates/root/table-tiers.html
                                  <td><img class="tier-image" src=<%=entry.icono%>></img></td>
                               </tr>
                             </table>
-                            
                         </div>
                         <% } %>
                     </div>

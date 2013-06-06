@@ -26,9 +26,10 @@ var EditTierView = Backbone.View.extend({
         this.addedProducts = [];
         this.editing = -1;
 
-        console.log("Model", this.options.tier);
-
         var self = this;
+        if (this.options.tier.icono.toString() === "[object Object]") {
+            this.options.tier.icono = "";
+        }
         if (this.options.tier.productReleaseDtos_asArray) {
             this.options.tier.productReleaseDtos_asArray.forEach(function(product) {
                 product.name = product.productName + " " + product.version;
@@ -125,7 +126,7 @@ var EditTierView = Backbone.View.extend({
 
             entries.push(
                 {id: product, cells:[
-                    {value: this.addedProducts[product].name}
+                    {value: this.addedProducts[product].name + ' ' + this.addedProducts[product].version}
                     ]
                 });
 
@@ -197,7 +198,6 @@ var EditTierView = Backbone.View.extend({
             switch (action) {
                 case 'install':
                     product = this.options.catalogueList[ids];
-                    console.log(product);
                     var exists = false;
                     for (var a in this.addedProducts) {
                         if (this.addedProducts[a].name === product.name) {
@@ -383,7 +383,8 @@ var EditTierView = Backbone.View.extend({
             getHeaders: this.getHeaders,
             getEntries: this.getEntries,
             disableActionButton: true,
-            context: this
+            context: this,
+            order: false
         });
 
         this.tableViewNew = new TableView({
