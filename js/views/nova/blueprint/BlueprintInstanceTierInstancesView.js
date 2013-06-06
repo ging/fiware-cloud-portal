@@ -58,7 +58,7 @@ var BlueprintInstanceTierInstancesView = Backbone.View.extend({
                     if (resp === num) {
                         finalCB();
                     }
-                }
+                };
                 options.callback = cb;
                 for (var i = 0; i<num; i++) {
                     delete tier.tierInstancePDto;
