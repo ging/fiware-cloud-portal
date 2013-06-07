@@ -89,16 +89,25 @@ var TableView = Backbone.View.extend({
         var btn_idx = $(evt.target)[0].id.split("_" + this.cid)[0];
         var btn = this.getDropdownButtons()[btn_idx];
         var entry = $("#context-menu-" + this.cid).attr("data-id");
-        this.onAction(btn.action, [entry]);
+        var entries = [];
+        var data_entries = $(".checkbox_entries_" + this.cid + ":checked").each(function(id, cb) {
+            entries.push($(cb).val());
+        });
+        this.onAction(btn.action, entries);
     },
 
     onContextMenu: function(evt) {
         evt.preventDefault();
         var entry = $(evt.target).parent()[0].id.split("entries__row__")[1];
+        this.onEntryClick(evt);
         var self = this;
         $("#context-menu-" + this.cid).attr("data-id", entry);
+        var entries = [];
+        var data_entries = $(".checkbox_entries_" + this.cid + ":checked").each(function(id, cb) {
+            entries.push($(cb).val());
+        });
         $('.btn-' + this.cid).each(function(id, button) {
-            $(button).attr("disabled", !self.getDropdownButtons()[id].activatePattern(1, [entry]));
+            $(button).attr("disabled", !self.getDropdownButtons()[id].activatePattern(entries.length, entries));
         });
     },
 
@@ -175,7 +184,9 @@ var TableView = Backbone.View.extend({
             } else if (metaKey) {
                 // Multiple non-consecutive selection. Do nothing.
                 var checked = $("[id='" + parentId + "'] .checkbox").attr('checked');
-                $("[id='" + parentId + "'] .checkbox").attr('checked', !checked);
+                if (evt.type === "contextmenu" && !checked) {
+                    $("[id='" + parentId + "'] .checkbox").attr('checked', !checked);
+                }
                 this.lastEntries = [];
                 this.lastEntryClicked = parentEntry;
             } else {
