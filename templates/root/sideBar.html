@@ -29,7 +29,7 @@ src: templates/root/sideBar.html
     %>
     <li>
         <% if (model.get('type') !== 'title') { %>
-        <a href="<%= model.get('url') %>" <% if(model.get('active')) { %> class="active" <% } %> tabindex='1' data-i18n="<%= model.get('name') %>"><%= model.get('name') %></a>
+        <a href="<%= model.get('url') %>" <% if(model.get('active')) { %> class="active" <% } %> class="<%=model.get('css')%>" tabindex='1' data-i18n="<%= model.get('name') %>"><%= model.get('name') %></a>
         <% } else { %>
         <%= model.get('name') %>
         <% } %>

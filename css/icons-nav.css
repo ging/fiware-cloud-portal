@@ -1,0 +1,262 @@
+.icon-guia{display: inline-block;}
+
+.the-icons {list-style: none outside none;}
+
+.iconwhite{
+  background-color: #00A3D0;
+  color: white;}
+
+/**************general for incons *************/
+
+[class^="icon_"], [class*="icon_"] {
+  display: inline-block;
+  vertical-align: text-top;
+  background-repeat: no-repeat;
+  *margin-right: .3em;
+}
+
+
+/**************icon nav *************/
+
+[class^="icon_nav-"], [class*="icon_nav-"] {
+  width: 25px;
+  height: 25px;
+  background-image: url("../img/icon_nav.png");
+}
+
+/**************icon nav *************/
+
+.icon_nav-applications { background-position: -0px -0px;}
+.icon_nav-blueprintInstances { background-position: -0px -25px;}
+.icon_nav-blueprintTemplates { background-position: -0px -50px;}
+.icon_nav-instances { background-position: -0px -75px;}
+.icon_nav-images { background-position: -0px -100px;}
+.icon_nav-security { background-position: -0px -125px;}
+.icon_nav-flavors { background-position: -0px -150px;}
+.icon_nav-snapshots { background-position: -0px -175px;}
+.icon_nav-container { background-position: -0px -200px;}
+.icon_nav-volumes { background-position: -0px -225px;}
+.icon_nav-project { background-position: -0px -250px;}
+.icon_nav-user { background-position: -0px -275px;}
+.icon_nav-quotas { background-position: -0px -300px;}
+.icon_nav-settings { background-position: -0px -325px;}
+.icon_nav-logout { background-position: -0px -350px;}
+
+/**************icon nav *************/
+.icon_nav-applications:hover { background-position: -25px -0px;}
+.icon_nav-blueprintInstances:hover { background-position: -25px -25px;}
+.icon_nav-blueprintTemplates:hover { background-position: -25px -50px;}
+.icon_nav-instances:hover { background-position: -25px -75px;}
+.icon_nav-images:hover { background-position: -25px -100px;}
+.icon_nav-security:hover { background-position: -25px -125px;}
+.icon_nav-flavors:hover { background-position: -25px -150px;}
+.icon_nav-snapshots:hover { background-position: -25px -175px;}
+.icon_nav-container:hover { background-position: -25px -200px;}
+.icon_nav-volumes:hover { background-position: -25px -225px;}
+.icon_nav-project:hover { background-position: -25px -250px;}
+.icon_nav-user:hover { background-position: -25px -275px;}
+.icon_nav-quotas:hover { background-position: -25px -300px;}
+.icon_nav-settings:hover { background-position: -25px -325px;}
+.icon_nav-logout:hover { background-position: -25px -350px;}
+
+
+
+
+/**************icon TOOL *************/
+
+[class^="icon_tool-"], [class*="icon_tool-"] {
+  width: 16px;
+  height: 16px;
+  background-image: url("../img/icon.png");
+}
+
+/**************icon blue *************/
+
+.icon_tool-stop_blue { background-position: -0px -0px;}
+.icon_tool-play_blue { background-position: -0px -16px;}
+.icon_tool-delete_blue { background-position: -0px -32px;}
+.icon_tool-trash_blue { background-position: -0px -48px;}
+.icon_tool-launch_blue { background-position: -0px -64px;}
+.icon_tool-edit_blue { background-position: -0px -80px;}
+.icon_tool-more_blue { background-position: -0px -96px;}
+.icon_tool-less_blue { background-position: -0px -112px;}
+.icon_tool-arrow_right_blue { background-position: -0px -128px;}
+.icon_tool-arrow_bottom_blue { background-position: -0px -144px;}
+.icon_tool-arrow_left_blue { background-position: -0px -160px;}
+.icon_tool-arrow_top_blue { background-position: -0px -176px;}
+.icon_tool-clone_blue { background-position: -0px -192px;}
+.icon_tool-donwload_blue { background-position: -0px -208px;}
+.icon_tool-instances_blue { background-position: -0px -224px;}
+.icon_tool-select_blue { background-position: -0px -240px;}
+.icon_tool-user_blue{ background-position: -0px -256px}
+.icon_tool-list_blue{ background-position: -0px -272px}
+.icon_tool-right_signal_blue { background-position: -0px -288px;}
+.icon_tool-bottom_signal_blue { background-position: -0px -304px;}
+.icon_tool-help_blue { background-position: -0px -320px;}
+.icon_tool-export_blue { background-position: -0px -336px;}
+.icon_tool-update_blue { background-position: -0px -352px;}
+.icon_tool-import_blue { background-position: -0px -368px;}
+.icon_tool-alert_blue { background-position: -0px -384px;}
+.icon_tool-prohibited_blue { background-position: -0px -400px;}
+.icon_tool-ok_blue { background-position: -0px -416px;}
+.icon_tool-attention_blue { background-position: -0px -432px;}
+.icon_tool-signalx_blue { background-position: -0px -448px;}
+.icon_tool-signal_interrogation_blue { background-position: -0px -464px;}
+.icon_tool-x_blue { background-position: -0px -480px;}
+.icon_tool-show_blue { background-position: -0px -496px;}
+.icon_tool-release_blue { background-position: -0px -512px;}
+.icon_tool-left_signal_blue { background-position: -0px -528px;}
+.icon_tool-top_signal_blue { background-position: -0px -544px;}        
+
+/**************icon gray *************/
+
+.icon_tool-stop_gray { background-position: -16px -0px;}
+.icon_tool-play_gray { background-position: -16px -16px;}
+.icon_tool-delete_gray { background-position: -16px -32px;}
+.icon_tool-trash_gray { background-position: -16px -48px;}
+.icon_tool-launch_gray { background-position: -16px -64px;}
+.icon_tool-edit_gray { background-position: -16px -80px;}
+.icon_tool-more_gray { background-position: -16px -96px;}
+.icon_tool-less_gray { background-position: -16px -112px;}
+.icon_tool-arrow_right_gray { background-position: -16px -128px;}
+.icon_tool-arrow_bottom_gray { background-position: -16px -144px;}
+.icon_tool-arrow_left_gray { background-position: -16px -160px;}
+.icon_tool-arrow_top_gray { background-position: -16px -176px;}
+.icon_tool-clone_gray { background-position: -16px -192px;}
+.icon_tool-donwload_gray { background-position: -16px -208px;}
+.icon_tool-instances_gray { background-position: -16px -224px;}
+.icon_tool-select_gray { background-position: -16px -240px;}
+.icon_tool-user_gray{ background-position: -16px -256px}
+.icon_tool-list_gray{ background-position: -16px -272px}
+.icon_tool-right_signal_gray { background-position: -16px -288px;}
+.icon_tool-bottom_signal_gray { background-position: -16px -304px;}
+.icon_tool-help_gray { background-position: -16px -320px;}
+.icon_tool-export_gray { background-position: -16px -336px;}
+.icon_tool-update_gray { background-position: -16px -352px;}
+.icon_tool-import_gray { background-position: -16px -368px;}
+.icon_tool-alert_gray { background-position: -16px -384px;}
+.icon_tool-prohibited_gray { background-position: -16px -400px;}
+.icon_tool-ok_gray { background-position: -16px -416px;}
+.icon_tool-attention_gray { background-position: -16px -432px;}
+.icon_tool-signalx_gray { background-position: -16px -448px;}
+.icon_tool-signal_interrogation_gray { background-position: -16px -464px;}
+.icon_tool-x_gray { background-position: -16px -480px;}
+.icon_tool-show_gray { background-position: -16px -496px;}
+.icon_tool-release_gray { background-position: -16px -512px;}
+.icon_tool-left_signal_gray { background-position: -16px -528px;}
+.icon_tool-top_signal_gray { background-position: -16px -544px;}   
+
+/**************icon green *************/
+
+.icon_tool-stop_green { background-position: -32px -0px;}
+.icon_tool-play_green { background-position: -32px -16px;}
+.icon_tool-delete_green { background-position: -32px -32px;}
+.icon_tool-trash_green { background-position: -32px -48px;}
+.icon_tool-launch_green { background-position: -32px -64px;}
+.icon_tool-edit_green { background-position: -32px -80px;}
+.icon_tool-more_green { background-position: -32px -96px;}
+.icon_tool-less_green { background-position: -32px -112px;}
+.icon_tool-arrow_right_green { background-position: -32px -128px;}
+.icon_tool-arrow_bottom_green { background-position: -32px -144px;}
+.icon_tool-arrow_left_green { background-position: -32px -160px;}
+.icon_tool-arrow_top_green { background-position: -32px -176px;}
+.icon_tool-clone_green { background-position: -32px -192px;}
+.icon_tool-donwload_green { background-position: -32px -208px;}
+.icon_tool-instances_green { background-position: -32px -224px;}
+.icon_tool-select_green { background-position: -32px -240px;}
+.icon_tool-user_green{ background-position: -32px -256px}
+.icon_tool-list_green{ background-position: -32px -272px}
+.icon_tool-right_signal_green { background-position: -32px -288px;}
+.icon_tool-bottom_signal_green { background-position: -32px -304px;}
+.icon_tool-help_green { background-position: -32px -320px;}
+.icon_tool-export_green { background-position: -32px -336px;}
+.icon_tool-update_green { background-position: -32px -352px;}
+.icon_tool-import_green { background-position: -32px -368px;}
+.icon_tool-alert_green { background-position: -32px -384px;}
+.icon_tool-prohibited_green { background-position: -32px -400px;}
+.icon_tool-ok_green { background-position: -32px -416px;}
+.icon_tool-attention_green { background-position: -32px -432px;}
+.icon_tool-signalx_green { background-position: -32px -448px;}
+.icon_tool-signal_interrogation_green { background-position: -32px -464px;}
+.icon_tool-x_green { background-position: -32px -480px;}
+.icon_tool-show_green { background-position: -32px -496px;}
+.icon_tool-release_green { background-position: -32px -512px;}
+.icon_tool-left_signal_green { background-position: -32px -528px;}
+.icon_tool-top_signal_green { background-position: -32px -544px;}   
+
+/**************icon red *************/
+
+.icon_tool-stop_red { background-position: -48px -0px;}
+.icon_tool-play_red { background-position: -48px -16px;}
+.icon_tool-delete_red { background-position: -48px -32px;}
+.icon_tool-trash_red { background-position: -48px -48px;}
+.icon_tool-launch_red { background-position: -48px -64px;}
+.icon_tool-edit_red { background-position: -48px -80px;}
+.icon_tool-more_red { background-position: -48px -96px;}
+.icon_tool-less_red { background-position: -48px -112px;}
+.icon_tool-arrow_right_red { background-position: -48px -128px;}
+.icon_tool-arrow_bottom_red { background-position: -48px -144px;}
+.icon_tool-arrow_left_red { background-position: -48px -160px;}
+.icon_tool-arrow_top_red { background-position: -48px -176px;}
+.icon_tool-clone_red { background-position: -48px -192px;}
+.icon_tool-donwload_red { background-position: -48px -208px;}
+.icon_tool-instances_red { background-position: -48px -224px;}
+.icon_tool-select_red { background-position: -48px -240px;}
+.icon_tool-user_red{ background-position: -48px -256px}
+.icon_tool-list_red{ background-position: -48px -272px}
+.icon_tool-right_signal_red { background-position: -48px -288px;}
+.icon_tool-bottom_signal_red { background-position: -48px -304px;}
+.icon_tool-help_red { background-position: -48px -320px;}
+.icon_tool-export_red { background-position: -48px -336px;}
+.icon_tool-update_red { background-position: -48px -352px;}
+.icon_tool-import_red { background-position: -48px -368px;}
+.icon_tool-alert_red { background-position: -48px -384px;}
+.icon_tool-prohibited_red { background-position: -48px -400px;}
+.icon_tool-ok_red { background-position: -48px -416px;}
+.icon_tool-attention_red { background-position: -48px -432px;}
+.icon_tool-signalx_red { background-position: -48px -448px;}
+.icon_tool-signal_interrogation_red { background-position: -48px -464px;}
+.icon_tool-x_red { background-position: -48px -480px;}
+.icon_tool-show_red { background-position: -48px -496px;}
+.icon_tool-release_red { background-position: -48px -512px;}
+.icon_tool-left_signal_red { background-position: -48px -528px;}
+.icon_tool-top_signal_red { background-position: -48px -544px;}   
+
+/**************icon white *************/
+
+.icon_tool-stop_white { background-position: -64px -0px;}
+.icon_tool-play_white { background-position: -64px -16px;}
+.icon_tool-delete_white { background-position: -64px -32px;}
+.icon_tool-trash_white { background-position: -64px -48px;}
+.icon_tool-launch_white { background-position: -64px -64px;}
+.icon_tool-edit_white { background-position: -64px -80px;}
+.icon_tool-more_white { background-position: -64px -96px;}
+.icon_tool-less_white { background-position: -64px -112px;}
+.icon_tool-arrow_right_white { background-position: -64px -128px;}
+.icon_tool-arrow_bottom_white { background-position: -64px -144px;}
+.icon_tool-arrow_left_white { background-position: -64px -160px;}
+.icon_tool-arrow_top_white { background-position: -64px -176px;}
+.icon_tool-clone_white { background-position: -64px -192px;}
+.icon_tool-donwload_white { background-position: -64px -208px;}
+.icon_tool-instances_white { background-position: -64px -224px;}
+.icon_tool-select_white { background-position: -64px -240px;}
+.icon_tool-user_white{ background-position: -64px -256px}
+.icon_tool-list_white{ background-position: -64px -272px}
+.icon_tool-right_signal_white { background-position: -64px -288px;}
+.icon_tool-bottom_signal_white { background-position: -64px -304px;}
+.icon_tool-help_white { background-position: -64px -320px;}
+.icon_tool-export_white { background-position: -64px -336px;}
+.icon_tool-update_white { background-position: -64px -352px;}
+.icon_tool-import_white { background-position: -64px -368px;}
+.icon_tool-alert_white { background-position: -64px -384px;}
+.icon_tool-prohibited_white { background-position: -64px -400px;}
+.icon_tool-ok_white { background-position: -64px -416px;}
+.icon_tool-attention_white { background-position: -64px -432px;}
+.icon_tool-signalx_white { background-position: -64px -448px;}
+.icon_tool-signal_interrogation_white { background-position: -64px -464px;}
+.icon_tool-x_white { background-position: -64px -480px;}
+.icon_tool-show_white { background-position: -64px -496px;}
+.icon_tool-release_white { background-position: -64px -512px;}
+.icon_tool-left_signal_white { background-position: -64px -528px;}
+.icon_tool-top_signal_white { background-position: -64px -544px;}   
+

@@ -341,14 +341,14 @@ var OSRouter = Backbone.Router.extend({
                             {name: 'Compute', type: 'title'},
                             //{name: 'Overview', active: true, url: '#nova/'},
                             //{name: 'Virtual Data Centers', active: false, url: '#nova/vdcs/'},
-                            {name: 'Instances', active: false, url: '#nova/instances/'},
-                            {name: 'Images', active: false, url: '#nova/images/'},
-                            {name: 'Flavors', active: false, url: '#nova/flavors/'},
-                            {name: 'Security', active: false, url: '#nova/access_and_security/'},
-                            {name: 'Snapshots', active: false, url: '#nova/snapshots/'},
+                            {name: 'Instances', css: ".icon_nav-instances", active: false, url: '#nova/instances/'},
+                            {name: 'Images', css: ".icon_nav-instances", active: false, url: '#nova/images/'},
+                            {name: 'Flavors', css: ".icon_nav-instances", active: false, url: '#nova/flavors/'},
+                            {name: 'Security', css: ".icon_nav-instances", active: false, url: '#nova/access_and_security/'},
+                            {name: 'Snapshots', css: ".icon_nav-instances", active: false, url: '#nova/snapshots/'},
                             {name: 'Storage', type: 'title'},
-                            {name: 'Containers', active: false, url: '#objectstorage/containers/'},
-                            {name: 'Volumes', active: false, url: '#nova/volumes/'}
+                            {name: 'Containers', css: ".icon_nav-instances", active: false, url: '#objectstorage/containers/'},
+                            {name: 'Volumes', css: ".icon_nav-instances", active: false, url: '#nova/volumes/'}
                             ]);
         self.navs.setActive(option);
         self.tabs.setActive('Project');

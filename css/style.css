@@ -1,6 +1,10 @@
 /* new clearfix */
 body { min-height: 480px; }
 
+.sbOptions a:link, .sbOptions a:visited {
+  font-size: 14px;
+}
+
 .tip {
   opacity: 1;
 }
@@ -185,8 +189,9 @@ h2 {
 }
 
 .nav li a {
-    color: #ffffff;
+    color: #7B7B7B;
     text-shadow: none;
+    font-size: 16px;
 }
 
 .container-fluid {
@@ -1133,7 +1138,7 @@ margin-bottom: -9px;
 
 .nav > li > a {
   text-decoration: none;
-  background-color: #777777;
+  background-color: white;
 }
 
 .nav > li > a:hover {
