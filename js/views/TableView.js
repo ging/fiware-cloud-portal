@@ -93,6 +93,9 @@ var TableView = Backbone.View.extend({
         var data_entries = $(".checkbox_entries_" + this.cid + ":checked").each(function(id, cb) {
             entries.push($(cb).val());
         });
+        if (entries.length === 0) {
+            entries.push(entry);
+        }
         this.onAction(btn.action, entries);
     },
 
@@ -106,6 +109,9 @@ var TableView = Backbone.View.extend({
         var data_entries = $(".checkbox_entries_" + this.cid + ":checked").each(function(id, cb) {
             entries.push($(cb).val());
         });
+        if (entries.length === 0) {
+            entries.push(entry);
+        }
         $('.btn-' + this.cid).each(function(id, button) {
             $(button).attr("disabled", !self.getDropdownButtons()[id].activatePattern(entries.length, entries));
         });
