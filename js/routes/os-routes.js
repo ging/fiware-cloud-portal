@@ -253,11 +253,11 @@ var OSRouter = Backbone.Router.extend({
 
                                     //{name: 'Instances', active: false, url: '#syspanel/instances/'},
                                     //{name: 'Services', active: false, url: '#syspanel/services/'},
-                                    {name: 'Flavors', active: false, url: '#syspanel/flavors/'},
+                                    {name: 'Flavors', css: "icon_nav-flavors", active: false, url: '#syspanel/flavors/'},
                                     //{name: 'Images', active: false, url: '#syspanel/images/images/'},
-                                    {name: 'Projects', active: false, url: '#syspanel/projects/'},
-                                    {name: 'Users', active: false, url: '#syspanel/users/'},
-                                    {name: 'Quotas', active: false, url: '#syspanel/quotas/'}
+                                    {name: 'Projects', css: "icon_nav-project", active: false, url: '#syspanel/projects/'},
+                                    {name: 'Users', css: "icon_nav-user", active: false, url: '#syspanel/users/'},
+                                    {name: 'Quotas', css: "icon_nav-quotas", active: false, url: '#syspanel/quotas/'}
                                     ]);
         self.navs.setActive(option);
         self.tabs.setActive('Admin');
@@ -341,14 +341,14 @@ var OSRouter = Backbone.Router.extend({
                             {name: 'Compute', type: 'title'},
                             //{name: 'Overview', active: true, url: '#nova/'},
                             //{name: 'Virtual Data Centers', active: false, url: '#nova/vdcs/'},
-                            {name: 'Instances', css: ".icon_nav-instances", active: false, url: '#nova/instances/'},
-                            {name: 'Images', css: ".icon_nav-instances", active: false, url: '#nova/images/'},
-                            {name: 'Flavors', css: ".icon_nav-instances", active: false, url: '#nova/flavors/'},
-                            {name: 'Security', css: ".icon_nav-instances", active: false, url: '#nova/access_and_security/'},
-                            {name: 'Snapshots', css: ".icon_nav-instances", active: false, url: '#nova/snapshots/'},
+                            {name: 'Instances', css: "icon_nav-instances", active: false, url: '#nova/instances/'},
+                            {name: 'Images', css: "icon_nav-images", active: false, url: '#nova/images/'},
+                            {name: 'Flavors', css: "icon_nav-flavors", active: false, url: '#nova/flavors/'},
+                            {name: 'Security', css: "icon_nav-security", active: false, url: '#nova/access_and_security/'},
+                            {name: 'Snapshots', css: "icon_nav-snapshots", active: false, url: '#nova/snapshots/'},
                             {name: 'Storage', type: 'title'},
-                            {name: 'Containers', css: ".icon_nav-instances", active: false, url: '#objectstorage/containers/'},
-                            {name: 'Volumes', css: ".icon_nav-instances", active: false, url: '#nova/volumes/'}
+                            {name: 'Containers', css: "icon_nav-container", active: false, url: '#objectstorage/containers/'},
+                            {name: 'Volumes', css: "icon_nav-volumes", active: false, url: '#nova/volumes/'}
                             ]);
         self.navs.setActive(option);
         self.tabs.setActive('Project');

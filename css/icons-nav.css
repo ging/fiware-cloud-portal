@@ -6,6 +6,20 @@
   background-color: #00A3D0;
   color: white;}
 
+.icon {
+  float: left;
+  margin-top: 6px;
+  margin-left: 5px;
+  margin-right: 18px;
+}
+
+.top-icon {
+  padding: 1px;
+  background-clip: content-box;
+  background-origin: content-box;
+}
+
+
 /**************general for incons *************/
 
 [class^="icon_"], [class*="icon_"] {
@@ -18,10 +32,11 @@
 
 /**************icon nav *************/
 
-[class^="icon_nav-"], [class*="icon_nav-"] {
+.main_nav [class^="icon_nav-"], [class*="icon_nav-"] {
   width: 25px;
   height: 25px;
-  background-image: url("../img/icon_nav.png");
+  background-image: url("../ico/icon_nav.png");
+  cursor: pointer;
 }
 
 /**************icon nav *************/
@@ -43,24 +58,21 @@
 .icon_nav-logout { background-position: -0px -350px;}
 
 /**************icon nav *************/
-.icon_nav-applications:hover { background-position: -25px -0px;}
-.icon_nav-blueprintInstances:hover { background-position: -25px -25px;}
-.icon_nav-blueprintTemplates:hover { background-position: -25px -50px;}
-.icon_nav-instances:hover { background-position: -25px -75px;}
-.icon_nav-images:hover { background-position: -25px -100px;}
-.icon_nav-security:hover { background-position: -25px -125px;}
-.icon_nav-flavors:hover { background-position: -25px -150px;}
-.icon_nav-snapshots:hover { background-position: -25px -175px;}
-.icon_nav-container:hover { background-position: -25px -200px;}
-.icon_nav-volumes:hover { background-position: -25px -225px;}
-.icon_nav-project:hover { background-position: -25px -250px;}
-.icon_nav-user:hover { background-position: -25px -275px;}
-.icon_nav-quotas:hover { background-position: -25px -300px;}
-.icon_nav-settings:hover { background-position: -25px -325px;}
-.icon_nav-logout:hover { background-position: -25px -350px;}
-
-
-
+.main_nav li:hover .icon_nav-applications, .icon_nav-applications:hover, .icon_nav-applications.active { background-position: -25px -0px;}
+.main_nav li:hover .icon_nav-blueprintInstances, .icon_nav-blueprintInstances:hover, .icon_nav-blueprintInstances.active { background-position: -25px -25px;}
+.main_nav li:hover .icon_nav-blueprintTemplates, .icon_nav-blueprintTemplates:hover, .icon_nav-blueprintTemplates.active { background-position: -25px -50px;}
+.main_nav li:hover .icon_nav-instances, .icon_nav-instances:hover, .icon_nav-instances.active { background-position: -25px -75px;}
+.main_nav li:hover .icon_nav-images, .icon_nav-images:hover, .icon_nav-images.active { background-position: -25px -100px;}
+.main_nav li:hover .icon_nav-security, .icon_nav-security:hover, .icon_nav-security.active { background-position: -25px -125px;}
+.main_nav li:hover .icon_nav-flavors, .icon_nav-flavors:hover, .icon_nav-flavors.active { background-position: -25px -150px;}
+.main_nav li:hover .icon_nav-snapshots, .icon_nav-snapshots:hover, .icon_nav-snapshots.active { background-position: -25px -175px;}
+.main_nav li:hover .icon_nav-container, .icon_nav-container:hover, .icon_nav-container.active { background-position: -25px -200px;}
+.main_nav li:hover .icon_nav-volumes, .icon_nav-volumes:hover, .icon_nav-volumes.active { background-position: -25px -225px;}
+.main_nav li:hover .icon_nav-project, .icon_nav-project:hover, .icon_nav-project.active { background-position: -25px -250px;}
+.main_nav li:hover .icon_nav-user, .icon_nav-user:hover, .icon_nav-user.active { background-position: -25px -275px;}
+.main_nav li:hover .icon_nav-quotas, .icon_nav-quotas:hover, .icon_nav-quotas.active { background-position: -25px -300px;}
+.main_nav li:hover .icon_nav-settings, .icon_nav-settings:hover, .icon_nav-settings.active { background-position: -25px -325px;}
+.main_nav li:hover .icon_nav-logout, .icon_nav-logout:hover, .icon_nav-logout.active { background-position: -25px -350px;}
 
 /**************icon TOOL *************/
 

@@ -4,7 +4,7 @@ Description: Side Bar
 src: templates/root/sideBar.html
 -->
 <div class="menuv">
-    <div id="sideBarTitle" class="gray size20 comfortaa" data-i18n="<%= title %>">
+    <div id="sideBarTitle" class="gray comfortaa" data-i18n="<%= title %>">
         <%=title%>
     </div>
 
@@ -29,7 +29,7 @@ src: templates/root/sideBar.html
     %>
     <li>
         <% if (model.get('type') !== 'title') { %>
-        <a href="<%= model.get('url') %>" <% if(model.get('active')) { %> class="active" <% } %> class="<%=model.get('css')%>" tabindex='1' data-i18n="<%= model.get('name') %>"><%= model.get('name') %></a>
+        <span class="icon <%=model.get('css')%> <% if(model.get('active')) { %>active<% } %>"/><a href="<%= model.get('url') %>" <% if(model.get('active')) { %> class="active" <% } %> tabindex='1' data-i18n="<%= model.get('name') %>"><%= model.get('name') %></a>
         <% } else { %>
         <%= model.get('name') %>
         <% } %>
