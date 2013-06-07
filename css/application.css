@@ -20,6 +20,10 @@ tbody.scrollContent tr {
 }
 */
 
+.main_nav li .small {
+  font-size: 12px;
+}
+
 html, body {
   height: 100%;
 }
@@ -123,7 +127,7 @@ html, body {
 
 #content {
   position: absolute;
-  margin-top: 10px;
+  margin-top: 44px;
   top: 0px;
   bottom: 56px;
   right: 3px;
@@ -305,6 +309,10 @@ bottom: 42px;
   border-top-left-radius: 0px;
 }
 
+.modal-body {
+  max-height: 450px;
+}
+
 @font-face {
     font-family: "Comfortaa_Regular";
     src: url("assets/fonts/comfortaa_regular-webfont.eot");
@@ -355,6 +363,14 @@ bottom: 42px;
 
 .sidebar-menu {
   margin-top: 36px;
+}
+
+.form-horizontal .control-label {
+  width: 80px;
+}
+
+.form-horizontal .controls {
+  margin-left: 90px;
 }
 
 @media (max-width: 979px) {

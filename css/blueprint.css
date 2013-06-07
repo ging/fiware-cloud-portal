@@ -1,0 +1,363 @@
+.tier-row {
+    height: 150px;
+}
+
+.table-striped tbody tr.tier-row:hover td, .table-striped tbody tr.tier-row td {
+    background-color: white;
+    cursor: auto;
+}
+
+tr.tier-row td {
+    height: 150px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    position: relative;
+}
+
+.progress-wgt {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    top: 0px;
+    position: relative;
+}
+
+.tier-row td .progress-circle {
+    width: 140px;
+    height: 160px;
+    text-align: center;
+    position: absolute;
+    top: 0px;
+    left: 50%;
+    margin-left: -70px;
+}
+
+.tier-row td .circle-progress-data {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    position: absolute;
+    top: 0px;
+}
+
+.tier-row td .tier-image {
+    max-height: 50px;
+    max-width: 50px;
+}
+
+.tier-image {
+    border-style: none;
+    border-radius: 10px;
+}
+
+.tier-image-back {
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    margin-top: 70px;
+    left: 50%;
+    margin-left: -25px;
+    border-radius: 10px;
+    background-color: #999;
+    line-height: 50px;
+    text-align: center;
+    vertical-align: middle;
+    color: white;
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.tier-min-value {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    left: 50%;
+    margin-left: 5px;
+    top: 7px;
+    font-size: 10px;
+    text-align: center;
+    border: solid 1px #DDD;
+    border-radius: 4px;
+}
+
+.tier-max-value {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    left: 50%;
+    margin-left: -27px;
+    top: 7px;
+    font-size: 10px;
+    text-align: center;
+    border: solid 1px #DDD;
+    border-radius: 4px;
+}
+
+.tier-data {
+    font-size: 10px;
+}
+
+.tier-data p {
+    margin-top: 0.2em;
+    margin-bottom: 0em;
+    position: relative;
+}
+
+.tier-data span {
+    position: absolute;
+    left: 70px;
+    color: #999;
+}
+
+.tier-icons {
+    width: 100%;
+    height: 20px;
+    margin-left: 2px;
+    margin-top: 5px;
+}
+
+.tier-icons .fi-icon-actions {
+    border: solid 1px #0093C6;
+}
+
+.tier-icons .fi-icon-actions:hover {
+    border: solid 1px #DDD;
+}
+
+.tier-icons .fi-icon-actions:first-child {
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+}
+
+.tier-icons .fi-icon-actions:last-child {
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.tier_software h2 {
+    margin-bottom: 10px;
+    margin-top: 7px;
+}
+
+.software-tier {
+    width: 80%;
+    height: 115px;
+    border: solid 1px #DDD;
+    margin-bottom: 12px;
+    overflow-y: auto;
+    border-radius: 5px;
+}
+
+.software-tier ul {
+    margin: 5px;
+}
+
+.btn-catalog, .btn-catalog:hover, .btn-catalog:active {
+    background-color: #95C11F;
+}
+
+.link-catalog, .link-catalog:hover, .link-catalog:active {
+    color: #95C11F;
+}
+
+.form-progress {
+    position: relative;
+    height: 250px;
+}
+
+.form-progress .progress-circle {
+    width: 200px;
+    height: 230px;
+    text-align: center;
+    position: absolute;
+    top: 2px;
+    left: 50%;
+    margin-left: -100px;
+    cursor: pointer;
+}
+
+.form-progress .tier-image {
+    max-height: 90px;
+    max-width: 90px;
+}
+
+.form-progress .tier-image-back {
+    margin-top: 80px;
+    height: 90px;
+    width: 90px;
+    line-height: 90px;
+    font-size: 90px;
+    margin-left: -45px;
+}
+
+.tier-sdc {
+    position: relative;
+    float: right;
+    height: 200px;
+}
+
+.modal fieldset .form-field .controls select {
+    width: 100%;
+}
+
+.actionsSDCTier {
+    display: none;
+}
+
+.headerSDCTier {
+    display: none;
+}
+
+.bodySDCTier {
+    top: 0px;
+    border: solid 1px #DDD;
+}
+
+.footerSDCTier {
+    display: none;
+}
+
+.tier-sdc-title {
+    height: 50px;
+}
+
+.title-catalogue {
+    color: #95C11F;
+}
+
+#edit-software-attributes {
+    float: left;
+    width: 768px;
+    margin-left: 28px;
+}
+
+#cancel-attrs {
+    float: right;
+}
+
+.blur {
+    -webkit-filter: blur(1px);
+    opacity: 0.3;
+    cursor: default;
+}
+
+.form-progress .image-container {
+    height: 90px;
+    width: 90px;
+    margin-top: 82px;
+    margin-left: -45px;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.form-progress #wrapper td {
+    height: 90px;
+    width: 90px;
+}
+
+
+.image-container {
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    margin-top: 70px;
+    left: 50%;
+    margin-left: -25px;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+#wrapper {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+#wrapper td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    height: 50px;
+    width: 50px;
+}
+
+.form-field #icon {
+    width: 65%;
+}
+
+.form-field #btn-apply-icon {
+    position: relative;
+    float: right;
+    top: 0px;
+    height: 23px;
+    vertical-align: middle;
+    line-height: 23px;
+    right: 0px;
+}
+
+.ui-tooltip-add-instances {
+    background-color: #DDD;
+    border-color: #DDD;
+    box-shadow: rgb(211, 211, 211) 0px 0px 10px;
+    border-radius: 5px;
+}
+
+.ui-tooltip-add-instances .tier-instances-num {
+    width: 20px;
+    font-size: 12px;
+    text-align: center;
+    line-height: 20px;
+    border: solid 1px #DDD;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    float: left;
+    z-index: 3;
+    background-color: white;
+}
+
+.ui-tooltip-add-instances .btns {
+    float: left;
+    position: relative;
+    height: 22px;
+    width: 10px;
+    margin-left: -1px;
+    background-color: white;
+    z-index: 1;
+    margin-right: 15px;
+}
+
+.ui-tooltip-add-instances .btns .btn-plus {
+    width: 10px;
+    position: absolute;
+    padding-left: 4px;
+    height: 11px;
+    font-size: 10px;
+    line-height: 11px;
+    border: solid 1px #DDD;
+    z-index: 1;
+    border-top-right-radius: 5px;
+    cursor: pointer;
+    background-color: white;
+}
+
+.ui-tooltip-add-instances .btns .btn-minus {
+    width: 10px;
+    position: absolute;
+    top: 11px;
+    padding-left: 4px;
+    height: 11px;
+    font-size: 10px;
+    line-height: 11px;
+    border: solid 1px #DDD;
+    z-index: 1;
+    border-bottom-right-radius: 5px;
+    cursor: pointer;
+    background-color: white;
+}
+
+.ui-tooltip-add-instances .btn {
+    margin-left: 10px;
+    padding-left: 2px;
+    padding-right: 2px;
+}

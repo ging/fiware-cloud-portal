@@ -1,0 +1,53 @@
+<script id="cloneBlueprintFormTemplate" type="text/html">
+<div id="clone_blueprint" class="modal hide in" style="display: block; ">
+    <!--
+    Description: Clone Blueprint Form
+    src: templates/forms/cloneBlueprint.html
+    -->
+    <div class="modal-header">
+        <a href="#" class="close" data-dismiss="modal">×</a>
+        <h3>Clone Blueprint</h3>
+    </div>
+
+    <form id="form" onSubmit="return false;">
+        <div class="modal-body clearfix">
+
+            <div class="left">
+                <fieldset>
+
+                    <div class="control-group form-field clearfix">
+                        <label for="id_name">Name *</label>
+
+                        <span class="help-block" style="display: none; "></span>
+                        <div class="input">
+                            <input required id="name" type="text" name="name" maxlength="255">
+                        </div>
+                    </div>
+
+                    <div class="control-group form-field clearfix">
+                        <label for="id_description">Description *</label>
+
+                        <span class="help-block" style="display: none; "></span>
+                        <div class="input">
+                            <textarea required id="id_description" rows="10" cols="40" name="description"></textarea>
+                        </div>
+                    </div>
+
+                </fieldset>
+            </div>
+            <div class="right">
+                <h3>Description</h3>
+                <p>
+                    From here you can clone a new blueprint.
+                </p>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <p class="mandatoryMess">* Mandatory fields.</p>
+            <input type="submit" class="btn btn-blue clone-blueprint pull-right" value="Clone Blueprint"/>
+            <a id="cancelBtn" class="close btn seconday cancel close" data-dismiss="modal">Cancel</a>
+        </div>
+    </form>
+</div>
+</script>

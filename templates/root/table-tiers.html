@@ -1,0 +1,97 @@
+<script id="tableTiersTemplate" type="text/html">
+<!--
+Description: Table Tiers
+src: templates/root/table-tiers.html
+-->
+<div class='table_header'>
+    <div class="table_actions clearfix">
+        <%
+          var checkbox_enabled = false;
+          var checkbox_size = "0%";
+          for (var btn_idx in main_buttons) {
+            var main_button = main_buttons[btn_idx];
+            if (main_button.url) {
+        %>
+            <a href='<%=main_button.url%>'  class="btn btn-small btn-blue btn_action <%= (main_button.cssclass) ? main_button.cssclass:''%>" data-i18n="<%=main_button.label%>"><%=main_button.label%></a>
+            <% } else { %>
+            <button id="<%=btn_idx%>_<%=cid%>_main" class="btn btn-small btn-blue btn-main btn-main-<%=cid%> <%= (main_button.cssclass) ? main_button.cssclass:''%>" data-i18n="<%=main_button.label%>"><%=main_button.label%></button>
+        <%  }
+          }
+        %>
+
+    </div>
+</div>
+<div class="scrollable scrollable_<%=cid%>">
+<table id="table_entries" class="table table-without-margins without-borders table-striped table-scrolled">
+    <tbody>
+        <%
+            for (var entry_idx in entries) {
+                var entry = entries[entry_idx];
+        %>
+        <tr id="entries__row__<%= entry.id %>" class="ajax-update status_down tier-row">
+
+            <td style="width:25%" class="entry_<%=entry.id%> circle_progress">
+                <div class="progress-wgt">
+                    <input class="dial" data-width="140" data-height="160" data-offset="25" data-min="<%=entry.minValue%>" data-max="<%=entry.maxValue%>" <%=(entry.currentValue) ? 'data-currentvalue="'+entry.currentValue+'"':'' %> data-displayinput="false" data-displayprevious="false" value="<%=entry.bootValue%>" data-thickness="0.12" data-readonly="true" data-fgcolor="<%=color%>" data-bgcolor="<%=color2%>" data-linecolor="#999">
+                    <div class="circle-progress-data">
+                        <label class="tier-min-value"><%=entry.minValue%></label>
+                        <label class="tier-max-value"><%=entry.maxValue%></label>
+                        <% if (!entry.icono || entry.icono === "" || entry.icono === "icono" || entry.icono.toString() === "[object Object]") { %><span class="tier-image-back">?</span>
+                        <% } else { %>
+                        <div class="image-container">
+                            <table id="wrapper">
+                              <tr>
+                                 <td><img class="tier-image" src=<%=entry.icono%>></img></td>
+                              </tr>
+                            </table>
+                        </div>
+                        <% } %>
+                    </div>
+                </div>
+            </td>
+
+            <td style="width:25%" class="entry_<%=entry.id%> tier_info">
+                <div class="tier-data">
+                    <p><strong>Name:</strong> <span><%=entry.name%></span></p>
+                    <p><strong>Flavor:</strong> <span><%=entry.flavor%></span></p>
+                    <p><strong>Image:</strong> <span><%=entry.image%></span></p>
+                    <%if (entry.keypair) {%><p><strong>Keypair:</strong> <span><%=entry.keypair%></span></p><%}%>
+                    <%if (entry.publicIP) {%><p><strong>Public IP:</strong> <span><%=entry.publicIP%></span></p><%}%>
+                </div>
+                <div class="tier-icons">
+                    <%
+                        for (var action_idx in actions) {
+                            var action = actions[action_idx];
+                    %>
+                        <button id="<%=action_idx%>_<%=cid%>_actions" class="fi-icon-actions-<%=cid%> fi-icon-actions <%= action.icon%>"/>
+                    <% } %>
+                </div>
+            </td>
+
+            <td style="width:50%" class="entry_<%=entry.id%> tier_software">
+            <h2 style="color: <%=color%>">Software in Tier</h2>
+                <div id="software-subview-<%= entry.id %>" class="software-tier">
+                   <ul>
+                        <%
+                        entry.products.forEach(function(product) {
+                        %>
+                            <li><%=product%></li>
+                        <%
+                        });
+                        %>
+                   </ul>
+               </div>
+            </td>
+        </tr>
+        <% } %>
+    </tbody>
+    </table>
+</div>
+<table id="table_foot" class="table-foot table table-bordered table-striped table-without-margins">
+    <tfoot>
+        <tr>
+            <td colspan="8"><span class="blue"><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", entries.length)%></span></td>
+        </tr>
+    </tfoot>
+</table>
+</script>

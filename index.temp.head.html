@@ -9,10 +9,14 @@
         <!-- Date: 2012-03-13 -->
         <link href='css/bootstrap.css' media='screen' rel='stylesheet' />
         <link href='css/bootstrap-responsive.css' media='screen' rel='stylesheet' />
-        <link rel="stylesheet" href="css/font-awesome.min.css">
+        <link href="css/font-awesome.min.css" rel="stylesheet" >
+        <link href='css/jquery.qtip.min.css' media='screen' rel='stylesheet' />
         <link href='css/style.css' media='screen' rel='stylesheet' />
         <link href='css/application.css' media='screen' rel='stylesheet' />
+        <link href='css/blueprint.css' media='screen' rel='stylesheet' />
         <link href='css/jquery.selectbox.css' media='screen' rel='stylesheet' />
+        <link href='css/icons.css' media='screen' rel='stylesheet' />
+
         <link href="ico/favicon.ico" rel="shortcut icon">
         <link href="ico/apple-touch-icon-144-precomposed.png" sizes="144x144" rel="apple-touch-icon-precomposed">
         <link href="ico/apple-touch-icon-114-precomposed.png" sizes="114x114" rel="apple-touch-icon-precomposed">
@@ -30,9 +34,11 @@
         <script type="text/javascript" src="../lib/ovf.js"></script>
         <script type="text/javascript" src="../lib/xml2json.js"></script>
         <script type="text/javascript" src="../lib/sdc.js"></script>
+        <script type="text/javascript" src="../lib/bp.js"></script>
         <script type="text/javascript" src="../lib/backbone.js"></script>
         <script type="text/javascript" src="../lib/jquery.selectbox-0.1.3.min.js"></script>
         <script type="text/javascript" src="../lib/spin.min.js"></script>
+        <!--<script type="text/javascript" src="../lib/jquery.qtip.min.js"></script>-->
 
         <script>
             window.addEventListener("load", function() {
@@ -88,9 +94,22 @@
                     'templates/forms/importKeypair.html',
                     'templates/forms/downloadKeypair.html',
                     'templates/forms/allocateIP.html',
+                    'templates/forms/associateIP.html',
                     'templates/forms/modifyUsers.html',
                     'templates/forms/modifyQuotas.html',
-                    'templates/forms/associateIP.html',
+                    'templates/forms/createBlueprint.html',
+                    'templates/forms/cloneBlueprint.html',
+                    'templates/forms/editBlueprint.html',
+                    'templates/forms/createTier.html',
+                    'templates/forms/createBlueprintInstance.html',
+                    'templates/forms/editTier.html',
+                    'templates/root/nova/blueprint/blueprintInstances.html',
+                    "templates/root/nova/blueprint/blueprintInstanceTierInstances.html",
+                    'templates/root/nova/blueprint/blueprintInstance.html',
+                    'templates/root/nova/blueprint/blueprintTemplates.html',
+                    'templates/root/nova/blueprint/blueprintTemplate.html',
+                    'templates/root/nova/blueprint/blueprintTemplatesCatalog.html',
+                    'templates/root/nova/blueprint/blueprintTemplateCatalog.html',
                     'templates/root/nova/accessAndSecurity.html',
                     'templates/root/nova/keypairs.html',
                     'templates/root/nova/securityGroups.html',
@@ -123,6 +142,7 @@
                     'templates/root/sys/quotas.html',
                     'templates/root/root.html',
                     'templates/root/table.html',
+                    'templates/root/table-tiers.html',
                     'templates/root/navTab.html',
                     'templates/root/topBar.html',
                     'templates/root/sideBar.html',
@@ -135,18 +155,20 @@
                     console.log($("#createKeyPairFormTemplate"));
                     require(["libs.js"], function() {
                         $('.bar').css({width: "50%"});
-                        require(["models.js"], function() {
-                            $('.bar').css({width: "70%"});
-                            require(["views.js"], function() {
-                                $('.bar').css({width: "90%"});
-                                require(["routes.js"], function() {
-                                    $('.bar').css({width: "100%"});
-                                    $('#initbar').hide();
-                                    host = document.URL.match(/(http.?:\/\/[^\/]*)\/.*/)[1];
-                                    UTILS.Auth.initialize(host + "/keystone/v2.0/", host + "/keystone-admin/v2.0/");
-                                    //UTILS.Auth.initialize("http://mcu5.dit.upm.es:5000/v2.0/");
-                                    var fiRouter = new OSRouter();
-                                    Backbone.history.start();
+                        require(["../lib/jquery.qtip.min.js"], function() {
+                            require(["models.js"], function() {
+                                $('.bar').css({width: "70%"});
+                                require(["views.js"], function() {
+                                    $('.bar').css({width: "90%"});
+                                    require(["routes.js"], function() {
+                                        $('.bar').css({width: "100%"});
+                                        $('#initbar').hide();
+                                        host = document.URL.match(/(http.?:\/\/[^\/]*)\/.*/)[1];
+                                        UTILS.Auth.initialize(host + "/keystone/v2.0/", host + "/keystone-admin/v2.0/");
+                                        //UTILS.Auth.initialize("http://mcu5.dit.upm.es:5000/v2.0/");
+                                        var fiRouter = new OSRouter();
+                                        Backbone.history.start();
+                                    })
                                 })
                             })
                         })

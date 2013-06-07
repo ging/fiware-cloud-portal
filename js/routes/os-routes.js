@@ -38,6 +38,8 @@ var OSRouter = Backbone.Router.extend({
         this.loginModel = new LoginStatus();
         this.flavors = new Flavors();
         this.instancesModel = new Instances();
+        this.bpTemplatesModel = new BPTemplates();
+        this.bpInstancesModel = new BPInstances();
         this.sdcs = new SDCs();
         this.volumesModel = new Volumes();
         this.volumeSnapshotsModel = new VolumeSnapshots();
@@ -102,6 +104,15 @@ var OSRouter = Backbone.Router.extend({
         this.route('nova', 'nova', this.wrap(this.nova_instances, this.checkAuthAndTimers, ["instancesModel"]));
         this.route('nova/', 'nova', this.wrap(this.nova_instances, this.checkAuthAndTimers, ["instancesModel"]));
 
+        this.route('nova/blueprints/instances/', 'blueprint_instances', this.wrap(this.blueprint_instances, this.checkAuthAndTimers, ["bpInstancesModel"]));
+        this.route('nova/blueprints/instances/:id', 'blueprint_instance', this.wrap(this.blueprint_instance, this.checkAuthAndTimers, ["bpInstancesModel"]));
+        this.route('nova/blueprints/instances/:id/tiers/:tier_id/instances', 'blueprint_instance_tier_instances', this.wrap(this.blueprint_instance_tier_instances, this.checkAuthAndTimers, ["bpInstancesModel"]));
+
+        this.route('nova/blueprints/templates/', 'blueprint_templates', this.wrap(this.blueprint_templates, this.checkAuthAndTimers, ["bpTemplatesModel"]));
+        this.route('nova/blueprints/templates/:id', 'blueprint_template', this.wrap(this.blueprint_template, this.checkAuthAndTimers, ["bpTemplatesModel"]));
+        this.route('nova/blueprints/catalog/', 'blueprint_templates_catalog', this.wrap(this.blueprint_templates_catalog, this.checkAuthAndTimers, ["bpTemplatesModel"]));
+        this.route('nova/blueprints/catalog/:id', 'blueprint_template_catalog', this.wrap(this.blueprint_template_catalog, this.checkAuthAndTimers));
+
         this.route('nova/volumes/', 'volumes', this.wrap(this.nova_volumes, this.checkAuthAndTimers, ["volumesModel"]));
         this.route('nova/volumes/:id/detail', 'consult_volume',  this.wrap(this.consult_volume, this.checkAuthAndTimers));
 
@@ -145,6 +156,8 @@ var OSRouter = Backbone.Router.extend({
             var seconds = this.backgroundTime;
             this.add_fetch("instancesModel", seconds);
             this.add_fetch("sdcs", seconds);
+            this.add_fetch("bpTemplatesModel", seconds);
+            this.add_fetch("bpInstancesModel", seconds);
             this.add_fetch("volumesModel", seconds);
             this.add_fetch("images", seconds);
             this.add_fetch("flavors", seconds);
@@ -253,11 +266,11 @@ var OSRouter = Backbone.Router.extend({
 
                                     //{name: 'Instances', active: false, url: '#syspanel/instances/'},
                                     //{name: 'Services', active: false, url: '#syspanel/services/'},
-                                    {name: 'Flavors', css: "icon_nav-flavors", active: false, url: '#syspanel/flavors/'},
+                                    {name: 'Flavors', iconcss: "icon_nav-flavors", active: false, url: '#syspanel/flavors/'},
                                     //{name: 'Images', active: false, url: '#syspanel/images/images/'},
-                                    {name: 'Projects', css: "icon_nav-project", active: false, url: '#syspanel/projects/'},
-                                    {name: 'Users', css: "icon_nav-user", active: false, url: '#syspanel/users/'},
-                                    {name: 'Quotas', css: "icon_nav-quotas", active: false, url: '#syspanel/quotas/'}
+                                    {name: 'Projects', iconcss: "icon_nav-project", active: false, url: '#syspanel/projects/'},
+                                    {name: 'Users', iconcss: "icon_nav-user", active: false, url: '#syspanel/users/'},
+                                    {name: 'Quotas', iconcss: "icon_nav-quotas", active: false, url: '#syspanel/quotas/'}
                                     ]);
         self.navs.setActive(option);
         self.tabs.setActive('Admin');
@@ -334,25 +347,97 @@ var OSRouter = Backbone.Router.extend({
         self.newContentView(self,view);
     },
 
-    showNovaRoot: function(self, option) {
+    showNovaRoot: function(self, option, title) {
         //this.clear_fetch();
-        self.top.set({"title":option});
+        if (!title) {
+            title = option;
+        }
+        self.top.set({"title": title});
         self.navs = new NavTabModels([
                             {name: 'Compute', type: 'title'},
                             //{name: 'Overview', active: true, url: '#nova/'},
                             //{name: 'Virtual Data Centers', active: false, url: '#nova/vdcs/'},
-                            {name: 'Instances', css: "icon_nav-instances", active: false, url: '#nova/instances/'},
-                            {name: 'Images', css: "icon_nav-images", active: false, url: '#nova/images/'},
-                            {name: 'Flavors', css: "icon_nav-flavors", active: false, url: '#nova/flavors/'},
-                            {name: 'Security', css: "icon_nav-security", active: false, url: '#nova/access_and_security/'},
-                            {name: 'Snapshots', css: "icon_nav-snapshots", active: false, url: '#nova/snapshots/'},
+                            {name: 'Blueprint Instances',  iconcss: "icon_nav-blueprintInstances", css:"small", active: false, url: '#nova/blueprints/instances/'},
+                            {name: 'Blueprint Templates',  iconcss: "icon_nav-blueprintTemplates", css:"small", active: false, url: '#nova/blueprints/templates/'},
+                            {name: 'Instances', iconcss: "icon_nav-instances", active: false, url: '#nova/instances/'},
+                            {name: 'Images', iconcss: "icon_nav-images", active: false, url: '#nova/images/'},
+                            {name: 'Flavors', iconcss: "icon_nav-flavors", active: false, url: '#nova/flavors/'},
+                            {name: 'Security', iconcss: "icon_nav-security", active: false, url: '#nova/access_and_security/'},
+                            {name: 'Snapshots', iconcss: "icon_nav-snapshots", active: false, url: '#nova/snapshots/'},
                             {name: 'Storage', type: 'title'},
-                            {name: 'Containers', css: "icon_nav-container", active: false, url: '#objectstorage/containers/'},
-                            {name: 'Volumes', css: "icon_nav-volumes", active: false, url: '#nova/volumes/'}
+                            {name: 'Containers', iconcss: "icon_nav-container", active: false, url: '#objectstorage/containers/'},
+                            {name: 'Volumes', iconcss: "icon_nav-volumes", active: false, url: '#nova/volumes/'}
                             ]);
         self.navs.setActive(option);
         self.tabs.setActive('Project');
         self.showRoot(self, 'Project Name');
+    },
+
+    blueprint_instances: function(self) {
+        self.showNovaRoot(self, 'Blueprint Instances');
+        var view = new BlueprintInstancesView({el: '#content', model: self.bpInstancesModel});
+        self.newContentView(self,view);
+    },
+
+    blueprint_instance: function(self, id) {
+        var bp = new BPInstance();
+        bp.set({'blueprintName': id});
+        bp.fetch({success: function() {
+            self.showNovaRoot(self, 'Blueprint Instances', 'Blueprint Instances / ' + bp.get('blueprintName'));
+            var view = new BlueprintInstanceView({el: '#content', model: bp, flavors: self.flavors, images: self.images});
+            self.newContentView(self,view);
+        }});
+    },
+
+    blueprint_instance_tier_instances: function(self, id, tier_id) {
+        self.showNovaRoot(self, 'Blueprint Instances', 'Blueprint Instances / ' + id + ' / ' + tier_id);
+        var bp = new BPInstance();
+        bp.set({'blueprintName': id});
+        bp.fetch({success: function(instance) {
+            var tiers = instance.get('tierDto_asArray');
+            tiers.forEach(function(tier) {
+                if (tier.name === tier_id) {
+                    var vms = tier.tierInstancePDto_asArray;
+                    var insts = new Instances();
+                    vms.forEach(function(vm) {
+                        var inst = self.instancesModel.findWhere({name: vm.vm.hostname});
+                        if (inst) {
+                            insts.add(inst);
+                        }
+                    });
+                    self.showNovaRoot(self, 'Blueprint Instances', 'Blueprint Instances / ' + id + ' / ' + tier.name);
+                    var view = new BlueprintInstanceTierInstancesView({model: insts, blueprint: bp, tier: tier, projects: self.projects, flavors: self.flavors, el: '#content'});
+                    self.newContentView(self,view);
+                }
+            });
+        }
+        });
+    },
+
+    blueprint_templates: function(self) {
+        self.showNovaRoot(self, 'Blueprint Templates');
+        var view = new BlueprintTemplatesView({el: '#content', model: self.bpTemplatesModel});
+        self.newContentView(self,view);
+    },
+
+    blueprint_template: function(self, id) {
+        self.showNovaRoot(self, 'Blueprint Templates', 'Blueprint Templates / ' + id);
+        var bp = new BPTemplate();
+        bp.set({'name': id});
+        var view = new BlueprintTemplateView({el: '#content', model: bp, sdcs: self.sdcs, flavors: self.flavors, keypairs: self.keypairsModel, securityGroupsModel: self.securityGroupsModel, images: self.images});
+        self.newContentView(self,view);
+    },
+
+    blueprint_templates_catalog: function(self) {
+        self.showNovaRoot(self, 'Blueprint Templates', 'Blueprint Templates / Catalog');
+        var view = new BlueprintTemplatesCatalogView({el: '#content', model: self.bpTemplatesModel});
+        self.newContentView(self,view);
+    },
+
+    blueprint_template_catalog: function(self, id) {
+        self.showNovaRoot(self, 'Blueprint Templates', 'Blueprint Templates / Catalog / ' + id);
+        var view = new BlueprintTemplateCatalogView({el: '#content', model: self.bpTemplatesModel, templateId: id});
+        self.newContentView(self,view);
     },
 
     nova_access_and_security: function(self) {
@@ -447,7 +532,6 @@ var OSRouter = Backbone.Router.extend({
        self.showNovaRoot(self, 'Containers');
 
        self.containers.unbind("change");
-       console.log();
         //self.add_fetch(self.containers, 4);
         var view = new ObjectStorageContainersView({model: self.containers, el: '#content'});
         self.newContentView(self,view);

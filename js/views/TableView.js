@@ -42,6 +42,9 @@ var TableView = Backbone.View.extend({
     getEntries: function() {
         var self = this;
         var entries = this.options.getEntries.call(this.options.context);
+        if (this.options.order === false) {
+            return entries;
+        }
         var order = 1;
         if (this.orderBy.direction === 'up') {
             order = -1;
@@ -82,19 +85,35 @@ var TableView = Backbone.View.extend({
     },
 
     onContextMenuBtn: function(evt) {
+        evt.preventDefault();
         var btn_idx = $(evt.target)[0].id.split("_" + this.cid)[0];
         var btn = this.getDropdownButtons()[btn_idx];
         var entry = $("#context-menu-" + this.cid).attr("data-id");
-        this.onAction(btn.action, [entry]);
+        var entries = [];
+        var data_entries = $(".checkbox_entries_" + this.cid + ":checked").each(function(id, cb) {
+            entries.push($(cb).val());
+        });
+        if (entries.length === 0) {
+            entries.push(entry);
+        }
+        this.onAction(btn.action, entries);
     },
 
     onContextMenu: function(evt) {
         evt.preventDefault();
         var entry = $(evt.target).parent()[0].id.split("entries__row__")[1];
+        this.onEntryClick(evt);
         var self = this;
         $("#context-menu-" + this.cid).attr("data-id", entry);
+        var entries = [];
+        var data_entries = $(".checkbox_entries_" + this.cid + ":checked").each(function(id, cb) {
+            entries.push($(cb).val());
+        });
+        if (entries.length === 0) {
+            entries.push(entry);
+        }
         $('.btn-' + this.cid).each(function(id, button) {
-            $(button).attr("disabled", !self.getDropdownButtons()[id].activatePattern(1, [entry]));
+            $(button).attr("disabled", !self.getDropdownButtons()[id].activatePattern(entries.length, entries));
         });
     },
 
@@ -171,7 +190,9 @@ var TableView = Backbone.View.extend({
             } else if (metaKey) {
                 // Multiple non-consecutive selection. Do nothing.
                 var checked = $("[id='" + parentId + "'] .checkbox").attr('checked');
-                $("[id='" + parentId + "'] .checkbox").attr('checked', !checked);
+                if (evt.type === "contextmenu" && !checked) {
+                    $("[id='" + parentId + "'] .checkbox").attr('checked', !checked);
+                }
                 this.lastEntries = [];
                 this.lastEntryClicked = parentEntry;
             } else {
@@ -248,6 +269,7 @@ var TableView = Backbone.View.extend({
     },
 
     onDropdownAction: function(evt) {
+        evt.preventDefault();
         var btn_idx = $(evt.target)[0].id.split("_" + this.cid)[0];
         var btn = this.getDropdownButtons()[btn_idx];
         var entries = [];
@@ -261,11 +283,17 @@ var TableView = Backbone.View.extend({
         var entries = this.getEntries();
         var new_template = this._template({
             cid: this.cid,
+            actionsClass: this.options.actionsClass,
+            headerClass: this.options.headerClass,
+            bodyClass: this.options.bodyClass,
+            footerClass: this.options.footerClass,
             main_buttons: this.getMainButtons(),
             dropdown_buttons: this.getDropdownButtons(),
+            disableActionButton: this.options.disableActionButton,
             headers: this.getHeaders(),
             entries: entries,
-            disableContextMenu: this.options.disableContextMenu, 
+            disableContextMenu: this.options.disableContextMenu,
+            dropdown_buttons_class: this.options.dropdown_buttons_class,
             orderBy: this.orderBy
         });
         var checkboxes = [];
