@@ -127,7 +127,7 @@ html, body {
 
 #content {
   position: absolute;
-  margin-top: 44px;
+  margin-top: 10px;
   top: 0px;
   bottom: 56px;
   right: 3px;
@@ -385,7 +385,7 @@ bottom: 42px;
   margin-left: -4px !important;
   float: left;
   top: 0px;
-  margin-top: 36px;
+  margin-top: 18px;
 }
 .text-logo{
   margin-left: 0px;
