@@ -54,7 +54,7 @@ var BPInstance = Backbone.Model.extend({
 
     parse: function(resp) {
         if (resp) {
-            resp.id = resp.environmentInstanceName;
+            resp.id = resp.blueprintName;
             resp.name = resp.environmentInstanceName;
         }
         return resp;
@@ -95,6 +95,7 @@ var BPInstances = Backbone.Collection.extend({
     },
 
     parse: function(resp) {
+        console.log("Instances:", resp);
         return resp;
     }
 });
