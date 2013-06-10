@@ -397,11 +397,12 @@ var OSRouter = Backbone.Router.extend({
             var tiers = instance.get('tierDto_asArray');
             tiers.forEach(function(tier) {
                 if (tier.name === tier_id) {
-                    var vms = tier.tierInstancePDto_asArray;
+                    var vms = tier.tierInstancePDto_asArray || [];
                     var insts = new Instances();
                     vms.forEach(function(vm) {
                         var inst = self.instancesModel.findWhere({name: vm.vm.hostname});
                         if (inst) {
+                            inst.set({paasStatus: vm.status});
                             insts.add(inst);
                         }
                     });

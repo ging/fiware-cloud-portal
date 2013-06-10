@@ -220,7 +220,7 @@ var BlueprintInstanceTierInstancesView = Backbone.View.extend({
             hidden_phone: false,
             hidden_tablet: false
         }, {
-            name: "Status",
+            name: "PaaS Status",
             tooltip: "Current server status",
             size: "10%",
             hidden_phone: false,
@@ -285,7 +285,7 @@ var BlueprintInstanceTierInstancesView = Backbone.View.extend({
                 }, {
                     value: flavorlist[instance.get("flavor").id]
                 }, {
-                    value: instance.get("status")
+                    value: instance.get("paasStatus")
                 }, {
                     value: instance.get("OS-EXT-STS:task_state") ? instance.get("OS-EXT-STS:task_state") : "None"
                 }, {
