@@ -53,7 +53,7 @@
                                     for (var index in flavors.models) {
                                     var flavor = flavors.models[index];
                                     %>
-                                    <option value="<%=flavor.id%>" <% if (tier.flavor === flavor.id) {%> selected <% } %>><%=flavor.get("name") + " (" + flavor.get("vcpus") + "VCPU / " + flavor.get("disk") + "GB Disk / " + flavor.get("ram") + "MB Ram )" %></option>
+                                    <option value="<%=flavor.id%>" <% if (tier.flavour === flavor.get('id')) {%> selected <% } %>><%=flavor.get("name") + " (" + flavor.get("vcpus") + "VCPU / " + flavor.get("disk") + "GB Disk / " + flavor.get("ram") + "MB Ram )" %></option>
                                     <%}%>
                                 </select>
                             </div>
@@ -107,7 +107,7 @@
                             <label class="control-label" for="id_public_ip">Public IP:</label>
 
                             <div class="controls">
-                                <input type="checkbox" name="public_ip" value="<%=tier.floatingip%>">
+                                <input type="checkbox" name="public_ip" <%=(tier.floatingip==='true')?'checked':''%>>
                             </div>
                         </div>
 
