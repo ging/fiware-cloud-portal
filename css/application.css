@@ -106,7 +106,9 @@ html, body {
   width: 80%;
 }
 
-.table-striped tr td,  .wrap_text, .sbSelector:link, .sbSelector:visited, .sbSelector:hover {
+/* Wrap text */
+
+.wrap_text, .sbSelector:link, .sbSelector:visited, .sbSelector:hover {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -127,7 +129,7 @@ html, body {
 
 #content {
   position: absolute;
-  margin-top: 10px;
+  margin-top: 8px;
   top: 0px;
   bottom: 56px;
   right: 3px;
@@ -163,146 +165,6 @@ html, body {
   -webkit-border-radius: 0px;
   -moz-border-radius: 0px;
   border-radius: 0px;
-}
-
-#table_head {
-  position: absolute;
-  top: 32px;
-  height: 35px;
-  border: 0;
-  border-bottom: 1px solid #dddddd;
-}
-
-#table_head thead,
-#table_head thead tr {
-  height: 35px;
-  color: #0483AF;
-}
-
-.table input[type=checkbox] {
-  display: none;
-}
-
-.table input[type=checkbox] + label {
-  content:"";
-  display:inline-block;
-  background-image:url(../images/checkbox.png);
-  background-position: 0px 0px;
-  width: 15px;
-  height: 15px;
-  margin-top: 1px;
-  margin-bottom: -1px;
-  cursor: pointer;
-}
-
-.table input[type=checkbox] + label:hover {
-  background-position: -15px 0px;
-}
-
-.table input[type=checkbox]:checked + label {
-  background-position: -30px 0px;
-}
-
-.table input[type=checkbox]:checked + label:hover {
-  background-position: -45px 0px;
-} ​
-
-.table_header .table_actions {
-  height: 23px;
-}
-
-.table {
-  margin-bottom: 0px;
-  margin-top: 0px;
-  table-layout: fixed;
-}
-
-.table-header {
-  height: 40px;
-}
-
-#table_head tr td div{
-  font-size: 16px;
-}
-
-.table-striped tbody tr:nth-child(even) td, .table-striped tbody tr:nth-child(even) th {
-background-color: #ffffff;
-}
-
-.table tbody tr:hover td, .table tbody tr:hover th {
-  background-color: #f1f1f1;
-}
-
-td.actions_column {
-  padding: 8px;
-}
-
-.table-without-margins {
-  margin-top: -1px;
-}
-
-.table-bordered {
-  -webkit-border-radius: 0px;
-  -moz-border-radius: 0px;
-  border-radius: 0px;
-
-}
-
-.table-bordered thead {
-  font-weight: bold;
-}
-
-.table-bordered thead:first-child tr:first-child th:first-child, .table-bordered tbody:first-child tr:first-child td:first-child {
-  -webkit-border-radius: 0px;
-  -moz-border-radius: 0px;
-  border-radius: 0px;
-}
-
-.table-scrolled {
-  width: 100%;
-  overflow-x: hidden;
-}
-
-.table-scrolled tr {
-  cursor: pointer;
-}
-
-.scrollable {
-/*background-color: #f1f1f1;*/
-right: 1px;
-left: 0px;
-overflow-y: auto;
-overflow-x: hidden;
-position: absolute;
-top: 68px;
-width: 100%;
-bottom: 42px;
-}
-
-.table-foot {
-  position: absolute;
-  bottom: 10px;
-  border: 0;
-}
-
-.tab-content-adjustable {
-  position: absolute;
-  padding-top: 0px;
-  bottom: 0px;
-  top: 51px;
-  right: 0px;
-  left: 0px;
-}
-
-.tab-adjustable {
-  position:relative;
-  height: 100%;
-  overflow: hidden;
-}
-
-.table_header .table_actions a, .table_header .table_actions button {
-  border-top-left-radius: 0px;
-  border-top-right-radius: 0px;
 }
 
 .btn-group > .btn:first-child {

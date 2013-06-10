@@ -410,19 +410,6 @@ a.current_item:hover h3, a.current_item:hover h4 {
   padding: 0 0 0 1px;
 }
 
-.table_header {
-  height: 30px;
-}
-
-.table_title h3, .table_header h3 {
-    font-family: comfortaa;
-    font-weight: normal;
-    font-size: 24px;
-    margin-bottom: 12px;
-    float: left;
-}
-
-
 small {
     font-size: 11px;
 }
@@ -464,11 +451,6 @@ small {
 
 }
 
-table form {
-    margin-bottom: 0;
-    width: 1px;
-}
-
 .alertHeader{
   position: absolute;
   width: 100%;
@@ -492,58 +474,11 @@ table form {
     width: 90px;
 }
 
-.table-striped tr td {
-  transition: background 0.2s;
-  -webkit-transition: background 0.2s;
-  -moz-transition: background 0.2s;
-  -o-transition: background 0.2s;
-}
-
 .inspect {
     float: left;
     display: block;
     margin-top: 5px;
     margin-right: 25px;
-}
-
-.table {
-    margin-bottom: 25px;
-}
-
-.table tr td {
-    vertical-align: middle;
-}
-
-.table tr.empty td {
-  text-align: center;
-}
-
-.table tfoot tr td {
-  border-top: 1px solid #DDD;
-  font-size: 11px;
-  line-height: 14px;
-  text-align: right;
-}
-
-.table_actions {
-    float: right;
-    min-width: 400px;
-    margin-bottom: 10px;
-}
-
-.table_actions .table_search {
-    display: inline-block;
-}
-
-.table_search input {
-  background: url(../img/search.png) no-repeat 195px 5px;
-  display: inline-block;
-  margin-bottom: 0;
-}
-
-.table_actions a, .table_actions button {
-    float: right;
-    margin-left: 10px;
 }
 
 /*action buttons and links*/
@@ -556,55 +491,8 @@ table form {
   background-color: #eeeeee;
 }
 
-.table_actions button.filter {
-  margin-left: 0;
-}
-
-.table_header .table_actions {
-  min-width: 0;
-}
-
-.table_header .table_actions a, .table_header .table_actions button {
-  display: inline-block;
-  float: none;
-}
-
-/* Style for Actions dropdown*/
-
-.table_header .table_actions .btn-group {
-  display: inline-block;
-  float: none;
-}
-
-.table_header .table_actions .btn-group .dropdown-toggle{
-  height: 18px;
-  margin-left: -4px;
-}
-
-.table_actions form {
-    float: right;
-    margin-left: 10px;
-}
-
 .hidden {
   display: none;
-}
-
-.table-striped tbody tr.status_unknown:nth-child(odd) td {
-  background-color: #ffffb5;
-}
-
-.table-striped tbody tr.status_unknown:nth-child(even) td {
-  background-color: #ffffc6;
-}
-
-.icon-updating.ajax-updating {
-  background: transparent url(../images/spinner.gif) no-repeat center center;
-  padding: 1px;
-}
-
-td .icon-updating.ajax-updating {
-  margin-right: 5px;
 }
 
 .overview {
@@ -947,21 +835,10 @@ th.multi_select_column {
   text-align: center;
 }
 
-.table input[type="checkbox"] {
-  display: block;
-  margin-left: 5px;
-}
-
 div.input input[type="checkbox"] {
   float: left;
 }
 
-.table_title a {
-    font-size: 11px;
-    float: right;
-    margin-left: 10px;
-    margin-top: 10px;
-}
 
 tr.terminated {
   color: #999999;
@@ -1315,6 +1192,21 @@ width: 100%;
   border-radius: 4px;
   padding-left: 20px;
   padding-right: 20px;
+}
+
+.tab-content-adjustable {
+  position: absolute;
+  padding-top: 0px;
+  bottom: 0px;
+  top: 51px;
+  right: 0px;
+  left: 0px;
+}
+
+.tab-adjustable {
+  position:relative;
+  height: 100%;
+  overflow: hidden;
 }
 
 .mandatoryMess {

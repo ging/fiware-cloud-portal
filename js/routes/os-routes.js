@@ -26,7 +26,7 @@ var OSRouter = Backbone.Router.extend({
 
     timers: {},
     backgroundTime: 60,
-    foregroundTime: 5,
+    foregroundTime: 50,
 
     routes: {
         'auth/login': 'login',
