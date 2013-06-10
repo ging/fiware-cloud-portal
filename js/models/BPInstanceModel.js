@@ -95,7 +95,6 @@ var BPInstances = Backbone.Collection.extend({
     },
 
     parse: function(resp) {
-        console.log("Instances:", resp);
         return resp;
     }
 });
