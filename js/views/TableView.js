@@ -42,6 +42,9 @@ var TableView = Backbone.View.extend({
     getEntries: function() {
         var self = this;
         var entries = this.options.getEntries.call(this.options.context);
+        if (entries === 'loading') {
+            return entries;
+        }
         if (this.options.order === false) {
             return entries;
         }

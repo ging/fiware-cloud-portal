@@ -102,6 +102,15 @@ src: templates/root/table.html
 <table id="table_entries" class="table table-without-margins without-borders table-striped table-scrolled">
     <tbody>
         <%
+        if (entries === 'loading') {
+        %>
+        <tr id="entries__row__loading" class="ajax-update status_down">
+        <td style="width:100%" class="">Loading items...</td>
+        </tr>
+        <%
+
+        } else {
+
             for (var entry_idx in entries) {
                 var entry = entries[entry_idx];
         %>
@@ -135,7 +144,9 @@ src: templates/root/table.html
             }
         %>
         </tr>
-        <% } %>
+        <% 
+            }    
+        }%>
     </tbody>
     </table>
 </div>

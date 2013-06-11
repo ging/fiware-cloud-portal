@@ -128,31 +128,23 @@ var BlueprintTemplateView = Backbone.View.extend({
         switch (action) {
             case 'add':
 
-                self.options.sdcs.getCatalogueListWithReleases({callback: function (resp) {
-
-                    subview = new CreateTierView({el: 'body', model: self.model, catalogueList: resp, flavors: self.options.flavors, keypairs: self.options.keypairs, securityGroupsModel: self.options.securityGroupsModel, images: self.options.images, callback: function () {
-                        self.model.fetch({success: function () {
-                            self.render();
-                        }});
+                subview = new CreateTierView({el: 'body', model: self.model, sdcs: self.options.sdcs, flavors: self.options.flavors, keypairs: self.options.keypairs, securityGroupsModel: self.options.securityGroupsModel, images: self.options.images, callback: function () {
+                    self.model.fetch({success: function () {
+                        self.render();
                     }});
-                    subview.render();
-
-                }, error: function (e) {
-                    console.log(e);
                 }});
+                subview.render();
+
                 break;
             case 'edit':
 
-                self.options.sdcs.getCatalogueListWithReleases({callback: function (resp) {
-                    subview = new EditTierView({el: 'body', model: self.model, tier: tr, catalogueList: resp, flavors: self.options.flavors, keypairs: self.options.keypairs, securityGroupsModel: self.options.securityGroupsModel, images: self.options.images, callback: function () {
-                        self.model.fetch({success: function () {
-                            self.render();
-                        }});
+                subview = new EditTierView({el: 'body', model: self.model, tier: tr, sdcs: self.options.sdcs, flavors: self.options.flavors, keypairs: self.options.keypairs, securityGroupsModel: self.options.securityGroupsModel, images: self.options.images, callback: function () {
+                    self.model.fetch({success: function () {
+                        self.render();
                     }});
-                    subview.render();
-                }, error: function (e) {
-                    console.log(e);
                 }});
+                subview.render();
+
                 break;
             case 'delete':
                 subview = new ConfirmView({
