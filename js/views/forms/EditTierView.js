@@ -32,7 +32,7 @@ var EditTierView = Backbone.View.extend({
         }
         if (this.options.tier.productReleaseDtos_asArray) {
             this.options.tier.productReleaseDtos_asArray.forEach(function(product) {
-                product.name = product.productName + " " + product.version;
+                product.name = product.productName;
                 self.addedProducts.push(product);
             });
         }
