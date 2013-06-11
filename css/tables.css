@@ -1,0 +1,247 @@
+
+/* Table Container */
+.content .table_container {
+  margin-top: -18px;
+}
+
+/* Header with action buttons */
+.table_header .table_actions {
+  height: 23px;
+}
+
+.table_header {
+  height: 40px;
+}
+
+.table_header .table_actions a, .table_header .table_actions button {
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+}
+
+.table_header {
+  height: 30px;
+}
+
+.table_title h3,
+.table_header h3 {
+    font-family: comfortaa;
+    font-weight: normal;
+    font-size: 24px;
+    margin-bottom: 12px;
+    float: left;
+}
+
+.table_actions {
+    float: right;
+    min-width: 400px;
+    margin-bottom: 10px;
+}
+
+.table_actions .table_search {
+    display: inline-block;
+}
+
+.table_search input {
+  background: url(../img/search.png) no-repeat 195px 5px;
+  display: inline-block;
+  margin-bottom: 0;
+}
+
+.table_actions a, .table_actions button {
+    float: right;
+    margin-left: 10px;
+}
+
+.table_actions button.filter {
+  margin-left: 0;
+}
+
+.table_header .table_actions {
+  min-width: 0;
+}
+
+.table_header .table_actions a, .table_header .table_actions button {
+  display: inline-block;
+  float: none;
+}
+
+.table_header .table_actions .btn-group {
+  display: inline-block;
+  float: none;
+}
+
+.table_header .table_actions .btn-group .dropdown-toggle{
+  height: 18px;
+  margin-left: -4px;
+}
+
+.table_actions form {
+    float: right;
+    margin-left: 10px;
+}
+
+.table_title a {
+    font-size: 11px;
+    float: right;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+/* Header of table */
+
+#table_head {
+  position: absolute;
+  top: 32px;
+  height: 35px;
+  border: 0;
+  border-bottom: 1px solid #dddddd;
+}
+
+#table_head thead,
+#table_head thead tr {
+  height: 35px;
+  color: #0483AF;
+}
+
+#table_head tr td div{
+  font-size: 16px;
+}
+
+/* Checkbox cell on tables */
+
+.table input[type=checkbox] {
+  display: none;
+}
+
+.table input[type=checkbox] + label {
+  content:"";
+  display:inline-block;
+  background-image:url(../images/checkbox.png);
+  background-position: 0px 0px;
+  width: 15px;
+  height: 15px;
+  margin-top: 1px;
+  margin-bottom: -1px;
+  cursor: pointer;
+}
+
+.table input[type=checkbox] + label:hover {
+  background-position: -15px 0px;
+}
+
+.table input[type=checkbox]:checked + label {
+  background-position: -30px 0px;
+}
+
+.table input[type=checkbox]:checked + label:hover {
+  background-position: -45px 0px;
+} ​
+
+/* Common to all tables */
+
+.table {
+  margin-bottom: 0px;
+  margin-top: 0px;
+  table-layout: fixed;
+}
+
+.table-striped tbody tr:nth-child(even) td, .table-striped tbody tr:nth-child(even) th {
+  background-color: #ffffff;
+}
+
+.table tbody tr:hover td, .table tbody tr:hover th {
+  background-color: #f1f1f1;
+}
+
+td.actions_column {
+  padding: 8px;
+}
+
+.table-without-margins {
+  margin-top: -1px;
+}
+
+.table-bordered {
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
+
+}
+
+.table-bordered thead {
+  font-weight: bold;
+}
+
+.table-bordered thead:first-child tr:first-child th:first-child,
+.table-bordered tbody:first-child tr:first-child td:first-child {
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
+}
+
+.table-scrolled {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.table-scrolled tr {
+  cursor: pointer;
+}
+
+.scrollable {
+  right: 1px;
+  left: 0px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: absolute;
+  top: 68px;
+  width: 100%;
+  bottom: 42px;
+}
+
+/* Foot of table */
+
+.table-foot {
+  position: absolute;
+  bottom: 10px;
+  border: 0;
+}
+
+table form {
+    margin-bottom: 0;
+    width: 1px;
+}
+
+.table-striped tr td {
+  transition: background 0.2s;
+  -webkit-transition: background 0.2s;
+  -moz-transition: background 0.2s;
+  -o-transition: background 0.2s;
+}
+
+.table {
+    margin-bottom: 25px;
+}
+
+.table tr td {
+    vertical-align: middle;
+}
+
+.table-striped tr td {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  border: 0;
+}
+
+
+.table tr.empty td {
+  text-align: center;
+}
+
+.table tfoot tr td {
+  border-top: 1px solid #DDD;
+  font-size: 11px;
+  line-height: 14px;
+  text-align: right;
+}
