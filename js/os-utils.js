@@ -354,6 +354,11 @@ UTILS.Messages = (function(U, undefined) {
 
         $('body').spin("modal");
 
+        if (options && options.context) {
+            options.context.unbind();
+            options.context.undelegateEvents();
+        }
+
         return opt;
     };
 

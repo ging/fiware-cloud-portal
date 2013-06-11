@@ -92,11 +92,17 @@ var BlueprintInstanceView = Backbone.View.extend({
             for (var p in tier.productReleaseDtos_asArray) {
                 products.push(tier.productReleaseDtos_asArray[p].productName + " " + tier.productReleaseDtos_asArray[p].version);
             }
+
+            var currTiers = 0;
+            if (tier.tierInstancePDto_asArray) {
+                currTiers = tier.tierInstancePDto_asArray.length;
+            }
+
             var entry = {
                 id: tier.name,
                 minValue: tier.minimumNumberInstances,
                 maxValue: tier.maximumNumberInstances,
-                currentValue: tier.tierInstancePDto_asArray.length,
+                currentValue: currTiers,
                 icono: tier.icono,
                 bootValue: tier.initialNumberInstances,
                 name: tier.name,

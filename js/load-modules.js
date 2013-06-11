@@ -157,6 +157,7 @@ var loadLibraries = function() {
                 "lib/bootstrap.min.js",
                 "lib/bootstrap-contextmenu.js",
                 "lib/jquery.selectbox-0.1.3.min.js",
+                "lib/jquery.tinyscrollbar.js",
                 "lib/spin.min.js",
                 "lib/jquery.knob.js",
                 "lib/jquery.qtip.min.js",

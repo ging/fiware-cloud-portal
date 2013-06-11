@@ -117,7 +117,7 @@
 .table input[type=checkbox] + label {
   content:"";
   display:inline-block;
-  background-image:url('../images/checkbox.png');
+  background-image:url(../images/checkbox.png);
   background-position: 0px 0px;
   width: 15px;
   height: 15px;
@@ -248,3 +248,16 @@ table form {
   line-height: 14px;
   text-align: right;
 }
+
+
+/*.scrollable { width: 520px; clear: both; margin: 20px 0 10px; }*/
+.scrollable .viewport { width: 500px; height: 200px; overflow: hidden; position: relative; }
+.scrollable .overview { list-style: none; position: absolute; left: 0; top: 0; }
+.scrollable .thumb .end,
+.scrollable .thumb { background-color: #003D5D; }
+.scrollable .scrollbar { position: relative; float: right; width: 15px; }
+.scrollable .track { background-color: #D8EEFD; height: 100%; width:13px; position: relative; padding: 0 1px; }
+.scrollable .thumb { height: 20px; width: 13px; cursor: pointer; overflow: hidden; position: absolute; top: 0; }
+.scrollable .thumb .end { overflow: hidden; height: 5px; width: 13px; }
+.scrollable .disable{ display: none; }
+.noSelect { user-select: none; -o-user-select: none; -moz-user-select: none; -khtml-user-select: none; -webkit-user-select: none; }

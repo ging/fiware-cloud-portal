@@ -11,6 +11,14 @@ src: templates/root/table.html
           var checkbox_size = "0%";
           var dropdown_buttons_class = dropdown_buttons_class || undefined;
 
+          for (var header_idx in headers) {
+              var header = headers[header_idx];
+              if (header.type === "checkbox") {
+                checkbox_enabled = true;
+                checkbox_size = header.size;
+              }
+          }
+
           for (var btn_idx in main_buttons) {
             var main_button = main_buttons[btn_idx];
             if (main_button.url) {

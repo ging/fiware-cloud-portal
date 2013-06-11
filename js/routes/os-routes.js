@@ -376,6 +376,7 @@ var OSRouter = Backbone.Router.extend({
     blueprint_instances: function(self) {
         self.showNovaRoot(self, 'Blueprint Instances');
         var view = new BlueprintInstancesView({el: '#content', model: self.bpInstancesModel});
+        console.log(self.bpInstancesModel);
         self.newContentView(self,view);
     },
 
@@ -397,11 +398,12 @@ var OSRouter = Backbone.Router.extend({
             var tiers = instance.get('tierDto_asArray');
             tiers.forEach(function(tier) {
                 if (tier.name === tier_id) {
-                    var vms = tier.tierInstancePDto_asArray;
+                    var vms = tier.tierInstancePDto_asArray || [];
                     var insts = new Instances();
                     vms.forEach(function(vm) {
                         var inst = self.instancesModel.findWhere({name: vm.vm.hostname});
                         if (inst) {
+                            inst.set({paasStatus: vm.status});
                             insts.add(inst);
                         }
                     });
@@ -436,7 +438,7 @@ var OSRouter = Backbone.Router.extend({
 
     blueprint_template_catalog: function(self, id) {
         self.showNovaRoot(self, 'Blueprint Templates', 'Blueprint Templates / Catalog / ' + id);
-        var view = new BlueprintTemplateCatalogView({el: '#content', model: self.bpTemplatesModel, templateId: id});
+        var view = new BlueprintTemplateCatalogView({el: '#content', model: self.bpTemplatesModel, templateId: id, sdcs: self.sdcs, flavors: self.flavors, keypairs: self.keypairsModel, securityGroupsModel: self.securityGroupsModel, images: self.images});
         self.newContentView(self,view);
     },
 

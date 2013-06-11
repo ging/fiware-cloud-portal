@@ -80,18 +80,19 @@ var BlueprintTemplateCatalogView = Backbone.View.extend({
             var tier = this.bpTemplate.tierDtos_asArray[index];
 
             var products = [];
-            for (var p in tier.productReleaseDto_asArray) {
-                products.push(tier.productReleaseDto_asArray[p].productName);
+            for (var p in tier.productReleaseDtos_asArray) {
+                products.push(tier.productReleaseDtos_asArray[p].productName + " " + tier.productReleaseDtos_asArray[p].version);
             }
 
+            console.log(tier);
             var entry = {
                 id: tier.name,
                 minValue: tier.minimumNumberInstances,
                 maxValue: tier.maximumNumberInstances,
                 bootValue: tier.initialNumberInstances,
                 name: tier.name,
-                flavor: tier.flavour,
-                image: tier.image,
+                flavor: this.options.flavors.get(tier.flavour).get("name"),
+                image: this.options.images.get(tier.image).get("name"),
                 products: products,
                 icon: tier.icono
             };
