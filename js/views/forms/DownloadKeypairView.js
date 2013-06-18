@@ -14,8 +14,7 @@ var DownloadKeypairView = Backbone.View.extend({
     },
 
     render: function () {
-        $(this.el).append(this._template({model:this.model}));
-        $('.modal:last').modal();
+        $(this.el).html(this._template({model:this.model}));
         this.createKeypair();
         return this;
     },

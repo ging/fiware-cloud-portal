@@ -7,7 +7,6 @@ var AccessAndSecurityView = Backbone.View.extend({
     floatingIPsView: undefined,
 
     initialize: function() {
-        console.log(this.options.quotas);
         this.render();
         this.floatingIPsView = new NovaFloatingIPsView({model: this.options.floatingIPsModel, pools: this.options.floatingIPPoolsModel, instances: this.options.instances, el: '#floating_ips'});
         this.secuirtyGroupsView = new NovaSecurityGroupsView({model: this.options.securityGroupsModel, el: '#security_groups'});

@@ -26,23 +26,16 @@ var SDC = Backbone.Model.extend({
                 ServiceDC.API.getProductInstance(model.get('name'), options.success, options.error);
                 break;
             case "create":
-                ServiceDC.API.getProductReleases(model.get('product').name, function (resp) {
-                    var lastRelease = resp.productRelease_asArray[0].version;
-                    var p = model.get('product');
-                    p.version = lastRelease;
-                    model.set({'product': p});
-                    model.set({"name": model.get('fqn') + '_' + p.name + '_' + p.version});
-                    ServiceDC.API.installProductInstance(model.get('ip'), model.get('fqn'), model.get('product'), options.success, options.error);                
-                }, options.error);
+                ServiceDC.API.installProductInstance(model.get('ip'), model.get('fqn'), model.get('product'), options.success, options.error);
                 break;
             case "delete":
-                ServiceDC.API.uninstallProductInstance(model.get('name'), options.success, options.error);                
+                ServiceDC.API.uninstallProductInstance(model.get('name'), options.success, options.error);
                 break;
             case "update":
                 var att = model.get('productRelease').product.attributes;
-                ServiceDC.API.reconfigureProductInstance(model.get('name'), att, options.success, options.error);             
+                ServiceDC.API.reconfigureProductInstance(model.get('name'), att, options.success, options.error);
                 break;
-            
+
         }
     }
 });
@@ -51,7 +44,7 @@ var SDCs = Backbone.Collection.extend({
 
     model: SDC,
 
-    catalogueList: {},
+    catalogueList: [],
 
     _action: function(method, options) {
         var model = this;
@@ -66,36 +59,84 @@ var SDCs = Backbone.Collection.extend({
         return xhr;
     },
 
+    getCatalogueList: function(options) {
+        options = options || {};
+        return this._action('getCatalogueList', options);
+    },
+
+    getCatalogueListWithReleases: function(options) {
+        var self = this;
+
+        this.getCatalogueList({callback: function (resp) {
+
+            self.catalogueList = [];
+            var products = resp.product_asArray;
+
+            self.getReleases(products, 0, function() {
+                options.callback(self.catalogueList);
+            }, function (e) {
+                options.error(e);
+            });
+
+        }, error: options.error});
+    },
+
     getCatalogueProductDetails: function(options) {
         options = options || {};
         return this._action('getCatalogueProductDetails', options);
     },
 
-    fetchCollection: function(options) {
-
-        var self = this;
-
-        ServiceDC.API.getProductList(function (resp) {
-            ServiceDC.API.getProductInstanceList(function (resp2) {
-                self.catalogueList = resp.product;
-                options.success(resp2);
-            }, options.error);
-
-        }, options.error);
+    getCatalogueProductReleases: function(options) {
+        options = options || {};
+        return this._action('getCatalogueProductReleases', options);
     },
 
     sync: function(method, model, options) {
         switch(method) {
             case "read":
-                this.fetchCollection(options);
+                ServiceDC.API.getProductInstanceList(options.success, options.error);
+                break;
+            case 'getCatalogueList':
+                ServiceDC.API.getProductList(options.success, options.error);
                 break;
             case 'getCatalogueProductDetails':
                 ServiceDC.API.getProductAttributes(options.id, options.success, options.error);
+                break;
+            case 'getCatalogueProductReleases':
+                ServiceDC.API.getProductReleases(options.name, options.success, options.error);
                 break;
         }
     },
 
     parse: function(resp) {
         return resp;
+    },
+
+    getReleases: function (products, index, callback, error) {
+
+        var self = this;
+
+         this.getCatalogueProductReleases({name: products[index].name, callback: function (resp) {
+
+            var releases = resp.productRelease_asArray;
+
+            for (var r in releases) {
+                var pr = {};
+                pr.name = products[index].name;
+                pr.description = products[index].description;
+                pr.attributes_asArray = products[index].attributes_asArray;
+                pr.version = releases[r].version;
+                self.catalogueList.push(pr);
+            }
+
+            index ++;
+
+            if (index == products.length) {
+                callback();
+            } else {
+                self.getReleases(products, index, callback, error);
+            }
+
+        }, error: error});
     }
 });
