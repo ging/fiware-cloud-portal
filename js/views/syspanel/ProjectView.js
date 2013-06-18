@@ -7,7 +7,7 @@ var ProjectView = Backbone.View.extend({
     initialize: function() {
         var self = this;
         this.model.bind("sync", this.render, this);
-        //this.options.quotas.bind("reset", this.render, this);
+        this.options.quotas.bind("reset", this.render, this);
         this.model.fetch();
         this.options.quotas.fetch();
         this.renderFirst();
@@ -41,6 +41,9 @@ var ProjectView = Backbone.View.extend({
         },
         {
             label: "Delete Project", action:"delete", warn: true, activatePattern: groupSelected
+        },
+        {
+            label: "Modify Quotas", action: "modify-quotas", activatePattern: oneSelected
         }
         ];
     },
@@ -94,7 +97,7 @@ var ProjectView = Backbone.View.extend({
     },
 
     onAction: function(action, projectIds) {
-        var project, proj, subview;
+        var project, proj, subview, quotas;
         var self = this;
         if (projectIds.length === 1) {
             project = projectIds[0];
@@ -109,8 +112,12 @@ var ProjectView = Backbone.View.extend({
                 window.location.href = '#syspanel/projects/'+project+'/users/';
                 break;
             case 'modify-quotas':
-                subview = new ModifyQuotasView({el: 'body', model:this.options.quotas.models[0], project: evt.target.value});
-                subview.render();
+                var quota = new Quota();
+                quota.set({'id': project});
+                quota.fetch({success: function () {
+                    subview = new ModifyQuotasView({el: 'body', model:quota, project:proj.attributes.name});
+                    subview.render();
+                }});                
                 break;
             case 'create':
                 subview = new CreateProjectView({el: 'body'});

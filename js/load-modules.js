@@ -92,7 +92,7 @@ var loadViews = function() {
                 "js/views/forms/CreateUserView.js",
                 "js/views/forms/EditUserView.js",
                 "js/views/forms/ModifyUsersView.js",
-//              "js/views/forms/ModifyQuotasView.js",
+                "js/views/forms/ModifyQuotasView.js",
                 "js/views/syspanel/NewUsersView.js",
                 "js/views/syspanel/UsersForProjectView.js",
                 "js/views/SettingsView.js"
@@ -187,7 +187,7 @@ var loadTemplates = function() {
                     'templates/forms/createUser.html',
                     'templates/forms/editUser.html',
                     'templates/forms/modifyUsers.html',
-//                  'templates/forms/modifyQuotas.html',
+                    'templates/forms/modifyQuotas.html',
                     'templates/root/nova/accessAndSecurity.html',
                     'templates/root/nova/keypairs.html',
                     'templates/root/nova/securityGroups.html',
