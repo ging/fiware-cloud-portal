@@ -7,7 +7,7 @@ var InstanceDetailView = Backbone.View.extend({
     overviewView: undefined,
     logView: undefined,
     vncView: undefined,
-    softwareView: undefined,
+    //softwareView: undefined,
 
     initialize: function() {
 
@@ -95,7 +95,7 @@ var InstanceDetailView = Backbone.View.extend({
         this.overviewView.close();
         this.logView.close();
         this.vncView.close();
-        this.softwareView.close();
+        //this.softwareView.close();
     },
 
     close: function(e) {
