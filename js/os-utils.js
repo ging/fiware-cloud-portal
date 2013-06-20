@@ -415,10 +415,10 @@ UTILS.DragDrop = (function(U, undefined) {
     };
     clear = function() {
         obj = {};
-    }
+    };
     return {
         setData : setData,
         getData : getData,
-        clear     : clear
-    }
+        clear   : clear
+    };
 })(UTILS);
