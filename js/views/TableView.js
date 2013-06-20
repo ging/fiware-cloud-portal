@@ -24,11 +24,100 @@ var TableView = Backbone.View.extend({
         events['click .entry_' + this.cid] = 'onEntryClick';
         events['click .header_entry_' + this.cid] = 'onHeaderEntryClick';
         events['mousedown .entry_' + this.cid] = 'onEntryMouseDown';
+
+        if (this.options.draggable || this.options.sortable) {
+            events['dragstart .scrollable_' + this.cid + ' .tr'] = 'onDragStart';
+        }
+        if (this.options.dropable || this.options.sortable) {
+            events['dragover .scrollable_' + this.cid + ' .vp'] = 'onDragOver';
+            events['dragover .scrollable_' + this.cid + ' .tr'] = 'onDragOver';
+            events['dragleave .scrollable_' + this.cid + ' .vp'] = 'onDragLeave';
+            events['dragleave .scrollable_' + this.cid + ' .tr'] = 'onDragLeave';
+
+            events['drop .scrollable_' + this.cid + ' .tr'] = 'onDrop';
+            events['drop .scrollable_' + this.cid + ' .vp'] = 'onDrop';
+        }
+        this.options.draggable = this.options.draggable || false;
+        this.options.dropable = this.options.dropable || false;
+        this.options.sortable = this.options.sortable || false;
+
         this.delegateEvents(events);
         this.options.disableContextMenu = this.options.disableContextMenu || false;
         if (this.getDropdownButtons().length === 0 || this.options.disableContextMenu) {
             this.options.disableContextMenu = true;
         }
+    },
+
+    onDragStart: function(evt) {
+        //evt.preventDefault();
+        var entryId = $(evt.originalEvent.target)[0].id;
+        var entry = $(evt.originalEvent.target)[0].id.split("entries__row__")[1];
+        console.log("Dragging!!!!", $("#" + entryId));
+        //$("#" + entryId)[0].style.opacity = '0.4';
+        UTILS.DragDrop.setData("EntryId", entryId);
+        UTILS.DragDrop.setData("Draggable", this.options.draggable);
+        UTILS.DragDrop.setData("From", this.cid);
+
+        var resp = this.options.onDrag.call(this.options.context, entry);
+        UTILS.DragDrop.setData("Data", resp);
+        event.dataTransfer.setData('hola', 'hola');
+    },
+
+    onDragOver: function(evt) {
+        evt.preventDefault();
+
+        var item = $(evt.target);
+        if (item[0].tagName === "TD") {
+            item = item.parent();
+        }
+        if (this.isDroppable()) {
+            item.addClass("over");
+        }
+    },
+
+    isDroppable: function() {
+        console.log(this.options.dropable, UTILS.DragDrop.getData("Draggable"))
+        if (this.options.sortable || this.options.dropable) {
+            if (UTILS.DragDrop.getData("Draggable") ||
+                (!UTILS.DragDrop.getData("Draggable")
+                    && this.cid === UTILS.DragDrop.getData("From"))) {
+                return true;
+            }
+        }
+        return false;
+    },
+
+    onDragLeave: function(evt) {
+        evt.preventDefault();
+
+        var item = $(evt.target);
+        if (item[0].tagName === "TD") {
+            item = item.parent();
+        }
+        item.removeClass("over");
+    },
+
+    onDrop: function(evt) {
+        evt.preventDefault();
+        var entryId = UTILS.DragDrop.getData("EntryId");
+        var parentId = $(evt.target).parent()[0].id;
+        //$("#" + entryId)[0].style.opacity = '1';
+        var item = $(evt.target);
+        if (item[0].tagName === "TD") {
+            item = item.parent();
+        }
+        item.removeClass("over");
+        var data = UTILS.DragDrop.getData("Data");
+        var targetId = item[0].id.split("entries__row__")[1];
+        if (this.isDroppable()) {
+            console.log(data);
+            if (this.options.sortable && this.cid === UTILS.DragDrop.getData("From")) {
+                this.options.onMove.call(this.options.context, targetId, data);
+            } else {
+                this.options.onDrop.call(this.options.context, targetId, data);
+            }
+        }
+        UTILS.DragDrop.clear();
     },
 
     getSelectedEntries: function() {
@@ -295,6 +384,8 @@ var TableView = Backbone.View.extend({
             disableActionButton: this.options.disableActionButton,
             headers: this.getHeaders(),
             entries: entries,
+            draggable: this.options.draggable,
+            droppable: this.options.droppable || this.options.sortable,
             disableContextMenu: this.options.disableContextMenu,
             dropdown_buttons_class: this.options.dropdown_buttons_class,
             orderBy: this.orderBy

@@ -404,3 +404,21 @@ UTILS.SM = (function(U, undefined) {
 
     return obj;
 })(UTILS);
+
+UTILS.DragDrop = (function(U, undefined) {
+    var setData, getData, obj = {};
+    setData = function(key, value) {
+        obj[key] = value;
+    };
+    getData = function(key) {
+        return obj[key];
+    };
+    clear = function() {
+        obj = {};
+    }
+    return {
+        setData : setData,
+        getData : getData,
+        clear     : clear
+    }
+})(UTILS);

@@ -196,6 +196,43 @@ var CreateTierView = Backbone.View.extend({
 
     },
 
+    installSoftware: function(id, targetId) {
+        product = this.catalogueList[id];
+        console.log(product);
+        var exists = false;
+        for (var a in this.addedProducts) {
+            if (this.addedProducts[a].name === product.name) {
+                exists = true;
+                continue;
+            }
+        }
+        if (!exists) {
+            //this.addedProducts.push(product);
+            targetId = targetId || this.addedProducts.length;
+            console.log("Installing on: ", targetId);
+            this.addedProducts.splice(targetId, 0, product);
+            this.tableView.render();
+        }
+    },
+
+    movingSoftware: function(id, targetId) {
+        var product = this.addedProducts[id];
+        this.addedProducts.splice(id, 1);
+        var offset = 0;
+        if (id < targetId) {
+            offset = 1;
+        }
+        targetId = targetId || this.addedProducts.length - offset;
+        console.log("Moving to: ", targetId);
+        this.addedProducts.splice(targetId, 0, product);
+        this.tableView.render();
+    },
+
+    uninstallSoftware: function(id) {
+        this.addedProducts.splice(id, 1);
+        this.tableView.render();
+    },
+
     onAction: function(action, ids) {
 
         var self = this;
@@ -204,24 +241,10 @@ var CreateTierView = Backbone.View.extend({
 
         switch (action) {
             case 'install':
-                product = this.catalogueList[ids];
-                console.log(product);
-                var exists = false;
-                for (var a in this.addedProducts) {
-                    if (this.addedProducts[a].name === product.name) {
-                        exists = true;
-                        continue;
-                    }
-                }
-                if (!exists) {
-                    self.addedProducts.push(product);
-                    self.tableView.render();
-                }
-
+                this.installSoftware(ids);
             break;
             case 'uninstall':
-                this.addedProducts.splice(ids, 1);
-                this.tableView.render();
+                this.uninstallSoftware(ids);
             break;
             case 'edit':
                 product = this.addedProducts[ids];
@@ -371,6 +394,30 @@ var CreateTierView = Backbone.View.extend({
         }
     },
 
+    onCatalogDrag: function(entryId) {
+        console.log("Obtained:", entryId);
+        return entryId;
+    },
+
+    onCatalogDrop: function(targetId, entryId) {
+        console.log("Uninstalled:", targetId, entryId);
+        this.uninstallSoftware(entryId);
+    },
+
+    onInstalledSoftwareDrop: function(targetId, entryId) {
+        console.log("Installing:", targetId, entryId);
+        this.installSoftware(entryId, targetId);
+    },
+
+    onInstalledSoftwareDrag: function(entryId) {
+        return entryId;
+    },
+
+    onInstalledSoftwareMove: function(targetId, entryId) {
+        console.log("Moving:", targetId, entryId);
+        this.movingSoftware(entryId, targetId);
+    },
+
     render: function () {
         if ($('#create_tier').html() !== null) {
             $('#create_tier').remove();
@@ -390,9 +437,16 @@ var CreateTierView = Backbone.View.extend({
             getEntries: this.getEntries,
             disableActionButton: true,
             context: this,
-            order: false
+            order: false,
+            draggable: true,
+            dropable: true,
+            sortable: true,
+            onDrop: this.onInstalledSoftwareDrop,
+            onDrag: this.onInstalledSoftwareDrag,
+            onMove: this.onInstalledSoftwareMove
         });
 
+        // catalogo
         this.tableViewNew = new TableView({
             el: '#newSoftware-table',
             actionsClass: "actionsSDCTier",
@@ -405,7 +459,11 @@ var CreateTierView = Backbone.View.extend({
             getHeaders: this.getHeadersNew,
             getEntries: this.getEntriesNew,
             disableActionButton: true,
-            context: this
+            context: this,
+            dropable: true,
+            draggable: true,
+            onDrag: this.onCatalogDrag,
+            onDrop: this.onCatalogDrop
         });
         this.tableView.render();
         this.tableViewNew.render();

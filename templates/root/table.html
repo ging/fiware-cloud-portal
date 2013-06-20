@@ -77,7 +77,7 @@ src: templates/root/table.html
             for (var entry_idx in entries) {
                 var entry = entries[entry_idx];
         %>
-        <tr id="entries__row__<%= entry.id %>" class="ajax-update status_down" <% if (!disableContextMenu) { %> data-toggle="context" data-target="#context-menu-<%=cid%>" style="position:relative" <% } %>>
+        <tr id="entries__row__<%= entry.id %>" <% if (droppable||draggable) { %>draggable="true"<% } %> class="ajax-update status_down tr" <% if (!disableContextMenu) { %> data-toggle="context" data-target="#context-menu-<%=cid%>" style="position:relative" <% } %>>
 
         <%
             var offset = 0;

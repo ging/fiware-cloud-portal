@@ -5,6 +5,13 @@ table form {
     width: 1px;
 }
 
+.over {
+  box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  -webkit-box-sizing:border-box;
+  border: 2px dashed #ccc;
+}
+
 .table_title h3 {
     font-family: comfortaa;
     font-weight: normal;

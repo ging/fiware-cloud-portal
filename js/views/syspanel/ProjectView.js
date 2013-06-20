@@ -40,10 +40,10 @@ var ProjectView = Backbone.View.extend({
             label: "Modify Users", action: "modify-users", activatePattern: oneSelected
         },
         {
-            label: "Delete Project", action:"delete", warn: true, activatePattern: groupSelected
+            label: "Modify Quotas", action: "modify-quotas", activatePattern: oneSelected
         },
         {
-            label: "Modify Quotas", action: "modify-quotas", activatePattern: oneSelected
+            label: "Delete Project", action:"delete", warn: true, activatePattern: groupSelected
         }
         ];
     },
