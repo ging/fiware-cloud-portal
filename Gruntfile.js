@@ -88,7 +88,7 @@ module.exports = function(grunt) {
             style: 'compressed'
           },
           files: {
-              'css/style2.css': ['css/root.scss', 'css/navTab.scss', 'css/topBar.scss', 'css/sideBar.scss', 'css/tables.scss', 'css/icons.scss']
+              'css/style2.css': ['css/root.scss', 'css/navTab.scss', 'css/topBar.scss', 'css/sideBar.scss', 'css/tables.scss', 'css/icons.scss', 'css/forms/tiers.scss']
           }
       }
     },

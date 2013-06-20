@@ -26,6 +26,18 @@ var EditTierView = Backbone.View.extend({
         this.addedProducts = [];
         this.editing = -1;
 
+        this.options.sdcs.getCatalogueListWithReleases({callback: function (resp) {
+
+            self.catalogueList = resp;
+            self.tableViewNew.render();
+
+
+        }, error: function (e) {
+            self.catalogueList = [];
+            self.tableViewNew.render();
+            console.log(e);
+        }});
+
         var self = this;
         if (this.options.tier.icono.toString() === "[object Object]") {
             this.options.tier.icono = "";
@@ -177,7 +189,11 @@ var EditTierView = Backbone.View.extend({
     getEntriesNew: function() {
         var entries = [];
 
-        var products = this.options.catalogueList;
+        var products = this.catalogueList;
+
+        if (products === undefined) {
+            return 'loading';
+        }
 
         for (var product in products) {
               entries.push(
@@ -197,7 +213,7 @@ var EditTierView = Backbone.View.extend({
 
             switch (action) {
                 case 'install':
-                    product = this.options.catalogueList[ids];
+                    product = this.catalogueList[ids];
                     var exists = false;
                     for (var a in this.addedProducts) {
                         if (this.addedProducts[a].name === product.name) {
