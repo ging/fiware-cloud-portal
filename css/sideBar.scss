@@ -1,0 +1,148 @@
+@import "main";
+
+@mixin sideBarFont {
+  font-family: 'Comfortaa';
+  font-weight:400;
+  color: #7B7B7B;
+  font-size: 12px;
+  line-height: normal;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  padding-left: 15px;
+}
+
+.sideBarTitle {
+  @include sideBarFont;
+}
+
+.tenant_switch {
+  padding-bottom: 0px;
+  width: 90%;
+  padding-left: 15px;
+
+  .sbHolder {
+    font-family: 'Comfortaa';
+    font-weight:400;
+    border: none;
+    font-size: 18px;
+    color: #00A3D0;
+  }
+
+  .sbOptions a:link,
+  .sbOptions a:visited {
+    font-family: 'Comfortaa';
+    font-size: 18px;
+    font-weight:400;
+    color: $blue4;
+    &:hover {
+      color: $blue2;
+      background-color: #f9f9f9;
+    }
+  }
+
+  .sbSelector:link,
+  .sbSelector:visited,
+  .sbSelector:hover {
+    color: $blue3;
+    outline: none;
+    text-decoration: none;
+    position: absolute;
+    left: 0px;
+    width: 80%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    border: 0;
+  }
+
+  .sbToggle {
+    background: url(../ico/click.png) 0px 10px no-repeat;
+    &:hover {
+    }
+    &.sbToggleOpen {
+        -moz-transform: scaleY(-1);
+        -o-transform: scaleY(-1);
+        -webkit-transform: scaleY(-1);
+        transform: scaleY(-1);
+        filter: FlipV;
+        -ms-filter: "FlipV";
+    }
+  }
+}
+
+@mixin back_li {
+  background-attachment: scroll;
+  background-clip: border-box;
+  background-color: white;
+  background-image: none;
+  background-origin: padding-box;
+  background-position: 0 0;
+  background-repeat: repeat;
+  background-size: auto auto;
+  border: none;
+}
+
+.main_nav {
+
+  list-style-image: none;
+  list-style-position: outside;
+  list-style-type: none;
+  background-color: white;
+  padding: 3px 0px 10px 0px;
+  border-radius: 0px 0px 5px 5px;
+
+  li:hover > a {
+      @include back_li;
+  }
+
+  a {
+      font-size: 18px;
+      display: block;
+      padding-bottom: 10px;
+      padding-right: 10px;
+      padding-top: 10px;
+      color: #7B7B7B;
+      padding: 10px;
+      display: block;
+      margin-left: 0px !important;
+      border-radius: 5px;
+      line-height: 34px;
+
+      &.active {
+          @include back_li;
+          background-color: white;
+          color: #00A3D0;
+
+          &:hover {
+            border: none;
+            background-color: white;
+            color: #73D5E5;
+          }
+      }
+
+      &:hover {
+        text-decoration: none;
+        @include back_li;
+        color: #73D5E5;
+      }
+  }
+
+  li {
+    @include sideBarFont;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 15px;
+    height: 34px;
+    line-height: 34px;
+
+    .small {
+      font-size: 12px;
+    }
+
+    & > a {
+      padding-bottom: 0px;
+      padding-top: 0px;
+      padding-left: 0px;
+    }
+  }
+}

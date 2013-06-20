@@ -20,10 +20,6 @@ tbody.scrollContent tr {
 }
 */
 
-.main_nav li .small {
-  font-size: 12px;
-}
-
 html, body {
   height: 100%;
 }
@@ -100,15 +96,9 @@ html, body {
   position: relative;
 }
 
-.sbSelector:link, .sbSelector:visited, .sbSelector:hover {
-  position: absolute;
-  left: 0px;
-  width: 80%;
-}
-
 /* Wrap text */
 
-.wrap_text, .sbSelector:link, .sbSelector:visited, .sbSelector:hover {
+.wrap_text {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -223,10 +213,6 @@ html, body {
   position: absolute;
 }
 
-.sidebar-menu {
-  margin-top: 36px;
-}
-
 .form-horizontal .control-label {
   width: 80px;
 }
@@ -235,26 +221,8 @@ html, body {
   margin-left: 90px;
 }
 
-@media (max-width: 979px) {
-
-.sidebar-menu {
-  margin-top: 0px;
-}
-
-}
-
-.logo{
-  margin-left: -4px !important;
-  float: left;
-  top: 0px;
-  margin-top: 18px;
-}
 .text-logo{
   margin-left: 0px;
-}
-.dashboard{
-  text-shadow: 1px 0px 1px
-  rgba(255, 255, 255, 0.10);
 }
 .signin{
   margin-rigth: 6px;
@@ -344,21 +312,6 @@ max-width: 120px;}
 .inline{ display:inline}
 .inline-block{ display:inline-block}
 
-.link-logo{
-  color: #000;
-  text-decoration: none;
-  font-family: DsignesRegular;
-  font-size: 30px;
-
-}
-.navbar .link-logo{
-  color: #fff;
-  text-decoration: none;
-  font-family: DsignesRegular;
-  font-size: 30px;
-
-}
-
 .big-tittle{
   background: -moz-linear-gradient(left,  rgba(255,255,255,0) 0%, rgba(237,237,237,0.85) 50%, rgba(237,237,237,1) 100%);
   background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(255,255,255,0)), color-stop(50%,rgba(237,237,237,0.85)), color-stop(100%,rgba(237,237,237,1)));
@@ -376,7 +329,6 @@ max-width: 120px;}
   width: 100%;
   float: right !important;
 }
-#sideBarTitle{padding-bottom: 10px; padding-top: 10px; padding-left: 15px;}
 .no-resize{resize:none;}
 /*.color-mv { background-color: #cccccc !important;}*/
 .pull-left{float: left;}
@@ -387,49 +339,6 @@ max-width: 120px;}
     border-bottom-right-radius:14px;
     border-top-left-radius:3px;
     border-top-right-radius:3px;
-}
-
-.main_nav {
-    list-style-image: none;
-    list-style-position: outside;
-    list-style-type: none;
-    background-color: white;
-}
-
-.main_nav a.active {
-    background-attachment: scroll;
-    background-clip: border-box;
-    background-color: #FFFFFF;
-    background-image: none;
-    background-origin: padding-box;
-    background-position: 0 0;
-    background-repeat: repeat;
-    background-size: auto auto;
-    border: none;
-    color: #0093C6;
-}
-.main_nav a {
-    font-size: 18px;
-    display: block;
-    padding-bottom: 10px;
-    padding-right: 10px;
-    padding-top: 10px;
-}
-.main_nav a:hover, .main_nav li:hover > a {
-    background-attachment: scroll;
-    background-clip: border-box;
-    background-color: #dfdfdf;
-    background-image: none;
-    background-origin: padding-box;
-    background-position: 0 0;
-    background-repeat: repeat;
-    background-size: auto auto;
-    border: none;
-    color: #0093C6;
-}
-
-.main_nav a.active:hover {
-  border: none;
 }
 
 .add-on{color: #FFFFFF; text-shadow:none;}
@@ -886,89 +795,7 @@ textarea {
   background-color: rgb(0, 147, 198),
 }
 
-/** line 3255 boostrap.css**/
-.nav-list > .active > a, .nav-list > .active > a:hover {
-color: white;
-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
-background-color: rgb(0, 147, 198);
-}
 
-/** line 3347 boostrap.css**/
-.nav-pills > .active > a, .nav-pills > .active > a:hover {
-    background-color: #0093C6;
-    color: #FFFFFF;
-}
-
-/** line 3578 boostrap.css**/
-.navbar-inner {
-  background-color: #777777;
-  background-image: none;
-  padding-right: 0px;
-  padding-left: 0px;
-  background-image: none;
-  box-shadow: none;
-}
-
-
-/** line 3615 boostrap.css**/
-.navbar .brand {
-  color: #FFFFFF;
-}
-
-/** line 3700 boostrap.css**/
-.navbar-search .search-query {
-font-family: "opensans", Helvetica, Arial, sans-serif;
-color: #000000;
-background-color: #FFFFFF;
-border: 1px solid #f9f9f9;
-line-height: 2;
-}
-
-/** line 3792 boostrap.css**/
-.navbar .nav > li > a {
-  color: #CCCCCC !important;
-  padding: 6px 6px 4px;
- /* padding-bottom: 1px; */
- border-bottom-right-radius: 0px;
- border-bottom-left-radius: 0px;
-}
-
-/** line 3819 boostrap.css**/
-.navbar .nav .active > a, .navbar .nav .active > a:hover {
-    background-color: #CCCCCC;
-    color: #666666 !important;
-    padding-bottom: 3px;
-}
-
-/** line 3826 boostrap.css**/
-.navbar .divider-vertical {
-background-color: #f9f9f9;
-border-right: 1px solid #f9f9f9;
-border: none;
-}
-
-/** line 3840 boostrap.css**/
-.navbar .btn-navbar {
-    background-color: #f9f9f9;
-    background-image: none;
-    float: left;
-}
-
-/** line 3864 boostrap.css**/
-.navbar .btn-navbar:hover,
-.navbar .btn-navbar:active,
-.navbar .btn-navbar.active,
-.navbar .btn-navbar.disabled,
-.navbar .btn-navbar[disabled] {
-  background-color: #ffffff;
-}
-
-
-/** line 3878 boostrap.css**/
-.navbar .btn-navbar .icon-bar {
-    background-color: #000000;
-
-}
 
 /** line 4941 boostrap.css**/
 .hero-unit {
@@ -1004,19 +831,6 @@ border: none;
   color: inherit;
 }
 
-.nav-tabs li {
-    cursor: pointer;
-}
-
-/** bootstrap for application - cloud portal   **/
-
-.nav-collapse .nav > li {
-  float:left;!important
-}
-/** line 696 boostrap.css**/
-.navbar-fixed-top .navbar-inner, .navbar-fixed-bottom .navbar-inner {
-    padding-bottom: 0px;
-}
 @media (max-width: 979px) {
   .container-view {
     top: 0px;

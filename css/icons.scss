@@ -1,0 +1,44 @@
+@import "main";
+
+@mixin nav_icon($position, $hover : -25px) {
+    $left: $position * -25px + 1px;
+    &:before {
+        background-position: 0px $left;
+    }
+    &:hover:before,
+    &.active:before {
+        background-position: $hover $left;
+    }
+}
+
+@mixin nav_icons() {
+  $index : 0;
+  @each $section in applications, blueprintInstances, blueprintTemplates,
+                    instances, images, security, flavors, snapshots,
+                    container, volumes, project, user, quotas, settings, logout {
+    a.icon_nav-#{$section} {
+        @include nav_icon($index, -25px);
+    }
+
+    span.icon_nav-#{$section} {
+        @include nav_icon($index, 0px);
+    }
+    $index : $index + 1;
+  }
+}
+
+[class^="icon_nav-"], [class*="icon_nav-"] {
+  &:before {
+      content: " ";
+      background-image: url("../ico/icon_nav.png");
+      font-weight: bold;
+      width: 25px;
+      height: 25px;
+      display: block;
+      float: left;
+      margin-right: 10px;
+      margin-top: 4px;
+  }
+}
+
+@include nav_icons();

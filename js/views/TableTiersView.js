@@ -83,10 +83,14 @@ var TableTiersView = Backbone.View.extend({
             dropdown_buttons_class: this.options.dropdown_buttons_class
         });
 
-        var scrollTo = $(".scrollable_" + this.cid).scrollTop();
+        var scrollTo = 0;
+        if ($('.scrollable_' + this.cid).data('tsb')) {
+            scrollTo = $('.scrollable_' + this.cid).data('tsb').getScroll();
+            $('.scrollable_' + this.cid).data('tsb').stop();
+        }
         $(this.el).html(new_template);
-        $(".scrollable_" + this.cid).scrollTop(scrollTo);
         $(".dial").knob();
+        $('.scrollable_' + this.cid).tinyscrollbar({offsetTop: 0, offsetBottom: 0, scrollTo: scrollTo});
         return this;
     }
 });

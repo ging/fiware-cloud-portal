@@ -3,6 +3,7 @@
 Description: Table Tiers
 src: templates/root/table-tiers.html
 -->
+<div class="table_container">
 <div class='table_header'>
     <div class="table_actions clearfix">
         <%
@@ -22,7 +23,8 @@ src: templates/root/table-tiers.html
     </div>
 </div>
 <div class="scrollable scrollable_<%=cid%>">
-<table id="table_entries" class="table table-without-margins without-borders table-striped table-scrolled">
+<div class="vp">
+<table id="table_entries" class="table table-without-margins without-borders table-striped table-scrolled ov">
     <tbody>
         <%
             for (var entry_idx in entries) {
@@ -86,6 +88,8 @@ src: templates/root/table-tiers.html
         <% } %>
     </tbody>
     </table>
+    <div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div>
+    </div>
 </div>
 <table id="table_foot" class="table-foot table table-bordered table-striped table-without-margins">
     <tfoot>
@@ -94,4 +98,5 @@ src: templates/root/table-tiers.html
         </tr>
     </tfoot>
 </table>
+</div>
 </script>

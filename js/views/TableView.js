@@ -52,10 +52,10 @@ var TableView = Backbone.View.extend({
         return entries.sort(function (a,b) {
             if (a.cells[self.orderBy.column].value === b.cells[self.orderBy.column].value) {
                 return 0;
-            } 
+            }
             if (a.cells[self.orderBy.column].value > b.cells[self.orderBy.column].value) {
                 return order * 1;
-            } 
+            }
             return order * -1;
         });
     },
@@ -326,10 +326,13 @@ var TableView = Backbone.View.extend({
                 attributes.push($(button).attr("disabled"));
             });
         }
-
-        var scrollTo = $(".scrollable_" + this.cid).scrollTop();
+        var scrollTo = 0;
+        if ($('.scrollable_' + this.cid).data('tsb')) {
+            scrollTo = $('.scrollable_' + this.cid).data('tsb').getScroll();
+            $('.scrollable_' + this.cid).data('tsb').stop();
+        }
         $(this.el).html(new_template);
-        $(".scrollable_" + this.cid).scrollTop(scrollTo);
+        //$(".scrollable_" + this.cid).scrollTop(scrollTo);
         for (index in checkboxes) {
             id = checkboxes[index];
             check = $("#checkbox_" + id);
@@ -365,6 +368,7 @@ var TableView = Backbone.View.extend({
             });
         }
         this.changeActionButtons();
+        $('.scrollable_' + this.cid).tinyscrollbar({offsetTop: 0, offsetBottom: 0, scrollTo: scrollTo});
         return this;
     }
 });

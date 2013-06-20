@@ -82,6 +82,16 @@ module.exports = function(grunt) {
         ]
       }
     },
+    sass: {
+      dist: {
+          options: {
+            style: 'compressed'
+          },
+          files: {
+              'css/style2.css': ['css/root.scss', 'css/navTab.scss', 'css/topBar.scss', 'css/sideBar.scss', 'css/tables.scss', 'css/icons.scss']
+          }
+      }
+    },
     clean: ['dist/']
   });
   grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -94,7 +104,9 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-clean');
 
+  grunt.loadNpmTasks('grunt-contrib-sass');
+
   // Default task.
-  grunt.registerTask('default', ['jshint', 'concat', 'concat:dist', 'concat:disttest', 'copy']);
+  grunt.registerTask('default', ['jshint', 'concat', 'concat:dist', 'concat:disttest', 'copy', 'sass']);
 
 };

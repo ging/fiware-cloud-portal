@@ -32,12 +32,6 @@
 
 /**************icon nav *************/
 
-.main_nav [class^="icon_nav-"], [class*="icon_nav-"] {
-  width: 25px;
-  height: 25px;
-  background-image: url("../ico/icon_nav.png");
-  cursor: pointer;
-}
 
 /**************icon nav *************/
 

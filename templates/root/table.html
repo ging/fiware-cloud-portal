@@ -61,7 +61,8 @@ src: templates/root/table.html
 </div>
 
 <div class="scrollable scrollable_<%=cid%> <%=bodyClass%>">
-<table id="table_entries" class="table table-without-margins without-borders table-striped table-scrolled">
+<div class="vp">
+<table id="table_entries" class="table table-without-margins without-borders table-striped table-scrolled ov">
     <tbody>
         <%
             for (var entry_idx in entries) {
@@ -100,6 +101,8 @@ src: templates/root/table.html
         <% } %>
     </tbody>
     </table>
+</div>
+<div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div>
 </div>
 
 <table id="table_head" class="table table-bordered table-striped table-header <%=headerClass%>">

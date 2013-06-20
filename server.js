@@ -1,7 +1,8 @@
 var express = require('express'),
     http = require('http'),
     https = require('https'),
-    XMLHttpRequest = require("./xmlhttprequest").XMLHttpRequest;
+    XMLHttpRequest = require("./xmlhttprequest").XMLHttpRequest,
+    sass = require("node-sass");
 
 process.on('uncaughtException', function (err) {
   console.log('Caught exception: ' + err);
