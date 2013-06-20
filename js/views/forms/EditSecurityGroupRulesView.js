@@ -235,6 +235,7 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
     },
 
     createRule: function(e) {
+        console.log("Creating rule");
         e.preventDefault();
         self = this;
 

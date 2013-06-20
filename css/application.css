@@ -96,13 +96,9 @@ html, body {
   position: relative;
 }
 
-.sbSelector:link, .sbSelector:visited, .sbSelector:hover {
-  position: absolute;
-  left: 0px;
-  width: 80%;
-}
+/* Wrap text */
 
-.table-striped tr td,  .wrap_text, .sbSelector:link, .sbSelector:visited, .sbSelector:hover {
+.wrap_text {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -123,7 +119,7 @@ html, body {
 
 #content {
   position: absolute;
-  margin-top: 44px;
+  margin-top: 8px;
   top: 0px;
   bottom: 56px;
   right: 3px;
@@ -164,141 +160,6 @@ html, body {
   -webkit-border-radius: 0px;
   -moz-border-radius: 0px;
   border-radius: 0px;
-}
-
-#table_head {
-  position: absolute;
-  top: 32px;
-  height: 35px;
-  border: 0;
-  border-bottom: 1px solid #dddddd;
-}
-
-#table_head thead,
-#table_head thead tr {
-  height: 35px;
-}
-
-.table input[type=checkbox] {
-  display: none;
-}
-
-.table input[type=checkbox] + label {
-  content:"";
-  display:inline-block;
-  background-image:url(../images/checkbox.png);
-  background-position: 0px 0px;
-  width: 15px;
-  height: 15px;
-  margin-top: 1px;
-  margin-bottom: -1px;
-  cursor: pointer;
-}
-
-.table input[type=checkbox] + label:hover {
-  background-position: -15px 0px;
-}
-
-.table input[type=checkbox]:checked + label {
-  background-position: -30px 0px;
-}
-
-.table input[type=checkbox]:checked + label:hover {
-  background-position: -45px 0px;
-} ​
-
-.table_header .table_actions {
-  height: 23px;
-}
-
-.table {
-  margin-bottom: 0px;
-  margin-top: 0px;
-  table-layout: fixed;
-}
-
-.table-header {
-  height: 40px;
-}
-
-.table-striped tbody tr:nth-child(even) td, .table-striped tbody tr:nth-child(even) th {
-background-color: #ffffff;
-}
-
-.table tbody tr:hover td, .table tbody tr:hover th {
-  background-color: #f1f1f1;
-}
-
-td.actions_column {
-  padding: 8px;
-}
-
-.table-without-margins {
-  margin-top: -1px;
-}
-
-.table-bordered {
-  -webkit-border-radius: 0px;
-  -moz-border-radius: 0px;
-  border-radius: 0px;
-
-}
-
-.table-bordered thead {
-  font-weight: bold;
-}
-
-.table-bordered thead:first-child tr:first-child th:first-child, .table-bordered tbody:first-child tr:first-child td:first-child {
-  -webkit-border-radius: 0px;
-  -moz-border-radius: 0px;
-  border-radius: 0px;
-}
-
-.table-scrolled {
-  width: 100%;
-  overflow-x: hidden;
-}
-
-.table-scrolled tr {
-  cursor: pointer;
-}
-
-.scrollable {
-/*background-color: #f1f1f1;*/
-right: 1px;
-left: 0px;
-overflow-y: auto;
-overflow-x: hidden;
-position: absolute;
-top: 68px;
-width: 100%;
-bottom: 42px;
-}
-
-.table-foot {
-  position: absolute;
-  bottom: 10px;
-  border: 0;
-}
-
-.tab-content-adjustable {
-  position: absolute;
-  padding-top: 0px;
-  bottom: 0px;
-  top: 51px;
-  right: 0px;
-  left: 0px;
-}
-
-.tab-adjustable {
-  position:relative;
-  height: 100%;
-  overflow: hidden;
-}
-
-.table_header .table_actions a, .table_header .table_actions button {
-  border-top-left-radius: 0px;
-  border-top-right-radius: 0px;
 }
 
 .btn-group > .btn:first-child {
@@ -357,10 +218,6 @@ bottom: 42px;
   position: absolute;
 }
 
-.sidebar-menu {
-  margin-top: 44px;
-}
-
 .form-horizontal .control-label {
   width: 80px;
 }
@@ -369,26 +226,8 @@ bottom: 42px;
   margin-left: 90px;
 }
 
-@media (max-width: 979px) {
-
-.sidebar-menu {
-  margin-top: 0px;
-}
-
-}
-
-.logo{
-  margin-left: -4px !important;
-  float: left;
-  top: 0px;
-  margin-top: 44px;
-}
 .text-logo{
   margin-left: 0px;
-}
-.dashboard{
-  text-shadow: 1px 0px 1px
-  rgba(255, 255, 255, 0.10);
 }
 .signin{
   margin-rigth: 6px;
@@ -435,7 +274,7 @@ max-width: 120px;}
 .gray-dark{color:#777777}
 .white{color:#FFF;}
 .line{ background-color:#CCC; padding-left:3px; padding-right:3px; height:1px; width:auto;}
-.menuv{background-color: #ccc}
+.menuv{background-color: white}
 
 .text-index-xl a :hover {
 	color:#fff;
@@ -478,21 +317,6 @@ max-width: 120px;}
 .inline{ display:inline}
 .inline-block{ display:inline-block}
 
-.link-logo{
-  color: #000;
-  text-decoration: none;
-  font-family: DsignesRegular;
-  font-size: 30px;
-
-}
-.navbar .link-logo{
-  color: #fff;
-  text-decoration: none;
-  font-family: DsignesRegular;
-  font-size: 30px;
-
-}
-
 .big-tittle{
   background: -moz-linear-gradient(left,  rgba(255,255,255,0) 0%, rgba(237,237,237,0.85) 50%, rgba(237,237,237,1) 100%);
   background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(255,255,255,0)), color-stop(50%,rgba(237,237,237,0.85)), color-stop(100%,rgba(237,237,237,1)));
@@ -501,7 +325,7 @@ max-width: 120px;}
   background: -ms-linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(237,237,237,0.85) 50%,rgba(237,237,237,1) 100%);
   background: linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(237,237,237,0.85) 50%,rgba(237,237,237,1) 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ededed',GradientType=1 );
-  height:60px;
+  height: 50px;
   margin-bottom: 20px;
   margin-top:-37px;
   margin-right:-5px;
@@ -510,70 +334,18 @@ max-width: 120px;}
   width: 100%;
   float: right !important;
 }
-#sideBarTitle{padding-bottom: 10px; padding-top: 10px; padding-left: 10px;}
 .no-resize{resize:none;}
 /*.color-mv { background-color: #cccccc !important;}*/
 .pull-left{float: left;}
 .pull-right{float: right;}
 
-#navtab { background-color: #777777;
+#navtab { background-color: white;
     border-bottom-left-radius:14px;
     border-bottom-right-radius:14px;
     border-top-left-radius:3px;
     border-top-right-radius:3px;
 }
 
-.main_nav {
-    list-style-image: none;
-    list-style-position: outside;
-    list-style-type: none;
-    background-color: #ccc;
-}
-
-.main_nav a.active {
-    background-attachment: scroll;
-    background-clip: border-box;
-    background-color: #FFFFFF;
-    background-image: none;
-    background-origin: padding-box;
-    background-position: 0 0;
-    background-repeat: repeat;
-    background-size: auto auto;
-    border-bottom-color: #FFFFFF;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 0;
-    border-bottom-style: solid;
-    border-bottom-width: 1px;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 0;
-    color: #0093C6;
-}
-.main_nav a {
-    display: block;
-    padding-bottom: 10px;
-    padding-right: 10px;
-    padding-top: 10px;
-}
-.main_nav a:hover {
-    background-attachment: scroll;
-    background-clip: border-box;
-    /*background-color: #f8f8f8;*/
-    background-color: #dfdfdf;
-    background-image: none;
-    background-origin: padding-box;
-    background-position: 0 0;
-    background-repeat: repeat;
-    background-size: auto auto;
-    /*border-bottom-color: #FFFFFF;*/
-    border-bottom-color: #dfdfdf;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 0;
-    border-bottom-style: solid;
-    border-bottom-width: 1px;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 0;
-    color: #0093C6;
-}
 .add-on{color: #FFFFFF; text-shadow:none;}
 /* input file*/
 
@@ -602,6 +374,7 @@ input.file {
 
 .btn-basic {
   font-size: 12px;
+  font-family: "comfortaa";
   color: #898989;
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.1);
   border: 1px solid #cccccc;
@@ -632,6 +405,10 @@ input.file {
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
   border-color: #e6e6e6 #e6e6e6 #bfbfbf;
   border-bottom-color: #b3b3b3;
+}
+
+.btn {
+  font-family: "comfortaa";
 }
 
 .btn-blue {
@@ -676,9 +453,9 @@ a {color:#0093C6}
 /****line 149 bootstrap.css*/
 body {
   margin: 0;
-  font-family:  "Open Sans", sans-serif;
-  font-size: 13px;
-  line-height: 18px;
+  font-family:  "comfortaa";
+  font-size: 14px;
+  line-height: 14px;
   color: #333333;
   background-color: #ffffff;
   padding-right: 5px;
@@ -699,7 +476,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Open Sans", sans-serif;;
+  /*font-family: "Open Sans", sans-serif;;*/
   font-weight:400;
 }
 
@@ -791,7 +568,7 @@ h6 {
 .page-header {
   padding-bottom: none;
   /*margin: 18px 0;*/
-  border-bottom: 1px solid #eeeeee;
+  /*border-bottom: 1px solid #eeeeee;*/
   margin-top: 10px;
 }
 
@@ -1023,89 +800,7 @@ textarea {
   background-color: rgb(0, 147, 198),
 }
 
-/** line 3255 boostrap.css**/
-.nav-list > .active > a, .nav-list > .active > a:hover {
-color: white;
-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
-background-color: rgb(0, 147, 198);
-}
 
-/** line 3347 boostrap.css**/
-.nav-pills > .active > a, .nav-pills > .active > a:hover {
-    background-color: #0093C6;
-    color: #FFFFFF;
-}
-
-/** line 3578 boostrap.css**/
-.navbar-inner {
-  background-color: #777777;
-  background-image: none;
-  padding-right: 0px;
-  padding-left: 0px;
-  background-image: none;
-  box-shadow: none;
-}
-
-
-/** line 3615 boostrap.css**/
-.navbar .brand {
-  color: #FFFFFF;
-}
-
-/** line 3700 boostrap.css**/
-.navbar-search .search-query {
-font-family: "opensans", Helvetica, Arial, sans-serif;
-color: #000000;
-background-color: #FFFFFF;
-border: 1px solid #f9f9f9;
-line-height: 2;
-}
-
-/** line 3792 boostrap.css**/
-.navbar .nav > li > a {
-  color: #CCCCCC !important;
-  padding: 6px 10px 4px;
- /* padding-bottom: 1px; */
- border-bottom-right-radius: 0px;
- border-bottom-left-radius: 0px;
-}
-
-/** line 3819 boostrap.css**/
-.navbar .nav .active > a, .navbar .nav .active > a:hover {
-    background-color: #CCCCCC;
-    color: #666666 !important;
-    padding-bottom: 3px;
-}
-
-/** line 3826 boostrap.css**/
-.navbar .divider-vertical {
-background-color: #f9f9f9;
-border-right: 1px solid #f9f9f9;
-border: none;
-}
-
-/** line 3840 boostrap.css**/
-.navbar .btn-navbar {
-    background-color: #f9f9f9;
-    background-image: none;
-    float: left;
-}
-
-/** line 3864 boostrap.css**/
-.navbar .btn-navbar:hover,
-.navbar .btn-navbar:active,
-.navbar .btn-navbar.active,
-.navbar .btn-navbar.disabled,
-.navbar .btn-navbar[disabled] {
-  background-color: #ffffff;
-}
-
-
-/** line 3878 boostrap.css**/
-.navbar .btn-navbar .icon-bar {
-    background-color: #000000;
-
-}
 
 /** line 4941 boostrap.css**/
 .hero-unit {
@@ -1141,19 +836,6 @@ border: none;
   color: inherit;
 }
 
-.nav-tabs li {
-    cursor: pointer;
-}
-
-/** bootstrap for application - cloud portal   **/
-
-.nav-collapse .nav > li {
-  float:left;!important
-}
-/** line 696 boostrap.css**/
-.navbar-fixed-top .navbar-inner, .navbar-fixed-bottom .navbar-inner {
-    padding-bottom: 0px;
-}
 @media (max-width: 979px) {
   .container-view {
     top: 0px;

@@ -5,18 +5,18 @@ src: templates/root/topBar.html
 -->
 
 <div id="user_info" class="pull-right">
-    <span data-i18n="Logged in as">Logged in as</span>: <%= get('username') %> <a href="#settings/" data-i18n="Settings">Settings</a>
-    <a href="#auth/logout" data-i18n="Sign Out">Sign Out</a>
+    <span id="user_info_name" class="icon_nav-project"><%= get('username') %></span> <a class="top-icon icon_nav-settings" href="#settings/"></a>
+    <a href="#auth/logout" class="top-icon icon_nav-logout"></a>
 </div>
 
 <div class="header hidden-tablet hidden-phone">
     <div class="header row-fluid">
-        <div class="logo span3">
+        <div class="logo span2">
             <div class="brand"></div>
-            <h2><a href="#home/"><span class="link-logo">fi-ware</span></a>&nbsp;&nbsp;</h2>
+            <h2><a href="#home/"><span class="link-logo">fi-ware</span></a></h2>
             <h2 class="dashboard"> Dashboard</h2>
         </div>
-        <div class="big-tittle inline-block span9 page-header">
+        <div class="big-tittle inline-block span10 page-header">
             <h2 class="in-big-title" data-i18n="<%= get('title') %>"><%= get('title') %> <% if (has('subtitle')) { %><small><%= get('subtitle') %></small><% } %></h2>
         </div>
         <div class="hidden-desktop">

@@ -3,12 +3,21 @@
 Description: Table
 src: templates/root/table.html
 -->
+<div class="table_container">
 <div class='table_header <%=actionsClass%>'>
     <div class="table_actions clearfix">
         <%
           var checkbox_enabled = false;
           var checkbox_size = "0%";
           var dropdown_buttons_class = dropdown_buttons_class || undefined;
+
+          for (var header_idx in headers) {
+              var header = headers[header_idx];
+              if (header.type === "checkbox") {
+                checkbox_enabled = true;
+                checkbox_size = header.size;
+              }
+          }
 
           for (var btn_idx in main_buttons) {
             var main_button = main_buttons[btn_idx];
@@ -50,6 +59,62 @@ src: templates/root/table.html
         %>
     </div>
 </div>
+
+<div class="scrollable scrollable_<%=cid%> <%=bodyClass%>">
+<div class="vp">
+<table id="table_entries" class="table table-without-margins without-borders table-striped table-scrolled ov">
+    <tbody>
+        <%
+        if (entries === 'loading') {
+        %>
+        <tr id="entries__row__loading" class="ajax-update status_down">
+        <td style="width:100%" class="">Loading items...</td>
+        </tr>
+        <%
+
+        } else {
+
+            for (var entry_idx in entries) {
+                var entry = entries[entry_idx];
+        %>
+        <tr id="entries__row__<%= entry.id %>" class="ajax-update status_down" <% if (!disableContextMenu) { %> data-toggle="context" data-target="#context-menu-<%=cid%>" style="position:relative" <% } %>>
+
+        <%
+            var offset = 0;
+            if (checkbox_enabled) {
+                offset = 1;
+        %>
+            <td style="width:<%= checkbox_size%>" class="multi_select_column entry_<%=cid%>">
+                <input id="checkbox_<%= entry.id%>" type="checkbox" name="object_ids" class="checkbox checkbox_entries checkbox_entries_<%=cid%>"  value="<%= entry.id%>" />
+                <label for="checkbox_<%= entry.id%>"></label>
+            </td>
+        <%  }
+            for (var cell_idx in entry.cells) {
+                var cell = entry.cells[cell_idx];
+                var header_idx = parseInt(cell_idx)+parseInt(offset);
+                var header = headers[header_idx];
+                if (cell.link) {
+        %>
+            <td style="width:<%=header.size%>" class="<%=(header.hidden_tablet) ? 'hidden-tablet':''%> <%=(header.hidden_phone) ? 'hidden-phone':''%> entry_<%=cid%> <%= (cell.cssclass) ? cell.cssclass:''%>"><a href="<%=cell.link%>" class="<%= (cell.cssclass) ? cell.cssclass:''%>"><%= cell.value %></a></td>
+        <%
+                } else {
+        %>
+            <td style="width:<%=header.size%>" class="<%=(header.hidden_tablet) ? 'hidden-tablet':''%> <%=(header.hidden_phone) ? 'hidden-phone':''%> entry_<%=cid%> <%= (cell.cssclass) ? cell.cssclass:''%>"><%= cell.value %></td>
+        <%
+            }
+        %>
+        <%
+            }
+        %>
+        </tr>
+        <% }
+    } %>
+    </tbody>
+    </table>
+</div>
+<div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div>
+</div>
+
 <table id="table_head" class="table table-bordered table-striped table-header <%=headerClass%>">
     <thead>
         <tr>
@@ -98,6 +163,7 @@ src: templates/root/table.html
         </tr>
     </thead>
 </table>
+<!--
 <div class="scrollable scrollable_<%=cid%> <%=bodyClass%>">
 <table id="table_entries" class="table table-without-margins without-borders table-striped table-scrolled">
     <tbody>
@@ -144,12 +210,13 @@ src: templates/root/table.html
             }
         %>
         </tr>
-        <% 
-            }    
+        <%
+            }
         }%>
     </tbody>
     </table>
 </div>
+-->
 <table id="table_foot" class="table-foot table table-bordered table-striped table-without-margins <%=footerClass%>">
     <tfoot>
         <tr>
@@ -171,4 +238,5 @@ src: templates/root/table.html
   </ul>
 </div>
 <% } %>
+</div>
 </script>

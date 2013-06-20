@@ -26,7 +26,7 @@ var OSRouter = Backbone.Router.extend({
 
     timers: {},
     backgroundTime: 60,
-    foregroundTime: 5,
+    foregroundTime: 500,
 
     routes: {
         'auth/login': 'login',
@@ -266,11 +266,11 @@ var OSRouter = Backbone.Router.extend({
 
                                     //{name: 'Instances', active: false, url: '#syspanel/instances/'},
                                     //{name: 'Services', active: false, url: '#syspanel/services/'},
-                                    {name: 'Flavors', active: false, url: '#syspanel/flavors/'},
+                                    {name: 'Flavors', iconcss: "icon_nav-flavors", active: false, url: '#syspanel/flavors/'},
                                     //{name: 'Images', active: false, url: '#syspanel/images/images/'},
-                                    {name: 'Projects', active: false, url: '#syspanel/projects/'},
-                                    {name: 'Users', active: false, url: '#syspanel/users/'},
-                                    {name: 'Quotas', active: false, url: '#syspanel/quotas/'}
+                                    {name: 'Projects', iconcss: "icon_nav-project", active: false, url: '#syspanel/projects/'},
+                                    {name: 'Users', iconcss: "icon_nav-user", active: false, url: '#syspanel/users/'},
+                                    {name: 'Quotas', iconcss: "icon_nav-quotas", active: false, url: '#syspanel/quotas/'}
                                     ]);
         self.navs.setActive(option);
         self.tabs.setActive('Admin');
@@ -357,16 +357,16 @@ var OSRouter = Backbone.Router.extend({
                             {name: 'Compute', type: 'title'},
                             //{name: 'Overview', active: true, url: '#nova/'},
                             //{name: 'Virtual Data Centers', active: false, url: '#nova/vdcs/'},
-                            {name: 'Blueprint Instances', active: false, url: '#nova/blueprints/instances/'},
-                            {name: 'Blueprint Templates', active: false, url: '#nova/blueprints/templates/'},
-                            {name: 'Instances', active: false, url: '#nova/instances/'},
-                            {name: 'Images', active: false, url: '#nova/images/'},
-                            {name: 'Flavors', active: false, url: '#nova/flavors/'},
-                            {name: 'Security', active: false, url: '#nova/access_and_security/'},
-                            {name: 'Snapshots', active: false, url: '#nova/snapshots/'},
+                            {name: 'Blueprint Instances',  iconcss: "icon_nav-blueprintInstances", css:"small", active: false, url: '#nova/blueprints/instances/'},
+                            {name: 'Blueprint Templates',  iconcss: "icon_nav-blueprintTemplates", css:"small", active: false, url: '#nova/blueprints/templates/'},
+                            {name: 'Instances', iconcss: "icon_nav-instances", active: false, url: '#nova/instances/'},
+                            {name: 'Images', iconcss: "icon_nav-images", active: false, url: '#nova/images/'},
+                            {name: 'Flavors', iconcss: "icon_nav-flavors", active: false, url: '#nova/flavors/'},
+                            {name: 'Security', iconcss: "icon_nav-security", active: false, url: '#nova/access_and_security/'},
+                            {name: 'Snapshots', iconcss: "icon_nav-snapshots", active: false, url: '#nova/snapshots/'},
                             {name: 'Storage', type: 'title'},
-                            {name: 'Containers', active: false, url: '#objectstorage/containers/'},
-                            {name: 'Volumes', active: false, url: '#nova/volumes/'}
+                            {name: 'Containers', iconcss: "icon_nav-container", active: false, url: '#objectstorage/containers/'},
+                            {name: 'Volumes', iconcss: "icon_nav-volumes", active: false, url: '#nova/volumes/'}
                             ]);
         self.navs.setActive(option);
         self.tabs.setActive('Project');

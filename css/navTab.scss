@@ -1,0 +1,261 @@
+
+@import "main";
+
+$menu-tab-radius: 20px;
+$menu-tab-color: $blue2;
+
+@mixin show-borders($shown, $corners...) {
+    border-bottom-style: none;
+    border-bottom-width: 0px;
+    border-top-style: none;
+    border-top-width: 0px;
+    border-right-style: none;
+    border-right-width: 0px;
+    border-left-style: none;
+    border-left-width: 0px;
+
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+
+    border-#{$shown}-color: $menu-tab-color;
+    border-#{$shown}-style: solid;
+    border-#{$shown}-width: 1px;
+
+    @each $selector in $corners {
+        border-#{$selector}-radius: $menu-tab-radius;
+    }
+
+}
+
+.sidebar-menu {
+    .navbar {
+        .nav-tabs {
+            &>li {
+                &:last-child>a,
+                &:last-child>a:hover {
+                    @include show-borders(bottom, bottom-left);
+                }
+                &:first-child>a,
+                &:first-child>a:hover {
+                    @include show-borders(bottom, bottom-right);
+                }
+                &>a,
+                &>a:hover {
+                    @include show-borders(bottom, bottom-left, bottom-right);
+                    margin-left: 0px;
+                    margin-right: 0px;
+                    padding-left: 10px;
+                    padding-right: 10px;
+                }
+                &.active {
+                    &:last-child>a,
+                    &:last-child>a:hover {
+                        @include show-borders(top, top-left);
+                    }
+                    &:first-child>a,
+                    &:first-child>a:hover {
+                        @include show-borders(top, top-right);
+                    }
+                    &>a,
+                    &>a:hover {
+                        color: $blue3;
+                        background-color: white;
+                        @include show-borders(top, top-left, top-right);
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+.navbar .link-logo{
+  color: #fff;
+  text-decoration: none;
+  font-family: DsignesRegular;
+  font-size: 30px;
+
+}
+
+/** line 3255 boostrap.css**/
+.nav-list > .active > a, .nav-list > .active > a:hover {
+color: white;
+text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
+background-color: rgb(0, 147, 198);
+}
+
+/** line 3347 boostrap.css**/
+.nav-pills > .active > a, .nav-pills > .active > a:hover {
+    background-color: #0093C6;
+    color: #FFFFFF;
+}
+
+/** line 3578 boostrap.css**/
+.navbar-inner {
+  background-color: #777777;
+  background-image: none;
+  padding-right: 0px;
+  padding-left: 0px;
+  background-image: none;
+  box-shadow: none;
+}
+
+
+/** line 3615 boostrap.css**/
+.navbar .brand {
+  color: #FFFFFF;
+}
+
+/** line 3700 boostrap.css**/
+.navbar-search .search-query {
+font-family: "opensans", Helvetica, Arial, sans-serif;
+color: #000000;
+background-color: #FFFFFF;
+border: 1px solid #f9f9f9;
+line-height: 2;
+}
+
+/** line 3792 boostrap.css**/
+.navbar .nav > li > a, .navbar .nav > li > a:hover {
+  color: #CCCCCC;
+  padding: 6px 6px 4px;
+ /* padding-bottom: 1px; */
+ border-bottom-right-radius: 0px;
+ border-bottom-left-radius: 0px;
+ &:hover {
+    color: $gray1;
+ }
+}
+
+/** line 3819 boostrap.css**/
+.navbar .nav .active > a, .navbar .nav .active > a:hover {
+    background-color: #CCCCCC;
+    color: #666666;
+    padding-bottom: 3px;
+}
+
+/** line 3826 boostrap.css**/
+.navbar .divider-vertical {
+background-color: #f9f9f9;
+border-right: 1px solid #f9f9f9;
+border: none;
+}
+
+/** line 3840 boostrap.css**/
+.navbar .btn-navbar {
+    background-color: #f9f9f9;
+    background-image: none;
+    float: left;
+}
+
+/** line 3864 boostrap.css**/
+.navbar .btn-navbar:hover,
+.navbar .btn-navbar:active,
+.navbar .btn-navbar.active,
+.navbar .btn-navbar.disabled,
+.navbar .btn-navbar[disabled] {
+  background-color: #ffffff;
+}
+
+
+/** line 3878 boostrap.css**/
+.navbar .btn-navbar .icon-bar {
+    background-color: #000000;
+
+}
+
+.nav-tabs li {
+    cursor: pointer;
+}
+
+/** bootstrap for application - cloud portal   **/
+
+.nav-collapse .nav > li {
+  float:left !important ;
+
+}
+/** line 696 boostrap.css**/
+.navbar-fixed-top .navbar-inner, .navbar-fixed-bottom .navbar-inner {
+    padding-bottom: 0px;
+}
+
+.nav li a {
+    color: #7B7B7B;
+    text-shadow: none;
+    font-size: 16px;
+}
+
+.nav-tabs > .active > a,
+.nav-tabs > .active > a:hover {
+    -moz-border-bottom-colors: none;
+    -moz-border-image: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #ccc;
+    border-bottom-color: transparent;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-left-color-ltr-source: physical;
+    border-left-color-rtl-source: physical;
+    border-left-color-value: #DDDDDD;
+    border-left-style-ltr-source: physical;
+    border-left-style-rtl-source: physical;
+    border-left-style-value: solid;
+    border-left-width-ltr-source: physical;
+    border-left-width-rtl-source: physical;
+    border-left-width-value: 1px;
+    border-right-color-ltr-source: physical;
+    border-right-color-rtl-source: physical;
+    border-right-color-value: #DDDDDD;
+    border-right-style-ltr-source: physical;
+    border-right-style-rtl-source: physical;
+    border-right-style-value: solid;
+    border-right-width-ltr-source: physical;
+    border-right-width-rtl-source: physical;
+    border-right-width-value: 1px;
+    border-top-color: #DDDDDD;
+    border-top-style: solid;
+    border-top-width: 1px;
+    color: #555555;
+    cursor: default;
+}
+.navbar {
+    margin-bottom: 0px;
+    overflow: visible;
+}
+
+.navbar .nav {
+    float: none;
+    margin-right: 0px;
+
+}
+
+.nav-tabs {
+    border-bottom-right-radius: 15px;
+    border:none;
+    height: 31px;
+    padding-top: 15px;
+    padding-left: 15px;
+    margin-bottom: 5px;
+}
+.nav-tabs > li {
+margin-bottom: -9px;
+}
+
+.nav > li > a {
+  text-decoration: none;
+  background-color: white;
+}
+
+.nav > li > a:hover {
+  text-decoration: none;
+  background-color: #999999;
+}
+.nav .ajax-tabs > li {
+background-color: #000000;
+}
+
+
