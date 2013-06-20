@@ -183,8 +183,6 @@ html, body {
          url("assets/fonts/opensans-regular-webfont.woff") format("woff"),
          url("assets/fonts/opensans-regular-webfont.ttf") format("truetype"),
          url("assets/fonts/opensans-regular-webfont.svg#OpenSansRegular") format("svg");
-
-
 }
 
 #initbar {
