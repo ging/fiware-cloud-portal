@@ -19,14 +19,14 @@
 				
 				
 				<% var attr;
-				attr = model.attributes;
+				attr = model.attributes.quota_set;
                	%>
 				  <div class="control-group form-field clearfix">
 				    <label for="id_tenant_id">ID (name)</label>
 				    
 				    <span class="help-block" style="display: none;"></span>
 				      <p>
-				      <%= project%>
+				      <%= attr.id%>
 				      </p>
 				  </div>
 				

@@ -21,12 +21,7 @@ var ModifyQuotasView = Backbone.View.extend({
     },
 
     render: function () {
-        console.log(this.model);
-        if ($('#modify_quota').html() != null) {
-            $('#modify_quota').remove();
-            $('.modal-backdrop').remove();
-        }
-        $(this.el).append(this._template({model:this.model, project: this.options.project}));
+        $(this.el).append(this._template({model:this.model, project:this.options.project}));
         $('.modal:last').modal();
         return this;
     },
@@ -52,7 +47,7 @@ var ModifyQuotasView = Backbone.View.extend({
         this.model.set({'ram': ram});
         this.model.set({'floating_ips': floating_ips});
 
-        this.model.save(UTILS.Messages.getCallbacks("Quota updated", "Error updating quotas", {context: this}));
+        this.model.save(undefined, UTILS.Messages.getCallbacks(" Quotas for "+ this.options.project + " were successfully updated.", "Error updating quotas", {context: this}));
     }
 
 });
