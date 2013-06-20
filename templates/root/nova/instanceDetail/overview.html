@@ -103,6 +103,10 @@ src: templates/root/nova/instanceDetail/overview.html
                 <div class="status span4">
                     <div>
                         <h4>Installed Software</h4>
+                <%
+                if (image.get('sdc_aware')) {
+                %>
+
                         <button id="editSoftware" class="pull-right btn btn-small btn-blue btn-create" style="margin-top: -40px;" data-i18n="Edit">Edit</button>
                     </div>
                     <hr class="header_rule">
@@ -130,7 +134,21 @@ src: templates/root/nova/instanceDetail/overview.html
                            </ul>
                         </div>
                    </div>
+                       
+                <%
+                } else {
+                %>
+                    </div>
+                    <hr class="header_rule">
+                    <ul>
+                        <li>
+                            <em>Image </em><%=image.get("name")%><em> does not allow Software Management with SDC.</em>
+                        </li>
+                    </ul>
 
+                <%
+                };
+                %>
                 </div>
             </div>
         </div>
