@@ -59,20 +59,20 @@ var NovaFloatingIPsView = Backbone.View.extend({
         };
 
         btns.push ({
+            label: "Associate IP",
+            action: "associate",            
+            activatePattern: disassociateSelected
+        },  {
+            label: "Dissasociate Floating IP",
+            action: "disassociate",
+            activatePattern: associateSelected
+        },  {
             label: "Release Floating IPs",
             action: "release",
             warn: true,
             activatePattern: groupSelected
-        }, {
-            label: "Associate IP",
-            action: "associate",            
-            activatePattern: disassociateSelected
-        }, {
-            label: "Dissasociate Floating IP",
-            action: "disassociate",
-            warn: true,
-            activatePattern: associateSelected
-        });
+        }
+        );
         return btns;
     },
 
