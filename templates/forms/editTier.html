@@ -40,7 +40,7 @@
                         <div class="control-group form-field clearfix">
                             <label class="control-label" for="name">Name *:</label>
                             <div class="controls">
-                                <input required id="name" type="text" name="name" maxlength="255" value="<%=tier.name%>">
+                                <input required id="name" type="text" name="name" maxlength="255" value="<%=tier.name%>"  pattern="^[\S]*$" title="Please use a name without spaces">
                             </div>
                         </div>
 
