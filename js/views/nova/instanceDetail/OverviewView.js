@@ -75,7 +75,7 @@ var InstanceOverviewView = Backbone.View.extend({
     checkAll: function() {
         var self = this;
         //if (this.flavorResp && this.imageResp && this.vncResp && this.logResp) {
-        if (this.flavorResp) {
+        if (this.flavorResp || this.imageResp) {
             this.render();
         }
     },

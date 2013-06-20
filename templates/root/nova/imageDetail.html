@@ -30,7 +30,7 @@
     %>
     <div class="entity_consult">
         <div class="entity_detail">
-            <div id="image_details__overview" class="active row-fluid">
+            <div id="image_details__overview1" class="active row-fluid">
                 <div class="status span4">
                     <h4>Info</h4>
                     <hr class="header_rule">
@@ -79,10 +79,23 @@
                         </li>
                     </ul>
                 </div>
-                <div class="properties span11">
+            </div>
+            <div id="image_details__overview2" class="active row-fluid">
+                <div class="properties span8">
                     <h4>Custom Properties</h4>
                     <hr class="header_rule">
-                    <ul></ul>
+                    <ul>
+
+                        <%
+                        if (model.get('sdc_aware')) {
+                        %>
+                        <li>
+                            <strong>SDC Available:</strong>&nbsp; Instances launched with this image allow Software Management using SDC
+                        </li>
+                        <%
+                        };
+                        %>
+                    </ul>
                 </div>
             </div>
         </div>

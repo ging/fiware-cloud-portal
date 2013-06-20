@@ -64,13 +64,23 @@
                             <div class="controls">
                                 <select name="image" id="id_image">
                                     <% if (images.size() == 0) { %>
-                                    <option value="" selected="selected">No images available.</option>
-                                    <% } else {
-                                    for (var index in images.models) {
-                                    var image = images.models[index];
-                                    %>
-                                    <option value="<%=image.get('id')%>"><%= image.get("name")%></option>
-                                    <%  }
+                                        <option value="" selected="selected">No images available.</option>
+                                    <%  } else {
+                                        var sdcImages = 0;
+                                        for (var index in images.models) {
+                                            
+                                            var image = images.models[index];
+                                            if (image.get("properties").sdc_aware) {
+                                                sdcImages++;
+                                        %>
+                                        <option value="<%=image.get('id')%>"><%= image.get("name")%></option>
+                                        <%  
+                                            }
+
+                                        }   
+                                        if (sdcImages === 0) { %>
+                                        <option value="" selected="selected">No images available.</option>
+                                    <%  }    
                                     }%>
                                 </select>
                             </div>
