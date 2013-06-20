@@ -16,10 +16,10 @@ var InstanceDetailView = Backbone.View.extend({
 
         self.render();
 
-        this.overviewView = new InstanceOverviewView({el: '#instance_details__overview', model: this.model});
+        this.overviewView = new InstanceOverviewView({el: '#instance_details__overview', model: this.model, sdcs: this.options.sdcs});
         this.logView = new InstanceLogView({el: '#instance_details__log', model: this.model});
         this.vncView = new InstanceVNCView({el: '#instance_details__vnc', model: this.model});
-        this.softwareView = new InstanceSDCView({el: '#instance_details__software', model: this.options.sdcs, instanceModel: this.model});
+        //this.softwareView = new InstanceSDCView({el: '#instance_details__software', model: this.options.sdcs, instanceModel: this.model});
 
         this.delegateEvents({
             'click #overviewBtn': "showOverview",

@@ -2,11 +2,11 @@ var MessagesView = Backbone.View.extend({
 
     _template: _.template($('#messagesTemplate').html()),
 
-    el: "#log-messages",
-
     cid: undefined,
 
     initialize: function() {
+
+        this.el = this.options.el || "#log-messages";
         this.cid = Math.round(Math.random() * 1000000);
         this.options.state = this.options.state || "Success";
         var events = {};

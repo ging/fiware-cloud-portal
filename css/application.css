@@ -140,6 +140,11 @@ html, body {
   overflow: hidden;
 }
 
+#log-messages-software {
+  height: 48px;
+  overflow: hidden;
+}
+
 #logs {
   position: absolute;
   overflow: hidden;

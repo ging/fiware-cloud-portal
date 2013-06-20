@@ -6,6 +6,10 @@ var InstanceOverviewView = Backbone.View.extend({
     imageResp: false,
     security_groupsResp: false,
 
+    events: {
+        'click #editSoftware': 'editSoftware'
+    },
+
     initialize: function() {
 
         var self = this;
@@ -13,6 +17,9 @@ var InstanceOverviewView = Backbone.View.extend({
 
         this.model.bind("change", this.onInstanceDetail, this);
         this.model.fetch();
+
+        this.options.sdcs.bind("change", this.render, this);
+        this.options.sdcs.fetch();
 
         var options = {};
         options.callback = function(resp) {
@@ -23,6 +30,11 @@ var InstanceOverviewView = Backbone.View.extend({
         JSTACK.Nova.getsecuritygroupforserver(self.model.id, options.callback);
     },
 
+    editSoftware: function(e) {
+
+        var subview = new EditInstanceSoftwareView({el: 'body', model: this.options.sdcs, instanceModel: this.model});
+        subview.render();
+    },
 
     onInstanceDetail: function() {
         var self = this;
@@ -71,7 +83,28 @@ var InstanceOverviewView = Backbone.View.extend({
     render: function () {
         var self = this;
 
-        var template = self._template({security_groups: self.options.security_groups, vdc: self.options.vdc, service: self.options.service, model:self.model, flavor:self.options.flavor, image:self.options.image, logs: self.options.logs, vncUrl: self.options.vncUrl, subview: self.options.subview, subsubview: self.options.subsubview});
+        var installedSoftware = [];
+
+        if (this.options.sdcs.models.length !== 0) {
+         
+            var id = this.model.get("id");
+            if (id) {
+
+                var products= this.options.sdcs.models;
+
+                for (var product in products) {
+                    var stat = products[product].get('status');
+                    if (products[product].get('vm').fqn === id) {// && stat !== 'ERROR' && stat !== 'UNINSTALLED') {
+                        installedSoftware.push({name: products[product].get('productRelease').product.name,
+                                                    version: products[product].get('productRelease').version,
+                                                    status: products[product].get('status')
+                                                    });
+                    }
+                }
+            }
+        }
+
+        var template = self._template({security_groups: self.options.security_groups, model:self.model, flavor:self.options.flavor, image:self.options.image, installedSoftware: installedSoftware});
         $(self.el).empty().html(template);
 
         return this;

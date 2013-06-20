@@ -1,0 +1,63 @@
+<script id="editInstanceSoftwareFormTemplate" type="text/html">
+<div id="edit_instance_software" class="modal hide in" style="display: block; ">
+    <!--
+    Description: Edit Software Form
+    src: templates/forms/editInstanceSoftware.html
+    -->
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <h3>Edit Software in Instance</h3>
+    </div>
+
+    <form id="form" onSubmit="return false;" class="form-horizontal">
+        <div class="modal-body clearfix" style="overflow: hidden">
+            
+            <div id="scroll-based-layer" style="width: 100%; height: 250px;">
+                <div id="attributes_edit" style="display:none;">
+                    <table id="product_attributes" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th style="width: 30%;">Attribute</th>
+                                <th style="width: 30%;">Value</th>
+                                <th style="width: 40%;">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody id="software-attrs-table">
+                            <tr class="odd empty">
+                                <td colspan="6">No items to display.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="submodal-footer">
+                        <a id="accept-attrs" class="btn btn-blue pull-right">Accept</a>
+                        <a id="cancel-attrs" class="btn seconday cancel">Cancel</a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="software_edit" class="row-fluid tier-sdc blurable" style="margin-top: -220px;">
+                <div style="height: 100%; position: relative" class="span6">
+                    <h2 class="tier-sdc-title">Software in Instance</h2>
+                    <div style="position: absolute; top: 45px; bottom: 0px; width: 100%">
+                       <div id="installedInstanceSoftware-table"></div>
+                   </div>
+                </div>
+                <div style="height: 100%; position: relative" class="span6">
+                    <h2 class="tier-sdc-title">Software in Catalogue</h2>
+                    <div style="position: absolute; top: 45px; bottom: 0px; width: 100%">
+                        <div id="newInstanceSoftware-table"></div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div id="log-messages-software"></div>
+
+        <div class="modal-footer blurable">
+            <input type="submit" class="btn btn-blue create-tier pull-right blurable" value="Done"/>
+        </div>
+    </form>
+</div>
+</script>

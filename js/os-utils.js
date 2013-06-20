@@ -328,6 +328,8 @@ UTILS.Messages = (function(U, undefined) {
 
     getCallbacks = function (successMess, errorMess, options) {
 
+        options = options || {};
+
         var check = function() {
             if (options) {
                 if (options.context) {
@@ -341,12 +343,12 @@ UTILS.Messages = (function(U, undefined) {
 
         var opt = {callback: function () {
             check();
-            var subview = new MessagesView({state: "Success", title: successMess});
+            var subview = new MessagesView({state: "Success", title: successMess, el: options.el});
             subview.render();
             $('body').spin("modal");
         }, error: function (model, error) {
             check();
-            var subview = new MessagesView({state: "Error", title: errorMess + ". Cause: " + error.message, info: error.body});
+            var subview = new MessagesView({state: "Error", title: errorMess + ". Cause: " + error.message, info: error.body, el: options.el});
             subview.render();
             $('body').spin("modal");
         }};
