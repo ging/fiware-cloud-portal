@@ -401,7 +401,7 @@ var OSRouter = Backbone.Router.extend({
                     var vms = tier.tierInstancePDto_asArray || [];
                     var insts = new Instances();
                     vms.forEach(function(vm) {
-                        var inst = self.instancesModel.findWhere({name: vm.vm.hostname});
+                        var inst = self.instancesModel.findWhere({name: vm.tierInstanceName});
                         if (inst) {
                             inst.set({paasStatus: vm.status});
                             insts.add(inst);
