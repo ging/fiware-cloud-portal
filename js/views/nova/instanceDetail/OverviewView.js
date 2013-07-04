@@ -85,6 +85,8 @@ var InstanceOverviewView = Backbone.View.extend({
 
         var installedSoftware = [];
 
+        console.log(this.options.sdcs, this.model);
+
         if (this.options.sdcs.models.length !== 0) {
          
             var id = this.model.get("id");
@@ -104,7 +106,13 @@ var InstanceOverviewView = Backbone.View.extend({
             }
         }
 
-        var template = self._template({security_groups: self.options.security_groups.security_groups, model:self.model, flavor:self.options.flavor, image:self.options.image, installedSoftware: installedSoftware});
+        var security_groups;
+
+        if (self.options.security_groups) {
+            security_groups = self.options.security_groups.security_groups;
+        }
+
+        var template = self._template({security_groups: security_groups, model:self.model, flavor:self.options.flavor, image:self.options.image, installedSoftware: installedSoftware});
         $(self.el).empty().html(template);
 
         return this;
