@@ -104,7 +104,7 @@ var InstanceOverviewView = Backbone.View.extend({
             }
         }
 
-        var template = self._template({security_groups: self.options.security_groups, model:self.model, flavor:self.options.flavor, image:self.options.image, installedSoftware: installedSoftware});
+        var template = self._template({security_groups: self.options.security_groups.security_groups, model:self.model, flavor:self.options.flavor, image:self.options.image, installedSoftware: installedSoftware});
         $(self.el).empty().html(template);
 
         return this;

@@ -14,13 +14,13 @@ src: templates/root/nova/instanceDetail/overview.html
                     <hr class="header_rule">
                     <ul>
                         <li>
-                            <strong>Name:</strong>&nbsp;<%= model.get("name") %>
+                            <strong>Name: </strong>&nbsp;<%= model.get("name") %>
                         </li>
                         <li>
-                            <strong>ID:</strong>&nbsp;<%= model.get("id") %>
+                            <strong>ID: </strong>&nbsp;<%= model.get("id") %>
                         </li>
                         <li>
-                            <strong>Status:</strong>&nbsp;<%= model.get("status") %>
+                            <strong>Status: </strong>&nbsp;<%= model.get("status") %>
                         </li>
                     </ul>
                 </div>
@@ -29,13 +29,13 @@ src: templates/root/nova/instanceDetail/overview.html
                     <hr class="header_rule">
                     <ul>
                         <li>
-                            <strong>RAM:</strong>&nbsp;<%=flavor.get("ram")%>MB
+                            <strong>RAM: </strong>&nbsp;<%=flavor.get("ram")%>MB
                         </li>
                         <li>
-                            <strong>VCPUs:</strong>&nbsp;<%=flavor.get("vcpus")%> VCPU
+                            <strong>VCPUs: </strong>&nbsp;<%=flavor.get("vcpus")%> VCPU
                         </li>
                         <li>
-                            <strong>Disk:</strong>&nbsp;<%=flavor.get("disk")%>GB
+                            <strong>Disk: </strong>&nbsp;<%=flavor.get("disk")%>GB
                         </li>
                     </ul>
                 </div>
@@ -43,10 +43,13 @@ src: templates/root/nova/instanceDetail/overview.html
                     <h4>IP Addresses</h4>
                     <hr class="header_rule">
                     <ul>
+                        <%
+                        for (var i in model.get("addresses").private) {
+                        %>
                         <li>
-                            <%=(model.get("addresses").public)?model.get("addresses").public[0].addr+'<br/>':''%>
-                            <%=(model.get("addresses").private)?model.get("addresses").private[0].addr:''%>
+                            <%=model.get("addresses").private[i].addr%>
                         </li>
+                        <% } %>
                     </ul>
                 </div>
 
@@ -58,21 +61,15 @@ src: templates/root/nova/instanceDetail/overview.html
                     <hr class="header_rule">
                     <ul>
                         <li>
-                            <strong>default</strong>
-                            <ul>
-                                    <%
-                                for (var idx in security_groups) {
-                                    var sec_group = security_groups[idx];
-                                    var rules = sec_group.rules;
-                                        for (index in rules) {
-                                                var rule = rules[index];
-                                    %>
-                                    <li>
-                                  <em>ALLOW <%=rule.from_port%>:<%=rule.to_port%> from <%=rule.ip_range.cidr%></em>
-                                </li>
-                                <% }} %>
-                            </ul>
+                            default
                         </li>
+                        <%
+                        for (var idx in security_groups) {
+                        %>
+                        <li>
+                            <%=security_groups[idx].name%>
+                        </li>
+                        <% } %>
                     </ul>
                 </div>
                 <div class="status span4">
@@ -80,10 +77,10 @@ src: templates/root/nova/instanceDetail/overview.html
                     <hr class="header_rule">
                     <ul>
                         <li>
-                            <strong>Key name:</strong>&nbsp;<%=model.get("key_name")!==undefined?model.get("key_name"):"<em>None</em>"%>
+                            <strong>Key name: </strong>&nbsp;<%=model.get("key_name")!==undefined?model.get("key_name"):"<em>None</em>"%>
                         </li>
                         <li>
-                            <strong>Image Name:</strong>&nbsp;<a href="#nova/images/<%=image.get("id")%>"><%=image.get("id")%></a>
+                            <strong>Image Name: </strong>&nbsp;<a href="#nova/images/<%=image.get("id")%>"><%=image.get("name")%></a>
                         </li>
                     </ul>
                 </div>
