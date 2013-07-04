@@ -42,10 +42,13 @@
 
                             <%
                             for (var index in flavors.models) {
-                            var flavor = flavors.models[index];
+                                var flavor = flavors.models[index];
+                                if (!model.get("properties").sdc_aware || (model.get("properties").sdc_aware && flavor.get("disk") !== 0)) {
                             %>
                             <option value="<%=flavor.id%>"><%=flavor.get("name") + " (" + flavor.get("vcpus") + "VCPU / " + flavor.get("disk") + "GB Disk / " + flavor.get("ram") + "MB Ram )" %></option>
-                            <%}%>
+                            <%
+                                }
+                            }%>
                         </select>
                     </div>
                 </div>

@@ -20,7 +20,7 @@ var LaunchImageView = Backbone.View.extend({
         if ($('#launch_image').html() != null) {
             return;
         }
-        $(this.el).append(this._template({model:this.model.models, flavors: flavors, keypairs: this.options.keypairs, secGroups: this.options.secGroups}));
+        $(this.el).append(this._template({model:this.model, flavors: flavors, keypairs: this.options.keypairs, secGroups: this.options.secGroups}));
         $('#launch_image').modal();
         return this;
     },
