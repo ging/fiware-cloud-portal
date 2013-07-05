@@ -39,7 +39,7 @@ var CreateVolumeView = Backbone.View.extend({
         var size= $('input[name=size]').val();
         this.model = new Volume();
         this.model.set({name: name, description: description, size: size});
-        this.model.save(UTILS.Messages.getCallbacks("Vlume " + name + " created", "Error creating volume " + name, {context: this}));
+        this.model.save(undefined, UTILS.Messages.getCallbacks("Vlume " + name + " created", "Error creating volume " + name, {context: this}));
     }
 
 });

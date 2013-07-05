@@ -29,7 +29,7 @@ var UpdateImageView = Backbone.View.extend({
     onUpdateImage: function(e){
         e.preventDefault();
         this.model.set({"name": this.$('input[name=name]').val()});
-        this.model.save(UTILS.Messages.getCallbacks("Image "+this.model.get("name") + " updated", "Error updating image "+this.model.get("name"), {context: this}));
+        this.model.save(undefined, UTILS.Messages.getCallbacks("Image "+this.model.get("name") + " updated", "Error updating image "+this.model.get("name"), {context: this}));
     },
 
     close: function(e) {

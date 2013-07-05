@@ -37,7 +37,7 @@ var EditProjectView = Backbone.View.extend({
         this.model.set({'name': name});
         this.model.set({'description': descr});
         this.model.set({'enabled': enabled});
-        this.model.save(UTILS.Messages.getCallbacks("Project "+proj.get("name") + " updated.", "Error updating project "+proj.get("name"), {context: this}));
+        this.model.save(undefined, UTILS.Messages.getCallbacks("Project "+ name + " updated.", "Error updating project "+ name, {context: this}));
     }
 
 });

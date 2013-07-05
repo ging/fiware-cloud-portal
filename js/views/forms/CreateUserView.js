@@ -92,7 +92,7 @@ var CreateUserView = Backbone.View.extend({
         user.set({'password': password});
         user.set({'tenant_id': tenant_id});
         user.set({'enabled': true});
-        user.save(UTILS.Messages.getCallbacks("User "+user.get("name") + " created.", "Error creating user "+user.get("name"), {context: this}));
+        user.save(undefined, UTILS.Messages.getCallbacks("User "+user.get("name") + " created.", "Error creating user "+user.get("name"), {context: this}));
     }
 
 });

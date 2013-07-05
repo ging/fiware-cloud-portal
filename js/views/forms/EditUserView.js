@@ -86,7 +86,7 @@ var EditUserView = Backbone.View.extend({
         }
         this.model.set({'tenant_id': tenant_id});
         this.model.set({'enabled': true});
-        this.model.save(UTILS.Messages.getCallbacks("User "+this.model.get("name") + " updated.", "Error updating user "+this.model.get("name"), {context: this}));
+        this.model.save(undefined, UTILS.Messages.getCallbacks("User "+this.model.get("name") + " updated.", "Error updating user "+this.model.get("name"), {context: this}));
     }
 
 });

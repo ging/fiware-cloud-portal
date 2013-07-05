@@ -136,7 +136,7 @@ var CreateFlavorView = Backbone.View.extend({
                 }
             }
 
-            newFlavor.save(UTILS.Messages.getCallbacks("Flavor "+newFlavor.get("name") + " created.", "Error creating flavor "+newFlavor.get("name"), {context: this}));
+            newFlavor.save(undefined, UTILS.Messages.getCallbacks("Flavor "+newFlavor.get("name") + " created.", "Error creating flavor "+newFlavor.get("name"), {context: this}));
         }
     }
 

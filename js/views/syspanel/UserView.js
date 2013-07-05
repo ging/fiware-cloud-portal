@@ -146,7 +146,7 @@ var UserView = Backbone.View.extend({
                         usr = self.model.get(user);
                         if (usr.get("enabled") === true) {
                             usr.set("enabled", false);
-                            usr.save(UTILS.Messages.getCallbacks("User " + usr.get("name") + " disabled", "Error disabling user " + usr.get("name")));
+                            usr.save(undefined, UTILS.Messages.getCallbacks("User " + usr.get("name") + " disabled", "Error disabling user " + usr.get("name")));
                         }
                     });
                 }});
@@ -158,7 +158,7 @@ var UserView = Backbone.View.extend({
                         usr = self.model.get(user);
                         if (usr.get("enabled") === false) {
                             usr.set("enabled", true);
-                            usr.save(UTILS.Messages.getCallbacks("User " + usr.get("name") + " enabled", "Error enabling user " + usr.get("name")));
+                            usr.save(undefined, UTILS.Messages.getCallbacks("User " + usr.get("name") + " enabled", "Error enabling user " + usr.get("name")));
                         }
                     });
                 }});
