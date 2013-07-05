@@ -86,6 +86,9 @@ var BlueprintInstanceTierInstancesView = Backbone.View.extend({
     getMainButtons: function() {
         // main_buttons: [{label:label, url: #url, action: action_name}]
         return [{
+            label: "Back to Tiers",
+            url: "#nova/blueprints/instances/" + this.options.blueprint.get('blueprintName')
+        },{
             label: "Add Instances",
             action: "add",
             cssclass: "btn-add-instances"

@@ -425,7 +425,7 @@ small {
 
 .modal .left {
     float: left;
-    width: 347px;
+    width: 367px;
     margin-right: 15px;
 }
 
@@ -440,7 +440,7 @@ small {
 
 .modal .right {
     float: left;
-    width: 380px;
+    width: 360px;
 }
 
 .modal fieldset {
