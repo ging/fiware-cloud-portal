@@ -147,12 +147,12 @@ UTILS.Auth = (function(U, undefined) {
         if (tenant !== undefined) {
             success = _authenticatedWithTenant;
             console.log("Authenticating with tenant");
-        } else if (username !== password) {
-            success = _authenticatedWithoutTenant;
-            console.log("Authenticating without tenant");
         } else if (token !== undefined) {
             success = _authenticatedWithoutTenant;
             console.log("Authenticating with token");
+        } else {
+            success = _authenticatedWithoutTenant;
+            console.log("Authenticating without tenant");
         }
         JSTACK.Keystone.authenticate(username, password, token, tenant, success, _credError);
     }
