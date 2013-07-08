@@ -168,7 +168,7 @@ var UserView = Backbone.View.extend({
                 subview = new ConfirmView({el: 'body', title: "Confirm Delete Users", btn_message: "Delete Users", onAccept: function() {
                     userIds.forEach(function(user) {
                         usr = self.model.get(user);
-                        user.destroy(UTILS.Messages.getCallbacks("User " + usr.get("name") + " deleted", "Error deleting user " + usr.get("name")));
+                        usr.destroy(UTILS.Messages.getCallbacks("User " + usr.get("name") + " deleted", "Error deleting user " + usr.get("name")));
                     });
                 }});
                 subview.render();
