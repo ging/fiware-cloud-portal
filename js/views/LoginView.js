@@ -16,6 +16,7 @@ var LoginView = Backbone.View.extend({
     },
 
     onCredentialsSubmit: function(e){
+        console.log('eeeeeeeeeeeeeeeeeeee');
         e.preventDefault();
         this.model.setCredentials(this.$('input[name=username]').val(), this.$('input[name=password]').val());
     },

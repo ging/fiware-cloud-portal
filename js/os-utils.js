@@ -14,10 +14,16 @@ UTILS.Auth = (function(U, undefined) {
 
     function initialize(url, adminUrl) {
         JSTACK.Keystone.init(url, adminUrl);
+        //IDM.Auth.init();
     }
 
     function getToken() {
-        return JSTACK.Keystone.params.token;
+        return IDM.Auth.params.token;
+        //return JSTACK.Keystone.params.token;
+    }
+
+    function setToken(token) {
+        IDM.Auth.setToken(token);
     }
 
     function getName() {
@@ -31,7 +37,8 @@ UTILS.Auth = (function(U, undefined) {
     }
 
     var getCurrentTenant = function() {
-        return JSTACK.Keystone.params.access.token.tenant;
+        return {id: '980ae4606f464bb8bc214999c596b158'};
+        //return JSTACK.Keystone.params.access.token.tenant;
     };
 
     var isAuthenticated = function() {
@@ -161,6 +168,7 @@ UTILS.Auth = (function(U, undefined) {
         initialize: initialize,
         authenticate: authenticate,
         getToken: getToken,
+        setToken: setToken,
         getName: getName,
         isAuthenticated: isAuthenticated,
         getCurrentTenant: getCurrentTenant,

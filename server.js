@@ -1,7 +1,22 @@
 var express = require('express'),
     http = require('http'),
     https = require('https'),
-    XMLHttpRequest = require("./xmlhttprequest").XMLHttpRequest;
+    XMLHttpRequest = require("./xmlhttprequest").XMLHttpRequest,
+    OAuth2 = require('./oauth2').OAuth2;
+
+var oauth_config = {
+    client_id: '13',
+    client_secret: '7469ce8db423f012b68aa28da79472b91de1a3272450b57e403492a563e8e3ea6341ab0e36d6ce985bfd78728a5aea60cf72c4e473ecc93d66ea1b4d7ef18456',
+    callbackURL: 'http://rosendo.dit.upm.es/login'
+};
+
+var oauth_client = new OAuth2(oauth_config.client_id,
+                    oauth_config.client_secret,
+                    'https://idm.lab.fi-ware.eu',
+                    '/oauth2/authorize',
+                    '/oauth2/token',
+                    oauth_config.callbackURL);
+
 
 process.on('uncaughtException', function (err) {
   console.log('Caught exception: ' + err);
@@ -266,6 +281,22 @@ app.all('/paasmanager/rest/*', function(req, resp) {
         headers: req.headers
     };
     sendData(http, options, req.body, resp);
+});
+
+app.get('/idm/auth', function(req, res){
+    var path = oauth_client.getAuthorizeUrl();
+    res.redirect(path);
+});
+
+app.get('/login', function(req, res){
+   
+    oauth_client.getOAuthAccessToken(
+        req.query.code,
+        function (e, results){
+            console.log('bearer: ',e, results);
+            res.redirect("/?token=" + results.access_token);
+        });
+
 });
 
 app.listen(80);

@@ -14,6 +14,18 @@ var LoginStatus = Backbone.Model.extend({
         this.bind('credentials', this.onCredentialsChange, this);
         this.bind('change:token', this.onTokenChange, this);
         this.bind('error', this.onValidateError, this);
+
+        var regex = new RegExp("[\\?&]token=([^&#]*)");
+        var token = regex.exec(location.search);
+
+        if (token !== null) {
+            console.log('en URL', token[1]);
+            UTILS.Auth.setToken(token[1]);
+            this.setToken();
+        };
+
+        console.log('en localStorage ', localStorage.getItem('token'));
+
         this.set({'token-ts': localStorage.getItem('token-ts')});
         this.set({'tenant-id': localStorage.getItem('tenant-id')});
         this.set({'token': localStorage.getItem('token')});

@@ -67,10 +67,13 @@ var RootView = Backbone.View.extend({
         });
         console.log(self.model.get("token"), self.model.get("tenant"), self.model.get("error_msg"), self.model.get("expired"));
         if ((self.model.get("token") !== "" && self.model.get("error_msg") == null) && self.model.get("expired") !== true) return;
-       console.log("Conditions passed");
-        if ($(self.options.root_el).css('display') !== 'None')
-            $(self.options.root_el).fadeOut();
-        $(self.options.auth_el).fadeIn();
+        console.log("Conditions passed");
+
+        //IDM.Auth.goAuth();
+
+        // if ($(self.options.root_el).css('display') !== 'None')
+        //     $(self.options.root_el).fadeOut();
+        // $(self.options.auth_el).fadeIn();
         return this;
     },
 
