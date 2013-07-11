@@ -172,7 +172,9 @@ function getClientIp(req, headers) {
 
 app.all('/keystone/*', function(req, resp) {
     var options = {
+        // development
         //host: '130.206.80.63',
+        // production
         host: '130.206.80.100',
         port: 5000,
         path: req.url.split('keystone')[1],
@@ -184,7 +186,9 @@ app.all('/keystone/*', function(req, resp) {
 
 app.all('/keystone-admin/*', function(req, resp) {
     var options = {
+        // development
         //host: '130.206.80.63',
+        // production
         host: '130.206.80.100',
         port: 35357,
         path: req.url.split('keystone-admin')[1],
@@ -196,7 +200,9 @@ app.all('/keystone-admin/*', function(req, resp) {
 
 app.all('/nova/*', function(req, resp) {
     var options = {
+        // development
         //host: '130.206.80.63',
+        // production
         host: '130.206.80.11',
         port: 8774,
         path: req.url.split('nova')[1],
@@ -208,7 +214,9 @@ app.all('/nova/*', function(req, resp) {
 
 app.all('/nova-volume/*', function(req, resp) {
     var options = {
+        // development
         //host: '130.206.80.63',
+        // production
         host: '130.206.80.11',
         port: 8776,
         path: req.url.split('nova-volume')[1],
@@ -220,7 +228,9 @@ app.all('/nova-volume/*', function(req, resp) {
 
 app.all('/glance/*', function(req, resp) {
     var options = {
+        // development
         //host: '130.206.80.63',
+        // production
         host: '130.206.80.11',
         port: 9292,
         path: req.url.split('glance')[1],
@@ -232,7 +242,9 @@ app.all('/glance/*', function(req, resp) {
 
 app.all('/sm/*', function(req, resp) {
     var options = {
+        // development
         //host: '130.206.80.63',
+        // production
         host: '130.206.80.91',
         port: 8774,
         path: req.url.split('sm')[1],
@@ -244,9 +256,9 @@ app.all('/sm/*', function(req, resp) {
 
 app.all('/sdc/rest/*', function(req, resp) {
     var options = {
-        //host: '130.206.80.63',
         //host: '130.206.80.112',
         //host: '130.206.80.119',
+        // production
         host: '130.206.82.161',
         port: 8080,
         //port: 8081,
@@ -259,8 +271,9 @@ app.all('/sdc/rest/*', function(req, resp) {
 
 app.all('/paasmanager/rest/*', function(req, resp) {
     var options = {
-        //host: '130.206.80.63',
+        // development
         //host: '130.206.80.112',
+        // production
         host: '130.206.82.160',
         port: 8080,
         path: req.url,
