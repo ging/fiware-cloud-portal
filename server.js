@@ -259,11 +259,12 @@ app.all('/sdc/rest/*', function(req, resp) {
         //host: '130.206.80.112',
         // development
         host: '130.206.80.119',
+        port: 8081,
+        path: req.url.split('/sdc/')[0] + '/sdc2/' + req.url.split('/sdc/')[1],
         // production
         //host: '130.206.82.161',
-        port: 8080,
-        //port: 8081,
-        path: req.url,
+        //port: 8080,
+        //path: req.url,
         method: req.method,
         headers: req.headers
     };
