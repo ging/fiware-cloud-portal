@@ -69,20 +69,20 @@ UTILS.Auth = (function(U, undefined) {
             console.log("Changing endpoint URLS to ", host);
 
             var compute = JSTACK.Keystone.getservice("compute");
-            compute.endpoints[0].adminURL = compute.endpoints[0].adminURL.replace(/130\.206\.80\.11:8774/, host + "/nova");
-            //compute.endpoints[0].adminURL = compute.endpoints[0].adminURL.replace(/130\.206\.80\.63:8774/, host + "/nova");
-            compute.endpoints[0].publicURL = compute.endpoints[0].publicURL.replace(/130\.206\.80\.11:8774/, host + "/nova");
-            //compute.endpoints[0].publicURL = compute.endpoints[0].publicURL.replace(/130\.206\.80\.63:8774/, host + "/nova");
-            compute.endpoints[0].internalURL = compute.endpoints[0].internalURL.replace(/130\.206\.80\.11:8774/, host + "/nova");
-            //compute.endpoints[0].internalURL = compute.endpoints[0].internalURL.replace(/130\.206\.80\.63:8774/, host + "/nova");
+            //compute.endpoints[0].adminURL = compute.endpoints[0].adminURL.replace(/130\.206\.80\.11:8774/, host + "/nova");
+            compute.endpoints[0].adminURL = compute.endpoints[0].adminURL.replace(/130\.206\.80\.63:8774/, host + "/nova");
+            //compute.endpoints[0].publicURL = compute.endpoints[0].publicURL.replace(/130\.206\.80\.11:8774/, host + "/nova");
+            compute.endpoints[0].publicURL = compute.endpoints[0].publicURL.replace(/130\.206\.80\.63:8774/, host + "/nova");
+            //compute.endpoints[0].internalURL = compute.endpoints[0].internalURL.replace(/130\.206\.80\.11:8774/, host + "/nova");
+            compute.endpoints[0].internalURL = compute.endpoints[0].internalURL.replace(/130\.206\.80\.63:8774/, host + "/nova");
 
             var volume = JSTACK.Keystone.getservice("volume");
-            volume.endpoints[0].adminURL = volume.endpoints[0].adminURL.replace(/130\.206\.80\.11:8776/, host + "/nova-volume");
-            //volume.endpoints[0].adminURL = volume.endpoints[0].adminURL.replace(/130\.206\.80\.63:8776/, host + "/nova-volume");
-            volume.endpoints[0].publicURL = volume.endpoints[0].publicURL.replace(/130\.206\.80\.11:8776/, host + "/nova-volume");
-            //volume.endpoints[0].publicURL = volume.endpoints[0].publicURL.replace(/130\.206\.80\.63:8776/, host + "/nova-volume");
-            volume.endpoints[0].internalURL = volume.endpoints[0].internalURL.replace(/130\.206\.80\.11:8776/, host + "/nova-volume");
-            //volume.endpoints[0].internalURL = volume.endpoints[0].internalURL.replace(/130\.206\.80\.63:8776/, host + "/nova-volume");
+            //volume.endpoints[0].adminURL = volume.endpoints[0].adminURL.replace(/130\.206\.80\.11:8776/, host + "/nova-volume");
+            volume.endpoints[0].adminURL = volume.endpoints[0].adminURL.replace(/130\.206\.80\.63:8776/, host + "/nova-volume");
+            //volume.endpoints[0].publicURL = volume.endpoints[0].publicURL.replace(/130\.206\.80\.11:8776/, host + "/nova-volume");
+            volume.endpoints[0].publicURL = volume.endpoints[0].publicURL.replace(/130\.206\.80\.63:8776/, host + "/nova-volume");
+            //volume.endpoints[0].internalURL = volume.endpoints[0].internalURL.replace(/130\.206\.80\.11:8776/, host + "/nova-volume");
+            volume.endpoints[0].internalURL = volume.endpoints[0].internalURL.replace(/130\.206\.80\.63:8776/, host + "/nova-volume");
 
             /*var sm = JSTACK.Keystone.getservice("sm");
             sm.endpoints[0].adminURL = sm.endpoints[0].adminURL.replace(/130\.206\.80\.91:8774/, host + "/sm");
@@ -90,12 +90,12 @@ UTILS.Auth = (function(U, undefined) {
             sm.endpoints[0].internalURL = sm.endpoints[0].internalURL.replace(/130\.206\.80\.91:8774/, host + "/sm");
             */
             var image = JSTACK.Keystone.getservice("image");
-            image.endpoints[0].adminURL = image.endpoints[0].adminURL.replace(/130\.206\.80\.11:9292/, host + "/glance");
-            //image.endpoints[0].adminURL = image.endpoints[0].adminURL.replace(/130\.206\.80\.63:9292/, host + "/glance");
-            image.endpoints[0].publicURL = image.endpoints[0].publicURL.replace(/130\.206\.80\.11:9292/, host + "/glance");
-            //image.endpoints[0].publicURL = image.endpoints[0].publicURL.replace(/130\.206\.80\.63:9292/, host + "/glance");
-            image.endpoints[0].internalURL = image.endpoints[0].internalURL.replace(/130\.206\.80\.11:9292/, host + "/glance");
-            //image.endpoints[0].internalURL = image.endpoints[0].internalURL.replace(/130\.206\.80\.63:9292/, host + "/glance");
+            //image.endpoints[0].adminURL = image.endpoints[0].adminURL.replace(/130\.206\.80\.11:9292/, host + "/glance");
+            image.endpoints[0].adminURL = image.endpoints[0].adminURL.replace(/130\.206\.80\.63:9292/, host + "/glance");
+            //image.endpoints[0].publicURL = image.endpoints[0].publicURL.replace(/130\.206\.80\.11:9292/, host + "/glance");
+            image.endpoints[0].publicURL = image.endpoints[0].publicURL.replace(/130\.206\.80\.63:9292/, host + "/glance");
+            //image.endpoints[0].internalURL = image.endpoints[0].internalURL.replace(/130\.206\.80\.11:9292/, host + "/glance");
+            image.endpoints[0].internalURL = image.endpoints[0].internalURL.replace(/130\.206\.80\.63:9292/, host + "/glance");
 
             //OVF.API.configure(JSTACK.Keystone.getservice("sm").endpoints[0].publicURL, JSTACK.Keystone.params.access.token.id);
             callback();
