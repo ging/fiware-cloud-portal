@@ -19,14 +19,17 @@ var LoginStatus = Backbone.Model.extend({
         var token = regex.exec(location.search);
 
         if (token !== null) {
-            console.log('en URL', token[1]);
-            UTILS.Auth.setToken(token[1]);
+            var regex1 = new RegExp("[\\?&]expires=([^&#]*)");
+            var expires = regex.exec(location.search);
+            console.log('en URL', token[1], expires[1]);
+            UTILS.Auth.setToken(token[1], expires[1]);
             this.setToken();
         };
 
         console.log('en localStorage ', localStorage.getItem('token'));
 
         this.set({'token-ts': localStorage.getItem('token-ts')});
+        this.set({'token-ex': localStorage.getItem('token-ex')});
         this.set({'tenant-id': localStorage.getItem('tenant-id')});
         this.set({'token': localStorage.getItem('token')});
     },
@@ -61,9 +64,10 @@ var LoginStatus = Backbone.Model.extend({
 
     onTokenChange: function (context, token) {
         var self = context;
-        if (!UTILS.Auth.isAuthenticated() && token !== '' && (new Date().getTime()) < self.get('token-ts') + 24*60*60*1000 ) {
+        console.log('veamos ', UTILS.Auth.isAuthenticated(), token, (new Date().getTime()), self.get('token-ts'), self.get('token-ex'));
+        if (!UTILS.Auth.isAuthenticated() && token !== '' && (new Date().getTime()) < self.get('token-ts') + self.get('token-ex')*1000 ) {
             UTILS.Auth.authenticate(undefined, undefined, this.get('tenant-id'), token, function() {
-                console.log("Authenticated with token: ", + 24*60*60*1000-(new Date().getTime())-self.get('token-ts'));
+                console.log("Authenticated with token: ", + self.get('token-ex')*1000-(new Date().getTime())-self.get('token-ts'));
                 self.set({username: UTILS.Auth.getName(), tenant: UTILS.Auth.getCurrentTenant()});
                 console.log("New tenant: " + self.attributes.tenant.name);
                 self.set({'tenant': self.attributes.tenant});
@@ -94,7 +98,9 @@ var LoginStatus = Backbone.Model.extend({
             localStorage.setItem('tenant-id', UTILS.Auth.getCurrentTenant().id);
         }
         localStorage.setItem('token', UTILS.Auth.getToken());
+        localStorage.setItem('token-ex', UTILS.Auth.getTokenEx());
         this.set({'token': UTILS.Auth.getToken()});
+        this.set({'token-ex': UTILS.Auth.getTokenEx()});
     },
 
     isAdmin: function() {

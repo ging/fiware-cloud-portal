@@ -21,9 +21,13 @@ UTILS.Auth = (function(U, undefined) {
         return IDM.Auth.params.token;
         //return JSTACK.Keystone.params.token;
     }
+    function getTokenEx() {
+        return IDM.Auth.params.expires;
+        //return JSTACK.Keystone.params.token;
+    }
 
-    function setToken(token) {
-        IDM.Auth.setToken(token);
+    function setToken(token, expires) {
+        IDM.Auth.setToken(token, expires);
     }
 
     function getName() {

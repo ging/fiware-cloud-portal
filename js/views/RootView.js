@@ -40,7 +40,8 @@ var RootView = Backbone.View.extend({
 
     onCredentialsSubmit: function(e){
         e.preventDefault();
-        this.model.setCredentials(this.$('input[name=username]').val(), this.$('input[name=password]').val());
+        //this.model.setCredentials(this.$('input[name=username]').val(), this.$('input[name=password]').val());
+        IDM.Auth.goAuth();
     },
 
     onCloseErrorMsg: function(e) {
@@ -69,11 +70,9 @@ var RootView = Backbone.View.extend({
         if ((self.model.get("token") !== "" && self.model.get("error_msg") == null) && self.model.get("expired") !== true) return;
         console.log("Conditions passed");
 
-        //IDM.Auth.goAuth();
-
-        // if ($(self.options.root_el).css('display') !== 'None')
-        //     $(self.options.root_el).fadeOut();
-        // $(self.options.auth_el).fadeIn();
+        if ($(self.options.root_el).css('display') !== 'None')
+            $(self.options.root_el).fadeOut();
+        $(self.options.auth_el).fadeIn();
         return this;
     },
 
