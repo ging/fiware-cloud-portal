@@ -33,6 +33,8 @@ var EditInstanceSoftwareView = Backbone.View.extend({
             console.log(e);
         }});
 
+        self.model.bind("change", self.render, self);
+
         this.editing = -1;
 
     },
@@ -291,6 +293,7 @@ var EditInstanceSoftwareView = Backbone.View.extend({
             $('#edit_instance_software').remove();
             $('.modal-backdrop').remove();
         }
+        
         $(this.el).append(this._template({model:this.model}));
         this.tableView = new TableView({
             el: '#installedInstanceSoftware-table',

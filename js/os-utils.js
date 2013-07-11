@@ -346,11 +346,17 @@ UTILS.Messages = (function(U, undefined) {
             var subview = new MessagesView({state: "Success", title: successMess, el: options.el});
             subview.render();
             $('body').spin("modal");
+            if (options.success) {
+                options.success();
+            }
         }, error: function (model, error) {
             check();
             var subview = new MessagesView({state: "Error", title: errorMess + ". Cause: " + error.message, info: error.body, el: options.el});
             subview.render();
             $('body').spin("modal");
+            if (options.error) {
+                options.error();
+            }
         }};
         opt.success = opt.callback;
 

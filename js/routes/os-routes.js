@@ -270,7 +270,7 @@ var OSRouter = Backbone.Router.extend({
                                     //{name: 'Images', active: false, url: '#syspanel/images/images/'},
                                     {name: 'Projects', iconcss: "icon_nav-project", active: false, url: '#syspanel/projects/'},
                                     {name: 'Users', iconcss: "icon_nav-user", active: false, url: '#syspanel/users/'},
-                                    {name: 'Quotas', iconcss: "icon_nav-quotas", active: false, url: '#syspanel/quotas/'}
+                                    //{name: 'Quotas', iconcss: "icon_nav-quotas", active: false, url: '#syspanel/quotas/'}
                                     ]);
         self.navs.setActive(option);
         self.tabs.setActive('Admin');
