@@ -4,15 +4,17 @@ var LoginStatus = Backbone.Model.extend({
         loggedIn: false,
         username: null,
         password: null,
-        error_msg: null,
         token: '',
+        access_token: '',
         tenant: undefined,
         tenants: undefined
     },
 
     initialize: function () {
-        this.bind('credentials', this.onCredentialsChange, this);
-        this.bind('change:token', this.onTokenChange, this);
+
+        var self = this;
+        //this.bind('credentials', this.onCredentialsChange, this);
+        this.bind('change:access_token', this.onTokenChange, this);
         this.bind('error', this.onValidateError, this);
 
         var regex = new RegExp("[\\?&]token=([^&#]*)");
@@ -22,61 +24,65 @@ var LoginStatus = Backbone.Model.extend({
             var regex1 = new RegExp("[\\?&]expires=([^&#]*)");
             var expires = regex.exec(location.search);
             console.log('en URL', token[1], expires[1]);
-            UTILS.Auth.setToken(token[1], expires[1]);
-            this.setToken();
+           
+            UTILS.Auth.getTenants(function(tenants) {
+                self.set({tenants: tenants});
+                self.setToken(token[1], expires[1]);
+            });
+
         };
 
-        console.log('en localStorage ', localStorage.getItem('token'));
+        console.log('en localStorage ', localStorage.getItem('access_token'));
 
         this.set({'token-ts': localStorage.getItem('token-ts')});
         this.set({'token-ex': localStorage.getItem('token-ex')});
         this.set({'tenant-id': localStorage.getItem('tenant-id')});
-        this.set({'token': localStorage.getItem('token')});
-    },
+        this.set({'access_token': localStorage.getItem('access_token')});
 
-    onValidateError: function (model, error) {
-        model.set({error_msg: "Username and password are mandatory."});
-        model.trigger('auth-error', error.msg);
-    },
-
-    onCredentialsChange: function (model, password) {
-        var self = this;
-        if (self.get("username") !== '' && self.get("password") !== '') {
-            UTILS.Auth.authenticate(self.get("username"), self.get("password"), undefined, undefined, function() {
-                console.log("Authenticated with credentials");
-                self.setToken();
-                self.set({username: UTILS.Auth.getName(), tenant: UTILS.Auth.getCurrentTenant()});
-                console.log("Tenant: ", self.get('tenant').name);
-                UTILS.Auth.getTenants(function(tenants) {
-                    self.set({tenants: tenants});
-                    self.set({'loggedIn': true});
-                });
-            }, function(msg) {
-                self.set({'error_msg': msg});
-                self.trigger('auth-error', msg);
-            });
-        } else {
-            var msg = "Username and password are mandatory.";
-            self.set({'error_msg': msg});
-            self.trigger('auth-error', msg);
+        if (localStorage.getItem('access_token') == null) {
+            this.set({'access_token': ''});
         }
     },
 
-    onTokenChange: function (context, token) {
+    // onValidateError: function (model, error) {
+    //     model.set({error_msg: "Username and password are mandatory."});
+    //     model.trigger('auth-error', error.msg);
+    // },
+
+    // onCredentialsChange: function (model, password) {
+    //     var self = this;
+    //     if (self.get("username") !== '' && self.get("password") !== '') {
+    //         UTILS.Auth.authenticate(self.get("username"), self.get("password"), undefined, undefined, function() {
+    //             console.log("Authenticated with credentials");
+    //             self.setToken();
+    //             self.set({username: UTILS.Auth.getName(), tenant: UTILS.Auth.getCurrentTenant()});
+    //             console.log("Tenant: ", self.get('tenant').name);
+    //             UTILS.Auth.getTenants(function(tenants) {
+    //                 self.set({tenants: tenants});
+    //                 self.set({'loggedIn': true});
+    //             });
+    //         }, function(msg) {
+    //             self.set({'error_msg': msg});
+    //             self.trigger('auth-error', msg);
+    //         });
+    //     } else {
+    //         var msg = "Username and password are mandatory.";
+    //         self.set({'error_msg': msg});
+    //         self.trigger('auth-error', msg);
+    //     }
+    // },
+
+    onTokenChange: function (context, access_token) {
         var self = context;
-        console.log('veamos ', UTILS.Auth.isAuthenticated(), token, (new Date().getTime()), self.get('token-ts'), self.get('token-ex'));
-        if (!UTILS.Auth.isAuthenticated() && token !== '' && (new Date().getTime()) < self.get('token-ts') + self.get('token-ex')*1000 ) {
-            UTILS.Auth.authenticate(undefined, undefined, this.get('tenant-id'), token, function() {
+        console.log('veamos ', UTILS.Auth.isAuthenticated(), access_token, (new Date().getTime()), self.get('token-ts'), self.get('token-ex'));
+        if (!UTILS.Auth.isAuthenticated() && access_token !== '' && (new Date().getTime()) < self.get('token-ts') + self.get('token-ex')*1000 ) {
+            UTILS.Auth.authenticate(this.get('tenant-id'), access_token, function() {
                 console.log("Authenticated with token: ", + self.get('token-ex')*1000-(new Date().getTime())-self.get('token-ts'));
                 self.set({username: UTILS.Auth.getName(), tenant: UTILS.Auth.getCurrentTenant()});
                 console.log("New tenant: " + self.attributes.tenant.name);
                 self.set({'tenant': self.attributes.tenant});
                 //console.log("New tenant: " + self.get("name"));
-                UTILS.Auth.getTenants(function(tenants) {
-                    self.set({tenants: tenants});
-                    self.set({'loggedIn': true});
-                });
-
+                self.set({'loggedIn': true});
             }, function(msg) {
                 console.log("Error authenticating with token");
                 self.set({'expired': true});
@@ -92,15 +98,17 @@ var LoginStatus = Backbone.Model.extend({
         }
     },
 
-    setToken: function() {
-        if (localStorage.getItem('token') !== UTILS.Auth.getToken()) {
+    setToken: function(access_token, expires) {
+        if (localStorage.getItem('access_token') !== access_token) {
             localStorage.setItem('token-ts', new Date().getTime());
             localStorage.setItem('tenant-id', UTILS.Auth.getCurrentTenant().id);
         }
+        localStorage.setItem('access_token', access_token);
+        localStorage.setItem('token-ex', expires);
         localStorage.setItem('token', UTILS.Auth.getToken());
-        localStorage.setItem('token-ex', UTILS.Auth.getTokenEx());
         this.set({'token': UTILS.Auth.getToken()});
-        this.set({'token-ex': UTILS.Auth.getTokenEx()});
+        this.set({'access_token': access_token});
+        this.set({'token-ex': expires});
     },
 
     isAdmin: function() {
@@ -108,15 +116,17 @@ var LoginStatus = Backbone.Model.extend({
     },
 
     removeToken: function() {
+        localStorage.setItem('access_token', '');
         localStorage.setItem('token', '');
+        this.set({'access_token': ''});
         this.set({'token': ''});
     },
 
-    setCredentials: function(username, password) {
-        console.log("Setting credentials");
-        this.set({'username': username, 'password': password, 'error_msg':undefined});
-        this.trigger('credentials', this);
-    },
+    // setCredentials: function(username, password) {
+    //     console.log("Setting credentials");
+    //     this.set({'username': username, 'password': password, 'error_msg':undefined});
+    //     this.trigger('credentials', this);
+    // },
 
     switchTenant: function(tenantID) {
         var self = this;
@@ -131,6 +141,7 @@ var LoginStatus = Backbone.Model.extend({
 
     clearAll: function() {
         localStorage.setItem('token', '');
+        localStorage.setItem('access_token', '');
         this.set(this.defaults);
     }
 
