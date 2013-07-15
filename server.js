@@ -294,7 +294,7 @@ app.get('/login', function(req, res){
         req.query.code,
         function (e, results){
             console.log('bearer: ',e, results);
-            res.redirect("/?token=" + results.access_token + "&expires=" + results.expires_in);
+            res.redirect("/#token=" + results.access_token + "&expires=" + results.expires_in);
         });
 
 });

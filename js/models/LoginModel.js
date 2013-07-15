@@ -17,31 +17,35 @@ var LoginStatus = Backbone.Model.extend({
         this.bind('change:access_token', this.onTokenChange, this);
         this.bind('error', this.onValidateError, this);
 
-        var regex = new RegExp("[\\?&]token=([^&#]*)");
-        var token = regex.exec(location.search);
+        var regex = new RegExp("[\\#&]token=([^&#]*)");
+        var token = regex.exec(location.hash);
 
         if (token !== null) {
-            var regex1 = new RegExp("[\\?&]expires=([^&#]*)");
-            var expires = regex.exec(location.search);
+            var regex1 = new RegExp("[\\&]expires=([^&#]*)");
+            var expires = regex1.exec(location.hash);
             console.log('en URL', token[1], expires[1]);
            
             UTILS.Auth.getTenants(function(tenants) {
                 self.set({tenants: tenants});
+                self.set({'tenant-id':  UTILS.Auth.getCurrentTenant().id});
                 self.setToken(token[1], expires[1]);
             });
 
-        };
+        } else {
+            console.log('en localStorage ', localStorage.getItem('access_token'));
 
-        console.log('en localStorage ', localStorage.getItem('access_token'));
+            this.set({'token-ts': localStorage.getItem('token-ts')});
+            this.set({'token-ex': localStorage.getItem('token-ex')});
+            this.set({'tenant-id': localStorage.getItem('tenant-id')});
+            this.set({'access_token': localStorage.getItem('access_token')});
 
-        this.set({'token-ts': localStorage.getItem('token-ts')});
-        this.set({'token-ex': localStorage.getItem('token-ex')});
-        this.set({'tenant-id': localStorage.getItem('tenant-id')});
-        this.set({'access_token': localStorage.getItem('access_token')});
+            if (localStorage.getItem('access_token') == null) {
+                this.set({'access_token': ''});
+            }
 
-        if (localStorage.getItem('access_token') == null) {
-            this.set({'access_token': ''});
         }
+
+        
     },
 
     // onValidateError: function (model, error) {
@@ -74,12 +78,14 @@ var LoginStatus = Backbone.Model.extend({
 
     onTokenChange: function (context, access_token) {
         var self = context;
-        console.log('veamos ', UTILS.Auth.isAuthenticated(), access_token, (new Date().getTime()), self.get('token-ts'), self.get('token-ex'));
-        if (!UTILS.Auth.isAuthenticated() && access_token !== '' && (new Date().getTime()) < self.get('token-ts') + self.get('token-ex')*1000 ) {
+        console.log('veamos ', (new Date().getTime()), self.get('token-ts'), self.get('token-ex'));
+        if (!UTILS.Auth.isAuthenticated() && access_token !== '' && (new Date().getTime()) < self.get('token-ts') + self.get('token-ex')) {
+            console.log('autentico con ', this.get('tenant-id'), access_token);
             UTILS.Auth.authenticate(this.get('tenant-id'), access_token, function() {
-                console.log("Authenticated with token: ", + self.get('token-ex')*1000-(new Date().getTime())-self.get('token-ts'));
-                self.set({username: UTILS.Auth.getName(), tenant: UTILS.Auth.getCurrentTenant()});
-                console.log("New tenant: " + self.attributes.tenant.name);
+                console.log("Authenticated with token: ", + self.get('token-ex') - (new Date().getTime())-self.get('token-ts'));
+                //self.set({username: UTILS.Auth.getName(), tenant: UTILS.Auth.getCurrentTenant()});
+                self.set({tenant: UTILS.Auth.getCurrentTenant()});
+                //console.log("New tenant: " + self.attributes.tenant.name);
                 self.set({'tenant': self.attributes.tenant});
                 //console.log("New tenant: " + self.get("name"));
                 self.set({'loggedIn': true});
@@ -99,16 +105,22 @@ var LoginStatus = Backbone.Model.extend({
     },
 
     setToken: function(access_token, expires) {
+        console.log('setToken', access_token, expires*1000);
         if (localStorage.getItem('access_token') !== access_token) {
-            localStorage.setItem('token-ts', new Date().getTime());
+            console.log('setTokenaaaaaaa');
+            var time = new Date().getTime();
+            this.set({'token-ts': time});
+            localStorage.setItem('token-ts', time);
             localStorage.setItem('tenant-id', UTILS.Auth.getCurrentTenant().id);
         }
         localStorage.setItem('access_token', access_token);
-        localStorage.setItem('token-ex', expires);
+        localStorage.setItem('token-ex', expires*1000);
         localStorage.setItem('token', UTILS.Auth.getToken());
+
+        this.set({'token-ex': expires*1000});
         this.set({'token': UTILS.Auth.getToken()});
         this.set({'access_token': access_token});
-        this.set({'token-ex': expires});
+        
     },
 
     isAdmin: function() {
