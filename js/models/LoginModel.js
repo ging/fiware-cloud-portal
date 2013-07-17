@@ -26,14 +26,13 @@ var LoginStatus = Backbone.Model.extend({
             console.log('en URL', token[1], expires[1]);
            
             UTILS.Auth.getTenants(function(tenants) {
-                self.set({tenants: tenants});
+                self.set({'tenants': tenants});
                 self.set({'tenant-id':  UTILS.Auth.getCurrentTenant().id});
                 self.setToken(token[1], expires[1]);
             });
 
         } else {
             console.log('en localStorage ', localStorage.getItem('access_token'));
-
             this.set({'token-ts': localStorage.getItem('token-ts')});
             this.set({'token-ex': localStorage.getItem('token-ex')});
             this.set({'tenant-id': localStorage.getItem('tenant-id')});
@@ -45,7 +44,7 @@ var LoginStatus = Backbone.Model.extend({
 
         }
 
-        
+            
     },
 
     // onValidateError: function (model, error) {
@@ -82,13 +81,15 @@ var LoginStatus = Backbone.Model.extend({
         if (!UTILS.Auth.isAuthenticated() && access_token !== '' && (new Date().getTime()) < self.get('token-ts') + self.get('token-ex')) {
             console.log('autentico con ', this.get('tenant-id'), access_token);
             UTILS.Auth.authenticate(this.get('tenant-id'), access_token, function() {
-                console.log("Authenticated with token: ", + self.get('token-ex') - (new Date().getTime())-self.get('token-ts'));
-                //self.set({username: UTILS.Auth.getName(), tenant: UTILS.Auth.getCurrentTenant()});
-                self.set({tenant: UTILS.Auth.getCurrentTenant()});
+                console.log("Authenticated with token: ", + self.get('token-ex') - (new Date().getTime())-self.get('token-ts'));                
                 //console.log("New tenant: " + self.attributes.tenant.name);
-                self.set({'tenant': self.attributes.tenant});
+                //self.set({'tenant': self.attributes.tenant});
                 //console.log("New tenant: " + self.get("name"));
-                self.set({'loggedIn': true});
+                UTILS.Auth.getTenants(function(tenants) {
+                    self.set({tenant: UTILS.Auth.getCurrentTenant()});
+                    self.set({tenants: tenants});
+                    self.set({'loggedIn': true});
+                });
             }, function(msg) {
                 console.log("Error authenticating with token");
                 self.set({'expired': true});

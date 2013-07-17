@@ -13,8 +13,7 @@ UTILS.Auth = (function(U, undefined) {
     var tenants = [];
 
     function initialize(url, adminUrl) {
-        //JSTACK.Keystone.init(url, adminUrl);
-        IDM.Auth.init(url, adminUrl);
+        JSTACK.Keystone.init(url, adminUrl);
     }
 
     function getToken() {
@@ -155,8 +154,8 @@ UTILS.Auth = (function(U, undefined) {
         //     success = _authenticatedWithoutTenant;
         //     console.log("Authenticating without tenant");
         // }
-        IDM.Auth.authenticate(access_token, tenant, success, _credError);
-        //JSTACK.Keystone.authenticate(username, password, token, tenant, success, _credError);
+        //IDM.Auth.authenticate(access_token, tenant, success, _credError);
+        JSTACK.Keystone.authenticate(undefined, undefined, access_token, tenant, success, _credError);
     }
 
     return {
