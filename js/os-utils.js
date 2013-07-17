@@ -29,9 +29,7 @@ UTILS.Auth = (function(U, undefined) {
     }
 
     var getCurrentTenant = function() {
-        console.log(IDM.Auth);
-        return IDM.Auth.params.currentTenant;
-        //return JSTACK.Keystone.params.access.token.tenant;
+        return JSTACK.Keystone.params.access.token.tenant;
     };
 
     var isAuthenticated = function() {
@@ -48,8 +46,8 @@ UTILS.Auth = (function(U, undefined) {
         return false;
     };
 
-    var switchTenant = function(tenant, callback, error) {
-        authenticate(undefined, undefined, tenant, JSTACK.Keystone.params.token, callback, error);
+    var switchTenant = function(tenant, access_token, callback, error) {
+        authenticate(tenant, access_token, callback, error);
     };
 
     function authenticate(tenant, access_token, callback, error) {
@@ -101,24 +99,11 @@ UTILS.Auth = (function(U, undefined) {
             callback();
         };
 
-        var _authenticatedWithToken = function (resp) {
-            callback();
-        };
-
-        var _authenticatedWithoutTenant = function(resp) {
-            var ok = function (resp) {
-                tenants = resp.tenants;
-                _tryTenant();
-            };
-
-            JSTACK.Keystone.gettenants(ok);
-        };
-
         var _tryTenant = function(tenant) {
             if (tenants.length > 0) {
                 tenant = tenant || tenants.pop();
-                console.log("Authenticating for tenant " + JSON.stringify(tenant.id));
-                JSTACK.Keystone.authenticate(undefined, undefined, JSTACK.Keystone.params.token, tenant.id, _authenticatedWithTenant, _error);
+                console.log("Authenticating for tenant " + tenant.id);
+                JSTACK.Keystone.authenticate(undefined, undefined, access_token, tenant.id, _authenticatedWithTenant, _error);
             } else {
                 console.log("Error authenticating");
                 error("No tenant");
@@ -142,20 +127,17 @@ UTILS.Auth = (function(U, undefined) {
             error("Bad credentials");
         };
 
-        var success;
-
-        //if (tenant !== undefined) {
-            success = _authenticatedWithTenant;
+        if (tenant !== undefined) {
             console.log("Authenticating with tenant");
-        // } else if (token !== undefined) {
-        //     success = _authenticatedWithoutTenant;
-        //     console.log("Authenticating with token");
-        // } else {
-        //     success = _authenticatedWithoutTenant;
-        //     console.log("Authenticating without tenant");
-        // }
-        //IDM.Auth.authenticate(access_token, tenant, success, _credError);
-        JSTACK.Keystone.authenticate(undefined, undefined, access_token, tenant, success, _credError);
+            JSTACK.Keystone.authenticate(undefined, undefined, access_token, tenant, _authenticatedWithTenant, _credError);
+        } else {
+            console.log("Authenticating without tenant");
+            IDM.Auth.getTenants(function (resp) {
+                tenants = resp;
+                _tryTenant();
+            });
+        }
+        
     }
 
     return {

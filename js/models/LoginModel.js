@@ -4,7 +4,6 @@ var LoginStatus = Backbone.Model.extend({
         loggedIn: false,
         username: null,
         password: null,
-        token: '',
         access_token: '',
         tenant: undefined,
         tenants: undefined
@@ -25,11 +24,11 @@ var LoginStatus = Backbone.Model.extend({
             var expires = regex1.exec(location.hash);
             console.log('en URL', token[1], expires[1]);
            
-            UTILS.Auth.getTenants(function(tenants) {
-                self.set({'tenants': tenants});
-                self.set({'tenant-id':  UTILS.Auth.getCurrentTenant().id});
+            // UTILS.Auth.getTenants(function(tenants) {
+            //     self.set({'tenants': tenants});
+            //     self.set({'tenant-id':  UTILS.Auth.getCurrentTenant().id});
                 self.setToken(token[1], expires[1]);
-            });
+            //});
 
         } else {
             console.log('en localStorage ', localStorage.getItem('access_token'));
@@ -112,14 +111,10 @@ var LoginStatus = Backbone.Model.extend({
             var time = new Date().getTime();
             this.set({'token-ts': time});
             localStorage.setItem('token-ts', time);
-            localStorage.setItem('tenant-id', UTILS.Auth.getCurrentTenant().id);
         }
         localStorage.setItem('access_token', access_token);
         localStorage.setItem('token-ex', expires*1000);
-        localStorage.setItem('token', UTILS.Auth.getToken());
-
         this.set({'token-ex': expires*1000});
-        this.set({'token': UTILS.Auth.getToken()});
         this.set({'access_token': access_token});
         
     },
@@ -130,9 +125,7 @@ var LoginStatus = Backbone.Model.extend({
 
     removeToken: function() {
         localStorage.setItem('access_token', '');
-        localStorage.setItem('token', '');
         this.set({'access_token': ''});
-        this.set({'token': ''});
     },
 
     // setCredentials: function(username, password) {
@@ -144,16 +137,14 @@ var LoginStatus = Backbone.Model.extend({
     switchTenant: function(tenantID) {
         var self = this;
         console.log("Tenant: " + tenantID);
-        UTILS.Auth.switchTenant(tenantID, function(resp) {
-            self.set({username: UTILS.Auth.getName(), tenant: UTILS.Auth.getCurrentTenant()});
-            localStorage.setItem('token', UTILS.Auth.getToken());
+        UTILS.Auth.switchTenant(tenantID, this.get('access_token'), function() {
+            self.set({tenant: UTILS.Auth.getCurrentTenant()});
             localStorage.setItem('tenant-id', UTILS.Auth.getCurrentTenant().id);
             self.trigger('switch-tenant');
         });
     },
 
     clearAll: function() {
-        localStorage.setItem('token', '');
         localStorage.setItem('access_token', '');
         this.set(this.defaults);
     }
