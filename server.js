@@ -211,7 +211,7 @@ app.all('/keystone-admin/*', function(req, resp) {
 
 app.all('/nova/*', function(req, resp) {
     var options = {
-        host: '130.206.80.63',
+        host: '130.206.80.62',
         //host: '130.206.80.11',
         port: 8774,
         path: req.url.split('nova')[1],
@@ -223,7 +223,7 @@ app.all('/nova/*', function(req, resp) {
 
 app.all('/nova-volume/*', function(req, resp) {
     var options = {
-        host: '130.206.80.63',
+        host: '130.206.80.62',
         //host: '130.206.80.11',
         port: 8776,
         path: req.url.split('nova-volume')[1],
@@ -235,7 +235,7 @@ app.all('/nova-volume/*', function(req, resp) {
 
 app.all('/glance/*', function(req, resp) {
     var options = {
-        host: '130.206.80.63',
+        host: '130.206.80.62',
         //host: '130.206.80.11',
         port: 9292,
         path: req.url.split('glance')[1],
@@ -247,7 +247,7 @@ app.all('/glance/*', function(req, resp) {
 
 app.all('/sm/*', function(req, resp) {
     var options = {
-        host: '130.206.80.63',
+        host: '130.206.80.62',
         //host: '130.206.80.91',
         port: 8774,
         path: req.url.split('sm')[1],
