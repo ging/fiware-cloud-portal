@@ -334,8 +334,11 @@ UTILS.Messages = (function(U, undefined) {
             }
         };
 
-        var opt = {callback: function () {
+        var opt = {callback: function (resp) {
             check();
+            if (options.showSuccessResp) {
+                successMess = successMess + resp;
+            }
             var subview = new MessagesView({state: "Success", title: successMess, el: options.el});
             subview.render();
             $('body').spin("modal");

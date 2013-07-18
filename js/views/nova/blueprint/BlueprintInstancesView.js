@@ -14,7 +14,7 @@ var BlueprintInstancesView = Backbone.View.extend({
     },
 
     events: {
-        'click .btn-launch': 'onLaunch'
+        'click .btn-task': 'onGetTask'
     },
 
     getMainButtons: function() {
@@ -103,12 +103,23 @@ var BlueprintInstancesView = Backbone.View.extend({
                 }, {
                     value: nTiers
                 }, {
-                    value: bpInstance.get('status')
+                    value: bpInstance.get('status') + '<img src="/images/info_icon.jpg" id="bpInstance__action_task__'+i+'" class="ajax-modal btn-task" name="' + bpInstance.get('taskId')  +'"></img>'
                 }]
             };
             entries.push(entry);
         }
         return entries;
+    },
+
+    onGetTask: function(evt) {
+        var taskId = evt.target.name;
+        var options = UTILS.Messages.getCallbacks("", "Instance status information error.", {showSuccessResp: true, success: function() {
+            if ( $('#message-resize-icon').hasClass('icon-resize-full')) {
+                $('#message-resize-icon').click();    
+            }
+        }});
+        options.taskId = taskId;
+        this.model.getTask(options);
     },
 
     onClose: function() {

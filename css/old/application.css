@@ -422,6 +422,13 @@ input.file {
   background-image: none;
 }
 
+.btn-task {
+  width: 20px;
+  height: 15px;
+  margin-left: 5px;
+  margin-top: -10px;
+}
+
 .btn-blue:hover,
 .btn-blue:active,
 .btn-blue.active {
