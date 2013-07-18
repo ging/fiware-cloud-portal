@@ -103,7 +103,7 @@ var BlueprintInstancesView = Backbone.View.extend({
                 }, {
                     value: nTiers
                 }, {
-                    value: bpInstance.get('status') + '<img src="/images/info_icon.jpg" id="bpInstance__action_task__'+i+'" class="ajax-modal btn-task" name="' + bpInstance.get('taskId')  +'"></img>'
+                    value: bpInstance.get('status') + '<img src="/images/info_icon.png" id="bpInstance__action_task__'+i+'" class="ajax-modal btn-task" name="' + bpInstance.get('taskId')  +'"></img>'
                 }]
             };
             entries.push(entry);
