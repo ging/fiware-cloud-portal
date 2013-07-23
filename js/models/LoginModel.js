@@ -88,6 +88,7 @@ var LoginStatus = Backbone.Model.extend({
                     self.set({tenant: UTILS.Auth.getCurrentTenant()});
                     self.set({tenants: tenants});
                     self.set({'loggedIn': true});
+                    localStorage.setItem('tenant-id', UTILS.Auth.getCurrentTenant().id);
                 });
             }, function(msg) {
                 console.log("Error authenticating with token");
