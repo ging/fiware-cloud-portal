@@ -6,11 +6,11 @@ var ProjectView = Backbone.View.extend({
 
     initialize: function() {
         var self = this;
-        this.model.bind("sync", this.render, this);
-        this.options.quotas.bind("reset", this.render, this);
         this.model.fetch();
         this.options.quotas.fetch();
         this.renderFirst();
+        this.model.bind("sync", this.render, this);
+        this.options.quotas.bind("reset", this.render, this);
     },
 
     getMainButtons: function() {
