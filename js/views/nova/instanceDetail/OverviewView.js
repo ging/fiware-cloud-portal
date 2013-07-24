@@ -85,8 +85,6 @@ var InstanceOverviewView = Backbone.View.extend({
 
         var installedSoftware = [];
 
-        console.log(this.options.sdcs, this.model);
-
         if (this.options.sdcs.models.length !== 0) {
          
             var id = this.model.get("id");
