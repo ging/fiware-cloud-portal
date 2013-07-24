@@ -15,10 +15,11 @@ var ProjectView = Backbone.View.extend({
 
     getMainButtons: function() {
         // main_buttons: [{label:label, url: #url, action: action_name}]
-        return [{
-            label:  "Create New Project",
-            action:    "create"
-        }];
+        // return [{
+        //     label:  "Create New Project",
+        //     action:    "create"
+        // }];
+        return [];
     },
 
     getDropdownButtons: function() {
@@ -33,18 +34,20 @@ var ProjectView = Backbone.View.extend({
                 return true;
             }
         };
-        return [{
-            label:"Edit Project", action:"edit", activatePattern: oneSelected
-        },
-        {
-            label: "Modify Users", action: "modify-users", activatePattern: oneSelected
-        },
+        return [
+        // {
+        //     label:"Edit Project", action:"edit", activatePattern: oneSelected
+        // },
+        // {
+        //     label: "Modify Users", action: "modify-users", activatePattern: oneSelected
+        // },
         {
             label: "Modify Quotas", action: "modify-quotas", activatePattern: oneSelected
-        },
-        {
-            label: "Delete Project", action:"delete", warn: true, activatePattern: groupSelected
         }
+        // ,
+        // {
+        //     label: "Delete Project", action:"delete", warn: true, activatePattern: groupSelected
+        // }
         ];
     },
 

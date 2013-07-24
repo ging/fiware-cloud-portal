@@ -268,8 +268,8 @@ var OSRouter = Backbone.Router.extend({
                                     //{name: 'Services', active: false, url: '#syspanel/services/'},
                                     {name: 'Flavors', iconcss: "icon_nav-flavors", active: false, url: '#syspanel/flavors/'},
                                     //{name: 'Images', active: false, url: '#syspanel/images/images/'},
-                                    {name: 'Projects', iconcss: "icon_nav-project", active: false, url: '#syspanel/projects/'},
-                                    {name: 'Users', iconcss: "icon_nav-user", active: false, url: '#syspanel/users/'}
+                                    {name: 'Project Quotas', iconcss: "icon_nav-project", active: false, url: '#syspanel/projects/'},
+                                    //{name: 'Users', iconcss: "icon_nav-user", active: false, url: '#syspanel/users/'}
                                     //{name: 'Quotas', iconcss: "icon_nav-quotas", active: false, url: '#syspanel/quotas/'}
                                     ]);
         self.navs.setActive(option);
