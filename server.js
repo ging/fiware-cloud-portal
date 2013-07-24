@@ -180,7 +180,7 @@ function getClientIp(req, headers) {
 app.all('/keystone/*', function(req, resp) {
     var options = {
         host: config.keystone.host,
-        port: 5000,
+        port: config.keystone.port,
         path: req.url.split('keystone')[1],
         method: req.method,
         headers: getClientIp(req, req.headers)
@@ -191,7 +191,7 @@ app.all('/keystone/*', function(req, resp) {
 app.all('/keystone-admin/*', function(req, resp) {
     var options = {
         host: config.keystone.admin_host,
-        port: 35357,
+        port: config.keystone.admin_port,
         path: req.url.split('keystone-admin')[1],
         method: req.method,
         headers: getClientIp(req, req.headers)
