@@ -60,16 +60,14 @@ src: templates/root/nova/instanceDetail/overview.html
                     <h4>Security Groups</h4>
                     <hr class="header_rule">
                     <ul>
-                        <li>
-                            default
-                        </li>
                         <%
-                        for (var idx in security_groups) {
+                         for (var idx in security_groups) {
                         %>
                         <li>
                             <%=security_groups[idx].name%>
                         </li>
-                        <% } %>
+
+                        <%}%>
                     </ul>
                 </div>
                 <div class="status span4">

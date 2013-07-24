@@ -67,20 +67,14 @@ UTILS.Auth = (function(U, undefined) {
             console.log("Changing endpoint URLS to ", host);
 
             var compute = JSTACK.Keystone.getservice("compute");
-            //compute.endpoints[0].adminURL = compute.endpoints[0].adminURL.replace(/130\.206\.80\.11:8774/, host + "/nova");
-            compute.endpoints[0].adminURL = compute.endpoints[0].adminURL.replace(/130\.206\.80\.62:8774/, host + "/nova");
-            //compute.endpoints[0].publicURL = compute.endpoints[0].publicURL.replace(/130\.206\.80\.11:8774/, host + "/nova");
-            compute.endpoints[0].publicURL = compute.endpoints[0].publicURL.replace(/130\.206\.80\.62:8774/, host + "/nova");
-            //compute.endpoints[0].internalURL = compute.endpoints[0].internalURL.replace(/130\.206\.80\.11:8774/, host + "/nova");
-            compute.endpoints[0].internalURL = compute.endpoints[0].internalURL.replace(/130\.206\.80\.62:8774/, host + "/nova");
-
+            compute.endpoints[0].adminURL = "/nova" + compute.endpoints[0].adminURL.split('8774')[1];
+            compute.endpoints[0].publicURL = "/nova" + compute.endpoints[0].publicURL.split('8774')[1];
+            compute.endpoints[0].internalURL = "/nova" + compute.endpoints[0].internalURL.split('8774')[1];
+        
             var volume = JSTACK.Keystone.getservice("volume");
-            //volume.endpoints[0].adminURL = volume.endpoints[0].adminURL.replace(/130\.206\.80\.11:8776/, host + "/nova-volume");
-            volume.endpoints[0].adminURL = volume.endpoints[0].adminURL.replace(/130\.206\.80\.62:8776/, host + "/nova-volume");
-            //volume.endpoints[0].publicURL = volume.endpoints[0].publicURL.replace(/130\.206\.80\.11:8776/, host + "/nova-volume");
-            volume.endpoints[0].publicURL = volume.endpoints[0].publicURL.replace(/130\.206\.80\.62:8776/, host + "/nova-volume");
-            //volume.endpoints[0].internalURL = volume.endpoints[0].internalURL.replace(/130\.206\.80\.11:8776/, host + "/nova-volume");
-            volume.endpoints[0].internalURL = volume.endpoints[0].internalURL.replace(/130\.206\.80\.62:8776/, host + "/nova-volume");
+            volume.endpoints[0].adminURL = "/nova-volume" + volume.endpoints[0].adminURL.split('8776')[1];
+            volume.endpoints[0].publicURL = "/nova-volume" + volume.endpoints[0].publicURL.split('8776')[1];
+            volume.endpoints[0].internalURL = "/nova-volume" + volume.endpoints[0].internalURL.split('8776')[1];
 
             /*var sm = JSTACK.Keystone.getservice("sm");
             sm.endpoints[0].adminURL = sm.endpoints[0].adminURL.replace(/130\.206\.80\.91:8774/, host + "/sm");
@@ -88,12 +82,9 @@ UTILS.Auth = (function(U, undefined) {
             sm.endpoints[0].internalURL = sm.endpoints[0].internalURL.replace(/130\.206\.80\.91:8774/, host + "/sm");
             */
             var image = JSTACK.Keystone.getservice("image");
-            //image.endpoints[0].adminURL = image.endpoints[0].adminURL.replace(/130\.206\.80\.11:9292/, host + "/glance");
-            image.endpoints[0].adminURL = image.endpoints[0].adminURL.replace(/130\.206\.80\.62:9292/, host + "/glance");
-            //image.endpoints[0].publicURL = image.endpoints[0].publicURL.replace(/130\.206\.80\.11:9292/, host + "/glance");
-            image.endpoints[0].publicURL = image.endpoints[0].publicURL.replace(/130\.206\.80\.62:9292/, host + "/glance");
-            //image.endpoints[0].internalURL = image.endpoints[0].internalURL.replace(/130\.206\.80\.11:9292/, host + "/glance");
-            image.endpoints[0].internalURL = image.endpoints[0].internalURL.replace(/130\.206\.80\.62:9292/, host + "/glance");
+            image.endpoints[0].adminURL = "/glance" + image.endpoints[0].adminURL.split('9292')[1];
+            image.endpoints[0].publicURL = "/glance" + image.endpoints[0].publicURL.split('9292')[1];
+            image.endpoints[0].internalURL = "/glance" + image.endpoints[0].internalURL.split('9292')[1];
 
             //OVF.API.configure(JSTACK.Keystone.getservice("sm").endpoints[0].publicURL, JSTACK.Keystone.params.access.token.id);
             callback();
@@ -324,16 +315,25 @@ UTILS.Messages = (function(U, undefined) {
             }
         };
 
-        var opt = {callback: function () {
+        var opt = {callback: function (resp) {
             check();
+            if (options.showSuccessResp) {
+                successMess = successMess + resp;
+            }
             var subview = new MessagesView({state: "Success", title: successMess, el: options.el});
             subview.render();
             $('body').spin("modal");
+            if (options.success) {
+                options.success();
+            }
         }, error: function (model, error) {
             check();
             var subview = new MessagesView({state: "Error", title: errorMess + ". Cause: " + error.message, info: error.body, el: options.el});
             subview.render();
             $('body').spin("modal");
+            if (options.error) {
+                options.error();
+            }
         }};
         opt.success = opt.callback;
 

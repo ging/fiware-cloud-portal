@@ -192,7 +192,6 @@ var NovaVolumesView = Backbone.View.extend({
     },
 
     render: function() {
-        console.log("Rendering");
         if ($(this.el).html() !== null) {
             this.tableView.render();
         }

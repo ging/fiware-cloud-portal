@@ -83,10 +83,27 @@ var BPInstances = Backbone.Collection.extend({
     //     return this._action('getCatalogueProductDetails', options);
     // },
 
+    getTask: function(options) {
+        options = options || {};
+        return this._action('getTask', options);
+    },
+
     sync: function(method, model, options) {
         switch(method) {
             case "read":
                 BP.API.getBlueprintInstanceList(options.success, options.error);
+                break;
+            case 'getTask':
+                BP.API.getTask(options.taskId, function (resp) {
+                    var message = 'Blueprint Instance ' + resp.environment + ' status.';
+                    message += '<br><br>Description: ' + resp.description;
+                    message += '<br><br>Status: ' + resp._status;
+                    if (resp.error) {
+                        message += '<br><br>Error: ' + resp.error._message;
+                    }
+                    options.success(message);
+
+                }, options.error);
                 break;
             case 'getCatalogueProductDetails':
                 // ServiceDC.API.getProductAttributes(options.id, options.success, options.error);
