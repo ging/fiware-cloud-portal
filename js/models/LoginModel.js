@@ -84,6 +84,7 @@ var LoginStatus = Backbone.Model.extend({
                 //console.log("New tenant: " + self.attributes.tenant.name);
                 //self.set({'tenant': self.attributes.tenant});
                 //console.log("New tenant: " + self.get("name"));
+                self.set({username: UTILS.Auth.getName()});
                 UTILS.Auth.getTenants(function(tenants) {
                     self.set({tenant: UTILS.Auth.getCurrentTenant()});
                     self.set({tenants: tenants});
@@ -139,7 +140,7 @@ var LoginStatus = Backbone.Model.extend({
         var self = this;
         console.log("Tenant: " + tenantID);
         UTILS.Auth.switchTenant(tenantID, this.get('access_token'), function() {
-            self.set({tenant: UTILS.Auth.getCurrentTenant()});
+            self.set({username: UTILS.Auth.getName(), tenant: UTILS.Auth.getCurrentTenant()});
             localStorage.setItem('tenant-id', UTILS.Auth.getCurrentTenant().id);
             self.trigger('switch-tenant');
         });
