@@ -1,5 +1,302 @@
 @import "main";
 
+// IDM header bar
+
+a:hover{
+  color: #049cdb;
+  text-decoration: none;
+}
+header#oil-nav {
+  display: block;
+  background-color: #f4f4f4;
+  padding: 1px 10px 1px;
+  border-bottom: 1px solid #F2F2F2;
+  -moz-box-shadow: 0px 1px 8px rgba(50, 51, 51, 0.15);
+  -webkit-box-shadow: 0px 1px 8px rgba(50, 51, 51, 0.15);
+  box-shadow: 0px 1px 8px rgba(50, 51, 51, 0.15);
+  position: fixed;
+  width: 96%;
+  height: 35px;
+  padding: 1px 2% 1px;
+  z-index: 2000000;
+}
+#oil-nav  nav.navbar-inner{
+  padding: 0;
+  background-color: transparent;
+  background-image: none;
+  border: none;
+  box-shadow: none;  
+}
+#oil-nav  nav.navbar-inner .logo-header{
+  display: inline
+}
+
+#oil-nav  .logo-header img{
+  width: 60px;
+  padding-top: 0;
+  float: left;
+  margin-top: 0px;
+}
+
+#oil-nav  .logo-header .brand{
+  padding: 0;
+  width: auto;
+  float: left;
+  margin: 12px 0 0 3px;
+  font-size: 23px;
+  color: #555;
+  font-family: "DsignesRegular";
+  display: inline-block;
+}
+
+#oil-nav  .logo-header .brand a{
+  font-size: 34px;
+  color: #555;
+}
+
+#oil-nav  .logo-header .brand a:hover{
+  text-decoration: none;
+}
+
+#oil-nav  .logo-header .brand a:hover span{
+  font-size: 17px;
+  color: #888;
+}
+
+#oil-nav  .mobile .dropdown-menu{
+  margin-left: -67px;
+}
+
+#oil-nav  ul.oil-portal{
+  width: 300px;
+  height: 36px;
+  padding: 0px 14px;
+  margin-bottom: 0px;
+  display: inline-block;
+  float: left;
+  margin: 0 0 10px 25px;
+}
+
+#oil-nav  ul.oil-portal li{
+  display: inline-block;
+  padding: 14px 18px 9px;
+}
+
+#oil-nav  ul.oil-portal li:hover{
+  background-color: rgba(152, 152, 152, 0.1);
+  height: 18px;
+  color: #049cdb;
+}
+
+#oil-nav  ul.oil-portal li a{
+  color: #555;
+  font-family: "OpensansRegular";
+}
+
+#oil-nav  ul.oil-portal li a:hover{
+  color: #049cdb;
+}
+
+#oil-nav  ul.oil-portal li.active{
+  background-color: #fcfcfc;
+  height: 18px;
+  -moz-box-shadow: 0px 9px 0px -1px #FCFCFC;
+  -webkit-box-shadow: 0px 9px 0px -1px #FCFCFC;
+  box-shadow: 0px 9px 0px -1px #FCFCFC;
+}
+
+#oil-nav  ul.oil-portal li.active a{
+  color: #049cdb;
+}
+
+#oil-nav  .mobile{
+  display: none;
+}
+#oil-nav  .mobile ul.dropdown-menu{
+  margin-left: -67px;
+  min-width: 90px;
+  background-color: rgb(244, 244, 244);
+  border: none;
+  -webkit-border-top-left-radius: 0px;
+  -moz-border-top-left-radius: 0px;
+  border-top-left-radius: 0px;
+  -webkit-border-top-right-radius: 0px;
+  -moz-border-top-right-radius: 0px;
+  border-top-right-radius: 0px;
+  -webkit-box-shadow: 2px 3px 6px rgba(0,0,0,0.1);
+  -moz-box-shadow: 2px 3px 6px rgba(0,0,0,0.1);
+  box-shadow: 2px 3px 6px rgba(0,0,0,0.1);
+  margin-top: 0px;
+}
+#oil-nav  .mobile ul li a:hover{
+  background-color: rgb(65, 173, 218);
+}
+
+#oil-nav  .mobile ul li.active a{
+  background-color: #049cdb;
+  background-image: none;
+}
+
+#oil-nav  .mobile ul li.active a:hover{
+  background-color: rgb(65, 173, 218);
+  background-image: none;
+}
+
+#oil-nav  .mobile ul li.active a:focus{
+  background-color: #049cdb;
+  background-image: none;
+}
+
+
+@media (max-width: 767px){
+  
+  #oil-nav  header .navbar ul.nav{
+    margin-top: 0px;
+  }
+
+  #oil-nav  .logo-header{
+    float: left;
+  }
+
+  #oil-nav  .mobile{
+    float: left;
+    margin-top: 8px;
+    display: inline-block;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 979px){
+
+  #oil-nav  header.navbar ul{
+    margin-top: 0px    
+  }
+}
+
+#oil-nav  .dropdown-submenu a:hover{
+  color: #fff;
+  background-color: #049cdb;
+  background-image: none;
+}
+
+#oil-nav  .dropdown-submenu a:focus{
+  color: #fff;
+  background-color: #049cdb;
+  background-image: none;
+}
+
+#oil-nav  .dropdown-submenu a:active{
+  color: #fff;
+  background-color: #049cdb;
+  background-image: none;
+}
+
+#oil-nav  .dropdown-submenu .active a{
+  background-color: #049cdb;
+}
+
+#oil-nav  .dropdown-submenu .active a:focus{
+  background-color: #049cdb;
+}
+
+#oil-nav  .dropdown-submenu li a:hover{
+  color: #fff;
+  background-color: #049cdb;
+  background-image: none;
+}
+
+#oil-nav  .dropdown-submenu li a:focus{
+  color: #fff;
+  background-color: #049cdb;
+  background-image: none;
+}
+
+#oil-nav  .dropdown-submenu li a:active{
+  color: #fff;
+  background-color: #049cdb;
+  background-image: none;
+}
+
+#oil-nav  ul.nav li a img{
+  width: 24px;
+}
+
+#oil-nav  ul.nav li a span{
+  box-shadow: none
+}
+
+#oil-nav  ul.nav li.dropdown.open>.dropdown-toggle, #oil-nav .navbar .nav li.dropdown.active>.dropdown-toggle, #oil-nav .navbar .nav li.dropdown.open.active>.dropdown-toggle {
+  background-color: transparent !important;
+}
+
+#oil-nav  .dropdown-menu>li>a:hover, #oil-nav .dropdown-menu>li>a:focus, #oil-nav .dropdown-submenu:hover>a, #oil-nav .dropdown-submenu:focus>a {
+  color: rgb(255, 255, 255);
+  text-decoration: none;
+  background-color: #049cdb;
+  background-image: none !important;
+}
+
+#oil-nav  li.dropdown a{
+  padding: 10px 6px !important;
+}
+#oil-nav  .dropdown-menu .divider {
+  height: 1px;
+  margin: 4px;
+}
+#oil-nav  .dropdown-menu{
+  margin-top: -7px;
+  -webkit-border: 1px solid rgba(0,0,0,0.1);
+  -moz-border: 1px solid rgba(0,0,0,0.1);
+  border: 1px solid rgba(0,0,0,0.1);
+  -webkit-box-shadow: 2px 3px 6px rgba(0,0,0,0.1);
+  -moz-box-shadow: 2px 3px 6px rgba(0,0,0,0.1);
+  box-shadow: 2px 3px 6px rgba(0,0,0,0.1);
+}
+
+#oil-nav  ul.nav span.name{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  font-family: "OpensansRegular";
+  font-size: 14px;
+  line-height: 20px;
+  color: #777;
+  list-style: none;
+}
+#oil-nav  ul.nav li a{
+  padding: 10px 0 10px 1px !important;
+  background-color: transparent;
+  font-family: "OpensansRegular";
+  text-shadow: none;
+  font-size: 14px;
+  clear: both;
+  font-weight: normal;
+  line-height: 20px;
+  color: #333;
+  white-space: nowrap;
+}
+
+/**************MENU TOOLBAR 20PX*************/
+
+[class="arrow-down-"], [class*="arrow-down-"] {
+  width: 25px;
+  height: 25px;
+  background-image: url("/images/header/arrow-down.png");
+  display: inline-block;
+  vertical-align: text-top;
+  background-repeat: no-repeat;
+  *margin-right: .3em;
+}
+
+#oil-nav .arrow-down-settings { background-position: -1px -35px; }
+
+#oil-nav .arrow-down-settings:hover { background-position: -1px -5px; }
+
+
+// ----> Idm Header Bar
+
+
+
 .topbar {
   padding-right: 25px;
   padding-left: 25px;
@@ -28,6 +325,10 @@
       width: 130px;
     }
 
+  }
+
+  .page-header {
+    margin-top: 45px;
   }
 
   .logo {

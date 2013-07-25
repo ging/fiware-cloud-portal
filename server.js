@@ -5,9 +5,9 @@ var express = require('express'),
     OAuth2 = require('./oauth2').OAuth2;
 
 var oauth_config = {
-    client_id: '13',
-    client_secret: '7469ce8db423f012b68aa28da79472b91de1a3272450b57e403492a563e8e3ea6341ab0e36d6ce985bfd78728a5aea60cf72c4e473ecc93d66ea1b4d7ef18456',
-    callbackURL: 'http://rosendo.dit.upm.es/login'
+    client_id: '14',
+    client_secret: 'd05dab5ed3ef386412be6b6858c7724079c1767d9623807a2a0b407736056fcde5c76bdb8b4229bc0bf4763d166488d913d725ed91e68459e3fcfd5360f82b0c',
+    callbackURL: 'http://hpcm.dit.upm.es/login'
 };
 
 var oauth_client = new OAuth2(oauth_config.client_id,

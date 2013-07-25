@@ -1,5 +1,27 @@
 @import "main";
 
+@font-face {
+  font-family: "OpensansRegular";
+  src: url(fonts/opensans-regular-webfont.ttf) format('truetype');
+  src: url(fonts/opensans-regular-webfont.svg);
+  src: url(fonts/opensans-regular-webfont.eot);
+  src: url(fonts/opensans-regular-webfont.woff);
+}
+
+@font-face {
+  font-family: "Comfortaa";
+  src: url(fonts/comfortaa_regular-webfont.ttf) format('truetype');
+  src: url(fonts/comfortaa_regular-webfont.svg);
+  src: url(fonts/comfortaa_regular-webfont.eot);
+  src: url(fonts/comfortaa_regular-webfont.woff);
+}
+
+@font-face {
+  font-family: "DsignesRegular";
+  src: url(fonts/DsignesRegular.ttf);
+  src: url(fonts/DsignesRegular.otf);
+}
+
 .sidebar-menu {
   margin-top: 25px;
 

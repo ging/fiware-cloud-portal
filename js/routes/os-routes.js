@@ -213,7 +213,7 @@ var OSRouter = Backbone.Router.extend({
 
     logout: function() {
         this.loginModel.clearAll();
-        window.location.href = "#auth/login";
+        window.location.href = "https://idm.lab.fi-ware.eu/users/sign_out";
     },
 
     switchTenant: function(id) {
