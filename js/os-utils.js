@@ -12,6 +12,8 @@ UTILS.Auth = (function(U, undefined) {
 
     var tenants = [];
 
+    var access_token_;
+
     function initialize(url, adminUrl) {
         JSTACK.Keystone.init(url, adminUrl);
     }
@@ -25,7 +27,7 @@ UTILS.Auth = (function(U, undefined) {
     }
 
     function getTenants(callback) {
-        return IDM.Auth.getTenants(callback);
+        return IDM.Auth.getTenants(access_token_, callback);
     }
 
     var getCurrentTenant = function() {
@@ -51,6 +53,7 @@ UTILS.Auth = (function(U, undefined) {
     };
 
     function authenticate(tenant, access_token, callback, error) {
+        access_token_ = access_token;
 
         var _authenticatedWithTenant = function (resp) {
             console.log(resp);
@@ -123,7 +126,7 @@ UTILS.Auth = (function(U, undefined) {
             JSTACK.Keystone.authenticate(undefined, undefined, access_token, tenant, _authenticatedWithTenant, _credError);
         } else {
             console.log("Authenticating without tenant");
-            IDM.Auth.getTenants(function (resp) {
+            IDM.Auth.getTenants(access_token, function (resp) {
                 tenants = resp;
                 _tryTenant();
             });

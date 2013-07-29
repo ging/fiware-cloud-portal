@@ -97,7 +97,7 @@ function sendData(port, options, data, res) {
         res.send(resp);
     };
 
-    var url = "http://" + options.host + ":" + options.port + options.path;
+    var url = port + "://" + options.host + ":" + options.port + options.path;
     xhr = new XMLHttpRequest();
     xhr.open(options.method, url, true);
     if (options.headers["content-type"]) {
@@ -149,6 +149,7 @@ function sendData(port, options, data, res) {
 
             // In case of error it sends an error message to `callbackError`.
             default:
+            if (callbackError)
                 callbackError(xhr.status, xhr.responseText);
             }
         }
@@ -200,7 +201,7 @@ app.all('/keystone/*', function(req, resp) {
         method: req.method,
         headers: getClientIp(req, req.headers)
     };
-    sendData(http, options, req.body, resp);
+    sendData("http", options, req.body, resp);
 });
 
 app.all('/keystone-admin/*', function(req, resp) {
@@ -211,7 +212,7 @@ app.all('/keystone-admin/*', function(req, resp) {
         method: req.method,
         headers: getClientIp(req, req.headers)
     };
-    sendData(http, options, req.body, resp);
+    sendData("http", options, req.body, resp);
 });
 
 app.all('/nova/*', function(req, resp) {
@@ -222,7 +223,7 @@ app.all('/nova/*', function(req, resp) {
         method: req.method,
         headers: req.headers
     };
-    sendData(http, options, req.body, resp);
+    sendData("http", options, req.body, resp);
 });
 
 app.all('/nova-volume/*', function(req, resp) {
@@ -233,7 +234,7 @@ app.all('/nova-volume/*', function(req, resp) {
         method: req.method,
         headers: req.headers
     };
-    sendData(http, options, req.body, resp);
+    sendData("http", options, req.body, resp);
 });
 
 app.all('/glance/*', function(req, resp) {
@@ -244,7 +245,7 @@ app.all('/glance/*', function(req, resp) {
         method: req.method,
         headers: req.headers
     };
-    sendData(http, options, req.body, resp);
+    sendData("http", options, req.body, resp);
 });
 
 app.all('/sm/*', function(req, resp) {
@@ -255,7 +256,7 @@ app.all('/sm/*', function(req, resp) {
         method: req.method,
         headers: req.headers
     };
-    sendData(http, options, req.body, resp);
+    sendData("http", options, req.body, resp);
 });
 
 app.all('/sdc/rest/*', function(req, resp) {
@@ -266,7 +267,7 @@ app.all('/sdc/rest/*', function(req, resp) {
         method: req.method,
         headers: req.headers
     };
-    sendData(http, options, req.body, resp);
+    sendData("http", options, req.body, resp);
 });
 
 app.all('/paasmanager/rest/*', function(req, resp) {
@@ -277,7 +278,19 @@ app.all('/paasmanager/rest/*', function(req, resp) {
         method: req.method,
         headers: req.headers
     };
-    sendData(http, options, req.body, resp);
+    sendData("http", options, req.body, resp);
+});
+
+app.all('/user/:token', function(req, resp) {
+    var options = {
+        host: 'idm.lab.fi-ware.eu',
+        port: 443,
+        path: '/user?access_token=' + req.params.token,
+        method: 'GET',
+        headers: {}
+    };
+
+    sendData("https", options, undefined, resp);
 });
 
 app.get('/idm/auth', function(req, res){
