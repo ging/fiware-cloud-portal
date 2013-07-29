@@ -26,7 +26,7 @@ var Projects = Backbone.Collection.extend({
     sync: function(method, model, options) {
         if (method === "read") {
             //JSTACK.Keystone.gettenants(options.success, false);
-            IDM.Auth.getTenants(options.success);
+            UTILS.Auth.getTenants(options.success);
         }
     },
 
