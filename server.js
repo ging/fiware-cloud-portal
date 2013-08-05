@@ -4,11 +4,7 @@ var express = require('express'),
     XMLHttpRequest = require("./xmlhttprequest").XMLHttpRequest,
     OAuth2 = require('./oauth2').OAuth2;
 
-var oauth_config = {
-    client_id: '14',
-    client_secret: 'd05dab5ed3ef386412be6b6858c7724079c1767d9623807a2a0b407736056fcde5c76bdb8b4229bc0bf4763d166488d913d725ed91e68459e3fcfd5360f82b0c',
-    callbackURL: 'http://hpcm.dit.upm.es/login'
-};
+var oauth_config = require('./config').oauth;
 
 var oauth_client = new OAuth2(oauth_config.client_id,
                     oauth_config.client_secret,
