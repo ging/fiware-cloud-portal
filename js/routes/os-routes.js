@@ -122,7 +122,7 @@ var OSRouter = Backbone.Router.extend({
         this.route('nova/images/', 'images', this.wrap(this.nova_images, this.checkAuthAndTimers, ["images"]));
         this.route('nova/images/:id', 'images',  this.wrap(this.nova_image, this.checkAuthAndTimers));
         this.route('nova/instances/', 'instances', this.wrap(this.nova_instances, this.checkAuthAndTimers, ["instancesModel"]));
-        this.route('nova/instances/:id/detail', 'instances', this.wrap(this.nova_instance, this.checkAuthAndTimers, ["instancesModel", "sdcs"]));
+        this.route('nova/instances/:id/detail', 'instances', this.wrap(this.nova_instance, this.checkAuthAndTimers, ["instancesModel"]));//, "sdcs"]));
         this.route('nova/instances/:id/detail?view=:subview', 'instance', this.wrap(this.nova_instance, this.checkAuthAndTimers));
         this.route('nova/flavors/', 'flavors',  this.wrap(this.nova_flavors, this.checkAuthAndTimers, ["flavors"]));
 
@@ -155,9 +155,9 @@ var OSRouter = Backbone.Router.extend({
         if (Object.keys(this.timers).length === 0) {
             var seconds = this.backgroundTime;
             this.add_fetch("instancesModel", seconds);
-            this.add_fetch("sdcs", seconds);
-            this.add_fetch("bpTemplatesModel", seconds);
-            this.add_fetch("bpInstancesModel", seconds);
+            //this.add_fetch("sdcs", seconds);
+            //this.add_fetch("bpTemplatesModel", seconds);
+            //this.add_fetch("bpInstancesModel", seconds);
             this.add_fetch("volumesModel", seconds);
             this.add_fetch("images", seconds);
             this.add_fetch("flavors", seconds);
@@ -357,8 +357,8 @@ var OSRouter = Backbone.Router.extend({
                             {name: 'Compute', type: 'title'},
                             //{name: 'Overview', active: true, url: '#nova/'},
                             //{name: 'Virtual Data Centers', active: false, url: '#nova/vdcs/'},
-                            {name: 'Blueprint Instances',  iconcss: "icon_nav-blueprintInstances", css:"small", active: false, url: '#nova/blueprints/instances/'},
-                            {name: 'Blueprint Templates',  iconcss: "icon_nav-blueprintTemplates", css:"small", active: false, url: '#nova/blueprints/templates/'},
+                            //{name: 'Blueprint Instances',  iconcss: "icon_nav-blueprintInstances", css:"small", active: false, url: '#nova/blueprints/instances/'},
+                            //{name: 'Blueprint Templates',  iconcss: "icon_nav-blueprintTemplates", css:"small", active: false, url: '#nova/blueprints/templates/'},
                             {name: 'Instances', iconcss: "icon_nav-instances", active: false, url: '#nova/instances/'},
                             {name: 'Images', iconcss: "icon_nav-images", active: false, url: '#nova/images/'},
                             {name: 'Flavors', iconcss: "icon_nav-flavors", active: false, url: '#nova/flavors/'},
