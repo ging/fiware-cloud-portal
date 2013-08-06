@@ -71,6 +71,9 @@ UTILS.Auth = (function(U, undefined) {
 
 
             var compute = JSTACK.Keystone.getservice("compute");
+
+            console.log('end ', compute);
+
             compute.endpoints[0].adminURL = "/nova" + compute.endpoints[0].adminURL.split('8774')[1];
             compute.endpoints[0].publicURL = "/nova" + compute.endpoints[0].publicURL.split('8774')[1];
             compute.endpoints[0].internalURL = "/nova" + compute.endpoints[0].internalURL.split('8774')[1];
