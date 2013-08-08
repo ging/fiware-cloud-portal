@@ -99,7 +99,7 @@ var Containers = Backbone.Collection.extend({
 
     sync: function(method, model, options) {
         if (method === "read") {
-            CDMI.Actions.getcontainerlist(options.success, options.error);
+            //CDMI.Actions.getcontainerlist(options.success, options.error);
         }
     },
 

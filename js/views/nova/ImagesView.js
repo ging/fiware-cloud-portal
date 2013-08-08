@@ -38,7 +38,7 @@ var ImagesView = Backbone.View.extend({
             hidden_phone: false,
             hidden_tablet: false
         }, {
-            name: "Public",
+            name: "Visibility",
             tooltip: "Check if the image is open to the public",
             size: "10%",
             hidden_phone: false,
@@ -86,7 +86,7 @@ var ImagesView = Backbone.View.extend({
                 }, {
                     value: image.get("status")
                 }, {
-                    value: image.get('is_public')
+                    value: image.get('visibility')
                 }, {
                     value: container_format
                 }, {
@@ -136,6 +136,10 @@ var ImagesView = Backbone.View.extend({
     onLaunch: function(evt) {
         var image = evt.target.value;
         var img = this.model.get(image);
+
+        //pendiente de metadato sdc_aware
+        img.set({'properties':{}});
+        
         var self = this;
         console.log('Showing Instance Creation');
         var subview = new LaunchImageView({el: 'body', images: this.options.images, flavors: this.options.flavors, keypairs: this.options.keypairs, secGroups: this.options.securityGroupsModel, model: img});
