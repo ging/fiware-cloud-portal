@@ -70,7 +70,7 @@ var ImagesView = Backbone.View.extend({
         var i = 0;
             for (var index in this.model.models) {
             var image = this.model.models[index];
-            if (image.get('server') !== undefined) {
+            if (image.get('server') !== undefined || image.get('container_format') === 'ari' || image.get('container_format') === 'aki') {
                 continue;
             }
             var container_format = image.get('container_format') || '-';
