@@ -5,9 +5,9 @@ config.production = {};
 config.oauth = {};
 
 config.oauth = {
-    client_id: '13',
-    client_secret: '7469ce8db423f012b68aa28da79472b91de1a3272450b57e403492a563e8e3ea6341ab0e36d6ce985bfd78728a5aea60cf72c4e473ecc93d66ea1b4d7ef18456',
-    callbackURL: 'http://rosendo.dit.upm.es/login'
+    client_id: '15',
+    client_secret: '7f1d015eec9e0820c9bf08855375fac5f081d21914147c04de4947a1b76218d4a1ee33fae0c9a97a4558f05b71cddc5f08fdaffdc37e77438d32a55548ad6431',
+    callbackURL: 'http://localhost/login'
 };
 
 config.development.keystone = {

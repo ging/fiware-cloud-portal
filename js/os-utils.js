@@ -73,7 +73,7 @@ UTILS.Auth = (function(U, undefined) {
             compute.endpoints[0].adminURL = "/nova" + compute.endpoints[0].adminURL.split('8774')[1];
             compute.endpoints[0].publicURL = "/nova" + compute.endpoints[0].publicURL.split('8774')[1];
             compute.endpoints[0].internalURL = "/nova" + compute.endpoints[0].internalURL.split('8774')[1];
-        
+
             var volume = JSTACK.Keystone.getservice("volume");
             volume.endpoints[0].adminURL = "/nova-volume" + volume.endpoints[0].adminURL.split('8776')[1];
             volume.endpoints[0].publicURL = "/nova-volume" + volume.endpoints[0].publicURL.split('8776')[1];
@@ -131,7 +131,7 @@ UTILS.Auth = (function(U, undefined) {
                 _tryTenant();
             });
         }
-        
+
     }
 
     return {
