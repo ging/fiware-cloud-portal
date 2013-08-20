@@ -10,7 +10,6 @@ var MessagesView = Backbone.View.extend({
         this.cid = Math.round(Math.random() * 1000000);
         this.options.state = this.options.state || "Success";
         var events = {};
-        events['click #info_' + this.cid] = 'showInfo';
         this.delegateEvents(events);
     },
 
@@ -46,6 +45,7 @@ var MessagesView = Backbone.View.extend({
         /*$('.messages').fadeOut(4000, function() {
             self.close();
         });*/
+        events['click #info_' + this.cid] = 'showInfo';
         return this;
     }
 

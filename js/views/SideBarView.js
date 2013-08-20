@@ -14,6 +14,8 @@ var SideBarView = Backbone.View.extend({
                 window.location = val;
             }
         });
+        var subview = new MessagesView({state: "Info", title: "Connected to project " + self.options.loginModel.get("tenant").name + " (ID " + self.options.loginModel.get("tenant").id + ")"});
+        subview.render();
     }
 
 });
