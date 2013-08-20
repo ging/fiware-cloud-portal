@@ -84,7 +84,7 @@ var RootView = Backbone.View.extend({
         self.delegateEvents({});
         if ($(self.options.auth_el).css('display') !== 'None')
             $(self.options.auth_el).fadeOut();
-        $(self.options.auth_el).fadeOut();
+        //$(self.options.auth_el).fadeOut();
         $(self.options.root_el).fadeIn();
         return this;
     },

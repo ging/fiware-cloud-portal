@@ -243,15 +243,25 @@ var OSRouter = Backbone.Router.extend({
 
     showRoot: function(self,option) {
         self.rootView.renderRoot();
-        var navTabView = new NavTabView({el: '#navtab', model: self.tabs, loginModel: self.loginModel});
-        navTabView.render();
+        if (this.navTabView === undefined) {
+            this.navTabView = new NavTabView({el: '#navtab', model: self.tabs, loginModel: self.loginModel});
+        }
+        this.navTabView.render();
 
-        var topBarView = new TopBarView({el: '#topbar', model: self.top, loginModel: self.loginModel});
-        topBarView.render();
+        if (this.topBarView === undefined) {
+            this.topBarView = new TopBarView({el: '#topbar', model: self.top, loginModel: self.loginModel});
+            this.topBarView.render();
+        }
+        this.topBarView.renderTitle();
+
 
         var showTenants = (self.tabs.getActive() == 'Project');
-        var sideBarView = new SideBarView({el: '#sidebar', model: self.navs, title: option, showTenants: showTenants, loginModel: self.loginModel});
-        sideBarView.render();
+        if (this.sideBarView === undefined) {
+            this.sideBarView = new SideBarView({el: '#sidebar', model: self.navs, loginModel: self.loginModel});
+            this.sideBarView.el = '#sidebar';
+        }
+        this.sideBarView.model = self.navs;
+        this.sideBarView.render(option, showTenants);
     },
 
     showSysRoot: function(self, option) {

@@ -23,7 +23,7 @@ var LoginStatus = Backbone.Model.extend({
             var regex1 = new RegExp("[\\&]expires=([^&#]*)");
             var expires = regex1.exec(location.hash);
             console.log('en URL', token[1], expires[1]);
-           
+
             // UTILS.Auth.getTenants(function(tenants) {
             //     self.set({'tenants': tenants});
             //     self.set({'tenant-id':  UTILS.Auth.getCurrentTenant().id});
@@ -43,7 +43,7 @@ var LoginStatus = Backbone.Model.extend({
 
         }
 
-            
+
     },
 
     // onValidateError: function (model, error) {
@@ -80,7 +80,7 @@ var LoginStatus = Backbone.Model.extend({
         if (!UTILS.Auth.isAuthenticated() && access_token !== '' && (new Date().getTime()) < self.get('token-ts') + self.get('token-ex')) {
             console.log('autentico con ', this.get('tenant-id'), access_token);
             UTILS.Auth.authenticate(this.get('tenant-id'), access_token, function() {
-                console.log("Authenticated with token: ", + self.get('token-ex') - (new Date().getTime())-self.get('token-ts'));                
+                console.log("Authenticated with token: ", + self.get('token-ex') - (new Date().getTime())-self.get('token-ts'));
                 //console.log("New tenant: " + self.attributes.tenant.name);
                 //self.set({'tenant': self.attributes.tenant});
                 //console.log("New tenant: " + self.get("name"));
@@ -90,6 +90,8 @@ var LoginStatus = Backbone.Model.extend({
                     self.set({tenants: tenants});
                     self.set({'loggedIn': true});
                     localStorage.setItem('tenant-id', UTILS.Auth.getCurrentTenant().id);
+                    var subview = new MessagesView({state: "Info", title: "Connected to project " + self.get("tenant").name + " (ID " + self.get("tenant").id + ")"});
+                    subview.render();
                 });
             }, function(msg) {
                 console.log("Error authenticating with token");
@@ -118,7 +120,7 @@ var LoginStatus = Backbone.Model.extend({
         localStorage.setItem('token-ex', expires*1000);
         this.set({'token-ex': expires*1000});
         this.set({'access_token': access_token});
-        
+
     },
 
     isAdmin: function() {
@@ -143,6 +145,8 @@ var LoginStatus = Backbone.Model.extend({
             self.set({username: UTILS.Auth.getName(), tenant: UTILS.Auth.getCurrentTenant()});
             localStorage.setItem('tenant-id', UTILS.Auth.getCurrentTenant().id);
             self.trigger('switch-tenant');
+            var subview = new MessagesView({state: "Info", title: "Connected to project " + self.get("tenant").name + " (ID " + self.get("tenant").id + ")"});
+            subview.render();
         });
     },
 
