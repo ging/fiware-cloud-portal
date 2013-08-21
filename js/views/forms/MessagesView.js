@@ -9,9 +9,7 @@ var MessagesView = Backbone.View.extend({
         this.el = this.options.el || "#log-messages";
         this.cid = Math.round(Math.random() * 1000000);
         this.options.state = this.options.state || "Success";
-        var events = {};
-        events['click #info_' + this.cid] = 'showInfo';
-        this.delegateEvents(events);
+
     },
 
     safe_tags_replace: function (str) {
@@ -46,6 +44,9 @@ var MessagesView = Backbone.View.extend({
         /*$('.messages').fadeOut(4000, function() {
             self.close();
         });*/
+        var events = {};
+        events['click #info_' + this.cid] = 'showInfo';
+        this.delegateEvents(events);
         return this;
     }
 

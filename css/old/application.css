@@ -122,7 +122,7 @@ html, body {
   position: absolute;
   margin-top: 8px;
   top: 0px;
-  bottom: 56px;
+  bottom: 100px;
   right: 3px;
   left: 0px;
   box-shadow: rgb(211, 211, 211) 0px 0px 10px;
@@ -145,7 +145,7 @@ html, body {
 #logs {
   position: absolute;
   overflow: hidden;
-  bottom: 0px;
+  bottom: 47px;
   height: 48px;
   right: 3px;
   left: 0px;

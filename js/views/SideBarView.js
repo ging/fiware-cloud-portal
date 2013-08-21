@@ -6,9 +6,11 @@ var SideBarView = Backbone.View.extend({
         this.model.bind('change:actives', this.render, this);
     },
 
-    render: function () {
+    render: function (title, showTenants) {
         var self = this;
-        $(self.el).empty().html(self._template({models: self.model.models, showTenants: self.options.showTenants, loginModel: this.options.loginModel, title: self.options.title}));
+        var html = self._template({models: self.model.models, showTenants: showTenants, loginModel: this.options.loginModel, title: title});
+        $(self.el).empty();
+        $(self.el).html(html);
         $("#tenant_switcher").selectbox({
             onChange: function (val, inst) {
                 window.location = val;
