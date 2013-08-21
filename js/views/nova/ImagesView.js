@@ -70,7 +70,7 @@ var ImagesView = Backbone.View.extend({
         var i = 0;
             for (var index in this.model.models) {
             var image = this.model.models[index];
-            if (image.get('server') !== undefined) {
+            if (image.get('server') !== undefined || image.get('container_format') === 'ari' || image.get('container_format') === 'aki') {
                 continue;
             }
             var container_format = image.get('container_format') || '-';
@@ -139,7 +139,6 @@ var ImagesView = Backbone.View.extend({
 
         //pendiente de metadato sdc_aware
         img.set({'properties':{}});
-        
         var self = this;
         console.log('Showing Instance Creation');
         var subview = new LaunchImageView({el: 'body', images: this.options.images, flavors: this.options.flavors, keypairs: this.options.keypairs, secGroups: this.options.securityGroupsModel, model: img});
