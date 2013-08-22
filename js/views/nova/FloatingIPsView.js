@@ -114,14 +114,17 @@ var NovaFloatingIPsView = Backbone.View.extend({
             var floating_ip = this.model.models[index];
             var instance_id = floating_ip.get("instance_id");
             var instance = this.options.instances.get(instance_id);
-            var instance_name = instance.get("name");
+            var instance_name = "-";
+            if (instance !== undefined) {
+                instance_name = instance.get("name");
+            }
                
             var entry = {
                 id: floating_ip.get('id'),
                 cells: [{
                     value: floating_ip.get("ip")
                 }, {
-                    value:  instance_name || "-"
+                    value:  instance_name
                 }, {  
                     value: floating_ip.get("pool")
                 }]
@@ -176,7 +179,10 @@ var NovaFloatingIPsView = Backbone.View.extend({
     },
 
     renderFirst: function() {
-        UTILS.Render.animateRender(this.el, this._template, {models: this.model.models, pools: this.options.pools, instances: this.options.instances});       
+        $(this.el).empty();
+        console.log("Render First");
+        UTILS.Render.animateRender(this.el, this._template, {models: this.model.models, pools: this.options.pools, instances: this.options.instances});
+        console.log($("#floatingIPs-table").html());
         this.tableView = new TableView({
             model: this.model,
             el: '#floatingIPs-table',
@@ -188,9 +194,11 @@ var NovaFloatingIPsView = Backbone.View.extend({
             context: this
         });
         this.tableView.render();
+        console.log($(this.el).html());
     },
 
     render: function() {
+        console.log("Render");
         if ($(this.el).html() !== null) {
             this.tableView.render();
         }

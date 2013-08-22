@@ -8,6 +8,7 @@ var AccessAndSecurityView = Backbone.View.extend({
 
     initialize: function() {
         this.render();
+        console.log($("#floating_ips").html());
         this.floatingIPsView = new NovaFloatingIPsView({model: this.options.floatingIPsModel, pools: this.options.floatingIPPoolsModel, instances: this.options.instances, el: '#floating_ips'});
         this.secuirtyGroupsView = new NovaSecurityGroupsView({model: this.options.securityGroupsModel, el: '#security_groups'});
         this.keyparisView = new NovaKeypairsView({model: this.model, el: '#keypairs'});
@@ -19,9 +20,6 @@ var AccessAndSecurityView = Backbone.View.extend({
         this.options.floatingIPsModel.unbind("change", this.render, this);
         this.options.floatingIPPoolsModel.unbind("change", this.render, this);
         this.model.unbind("change", this.render, this);
-        $('#floating_ips').remove();
-        $('#security_groups').remove();
-        $('#keypairs').remove();
         this.undelegateEvents();
         this.unbind();
     },
