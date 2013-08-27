@@ -8,7 +8,7 @@ var oauth_config = require('./config').oauth;
 
 var oauth_client = new OAuth2(oauth_config.client_id,
                     oauth_config.client_secret,
-                    'https://idm.lab.fi-ware.eu',
+                    'https://account.lab.fi-ware.eu',
                     '/oauth2/authorize',
                     '/oauth2/token',
                     oauth_config.callbackURL);
@@ -279,7 +279,7 @@ app.all('/paasmanager/rest/*', function(req, resp) {
 
 app.all('/user/:token', function(req, resp) {
     var options = {
-        host: 'idm.lab.fi-ware.eu',
+        host: 'account.lab.fi-ware.eu',
         port: 443,
         path: '/user?access_token=' + req.params.token,
         method: 'GET',
