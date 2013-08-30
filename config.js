@@ -11,9 +11,9 @@ config.oauth = {
 };
 
 config.development.keystone = {
-	host: '130.206.80.62',
+	host: 'cloud.lab.fi-ware.eu',
 	port: 4730,
-	admin_host: '130.206.80.62',
+	admin_host: 'cloud.lab.fi-ware.eu',
 	admin_port: 4731
 };
 
@@ -25,7 +25,7 @@ config.production.keystone = {
 };
 
 config.development.nova = {
-	host: '130.206.80.62',
+	host: 'cloud.lab.fi-ware.eu',
 };
 
 config.production.nova = {
@@ -33,7 +33,7 @@ config.production.nova = {
 };
 
 config.development.glance = {
-	host: '130.206.80.62',
+	host: 'cloud.lab.fi-ware.eu',
 };
 
 config.production.glance = {
@@ -41,7 +41,7 @@ config.production.glance = {
 };
 
 config.development.sm = {
-	host: '130.206.80.62',
+	host: 'cloud.lab.fi-ware.eu',
 };
 
 config.production.sm = {
