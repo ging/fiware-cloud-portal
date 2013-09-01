@@ -24,6 +24,7 @@ var MessagesView = Backbone.View.extend({
     },
 
     showInfo: function(evt) {
+        console.log("Showing info");
         var self = this;
         evt.preventDefault();
         evt.stopPropagation();
@@ -45,8 +46,7 @@ var MessagesView = Backbone.View.extend({
             self.close();
         });*/
         var events = {};
-        events['click #info_' + this.cid] = 'showInfo';
-        this.delegateEvents(events);
+        $('#info_' + this.cid).click(_.bind(this.showInfo, this));
         return this;
     }
 

@@ -63,7 +63,7 @@ src: templates/root/nova/instanceDetail/overview.html
                         <%
                          for (var idx in security_groups) {
                         %>
-                        <li>
+                        <li style="width: 300px; overflow: hidden; text-overflow: ellipsis">
                             <%=security_groups[idx].name%>
                         </li>
 

@@ -89,6 +89,9 @@ var BlueprintTemplateView = Backbone.View.extend({
                 products.push(tier.productReleaseDtos_asArray[p].productName + " " + tier.productReleaseDtos_asArray[p].version);
             }
 
+            if (tier.keypair.toString() === "[object Object]") {
+                tier.keypair = "-";
+            }
             var entry = {
                 id: tier.name,
                 minValue: tier.minimumNumberInstances,

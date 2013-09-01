@@ -92,11 +92,12 @@ var BlueprintInstancesView = Backbone.View.extend({
             if (bpInstance.get('tierDto_asArray')) {
                 nTiers = bpInstance.get('tierDto_asArray').length;
             }
-
+            var name = bpInstance.get('blueprintName');
+            if (name.toString() === "[object Object]") name = "-";
             var entry = {
                 id: index,
                 cells: [{
-                    value: bpInstance.get('blueprintName'),
+                    value: name,
                     link: "#nova/blueprints/instances/" + bpInstance.get('blueprintName')
                 }, {
                     value: bpInstance.get('description')

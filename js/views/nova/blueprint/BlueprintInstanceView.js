@@ -96,7 +96,9 @@ var BlueprintInstanceView = Backbone.View.extend({
             if (tier.tierInstancePDto_asArray) {
                 currTiers = tier.tierInstancePDto_asArray.length;
             }
-
+            if (tier.keypair.toString() === "[object Object]") {
+                tier.keypair = "-";
+            }
             var entry = {
                 id: tier.name,
                 minValue: tier.minimumNumberInstances,

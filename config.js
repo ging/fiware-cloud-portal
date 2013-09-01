@@ -5,9 +5,9 @@ config.production = {};
 config.oauth = {};
 
 config.oauth = {
-    client_id: '15',
-    client_secret: '7f1d015eec9e0820c9bf08855375fac5f081d21914147c04de4947a1b76218d4a1ee33fae0c9a97a4558f05b71cddc5f08fdaffdc37e77438d32a55548ad6431',
-    callbackURL: 'http://localhost/login'
+    client_id: '21',
+    client_secret: 'e99ed4604b1d44af5a9c3027b490ffb1691484235bfa08e920a928210fd525b8bf07d1e2a9e345299406da2dbdbeedcf36080e644f227a6aa1a21e73e1fde703',
+    callbackURL: 'http://cloud.lab.fi-ware.eu/login'
 };
 
 config.development.keystone = {
@@ -18,10 +18,10 @@ config.development.keystone = {
 };
 
 config.production.keystone = {
-	host: '130.206.80.100',
-	port: 5000,
-	admin_host: '130.206.80.100',
-	admin_port: 35357
+	host: 'cloud.lab.fi-ware.eu',
+	port: 4730,
+	admin_host: 'cloud.lab.fi-ware.eu',
+	admin_port: 4731
 };
 
 config.development.nova = {
@@ -29,15 +29,15 @@ config.development.nova = {
 };
 
 config.production.nova = {
-	host: '130.206.80.11',
-};
-
-config.development.glance = {
 	host: 'cloud.lab.fi-ware.eu',
 };
 
+config.development.glance = {
+	host: '172.30.1.204',
+};
+
 config.production.glance = {
-	host: '130.206.80.11',
+	host: '172.30.1.204',
 };
 
 config.development.sm = {
@@ -45,27 +45,27 @@ config.development.sm = {
 };
 
 config.production.sm = {
-	host: '130.206.80.91',
+	host: 'cloud.lab.fi-ware.eu',
 };
 
 config.development.sdc = {
-	host: '130.206.80.119',
-	port: 8081,
-	path: true
+	host: 'saggita.lab.fi-ware.eu',
+	port: 8080,
+	path: false
 };
 
 config.production.sdc = {
-	host: '130.206.82.161',
+	host: 'saggita.lab.fi-ware.eu',
 	port: 8080,
 	path: false
 };
 
 config.development.paas = {
-	host: '130.206.80.112',
+	host: 'pegasus.lab.fi-ware.eu',
 };
 
 config.production.paas = {
-	host: '130.206.82.160',
+	host: 'pegasus.lab.fi-ware.eu',
 };
 
 module.exports = config;

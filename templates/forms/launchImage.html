@@ -92,8 +92,8 @@
                                 var sec = secGroups.models[index];
                         %>
                             <li>
-                            <input style="width: 15px;float:none;" type="checkbox" name="security_groups" value="<%=sec.get('name')%>">
-                            <%=sec.get('name')%>
+                            <input style="width: 15px;float:left;" type="checkbox" name="security_groups" value="<%=sec.get('name')%>">
+                            <div style="width: 300px; overflow: hidden; text-overflow: ellipsis"><%=sec.get('name')%></div>
                             </li>
                         <%
                             }

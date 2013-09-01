@@ -87,10 +87,14 @@ var BlueprintTemplatesView = Backbone.View.extend({
             if (template.get('tierDtos_asArray')) {
                 nTiers = template.get('tierDtos_asArray').length;
             }
+            var name = template.get('name');
+            if (name.toString() === "[object Object]") {
+                name = "-";
+            }
             var entry = {
                 id: index,
                 cells: [{
-                    value: template.get('name'),
+                    value: name,
                     link: "#nova/blueprints/templates/" + template.get('name')
                 }, {
                     value: template.get('description')
