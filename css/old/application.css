@@ -207,6 +207,7 @@ html, body {
   top: 1px;
   left: 1px;
   position: relative;
+  margin-top: 10px;
 }
 
 .bar2 {
@@ -215,6 +216,7 @@ html, body {
   height: 18px;
   border-width: 1px;
   position: absolute;
+  margin-top: 10px;
 }
 
 .form-horizontal .control-label {

@@ -68,4 +68,12 @@ config.production.paas = {
 	host: 'pegasus.lab.fi-ware.eu',
 };
 
+config.development.objstor = {
+	host: '130.206.82.9',
+};
+
+config.production.objstor = {
+	host: '130.206.82.9',
+};
+
 module.exports = config;

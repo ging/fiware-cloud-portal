@@ -45,8 +45,9 @@ header#oil-nav {
   margin: 12px 0 0 3px;
   font-size: 23px;
   color: #555;
-  font-family: "DsignesRegular";
+  font-family: "NeoTechMedium";
   display: inline-block;
+  text-shadow: 0 1px 0 #fff;
 }
 
 #oil-nav  .logo-header .brand #logo-fi {
@@ -76,13 +77,23 @@ header#oil-nav {
 }
 
 #oil-nav  ul.oil-portal{
-  width: 360px;
-  height: 36px;
-  padding: 0px 14px;
-  margin-bottom: 0px;
-  display: inline-block;
-  float: left;
-  margin: 0 0 10px 25px;
+//  width: 360px;
+//  height: 36px;
+//  padding: 0px 14px;
+//  margin-bottom: 0px;
+//  display: inline-block;
+//  float: left;
+//  margin: 0 0 10px 25px;
+margin: 0 0 10px 25px;
+line-height: 21px;
+font-size: 16px;
+width: 366px;
+height: 36px;
+padding: 0px;
+margin-bottom: 0px;
+margin-left: 2px;
+font-family: "OpenSans",Arial,sans-serif;
+display: inline-block;
 }
 
 #oil-nav  ul.oil-portal li{
@@ -98,7 +109,7 @@ header#oil-nav {
 
 #oil-nav  ul.oil-portal li a{
   color: #555;
-  font-family: "OpensansRegular";
+//  font-family: "OpensansRegular";
 }
 
 #oil-nav  ul.oil-portal li a:hover{
@@ -276,7 +287,7 @@ header#oil-nav {
   list-style: none;
 }
 #oil-nav  ul.nav li a{
-  padding: 10px 0 10px 1px !important;
+  padding: 10px 0 10px 10px !important;
   background-color: transparent;
   font-family: "OpensansRegular";
   text-shadow: none;

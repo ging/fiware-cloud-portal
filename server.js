@@ -277,6 +277,17 @@ app.all('/paasmanager/rest/*', function(req, resp) {
     sendData("http", options, req.body, resp);
 });
 
+app.all('/objstor/*', function(req, resp) {
+    var options = {
+        host: config.objstor.host,
+        port: 8080,
+        path: req.url.split('objstor')[1],
+        method: req.method,
+        headers: req.headers
+    };
+    sendData("http", options, req.body, resp);
+});
+
 app.all('/user/:token', function(req, resp) {
     var options = {
         host: 'account.lab.fi-ware.eu',

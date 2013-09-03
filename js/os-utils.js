@@ -89,6 +89,11 @@ UTILS.Auth = (function(U, undefined) {
             image.endpoints[0].publicURL = "/glance" + image.endpoints[0].publicURL.split('9292')[1];
             image.endpoints[0].internalURL = "/glance" + image.endpoints[0].internalURL.split('9292')[1];
 
+            var objectstorage = JSTACK.Keystone.getservice("object-store");
+            objectstorage.endpoints[0].adminURL = "/objstor" + objectstorage.endpoints[0].adminURL.split('8080')[1];
+            objectstorage.endpoints[0].publicURL = "/objstor" + objectstorage.endpoints[0].publicURL.split('8080')[1];
+            objectstorage.endpoints[0].internalURL = "/objstor" + objectstorage.endpoints[0].internalURL.split('8080')[1];
+
             //OVF.API.configure(JSTACK.Keystone.getservice("sm").endpoints[0].publicURL, JSTACK.Keystone.params.access.token.id);
             callback();
         };

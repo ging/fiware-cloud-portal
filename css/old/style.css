@@ -46,15 +46,39 @@ body { min-height: 480px; }
   font-style: normal;
 }
 
+//@font-face {
+//  font-family: 'opensans';
+//  src: url('../fonts/opensans-regular-webfont.eot');
+//  src: url('../fonts/opensans-regular-webfont.eot?iefix') format('eot'),
+//       url('../fonts/opensans-regular-webfont.woff') format('woff'),
+//       url('../fonts/opensans-regular-webfont.ttf') format('truetype'),
+//       url('../fonts/opensans-regular-webfont..svg#webfont3JLVF59W') format('svg');
+//  font-weight: normal;
+//  font-style: normal;
+//}
+
 @font-face {
-  font-family: 'opensans';
-  src: url('../fonts/opensans-regular-webfont.eot');
-  src: url('../fonts/opensans-regular-webfont.eot?iefix') format('eot'),
-       url('../fonts/opensans-regular-webfont.woff') format('woff'),
-       url('../fonts/opensans-regular-webfont.ttf') format('truetype'),
-       url('../fonts/opensans-regular-webfont..svg#webfont3JLVF59W') format('svg');
-  font-weight: normal;
-  font-style: normal;
+    font-family: "neosans";
+    src: url("../fonts/NeoSansPro-Regular.otf");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "neosans";
+    src: url("../fonts/NeoSansPro-Regular.otf");
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+  font-family: NeoTechRegular;
+  src: url(../fonts/NeoTechStd-Regular.otf);
+}
+
+@font-face {
+  font-family: NeoTechMedium;
+  src: url(../fonts/NeoTechStd-Medium.otf);
 }
 
 @font-face {
