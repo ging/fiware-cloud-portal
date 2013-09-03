@@ -1,6 +1,7 @@
 var TopBarView = Backbone.View.extend({
 
     _template: _.itemplate($('#topBarTemplate').html()),
+    _templateUser: _.itemplate($('#userTemplate').html()),
 
     initialize: function() {
         this.model.bind('change:title', this.renderTitle, this);
@@ -12,6 +13,7 @@ var TopBarView = Backbone.View.extend({
         var self = this;
         this.model.set({'username': this.options.loginModel.get('username')});
         $(self.el).empty().html(self._template(self.model));
+        $('#oil-nav .navbar-inner').append(self._templateUser(self.model));
         return this;
     },
 

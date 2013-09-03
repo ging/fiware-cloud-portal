@@ -256,6 +256,7 @@ var loadTemplates = function() {
                     'templates/root/root.html',
                     'templates/root/navTab.html',
                     'templates/root/topBar.html',
+                    'templates/root/user.html',
                     'templates/root/sideBar.html',
                     'templates/root/confirm.html',
                     'templates/root/settings.html',

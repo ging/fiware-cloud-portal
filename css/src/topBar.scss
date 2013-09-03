@@ -19,160 +19,170 @@ header#oil-nav {
   height: 35px;
   padding: 1px 2% 1px;
   z-index: 1039;
-}
-#oil-nav  nav.navbar-inner{
-  padding: 0;
-  background-color: transparent;
-  background-image: none;
-  border: none;
-  box-shadow: none;  
-}
-#oil-nav  nav.navbar-inner .logo-header{
-  display: inline
-}
+  nav.navbar-inner {
+    padding: 0;
+    background-color: transparent;
+    background-image: none;
+    border: none;
+    box-shadow: none;
+    height: 40px;
+    .nav-user {
+      height: 40px;
+      li {
+        &:hover {
+          background-color: inherit;
+        }
+      }
+    }
+    .logo-header{
+      display: inline;
+      img {
+        width: 60px;
+        padding-top: 0;
+        float: left;
+        margin-top: 0px;
+      }
+      .brand {
+        padding: 0;
+        width: auto;
+        float: left;
+        margin: 12px 0 0 3px;
+        font-size: 23px;
+        color: #555;
+        font-family: "NeoTechMedium";
+        display: inline-block;
+        text-shadow: 0 1px 0 #fff;
 
-#oil-nav  .logo-header img{
-  width: 60px;
-  padding-top: 0;
-  float: left;
-  margin-top: 0px;
-}
+        #logo-fi {
+          color: #0b2c65;
+        }
 
-#oil-nav  .logo-header .brand{
-  padding: 0;
-  width: auto;
-  float: left;
-  margin: 12px 0 0 3px;
-  font-size: 23px;
-  color: #555;
-  font-family: "NeoTechMedium";
+        #logo-ware {
+          color: #5DC1D3;
+        }
+
+        a{
+          font-size: 34px;
+          color: #555;
+
+          &:hover{
+            text-decoration: none;
+
+            span{
+              font-size: 17px;
+              color: #888;
+            }
+          }
+
+        }
+      }
+    }
+  }
+
+  .mobile {
+    display: none;
+
+    .dropdown-menu{
+      margin-left: -67px;
+    }
+
+    ul.dropdown-menu{
+      margin-left: -67px;
+      min-width: 90px;
+      background-color: rgb(244, 244, 244);
+      border: none;
+      -webkit-border-top-left-radius: 0px;
+      -moz-border-top-left-radius: 0px;
+      border-top-left-radius: 0px;
+      -webkit-border-top-right-radius: 0px;
+      -moz-border-top-right-radius: 0px;
+      border-top-right-radius: 0px;
+      -webkit-box-shadow: 2px 3px 6px rgba(0,0,0,0.1);
+      -moz-box-shadow: 2px 3px 6px rgba(0,0,0,0.1);
+      box-shadow: 2px 3px 6px rgba(0,0,0,0.1);
+      margin-top: 0px;
+    }
+
+
+    ul li {
+      a:hover{
+        background-color: rgb(65, 173, 218);
+      }
+      &.active a{
+        background-color: #049cdb;
+        background-image: none;
+      }
+
+      &.active a:hover{
+        background-color: rgb(65, 173, 218);
+        background-image: none;
+      }
+
+      &.active a:focus{
+        background-color: #049cdb;
+        background-image: none;
+      }
+    }
+  }
+
+  ul.oil-portal{
+  //  width: 360px;
+  //  height: 36px;
+  //  padding: 0px 14px;
+  //  margin-bottom: 0px;
+  //  display: inline-block;
+  //  float: left;
+  //  margin: 0 0 10px 25px;
+  margin: 0 0 10px 25px;
+  line-height: 21px;
+  font-size: 16px;
+  width: 366px;
+  height: 36px;
+  padding: 0px;
+  margin-bottom: 0px;
+  margin-left: 2px;
+  font-family: "OpenSans",Arial,sans-serif;
   display: inline-block;
-  text-shadow: 0 1px 0 #fff;
-}
+  li{
+    display: inline-block;
+    padding: 14px 18px 9px;
 
-#oil-nav  .logo-header .brand #logo-fi {
-  color: #0b2c65;
-}
+    &:hover {
+      background-color: rgba(152, 152, 152, 0.1);
+      height: 14px;
+      color: #049cdb;
+    }
 
-#oil-nav  .logo-header .brand #logo-ware {
-  color: #5DC1D3;
-}
+    a{
+      color: #555;
+    //  font-family: "OpensansRegular";
+      &:hover{
+        color: #049cdb;
+      }
 
-#oil-nav  .logo-header .brand a{
-  font-size: 34px;
-  color: #555;
-}
+      &.active{
+        background-color: #fcfcfc;
+        height: 14px;
+        -moz-box-shadow: 0px 0px 0px 0px #FCFCFC;
+        -webkit-box-shadow: 0px 0px 0px 0px #FCFCFC;
+        box-shadow: 0px 0px 0px 0px #FCFCFC;
+        #height: 18px;
+        #-moz-box-shadow: 0px 9px 0px -1px #FCFCFC;
+        #-webkit-box-shadow: 0px 9px 0px -1px #FCFCFC;
+        #box-shadow: 0px 9px 0px -1px #FCFCFC;
+        a {
+          color: #049cdb;
+        }
+      }
+    }
+  }
+  }
 
-#oil-nav  .logo-header .brand a:hover{
-  text-decoration: none;
-}
 
-#oil-nav  .logo-header .brand a:hover span{
-  font-size: 17px;
-  color: #888;
 }
-
-#oil-nav  .mobile .dropdown-menu{
-  margin-left: -67px;
-}
-
-#oil-nav  ul.oil-portal{
-//  width: 360px;
-//  height: 36px;
-//  padding: 0px 14px;
-//  margin-bottom: 0px;
-//  display: inline-block;
-//  float: left;
-//  margin: 0 0 10px 25px;
-margin: 0 0 10px 25px;
-line-height: 21px;
-font-size: 16px;
-width: 366px;
-height: 36px;
-padding: 0px;
-margin-bottom: 0px;
-margin-left: 2px;
-font-family: "OpenSans",Arial,sans-serif;
-display: inline-block;
-}
-
-#oil-nav  ul.oil-portal li{
-  display: inline-block;
-  padding: 14px 18px 9px;
-}
-
-#oil-nav  ul.oil-portal li:hover{
-  background-color: rgba(152, 152, 152, 0.1);
-  height: 14px;
-  color: #049cdb;
-}
-
-#oil-nav  ul.oil-portal li a{
-  color: #555;
-//  font-family: "OpensansRegular";
-}
-
-#oil-nav  ul.oil-portal li a:hover{
-  color: #049cdb;
-}
-
-#oil-nav  ul.oil-portal li.active{
-  background-color: #fcfcfc;
-  height: 14px;
-  -moz-box-shadow: 0px 0px 0px 0px #FCFCFC;
-  -webkit-box-shadow: 0px 0px 0px 0px #FCFCFC;
-  box-shadow: 0px 0px 0px 0px #FCFCFC;
-  #height: 18px;
-  #-moz-box-shadow: 0px 9px 0px -1px #FCFCFC;
-  #-webkit-box-shadow: 0px 9px 0px -1px #FCFCFC;
-  #box-shadow: 0px 9px 0px -1px #FCFCFC;
-}
-
-#oil-nav  ul.oil-portal li.active a{
-  color: #049cdb;
-}
-
-#oil-nav  .mobile{
-  display: none;
-}
-#oil-nav  .mobile ul.dropdown-menu{
-  margin-left: -67px;
-  min-width: 90px;
-  background-color: rgb(244, 244, 244);
-  border: none;
-  -webkit-border-top-left-radius: 0px;
-  -moz-border-top-left-radius: 0px;
-  border-top-left-radius: 0px;
-  -webkit-border-top-right-radius: 0px;
-  -moz-border-top-right-radius: 0px;
-  border-top-right-radius: 0px;
-  -webkit-box-shadow: 2px 3px 6px rgba(0,0,0,0.1);
-  -moz-box-shadow: 2px 3px 6px rgba(0,0,0,0.1);
-  box-shadow: 2px 3px 6px rgba(0,0,0,0.1);
-  margin-top: 0px;
-}
-#oil-nav  .mobile ul li a:hover{
-  background-color: rgb(65, 173, 218);
-}
-
-#oil-nav  .mobile ul li.active a{
-  background-color: #049cdb;
-  background-image: none;
-}
-
-#oil-nav  .mobile ul li.active a:hover{
-  background-color: rgb(65, 173, 218);
-  background-image: none;
-}
-
-#oil-nav  .mobile ul li.active a:focus{
-  background-color: #049cdb;
-  background-image: none;
-}
-
 
 @media (max-width: 767px){
-  
+
   #oil-nav  header .navbar ul.nav{
     margin-top: 0px;
   }
@@ -191,7 +201,7 @@ display: inline-block;
 @media (min-width: 768px) and (max-width: 979px){
 
   #oil-nav  header.navbar ul{
-    margin-top: 0px    
+    margin-top: 0px
   }
 }
 
