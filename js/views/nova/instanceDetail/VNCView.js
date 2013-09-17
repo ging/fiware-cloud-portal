@@ -13,7 +13,7 @@ var InstanceVNCView = Backbone.View.extend({
 
         var options = {};
         options.callback = function(resp) {
-            self.options.vncUrl = resp.console.url;
+            self.options.vncUrl = resp.console.url.replace("127.0.0.1", "130.206.82.10");
             self.vncResp = true;
             self.render();
         };

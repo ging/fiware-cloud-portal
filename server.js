@@ -87,7 +87,9 @@ function sendData(port, options, data, res) {
         res.statusCode = status;
         for (var idx in headers) {
             var header = headers[idx];
-            res.setHeader(idx, headers[idx]);
+            if (idx !== 'Cookie' && idx !== 'User-Agent') {
+              res.setHeader(idx, headers[idx]);
+            }
         }
         console.log("Response: ", status);
         res.send(resp);
@@ -108,8 +110,10 @@ function sendData(port, options, data, res) {
             case "accept-encoding":
             case "accept-charset":
             case "cookie":
+            case "Cookie":
             case "content-length":
             case "origin":
+            case "user-agent":
                 break;
             default:
                 xhr.setRequestHeader(headerIdx, options.headers[headerIdx]);

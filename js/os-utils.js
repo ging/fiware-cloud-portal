@@ -58,6 +58,7 @@ UTILS.Auth = (function(U, undefined) {
         var _authenticatedWithTenant = function (resp) {
             console.log(resp);
             console.log("Authenticated for tenant ", tenant);
+            console.log("Token: ", JSTACK.Keystone.params.access.token.id);
             /*
             var compute = JSTACK.Keystone.getservice("compute");
 

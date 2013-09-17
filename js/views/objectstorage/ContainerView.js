@@ -79,6 +79,7 @@ var ObjectStorageContainerView = Backbone.View.extend({
         var i = 0;
         for (var index in container.get('objects')) {
             var object = container.get('objects')[index];
+	console.log('oo', object);
             var bytes = object.bytes;
             var kbytes, mbytes, gbytes, size;
             if (bytes >= 1024) {
