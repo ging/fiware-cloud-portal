@@ -60,7 +60,7 @@ app.configure(function () {
 app.use(function (req, res, next) {
     "use strict";
     res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'HEAD, POST, GET, OPTIONS, DELETE');
+    res.header('Access-Control-Allow-Methods', 'HEAD, PUT, POST, GET, OPTIONS, DELETE');
     res.header('Access-Control-Allow-Headers', 'origin, content-type, X-Auth-Token, Tenant-ID');
     console.log("New Request: ", req.method);
     if (req.method == 'OPTIONS') {
