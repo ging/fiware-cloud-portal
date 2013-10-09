@@ -11,9 +11,9 @@ config.development.keystone = {
 };
 
 config.production.keystone = {
-	host: '130.206.80.100',
+	host: '130.206.80.61',
 	port: 5000,
-	admin_host: '130.206.80.100',
+	admin_host: '130.206.80.61',
 	admin_port: 35357
 };
 
@@ -22,7 +22,7 @@ config.development.nova = {
 };
 
 config.production.nova = {
-	host: '130.206.80.11',
+	host: '130.206.80.61',
 };
 
 config.development.glance = {
@@ -30,7 +30,7 @@ config.development.glance = {
 };
 
 config.production.glance = {
-	host: '130.206.80.11',
+	host: '130.206.80.61',
 };
 
 config.development.sm = {
@@ -38,7 +38,7 @@ config.development.sm = {
 };
 
 config.production.sm = {
-	host: '130.206.80.91',
+	host: '130.206.80.61',
 };
 
 config.development.sdc = {
