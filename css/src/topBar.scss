@@ -135,13 +135,13 @@ header#oil-nav {
   //  margin: 0 0 10px 25px;
   margin: 0 0 10px 25px;
   line-height: 21px;
-  font-size: 16px;
-  width: 366px;
+  font-size: 13px;
+  width: 465px;
   height: 36px;
   padding: 0px;
   margin-bottom: 0px;
   margin-left: 2px;
-  font-family: "OpenSans",Arial,sans-serif;
+  font-family: "OpenSansRegular";
   display: inline-block;
   li{
     display: inline-block;
@@ -179,6 +179,14 @@ header#oil-nav {
   }
 
 
+}
+
+ul.oil-portal li.active {
+  background-color: #fcfcfc;
+  height: 18px;
+  -moz-box-shadow: 0px 9px 0px -1px #FCFCFC;
+  -webkit-box-shadow: 0px 9px 0px -1px #FCFCFC;
+  box-shadow: 0px 9px 0px -1px #FCFCFC;
 }
 
 @media (max-width: 767px){
