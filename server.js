@@ -320,4 +320,8 @@ app.get('/login', function(req, res){
 
 });
 
+app.get('/logout', function(req, res){
+    res.send(200);
+});
+
 app.listen(80);
