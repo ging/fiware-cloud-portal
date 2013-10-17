@@ -18,6 +18,7 @@ var OSRouter = Backbone.Router.extend({
     projects: undefined,
     containers: undefined,
     quotas: undefined,
+    quota: undefined,
     securityGroupsModel: undefined,
     floatingIPsModel: undefined,
     floatingIPPoolsModel: undefined,
@@ -48,7 +49,7 @@ var OSRouter = Backbone.Router.extend({
         this.keypairsModel = new Keypairs();
         this.projects = new Projects();
         this.containers = new Containers();
-        this.quotas = new Quotas();
+        this.quotas = new Quota();
         this.securityGroupsModel = new SecurityGroups();
         this.floatingIPsModel = new FloatingIPs();
         this.floatingIPPoolsModel = new FloatingIPPools();
@@ -153,6 +154,7 @@ var OSRouter = Backbone.Router.extend({
 
     initFetch: function() {
         if (Object.keys(this.timers).length === 0) {
+            this.quotas.set({id: UTILS.Auth.getCurrentTenant().id});
             var seconds = this.backgroundTime;
             this.add_fetch("instancesModel", seconds);
             this.add_fetch("sdcs", seconds);
@@ -160,6 +162,7 @@ var OSRouter = Backbone.Router.extend({
             this.add_fetch("bpInstancesModel", seconds);
             this.add_fetch("volumesModel", seconds);
             this.add_fetch("images", seconds);
+            this.add_fetch("quotas", seconds);
             this.add_fetch("flavors", seconds);
             this.add_fetch("volumeSnapshotsModel", seconds);
             this.add_fetch("instanceSnapshotsModel", seconds);
@@ -471,7 +474,7 @@ var OSRouter = Backbone.Router.extend({
     nova_images: function(self) {
         self.showNovaRoot(self, 'Images');
         //self.instancesModel.alltenants = false;
-        var view = new ImagesView({model: self.images, volumeSnapshotsModel: self.volumeSnapshotsModel, instancesModel: self.instancesModel, volumesModel: self.volumesModel, flavors: self.flavors, keypairs: self.keypairsModel, securityGroupsModel: self.securityGroupsModel, el: '#content'});
+        var view = new ImagesView({model: self.images, volumeSnapshotsModel: self.volumeSnapshotsModel, instancesModel: self.instancesModel, volumesModel: self.volumesModel, flavors: self.flavors, keypairs: self.keypairsModel, securityGroupsModel: self.securityGroupsModel,  quotas: self.quotas, el: '#content'});
         self.newContentView(self,view);
     },
 

@@ -138,7 +138,7 @@ var ImagesView = Backbone.View.extend({
         var img = this.model.get(image);
         var self = this;
         console.log('Showing Instance Creation');
-        var subview = new LaunchImageView({el: 'body', images: this.options.images, flavors: this.options.flavors, keypairs: this.options.keypairs, secGroups: this.options.securityGroupsModel, model: img});
+        var subview = new LaunchImageView({el: 'body', images: this.options.images, flavors: this.options.flavors, keypairs: this.options.keypairs, secGroups: this.options.securityGroupsModel, quotas: this.options.quotas, instancesModel: this.options.instancesModel, model: img});
         subview.render();
     },
 
