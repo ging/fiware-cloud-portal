@@ -315,6 +315,7 @@ app.all('/user/:token', function(req, resp) {
 app.get('/idm/auth', function(req, res){
 
     var tok;
+
     try {
         tok = decrypt(req.cookies.oauth_token);
     } catch (err) {
@@ -345,7 +346,7 @@ app.get('/login', function(req, res){
 app.get('/logout', function(req, res){
     res.clearCookie('oauth_token');
     res.clearCookie('expires_in');
-    res.redirect('/idm/auth');
+    res.send(200);
 });
 
 function encrypt(str){
