@@ -71,7 +71,17 @@ var Container = Backbone.Model.extend({
                 CDMI.Actions.copyobject(model.get('name'), options.currentObject, options.targetContainer, options.targetObject, options.success, options.error);
                 break;
             case "uploadObject":
-                CDMI.Actions.uploadobject(model.get('name'), options.objectName, options.object, options.success, options.error);
+                var reader = new FileReader();
+                reader.onload = function(event) {
+                    var data = event.target.result.toString();
+                    var data_index = data.indexOf('base64') + 7;
+                    var data_index2 = data.indexOf('data:') + 5;
+                    var filedata = data.slice(data_index, data.length);
+                    var filetype = data.slice(data_index2, data_index-8);
+                    console.log(data, filetype);
+                  CDMI.Actions.uploadobject(model.get('name'), options.objectName, filedata, filetype, options.success, options.error);
+                };
+                reader.readAsDataURL(options.object);
                 break;
             case "downloadObject":
                 console.log("Download object, ", options.success, options.error);

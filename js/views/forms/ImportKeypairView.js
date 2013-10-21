@@ -30,7 +30,7 @@ var ImportKeypairView = Backbone.View.extend({
     importKeypair: function(e) {
         self = this;
         var name = $('input[name=name]').val();
-        var publicKey = $('input[name=public_key]').val();
+        var publicKey = $('textarea[name=public_key]').val();
         var newKeypair = new Keypair();
         var subview;
         for (var index in self.model.models) {

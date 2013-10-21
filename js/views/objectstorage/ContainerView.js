@@ -136,9 +136,21 @@ var ObjectStorageContainerView = Backbone.View.extend({
                 options.callback = function(object) {
                     console.log("Downloaded");
                     var typeMIME, blob, blobURL;
-                    blob = new Blob([object], {
-                        type: "application/cdmi-object"
-                    });
+                    var obj = JSON.parse(object);
+                    var byteString;
+                    if (obj.valuetransferencoding === "base64") {
+                        byteString = atob(obj.value);
+                    } else {
+                        byteString = obj.value;
+                    }
+                    var array = [];
+                    var ab = new ArrayBuffer(byteString.length);
+                    var ia = new Uint8Array(ab);
+                    for (var i = 0; i < byteString.length; i++) {
+                      ia[i] = byteString.charCodeAt(i);
+                    }
+                    array.push(ab);
+                    blob = new Blob(array, {type: obj.mimetype});
                     blobURL = window.URL.createObjectURL(blob);
                     window.open(blobURL);
                 };

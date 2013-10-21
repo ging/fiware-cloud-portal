@@ -138,57 +138,71 @@
             <p>
                 Specify the details for launching an instance. The chart below shows the resources used by this project in relation to the project's quotas.
             </p>
+            <%
+                var quotaset = quotas.get("quota_set");
+                console.log(instancesModel);
+                var cpus = 0;
+                var ram = 0;
+                var disk = 0;
+                for (var instIdx in instancesModel.models) {
+                    var instance = instancesModel.models[instIdx];
+                    var flavor = flavors.get(instance.get("flavor").id);
+                    cpus = cpus + flavor.get('vcpus');
+                    ram = ram + flavor.get('ram');
+                    disk = disk + flavor.get('disk');
+                }
+            %>
             <h3>Project Quotas</h3>
 
             <div class="quota_title">
-                <strong>Instance Count <span>(0)</span></strong>
+                <strong>Instance Count <span>(<%=instancesModel.length%>)</span></strong>
                 <p>
-                    10 Available
+                    <%= quotaset.instances - instancesModel.length %> Available
                 </p>
             </div>
             <div class="clearfix"></div>
             <div class="quota_bar">
                 <div class="progress_bar">
-                    <div class="progress_bar_fill" style="width: 0%"></div>
+                    <div class="progress_bar_fill" style="width: <%= 100 * (instancesModel.length) / quotaset.instances %>%"></div>
                 </div>
             </div>
 
             <div class="quota_title">
-                <strong>VCPUs <span>(0)</span></strong>
+                <strong>VCPUs <span>(<%= cpus %>)</span></strong>
                 <p>
-                    20 Available
+                    <%= quotaset.cores - cpus %> Available
                 </p>
             </div>
             <div class="clearfix"></div>
             <div class="quota_bar">
                 <div class="progress_bar">
-                    <div class="progress_bar_fill" style="width: 0%"></div>
+                    <div class="progress_bar_fill" style="width: <%= 100 * (cpus) / quotaset.cores %>%"></div>
                 </div>
             </div>
 
             <div class="quota_title">
-                <strong>Disk <span>(0 GB)</span></strong>
+                <strong>Disk <span>(<%= disk %> GB)</span></strong>
                 <p>
-                    1000 GB Available
+                    <%= quotaset.gigabytes - disk %> GB Available
                 </p>
             </div>
             <div class="clearfix"></div>
             <div class="quota_bar">
                 <div class="progress_bar">
-                    <div class="progress_bar_fill" style="width: 0%"></div>
+                    <div class="progress_bar_fill" style="width: <%= 100 * (disk) / quotaset.gigabytes %>%"></div>
                 </div>
             </div>
 
             <div class="quota_title">
-                <strong>Memory <span>(0 MB)</span></strong>
+                <strong>Memory <span>(<%= ram %> MB)</span></strong>
                 <p>
-                    51200 MB Available
+                    <%= quotaset.ram - ram %> MB Available
                 </p>
             </div>
             <div class="clearfix"></div>
             <div class="quota_bar">
                 <div class="progress_bar">
-                    <div class="progress_bar_fill" style="width: 0%"></div>
+                    <div class="progress_bar_fill" style="width: <%= 100 * (ram) / quotaset.ram %>%"></div>
                 </div>
             </div>
         </div>
