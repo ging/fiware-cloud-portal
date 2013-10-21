@@ -1,6 +1,7 @@
 var express = require('express'),
     http = require('http'),
     https = require('https'),
+    crypto = require('crypto'),
     XMLHttpRequest = require("./xmlhttprequest").XMLHttpRequest,
     OAuth2 = require('./oauth2').OAuth2;
 
@@ -19,6 +20,13 @@ process.on('uncaughtException', function (err) {
 });
 
 var app = express();
+
+var secret = "adeghskdjfhbqigohqdiouka";
+app.use(express.cookieParser());
+app.use(express.session({
+    secret: secret, 
+    cookie: { secure: true }
+}));
 
 //app.use(express.bodyParser());
 
@@ -305,8 +313,21 @@ app.all('/user/:token', function(req, resp) {
 });
 
 app.get('/idm/auth', function(req, res){
-    var path = oauth_client.getAuthorizeUrl();
-    res.redirect(path);
+
+    var tok;
+    try {
+        tok = decrypt(req.cookies.oauth_token);
+    } catch (err) {
+        req.cookies.oauth_token = undefined;
+    }
+
+    if(!req.cookies.oauth_token) {
+        var path = oauth_client.getAuthorizeUrl();
+        res.redirect(path);
+    } else {
+        res.redirect("/#token=" + tok + "&expires=" + req.cookies.expires_in);
+    }
+    
 });
 
 app.get('/login', function(req, res){
@@ -314,14 +335,31 @@ app.get('/login', function(req, res){
     oauth_client.getOAuthAccessToken(
         req.query.code,
         function (e, results){
-            console.log('bearer: ',e, results);
+            res.cookie('oauth_token', encrypt(results.access_token));
+            res.cookie('expires_in', results.expires_in);
             res.redirect("/#token=" + results.access_token + "&expires=" + results.expires_in);
         });
 
 });
 
 app.get('/logout', function(req, res){
-    res.send(200);
+    res.clearCookie('oauth_token');
+    res.clearCookie('expires_in');
+    res.redirect('/idm/auth');
 });
+
+function encrypt(str){
+  var cipher = crypto.createCipher('aes-256-cbc',secret);
+  var crypted = cipher.update(str,'utf8','hex');
+  crypted += cipher.final('hex');
+  return crypted;
+}
+ 
+function decrypt(str){
+  var decipher = crypto.createDecipher('aes-256-cbc',secret);
+  var dec = decipher.update(str,'hex','utf8');
+  dec += decipher.final('utf8');
+  return dec;
+}
 
 app.listen(80);

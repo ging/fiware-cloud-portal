@@ -6,6 +6,20 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
         <title>FI-WARE Cloud Portal</title>
+
+        <script type="text/javascript" src="../lib/idm.js"></script>
+
+        <script type="text/javascript">
+
+            var regex = new RegExp("[\\#&]token=([^&#]*)");
+            var token = regex.exec(location.hash);
+
+            if (token === null) {
+                
+                IDM.Auth.goAuth();
+            }
+        </script>
+
         <!-- Date: 2012-03-13 -->
         <!-- CSS Libs -->
         <link href='css/lib/bootstrap.css' media='screen' rel='stylesheet' />
@@ -35,7 +49,6 @@
         <script type="text/javascript" src="../lib/underscore.js"></script>
         <script type="text/javascript" src="../lib/bootstrap.min.js"></script>
         <script type="text/javascript" src="../lib/bootstrap-contextmenu.js"></script>
-        <script type="text/javascript" src="../lib/idm.js"></script>
         <script type="text/javascript" src="../lib/jstack.js"></script>
         <script type="text/javascript" src="../lib/cdmi.js"></script>
         <script type="text/javascript" src="../lib/ovf.js"></script>

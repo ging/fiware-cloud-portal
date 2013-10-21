@@ -31,16 +31,7 @@ var LoginStatus = Backbone.Model.extend({
             //});
 
         } else {
-            console.log('en localStorage ', localStorage.getItem('access_token'));
-            this.set({'token-ts': localStorage.getItem('token-ts')});
-            this.set({'token-ex': localStorage.getItem('token-ex')});
-            this.set({'tenant-id': localStorage.getItem('tenant-id')});
-            this.set({'access_token': localStorage.getItem('access_token')});
-
-            if (localStorage.getItem('access_token') == null) {
-                this.set({'access_token': ''});
-            }
-
+            IDM.Auth.goAuth();
         }
 
 
@@ -110,14 +101,7 @@ var LoginStatus = Backbone.Model.extend({
 
     setToken: function(access_token, expires) {
         console.log('setToken', access_token, expires*1000);
-        if (localStorage.getItem('access_token') !== access_token) {
-            console.log('setTokenaaaaaaa');
-            var time = new Date().getTime();
-            this.set({'token-ts': time});
-            localStorage.setItem('token-ts', time);
-        }
-        localStorage.setItem('access_token', access_token);
-        localStorage.setItem('token-ex', expires*1000);
+        this.set({'token-ts': new Date().getTime()});
         this.set({'token-ex': expires*1000});
         this.set({'access_token': access_token});
 
@@ -128,7 +112,6 @@ var LoginStatus = Backbone.Model.extend({
     },
 
     removeToken: function() {
-        localStorage.setItem('access_token', '');
         this.set({'access_token': ''});
     },
 
@@ -151,7 +134,6 @@ var LoginStatus = Backbone.Model.extend({
     },
 
     clearAll: function() {
-        localStorage.setItem('access_token', '');
         this.set(this.defaults);
     }
 
