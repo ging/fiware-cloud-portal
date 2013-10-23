@@ -23,6 +23,8 @@ exports.XMLHttpRequest = function() {
   var http = require('http');
   var https = require('https');
 
+  http.globalAgent.maxSockets = 1;
+
   // Holds http.js objects
   var client;
   var request;
@@ -370,7 +372,7 @@ exports.XMLHttpRequest = function() {
       path: uri,
       method: settings.method,
       headers: headers,
-      agent: false
+      agent: http.globalAgent
     };
 
     // Reset error flag
