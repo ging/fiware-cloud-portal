@@ -52,16 +52,13 @@
 
         <script src="https://account.lab.fi-ware.eu/assets/signOut.js" type="text/javascript"></script>
 
-        <script type="text/javascript" src="../lib/idm.js"></script>
-
         <script type="text/javascript">
 
             var regex = new RegExp("[\\#&]token=([^&#]*)");
             var token = regex.exec(location.hash);
 
             if (token === null) {
-                
-                IDM.Auth.goAuth();
+                window.location.href = '/idm/auth';
             }
         </script>
 

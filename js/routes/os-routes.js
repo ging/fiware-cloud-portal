@@ -216,8 +216,7 @@ var OSRouter = Backbone.Router.extend({
 
     logout: function() {
         this.loginModel.clearAll();
-        // Fiware.signOut('cloud');
-        // window.location.href = "https://account.lab.fi-ware.eu/users/sign_out";
+        window.location.href = "#auth/login";
     },
 
     switchTenant: function(id) {

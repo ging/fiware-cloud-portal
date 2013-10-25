@@ -18,6 +18,13 @@ UTILS.Auth = (function(U, undefined) {
         JSTACK.Keystone.init(url, adminUrl);
     }
 
+    function goAuth() {
+        window.location.href = '/idm/auth';
+    }
+    function logout() {
+        window.location.href = '#auth/logout';
+    }
+
     function getToken() {
         return JSTACK.Keystone.params.token;
     }
@@ -26,8 +33,12 @@ UTILS.Auth = (function(U, undefined) {
         return JSTACK.Keystone.params.access.user.name;
     }
 
-    function getTenants(callback) {
-        return IDM.Auth.getTenants(access_token_, callback);
+    function getTenants(callback, access_token) {
+        if (access_token) {
+            JSTACK.Keystone.params.token = access_token;
+        }
+        return JSTACK.Keystone.gettenants(callback, false);
+        //return IDM.Auth.getTenants(access_token_, callback);
     }
 
     var getCurrentTenant = function() {
@@ -58,7 +69,6 @@ UTILS.Auth = (function(U, undefined) {
         var tenant_ = tenant;
 
         var _authenticatedWithTenant = function (resp) {
-            console.log(resp);
             console.log("Authenticated for tenant ", tenant_);
             console.log("Token: ", JSTACK.Keystone.params.access.token.id);
             /*
@@ -98,7 +108,9 @@ UTILS.Auth = (function(U, undefined) {
             objectstorage.endpoints[0].internalURL = "/objstor" + objectstorage.endpoints[0].internalURL.split('8080')[1];
 
             //OVF.API.configure(JSTACK.Keystone.getservice("sm").endpoints[0].publicURL, JSTACK.Keystone.params.access.token.id);
-            callback(tenant_);
+
+            resp.access.token.tenant.id = tenant_;
+            callback(resp.access.token.tenant);
         };
 
         var _tryTenant = function(tenants) {
@@ -134,16 +146,18 @@ UTILS.Auth = (function(U, undefined) {
             JSTACK.Keystone.authenticate(undefined, undefined, access_token, tenant_, _authenticatedWithTenant, _credError);
         } else {
             console.log("Authenticating without tenant");
-            IDM.Auth.getTenants(access_token, function (resp) {
+            getTenants(function (resp) {
                 tenants = resp;
                 _tryTenant(tenants);
-            });
+            }, access_token_);
         }
 
     }
 
     return {
         initialize: initialize,
+        goAuth: goAuth,
+        logout: logout,
         authenticate: authenticate,
         getToken: getToken,
         getName: getName,
