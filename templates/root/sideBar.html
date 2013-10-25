@@ -15,7 +15,7 @@ src: templates/root/sideBar.html
             var ten = loginModel.get("tenants")[index];
             %>
             <option value="#auth/switch/<%= ten.id%>/" <%
-            if (loginModel.get("tenant").name === ten.name) {
+            if (loginModel.get("tenant_id") == ten.id) {
             %>selected="selected" <%}%>><%= ten.name%></option>
             <%}%>
         </select>

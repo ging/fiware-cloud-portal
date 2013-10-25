@@ -55,9 +55,11 @@ UTILS.Auth = (function(U, undefined) {
     function authenticate(tenant, access_token, callback, error) {
         access_token_ = access_token;
 
+        var tenant_ = tenant;
+
         var _authenticatedWithTenant = function (resp) {
             console.log(resp);
-            console.log("Authenticated for tenant ", tenant);
+            console.log("Authenticated for tenant ", tenant_);
             console.log("Token: ", JSTACK.Keystone.params.access.token.id);
             /*
             var compute = JSTACK.Keystone.getservice("compute");
@@ -96,14 +98,14 @@ UTILS.Auth = (function(U, undefined) {
             objectstorage.endpoints[0].internalURL = "/objstor" + objectstorage.endpoints[0].internalURL.split('8080')[1];
 
             //OVF.API.configure(JSTACK.Keystone.getservice("sm").endpoints[0].publicURL, JSTACK.Keystone.params.access.token.id);
-            callback();
+            callback(tenant_);
         };
 
-        var _tryTenant = function(tenant) {
+        var _tryTenant = function(tenants) {
             if (tenants.length > 0) {
-                tenant = tenant || tenants.pop();
-                console.log("Authenticating for tenant " + tenant.id);
-                JSTACK.Keystone.authenticate(undefined, undefined, access_token, tenant.id, _authenticatedWithTenant, _error);
+                tenant_ = tenant_ || tenants.pop().id;
+                console.log("Authenticating for tenant " + tenant_);
+                JSTACK.Keystone.authenticate(undefined, undefined, access_token, tenant_, _authenticatedWithTenant, _error);
             } else {
                 console.log("Error authenticating");
                 error("No tenant");
@@ -127,14 +129,14 @@ UTILS.Auth = (function(U, undefined) {
             error("Bad credentials");
         };
 
-        if (tenant !== undefined) {
+        if (tenant_ !== undefined) {
             console.log("Authenticating with tenant");
-            JSTACK.Keystone.authenticate(undefined, undefined, access_token, tenant, _authenticatedWithTenant, _credError);
+            JSTACK.Keystone.authenticate(undefined, undefined, access_token, tenant_, _authenticatedWithTenant, _credError);
         } else {
             console.log("Authenticating without tenant");
             IDM.Auth.getTenants(access_token, function (resp) {
                 tenants = resp;
-                _tryTenant();
+                _tryTenant(tenants);
             });
         }
 

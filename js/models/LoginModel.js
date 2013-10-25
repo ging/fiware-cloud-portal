@@ -5,7 +5,7 @@ var LoginStatus = Backbone.Model.extend({
         username: null,
         password: null,
         access_token: '',
-        tenant: undefined,
+        tenant_id: undefined,
         tenants: undefined
     },
 
@@ -24,11 +24,24 @@ var LoginStatus = Backbone.Model.extend({
             var expires = regex1.exec(location.hash);
             console.log('en URL', token[1], expires[1]);
 
-            // UTILS.Auth.getTenants(function(tenants) {
-            //     self.set({'tenants': tenants});
-            //     self.set({'tenant-id':  UTILS.Auth.getCurrentTenant().id});
+            console.log('TENANT en localStorage: ', localStorage.getItem('tenant_id'));
+
+            if (localStorage.getItem('tenant_id')) {
+
+                IDM.Auth.getTenants(token[1], function(tenants) {
+
+                    for(var t in tenants) {
+                        if (tenants[t].id == localStorage.getItem('tenant_id')) {
+                            self.set({tenant_id: localStorage.getItem('tenant_id')});
+                            break;
+                        }
+                    }
+                    self.setToken(token[1], expires[1]);
+                });
+
+            } else {
                 self.setToken(token[1], expires[1]);
-            //});
+            }
 
         } else {
             IDM.Auth.goAuth();
@@ -69,18 +82,18 @@ var LoginStatus = Backbone.Model.extend({
         var self = context;
         console.log('veamos ', (new Date().getTime()), self.get('token-ts'), self.get('token-ex'));
         if (!UTILS.Auth.isAuthenticated() && access_token !== '' && (new Date().getTime()) < self.get('token-ts') + self.get('token-ex')) {
-            console.log('autentico con ', this.get('tenant-id'), access_token);
-            UTILS.Auth.authenticate(this.get('tenant-id'), access_token, function() {
+            console.log('autentico con ', this.get('tenant_id'), access_token);
+            UTILS.Auth.authenticate(this.get('tenant_id'), access_token, function(tenant_id) {
                 console.log("Authenticated with token: ", + self.get('token-ex') - (new Date().getTime())-self.get('token-ts'));
                 //console.log("New tenant: " + self.attributes.tenant.name);
                 //self.set({'tenant': self.attributes.tenant});
                 //console.log("New tenant: " + self.get("name"));
                 self.set({username: UTILS.Auth.getName()});
                 UTILS.Auth.getTenants(function(tenants) {
-                    self.set({tenant: UTILS.Auth.getCurrentTenant()});
+                    self.set({tenant_id: tenant_id});
                     self.set({tenants: tenants});
                     self.set({'loggedIn': true});
-                    localStorage.setItem('tenant-id', UTILS.Auth.getCurrentTenant().id);
+                    localStorage.setItem('tenant_id', tenant_id);
                     var subview = new MessagesView({state: "Info", title: "Connected to project " + self.get("tenant").name + " (ID " + self.get("tenant").id + ")"});
                     subview.render();
                 });
@@ -124,11 +137,11 @@ var LoginStatus = Backbone.Model.extend({
     switchTenant: function(tenantID) {
         var self = this;
         console.log("Tenant: " + tenantID);
-        UTILS.Auth.switchTenant(tenantID, this.get('access_token'), function() {
-            self.set({username: UTILS.Auth.getName(), tenant: UTILS.Auth.getCurrentTenant()});
-            localStorage.setItem('tenant-id', UTILS.Auth.getCurrentTenant().id);
+        UTILS.Auth.switchTenant(tenantID, this.get('access_token'), function(tenant_id) {
+            self.set({username: UTILS.Auth.getName(), tenant_id: tenant_id});
+            localStorage.setItem('tenant_id', tenant_id);
             self.trigger('switch-tenant');
-            var subview = new MessagesView({state: "Info", title: "Connected to project " + self.get("tenant").name + " (ID " + self.get("tenant").id + ")"});
+            var subview = new MessagesView({state: "Info", title: "Connected to project " + self.get("tenant").name + " (ID " + self.get("tenant_id") + ")"});
             subview.render();
         });
     },
