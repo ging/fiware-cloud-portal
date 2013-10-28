@@ -70,6 +70,7 @@ app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'HEAD, PUT, POST, GET, OPTIONS, DELETE');
     res.header('Access-Control-Allow-Headers', 'origin, content-type, X-Auth-Token, Tenant-ID');
+    res.header('Access-Control-Allow-Credentials', true);
     console.log("New Request: ", req.method);
     if (req.method == 'OPTIONS') {
         console.log("CORS request");
