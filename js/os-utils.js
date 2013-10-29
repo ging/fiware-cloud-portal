@@ -108,9 +108,9 @@ UTILS.Auth = (function(U, undefined) {
             objectstorage.endpoints[0].internalURL = "/objstor" + objectstorage.endpoints[0].internalURL.split('8080')[1];
 
             //OVF.API.configure(JSTACK.Keystone.getservice("sm").endpoints[0].publicURL, JSTACK.Keystone.params.access.token.id);
-
-            resp.access.token.tenant.id = tenant_;
-            callback(resp.access.token.tenant);
+            var t = Object.create(resp.access.token.tenant);
+            t.id = tenant_;
+            callback(t);
         };
 
         var _tryTenant = function(tenants) {
