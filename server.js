@@ -9,7 +9,7 @@ var oauth_config = require('./config').oauth;
 
 var oauth_client = new OAuth2(oauth_config.client_id,
                     oauth_config.client_secret,
-                    'https://account.lab.fi-ware.eu',
+                    oauth_config.account_server,
                     '/oauth2/authorize',
                     '/oauth2/token',
                     oauth_config.callbackURL);

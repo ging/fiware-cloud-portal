@@ -5,6 +5,7 @@ config.production = {};
 config.oauth = {};
 
 config.oauth = {
+	account_server: 'https://account.lab.fi-ware.eu',
     client_id: '21',
     client_secret: 'e99ed4604b1d44af5a9c3027b490ffb1691484235bfa08e920a928210fd525b8bf07d1e2a9e345299406da2dbdbeedcf36080e644f227a6aa1a21e73e1fde703',
     callbackURL: 'http://cloud.lab.fi-ware.eu/login'
