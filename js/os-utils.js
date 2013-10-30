@@ -147,7 +147,7 @@ UTILS.Auth = (function(U, undefined) {
         } else {
             console.log("Authenticating without tenant");
             getTenants(function (resp) {
-                tenants = resp;
+                tenants = resp.tenants;
                 _tryTenant(tenants);
             }, access_token_);
         }

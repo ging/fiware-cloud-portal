@@ -80,7 +80,7 @@ var LoginStatus = Backbone.Model.extend({
                 self.set({username: UTILS.Auth.getName()});
                 UTILS.Auth.getTenants(function(tenants) {
                     self.set({tenant_id: tenant.id});
-                    self.set({tenants: tenants});
+                    self.set({tenants: tenants.tenants});
                     self.set({'loggedIn': true});
                     localStorage.setItem('tenant_id', tenant.id);
                     var subview = new MessagesView({state: "Info", title: "Connected to project " + tenant.name + " (ID " + tenant.id + ")"});
