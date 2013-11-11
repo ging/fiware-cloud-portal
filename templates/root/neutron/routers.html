@@ -1,0 +1,361 @@
+<html><head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <title>Routers - OpenStack Dashboard</title>
+    
+
+<script type="text/javascript" src="/static/dashboard/js/967e5ade6890.js"></script>
+
+    
+      
+
+<link rel="stylesheet" href="/static/dashboard/css/d272fede7fb7.css" type="text/css" media="screen">
+
+<link rel="shortcut icon" href="/static/dashboard/img/favicon.ico">
+
+    
+    <script type="text/javascript" charset="utf-8">
+  /*
+    Added so that we can append Horizon scoped JS events to
+    the DOM load events without running in to the "horizon"
+    name-space not currently being defined since we load the
+    scripts at the bottom of the page.
+  */
+  var addHorizonLoadEvent = function(func) {
+    var old_onload = window.onload;
+
+    if (typeof window.onload != 'function') {
+      window.onload = func;
+    } else {
+      window.onload = function() {
+        old_onload();
+        func();
+      }
+    }
+  }
+</script>
+
+  <style></style></head>
+  <body>
+    
+      <div id="container">
+        
+          
+
+<div class="sidebar">
+  <h1 class="brand clearfix"><a href="/horizon/home/">OpenStack Dashboard</a></h1>
+
+  
+
+<div class="clearfix">
+  <ul class="nav nav-tabs">
+    
+      
+        <li class="active">
+          <a href="/horizon/project/" tabindex="1">Project</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="/horizon/admin/" tabindex="1">Admin</a>
+        </li>
+      
+    
+  </ul>
+</div>
+
+
+  
+  <div id="tenant_switcher" class="dropdown switcher_bar" tabindex="1">
+    
+      
+        <h4>Current Project</h4>
+        <h3>admin</h3>
+      
+
+      
+    
+  </div>
+  
+
+  
+
+
+  
+    
+      <h4>Manage Compute</h4>
+      <ul class="main_nav">
+        
+          <li>
+            <a href="/horizon/project/" tabindex="1">Overview</a>
+          </li>
+        
+          <li>
+            <a href="/horizon/project/instances/" tabindex="1">Instances</a>
+          </li>
+        
+          <li>
+            <a href="/horizon/project/volumes/" tabindex="1">Volumes</a>
+          </li>
+        
+          <li>
+            <a href="/horizon/project/images_and_snapshots/" tabindex="1">Images &amp; Snapshots</a>
+          </li>
+        
+          <li>
+            <a href="/horizon/project/access_and_security/" tabindex="1">Access &amp; Security</a>
+          </li>
+        
+      </ul>
+    
+  
+
+  
+    
+      <h4>Manage Network</h4>
+      <ul class="main_nav">
+        
+          <li>
+            <a href="/horizon/project/networks/" tabindex="1">Networks</a>
+          </li>
+        
+          <li>
+            <a href="/horizon/project/routers/" class="active" tabindex="1">Routers</a>
+          </li>
+        
+          <li>
+            <a href="/horizon/project/network_topology/" tabindex="1">Network Topology</a>
+          </li>
+        
+      </ul>
+    
+  
+
+  
+    
+  
+
+
+</div>
+
+        
+        <div id="main_content">
+          <div class="topbar">
+          
+<div id="user_info" class="pull-right">
+  <span>Logged in as: admin</span>
+  <a href="/horizon/settings/">Settings</a>
+  
+  <a href="http://docs.openstack.org" target="_new">Help</a>
+  
+  <a href="/horizon/auth/logout/">Sign Out</a>
+  
+
+</div>
+
+          
+  
+
+  <div class="page-header">
+    <h2>Routers</h2>
+  </div>
+
+
+
+          </div>
+          
+<div class="messages">
+
+</div>
+
+          
+  
+
+<div class="table_wrapper">
+  <form action="/horizon/project/routers/" method="POST"><div style="display:none"><input type="hidden" name="csrfmiddlewaretoken" value="DPLoI3VSnamGpThkJU9TkoCQOcD4k8v2"></div>
+  
+
+  <table id="Routers" class="table table-bordered table-striped datatable">
+    <thead>
+  
+      <tr class="table_caption">
+        <th class="table_header" colspan="5">
+          <h3 class="table_title">Routers</h3>
+          
+<div class="table_actions clearfix">
+
+
+    
+        
+            <a href="/horizon/project/routers/create/" title="Create Router" id="Routers__action_create" class="btn btn-small ajax-modal btn-create">Create Router</a>
+        
+    
+
+    
+        
+            <button id="Routers__action_delete" class="btn btn-small btn-danger btn-delete disabled" name="action" value="Routers__delete" type="submit">Borrar Encaminadores</button>
+        
+    
+
+</div>
+
+        </th>
+      </tr>
+  
+  
+      
+  
+  
+      
+      <tr>
+        
+          <th class="multi_select_column"><input type="checkbox"></th>
+        
+          <th class="sortable anchor normal_column">Name</th>
+        
+          <th class="sortable normal_column">Status</th>
+        
+          <th class="sortable normal_column">External Network</th>
+        
+          <th class="actions_column">Actions</th>
+        
+      </tr>
+      
+  
+    </thead>
+  
+    <tbody>
+    
+      <tr data-update-interval="2500" data-update-url="/horizon/project/routers/?action=row_update&amp;table=Routers&amp;obj_id=5af6238b-0e9c-4c20-8981-6e4db6de2e17" id="Routers__row__5af6238b-0e9c-4c20-8981-6e4db6de2e17" class="ajax-update status_up">
+  <td class="multi_select_column"><input type="checkbox" name="object_ids" value="5af6238b-0e9c-4c20-8981-6e4db6de2e17"></td><td class="sortable anchor normal_column"><a href="/horizon/project/routers/5af6238b-0e9c-4c20-8981-6e4db6de2e17/" class="">test-rt1</a></td><td class="status_up sortable normal_column">Active</td><td class="sortable normal_column">ext-net</td><td class="actions_column">
+
+<div class="btn-group"><button id="Routers__row_5af6238b-0e9c-4c20-8981-6e4db6de2e17__action_cleargateway" class="btn btn-small btn-danger btn-cleargateway" name="action" value="Routers__cleargateway__5af6238b-0e9c-4c20-8981-6e4db6de2e17" type="submit">Clear Gateway</button><a class="btn btn-small dropdown-toggle btn-danger btn-cleargateway" data-toggle="dropdown" href="#">
+            More
+            <span class="caret"></span></a><ul class="dropdown-menu row_actions clearfix"><li class="clearfix"><button id="Routers__row_5af6238b-0e9c-4c20-8981-6e4db6de2e17__action_delete" class="btn btn-small btn-danger btn-delete" name="action" value="Routers__delete__5af6238b-0e9c-4c20-8981-6e4db6de2e17" type="submit">Delete Router</button></li></ul></div>
+</td>
+</tr>
+
+    
+    </tbody>
+  
+  
+    
+    <tfoot>
+      
+      <tr>
+        <td colspan="5">
+          <span class="table_count">Displaying 1 item</span>
+          
+        </td>
+      </tr>
+    </tfoot>
+    
+  
+  </table>
+
+  
+  </form>
+</div>
+
+
+
+        </div>
+      </div>
+    
+    <div id="footer">
+      
+    </div>
+    
+      
+
+
+<script type="text/javascript" src="/horizon/i18n/js/horizon/"></script>
+
+
+<script type="text/javascript" src="/static/dashboard/js/f8791faeb8f8.js"></script>
+
+
+<script type="text/html" id="modal_template">
+
+<div class="modal hide">
+  <div class='modal-header'>
+    <a class='close' data-dismiss='modal'>&times;</a>
+    <h3>{{title}}</h3>
+  </div>
+  <div class='modal-body'>
+    {{body}}
+  </div>
+  <div class='modal-footer'>
+    <a href='#' class='btn btn-primary'>{{confirm}}</a>
+    <a href='#' class='btn cancel' data-dismiss='modal'>{{cancel}}</a>
+  </div>
+</div>
+
+</script>
+
+<script type="text/html" id="empty_row_template">
+
+<tr class="odd empty"><td colspan="{{colspan}}">No items to display.</td></tr>
+
+</script>
+
+<script type="text/html" id="alert_message_template">
+
+<div class="alert alert-block fade in alert-{{type}}">
+  <a class="close" data-dismiss="alert" href="#">&times;</a>
+  <p>
+    <strong>{{type_capitalized}}: </strong>
+    {{#safe}}
+      {{{message}}}
+    {{/safe}}
+    {{^safe}}
+      {{message}}
+    {{/safe}}
+  </p>
+</div>
+
+</script>
+
+<script type="text/html" id="spinner-modal">
+
+<div class="modal loading hide">
+  <p>{{text}}&hellip;</p>
+</div>
+
+</script>
+
+<script type="text/html" id="project_user_template">
+
+<ul class="nav nav-pills btn-group">
+  <li class="member" data-user-id="{{user_id}}">
+    <span class="user_name">{{user_name}}</span>
+  </li>
+  <li class="active"><a class="btn btn-primary" href="#add_remove">{{text}}</a></li>
+  <li class="dropdown role_options">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+      <span class="roles_display">Roles</span>
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu role_dropdown clearfix">
+      {{#roles}}
+      <li data-role-id="{{role_id}}"><i class="icon-ok"></i>  {{role_name}}</li>
+      {{/roles}}
+    </ul>
+  </li>
+</ul>
+
+</script>
+
+
+
+
+<script type="text/javascript" charset="utf-8">
+  // Call init on DOM ready.
+  $(document).ready(horizon.init);
+</script>
+
+    
+    <div id="modal_wrapper">
+  
+
+</div></body></html>

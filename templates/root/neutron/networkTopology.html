@@ -1,0 +1,496 @@
+<html><head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <title>Network Detail - OpenStack Dashboard</title>
+    
+
+<script type="text/javascript" src="/static/dashboard/js/967e5ade6890.js"></script>
+
+    
+      
+
+<link rel="stylesheet" href="/static/dashboard/css/d272fede7fb7.css" type="text/css" media="screen">
+
+<link rel="shortcut icon" href="/static/dashboard/img/favicon.ico">
+
+    
+    <script type="text/javascript" charset="utf-8">
+  /*
+    Added so that we can append Horizon scoped JS events to
+    the DOM load events without running in to the "horizon"
+    name-space not currently being defined since we load the
+    scripts at the bottom of the page.
+  */
+  var addHorizonLoadEvent = function(func) {
+    var old_onload = window.onload;
+
+    if (typeof window.onload != 'function') {
+      window.onload = func;
+    } else {
+      window.onload = function() {
+        old_onload();
+        func();
+      }
+    }
+  }
+</script>
+
+  <style></style></head>
+  <body>
+    
+      <div id="container">
+        
+          
+
+<div class="sidebar">
+  <h1 class="brand clearfix"><a href="/horizon/home/">OpenStack Dashboard</a></h1>
+
+  
+
+<div class="clearfix">
+  <ul class="nav nav-tabs">
+    
+      
+        <li class="active">
+          <a href="/horizon/project/" tabindex="1">Project</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="/horizon/admin/" tabindex="1">Admin</a>
+        </li>
+      
+    
+  </ul>
+</div>
+
+
+  
+  <div id="tenant_switcher" class="dropdown switcher_bar" tabindex="1">
+    
+      
+        <h4>Current Project</h4>
+        <h3>admin</h3>
+      
+
+      
+    
+  </div>
+  
+
+  
+
+
+  
+    
+      <h4>Manage Compute</h4>
+      <ul class="main_nav">
+        
+          <li>
+            <a href="/horizon/project/" tabindex="1">Overview</a>
+          </li>
+        
+          <li>
+            <a href="/horizon/project/instances/" tabindex="1">Instances</a>
+          </li>
+        
+          <li>
+            <a href="/horizon/project/volumes/" tabindex="1">Volumes</a>
+          </li>
+        
+          <li>
+            <a href="/horizon/project/images_and_snapshots/" tabindex="1">Images &amp; Snapshots</a>
+          </li>
+        
+          <li>
+            <a href="/horizon/project/access_and_security/" tabindex="1">Access &amp; Security</a>
+          </li>
+        
+      </ul>
+    
+  
+
+  
+    
+      <h4>Manage Network</h4>
+      <ul class="main_nav">
+        
+          <li>
+            <a href="/horizon/project/networks/" class="active" tabindex="1">Networks</a>
+          </li>
+        
+          <li>
+            <a href="/horizon/project/routers/" tabindex="1">Routers</a>
+          </li>
+        
+          <li>
+            <a href="/horizon/project/network_topology/" tabindex="1">Network Topology</a>
+          </li>
+        
+      </ul>
+    
+  
+
+  
+    
+  
+
+
+</div>
+
+        
+        <div id="main_content">
+          <div class="topbar">
+          
+<div id="user_info" class="pull-right">
+  <span>Logged in as: admin</span>
+  <a href="/horizon/settings/">Settings</a>
+  
+  <a href="http://docs.openstack.org" target="_new">Help</a>
+  
+  <a href="/horizon/auth/logout/">Sign Out</a>
+  
+
+</div>
+
+          
+  
+
+  <div class="page-header">
+    <h2>Network Detail: ext-net</h2>
+  </div>
+
+
+
+          </div>
+          
+<div class="messages">
+
+</div>
+
+          
+  
+
+<h3>Network Overview</h3>
+
+<div class="info detail">
+  <dl>
+    <dt>Name</dt>
+    <dd>ext-net</dd>
+    <dt>ID</dt>
+    <dd>e6f0b73a-7a79-4969-96e1-dc39fd63c95e</dd>
+    <dt>Project ID</dt>
+    <dd>08bed031f6c54c9d9b35b42aa06b51c0</dd>
+    <dt>Status</dt>
+    <dd>ACTIVE</dd>
+    <dt>Admin State</dt>
+    <dd>UP</dd>
+    <dt>Shared</dt>
+    <dd>No</dd>
+    <dt>External Network</dt>
+    <dd>Yes</dd>
+    
+    <dt>Provider Network</dt>
+    <dd>Network Type: local</dd>
+    <dd>Physical Network: -</dd>
+    <dd>Segmentation ID: -</dd>
+    
+  </dl>
+</div>
+
+  <hr>
+  <div id="subnets">
+    
+
+<div class="table_wrapper">
+  <form action="/horizon/project/networks/e6f0b73a-7a79-4969-96e1-dc39fd63c95e/detail" method="POST"><div style="display:none"><input type="hidden" name="csrfmiddlewaretoken" value="DPLoI3VSnamGpThkJU9TkoCQOcD4k8v2"></div>
+  
+
+  <table id="subnets" class="table table-bordered table-striped datatable">
+    <thead>
+  
+      <tr class="table_caption">
+        <th class="table_header" colspan="6">
+          <h3 class="table_title">Subnets</h3>
+          
+<div class="table_actions clearfix">
+
+
+    
+        
+            <a href="/horizon/project/networks/e6f0b73a-7a79-4969-96e1-dc39fd63c95e/subnets/create" title="Create Subnet" id="subnets__action_create" class="btn btn-small ajax-modal btn-create">Create Subnet</a>
+        
+    
+
+    
+        
+            <button id="subnets__action_delete" class="btn btn-small btn-danger btn-delete disabled" name="action" value="subnets__delete" type="submit">Delete Subnets</button>
+        
+    
+
+</div>
+
+        </th>
+      </tr>
+  
+  
+      
+  
+  
+      
+      <tr>
+        
+          <th class="multi_select_column"><input type="checkbox"></th>
+        
+          <th class="sortable anchor normal_column">Name</th>
+        
+          <th class="sortable normal_column">Network Address</th>
+        
+          <th class="sortable normal_column">IP Version</th>
+        
+          <th class="sortable normal_column">Gateway IP</th>
+        
+          <th class="actions_column">Actions</th>
+        
+      </tr>
+      
+  
+    </thead>
+  
+    <tbody>
+    
+      <tr id="subnets__row__3aa02e50-e976-47cb-8460-df028de03600" class="">
+  <td class="multi_select_column"><input type="checkbox" name="object_ids" value="3aa02e50-e976-47cb-8460-df028de03600"></td><td class="sortable anchor normal_column"><a href="/horizon/project/networks/subnets/3aa02e50-e976-47cb-8460-df028de03600/detail" class="">(3aa02e50)</a></td><td class="sortable normal_column">130.206.81.128/28</td><td class="sortable normal_column">IPv4</td><td class="sortable normal_column">130.206.81.129</td><td class="actions_column">
+
+<div class="btn-group"><a href="/horizon/project/networks/e6f0b73a-7a79-4969-96e1-dc39fd63c95e/subnets/3aa02e50-e976-47cb-8460-df028de03600/update" id="subnets__row_3aa02e50-e976-47cb-8460-df028de03600__action_update" class="btn btn-small ajax-modal btn-edit">Edit Subnet</a><a class="btn btn-small dropdown-toggle ajax-modal btn-edit" data-toggle="dropdown" href="#">
+            More
+            <span class="caret"></span></a><ul class="dropdown-menu row_actions clearfix"><li class="clearfix"><button id="subnets__row_3aa02e50-e976-47cb-8460-df028de03600__action_delete" class="btn btn-small btn-danger btn-delete" name="action" value="subnets__delete__3aa02e50-e976-47cb-8460-df028de03600" type="submit">Delete Subnet</button></li></ul></div>
+</td>
+</tr>
+
+    
+    </tbody>
+  
+  
+    
+    <tfoot>
+      
+      <tr>
+        <td colspan="6">
+          <span class="table_count">Displaying 1 item</span>
+          
+        </td>
+      </tr>
+    </tfoot>
+    
+  
+  </table>
+
+  
+  </form>
+</div>
+
+
+  </div>
+  <div id="ports">
+    
+
+<div class="table_wrapper">
+  <form action="/horizon/project/networks/e6f0b73a-7a79-4969-96e1-dc39fd63c95e/detail" method="POST"><div style="display:none"><input type="hidden" name="csrfmiddlewaretoken" value="DPLoI3VSnamGpThkJU9TkoCQOcD4k8v2"></div>
+  
+
+  <table id="ports" class="table table-bordered table-striped datatable">
+    <thead>
+  
+      <tr class="table_caption">
+        <th class="table_header" colspan="6">
+          <h3 class="table_title">Ports</h3>
+          
+<div class="table_actions clearfix">
+
+
+</div>
+
+        </th>
+      </tr>
+  
+  
+      
+  
+  
+      
+      <tr>
+        
+          <th class="sortable anchor normal_column header">Name</th>
+        
+          <th class="sortable normal_column header">Fixed IPs</th>
+        
+          <th class="sortable normal_column header">Attached Device</th>
+        
+          <th class="sortable normal_column header">Status</th>
+        
+          <th class="sortable normal_column header">Admin State</th>
+        
+          <th class="actions_column">Actions</th>
+        
+      </tr>
+      
+  
+    </thead>
+  
+    <tbody>
+    
+      <tr id="ports__row__1f1b3780-aa9b-4052-8e15-b26fc47d6fa7" class="">
+  <td class="sortable anchor normal_column"><a href="/horizon/project/networks/ports/1f1b3780-aa9b-4052-8e15-b26fc47d6fa7/detail" class="">(1f1b3780)</a></td><td class="sortable normal_column">
+<ul>
+  <li>
+    130.206.81.132
+  </li>
+</ul>
+
+</td><td class="sortable normal_column">network:dhcp</td><td class="sortable normal_column">DOWN</td><td class="sortable normal_column">UP</td><td class="actions_column">
+
+<a href="/horizon/project/networks/e6f0b73a-7a79-4969-96e1-dc39fd63c95e/ports/1f1b3780-aa9b-4052-8e15-b26fc47d6fa7/update" id="ports__row_1f1b3780-aa9b-4052-8e15-b26fc47d6fa7__action_update" class="btn btn-small ajax-modal btn-edit">Edit Port</a>
+</td>
+</tr>
+
+    
+      <tr id="ports__row__9c8263e5-0d69-4e41-8b96-bf944b17550e" class="">
+  <td class="sortable anchor normal_column"><a href="/horizon/project/networks/ports/9c8263e5-0d69-4e41-8b96-bf944b17550e/detail" class="">(9c8263e5)</a></td><td class="sortable normal_column">
+<ul>
+  <li>
+    130.206.81.130
+  </li>
+</ul>
+
+</td><td class="sortable normal_column">network:router_gateway</td><td class="sortable normal_column">DOWN</td><td class="sortable normal_column">UP</td><td class="actions_column">
+
+<a href="/horizon/project/networks/e6f0b73a-7a79-4969-96e1-dc39fd63c95e/ports/9c8263e5-0d69-4e41-8b96-bf944b17550e/update" id="ports__row_9c8263e5-0d69-4e41-8b96-bf944b17550e__action_update" class="btn btn-small ajax-modal btn-edit">Edit Port</a>
+</td>
+</tr>
+
+    
+    </tbody>
+  
+  
+    
+    <tfoot>
+      
+      <tr>
+        <td colspan="6">
+          <span class="table_count">Displaying 2 items</span>
+          
+        </td>
+      </tr>
+    </tfoot>
+    
+  
+  </table>
+
+  
+  </form>
+</div>
+
+
+  </div>
+
+        </div>
+      </div>
+    
+    <div id="footer">
+      
+    </div>
+    
+      
+
+
+<script type="text/javascript" src="/horizon/i18n/js/horizon/"></script>
+
+
+<script type="text/javascript" src="/static/dashboard/js/f8791faeb8f8.js"></script>
+
+
+<script type="text/html" id="modal_template">
+
+<div class="modal hide">
+  <div class='modal-header'>
+    <a class='close' data-dismiss='modal'>&times;</a>
+    <h3>{{title}}</h3>
+  </div>
+  <div class='modal-body'>
+    {{body}}
+  </div>
+  <div class='modal-footer'>
+    <a href='#' class='btn btn-primary'>{{confirm}}</a>
+    <a href='#' class='btn cancel' data-dismiss='modal'>{{cancel}}</a>
+  </div>
+</div>
+
+</script>
+
+<script type="text/html" id="empty_row_template">
+
+<tr class="odd empty"><td colspan="{{colspan}}">No items to display.</td></tr>
+
+</script>
+
+<script type="text/html" id="alert_message_template">
+
+<div class="alert alert-block fade in alert-{{type}}">
+  <a class="close" data-dismiss="alert" href="#">&times;</a>
+  <p>
+    <strong>{{type_capitalized}}: </strong>
+    {{#safe}}
+      {{{message}}}
+    {{/safe}}
+    {{^safe}}
+      {{message}}
+    {{/safe}}
+  </p>
+</div>
+
+</script>
+
+<script type="text/html" id="spinner-modal">
+
+<div class="modal loading hide">
+  <p>{{text}}&hellip;</p>
+</div>
+
+</script>
+
+<script type="text/html" id="project_user_template">
+
+<ul class="nav nav-pills btn-group">
+  <li class="member" data-user-id="{{user_id}}">
+    <span class="user_name">{{user_name}}</span>
+  </li>
+  <li class="active"><a class="btn btn-primary" href="#add_remove">{{text}}</a></li>
+  <li class="dropdown role_options">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+      <span class="roles_display">Roles</span>
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu role_dropdown clearfix">
+      {{#roles}}
+      <li data-role-id="{{role_id}}"><i class="icon-ok"></i>  {{role_name}}</li>
+      {{/roles}}
+    </ul>
+  </li>
+</ul>
+
+</script>
+
+
+
+
+<script type="text/javascript" charset="utf-8">
+  // Call init on DOM ready.
+  $(document).ready(horizon.init);
+</script>
+
+    
+    <div id="modal_wrapper">
+  
+
+</div></body></html>

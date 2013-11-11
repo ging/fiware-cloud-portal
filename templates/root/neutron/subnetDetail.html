@@ -1,0 +1,73 @@
+<script id="subnetDetailTemplate" type="text/html">
+<!--
+Description: Subnet Detail
+src: templates/root/neutron/subnetDetail.html
+-->
+<div id="subnet_overview" class="row-fluid entity_consult">
+   <div class="entity_consult">
+        <div class="entity_detail">
+            <div id="subnet_details" class="active row-fluid">
+                <div class="status span4">
+                    <%var id = model.id;
+                    var model = model.attributes.subnet;%>
+                    <h4>Subnet Overview</h4>
+                    <hr class="header_rule">
+                    <ul>
+                        <li>
+                            <strong>Name:</strong>&nbsp;<%= model.name  === "" ? "None" : model.name%>
+                        </li>
+                        <li>
+                            <strong>ID:</strong>&nbsp;<%= id%>
+                        </li>
+                        <li>
+                            <strong>Network ID:</strong>&nbsp;<a style="cursor:pointer;" id="network_id"><%= model.network_id%></a>
+                        </li>
+                        <li>
+                            <strong>IP vesrion:</strong>&nbsp;<%= model.ip_version%>
+                        </li>
+                        <li>
+                            <strong>CIDR:</strong>&nbsp;<%= model.cidr%>
+                        </li>
+                        <%var al_pools = model.allocation_pools;
+                        var allocation_pools = [];
+                            for (index in al_pools) {
+                                var start_end = "Start: "+al_pools[index].start+" - End: " +al_pools[index].end;
+                                allocation_pools.push(start_end);
+                            }
+                        %>
+                        <li>
+                            <strong>IP allocation pool: </strong>&nbsp;<%= allocation_pools%> 
+                        </li>
+                        <li>
+                            <strong>DHCP Enable:</strong>&nbsp;<%= model.enable_dhcp%>
+                        </li>
+                        <li>
+                            <strong>Gateway IP:</strong>&nbsp;<%= model.gateway_ip%>
+                        </li>
+                        <%var host_routes = model.host_routes;
+                        var host_ro = [];
+                            for (index in host_routes) {
+                                host_ro.push(host_routes[index]);
+                            }
+                        %>
+                        <li>
+                            <strong>Additional Routes:</strong>&nbsp;<%= host_ro == "" ? "None" : host_ro%>
+                        </li>
+                        <%var dns_nameservers = model.dns_nameservers;
+                        var dns_ns = [];
+                            for (index in dns_nameservers) {
+                                dns_ns.push(dns_nameservers[index]);
+                            }
+                        %>
+                        <li>
+                            <strong>DNS name server:</strong>&nbsp;<%= dns_ns == "" ? "None" : dns_ns%>
+                        </li>
+                    </ul>
+                </div>               
+            </div>
+        </div>
+    </div>
+</div>
+</script>
+
+</script>

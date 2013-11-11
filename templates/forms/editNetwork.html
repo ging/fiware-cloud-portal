@@ -1,0 +1,57 @@
+<script id="editNetworkFormTemplate" type="text/html">
+<div id="edit_network" class="modal hide in" style="display: block; ">
+    <!--
+    Description: Edit Network Form
+    src: templates/forms/editNetwork.html
+    -->
+    <div class="modal-header">
+        <a href="#" class="close" data-dismiss="modal">×</a>
+        <h3>Edit Network</h3>
+    </div>
+
+    <form class="" action="#" method="#">
+        <div class="modal-body clearfix">
+
+            <div class="left">
+                <fieldset>
+
+                    <div class="control-group form-field clearfix">
+                        <label for="name">Name</label>
+
+                        <span class="help-block" style="display: none; "></span>
+                        <div class="input">
+                            <input id="name" type="text" name="name" maxlength="255" value="<%=model.get('name')%>">
+                        </div>
+                    </div>
+
+                    <div class="control-group form-field clearfix">
+                        <label for="network_id">ID</label>
+                        <p><%=model.get('id')%></p>
+                    </div>
+
+                    <div class="control-group form-field clearfix">
+					    <label for="admin_state">Admin State</label>
+
+					    <span class="help-block" style="display: none;"></span>
+					    <div class="input">
+					      <input type="checkbox" name="admin_state" id="admin_state">
+					    </div>
+					</div>
+
+                </fieldset>
+            </div>
+            <div class="right">
+            	<h3>Description</h3>
+                <p>
+		           You may update the editable properties of your network here.
+		        </p>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button id="updateBtn" class="btn btn-blue update-network pull-right" data-dismiss="modal">Save Changes</button>
+            <a id="cancelBtn" class="close btn seconday cancel close" data-dismiss="modal">Cancel</a>
+        </div>
+    </form>
+</div>
+</script>

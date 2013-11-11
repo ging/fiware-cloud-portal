@@ -61,4 +61,12 @@ config.production.paas = {
 	host: '130.206.82.160',
 };
 
+config.development.neutron = {
+	host: '130.206.80.58'
+};
+
+config.production.neutron = {
+	host: '130.206.80.11'
+};
+
 module.exports = config;
