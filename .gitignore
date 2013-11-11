@@ -6,3 +6,4 @@ node_modules
 npm-debug.log
 .sass-cache
 css/style2.css
+config.js
