@@ -67,7 +67,7 @@ app.configure(function () {
 
 app.use(function (req, res, next) {
     "use strict";
-    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
     res.header('Access-Control-Allow-Methods', 'HEAD, PUT, POST, GET, OPTIONS, DELETE');
     res.header('Access-Control-Allow-Headers', 'origin, content-type, X-Auth-Token, Tenant-ID');
     res.header('Access-Control-Allow-Credentials', true);
