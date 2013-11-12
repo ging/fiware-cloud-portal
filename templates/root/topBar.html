@@ -4,23 +4,32 @@ Description: Top Bar
 src: templates/root/topBar.html
 -->
 
-<!--
+<%
+    if (!UTILS.Auth.isIDM()) {
+%>
 
 <div id="user_info" class="pull-right">
     <span id="user_info_name" class="icon_nav-project"><%= get('username') %></span> <a class="top-icon icon_nav-settings" href="#settings/"></a>
     <a href="#auth/logout" class="top-icon icon_nav-logout"></a>
 </div>
--->
+
+<%
+}
+%>
 
 <div class="header hidden-tablet hidden-phone">
     <div class="header row-fluid">
-    <!--
+<%
+    if (!UTILS.Auth.isIDM()) {
+%>
         <div class="logo span2">
             <div class="brand"></div>
             <h2><a href="#home/"><span class="link-logo">fi-ware</span></a></h2>
             <h2 class="dashboard"> Dashboard</h2>
         </div>
-    -->
+<%
+}
+%>
         <div id="page-title" class="big-tittle inline-block span10 offset2 page-header">
         </div>
         <div class="hidden-desktop">

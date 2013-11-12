@@ -5,7 +5,7 @@
 -->
 
 <div id="splashdiv">
-    <h3 data-i18n="Log In with Fi-Ware IDM">Log In with Fi-Ware IDM</h3>
+    <h3 data-i18n="Log In with Fi-Ware IDM">Log In <% if (UTILS.Auth.isIDM()) { %> with FI-Ware IDM <% } %></h3>
 	<form href="#">
 		<div class="clearfix">
 			<% if (has('error_msg')) { %>
@@ -14,14 +14,16 @@
 					<p><strong><%= get('error_msg') %></p>
 				</div>
 			<% } %>
-			<!--<fieldset>
+			<% if (!UTILS.Auth.isIDM()) { %>
+			<fieldset>
 				<div class="clearfix">
 					<input class="input-login" type="text" name="username" maxlength="255" placeholder="User Name" />
 				</div>
 				<div class="clearfix">
 					<input class="input-login" id="id_password" type="password"  name="password" maxlength="255" placeholder="Password" />
 				</div>
-			</fieldset>-->
+			</fieldset>
+			<% } %>
 			<button id="home_loginbtn" class="btn btn-blue pull-right credentials" data-i18n="Sign In">Sign In</button>
 		</div>
 	</form>

@@ -6,13 +6,16 @@ var express = require('express'),
     OAuth2 = require('./oauth2').OAuth2;
 
 var oauth_config = require('./config').oauth;
+var useIDM = require('./config').useIDM;
 
-var oauth_client = new OAuth2(oauth_config.client_id,
+if (useIDM) {
+    var oauth_client = new OAuth2(oauth_config.client_id,
                     oauth_config.client_secret,
                     oauth_config.account_server,
                     '/oauth2/authorize',
                     '/oauth2/token',
                     oauth_config.callbackURL);
+}
 
 
 process.on('uncaughtException', function (err) {
@@ -202,6 +205,12 @@ function getClientIp(req, headers) {
   return headers;
 };
 
+app.set('view engine', 'ejs');
+
+app.get('/', function(req, res) {
+  res.render('index', { useIDM: useIDM })
+});
+
 app.all('/keystone/*', function(req, resp) {
     var options = {
         host: config.keystone.host,
@@ -313,6 +322,7 @@ app.all('/user/:token', function(req, resp) {
     sendData("https", options, undefined, resp);
 });
 
+if (useIDM) {
 app.get('/idm/auth', function(req, res){
 
     var tok;
@@ -349,6 +359,7 @@ app.get('/logout', function(req, res){
     res.clearCookie('expires_in');
     res.send(200);
 });
+}
 
 function encrypt(str){
   var cipher = crypto.createCipher('aes-256-cbc',secret);

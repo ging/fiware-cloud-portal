@@ -14,8 +14,15 @@ UTILS.Auth = (function(U, undefined) {
 
     var access_token_;
 
-    function initialize(url, adminUrl) {
+    var is_idm_ = false;
+
+    function initialize(url, adminUrl, isIDM) {
         JSTACK.Keystone.init(url, adminUrl);
+        is_idm_ = isIDM || false;
+    }
+
+    function isIDM() {
+        return is_idm_;
     }
 
     function goAuth() {
@@ -34,11 +41,10 @@ UTILS.Auth = (function(U, undefined) {
     }
 
     function getTenants(callback, access_token) {
-        if (access_token) {
+        if (U.Auth.isIDM() && access_token) {
             JSTACK.Keystone.params.token = access_token;
         }
         return JSTACK.Keystone.gettenants(callback, false);
-        //return IDM.Auth.getTenants(access_token_, callback);
     }
 
     var getCurrentTenant = function() {
@@ -51,6 +57,7 @@ UTILS.Auth = (function(U, undefined) {
 
     var isAdmin = function() {
         var roles = JSTACK.Keystone.params.access.user.roles;
+        console.log("Roels: ", roles);
         for (var index in roles) {
             var rol = roles[index];
             if (rol.name === "admin")
@@ -60,8 +67,110 @@ UTILS.Auth = (function(U, undefined) {
     };
 
     var switchTenant = function(tenant, access_token, callback, error) {
-        authenticate(tenant, access_token, callback, error);
+        if (U.Auth.isIDM()) {
+            authenticate(tenant, access_token, callback, error);
+        } else {
+            authenticateWithCredentials(undefined, undefined, tenant, JSTACK.Keystone.params.token, callback, error);
+        }
     };
+
+    function authenticateWithCredentials(username, password, tenant, token, callback, error) {
+
+        var _authenticatedWithTenant = function (resp) {
+            console.log(resp);
+            console.log("Authenticated for tenant ", tenant);
+            /*
+            var compute = JSTACK.Keystone.getservice("compute");
+
+            compute.endpoints = sm.endpoints;
+            */
+
+            var host = "localhost:8080";
+            host = document.URL.match(/http.?:\/\/([^\/]*)\/.*/)[1];
+
+            console.log("Changing endpoint URLS to ", host);
+
+
+
+            var compute = JSTACK.Keystone.getservice("compute");
+            compute.endpoints[0].adminURL = "/nova" + compute.endpoints[0].adminURL.split('8774')[1];
+            compute.endpoints[0].publicURL = "/nova" + compute.endpoints[0].publicURL.split('8774')[1];
+            compute.endpoints[0].internalURL = "/nova" + compute.endpoints[0].internalURL.split('8774')[1];
+        
+            var volume = JSTACK.Keystone.getservice("volume");
+            volume.endpoints[0].adminURL = "/nova-volume" + volume.endpoints[0].adminURL.split('8776')[1];
+            volume.endpoints[0].publicURL = "/nova-volume" + volume.endpoints[0].publicURL.split('8776')[1];
+            volume.endpoints[0].internalURL = "/nova-volume" + volume.endpoints[0].internalURL.split('8776')[1];
+
+            /*var sm = JSTACK.Keystone.getservice("sm");
+            sm.endpoints[0].adminURL = sm.endpoints[0].adminURL.replace(/130\.206\.80\.91:8774/, host + "/sm");
+            sm.endpoints[0].publicURL = sm.endpoints[0].publicURL.replace(/130\.206\.80\.91:8774/, host + "/sm");
+            sm.endpoints[0].internalURL = sm.endpoints[0].internalURL.replace(/130\.206\.80\.91:8774/, host + "/sm");
+            */
+            var image = JSTACK.Keystone.getservice("image");
+            image.endpoints[0].adminURL = "/glance" + image.endpoints[0].adminURL.split('9292')[1];
+            image.endpoints[0].publicURL = "/glance" + image.endpoints[0].publicURL.split('9292')[1];
+            image.endpoints[0].internalURL = "/glance" + image.endpoints[0].internalURL.split('9292')[1];
+
+            //OVF.API.configure(JSTACK.Keystone.getservice("sm").endpoints[0].publicURL, JSTACK.Keystone.params.access.token.id);
+            callback();
+        };
+
+        var _authenticatedWithToken = function (resp) {
+            callback();
+        };
+
+        var _authenticatedWithoutTenant = function(resp) {
+            var ok = function (resp) {
+                tenants = resp.tenants;
+                _tryTenant();
+            };
+
+            JSTACK.Keystone.gettenants(ok);
+        };
+
+        var _tryTenant = function(tenant) {
+            if (tenants.length > 0) {
+                tenant = tenant || tenants.pop();
+                console.log("Authenticating for tenant " + JSON.stringify(tenant.id));
+                JSTACK.Keystone.authenticate(undefined, undefined, JSTACK.Keystone.params.token, tenant.id, _authenticatedWithTenant, _error);
+            } else {
+                console.log("Error authenticating");
+                error("No tenant");
+            }
+        };
+
+
+        var getToken = function() {
+            return JSTACK.Keystone.params.token;
+        };
+
+        var onError = function(msg) {
+            error(msg);
+        };
+
+        var _error = function() {
+            _tryTenant();
+        };
+
+        var _credError = function() {
+            error("Bad credentials");
+        };
+
+        var success;
+
+        if (tenant !== undefined) {
+            success = _authenticatedWithTenant;
+            console.log("Authenticating with tenant");
+        } else if (token !== undefined) {
+            success = _authenticatedWithoutTenant;
+            console.log("Authenticating with token");
+        } else {
+            success = _authenticatedWithoutTenant;
+            console.log("Authenticating without tenant");
+        }
+        JSTACK.Keystone.authenticate(username, password, token, tenant, success, _credError);
+    }
 
     function authenticate(tenant, access_token, callback, error) {
         access_token_ = access_token;
@@ -159,13 +268,15 @@ UTILS.Auth = (function(U, undefined) {
         goAuth: goAuth,
         logout: logout,
         authenticate: authenticate,
+        authenticateWithCredentials: authenticateWithCredentials,
         getToken: getToken,
         getName: getName,
         isAuthenticated: isAuthenticated,
         getCurrentTenant: getCurrentTenant,
         getTenants: getTenants,
         switchTenant: switchTenant,
-        isAdmin: isAdmin
+        isAdmin: isAdmin,
+        isIDM: isIDM
     };
 
 })(UTILS);

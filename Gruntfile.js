@@ -60,10 +60,6 @@ module.exports = function(grunt) {
         src: ['js/routes/**/*.js'],
         dest: 'dist/routes.js'
       },
-      dist: {
-        src: ['index.temp.head.html', 'index.temp.foot.html'],
-        dest: 'dist/index.html'
-      },
       disttest: {
         src: ['index.temp.head.test.html', 'index.temp.foot.html'],
         dest: 'dist/index.test.html'
@@ -107,6 +103,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-sass');
 
   // Default task.
-  grunt.registerTask('default', ['jshint', 'concat', 'concat:dist', 'concat:disttest', 'copy', 'sass']);
+  grunt.registerTask('default', ['jshint', 'concat', 'concat:disttest', 'copy', 'sass']);
 
 };

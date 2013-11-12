@@ -40,8 +40,11 @@ var RootView = Backbone.View.extend({
 
     onCredentialsSubmit: function(e){
         e.preventDefault();
-        //this.model.setCredentials(this.$('input[name=username]').val(), this.$('input[name=password]').val());
-        UTILS.Auth.goAuth();
+        if (UTILS.Auth.isIDM()) {
+            UTILS.Auth.goAuth();
+        } else {
+            this.model.setCredentials(this.$('input[name=username]').val(), this.$('input[name=password]').val());
+        }
     },
 
     onCloseErrorMsg: function(e) {
@@ -66,15 +69,21 @@ var RootView = Backbone.View.extend({
             'click #home_loginbtn': 'onCredentialsSubmit',
             'click .close': 'onCloseErrorMsg'
         });
-        console.log(self.model.get("access_token"), self.model.get("tenant"), self.model.get("expired"));
-        if (self.model.get("access_token") !== "" && self.model.get("expired") !== true) return;
-        console.log("Conditions passed");
+        if (UTILS.Auth.isIDM()) {
+            console.log(self.model.get("access_token"), self.model.get("tenant"), self.model.get("expired"));
+            if (self.model.get("access_token") !== "" && self.model.get("expired") !== true) return;
+            console.log("Conditions passed");
 
-        UTILS.Auth.goAuth();
+            UTILS.Auth.goAuth();
+        } else {
+            console.log(self.model.get("token"), self.model.get("tenant"), self.model.get("error_msg"), self.model.get("expired"));
+            if ((self.model.get("token") !== "" && self.model.get("error_msg") == null) && self.model.get("expired") !== true) return;
+            console.log("Conditions passed");
+            if ($(self.options.root_el).css('display') !== 'None')
+                $(self.options.root_el).fadeOut();
+            $(self.options.auth_el).fadeIn();
+        }
 
-        // if ($(self.options.root_el).css('display') !== 'None')
-        //     $(self.options.root_el).fadeOut();
-        // $(self.options.auth_el).fadeIn();
         return this;
     },
 
@@ -84,7 +93,6 @@ var RootView = Backbone.View.extend({
         self.delegateEvents({});
         if ($(self.options.auth_el).css('display') !== 'None')
             $(self.options.auth_el).fadeOut();
-        //$(self.options.auth_el).fadeOut();
         $(self.options.root_el).fadeIn();
         return this;
     },

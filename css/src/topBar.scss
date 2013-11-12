@@ -373,13 +373,14 @@ ul.oil-portal li.active {
   }
 
   .logo {
-    margin-left: -4px !important;
+    position: absolute;
+    margin-left: 0px !important;
     float: left;
     top: 0px;
-    margin-top: 45px;
+    margin-top: 15px;
 
     .brand {
-        background: url(../images/logo.png);
+        background: url(../images/header/header-logo.png);
         background-position: center;
         background-repeat: no-repeat;
         background-size: 60px;
@@ -415,6 +416,8 @@ ul.oil-portal li.active {
 }
 
 #user_info {
+    position: absolute;
+    right: 0px;
     color: #888;
     margin-top: 7px;
     margin-right: 5px;

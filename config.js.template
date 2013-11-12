@@ -4,6 +4,8 @@ config.development = {};
 config.production = {};
 config.oauth = {};
 
+config.useIDM = false;
+
 config.oauth = {
 	account_server: 'https://account.lab.fi-ware.eu',
     client_id: '143',
