@@ -112,6 +112,11 @@ UTILS.Auth = (function(U, undefined) {
             image.endpoints[0].publicURL = "/glance" + image.endpoints[0].publicURL.split('9292')[1];
             image.endpoints[0].internalURL = "/glance" + image.endpoints[0].internalURL.split('9292')[1];
 
+            var neutron = JSTACK.Keystone.getservice("network");
+            neutron.endpoints[0].adminURL = "/quantum" + neutron.endpoints[0].adminURL.split('9696')[1];
+            neutron.endpoints[0].publicURL = "/quantum" + neutron.endpoints[0].publicURL.split('9696')[1];
+            neutron.endpoints[0].internalURL = "/quantum" + neutron.endpoints[0].internalURL.split('9696')[1];
+
             //OVF.API.configure(JSTACK.Keystone.getservice("sm").endpoints[0].publicURL, JSTACK.Keystone.params.access.token.id);
             callback();
         };

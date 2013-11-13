@@ -310,6 +310,17 @@ app.all('/objstor/*', function(req, resp) {
     sendData("http", options, req.body, resp);
 });
 
+app.all('/quantum/*', function(req, resp) {
+    var options = {
+        host: config.neutron.host,
+        port: 9696,
+        path: req.url.split('quantum')[1],
+        method: req.method,
+        headers: req.headers
+    };
+    sendData(http, options, req.body, resp);
+});
+
 app.all('/user/:token', function(req, resp) {
     var options = {
         host: 'account.lab.fi-ware.eu',

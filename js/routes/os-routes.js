@@ -22,6 +22,9 @@ var OSRouter = Backbone.Router.extend({
     securityGroupsModel: undefined,
     floatingIPsModel: undefined,
     floatingIPPoolsModel: undefined,
+    networks: undefined,
+    subnets: undefined,
+    ports: undefined,
 
     currentView: undefined,
 
@@ -53,6 +56,9 @@ var OSRouter = Backbone.Router.extend({
         this.securityGroupsModel = new SecurityGroups();
         this.floatingIPsModel = new FloatingIPs();
         this.floatingIPPoolsModel = new FloatingIPPools();
+        this.networks = new Networks();
+        this.subnets = new Subnets();
+        this.ports = new Ports();
 
         Backbone.wrapError = function(onError, originalModel, options) {
             return function(model, resp) {
@@ -141,6 +147,10 @@ var OSRouter = Backbone.Router.extend({
         this.route('objectstorage/containers/', 'consult_containers',  this.wrap(this.objectstorage_consult_containers, this.checkAuthAndTimers, ["containers"]));
         this.route('objectstorage/containers/:name/', 'consult_container',  this.wrap(this.objectstorage_consult_container, this.checkAuthAndTimers));
 
+        this.route('neutron/networks/', 'consult_networks',  this.wrap(this.neutron_consult_networks, this.checkAuthAndTimers));
+        this.route('neutron/networks/:id', 'consult_network_detail',  this.wrap(this.neutron_network_detail, this.checkAuthAndTimers));
+        this.route('neutron/networks/subnets/:id', 'consult_subnet_detail',  this.wrap(this.neutron_subnet_detail, this.checkAuthAndTimers));
+        this.route('neutron/networks/ports/:id', 'consult_port_detail',  this.wrap(this.neutron_port_detail, this.checkAuthAndTimers));
     },
 
     wrap: function(func, wrapper, modelArray) {
@@ -171,6 +181,9 @@ var OSRouter = Backbone.Router.extend({
             this.add_fetch("keypairsModel", seconds);
             this.add_fetch("floatingIPsModel", seconds);
             this.add_fetch("floatingIPPoolsModel", seconds);
+            this.add_fetch("networks", seconds);
+            this.add_fetch("subnets", seconds);
+            this.add_fetch("ports", seconds);
             if (this.loginModel.isAdmin()) {
                 console.log("admin");
                 this.add_fetch("projects", seconds);
@@ -379,7 +392,9 @@ var OSRouter = Backbone.Router.extend({
                             {name: 'Snapshots', iconcss: "icon_nav-snapshots", active: false, url: '#nova/snapshots/'},
                             {name: 'Storage', type: 'title'},
                             {name: 'Containers', iconcss: "icon_nav-container", active: false, url: '#objectstorage/containers/'},
-                            {name: 'Volumes', iconcss: "icon_nav-volumes", active: false, url: '#nova/volumes/'}
+                            {name: 'Volumes', iconcss: "icon_nav-volumes", active: false, url: '#nova/volumes/'},
+                            {name: 'Network', type: 'title'},
+                            {name: 'Networks', iconcss: "icon_nav-networks", active: false, url: '#neutron/networks/'}
                             ]);
         self.navs.setActive(option);
         self.tabs.setActive('Project');
@@ -457,7 +472,7 @@ var OSRouter = Backbone.Router.extend({
     nova_access_and_security: function(self) {
         self.showNovaRoot(self, 'Security');
         var view = new AccessAndSecurityView({el: '#content', model: self.keypairsModel, floatingIPsModel: self.floatingIPsModel, floatingIPPoolsModel: self.floatingIPPoolsModel, instances: self.instancesModel, quotas: self.quotas, securityGroupsModel: self.securityGroupsModel});
-         self.newContentView(self,view);
+        self.newContentView(self,view);
     },
 
     nova_keypair_download: function(self, name) {
@@ -565,6 +580,37 @@ var OSRouter = Backbone.Router.extend({
         var volume = new Volume();
         volume.set({"id": id});
         var view = new VolumeDetailView({model: volume, el: '#content'});
+        self.newContentView(self,view);
+    },
+
+    neutron_consult_networks: function(self) {
+        self.showNovaRoot(self, 'Networks');
+        tenant_id = localStorage.getItem('tenant-id');
+        var view = new NeutronNetworksView({model: self.networks, tenant_id: tenant_id, subnets: self.subnets, el: '#content'});
+        self.newContentView(self,view);
+    },
+
+    neutron_network_detail: function(self, id) {
+        self.showNovaRoot(self, 'Network Detail');
+        var network = new Network();
+        network.set({"id": id});
+        var view = new NetworkDetailView({model: network, subnets: self.subnets, ports: self.ports, el: '#content'});
+        self.newContentView(self,view);
+    },
+
+    neutron_subnet_detail: function(self, id) {
+        self.showNovaRoot(self, 'Subnet Detail');
+        var subnet = new Subnet();
+        subnet.set({"id": id});
+        var view = new SubnetDetailView({model: subnet, el: '#content'});
+        self.newContentView(self,view);
+    },
+
+    neutron_port_detail: function(self, id) {
+        self.showNovaRoot(self, 'Port Detail');
+        var port = new Port();
+        port.set({"id": id});
+        var view = new PortDetailView({model: port, el: '#content'});
         self.newContentView(self,view);
     },
 

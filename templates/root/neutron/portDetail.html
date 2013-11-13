@@ -1,0 +1,67 @@
+<script id="portDetailTemplate" type="text/html">
+<!--
+Description: Port Detail
+src: templates/root/neutron/portDetail.html
+-->
+<div id="port_overview" class="row-fluid entity_consult">
+   <div class="entity_consult">
+        <div class="entity_detail">
+            <div id="subnet_details" class="active row-fluid">
+                <div class="status span4">
+                    <%var id = model.id;
+                      var model = model.attributes.port;%>
+                    <h4>Port Overview</h4>
+                    <hr class="header_rule">
+                    <ul>
+                        <li>
+                            <strong>Name:</strong>&nbsp;<%= model.name == "" ? "None" : model.name%>
+                        </li>
+                        <li>
+                            <strong>ID:</strong>&nbsp;<%= id%>
+                        </li>
+                        <li>
+                            <strong>Network ID:</strong>&nbsp;<a id="network_id" style="cursor:pointer;"><%= model.network_id%></a>
+                        </li>
+                        <li>
+                            <strong>Project ID:</strong>&nbsp;<%= model.tenant_id == "" ? "-" : model.tenant_id%>
+                        </li>
+                         <%var f_ips = model.fixed_ips;
+                        var ip_addresses_subnet_id = [];
+                        var allocation_pools_end = [];
+                            for (index in f_ips) {
+                                var ip_subnet = "(IP Address: "+f_ips[index].ip_address+", Subnet ID: "+f_ips[index].subnet_id+")";
+                                ip_addresses_subnet_id.push(ip_subnet);
+                            }
+                        %>
+                        <li>
+                            <strong>Fixed IP:</strong>&nbsp;<%= model.ip_version%>
+                            &nbsp;<%= ip_subnet == "" ? "None" : ip_subnet%>
+                        </li>
+                        <li>
+                            <strong>Mac Address:</strong>&nbsp;<%= model.mac_address%>
+                        </li>
+                        <li>
+                            <strong>Status:</strong>&nbsp;<%= model.status%>
+                        </li>
+                        <li>
+                            <strong>Admin State:</strong>&nbsp;<%= model.admin_state_up ? "UP" : "DOWN"%>
+                        </li>
+                        <%
+                            var attached_devices = [];
+                            var attached_device = "(Device Owner: "+model.device_owner+", Device ID: "+model.device_id+")";
+                            attached_devices.push(attached_device);
+                        
+                        %>
+                        <li>
+                            <strong>Attached Device:</strong>&nbsp;
+                            </strong>&nbsp;<%= attached_devices%>
+                        </li>
+                    </ul>
+                </div>               
+            </div>
+        </div>
+    </div>
+</div>
+</script>
+
+</script>

@@ -110,7 +110,19 @@ var loadViews = function() {
                 "js/views/forms/ModifyQuotasView.js",
                 "js/views/syspanel/NewUsersView.js",
                 "js/views/syspanel/UsersForProjectView.js",
-                "js/views/SettingsView.js"
+                "js/views/SettingsView.js",
+                "js/views/neutron/NetworksView.js",
+                "js/views/forms/CreateNetworkView.js",
+                "js/views/forms/EditNetworkView.js",
+                "js/views/forms/CreateSubnetView.js",
+                "js/views/neutron/NetworkDetailView.js",
+                "js/views/neutron/NetworkOverviewView.js",
+                "js/views/neutron/NetworkSubnetsView.js",
+                "js/views/neutron/NetworkPortsView.js",
+                "js/views/neutron/SubnetDetailView.js",
+                "js/views/neutron/PortDetailView.js",
+                "js/views/forms/EditSubnetView.js",
+                "js/views/forms/EditPortView.js"
             ], function(someModule) {
                 loadRoutes();
         });
@@ -139,7 +151,10 @@ var loadModels = function() {
                 "js/models/SecurityGroupModel.js",
                 "js/models/FloatingIPModel.js",
                 "js/models/FloatingIPPoolModel.js",
-                "js/models/RoleModel.js"
+                "js/models/RoleModel.js",
+                "js/models/NetworksModel.js",
+                "js/models/SubnetsModel.js",
+                "js/models/PortsModel.js"
             ], function(someModule) {
                 loadViews();
         });
@@ -261,7 +276,19 @@ var loadTemplates = function() {
                     'templates/root/settings.html',
                     'templates/root/table.html',
                     'templates/root/table-tiers.html',
-                    'templates/messages.html'
+                    'templates/messages.html',
+                    'templates/root/neutron/networks.html',
+                    'templates/forms/createNetwork.html',
+                    'templates/forms/editNetwork.html',
+                    'templates/forms/createSubnet.html',
+                    'templates/root/neutron/networkDetail.html',
+                    'templates/root/neutron/networkOverview.html',
+                    'templates/root/neutron/networkSubnets.html',
+                    'templates/root/neutron/networkPorts.html',
+                    'templates/root/neutron/subnetDetail.html',
+                    'templates/root/neutron/portDetail.html',
+                    'templates/forms/editSubnet.html',
+                    'templates/forms/editPort.html'
                 ], function(){
                     loadLibraries();
                 });

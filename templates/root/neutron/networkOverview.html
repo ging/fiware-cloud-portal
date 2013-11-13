@@ -1,0 +1,64 @@
+<script id="networkOverviewTemplate" type="text/html">
+<!--
+Description: Network Overview
+src: templates/root/neutron/networkOverview.html
+-->
+<div id="network_overview" class="row-fluid entity_consult">
+   <div class="entity_consult">
+        <div class="entity_detail">
+            <div id="network_details__overview1" class="active row-fluid">
+                <div class="status span4">
+                    <%var id = model.id;
+                      var model = model.attributes.network;%>
+                    <h4>Overview</h4>
+                    <hr class="header_rule">
+                    <ul>
+                        <li>
+                            <strong>Name:</strong>&nbsp;<%= model.name%>
+                        </li>
+                        <li>
+                            <strong>ID:</strong>&nbsp;<%= id%>
+                        </li>
+                        <li>
+                            <strong>Project ID:</strong>&nbsp;<%= model.tenant_id%>
+                        </li>
+                    </ul>
+                </div>
+                <div class="status span4">
+                 <h4>Status</h4>
+                    <hr class="header_rule">
+                    <ul>
+                        <li>
+                            <strong>Status:</strong>&nbsp;<%=model.status%>
+                        </li>
+                        <li>
+                            <strong>Admin State:</strong>&nbsp;<%= model.admin_state_up ? "UP" : "DOWN"%>
+                        </li>
+                        <li>
+                            <strong>Shared:</strong>&nbsp;<%= model.shared ? "Yes" : "No"%>
+                        </li>
+                        <li>
+                            <strong>External Network:</strong>&nbsp;<%=model['router:external'] ? "Yes" : "No"%>
+                        </li>
+                    </ul>
+                </div>
+                <div class="specs span4">
+                    <h4>Provider Network</h4>
+                    <hr class="header_rule">
+                    <ul>
+                        <li>
+                            <strong>Network Type:</strong>&nbsp;<%= model['provider:network_type'] == undefined ? "-" : model['provider:network_type']%>
+                        </li>
+                        <li>
+                            <strong>Physical Network:</strong>&nbsp;<%= model['provider:physical_network'] == undefined ? "-" : model['provider:physical_network']%>
+                        </li>
+                        <li>
+                            <strong>Segmentation ID:</strong>&nbsp;<%= model['provider:segmentation_id']%>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</script>

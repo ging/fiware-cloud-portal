@@ -1,0 +1,56 @@
+<script id="editPortFormTemplate" type="text/html">
+<div id="edit_port" class="modal hide in" style="display: block; ">
+    <!--
+    Description: Edit Port Form
+    src: templates/forms/editPort.html
+    -->
+    <div class="modal-header">
+        <a href="#" class="close" data-dismiss="modal">×</a>
+        <h3>Edit Port</h3>
+    </div>
+
+    <form class="" action="#" method="#">
+        <div class="modal-body clearfix">
+            <div class="left">
+                <fieldset>
+
+                    <div class="control-group form-field clearfix">
+                        <label for="port_id">ID</label>
+                        <p><%= model.id%></p>
+                    </div>
+
+                    <div class="control-group form-field clearfix">
+                        <label for="name">Name</label>
+
+                        <span class="help-block" style="display: none; "></span>
+                        <div class="input">
+                            <input id="name" type="text" name="name" maxlength="255" value="">
+                        </div>
+                    </div>                    
+
+                    <div class="control-group form-field clearfix">
+					    <label for="admin_state">Admin State</label>
+
+					    <span class="help-block" style="display: none;"></span>
+					    <div class="input">
+					      <input type="checkbox" checked="checked" name="admin_state" id="admin_state"  <% if (model.admin_state_up) {%>checked<%}%>">
+					    </div>
+					</div>
+
+                </fieldset>
+            </div>
+            <div class="right">
+            	<h3>Description</h3>
+                <p>
+		           You may update the editable properties of your port here.
+		        </p>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button id="updateBtn" class="btn btn-blue update-port pull-right" data-dismiss="modal">Save Changes</button>
+            <a id="cancelBtn" class="close btn seconday cancel close" data-dismiss="modal">Cancel</a>
+        </div>
+    </form>
+</div>
+</script>
