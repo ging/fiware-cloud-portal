@@ -15,7 +15,10 @@ var CreateTierView = Backbone.View.extend({
         'change .tier-values': 'onInput',
         'click #cancel-attrs': 'cancelAttrs',
         'click #accept-attrs': 'acceptAttrs',
-        'click #btn-apply-icon': 'applyIcon'
+        'click #btn-apply-icon': 'applyIcon',
+        'click #btn-show-networks': 'showNetworks',
+        'click #btn-hide-networks': 'hideNetworks'
+        
     },
 
     initialize: function() {
@@ -231,6 +234,46 @@ var CreateTierView = Backbone.View.extend({
     uninstallSoftware: function(id) {
         this.addedProducts.splice(id, 1);
         this.tableView.render();
+    },
+
+    showNetworks: function() {
+        $('#scroll-based-layer-networks').animate({
+            scrollLeft: $('#scroll-based-layer-networks').width()+1
+        }, 500, function() {
+            // Animation complete.
+        });
+        $('#btn-show-networks').animate({
+            opacity: 0
+        }, 500, function() {
+            // Animation complete.
+            $('#btn-show-networks').hide();
+        });
+        $('#btn-hide-networks').animate({
+            opacity: 1
+        }, 500, function() {
+            // Animation complete.
+            $('#btn-hide-networks').show();
+        });
+    },
+
+    hideNetworks: function() {
+        $('#scroll-based-layer-networks').animate({
+            scrollLeft: 0
+        }, 500, function() {
+            // Animation complete.
+        });
+        $('#btn-show-networks').animate({
+            opacity: 1
+        }, 500, function() {
+            // Animation complete.
+            $('#btn-show-networks').show();
+        });
+        $('#btn-hide-networks').animate({
+            opacity: 0
+        }, 500, function() {
+            // Animation complete.
+            $('#btn-hide-networks').hide();
+        });
     },
 
     onAction: function(action, ids) {

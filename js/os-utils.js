@@ -78,7 +78,7 @@ UTILS.Auth = (function(U, undefined) {
 
         var _authenticatedWithTenant = function (resp) {
             console.log(resp);
-            console.log("Authenticated for tenant ", tenant);
+            console.log("Authenticated in tenant ", tenant);
             /*
             var compute = JSTACK.Keystone.getservice("compute");
 
@@ -89,8 +89,6 @@ UTILS.Auth = (function(U, undefined) {
             host = document.URL.match(/http.?:\/\/([^\/]*)\/.*/)[1];
 
             console.log("Changing endpoint URLS to ", host);
-
-
 
             var compute = JSTACK.Keystone.getservice("compute");
             compute.endpoints[0].adminURL = "/nova" + compute.endpoints[0].adminURL.split('8774')[1];
@@ -113,9 +111,11 @@ UTILS.Auth = (function(U, undefined) {
             image.endpoints[0].internalURL = "/glance" + image.endpoints[0].internalURL.split('9292')[1];
 
             var neutron = JSTACK.Keystone.getservice("network");
-            neutron.endpoints[0].adminURL = "/quantum" + neutron.endpoints[0].adminURL.split('9696')[1];
-            neutron.endpoints[0].publicURL = "/quantum" + neutron.endpoints[0].publicURL.split('9696')[1];
-            neutron.endpoints[0].internalURL = "/quantum" + neutron.endpoints[0].internalURL.split('9696')[1];
+            if (neutron !== undefined) {
+                neutron.endpoints[0].adminURL = "/quantum" + neutron.endpoints[0].adminURL.split('9696')[1];
+                neutron.endpoints[0].publicURL = "/quantum" + neutron.endpoints[0].publicURL.split('9696')[1];
+                neutron.endpoints[0].internalURL = "/quantum" + neutron.endpoints[0].internalURL.split('9696')[1];
+            }
 
             //OVF.API.configure(JSTACK.Keystone.getservice("sm").endpoints[0].publicURL, JSTACK.Keystone.params.access.token.id);
             callback();
@@ -127,6 +127,7 @@ UTILS.Auth = (function(U, undefined) {
 
         var _authenticatedWithoutTenant = function(resp) {
             var ok = function (resp) {
+                console.log("Tenants received", resp);
                 tenants = resp.tenants;
                 _tryTenant();
             };
@@ -135,6 +136,7 @@ UTILS.Auth = (function(U, undefined) {
         };
 
         var _tryTenant = function(tenant) {
+            console.log("Trying tenant ", tenant);
             if (tenants.length > 0) {
                 tenant = tenant || tenants.pop();
                 console.log("Authenticating for tenant " + JSON.stringify(tenant.id));

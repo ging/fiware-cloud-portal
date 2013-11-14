@@ -90,7 +90,7 @@ var LoginStatus = Backbone.Model.extend({
                 self.set({'tenant': self.attributes.tenant});
                 //console.log("New tenant: " + self.get("name"));
                 UTILS.Auth.getTenants(function(tenants) {
-                    self.set({tenants: tenants});
+                    self.set({tenants: tenants.tenants});
                     self.set({'loggedIn': true});
                 });
 

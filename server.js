@@ -291,7 +291,7 @@ app.all('/sdc/rest/*', function(req, resp) {
 app.all('/paasmanager/rest/*', function(req, resp) {
     var options = {
         host: config.paas.host,
-        port: 8080,
+        port: 8082,
         path: req.url,
         method: req.method,
         headers: req.headers
@@ -318,7 +318,7 @@ app.all('/quantum/*', function(req, resp) {
         method: req.method,
         headers: req.headers
     };
-    sendData(http, options, req.body, resp);
+    sendData("http", options, req.body, resp);
 });
 
 app.all('/user/:token', function(req, resp) {
