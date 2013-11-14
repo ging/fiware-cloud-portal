@@ -135,7 +135,6 @@ var NeutronNetworksView = Backbone.View.extend({
             net = this.model.get(network);
             this.options.network_id = network;
         }
-        console.log(this.options.network_id );
         switch (action) {
             case 'create':
                 subview = new CreateNetworkView({

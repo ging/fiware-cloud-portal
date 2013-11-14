@@ -96,14 +96,13 @@ var CreateNetworkView = Backbone.View.extend({
 
         network.set({'name': name});
         network.set({'admin_state_up': admin_state});
-       
+
 
         if (create_subnet) {
             subnet.set({'name': subnet_name});
             subnet.set({'name': subnet_name});
             subnet.set({'cidr': cidr});
             subnet.set({'ip_version': ip_version});
-            //subnet.set({'gateway_ip': gateway_ip});
             subnet.set({'tenant_id': tenant_id});
             subnet.set({'enable_dhcp': enable_dhcp});
             subnet.set({'allocation_pools': allocation_pools});
