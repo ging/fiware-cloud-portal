@@ -9,7 +9,7 @@ var NetworkDetailView = Backbone.View.extend({
     initialize: function() {
         this.render();
         this.networkOverviewView = new NetworkOverviewView({model: this.model, el: '#network_overview'});
-        this.subnetsView = new NetworkSubnetsView({model: this.model, subnets: this.options.subnets, el: '#subnets'});
+        this.subnetsView = new NetworkSubnetsView({model: this.model, subnets: this.options.subnets, tenant_id: this.options.tenant_id, el: '#subnets'});
         this.portsView = new NetworkPortsView({model: this.model, ports: this.options.ports, el: '#ports'});
     },
 

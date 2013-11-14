@@ -6,52 +6,105 @@
     -->
     <div class="modal-header">
         <a href="#" class="close" data-dismiss="modal">×</a>
-        <h3>Edit Subnet</h3>
+        <h3>Update Subnet</h3>
     </div>
 
-    <form class="" action="#" method="#">
-        <div class="modal-body clearfix">
+    <form id="form" class="" action="" method="">
 
-            <div class="left">
-                <fieldset>
+        <ul id="myTab" class="nav nav-tabs">
+          <li class="active">
+            <a id="subnet" href="#input_subnet" data-toggle="tab">Subnet</a>
+          </li>
+          <li class="">
+            <a id="details" href="#input_subnet_detail" data-toggle="tab">Subnet Detail</a>
+          </li>  
+        </ul>       
+            
 
-                    <div class="control-group form-field clearfix">
-                        <label for="name">Name</label>
-
-                        <span class="help-block" style="display: none; "></span>
-                        <div class="input">
-                            <input id="name" type="text" name="name" maxlength="255" value="">
-                        </div>
+            <div id="input_subnet" class="tab-pane tab-adjustable active">
+                <div class="modal-body clearfix">
+                    <div class="left">
+                        <fieldset>                  
+                            <div class="control-group form-field clearfix">
+                                <label for="subnet-name">Subnet Name</label>
+                                <span class="help-block"></span>
+                                <div class="input">
+                                    <input type="text" name="subnet_name" id="subnet_name" value="<%= model.name%>"/>
+                                </div>
+                            </div>
+                            <div class="control-group form-field clearfix">
+                                <label for="network-address">Network Address</label>
+                                <span class="help-block"></span>
+                                <p><%= model.cidr%></p>
+                            </div>
+                            <div class="control-group form-field clearfix">
+                                <label for="gateway-ip">Gateway IP (optional)</label>
+                                <span class="help-block"></span>
+                                <div class="input">
+                                    <input type="text" name="gateway_ip" id="gateway_ip" />
+                                </div>
+                            </div>
+                            <div class="control-group form-field clearfix">
+                                <label for="disable-gateway">Disable Gateway</label>
+                                <span class="help-block"></span>
+                                <div class="input">
+                                    <input type="checkbox" name="disable_gateway" id="disable_gateway" />
+                                </div>
+                            </div>
+                        </fieldset>
                     </div>
-
-                    <div class="control-group form-field clearfix">
-                        <label for="network_id">ID</label>
-                        <p></p>
+                    <div class="right">
+                        <h3>Description</h3>
+                        <p>
+                            You can update a subnet associated with the network. Advanced configuration are available at "Subnet Detail" tab.
+                        </p>
                     </div>
-
-                    <div class="control-group form-field clearfix">
-					    <label for="admin_state">Admin State</label>
-
-					    <span class="help-block" style="display: none;"></span>
-					    <div class="input">
-					      <input type="checkbox" name="admin_state" id="admin_state">
-					    </div>
-					</div>
-
-                </fieldset>
-            </div>
-            <div class="right">
-            	<h3>Description</h3>
-                <p>
-		          You can update a subnet associated with the network. Advanced configuration are available at "Subnet Detail" tab.
-		        </p>
+                </div>
             </div>
 
-        </div>
+
+            <div id="input_subnet_detail" class="tab-pane tab-adjustable fade" style="display: none">
+                <div class="modal-body clearfix">
+                    <div class="left">
+                        <fieldset>                  
+                            <div class="control-group form-field clearfix">
+                                <label for="enable-dhcp">Enable DHCP</label>
+                                <span class="help-block"></span>
+                                <div class="input">
+                                    <input required type="checkbox" name="enable_dhcp" value="" id="enable_dhcp" />
+                                </div>
+                            </div>
+                            <div class="control-group form-field clearfix">
+                                <label for="dns-name-servers">DNS Name Servers</label>
+                                <span class="help-block"></span>
+                                <div class="input">
+                                    <textarea id="dns_name_servers" rows="3" cols="15" name="dns_name_servers"></textarea>
+                                </div>
+                            </div>
+                            <div class="control-group form-field clearfix">
+                                <label for="host-routers">Host Routes</label>
+                                <span class="help-block"></span>
+                                <div class="input">
+                                    <textarea id="host_routers" rows="3" cols="15" name="host_routers"></textarea>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="right">
+                        <h3>Description</h3>
+                        <p>
+                            You can specify additional attributes for the subnet.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        
         <div class="modal-footer">
-            <button id="updateBtn" class="btn btn-blue update-subnet pull-right" data-dismiss="modal">Save Changes</button>
-            <a id="cancelBtn" class="close btn seconday cancel close" data-dismiss="modal">Cancel</a>
+            <p class="mandatoryMess">* Mandatory fields.</p>
+            <input id="update_subnet_button"  class="btn btn-blue btn-update-subnet pull-right" value="Update"/>
+            <a id="cancelBtn-subnet" class="btn secondary cancel close">Cancel</a>
         </div>
     </form>
-</div>
+
 </script>

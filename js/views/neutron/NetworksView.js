@@ -107,9 +107,9 @@ var NeutronNetworksView = Backbone.View.extend({
                     }                    
                 }            
                 var entry = {
-                        id: network.get("id"),
+                        id: network.id,
                         cells: [{
-                            value: network.attributes.name == "" ? "("+network.get("id").slice(0,8)+")" : network.attributes.name,
+                            value: network.attributes.name === "" ? "("+network.get("id").slice(0,8)+")" : network.attributes.name,
                             link: "#neutron/networks/" + network.id
                         }, {
                             value: subnets
@@ -133,21 +133,27 @@ var NeutronNetworksView = Backbone.View.extend({
         if (networkIDs.length === 1) {
             network = networkIDs[0];
             net = this.model.get(network);
+            this.options.network_id = network;
         }
+        console.log(this.options.network_id );
         switch (action) {
             case 'create':
-                // subview = new CreateNetworkView({
-                //     el: 'body',
-                //     model: this.model
-                // });
-                // subview.render();
+                subview = new CreateNetworkView({
+                    el: 'body',
+                    model: this.model,
+                    subnets: this.options.subnets,
+                    tenant_id: this.options.tenant_id
+                });
+                subview.render();
                 break;
             case 'add_subnet':
-                // subview = new CreateSubnetView({
-                //     el: 'body',
-                //     model: this.model
-                // });
-                // subview.render();
+                subview = new CreateSubnetView({
+                    el: 'body',
+                    model: this.model,
+                    tenant_id: this.options.tenant_id, 
+                    network_id: this.options.network_id
+                });
+                subview.render();
                 break;
             case 'update':
                 subview = new EditNetworkView({
@@ -162,25 +168,17 @@ var NeutronNetworksView = Backbone.View.extend({
                     title: "Confirm Delete Network",
                     btn_message: "Delete Network",
                     onAccept: function() {
-                        networkIds.forEach(function(network) {
+                        networkIDs.forEach(function(network) {
                             net = self.model.get(network);
-                            if (net.get("count") > 0) {
-                                console.log(cont);
-                                var subview2 = new MessagesView({
-                                    state: "Error",
-                                    title: "Unable to delete network " + net.get("id")
-                                });
-                                subview2.render();
-                                return;
-                            } else {
-                                net.destroy();
-
-                                var subview3 = new MessagesView({
-                                    state: "Success",
-                                    title: "Network " + net.get("id") + " deleted."
-                                });
-                                subview3.render();
-                            }
+                            net.destroy(undefined, {success: function(model, response) {
+                            UTILS.Messages.getCallbacks(undefined, "Network "+net.get("name") + " deleted.", "Error deleting network "+net.get("name"), {context: self});   
+                            //model.bind("sync", this.render, this);
+                            model.fetch({success: function() {
+                                model.renderFirst();
+                            }});
+                            }, error: function(response) {
+                                console("error", response);
+                            }});                         
                         });
                     }
                 });

@@ -5,7 +5,7 @@ var Network = Backbone.Model.extend({
                    JSTACK.Neutron.getnetworkdetail(model.get("id"), options.success, options.error);
                    break;
               case "create":
-                   JSTACK.Neutron.createnetwork(model.get("name"),options.success, options.error);
+                   JSTACK.Neutron.createnetwork(model.get("name"), model.get("admin_state_up"), model.get("shared"), model.get("tenant_id"), options.success, options.error);
                    break;
               case "delete":
                    JSTACK.Neutron.deletenetwork(model.get("id"), options.success, options.error);

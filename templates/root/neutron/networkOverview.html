@@ -14,7 +14,7 @@ src: templates/root/neutron/networkOverview.html
                     <hr class="header_rule">
                     <ul>
                         <li>
-                            <strong>Name:</strong>&nbsp;<%= model.name%>
+                            <strong>Name:</strong>&nbsp;<%= model.name ? model.name : "("+id+")" %>
                         </li>
                         <li>
                             <strong>ID:</strong>&nbsp;<%= id%>

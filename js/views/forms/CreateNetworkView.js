@@ -4,20 +4,22 @@ var CreateNetworkView = Backbone.View.extend({
 
     events: {
       'click #cancelBtn-network': 'close',
+      'click #network' : 'networkTab',
+      'click #subnet' : 'subnetTab',
+      'click #details' : 'subnetDetailTab',
       'click .close': 'close',
       'click .modal-backdrop': 'close',
-      'submit #form': 'create'
+      'click #create_network_button': 'create'
     },
 
     initialize: function() {
     },
 
     render: function () {
-        var flavors = this.options.flavors;
         if ($('#create_network').html() != null) {
             return;
         }
-        $(this.el).append(this._template({model:this.model, flavors: flavors, keypairs: this.options.keypairs, secGroups: this.options.secGroups}));
+        $(this.el).append(this._template({model:this.model, subnets: this.options.subnets, tenant_id: this.options.tenant_id}));
         $('#create_network').modal();
         return this;
     },
@@ -37,34 +39,109 @@ var CreateNetworkView = Backbone.View.extend({
         this.model.unbind("sync", this.render, this);
     },
 
+    networkTab: function(e) {
+        if ($('#input_subnet').show()) {
+            $('#input_subnet').hide();
+        } 
+        if ($('#input_network').hide()) {
+            $('#input_network').show();
+        }  
+        if ($('#input_subnet_detail').show()) {
+            $('#input_subnet_detail').hide();
+        }  
+    },
+
+    subnetTab: function(e) {
+        if ($('#input_subnet').hide()) {
+            $('#input_subnet').show();
+        } 
+        if ($('#input_network').show()) {
+            $('#input_network').hide();
+        }  
+        if ($('#input_subnet_detail').show()) {
+            $('#input_subnet_detail').hide();
+        }       
+    },
+
+    subnetDetailTab: function(e) {
+        if ($('#input_subnet').show()) {
+            $('#input_subnet').hide();
+        } 
+        if ($('#input_network').show()) {
+            $('#input_network').hide();
+        }  
+        if ($('#input_subnet_detail').hide()) {
+            $('#input_subnet_detail').show();
+        }  
+    },
+
     create: function(e) {
         var self = this;
-
         var network = new Network();
         var name = $('input[name=network]').val();
-        var imageReg = this.model.id;
-        var flavorReg, key_name, availability_zone;
-        var security_groups = [];
+        var admin_state = this.$('input[name=admin_state]').is(':checked');
+        var subnet = new Subnet();
+        var create_subnet = this.$('input[name=create_subnet]').is(':checked');
+        var tenant_id = this.options.tenant_id;
+        var subnet_name = $('input[name=subnet_name]').val();
+        var cidr = $('input[name=network_address]').val();
+        var ip_version = $('input[name=ip_version]').val();
+        var gateway_ip = $('input[name=gateway_ip]').val();
+        var disable_gateway = this.$('input[name=disable_gateway]').is(':checked');
 
-        if ($("#id_keypair option:selected")[0].value !== '') {
-            key_name = $("#id_keypair option:selected")[0].value;
-        }
+        var enable_dhcp = this.$('input[name=enable_dhcp]').is(':checked');
+        var allocation_pools = $('input[name=allocation_pools]').val();
+        var dns_name_servers = $('input[name=dns_name_servers]').val();
+        var host_routers = $('input[name=host_routers]').val();
 
-        flavorReg = $("#id_flavor option:selected")[0].value;
+        network.set({'name': name});
+        network.set({'admin_state_up': admin_state});
+       
 
-        $('input[name=security_groups]:checked').each(function () {
-            security_groups.push($(this)[0].value);
-        });
+        if (create_subnet) {
+            subnet.set({'name': subnet_name});
+            subnet.set({'name': subnet_name});
+            subnet.set({'cidr': cidr});
+            subnet.set({'ip_version': ip_version});
+            //subnet.set({'gateway_ip': gateway_ip});
+            subnet.set({'tenant_id': tenant_id});
+            subnet.set({'enable_dhcp': enable_dhcp});
+            subnet.set({'allocation_pools': allocation_pools});
+            subnet.set({'dns_nameservers': dns_name_servers});
+            subnet.set({'host_routers': host_routers});            
 
-        var user_data = $('textarea[name=user_data]').val();
-        var min_count = $('input[name=count]').val();
-        var max_count = $('input[name=count]').val();
+            if (cidr !== "") {
 
-        network.set({"name": name});
+                if (disable_gateway === false && gateway_ip !== "") {
+                    subnet.set({'gateway_ip': gateway_ip});
+                    network.save(undefined, {success: function(model, response) {     
+                    var network_id = model.attributes.network.id; 
+                    subnet.set({'network_id': network_id});              
+                    subnet.save(undefined, UTILS.Messages.getCallbacks("Network "+network.get("name") + " created.", "Error creating network "+network.get("name")), {context: self});   
+                    //model.bind("sync", this.render, this);
+                    }, error: function(response) {
+                        console("error", response);
+                    }});  
+                    this.close();  
+                } else if (disable_gateway === true) {
+                    network.save(undefined, {success: function(model, response) {     
+                    var network_id = model.attributes.network.id; 
+                    subnet.set({'network_id': network_id});              
+                    subnet.save(undefined, UTILS.Messages.getCallbacks("Network "+network.get("name") + " created.", "Error creating network "+network.get("name")), {context: self});   
+                    //model.bind("sync", this.render, this);
+                    }, error: function(response) {
+                        console("error", response);
+                    }});  
+                    this.close();  
+                }
+            }            
 
+        } else {
+            network.save(undefined, UTILS.Messages.getCallbacks("Network "+network.get("name") + " created.", "Error creating network "+network.get("name")), {context: this}); 
+            //this.model.bind("sync", this.render, this);
+            this.close();
+        }             
 
-        instance.save(undefined, UTILS.Messages.getCallbacks("Network "+network.get("name") + " created.", "Error creating network "+network.get("name"),
-            {context:self, href:"#neutron/networks/"}));
-
+        
     }
 });

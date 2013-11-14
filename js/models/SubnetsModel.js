@@ -5,13 +5,16 @@ var Subnet = Backbone.Model.extend({
                    JSTACK.Neutron.getsubnetdetail(model.get("id"), options.success, options.error);
                    break;
               case "create":
-                   JSTACK.Neutron.createsubnet(model.get("name"), options.success, options.error);
+                   JSTACK.Neutron.createsubnet(model.get("network_id"), model.get("cidr"), model.get("name"), model.get("allocation_pools"), 
+                   model.get("tenant_id"), model.get("gateway_ip"), model.get("ip_verion"), model.get("enable_dhcp"), model.get("dns_nameservers"),
+                   model.get("hotes_routes"), options.success, options.error);
                    break;
               case "delete":
                    JSTACK.Neutron.deletesubnet(model.get("id"), options.success, options.error);
                    break;
               case "update":
-                    JSTACK.Neutron.updatesubnet(model.get("id"), model.get("name"), model.get("admin_state_up"), options.success, options.error);
+                    JSTACK.Neutron.updatesubnet(model.get("id"), model.get("name"), model.get("gateway_ip"), model.get("enable_dhcp"), model.get("dns_nameservers"), 
+                    model.get("host_routes"), options.success, options.error);
                     break;
            }
    },

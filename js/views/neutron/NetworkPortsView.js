@@ -96,7 +96,7 @@ var NetworkPortsView = Backbone.View.extend({
                         }, {
                             value: fixed_ips
                         }, {  
-                            value: port.attributes.device_owner == "" ? "Detached" : port.attributes.device_owner
+                            value: port.attributes.device_owner === "" ? "Detached" : port.attributes.device_owner
                         },  {  
                             value: port.attributes.status
                         },  {  
@@ -115,7 +115,6 @@ var NetworkPortsView = Backbone.View.extend({
         if (portIDs.length === 1) {
             po = portIDs[0];
             port = this.options.ports.get(po);
-            console.log(port);
         }
         switch (action) {
             case 'update':
@@ -124,6 +123,8 @@ var NetworkPortsView = Backbone.View.extend({
                     model: port
                 });
                 subview.render();
+                break;
+            case 'other':
                 break;
         }
     },

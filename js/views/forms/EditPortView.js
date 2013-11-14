@@ -21,7 +21,6 @@ var EditPortView = Backbone.View.extend({
     },
 
     render: function () {
-        console.log(this.model.attributes);
         if ($('#edit_port').html() != null) {
             $('#edit_port').remove();
             $('.modal-backdrop').remove();
@@ -36,7 +35,13 @@ var EditPortView = Backbone.View.extend({
         var admin_state = this.$('input[name=admin_state]').is(':checked');
         this.model.set({'name': name});
         this.model.set({'admin_state_up': admin_state});
-        this.model.save(undefined, UTILS.Messages.getCallbacks("Port "+ name + " was successfully updated.", "Error updating port "+ name, {context: this}));
+        this.model.save(undefined, {success: function(model, response) {
+        UTILS.Messages.getCallbacks("Port "+ name + " was successfully updated.", "Error updating port "+ name, {context: this});
+        this.model.bind("sync", this.render, this);
+        }, error: function(response) {
+            console.log("error", response);
+        }});  
+        this.close();  
     }
 
 });

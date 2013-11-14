@@ -572,7 +572,7 @@ var OSRouter = Backbone.Router.extend({
 
     neutron_consult_networks: function(self) {
         self.showNovaRoot(self, 'Networks');
-        tenant_id = localStorage.getItem('tenant-id');
+        var tenant_id = localStorage.getItem('tenant-id');
         var view = new NeutronNetworksView({model: self.networks, tenant_id: tenant_id, subnets: self.subnets, el: '#content'});
         self.newContentView(self,view);
     },
@@ -580,8 +580,9 @@ var OSRouter = Backbone.Router.extend({
     neutron_network_detail: function(self, id) {
         self.showNovaRoot(self, 'Network Detail');
         var network = new Network();
+        var tenant_id = localStorage.getItem('tenant-id');
         network.set({"id": id});
-        var view = new NetworkDetailView({model: network, subnets: self.subnets, ports: self.ports, el: '#content'});
+        var view = new NetworkDetailView({model: network, subnets: self.subnets, ports: self.ports, tenant_id: tenant_id, el: '#content'});
         self.newContentView(self,view);
     },
 
