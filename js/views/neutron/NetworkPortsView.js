@@ -80,27 +80,27 @@ var NetworkPortsView = Backbone.View.extend({
         for (var index in ports) {
             var fixed_ips = [];
             var port = ports[index];
-            var net_id = port.attributes.network_id;
+            var net_id = port.get('network_id');
             var port_id = port.get("id");
             var port_name = port_id.slice(0,8);
             if (net_id === network_id) {
-                f_ips = port.attributes.fixed_ips;
+                f_ips = port.get('ixed_ips');
                 for (var i in f_ips) {
                     fixed_ips.push(f_ips[i].ip_address);
                 } 
                 var entry = {
-                        id: port.attributes.id,
+                        id: port.get('id'),
                         cells: [{
-                            value: port.attributes.name === "" ? "("+port_name+")" : port.attributes.name,
-                            link: "#neutron/networks/ports/" + port.attributes.id
+                            value: port.get('name') === "" ? "("+port_name+")" : port.get('name'),
+                            link: "#neutron/networks/ports/" + port.get('id')
                         }, {
                             value: fixed_ips
                         }, {  
-                            value: port.attributes.device_owner === "" ? "Detached" : port.attributes.device_owner
+                            value: port.get('device_owner') === "" ? "Detached" : port.get('device_owner')
                         },  {  
-                            value: port.attributes.status
+                            value: port.get('status')
                         },  {  
-                            value: port.attributes.admin_state_up ? "UP" : "DOWN"
+                            value: port.get('admin_state_up') ? "UP" : "DOWN"
                         }]
                     };
                 entries.push(entry); 

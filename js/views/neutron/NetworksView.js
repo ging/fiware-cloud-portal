@@ -13,7 +13,6 @@ var NeutronNetworksView = Backbone.View.extend({
     },
 
     getMainButtons: function() {
-        // main_buttons: [{label:label, url: #url, action: action_name}]
         return [{
             label: "Create Network",
             action: "create"
@@ -21,7 +20,6 @@ var NeutronNetworksView = Backbone.View.extend({
     },
 
     getDropdownButtons: function() {
-        // dropdown_buttons: [{label:label, action: action_name}]
         var self = this;
         var oneSelected = function(size, id) {
             if (size === 1) {
@@ -50,7 +48,6 @@ var NeutronNetworksView = Backbone.View.extend({
     },
 
     getHeaders: function() {
-        // headers: [{name:name, tooltip: "tooltip", size:"15%", hidden_phone: true, hidden_tablet:false}]
         return [{
             type: "checkbox",
             size: "5%"
@@ -94,31 +91,31 @@ var NeutronNetworksView = Backbone.View.extend({
         for (var index in this.model.models) {
             var subnets = [];
             var network = this.model.models[index];
-            var tenant_id = network.attributes.tenant_id;
-            var subnet_ids = network.attributes.subnets;
+            var tenant_id = network.get('tenant_id');
+            var subnet_ids = network.get('subnets');
             if (current_tenant_id == tenant_id) {
                 for (var i in subnet_ids) {
                     sub_id = subnet_ids[i];
                     for (var j in all_subnets) {
-                        if (sub_id == all_subnets[j].id) {
-                            var sub_cidr = all_subnets[j].attributes.name+" "+all_subnets[j].attributes.cidr;
+                        if (sub_id == all_subnets[j].get('id')) {
+                            var sub_cidr = all_subnets[j].get('name')+" "+all_subnets[j].get('cidr');
                             subnets.push(sub_cidr);
                         }                                      
                     }                    
                 }            
                 var entry = {
-                        id: network.id,
+                        id: network.get('id'),
                         cells: [{
-                            value: network.attributes.name === "" ? "("+network.get("id").slice(0,8)+")" : network.attributes.name,
-                            link: "#neutron/networks/" + network.id
+                            value: network.get('name') === "" ? "("+network.get("id").slice(0,8)+")" : network.get('name'),
+                            link: "#neutron/networks/" + network.get('id')
                         }, {
                             value: subnets
                         }, {
-                            value: network.attributes.shared ? "Yes" : "No"
+                            value: network.get('shared') ? "Yes" : "No"
                         }, {  
-                            value: network.attributes.status
+                            value: network.get('status')
                         },  {  
-                            value: network.attributes.admin_state_up ? "UP" : "DOWN"
+                            value: network.get('admin_state_up') ? "UP" : "DOWN"
                         }]
                     };
                 entries.push(entry);
@@ -169,15 +166,7 @@ var NeutronNetworksView = Backbone.View.extend({
                     onAccept: function() {
                         networkIDs.forEach(function(network) {
                             net = self.model.get(network);
-                            net.destroy(undefined, {success: function(model, response) {
-                            UTILS.Messages.getCallbacks(undefined, "Network "+net.get("name") + " deleted.", "Error deleting network "+net.get("name"), {context: self});   
-                            //model.bind("sync", this.render, this);
-                            model.fetch({success: function() {
-                                model.renderFirst();
-                            }});
-                            }, error: function(response) {
-                                console("error", response);
-                            }});                         
+                            net.destroy(UTILS.Messages.getCallbacks("Network "+net.get("name") + " deleted.", "Error deleting network "+net.get("name"), {context: self}));                       
                         });
                     }
                 });

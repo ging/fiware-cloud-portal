@@ -83,18 +83,18 @@ var NetworkSubnetsView = Backbone.View.extend({
             var subnet = subnets[index];
             var subnet_id = subnet.get("id");
             var subnet_name = subnet_id.slice(0,8);
-            if (network_id == subnet.attributes.network_id){
+            if (network_id == subnet.get('network_id')){
             var entry = {
                     id: subnet.get("id"),
                     cells: [{
-                        value: subnet.attributes.name === "" ? "("+subnet_name+")" : subnet.attributes.name,
+                        value: subnet.get('name') === "" ? "("+subnet_name+")" : subnet.get('name'),
                         link: "#neutron/networks/subnets/" + subnet.id
                     }, {
-                        value: subnet.attributes.cidr
+                        value: subnet.get('cidr')
                     }, {  
-                        value: subnet.attributes.ip_version == "4" ? "IPv4" : "IPv6"  
+                        value: subnet.get('ip_version') == "4" ? "IPv4" : "IPv6"  
                     },  {  
-                        value: subnet.attributes.gateway_ip
+                        value: subnet.get('gateway_ip')
                     }]
                 };
                 entries.push(entry);
@@ -104,8 +104,6 @@ var NetworkSubnetsView = Backbone.View.extend({
     },
 
     onAction: function(action, subnetIDs) {
-        console.log(this.model);
-        console.log(this.model.id);
         var subnet, snet, subview, s_net;
         var self = this;
         if (subnetIDs.length === 1) {
@@ -147,16 +145,7 @@ var NetworkSubnetsView = Backbone.View.extend({
                                     subnet = subnets[i];
                                 } 
                             }
-                            subnet.destroy(undefined, {success: function(model, response) {
-                            UTILS.Messages.getCallbacks(undefined, "Subnet "+subnet.get("name") + " deleted.", "Error deleting subnet "+subnet.get("name"), {context: self});   
-                            //model.bind("sync", this.render, this);
-                            model.fetch({success: function() {
-                                console.log(model);
-                                model.renderFirst();
-                            }});
-                            }, error: function(response) {
-                                console("error", response);
-                            }});                         
+                            subnet.destroy(UTILS.Messages.getCallbacks("Subnet "+subnet.get("name") + " deleted.", "Error deleting subnet "+subnet.get("name"), {context: self}));                          
                         });
                     }
                 });
