@@ -115,7 +115,6 @@ var NetworkPortsView = Backbone.View.extend({
         if (portIDs.length === 1) {
             po = portIDs[0];
             port = this.options.ports.get(po);
-            console.log(port);
         }
         switch (action) {
             case 'update':
@@ -125,9 +124,7 @@ var NetworkPortsView = Backbone.View.extend({
                 });
                 subview.render();
                 break;
-            case 'update':
-                break;
-            default:
+            case 'other':
                 break;
         }
     },

@@ -52,7 +52,11 @@ var TableView = Backbone.View.extend({
         //evt.preventDefault();
         var entryId = $(evt.originalEvent.target)[0].id;
         var entry = $(evt.originalEvent.target)[0].id.split("entries__row__")[1];
-        console.log("Dragging!!!!", $("#" + entryId));
+        var entries = this.getEntries();
+        for (var idx in entries) {
+            var e = entries[idx];
+            if ((e.id + "") === entry && e.isDraggable === false) return false;
+        }
         //$("#" + entryId)[0].style.opacity = '0.4';
         UTILS.DragDrop.setData("EntryId", entryId);
         UTILS.DragDrop.setData("Draggable", this.options.draggable);

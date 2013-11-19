@@ -104,7 +104,9 @@ var NetworkSubnetsView = Backbone.View.extend({
     },
 
     onAction: function(action, subnetIDs) {
-        var subnet, snet, subview;
+        console.log(this.model);
+        console.log(this.model.id);
+        var subnet, snet, subview, s_net;
         var self = this;
         if (subnetIDs.length === 1) {
             snet = subnetIDs[0];
@@ -119,16 +121,18 @@ var NetworkSubnetsView = Backbone.View.extend({
             case 'create':
                 subview = new CreateSubnetView({
                     el: 'body',
-                    model: this.model
+                    model: this.model,
+                    tenant_id: this.options.tenant_id,
+                    network_id: this.model.id
                 });
                 subview.render();
                 break;
             case 'update':
-                //subview = new EditSubnetView({
-                //    el: 'body',
-                //    model: s_net
-                //});
-                //subview.render();
+                subview = new EditSubnetView({
+                   el: 'body',
+                   model: s_net
+                });
+                subview.render();
                 break;
             case 'delete':
                 subview = new ConfirmView({
@@ -136,25 +140,23 @@ var NetworkSubnetsView = Backbone.View.extend({
                     title: "Confirm Delete Subnet",
                     btn_message: "Delete Subnet",
                     onAccept: function() {
-                        subnetIDs.forEach(function(subnet) {
-                            cont = self.model.get(container);
-                            if (sub.get("count") > 0) {
-                                console.log(sub);
-                                var subview2 = new MessagesView({   
-                                    state: "Error",
-                                    title: "Unable to delete subnet " + sub.get("id")
-                                });
-                                subview2.render();
-                                return;
-                            } else {
-                                sub.destroy();
-
-                                var subview3 = new MessagesView({
-                                    state: "Success",
-                                    title: "Subnet " + sub.get("id") + " deleted."
-                                });
-                                subview3.render();
+                        subnetIDs.forEach(function(subnet_id) {
+                            var subnets = self.options.subnets.models;
+                            for (var i in subnets) {
+                            if (subnets[i].id == subnet_id) {
+                                    subnet = subnets[i];
+                                } 
                             }
+                            subnet.destroy(undefined, {success: function(model, response) {
+                            UTILS.Messages.getCallbacks(undefined, "Subnet "+subnet.get("name") + " deleted.", "Error deleting subnet "+subnet.get("name"), {context: self});   
+                            //model.bind("sync", this.render, this);
+                            model.fetch({success: function() {
+                                console.log(model);
+                                model.renderFirst();
+                            }});
+                            }, error: function(response) {
+                                console("error", response);
+                            }});                         
                         });
                     }
                 });

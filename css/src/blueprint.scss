@@ -1,6 +1,33 @@
+.tier-sdc {
+    position: relative;
+    float: left;
+    height: 200px;
+}
+
+.tier-networks {
+    position: relative;
+    float: left;
+    height: 200px;  
+}
+
+.actionsNetTier {
+    display: none;
+}
+.bodyNetTier {
+    top: 0px;
+    border: solid 1px #DDD;
+}
+.headerNetTier {
+    display: none;
+}
+.footerNetTier {
+    display: none;
+}
+
 .scroll-right {
-    width: 830px;
-    float: right;
+    width: 768px;
+    padding-left: 2px;
+    float: left;
 }
 
 .scroll-left {
@@ -198,12 +225,6 @@ tr.tier-row td {
     line-height: 90px;
     font-size: 90px;
     margin-left: -45px;
-}
-
-.tier-sdc {
-    position: relative;
-    float: right;
-    height: 200px;
 }
 
 .modal fieldset .form-field .controls select {

@@ -147,10 +147,10 @@ var OSRouter = Backbone.Router.extend({
         this.route('objectstorage/containers/', 'consult_containers',  this.wrap(this.objectstorage_consult_containers, this.checkAuthAndTimers, ["containers"]));
         this.route('objectstorage/containers/:name/', 'consult_container',  this.wrap(this.objectstorage_consult_container, this.checkAuthAndTimers));
 
-        this.route('neutron/networks/', 'consult_networks',  this.wrap(this.neutron_consult_networks, this.checkAuthAndTimers));
-        this.route('neutron/networks/:id', 'consult_network_detail',  this.wrap(this.neutron_network_detail, this.checkAuthAndTimers));
-        this.route('neutron/networks/subnets/:id', 'consult_subnet_detail',  this.wrap(this.neutron_subnet_detail, this.checkAuthAndTimers));
-        this.route('neutron/networks/ports/:id', 'consult_port_detail',  this.wrap(this.neutron_port_detail, this.checkAuthAndTimers));
+        this.route('neutron/networks/', 'consult_networks',  this.wrap(this.neutron_consult_networks, this.checkAuthAndTimers, ["networks", "subnets"]));
+        this.route('neutron/networks/:id', 'consult_network_detail',  this.wrap(this.neutron_network_detail, this.checkAuthAndTimers, ["networks", "subnets"]));
+        this.route('neutron/networks/subnets/:id', 'consult_subnet_detail',  this.wrap(this.neutron_subnet_detail, this.checkAuthAndTimers, ["networks", "subnets"]));
+        this.route('neutron/networks/ports/:id', 'consult_port_detail',  this.wrap(this.neutron_port_detail, this.checkAuthAndTimers, ["networks", "subnets"]));
     },
 
     wrap: function(func, wrapper, modelArray) {
@@ -457,7 +457,7 @@ var OSRouter = Backbone.Router.extend({
         self.showNovaRoot(self, 'Blueprint Templates', 'Blueprint Templates / ' + id);
         var bp = new BPTemplate();
         bp.set({'name': id});
-        var view = new BlueprintTemplateView({el: '#content', model: bp, sdcs: self.sdcs, flavors: self.flavors, keypairs: self.keypairsModel, securityGroupsModel: self.securityGroupsModel, images: self.images});
+        var view = new BlueprintTemplateView({el: '#content', model: bp, sdcs: self.sdcs, flavors: self.flavors, keypairs: self.keypairsModel, securityGroupsModel: self.securityGroupsModel, images: self.images, networks: self.networks, subnets: self.subnets});
         self.newContentView(self,view);
     },
 
@@ -589,7 +589,7 @@ var OSRouter = Backbone.Router.extend({
 
     neutron_consult_networks: function(self) {
         self.showNovaRoot(self, 'Networks');
-        tenant_id = localStorage.getItem('tenant-id');
+        var tenant_id = localStorage.getItem('tenant-id');
         var view = new NeutronNetworksView({model: self.networks, tenant_id: tenant_id, subnets: self.subnets, el: '#content'});
         self.newContentView(self,view);
     },
@@ -597,8 +597,9 @@ var OSRouter = Backbone.Router.extend({
     neutron_network_detail: function(self, id) {
         self.showNovaRoot(self, 'Network Detail');
         var network = new Network();
+        var tenant_id = localStorage.getItem('tenant-id');
         network.set({"id": id});
-        var view = new NetworkDetailView({model: network, subnets: self.subnets, ports: self.ports, el: '#content'});
+        var view = new NetworkDetailView({model: network, subnets: self.subnets, ports: self.ports, tenant_id: tenant_id, el: '#content'});
         self.newContentView(self,view);
     },
 

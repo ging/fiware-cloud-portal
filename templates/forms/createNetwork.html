@@ -11,21 +11,18 @@ src: templates/forms/createNetwork.html
 </div>
 
 <form id="form" class="" action="" method="">
-    <div class="modal-body clearfix">
 
 		<ul id="myTab" class="nav nav-tabs">
 		  <li class="active">
-		    <a href="#input_network" data-toggle="tab">Network</a>
+		    <a id="network" href="#input_network" data-toggle="tab">Network</a>
 		    </li>
 		  <li class="">
-		    <a href="#input_subnet" data-toggle="tab">Subnet</a>
+		    <a id="subnet" href="#input_subnet" data-toggle="tab">Subnet</a>
 		    </li>
 		  <li class="">
-		    <a href="#input_subnet_detail" data-toggle="tab">Subnet Detail</a>
+		    <a id="details" href="#input_subnet_detail" data-toggle="tab">Subnet Detail</a>
 		    </li>  
 		</ul>
-
-		
 			
 			<div id="input_network" class="tab-pane tab-adjustable active">
 			    <div class="modal-body clearfix">
@@ -57,7 +54,7 @@ src: templates/forms/createNetwork.html
 			</div>   
 	
 
-			<div id="input_subnet" class="tab-pane tab-adjustable fade">
+			<div id="input_subnet" class="tab-pane tab-adjustable fade" style="display: none">
 				<div class="modal-body clearfix">
 		            <div class="left">
 		                <fieldset>		            
@@ -65,30 +62,30 @@ src: templates/forms/createNetwork.html
 		                        <label for="create-subnet">Create Subnet</label>
 		                        <span class="help-block"></span>
 		                        <div class="input">
-		                            <input required type="checkbox" checked="checked" name="create_subnet" value="" id="create_subnet" />
+		                            <input type="checkbox" checked="checked" name="create_subnet" value="" id="create_subnet" />
 		                        </div>
 		                    </div>
 		                    <div class="control-group form-field clearfix">
 		                        <label for="subnet-name">Subnet Name</label>
 		                        <span class="help-block"></span>
 		                        <div class="input">
-		                            <input type="text" name="subnet_name" value="<%= model.id %>" id="subnet_name" />
+		                            <input type="text" name="subnet_name" id="subnet_name" />
 		                        </div>
 		                    </div>
 		                    <div class="control-group form-field clearfix">
 		                        <label for="network-address">Network Address*</label>
 		                        <span class="help-block"></span>
 		                        <div class="input">
-		                            <input type="text" name="network-address" value="<%= model.id %>" id="network_address" />
+		                            <input type="text" name="network_address" id="network_address" />
 		                        </div>
 		                    </div>
 		                    <div class="control-group form-field clearfix">
 		                        <label for="ip-version">IP Version</label>
 		                        <span class="help-block"></span>
 		                        <div class="input">
-		                        	<select name="flavor" id="id_flavor">
-		                            	<option value="1">IPv4</option>
-		                            	<option value="2">IPv6</option>
+		                        	<select name="ip_version" id="ip_version">
+		                            	<option value="4">IPv4</option>
+		                            	<option value="6">IPv6</option>
 		                        	</select>
 		                        </div>
 		                    </div>
@@ -96,14 +93,14 @@ src: templates/forms/createNetwork.html
 		                        <label for="gateway-ip">Gateway IP (optional)</label>
 		                        <span class="help-block"></span>
 		                        <div class="input">
-		                            <input type="text" name="gateway_ip" value="<%= model.id %>" id="gateway_ip" />
+		                            <input type="text" name="gateway_ip" id="gateway_ip" />
 		                        </div>
 		                    </div>
 		                    <div class="control-group form-field clearfix">
 		                        <label for="disable-gateway">Disable Gateway</label>
 		                        <span class="help-block"></span>
 		                        <div class="input">
-		                            <input required type="checkbox" name="disable_gateway" value="" id="disable_gateway" />
+		                            <input type="checkbox" name="disable_gateway" value="" id="disable_gateway" />
 		                        </div>
 		                    </div>
 		                </fieldset>
@@ -118,7 +115,7 @@ src: templates/forms/createNetwork.html
 			</div>
 
 
-			<div id="input_subnet_detail" class="tab-pane tab-adjustable fade">
+			<div id="input_subnet_detail" class="tab-pane tab-adjustable fade" style="display: none">
 				<div class="modal-body clearfix">
 		            <div class="left">
 		                <fieldset>		            
@@ -133,21 +130,21 @@ src: templates/forms/createNetwork.html
 		                        <label for="allocation-pools">Allocation Pools</label>
 		                        <span class="help-block"></span>
 		                        <div class="input">
-		                            <textarea id="allocation_pools" rows="10" cols="40" name="allocation_pools"></textarea>
+		                            <textarea id="allocation_pools" rows="3" cols="15" name="allocation_pools"></textarea>
 		                        </div>
 		                    </div>
 		                    <div class="control-group form-field clearfix">
 		                        <label for="dns-name-servers">DNS Name Servers</label>
 		                        <span class="help-block"></span>
 		                        <div class="input">
-		                            <textarea id="dns_name_servers" rows="10" cols="40" name="dns_name_servers"></textarea>
+		                            <textarea id="dns_name_servers" rows="3" cols="15" name="dns_name_servers"></textarea>
 		                        </div>
 		                    </div>
 		                    <div class="control-group form-field clearfix">
 		                        <label for="host-routers">Host Routes</label>
 		                        <span class="help-block"></span>
 		                        <div class="input">
-		                            <textarea id="host_routers" rows="10" cols="40" name="host_routers"></textarea>
+		                            <textarea id="host_routers" rows="3" cols="15" name="host_routers"></textarea>
 		                        </div>
 		                    </div>
 		                </fieldset>
@@ -160,15 +157,12 @@ src: templates/forms/createNetwork.html
 		            </div>
 				</div>
 			</div>
-
 		
 		<div class="modal-footer">
 	        <p class="mandatoryMess">* Mandatory fields.</p>
-	        <input type="submit" class="btn btn-blue btn-create-network pull-right" value="Create"/>
+	        <input id="create_network_button" class="btn btn-blue btn-create-network pull-right" value="Create"/>
 	        <a id="cancelBtn-network" class="btn secondary cancel close">Cancel</a>
     	</div>
-
-	</div>
 </form>
 
 </script>
