@@ -122,7 +122,10 @@ var loadViews = function() {
                 "js/views/neutron/SubnetDetailView.js",
                 "js/views/neutron/PortDetailView.js",
                 "js/views/forms/EditSubnetView.js",
-                "js/views/forms/EditPortView.js"
+                "js/views/forms/EditPortView.js",
+                "js/views/neutron/RoutersView.js",
+                "js/views/forms/CreateRouterView.js",
+                "js/views/forms/EditRouterView.js"
             ], function(someModule) {
                 loadRoutes();
         });
@@ -154,7 +157,8 @@ var loadModels = function() {
                 "js/models/RoleModel.js",
                 "js/models/NetworksModel.js",
                 "js/models/SubnetsModel.js",
-                "js/models/PortsModel.js"
+                "js/models/PortsModel.js",
+                "js/models/RoutersModel.js"
             ], function(someModule) {
                 loadViews();
         });
@@ -287,7 +291,10 @@ var loadTemplates = function() {
                     'templates/root/neutron/subnetDetail.html',
                     'templates/root/neutron/portDetail.html',
                     'templates/forms/editSubnet.html',
-                    'templates/forms/editPort.html'
+                    'templates/forms/editPort.html',
+                    'templates/root/neutron/routers.html',
+                    'templates/forms/createRouter.html',
+                    'templates/forms/editRouter.html'
                 ], function(){
                     loadLibraries();
                 });

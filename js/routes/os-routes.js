@@ -24,6 +24,7 @@ var OSRouter = Backbone.Router.extend({
     networks: undefined,
     subnets: undefined,
     ports: undefined,
+    routers: undefined,
 
     currentView: undefined,
 
@@ -58,6 +59,7 @@ var OSRouter = Backbone.Router.extend({
         this.networks = new Networks();
         this.subnets = new Subnets();
         this.ports = new Ports();
+        this.routers = new Routers();
 
         Backbone.wrapError = function(onError, originalModel, options) {
             return function(model, resp) {
@@ -86,6 +88,14 @@ var OSRouter = Backbone.Router.extend({
 
         this.images.bind("error", function(model, error) {
             console.log("Error in images:", error);
+        });
+
+        this.networks.bind("error", function(model, error) {
+            console.log("Error in networks:", error);
+        });
+
+        this.routers.bind("error", function(model, error) {
+            console.log("Error in routers:", error);
         });
 
         Backbone.View.prototype.close = function(){
@@ -150,6 +160,8 @@ var OSRouter = Backbone.Router.extend({
         this.route('neutron/networks/:id', 'consult_network_detail',  this.wrap(this.neutron_network_detail, this.checkAuthAndTimers));
         this.route('neutron/networks/subnets/:id', 'consult_subnet_detail',  this.wrap(this.neutron_subnet_detail, this.checkAuthAndTimers));
         this.route('neutron/networks/ports/:id', 'consult_port_detail',  this.wrap(this.neutron_port_detail, this.checkAuthAndTimers));
+
+        this.route('neutron/routers/', 'consult_routers',  this.wrap(this.neutron_consult_routers, this.checkAuthAndTimers, ["routers"]));
     },
 
     wrap: function(func, wrapper, modelArray) {
@@ -181,6 +193,7 @@ var OSRouter = Backbone.Router.extend({
             this.add_fetch("networks", seconds);
             this.add_fetch("subnets", seconds);
             this.add_fetch("ports", seconds);
+            this.add_fetch("routers", seconds);
             if (this.loginModel.isAdmin()) {
                 console.log("admin");
                 this.add_fetch("projects", seconds);
@@ -368,8 +381,8 @@ var OSRouter = Backbone.Router.extend({
         self.top.set({"title": title});
         self.navs = new NavTabModels([
                             {name: 'Compute', type: 'title'},
-                            //{name: 'Overview', active: true, url: '#nova/'},
-                            //{name: 'Virtual Data Centers', active: false, url: '#nova/vdcs/'},
+                            {name: 'Overview', active: true, url: '#nova/'},
+                            {name: 'Virtual Data Centers', active: false, url: '#nova/vdcs/'},
                             {name: 'Blueprint Instances',  iconcss: "icon_nav-blueprintInstances", css:"small", active: false, url: '#nova/blueprints/instances/'},
                             {name: 'Blueprint Templates',  iconcss: "icon_nav-blueprintTemplates", css:"small", active: false, url: '#nova/blueprints/templates/'},
                             {name: 'Instances', iconcss: "icon_nav-instances", active: false, url: '#nova/instances/'},
@@ -381,7 +394,8 @@ var OSRouter = Backbone.Router.extend({
                             {name: 'Containers', iconcss: "icon_nav-container", active: false, url: '#objectstorage/containers/'},
                             {name: 'Volumes', iconcss: "icon_nav-volumes", active: false, url: '#nova/volumes/'},
                             {name: 'Network', type: 'title'},
-                            {name: 'Networks', iconcss: "icon_nav-networks", active: false, url: '#neutron/networks/'}
+                            {name: 'Networks', iconcss: "icon_nav-networks", active: false, url: '#neutron/networks/'},
+                            {name: 'Routers', iconcss: "icon_nav-networks", active: false, url: '#neutron/routers/'}
                             ]);
         self.navs.setActive(option);
         self.tabs.setActive('Project');
@@ -599,6 +613,13 @@ var OSRouter = Backbone.Router.extend({
         var port = new Port();
         port.set({"id": id});
         var view = new PortDetailView({model: port, el: '#content'});
+        self.newContentView(self,view);
+    },
+
+    neutron_consult_routers: function(self) {
+        self.showNovaRoot(self, 'Routers');
+        var tenant_id = localStorage.getItem('tenant-id');
+        var view = new NeutronRoutersView({model: self.routers, tenant_id: tenant_id, networks: self.networks, el: '#content'});
         self.newContentView(self,view);
     },
 

@@ -88,7 +88,7 @@ var NetworkSubnetsView = Backbone.View.extend({
                     id: subnet.get("id"),
                     cells: [{
                         value: subnet.get('name') === "" ? "("+subnet_name+")" : subnet.get('name'),
-                        link: "#neutron/networks/subnets/" + subnet.id
+                        link: "#neutron/networks/subnets/" + subnet.get("id")
                     }, {
                         value: subnet.get('cidr')
                     }, {  
@@ -121,7 +121,7 @@ var NetworkSubnetsView = Backbone.View.extend({
                     el: 'body',
                     model: this.model,
                     tenant_id: this.options.tenant_id,
-                    network_id: this.model.id
+                    network_id: this.model.get('id')
                 });
                 subview.render();
                 break;

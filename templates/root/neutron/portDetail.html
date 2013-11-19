@@ -8,8 +8,8 @@ src: templates/root/neutron/portDetail.html
         <div class="entity_detail">
             <div id="subnet_details" class="active row-fluid">
                 <div class="status span4">
-                    <%var id = model.id;
-                      var model = model.attributes.port;%>
+                    <%var id = model.get('id');
+                      var model = model.get('port');%>
                     <h4>Port Overview</h4>
                     <hr class="header_rule">
                     <ul>

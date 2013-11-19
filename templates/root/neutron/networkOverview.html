@@ -8,8 +8,8 @@ src: templates/root/neutron/networkOverview.html
         <div class="entity_detail">
             <div id="network_details__overview1" class="active row-fluid">
                 <div class="status span4">
-                    <%var id = model.id;
-                      var model = model.attributes.network;%>
+                    <%var id = model.get('id');
+                      var model = model.get('network');%>
                     <h4>Overview</h4>
                     <hr class="header_rule">
                     <ul>
