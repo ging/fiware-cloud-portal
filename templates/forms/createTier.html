@@ -148,8 +148,10 @@
                     </div>
                 </div>
             </div>
+            <% if (JSTACK.Keystone.getservice("network") !== undefined) {%>
             <a id="btn-hide-networks" class="btn btn-blue btn-network" style="float: left; display: none;">Software</a>
             <a id="btn-show-networks" class="btn btn-blue btn-network" style="float: right;">Networks</a>
+            <%}%>
             <div id="scroll-based-layer-networks" style="overflow: hidden; width: 100%">
                 <div style="
                         width: 1600px;
