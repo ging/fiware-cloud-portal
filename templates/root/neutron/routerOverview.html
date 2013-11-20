@@ -1,0 +1,47 @@
+<script id="routerOverviewTemplate" type="text/html">
+<!--
+Description: Router Overview
+src: templates/root/neutron/routerOverview.html
+-->
+<div id="router_overview" class="row-fluid entity_consult">
+   <div class="entity_consult">
+        <div class="entity_detail">
+            <div id="router_details__overview1" class="active row-fluid">
+                <div class="status span4">
+                    <%var id = model.get('id');
+                      var model = model.get('router');%>
+                    <h4>Overview</h4>
+                    <hr class="header_rule">
+                    <ul>
+                        <li>
+                            <strong>Name:</strong>&nbsp;<%= model.name %>
+                        </li>
+                        <li>
+                            <strong>ID:</strong>&nbsp;<%= id%>
+                        </li>
+                        <li>
+                            <strong>Status:</strong>&nbsp;<%= model.status%>
+                        </li>
+                        <%
+                        if (model.external_gateway_info !== null) {
+                            var external_gateway = model.external_gateway_info.network_id;
+                            for (var index in networks.models) {
+                                if (networks.models[index].get('id') === external_gateway) {
+                                    var network_name = networks.models[index].get('name');
+                                }
+                            }
+                        %>
+                        <li>
+                            <strong>External Gateway Information: </strong>
+                        </li>
+                         <li>
+                            <strong>Connected External Network:</strong>&nbsp;<%= network_name%>
+                        </li>
+                        <%}%>
+                    </ul>                
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</script>

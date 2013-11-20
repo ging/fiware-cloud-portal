@@ -125,7 +125,11 @@ var loadViews = function() {
                 "js/views/forms/EditPortView.js",
                 "js/views/neutron/RoutersView.js",
                 "js/views/forms/CreateRouterView.js",
-                "js/views/forms/EditRouterView.js"
+                "js/views/forms/EditRouterView.js",
+                "js/views/neutron/RouterDetailView.js",
+                "js/views/neutron/RouterOverviewView.js",
+                "js/views/neutron/RouterInterfacesView.js",
+                "js/views/forms/AddInterfaceToRouterView.js"
             ], function(someModule) {
                 loadRoutes();
         });
@@ -294,7 +298,11 @@ var loadTemplates = function() {
                     'templates/forms/editPort.html',
                     'templates/root/neutron/routers.html',
                     'templates/forms/createRouter.html',
-                    'templates/forms/editRouter.html'
+                    'templates/forms/editRouter.html',
+                    'templates/root/neutron/routerDetail.html',
+                    'templates/root/neutron/routerOverview.html',
+                    'templates/root/neutron/routerInterfaces.html',
+                    'templates/forms/addInterfaceToRouter.html'
                 ], function(){
                     loadLibraries();
                 });

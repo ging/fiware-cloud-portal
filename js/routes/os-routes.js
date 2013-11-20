@@ -162,6 +162,7 @@ var OSRouter = Backbone.Router.extend({
         this.route('neutron/networks/ports/:id', 'consult_port_detail',  this.wrap(this.neutron_port_detail, this.checkAuthAndTimers));
 
         this.route('neutron/routers/', 'consult_routers',  this.wrap(this.neutron_consult_routers, this.checkAuthAndTimers, ["routers"]));
+        this.route('neutron/routers/:id', 'consult_router_detail',  this.wrap(this.neutron_router_detail, this.checkAuthAndTimers));
     },
 
     wrap: function(func, wrapper, modelArray) {
@@ -380,19 +381,19 @@ var OSRouter = Backbone.Router.extend({
         }
         self.top.set({"title": title});
         self.navs = new NavTabModels([
-                            {name: 'Compute', type: 'title'},
-                            {name: 'Overview', active: true, url: '#nova/'},
-                            {name: 'Virtual Data Centers', active: false, url: '#nova/vdcs/'},
-                            {name: 'Blueprint Instances',  iconcss: "icon_nav-blueprintInstances", css:"small", active: false, url: '#nova/blueprints/instances/'},
-                            {name: 'Blueprint Templates',  iconcss: "icon_nav-blueprintTemplates", css:"small", active: false, url: '#nova/blueprints/templates/'},
-                            {name: 'Instances', iconcss: "icon_nav-instances", active: false, url: '#nova/instances/'},
-                            {name: 'Images', iconcss: "icon_nav-images", active: false, url: '#nova/images/'},
-                            {name: 'Flavors', iconcss: "icon_nav-flavors", active: false, url: '#nova/flavors/'},
-                            {name: 'Security', iconcss: "icon_nav-security", active: false, url: '#nova/access_and_security/'},
-                            {name: 'Snapshots', iconcss: "icon_nav-snapshots", active: false, url: '#nova/snapshots/'},
-                            {name: 'Storage', type: 'title'},
-                            {name: 'Containers', iconcss: "icon_nav-container", active: false, url: '#objectstorage/containers/'},
-                            {name: 'Volumes', iconcss: "icon_nav-volumes", active: false, url: '#nova/volumes/'},
+                            // {name: 'Compute', type: 'title'},
+                            // {name: 'Overview', active: true, url: '#nova/'},
+                            // {name: 'Virtual Data Centers', active: false, url: '#nova/vdcs/'},
+                            // {name: 'Blueprint Instances',  iconcss: "icon_nav-blueprintInstances", css:"small", active: false, url: '#nova/blueprints/instances/'},
+                            // {name: 'Blueprint Templates',  iconcss: "icon_nav-blueprintTemplates", css:"small", active: false, url: '#nova/blueprints/templates/'},
+                            // {name: 'Instances', iconcss: "icon_nav-instances", active: false, url: '#nova/instances/'},
+                            // {name: 'Images', iconcss: "icon_nav-images", active: false, url: '#nova/images/'},
+                            // {name: 'Flavors', iconcss: "icon_nav-flavors", active: false, url: '#nova/flavors/'},
+                            // {name: 'Security', iconcss: "icon_nav-security", active: false, url: '#nova/access_and_security/'},
+                            // {name: 'Snapshots', iconcss: "icon_nav-snapshots", active: false, url: '#nova/snapshots/'},
+                            // {name: 'Storage', type: 'title'},
+                            // {name: 'Containers', iconcss: "icon_nav-container", active: false, url: '#objectstorage/containers/'},
+                            // {name: 'Volumes', iconcss: "icon_nav-volumes", active: false, url: '#nova/volumes/'},
                             {name: 'Network', type: 'title'},
                             {name: 'Networks', iconcss: "icon_nav-networks", active: false, url: '#neutron/networks/'},
                             {name: 'Routers', iconcss: "icon_nav-networks", active: false, url: '#neutron/routers/'}
@@ -620,6 +621,15 @@ var OSRouter = Backbone.Router.extend({
         self.showNovaRoot(self, 'Routers');
         var tenant_id = localStorage.getItem('tenant-id');
         var view = new NeutronRoutersView({model: self.routers, tenant_id: tenant_id, networks: self.networks, el: '#content'});
+        self.newContentView(self,view);
+    },
+
+    neutron_router_detail: function(self, id) {
+        self.showNovaRoot(self, 'Router Detail');
+        var router = new Router();
+        var tenant_id = localStorage.getItem('tenant-id');
+        router.set({"id": id});
+        var view = new RouterDetailView({model: router, networks: self.networks, ports: self.ports, subnets: self.subnets, tenant_id: tenant_id, el: '#content'});
         self.newContentView(self,view);
     },
 

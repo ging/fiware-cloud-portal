@@ -15,17 +15,20 @@ var Router = Backbone.Model.extend({
           return xhr;
     },
 
-    addinterfacetorouter: function(pool, options) {
+    addinterfacetorouter: function(subnet_id, options) {
+      console.log(subnet_id);
       console.log("addinterfacetorouter");
       options = options || {};
-      options.pool = pool;
+      options.subnet_id = subnet_id;
+      options.port_id = undefined;
       return this._action('addinterfacetorouter', options);
     },
 
-    removeinterfacefromrouter: function(server_id, options) {
+    removeinterfacefromrouter: function(id, router_id, options) {
       console.log("removeinterfacefromrouter");
       options = options || {};
-      options.server_id = server_id;
+      options.id = id;
+      options.router_id = router_id;
       return this._action('emoveinterfacefromrouter', options);
     },
 
@@ -44,7 +47,7 @@ var Router = Backbone.Model.extend({
                     JSTACK.Neutron.updaterouter(model.get("id"), model.get("external_gateway_info:network_id"), model.get("name"), model.get("admin_state_up"), options.success, options.error);
                     break;
               case "addinterfacetorouter":
-                    JSTACK.Neutron.addinterfacetorouter(model.get("id"), model.get("subnet_id"), model.get("port_id"), model.get("tenant_id"), options.success, options.error);
+                    JSTACK.Neutron.addinterfacetorouter(model.get("id"), options.subnet_id, options.port_id, model.get("tenant_id"), options.success, options.error);
                     break;
               case "removeinterfacefromrouter":
                     JSTACK.Neutron.removeinterfacefromrouter(model.get("id"), model.get("subnet_id"), model.get("port_id"), options.success, options.error);
