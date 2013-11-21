@@ -54,7 +54,7 @@ var Router = Backbone.Model.extend({
                     JSTACK.Neutron.addinterfacetorouter(options.router_id, options.subnet_id, options.port_id, options.success, options.error);
                     break;
               case "removeinterfacefromrouter":
-                    JSTACK.Neutron.removeinterfacefromrouter(options.router_id, options.port_id, options.subnet_id, model.get("tenant_id"), options.success, options.error);
+                    JSTACK.Neutron.removeinterfacefromrouter(options.router_id, options.port_id, options.subnet_id, options.success, options.error);
                     break;
            }
    },

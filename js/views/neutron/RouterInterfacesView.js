@@ -138,8 +138,8 @@ var RouterInterfacesView = Backbone.View.extend({
                     btn_message: "Delete Interface",
                     onAccept: function() {
                         portIDs.forEach(function(port) {
-                            var router_id = self.model.get('id');
                             var interf = self.options.ports.get(port);
+                            var router_id = self.model.get('id');
                             self.model.removeinterfacefromrouter(router_id, port, UTILS.Messages.getCallbacks("Interface "+interf.get('name') + " deleted.", "Error deleting interface "+interf.get('name'), {context: self}));                          
                         });
                     }
