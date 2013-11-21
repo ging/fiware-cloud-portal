@@ -139,12 +139,7 @@ var NetworkSubnetsView = Backbone.View.extend({
                     btn_message: "Delete Subnet",
                     onAccept: function() {
                         subnetIDs.forEach(function(subnet_id) {
-                            var subnets = self.options.subnets.models;
-                            for (var i in subnets) {
-                            if (subnets[i].id == subnet_id) {
-                                    subnet = subnets[i];
-                                } 
-                            }
+                            var subnet = self.options.subnets.get(subnet_id);
                             subnet.destroy(UTILS.Messages.getCallbacks("Subnet "+subnet.get("name") + " deleted.", "Error deleting subnet "+subnet.get("name"), {context: self}));                          
                         });
                     }

@@ -38,8 +38,9 @@ var AddInterfaceToRouterView = Backbone.View.extend({
 
     addInterface: function(e) {
         var subnet_id = $('#subnet option:selected').val();
+        var router_id = this.model.get('id');
         if (subnet_id !== "") {
-            this.model.addinterfacetorouter(subnet_id, UTILS.Messages.getCallbacks("Interface added.", "Failed to add interface to router "),  {context: this}); 
+            this.model.addinterfacetorouter(router_id, subnet_id, UTILS.Messages.getCallbacks("Interface added.", "Failed to add interface to router ",  {context: this})); 
             this.close();
         }          
     }

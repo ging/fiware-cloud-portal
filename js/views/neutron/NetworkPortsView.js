@@ -84,7 +84,7 @@ var NetworkPortsView = Backbone.View.extend({
             var port_id = port.get("id");
             var port_name = port_id.slice(0,8);
             if (net_id === network_id) {
-                f_ips = port.get('ixed_ips');
+                f_ips = port.get('fixed_ips');
                 for (var i in f_ips) {
                     fixed_ips.push(f_ips[i].ip_address);
                 } 

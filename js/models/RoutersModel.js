@@ -1,35 +1,39 @@
 var Router = Backbone.Model.extend({
 
     _action:function(method, options) {
-          var model = this;
-          if (options == null) options = {};
-          options.success = function(resp) {
-
-              model.trigger('sync', model, resp, options);
-              if (options.callback !== undefined) {
-                  options.callback(resp);
-              }
-          };
-          var xhr = (this.sync || Backbone.sync).call(this, method, this, options);
-
-          return xhr;
+        var model = this;
+        options = options || {};
+        var error = options.error;
+        options.success = function(resp) {
+            model.trigger('sync', model, resp, options);
+            if (options.callback!==undefined) {
+                options.callback(resp);
+            }
+        };
+        options.error = function(resp) {
+            model.trigger('error', model, resp, options);
+            if (error!==undefined) {
+                error(model, resp);
+            }
+        };
+        var xhr = (this.sync || Backbone.sync).call(this, method, this, options);
+        return xhr;
     },
 
-    addinterfacetorouter: function(subnet_id, options) {
-      console.log(subnet_id);
-      console.log("addinterfacetorouter");
+    addinterfacetorouter: function(router_id, subnet_id, options) {
       options = options || {};
+      options.router_id = router_id;
       options.subnet_id = subnet_id;
       options.port_id = undefined;
       return this._action('addinterfacetorouter', options);
     },
 
-    removeinterfacefromrouter: function(id, router_id, options) {
-      console.log("removeinterfacefromrouter");
+    removeinterfacefromrouter: function(router_id, port_id, options) {
       options = options || {};
-      options.id = id;
       options.router_id = router_id;
-      return this._action('emoveinterfacefromrouter', options);
+      options.port_id = port_id;
+      options.subnet_id = undefined;
+      return this._action('removeinterfacefromrouter', options);
     },
 
     sync: function(method, model, options) {
@@ -47,10 +51,10 @@ var Router = Backbone.Model.extend({
                     JSTACK.Neutron.updaterouter(model.get("id"), model.get("external_gateway_info:network_id"), model.get("name"), model.get("admin_state_up"), options.success, options.error);
                     break;
               case "addinterfacetorouter":
-                    JSTACK.Neutron.addinterfacetorouter(model.get("id"), options.subnet_id, options.port_id, model.get("tenant_id"), options.success, options.error);
+                    JSTACK.Neutron.addinterfacetorouter(options.router_id, options.subnet_id, options.port_id, options.success, options.error);
                     break;
               case "removeinterfacefromrouter":
-                    JSTACK.Neutron.removeinterfacefromrouter(model.get("id"), model.get("subnet_id"), model.get("port_id"), options.success, options.error);
+                    JSTACK.Neutron.removeinterfacefromrouter(options.router_id, options.port_id, options.subnet_id, model.get("tenant_id"), options.success, options.error);
                     break;
            }
    },

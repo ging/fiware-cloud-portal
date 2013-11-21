@@ -162,7 +162,7 @@ var OSRouter = Backbone.Router.extend({
         this.route('neutron/networks/ports/:id', 'consult_port_detail',  this.wrap(this.neutron_port_detail, this.checkAuthAndTimers));
 
         this.route('neutron/routers/', 'consult_routers',  this.wrap(this.neutron_consult_routers, this.checkAuthAndTimers, ["routers"]));
-        this.route('neutron/routers/:id', 'consult_router_detail',  this.wrap(this.neutron_router_detail, this.checkAuthAndTimers));
+        this.route('neutron/routers/:id', 'consult_router_detail',  this.wrap(this.neutron_router_detail, this.checkAuthAndTimers, ["ports"]));
     },
 
     wrap: function(func, wrapper, modelArray) {

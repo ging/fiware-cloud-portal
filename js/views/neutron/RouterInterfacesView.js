@@ -46,19 +46,19 @@ var RouterInterfacesView = Backbone.View.extend({
             size: "5%"
         }, {
             name: "Name",
-            tooltip: "Name of the interface",
+            tooltip: "Name/ID of the interface (port)",
             size: "15%",
             hidden_phone: false,
             hidden_tablet: false
         }, {
             name: "Fixed IPs",
-            tooltip: "IP address",
+            tooltip: "IP addresses for the port. Includes the IP address and subnet ID.",
             size: "30%",
             hidden_phone: true,
             hidden_tablet: false
         }, {
             name: "Status",
-            tooltip: "Status of the interface",
+            tooltip: "The status of the port: UP or DOWN.",
             size: "10%",
             hidden_phone: false,
             hidden_tablet: false
@@ -70,7 +70,7 @@ var RouterInterfacesView = Backbone.View.extend({
             hidden_tablet: false
         }, {
             name: "Admin State",
-            tooltip: "UP/DOWN",
+            tooltip: "Administrative state of the router. (UP or DOWN)",
             size: "10%",
             hidden_phone: true,
             hidden_tablet: false
@@ -78,44 +78,47 @@ var RouterInterfacesView = Backbone.View.extend({
     },
 
     getEntries: function() {
-        var network_id = this.model.id;
-        var subnets = this.options.subnets.models;       
+        var subnets = this.options.subnets.models;  
+        var ports = this.options.ports.models;   
+        var router_id = this.model.get('id');  
         var entries = [];        
-        for (var index in subnets) {
-            var subnet = subnets[index];
-            var subnet_id = subnet.get("id");
-            var subnet_name = subnet_id.slice(0,8);
-            if (network_id == subnet.get('network_id')){
-            var entry = {
-                    id: subnet.get("id"),
-                    cells: [{
-                        value: subnet.get('name') === "" ? "("+subnet_name+")" : subnet.get('name'),
-                        link: "#neutron/networks/subnets/" + subnet.get("id")
-                    }, {
-                        value: subnet.get('cidr')
-                    }, {  
-                        value: subnet.get('ip_version') == "4" ? "IPv4" : "IPv6"  
-                    },  {  
-                        value: subnet.get('gateway_ip')
-                    }]
-                };
-                entries.push(entry);
+        for (var index in ports) {
+            var fixed_ips = [];
+            var port = ports[index];
+            var port_device_id = port.get("device_id");
+            if (port_device_id == router_id) {
+                if (port.get('device_owner') == 'network:router_interface' || port.get('device_owner') == 'network:router_gateway') {
+                    f_ips = port.get('fixed_ips');
+                    for (var i in f_ips) {
+                        fixed_ips.push(f_ips[i].ip_address);
+                    } 
+                    var entry = {
+                            id: port.get('id'),
+                            cells: [{
+                                value: port.get('name') === "" ? "("+port.get('id').slice(0,8)+")" : port.get('name'),
+                                link: "#neutron/networks/ports/" + port.get('id')
+                            }, {
+                                value: fixed_ips
+                            }, {  
+                                value: port.get('status')
+                            },  {  
+                                value: port.get('device_owner') == 'network:router_interface' ? "Internal Interface" : "External Gateway"
+                            },  {  
+                                value: port.get('admin_state_up') ? "UP" : "DOWN"
+                            }]
+                        };
+                    entries.push(entry);
+                }
             }
         }
         return entries;
     },
 
-    onAction: function(action, subnetIDs) {
-        var subnet, snet, subview, s_net;
+    onAction: function(action, portIDs) {
+        var port, po, subview;
         var self = this;
-        if (subnetIDs.length === 1) {
-            snet = subnetIDs[0];
-            subnets = this.options.subnets.models;
-            for (var index in subnets) {
-                if (subnets[index].id == snet) {
-                    s_net = subnets[index];
-                } 
-            }
+        if (portIDs.length === 1) {
+            port = portIDs[0];
         }
         switch (action) {
             case 'create':
@@ -131,17 +134,13 @@ var RouterInterfacesView = Backbone.View.extend({
             case 'delete':
                 subview = new ConfirmView({
                     el: 'body',
-                    title: "Confirm Delete Subnet",
-                    btn_message: "Delete Subnet",
+                    title: "Confirm Delete Interface",
+                    btn_message: "Delete Interface",
                     onAccept: function() {
-                        subnetIDs.forEach(function(subnet_id) {
-                            var subnets = self.options.subnets.models;
-                            for (var i in subnets) {
-                            if (subnets[i].id == subnet_id) {
-                                    subnet = subnets[i];
-                                } 
-                            }
-                            subnet.destroy(UTILS.Messages.getCallbacks("Subnet "+subnet.get("name") + " deleted.", "Error deleting subnet "+subnet.get("name"), {context: self}));                          
+                        portIDs.forEach(function(port) {
+                            var router_id = self.model.get('id');
+                            var interf = self.options.ports.get(port);
+                            self.model.removeinterfacefromrouter(router_id, port, UTILS.Messages.getCallbacks("Interface "+interf.get('name') + " deleted.", "Error deleting interface "+interf.get('name'), {context: self}));                          
                         });
                     }
                 });
