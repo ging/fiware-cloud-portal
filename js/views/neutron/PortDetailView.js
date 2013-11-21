@@ -20,7 +20,6 @@ var PortDetailView = Backbone.View.extend({
     },
 
     render: function () {
-        console.log(this.model);
         if ($("#port_overview").html() == null) {
             UTILS.Render.animateRender(this.el, this._template, {model:this.model});
         } else {
