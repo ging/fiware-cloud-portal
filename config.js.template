@@ -7,76 +7,20 @@ config.oauth = {};
 config.useIDM = false;
 
 config.oauth = {
-	account_server: 'https://account.lab.fi-ware.eu',
-    client_id: '143',
-    client_secret: '9b73d41f7ba1019c7e5aaabc7aefdf3b66ec5c6013cf8e7be4e600750190a1567c9a86d4cad83773cba3c8149bd391e48b46d3c4e841cf4c477d4408a1a0ca38',
-    callbackURL: 'http://localhost/login'
+	account_server: '',
+    client_id: '',
+    client_secret: '',
+    callbackURL: ''
 };
 
-config.development.keystone = {
-	host: 'localhost',
-	port: 4730,
-	admin_host: 'localhost',
-	admin_port: 4731
-};
-
-config.production.keystone = {
-	host: 'cloud.lab.fi-ware.eu',
-	port: 4730,
-	admin_host: 'cloud.lab.fi-ware.eu',
-	admin_port: 4731
-};
-
-config.development.nova = {
-	host: 'cloud.lab.fi-ware.eu',
-};
-
-config.production.nova = {
-	host: 'cloud.lab.fi-ware.eu',
-};
-
-config.development.glance = {
-	host: '172.30.1.204',
-};
-
-config.production.glance = {
-	host: '172.30.1.204',
-};
-
-config.development.sm = {
-	host: 'cloud.lab.fi-ware.eu',
-};
-
-config.production.sm = {
-	host: 'cloud.lab.fi-ware.eu',
-};
-
-config.development.sdc = {
-	host: 'saggita.lab.fi-ware.eu',
-	port: 8080,
-	path: false
-};
-
-config.production.sdc = {
-	host: 'saggita.lab.fi-ware.eu',
-	port: 8080,
-	path: false
-};
-
-config.development.paas = {
-	host: 'pegasus.lab.fi-ware.eu',
-};
-
-config.production.paas = {
-	host: 'pegasus.lab.fi-ware.eu',
-};
-
-config.development.objstor = {
-	host: '130.206.82.9',
-};
-
-config.production.objstor = {
-	host: '130.206.82.9',
+config.keystone = {
+	host: '',
+	port: ,
+	admin_host: '',
+	admin_port: , 
+	username: '', 
+	password: '',
+	tenantId: ''
 };
 
 module.exports = config;

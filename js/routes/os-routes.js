@@ -379,12 +379,16 @@ var OSRouter = Backbone.Router.extend({
             title = option;
         }
         self.top.set({"title": title});
+
         var tabsArray = [
-        {name: 'Compute', type: 'title'},
             //{name: 'Overview', active: true, url: '#nova/'},
             //{name: 'Virtual Data Centers', active: false, url: '#nova/vdcs/'},
-            {name: 'Blueprint Instances',  iconcss: "icon_nav-blueprintInstances", css:"small", active: false, url: '#nova/blueprints/instances/'},
-            {name: 'Blueprint Templates',  iconcss: "icon_nav-blueprintTemplates", css:"small", active: false, url: '#nova/blueprints/templates/'},
+            {name: 'Blueprint', type: 'title'},
+            {name: 'BP Instances',  iconcss: "icon_nav-blueprintInstances", active: false, url: '#nova/blueprints/instances/'},
+            {name: 'BP Templates',  iconcss: "icon_nav-blueprintTemplates", active: false, url: '#nova/blueprints/templates/'},
+            {name: 'Region', type: 'title'},
+            {type: 'regions'},
+            {name: 'Compute', type: 'title'},
             {name: 'Instances', iconcss: "icon_nav-instances", active: false, url: '#nova/instances/'},
             {name: 'Images', iconcss: "icon_nav-images", active: false, url: '#nova/images/'},
             {name: 'Flavors', iconcss: "icon_nav-flavors", active: false, url: '#nova/flavors/'},
@@ -406,7 +410,7 @@ var OSRouter = Backbone.Router.extend({
     },
 
     blueprint_instances: function(self) {
-        self.showNovaRoot(self, 'Blueprint Instances');
+        self.showNovaRoot(self, 'BP Instances');
         var view = new BlueprintInstancesView({el: '#content', model: self.bpInstancesModel});
         self.newContentView(self,view);
     },
@@ -415,14 +419,14 @@ var OSRouter = Backbone.Router.extend({
         var bp = new BPInstance();
         bp.set({'blueprintName': id});
         bp.fetch({success: function() {
-            self.showNovaRoot(self, 'Blueprint Instances', 'Blueprint Instances / ' + bp.get('blueprintName'));
+            self.showNovaRoot(self, 'BP Instances', 'Blueprint Instances / ' + bp.get('blueprintName'));
             var view = new BlueprintInstanceView({el: '#content', model: bp, flavors: self.flavors, images: self.images});
             self.newContentView(self,view);
         }});
     },
 
     blueprint_instance_tier_instances: function(self, id, tier_id) {
-        self.showNovaRoot(self, 'Blueprint Instances', 'Blueprint Instances / ' + id + ' / ' + tier_id);
+        self.showNovaRoot(self, 'BP Instances', 'Blueprint Instances / ' + id + ' / ' + tier_id);
         var bp = new BPInstance();
         bp.set({'blueprintName': id});
         bp.fetch({success: function(instance) {
@@ -438,7 +442,7 @@ var OSRouter = Backbone.Router.extend({
                             insts.add(inst);
                         }
                     });
-                    self.showNovaRoot(self, 'Blueprint Instances', 'Blueprint Instances / ' + id + ' / ' + tier.name);
+                    self.showNovaRoot(self, 'BP Instances', 'Blueprint Instances / ' + id + ' / ' + tier.name);
                     var view = new BlueprintInstanceTierInstancesView({model: insts, blueprint: bp, tier: tier, projects: self.projects, flavors: self.flavors, el: '#content'});
                     self.newContentView(self,view);
                 }
@@ -448,13 +452,13 @@ var OSRouter = Backbone.Router.extend({
     },
 
     blueprint_templates: function(self) {
-        self.showNovaRoot(self, 'Blueprint Templates');
+        self.showNovaRoot(self, 'BP Templates');
         var view = new BlueprintTemplatesView({el: '#content', model: self.bpTemplatesModel});
         self.newContentView(self,view);
     },
 
     blueprint_template: function(self, id) {
-        self.showNovaRoot(self, 'Blueprint Templates', 'Blueprint Templates / ' + id);
+        self.showNovaRoot(self, 'BP Templates', 'Blueprint Templates / ' + id);
         var bp = new BPTemplate();
         bp.set({'name': id});
         var view = new BlueprintTemplateView({el: '#content', model: bp, sdcs: self.sdcs, flavors: self.flavors, keypairs: self.keypairsModel, securityGroupsModel: self.securityGroupsModel, images: self.images, networks: self.networks, subnets: self.subnets});
@@ -462,13 +466,13 @@ var OSRouter = Backbone.Router.extend({
     },
 
     blueprint_templates_catalog: function(self) {
-        self.showNovaRoot(self, 'Blueprint Templates', 'Blueprint Templates / Catalog');
+        self.showNovaRoot(self, 'BP Templates', 'Blueprint Templates / Catalog');
         var view = new BlueprintTemplatesCatalogView({el: '#content', model: self.bpTemplatesModel});
         self.newContentView(self,view);
     },
 
     blueprint_template_catalog: function(self, id) {
-        self.showNovaRoot(self, 'Blueprint Templates', 'Blueprint Templates / Catalog / ' + id);
+        self.showNovaRoot(self, 'BP Templates', 'Blueprint Templates / Catalog / ' + id);
         var view = new BlueprintTemplateCatalogView({el: '#content', model: self.bpTemplatesModel, templateId: id, sdcs: self.sdcs, flavors: self.flavors, keypairs: self.keypairsModel, securityGroupsModel: self.securityGroupsModel, images: self.images});
         self.newContentView(self,view);
     },

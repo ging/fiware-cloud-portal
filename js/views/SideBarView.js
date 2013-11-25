@@ -17,6 +17,11 @@ var SideBarView = Backbone.View.extend({
                 window.location = val;
             }
         });
+        $("#region_switcher").selectbox({
+            onChange: function (val, inst) {
+                self.options.loginModel.switchRegion(val);
+            }
+        });
     }
 
 });

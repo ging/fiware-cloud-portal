@@ -14,6 +14,8 @@ UTILS.Auth = (function(U, undefined) {
 
     var access_token_;
 
+    var current_region_;
+
     var is_idm_ = false;
 
     function initialize(url, adminUrl, isIDM) {
@@ -51,6 +53,49 @@ UTILS.Auth = (function(U, undefined) {
         return JSTACK.Keystone.params.access.token.tenant;
     };
 
+    var getRegions = function() {
+        var servs = JSTACK.Keystone.getservicelist();
+        var regs = [];
+        for (var s in servs) {
+            if (servs[s].name === 'nova') {
+                regs.push(servs[s].endpoints[0].region);
+            }
+        }
+        return regs;
+    };
+
+    var getCurrentRegion = function() {
+        return current_region_;
+    };
+
+    var switchRegion = function(regId) {
+        current_region_ = regId;
+        if (isAuthenticated()) {
+
+            var compute = JSTACK.Keystone.getservice("compute");
+            compute.endpoints[0].adminURL = current_region_ + "/nova" + compute.endpoints[0].adminURL.split('nova')[1];
+            compute.endpoints[0].publicURL = current_region_ + "/nova" + compute.endpoints[0].publicURL.split('nova')[1];
+            compute.endpoints[0].internalURL = current_region_ + "/nova" + compute.endpoints[0].internalURL.split('nova')[1];
+        
+            var volume = JSTACK.Keystone.getservice("volume");
+            volume.endpoints[0].adminURL = current_region_ + "/nova-volume" + volume.endpoints[0].adminURL.split('nova-volume')[1];
+            volume.endpoints[0].publicURL = current_region_ + "/nova-volume" + volume.endpoints[0].publicURL.split('nova-volume')[1];
+            volume.endpoints[0].internalURL = current_region_ + "/nova-volume" + volume.endpoints[0].internalURL.split('nova-volume')[1];
+
+            var image = JSTACK.Keystone.getservice("image");
+            image.endpoints[0].adminURL = current_region_ + "/glance" + image.endpoints[0].adminURL.split('glance')[1];
+            image.endpoints[0].publicURL = current_region_ + "/glance" + image.endpoints[0].publicURL.split('glance')[1];
+            image.endpoints[0].internalURL = current_region_ + "/glance" + image.endpoints[0].internalURL.split('glance')[1];
+
+            var neutron = JSTACK.Keystone.getservice("network");
+            if (neutron !== undefined) {
+                neutron.endpoints[0].adminURL = current_region_ + "/quantum" + neutron.endpoints[0].adminURL.split('quantum')[1];
+                neutron.endpoints[0].publicURL = current_region_ + "/quantum" + neutron.endpoints[0].publicURL.split('quantum')[1];
+                neutron.endpoints[0].internalURL = current_region_ + "/quantum" + neutron.endpoints[0].internalURL.split('quantum')[1];
+            }
+        }
+    };
+
     var isAuthenticated = function() {
         return JSTACK.Keystone.params.currentstate == JSTACK.Keystone.STATES.AUTHENTICATED;
     };
@@ -74,50 +119,15 @@ UTILS.Auth = (function(U, undefined) {
         }
     };
 
+
     function authenticateWithCredentials(username, password, tenant, token, callback, error) {
 
         var _authenticatedWithTenant = function (resp) {
             console.log(resp);
             console.log("Authenticated in tenant ", tenant);
-            /*
-            var compute = JSTACK.Keystone.getservice("compute");
 
-            compute.endpoints = sm.endpoints;
-            */
-
-            var host = "localhost:8080";
-            host = document.URL.match(/http.?:\/\/([^\/]*)\/.*/)[1];
-
-            console.log("Changing endpoint URLS to ", host);
-
-            var compute = JSTACK.Keystone.getservice("compute");
-            compute.endpoints[0].adminURL = "/nova" + compute.endpoints[0].adminURL.split('8774')[1];
-            compute.endpoints[0].publicURL = "/nova" + compute.endpoints[0].publicURL.split('8774')[1];
-            compute.endpoints[0].internalURL = "/nova" + compute.endpoints[0].internalURL.split('8774')[1];
-        
-            var volume = JSTACK.Keystone.getservice("volume");
-            volume.endpoints[0].adminURL = "/nova-volume" + volume.endpoints[0].adminURL.split('8776')[1];
-            volume.endpoints[0].publicURL = "/nova-volume" + volume.endpoints[0].publicURL.split('8776')[1];
-            volume.endpoints[0].internalURL = "/nova-volume" + volume.endpoints[0].internalURL.split('8776')[1];
-
-            /*var sm = JSTACK.Keystone.getservice("sm");
-            sm.endpoints[0].adminURL = sm.endpoints[0].adminURL.replace(/130\.206\.80\.91:8774/, host + "/sm");
-            sm.endpoints[0].publicURL = sm.endpoints[0].publicURL.replace(/130\.206\.80\.91:8774/, host + "/sm");
-            sm.endpoints[0].internalURL = sm.endpoints[0].internalURL.replace(/130\.206\.80\.91:8774/, host + "/sm");
-            */
-            var image = JSTACK.Keystone.getservice("image");
-            image.endpoints[0].adminURL = "/glance" + image.endpoints[0].adminURL.split('9292')[1];
-            image.endpoints[0].publicURL = "/glance" + image.endpoints[0].publicURL.split('9292')[1];
-            image.endpoints[0].internalURL = "/glance" + image.endpoints[0].internalURL.split('9292')[1];
-
-            var neutron = JSTACK.Keystone.getservice("network");
-            if (neutron !== undefined) {
-                neutron.endpoints[0].adminURL = "/quantum" + neutron.endpoints[0].adminURL.split('9696')[1];
-                neutron.endpoints[0].publicURL = "/quantum" + neutron.endpoints[0].publicURL.split('9696')[1];
-                neutron.endpoints[0].internalURL = "/quantum" + neutron.endpoints[0].internalURL.split('9696')[1];
-            }
-
-            //OVF.API.configure(JSTACK.Keystone.getservice("sm").endpoints[0].publicURL, JSTACK.Keystone.params.access.token.id);
+            changeEndpoints();
+            
             callback();
         };
 
@@ -187,43 +197,9 @@ UTILS.Auth = (function(U, undefined) {
         var _authenticatedWithTenant = function (resp) {
             console.log("Authenticated for tenant ", tenant_);
             console.log("Token: ", JSTACK.Keystone.params.access.token.id);
-            /*
-            var compute = JSTACK.Keystone.getservice("compute");
 
-            compute.endpoints = sm.endpoints;
-            */
+            changeEndpoints();
 
-            var host = "localhost:8080";
-            host = document.URL.match(/http.?:\/\/([^\/]*)\/.*/)[1];
-
-            console.log("Changing endpoint URLS to ", host);
-
-            var compute = JSTACK.Keystone.getservice("compute");
-            compute.endpoints[0].adminURL = "/nova" + compute.endpoints[0].adminURL.split('8774')[1];
-            compute.endpoints[0].publicURL = "/nova" + compute.endpoints[0].publicURL.split('8774')[1];
-            compute.endpoints[0].internalURL = "/nova" + compute.endpoints[0].internalURL.split('8774')[1];
-
-            var volume = JSTACK.Keystone.getservice("volume");
-            volume.endpoints[0].adminURL = "/nova-volume" + volume.endpoints[0].adminURL.split('8776')[1];
-            volume.endpoints[0].publicURL = "/nova-volume" + volume.endpoints[0].publicURL.split('8776')[1];
-            volume.endpoints[0].internalURL = "/nova-volume" + volume.endpoints[0].internalURL.split('8776')[1];
-
-            /*var sm = JSTACK.Keystone.getservice("sm");
-            sm.endpoints[0].adminURL = sm.endpoints[0].adminURL.replace(/130\.206\.80\.91:8774/, host + "/sm");
-            sm.endpoints[0].publicURL = sm.endpoints[0].publicURL.replace(/130\.206\.80\.91:8774/, host + "/sm");
-            sm.endpoints[0].internalURL = sm.endpoints[0].internalURL.replace(/130\.206\.80\.91:8774/, host + "/sm");
-            */
-            var image = JSTACK.Keystone.getservice("image");
-            image.endpoints[0].adminURL = "/glance" + image.endpoints[0].adminURL.split('9292')[1];
-            image.endpoints[0].publicURL = "/glance" + image.endpoints[0].publicURL.split('9292')[1];
-            image.endpoints[0].internalURL = "/glance" + image.endpoints[0].internalURL.split('9292')[1];
-
-            var objectstorage = JSTACK.Keystone.getservice("object-store");
-            objectstorage.endpoints[0].adminURL = "/objstor" + objectstorage.endpoints[0].adminURL.split('8080')[1];
-            objectstorage.endpoints[0].publicURL = "/objstor" + objectstorage.endpoints[0].publicURL.split('8080')[1];
-            objectstorage.endpoints[0].internalURL = "/objstor" + objectstorage.endpoints[0].internalURL.split('8080')[1];
-
-            //OVF.API.configure(JSTACK.Keystone.getservice("sm").endpoints[0].publicURL, JSTACK.Keystone.params.access.token.id);
             var t = Object.create(resp.access.token.tenant);
             t.id = tenant_;
             callback(t);
@@ -270,6 +246,41 @@ UTILS.Auth = (function(U, undefined) {
 
     }
 
+    function changeEndpoints () {
+
+        var host = "localhost:8080";
+        host = document.URL.match(/http.?:\/\/([^\/]*)\/.*/)[1];
+
+        console.log("Changing endpoint URLS to ", host);
+
+        var compute = JSTACK.Keystone.getservice("compute");
+        compute.endpoints[0].adminURL = current_region_ + "/nova" + compute.endpoints[0].adminURL.split('8774')[1];
+        compute.endpoints[0].publicURL = current_region_ + "/nova" + compute.endpoints[0].publicURL.split('8774')[1];
+        compute.endpoints[0].internalURL = current_region_ + "/nova" + compute.endpoints[0].internalURL.split('8774')[1];
+    
+        var volume = JSTACK.Keystone.getservice("volume");
+        volume.endpoints[0].adminURL = current_region_ + "/volume" + volume.endpoints[0].adminURL.split('8776')[1];
+        volume.endpoints[0].publicURL = current_region_ + "/volume" + volume.endpoints[0].publicURL.split('8776')[1];
+        volume.endpoints[0].internalURL = current_region_ + "/volume" + volume.endpoints[0].internalURL.split('8776')[1];
+
+        var image = JSTACK.Keystone.getservice("image");
+        image.endpoints[0].adminURL = current_region_ + "/glance" + image.endpoints[0].adminURL.split('9292')[1];
+        image.endpoints[0].publicURL = current_region_ + "/glance" + image.endpoints[0].publicURL.split('9292')[1];
+        image.endpoints[0].internalURL = current_region_ + "/glance" + image.endpoints[0].internalURL.split('9292')[1];
+
+        var objectstorage = JSTACK.Keystone.getservice("object-store");
+        objectstorage.endpoints[0].adminURL = current_region_  + "/objstor" + objectstorage.endpoints[0].adminURL.split('8080')[1];
+        objectstorage.endpoints[0].publicURL = current_region_  + "/objstor" + objectstorage.endpoints[0].publicURL.split('8080')[1];
+        objectstorage.endpoints[0].internalURL = current_region_  + "/objstor" + objectstorage.endpoints[0].internalURL.split('8080')[1];
+
+        var neutron = JSTACK.Keystone.getservice("network");
+        if (neutron !== undefined) {
+            neutron.endpoints[0].adminURL = current_region_ + "/quantum" + neutron.endpoints[0].adminURL.split('9696')[1];
+            neutron.endpoints[0].publicURL = current_region_ + "/quantum" + neutron.endpoints[0].publicURL.split('9696')[1];
+            neutron.endpoints[0].internalURL = current_region_ + "/quantum" + neutron.endpoints[0].internalURL.split('9696')[1];
+        }
+    }
+
     return {
         initialize: initialize,
         goAuth: goAuth,
@@ -281,6 +292,9 @@ UTILS.Auth = (function(U, undefined) {
         isAuthenticated: isAuthenticated,
         getCurrentTenant: getCurrentTenant,
         getTenants: getTenants,
+        getRegions: getRegions,
+        getCurrentRegion: getCurrentRegion,
+        switchRegion: switchRegion,
         switchTenant: switchTenant,
         isAdmin: isAdmin,
         isIDM: isIDM

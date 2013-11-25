@@ -10,7 +10,9 @@ var LoginStatus = Backbone.Model.extend({
         tenant: undefined,
         tenant_id: undefined,
         tenants: undefined,
-        expired: true
+        expired: true,
+        current_region: undefined,
+        regions: undefined
     },
 
     initialize: function () {
@@ -46,9 +48,13 @@ var LoginStatus = Backbone.Model.extend({
                 UTILS.Auth.goAuth();
             }
         }
-       
 
+        
 
+        if (localStorage.getItem('current_region')) {
+            this.set({'current_region': localStorage.getItem('current_region')});
+            UTILS.Auth.switchRegion(this.get('current_region'));       
+        }
     },
 
     onValidateError: function (model, error) {
@@ -68,6 +74,7 @@ var LoginStatus = Backbone.Model.extend({
                     self.set({tenants: tenants.tenants});
                     self.set({'loggedIn': true});
                 });
+                self.updateRegions();
             }, function(msg) {
                 self.set({'error_msg': msg});
                 self.trigger('auth-error', msg);
@@ -93,6 +100,7 @@ var LoginStatus = Backbone.Model.extend({
                     self.set({tenants: tenants.tenants});
                     self.set({'loggedIn': true});
                 });
+                self.updateRegions();
 
             }, function(msg) {
                 console.log("Error authenticating with token");
@@ -128,6 +136,7 @@ var LoginStatus = Backbone.Model.extend({
                     var subview = new MessagesView({state: "Info", title: "Connected to project " + tenant.name + " (ID " + tenant.id + ")"});
                     subview.render();
                 });
+                self.updateRegions();
             }, function(msg) {
                 console.log("Error authenticating with token");
                 UTILS.Auth.logout();
@@ -195,6 +204,24 @@ var LoginStatus = Backbone.Model.extend({
         }
     },
 
+    switchRegion: function(regionId) {
+
+        UTILS.Auth.switchRegion(regionId);
+      
+        this.set('current_region', regionId);
+        localStorage.setItem('current_region', regionId);
+        var subview = new MessagesView({state: "Info", title: "Switched to region " + regionId});
+        subview.render();
+    },
+
+    updateRegions: function() {
+
+        this.set('regions', UTILS.Auth.getRegions());
+        if (this.get('current_region') === undefined) {
+            this.switchRegion(this.get('regions')[0]);
+        }
+    },
+
     clearAll: function() {
         if (!UTILS.Auth.isIDM()) {
             localStorage.setItem('token', '');    
@@ -202,6 +229,7 @@ var LoginStatus = Backbone.Model.extend({
             localStorage.removeItem('tenant_id');
             document.cookie = 'oauth_token=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
         }
+        localStorage.removeItem('current_region');
         this.set(this.defaults);
     }
 

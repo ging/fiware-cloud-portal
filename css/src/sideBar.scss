@@ -68,6 +68,63 @@
   .sbToggle {
     background: url(../ico/click.png) 0px 10px no-repeat;
     &:hover {
+      
+    }
+    &.sbToggleOpen {
+        -moz-transform: scaleY(-1);
+        -o-transform: scaleY(-1);
+        -webkit-transform: scaleY(-1);
+        transform: scaleY(-1);
+        filter: FlipV;
+        -ms-filter: "FlipV";
+    }
+  }
+}
+
+.region_switch {
+  padding-bottom: 0px;
+  width: 90%;
+  position: absolute;
+
+  .sbHolder {
+    font-family: 'Comfortaa';
+    font-weight:400;
+    border: none;
+    font-size: 18px;
+    color: #00A3D0;
+  }
+
+  .sbOptions a:link,
+  .sbOptions a:visited {
+    font-family: 'Comfortaa';
+    font-size: 18px;
+    font-weight:400;
+    color: $blue4;
+    &:hover {
+      color: $blue2;
+      background-color: #f9f9f9;
+    }
+  }
+
+  .sbSelector:link,
+  .sbSelector:visited,
+  .sbSelector:hover {
+    color: $blue3;
+    outline: none;
+    text-decoration: none;
+    position: absolute;
+    left: 0px;
+    width: 80%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    border: 0;
+  }
+
+  .sbToggle {
+    background: url(../ico/click.png) 0px 10px no-repeat;
+    &:hover {
+      background: url(../ico/click.png) 0px 10px no-repeat;
     }
     &.sbToggleOpen {
         -moz-transform: scaleY(-1);
@@ -108,11 +165,7 @@
   a {
       font-size: 18px;
       display: block;
-      padding-bottom: 10px;
-      padding-right: 10px;
-      padding-top: 10px;
       color: #7B7B7B;
-      padding: 10px;
       display: block;
       margin-left: 0px !important;
       border-radius: 5px;

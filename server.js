@@ -7,6 +7,9 @@ var express = require('express'),
 
 var oauth_config = require('./config').oauth;
 var useIDM = require('./config').useIDM;
+var keystone_config = require('./config').keystone;
+
+var service_catalog;
 
 if (useIDM) {
     var oauth_client = new OAuth2(oauth_config.client_id,
@@ -47,15 +50,9 @@ app.use (function(req, res, next) {
 });
 
 var dirName = '/dist/';
-if (process.argv[2] === 'debug' || process.argv[3] === 'debug') {
+if (process.argv[2] === 'debug') {
     console.log('********* debug');
     dirName = '/';
-}
-
-var config = require('./config').production;
-if (process.argv[2] === 'develop' || process.argv[3] === 'develop') {
-    console.log('********* develop');
-    config = require('./config').development;
 }
 
 app.configure(function () {
@@ -87,8 +84,8 @@ app.use(function (req, res, next) {
     }
 });
 
-function sendData(port, options, data, res) {
-    var xhr, body, result, callbackError, callBackOK;
+function sendData(port, options, data, res, callBackOK, callbackError) {
+    var xhr, body, result;
 
     callbackError = callbackError || function(status, resp) {
         console.log("Error: ", status, resp);
@@ -107,7 +104,7 @@ function sendData(port, options, data, res) {
         res.send(resp);
     };
 
-    var url = port + "://" + options.host + ":" + options.port + options.path;
+    var url = options.url || port + "://" + options.host + ":" + options.port + options.path;
     xhr = new XMLHttpRequest();
     xhr.open(options.method, url, true);
     if (options.headers["content-type"]) {
@@ -213,8 +210,8 @@ app.get('/', function(req, res) {
 
 app.all('/keystone/*', function(req, resp) {
     var options = {
-        host: config.keystone.host,
-        port: config.keystone.port,
+        host: keystone_config.host,
+        port: keystone_config.port,
         path: req.url.split('keystone')[1],
         method: req.method,
         headers: getClientIp(req, req.headers)
@@ -224,8 +221,8 @@ app.all('/keystone/*', function(req, resp) {
 
 app.all('/keystone-admin/*', function(req, resp) {
     var options = {
-        host: config.keystone.admin_host,
-        port: config.keystone.admin_port,
+        host: keystone_config.admin_host,
+        port: keystone_config.admin_port,
         path: req.url.split('keystone-admin')[1],
         method: req.method,
         headers: getClientIp(req, req.headers)
@@ -233,88 +230,14 @@ app.all('/keystone-admin/*', function(req, resp) {
     sendData("http", options, req.body, resp);
 });
 
-app.all('/nova/*', function(req, resp) {
-    var options = {
-        host: config.nova.host,
-        port: 8774,
-        path: req.url.split('nova')[1],
-        method: req.method,
-        headers: req.headers
-    };
-    sendData("http", options, req.body, resp);
-});
+app.all('/:reg/:service/:v/*', function(req, resp) {
 
-app.all('/nova-volume/*', function(req, resp) {
-    var options = {
-        host: config.nova.host,
-        port: 8776,
-        path: req.url.split('nova-volume')[1],
-        method: req.method,
-        headers: req.headers
-    };
-    sendData("http", options, req.body, resp);
-});
+    var endp = getEndpoint(req.params.service, req.params.reg);
+    var new_url = req.url.split(req.params.v)[1];
+    console.log('REGION: ', req.params.reg, endp, new_url);
 
-app.all('/glance/*', function(req, resp) {
     var options = {
-        host: config.glance.host,
-        port: 9292,
-        path: req.url.split('glance')[1],
-        method: req.method,
-        headers: req.headers
-    };
-    sendData("http", options, req.body, resp);
-});
-
-app.all('/sm/*', function(req, resp) {
-    var options = {
-        host: config.sm.host,
-        port: 8774,
-        path: req.url.split('sm')[1],
-        method: req.method,
-        headers: req.headers
-    };
-    sendData("http", options, req.body, resp);
-});
-
-app.all('/sdc/rest/*', function(req, resp) {
-    var options = {
-        host: config.sdc.host,
-        port: config.sdc.port,
-        path: config.sdc.path ? req.url.split('/sdc/')[0] + '/sdc2/' + req.url.split('/sdc/')[1] : req.path,
-        method: req.method,
-        headers: req.headers
-    };
-    sendData("http", options, req.body, resp);
-});
-
-app.all('/paasmanager/rest/*', function(req, resp) {
-    var options = {
-        host: config.paas.host,
-        port: 8082,
-        path: req.url,
-        method: req.method,
-        headers: req.headers
-    };
-    sendData("http", options, req.body, resp);
-});
-
-app.all('/objstor/*', function(req, resp) {
-    var options = {
-        host: config.objstor.host,
-        port: 8080,
-        path: req.url.split('objstor')[1],
-        method: req.method,
-        headers: req.headers
-    };
-    sendData("http", options, req.body, resp);
-});
-
-app.all('/quantum/*', function(req, resp) {
-    var options = {
-        host: config.neutron.host,
-        port: 9696,
-        path: req.url.split('quantum')[1],
+        url: endp + new_url,
         method: req.method,
         headers: req.headers
     };
@@ -334,42 +257,88 @@ app.all('/user/:token', function(req, resp) {
 });
 
 if (useIDM) {
-app.get('/idm/auth', function(req, res){
+    app.get('/idm/auth', function(req, res){
 
-    var tok;
+        var tok;
 
-    try {
-        tok = decrypt(req.cookies.oauth_token);
-    } catch (err) {
-        req.cookies.oauth_token = undefined;
+        try {
+            tok = decrypt(req.cookies.oauth_token);
+        } catch (err) {
+            req.cookies.oauth_token = undefined;
+        }
+
+        if(!req.cookies.oauth_token) {
+            var path = oauth_client.getAuthorizeUrl();
+            res.redirect(path);
+        } else {
+            res.redirect("/#token=" + tok + "&expires=" + req.cookies.expires_in);
+        }
+        
+    });
+
+    app.get('/login', function(req, res){
+       
+        oauth_client.getOAuthAccessToken(
+            req.query.code,
+            function (e, results){
+                res.cookie('oauth_token', encrypt(results.access_token));
+                res.cookie('expires_in', results.expires_in);
+                res.redirect("/#token=" + results.access_token + "&expires=" + results.expires_in);
+            });
+
+    });
+
+    app.get('/logout', function(req, res){
+        res.clearCookie('oauth_token');
+        res.clearCookie('expires_in');
+        res.send(200);
+    });
+}
+
+function getCatalog() {
+
+    var options = {
+        host: keystone_config.host,
+        port: keystone_config.port,
+        path: '/v2.0/tokens',
+        method: 'POST',
+        headers: {}
+    };
+
+    var credentials = {
+                "auth" : {
+                    "passwordCredentials" : {
+                        "username" : keystone_config.username,
+                        "password" : keystone_config.password
+                    },
+                    "tenantId" :  keystone_config.tenantId
+                }
+            };
+
+    sendData("http", options, JSON.stringify(credentials), undefined, function (status, resp) {
+        service_catalog = JSON.parse(resp).access.serviceCatalog;
+        //console.log('CAT ', service_catalog);
+    }, function (e) {
+        console.log('Error ', e);
+    });
+}
+
+function getEndpoint (service, region) {
+    var serv, endpoint;
+    for (var s in service_catalog) {
+        console.log(service_catalog[s].name, service);
+        if (service_catalog[s].name === service) {
+            serv = service_catalog[s];
+            break;
+        }
     }
-
-    if(!req.cookies.oauth_token) {
-        var path = oauth_client.getAuthorizeUrl();
-        res.redirect(path);
-    } else {
-        res.redirect("/#token=" + tok + "&expires=" + req.cookies.expires_in);
+    for (var e in serv.endpoints) {
+        if (serv.endpoints[e].region === region) {
+            endpoint = serv.endpoints[e];
+            break;
+        }
     }
-    
-});
-
-app.get('/login', function(req, res){
-   
-    oauth_client.getOAuthAccessToken(
-        req.query.code,
-        function (e, results){
-            res.cookie('oauth_token', encrypt(results.access_token));
-            res.cookie('expires_in', results.expires_in);
-            res.redirect("/#token=" + results.access_token + "&expires=" + results.expires_in);
-        });
-
-});
-
-app.get('/logout', function(req, res){
-    res.clearCookie('oauth_token');
-    res.clearCookie('expires_in');
-    res.send(200);
-});
+    return endpoint.publicURL.split('/' + keystone_config.tenantId)[0];
 }
 
 function encrypt(str){
@@ -387,3 +356,5 @@ function decrypt(str){
 }
 
 app.listen(80);
+
+getCatalog();
