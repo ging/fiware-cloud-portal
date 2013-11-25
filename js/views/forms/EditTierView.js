@@ -4,6 +4,8 @@ var EditTierView = Backbone.View.extend({
 
     tableView: undefined,
     tableViewNew: undefined,
+    netTableView: undefined,
+    netTableViewNew: undefined,
 
     dial: undefined,
 
@@ -15,7 +17,10 @@ var EditTierView = Backbone.View.extend({
         'change .tier-values': 'onInput',
         'click #cancel-attrs': 'cancelAttrs',
         'click #accept-attrs': 'acceptAttrs',
-        'click #btn-apply-icon': 'applyIcon'
+        'click #btn-apply-icon': 'applyIcon',
+        'click #btn-show-networks': 'showNetworks',
+        'click #btn-hide-networks': 'hideNetworks',
+        'click #addNewAlias': 'addNewAlias'
     },
 
     initialize: function() {
@@ -48,6 +53,56 @@ var EditTierView = Backbone.View.extend({
                 self.addedProducts.push(product);
             });
         }
+        this.networkList = [];
+        var current_tenant_id = JSTACK.Keystone.params.access.token.tenant.id;
+
+        var tiers = this.model.get("tierDtos_asArray");
+        var added = {};
+        for (var tierIdx in tiers) {
+            var tier = tiers[tierIdx];
+            if (tier.hasOwnProperty("networkDto_asArray")) {
+                var nets = tier.networkDto_asArray;
+                for (var netIdx in nets) {
+                    var net = nets[netIdx];
+                    if (added[net.networkName] === undefined) {
+                        this.networkList.push({displayName: net.networkName, name: net.networkName});
+                        added[net.networkName] = net;
+                    }
+                }
+            }
+        }
+
+        var all_subnets = this.options.subnets.models;
+        for (var index in this.options.networks.models) {
+            var network = this.options.networks.models[index];
+            var tenant_id = network.get("tenant_id");
+            var subnets = [];
+            var subnet_ids = network.get("subnets");
+            if (current_tenant_id == tenant_id && network.get("router:external") !== true) {
+                for (var i in subnet_ids) {
+                    sub_id = subnet_ids[i];
+                    for (var j in all_subnets) {
+                        if (sub_id == all_subnets[j].id) {
+                            var sub_cidr = all_subnets[j].attributes.name+" "+all_subnets[j].attributes.cidr;
+                            subnets.push(sub_cidr);
+                        }                                      
+                    }                    
+                }
+                var name = network.attributes.name === "" ? "("+network.get("id").slice(0,8)+")" : network.attributes.name;
+                name = name + " (" + subnets + ")";
+                this.networkList.push({displayName: name, name: network.attributes.name, net_id: network.id});
+            }
+        }
+        
+        this.addedNetworks = [];
+        var myTier = this.options.tier;
+        if (myTier.hasOwnProperty("networkDto_asArray")) {
+            var myNets = myTier.networkDto_asArray;
+            for (var myNetIdx in myNets) {
+                var myNet = myNets[myNetIdx];
+                this.addedNetworks.push({displayName: myNet.networkName, name: myNet.networkName});
+            }
+        }
     },
 
     close: function(e) {
@@ -59,6 +114,8 @@ var EditTierView = Backbone.View.extend({
         $('.modal-backdrop').remove();
         this.tableView.close();
         this.tableViewNew.close();
+        this.netTableView.close();
+        this.netTableViewNew.close();
         this.unbind();
         this.undelegateEvents();
     },
@@ -88,6 +145,10 @@ var EditTierView = Backbone.View.extend({
         dial._draw();
     },
 
+    getNetMainButtons: function() {
+        return [];
+    },
+
     getMainButtons: function() {
         // main_buttons: [{label:label, url: #url, action: action_name}]
         return [];
@@ -95,6 +156,26 @@ var EditTierView = Backbone.View.extend({
         //     label: "Allocate IP to Project",
         //     action: "allocate"
         // }];
+    },
+
+    getNetDropdownButtons: function() {
+        // dropdown_buttons: [{label:label, action: action_name}]
+        var self = this;
+        var oneSelected = function(size, id) {
+            if (size === 1) {
+                return true;
+            }
+        };
+        var groupSelected = function(size, id) {
+            if (size >= 1) {
+                return true;
+            }
+        };
+        return [{
+            label: "Remove",
+            action: "uninstall",
+            activatePattern: groupSelected
+        }];
     },
 
     getDropdownButtons: function() {
@@ -121,6 +202,16 @@ var EditTierView = Backbone.View.extend({
         }];
     },
 
+    getNetHeaders: function() {
+        return [{
+            name: "Name",
+            tooltip: "Software name",
+            size: "55%",
+            hidden_phone: false,
+            hidden_tablet: false
+        }];
+    },
+
     getHeaders: function() {
         return [{
             name: "Name",
@@ -129,6 +220,22 @@ var EditTierView = Backbone.View.extend({
             hidden_phone: false,
             hidden_tablet: false
         }];
+    },
+
+    getNetEntries: function() {
+        var entries = [];
+
+        for (var network in this.addedNetworks) {
+
+            entries.push(
+                {id: network, cells:[
+                    {value: this.addedNetworks[network].displayName}
+                    ]
+                });
+
+        }
+
+        return entries;
     },
 
     getEntries: function() {
@@ -147,6 +254,11 @@ var EditTierView = Backbone.View.extend({
         return entries;
     },
 
+    getNetMainButtonsNew: function() {
+        // main_buttons: [{label:label, url: #url, action: action_name}]
+        return [];
+    },
+
     getMainButtonsNew: function() {
         // main_buttons: [{label:label, url: #url, action: action_name}]
         return [];
@@ -154,6 +266,26 @@ var EditTierView = Backbone.View.extend({
         //     label: "Allocate IP to Project",
         //     action: "allocate"
         // }];
+    },
+
+    getNetDropdownButtonsNew: function() {
+        // dropdown_buttons: [{label:label, action: action_name}]
+        var self = this;
+        var oneSelected = function(size, id) {
+            if (size === 1) {
+                return true;
+            }
+        };
+        var groupSelected = function(size, id) {
+            if (size >= 1) {
+                return true;
+            }
+        };
+        return [{
+            label: "Add",
+            action: "install",
+            activatePattern: groupSelected
+        }];
     },
 
     getDropdownButtonsNew: function() {
@@ -176,6 +308,16 @@ var EditTierView = Backbone.View.extend({
         }];
     },
 
+    getNetHeadersNew: function() {
+        return [{
+            name: "Name",
+            tooltip: "Software name",
+            size: "40%",
+            hidden_phone: false,
+            hidden_tablet: false
+        }];
+    },
+
     getHeadersNew: function() {
         return [{
             name: "Name",
@@ -184,6 +326,31 @@ var EditTierView = Backbone.View.extend({
             hidden_phone: false,
             hidden_tablet: false
         }];
+    },
+
+    getNetEntriesNew: function() {
+        var entries = [];
+
+        var networks = this.networkList;
+
+        if (networks === undefined) {
+            return 'loading';
+        }
+
+        console.log("Networks!!!", networks);
+
+        for (var network in networks) {
+              entries.push(
+
+                {id: network, cells:[
+                {value: networks[network].displayName}]});
+
+        }
+
+        entries = [{id: networks.length, isDraggable: false, cells:[
+                {value: '<input type="text" id="aliasName" placeholder="Enter the alias of a new network..."><button id="addNewAlias">+</button>'}]}].concat(entries);
+        return entries;
+
     },
 
     getEntriesNew: function() {
@@ -203,6 +370,105 @@ var EditTierView = Backbone.View.extend({
 
         }
         return entries;
+    },
+
+    addNewAlias: function() {
+        this.networkList = [{name: $("#aliasName").val(), displayName: $("#aliasName").val()}].concat(this.networkList);
+        this.netTableViewNew.render();
+    },
+
+    installNetwork: function(id, targetId) {
+        network = this.networkList[id];
+        console.log(network);
+        var exists = false;
+        for (var a in this.addedNetworks) {
+            if (this.addedNetworks[a].name === network.name) {
+                exists = true;
+                continue;
+            }
+        }
+        if (!exists) {
+            //this.addedProducts.push(network);
+            targetId = targetId || this.addedNetworks.length;
+            console.log("Installing on: ", targetId);
+            this.addedNetworks.splice(targetId, 0, network);
+            this.netTableView.render();
+        }
+    },
+
+    movingNetwork: function(id, targetId) {
+        var network = this.addedNetworks[id];
+        this.addedNetworks.splice(id, 1);
+        var offset = 0;
+        if (id < targetId) {
+            offset = 1;
+        }
+        targetId = targetId || this.addedNetworks.length - offset;
+        console.log("Moving to: ", targetId);
+        this.addedNetworks.splice(targetId, 0, network);
+        this.netTableView.render();
+    },
+
+    uninstallNetwork: function(id) {
+        this.addedNetworks.splice(id, 1);
+        this.netTableView.render();
+    },
+
+    showNetworks: function() {
+        $('#scroll-based-layer-networks').animate({
+            scrollLeft: $('#scroll-based-layer-networks').width()+1
+        }, 500, function() {
+            // Animation complete.
+        });
+        $('#btn-show-networks').animate({
+            opacity: 0
+        }, 500, function() {
+            // Animation complete.
+            $('#btn-show-networks').hide();
+        });
+        $('#btn-hide-networks').animate({
+            opacity: 1
+        }, 500, function() {
+            // Animation complete.
+            $('#btn-hide-networks').show();
+        });
+    },
+
+    hideNetworks: function() {
+        $('#scroll-based-layer-networks').animate({
+            scrollLeft: 0
+        }, 500, function() {
+            // Animation complete.
+        });
+        $('#btn-show-networks').animate({
+            opacity: 1
+        }, 500, function() {
+            // Animation complete.
+            $('#btn-show-networks').show();
+        });
+        $('#btn-hide-networks').animate({
+            opacity: 0
+        }, 500, function() {
+            // Animation complete.
+            $('#btn-hide-networks').hide();
+        });
+    },
+
+    onNetAction: function(action, ids) {
+
+        var self = this;
+
+        var product;
+
+        switch (action) {
+            case 'install':
+                this.installNetwork(ids);
+            break;
+            case 'uninstall':
+                this.uninstallNetwork(ids);
+            break;
+        }
+        return false;
     },
 
     onAction: function(action, ids) {
@@ -353,6 +619,18 @@ var EditTierView = Backbone.View.extend({
             }
         }
 
+        if (this.addedNetworks.length !== 0) {
+
+            tier.networkDto = [];
+            for (var n in this.addedNetworks) {
+                var nN = {networkName: this.addedNetworks[n].name};
+                if (this.addedNetworks[n].net_id !== undefined) {
+                    nN.networkId = this.addedNetworks[n].net_id;
+                }
+                tier.networkDto.push(nN);
+            }
+        }
+
         var options = UTILS.Messages.getCallbacks("Tier "+name + " updated.", "Error updating tier "+name, {context: self});
 
         options.tier = tier;
@@ -378,6 +656,30 @@ var EditTierView = Backbone.View.extend({
             this.$('#edit-tier-image').hide();
             this.$('.tier-image-back').show();
         }
+    },
+
+    onNewNetworkDrag: function(entryId) {
+        console.log("Obtained:", entryId);
+        return entryId;
+    },
+
+    onNewNetworkDrop: function(targetId, entryId) {
+        console.log("Uninstalled:", targetId, entryId);
+        this.uninstallNetwork(entryId);
+    },
+
+    onInstalledNetworkDrop: function(targetId, entryId) {
+        console.log("Installing:", targetId, entryId);
+        this.installNetwork(entryId, targetId);
+    },
+
+    onInstalledNetworkDrag: function(entryId) {
+        return entryId;
+    },
+
+    onInstalledNetworkMove: function(targetId, entryId) {
+        console.log("Moving:", targetId, entryId);
+        this.movingNetwork(entryId, targetId);
     },
 
     render: function () {
@@ -419,6 +721,53 @@ var EditTierView = Backbone.View.extend({
         });
         this.tableView.render();
         this.tableViewNew.render();
+
+        this.netTableView = new TableView({
+            el: '#installedNetwork-table',
+            actionsClass: "actionsNetTier",
+            headerClass: "headerNetTier",
+            bodyClass: "bodyNetTier",
+            footerClass: "footerNetTier",
+            onAction: this.onNetAction,
+            getDropdownButtons: this.getNetDropdownButtons,
+            getMainButtons: this.getNetMainButtons,
+            getHeaders: this.getNetHeaders,
+            getEntries: this.getNetEntries,
+            disableActionButton: true,
+            context: this,
+            order: false,
+            draggable: true,
+            dropable: true,
+            sortable: true,
+            onDrop: this.onInstalledNetworkDrop,
+            onDrag: this.onInstalledNetworkDrag,
+            onMove: this.onInstalledNetworkMove
+        });
+
+        this.netTableViewNew = new TableView({
+            el: '#newNetwork-table',
+            actionsClass: "actionsNetTier",
+            headerClass: "headerNetTier",
+            bodyClass: "bodyNetTier",
+            footerClass: "footerNetTier",
+            onAction: this.onNetAction,
+            getDropdownButtons: this.getNetDropdownButtonsNew,
+            getMainButtons: this.getNetMainButtonsNew,
+            getHeaders: this.getNetHeadersNew,
+            getEntries: this.getNetEntriesNew,
+            disableActionButton: true,
+            context: this,
+            dropable: true,
+            draggable: true,
+            order: false,
+            sortable: false,
+            onDrag: this.onNewNetworkDrag,
+            onDrop: this.onNewNetworkDrop
+        });
+
+        this.netTableView.render();
+        this.netTableViewNew.render();
+
         $('.modal:last').modal();
         this.dial = $(".dial-form").knob();
         this.applyIcon();

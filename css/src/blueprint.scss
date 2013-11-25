@@ -1,3 +1,69 @@
+.modal-body.matrix_container {
+    height: 520px;
+    position: relative;
+    width: 770px;
+
+    & .matrix_column_headers {
+        & .matrix_column_header {
+            text-align: center;
+            font-size: 12px;
+            right: 0px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+    }
+    
+    & .matrix_row_headers {
+        & .matrix_row_header {
+            position: relative;
+            & p {
+                font-size: 12px;
+                top: 50%;
+                margin-top: -3px;
+                height: 12px;
+                width: 80px;
+                position: absolute;
+                right: 0px;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+                text-align: right;
+            }
+        }
+    }
+
+    & .matrix_element_border {
+        .matrix_element {
+            color: #0093C6;
+            font-size: 12px;
+            border-radius: 10px;
+            margin: 10px;
+            width: 85%;
+            height: 85%;
+            box-shadow: 0px 0px 22px #0093C6;
+            text-align: center;
+            overflow-y: auto;
+            & p {
+                padding: 0px;
+                text-overflow: ellipsis;
+                margin: 0px;
+                white-space: nowrap;
+                overflow: hidden;
+                &:first-child {
+                    padding-top: 5px;
+                }
+            }
+        }
+        &:last-child {
+            .matrix_element {
+                background-color: #0093C6;
+                opacity:0.4;
+            }
+        }
+    }
+}
+
 .tier-sdc {
     position: relative;
     float: left;

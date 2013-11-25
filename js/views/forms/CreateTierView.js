@@ -45,6 +45,23 @@ var CreateTierView = Backbone.View.extend({
         this.addedProducts = [];
         this.networkList = [];
         var current_tenant_id = JSTACK.Keystone.params.access.token.tenant.id;
+
+        var tiers = this.model.get("tierDtos_asArray");
+        var added = {};
+        for (var tierIdx in tiers) {
+            var tier = tiers[tierIdx];
+            if (tier.hasOwnProperty("networkDto_asArray")) {
+                var nets = tier.networkDto_asArray;
+                for (var netIdx in nets) {
+                    var net = nets[netIdx];
+                    if (added[net.networkName] === undefined) {
+                        this.networkList.push({displayName: net.networkName, name: net.networkName});
+                        added[net.networkName] = net;
+                    }
+                }
+            }
+        }
+
         var all_subnets = this.options.subnets.models;
         for (var index in this.options.networks.models) {
             var network = this.options.networks.models[index];

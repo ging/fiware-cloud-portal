@@ -19,7 +19,7 @@ var BlueprintTemplateView = Backbone.View.extend({
 
     getMainButtons: function() {
         // main_buttons: [{label:label, url: #url, action: action_name}]
-        return [{label: "Add Tier", action: "add"}];
+        return [{label: "Topology", action: "show_nets"}, {label: "Add Tier", action: "add"}];
     },
 
     getDropdownButtons: function() {
@@ -92,6 +92,10 @@ var BlueprintTemplateView = Backbone.View.extend({
             if (tier.keypair.toString() === "[object Object]") {
                 tier.keypair = "-";
             }
+            var image = "";
+            if (this.options.images.get(tier.image) !== undefined) {
+                image = this.options.images.get(tier.image).get("name");
+            }
             var entry = {
                 id: tier.name,
                 minValue: tier.minimumNumberInstances,
@@ -100,7 +104,7 @@ var BlueprintTemplateView = Backbone.View.extend({
                 name: tier.name,
                 icono: tier.icono,
                 flavor: this.options.flavors.get(tier.flavour).get("name"),
-                image: this.options.images.get(tier.image).get("name"),
+                image: image,
                 keypair: tier.keypair,
                 publicIP: tier.floatingip,
                 products: products
@@ -129,6 +133,11 @@ var BlueprintTemplateView = Backbone.View.extend({
             });
         }
         switch (action) {
+            case 'show_nets':
+                subview = new MatrixNetView({el: 'body', model: self.model});
+                subview.render();
+
+                break;
             case 'add':
 
                 subview = new CreateTierView({el: 'body', model: self.model, sdcs: self.options.sdcs, flavors: self.options.flavors, keypairs: self.options.keypairs, securityGroupsModel: self.options.securityGroupsModel, images: self.options.images, networks: self.options.networks, subnets: self.options.subnets, callback: function () {
@@ -141,7 +150,7 @@ var BlueprintTemplateView = Backbone.View.extend({
                 break;
             case 'edit':
 
-                subview = new EditTierView({el: 'body', model: self.model, tier: tr, sdcs: self.options.sdcs, flavors: self.options.flavors, keypairs: self.options.keypairs, securityGroupsModel: self.options.securityGroupsModel, images: self.options.images, callback: function () {
+                subview = new EditTierView({el: 'body', model: self.model, tier: tr, sdcs: self.options.sdcs, flavors: self.options.flavors, keypairs: self.options.keypairs, securityGroupsModel: self.options.securityGroupsModel, images: self.options.images, networks: self.options.networks, subnets: self.options.subnets, callback: function () {
                     self.model.fetch({success: function () {
                         self.render();
                     }});

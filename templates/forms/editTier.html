@@ -148,21 +148,51 @@
                     </div>
                 </div>
             </div>
+            <% if (JSTACK.Keystone.getservice("network") !== undefined) {%>
+            <a id="btn-hide-networks" class="btn btn-blue btn-network" style="float: left; display: none;">Software</a>
+            <a id="btn-show-networks" class="btn btn-blue btn-network" style="float: right;">Networks</a>
+            <%}%>
 
-            <div class="row-fluid tier-sdc blurable">
-                <div style="height: 100%; position: relative" class="span6">
-                    <h2 class="tier-sdc-title">Software in Tier</h2>
-                    <div style="position: absolute; top: 45px; bottom: 0px; width: 100%">
-                       <div id="installedSoftware-table"></div>
-                   </div>
-                </div>
-                <div style="height: 100%; position: relative" class="span6">
-                    <h2 class="tier-sdc-title title-catalogue">Software in Catalogue</h2>
-                    <div style="position: absolute; top: 45px; bottom: 0px; width: 100%">
-                        <div id="newSoftware-table"></div>
+            <div id="scroll-based-layer-networks" style="overflow: hidden; width: 100%">
+                <div style="
+                        width: 1600px;
+                        height: 250px;
+                    ">
+
+                    <div class="row-fluid tier-sdc blurable scroll-left">
+                        <div style="height: 100%; position: relative" class="span6">
+                            <h2 class="tier-sdc-title">Software in Tier</h2>
+                            <div style="position: absolute; top: 45px; bottom: 0px; width: 100%">
+                               <div id="installedSoftware-table"></div>
+                           </div>
+                        </div>
+                        <div style="height: 100%; position: relative" class="span6">
+                            <h2 class="tier-sdc-title title-catalogue">Software in Catalogue</h2>
+                            <div style="position: absolute; top: 45px; bottom: 0px; width: 100%">
+                                <div id="newSoftware-table"></div>
+                            </div>
+                        </div>
+
                     </div>
-                </div>
 
+                    <div class="row-fluid tier-networks blurable scroll-right">
+                        <div style="height: 100%; position: relative" class="span6">
+                            <h2 class="tier-network-title">Connected to Networks</h2>
+                            <div style="position: absolute; top: 45px; bottom: 0px; width: 100%">
+                               <div id="installedNetwork-table"></div>
+                           </div>
+                        </div>
+                        <div style="height: 100%; position: relative" class="span6">
+                            <h2 class="tier-network-title">Available Networks</h2>
+                            <div style="position: absolute; top: 45px; bottom: 0px; width: 100%">
+                                <div id="newNetwork-table"></div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
             </div>
 
         </div>
