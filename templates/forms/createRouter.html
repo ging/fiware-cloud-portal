@@ -1,0 +1,35 @@
+<script id="createRouterFormTemplate" type="text/html">
+<div id="create_router" class="modal hide in" style="display: block; ">
+<!--
+Description: Create Router Form
+src: templates/forms/createRouter.html
+-->
+<div class="modal-header">
+        <a href="#" class="close" data-dismiss="modal">&times</a>
+        <h3>Create Router</h3>
+</div>
+<form id="form" class="" action="" method="">			
+	<div id="input_router" class="tab-pane tab-adjustable active">
+	    <div class="modal-body clearfix">
+            <div class="left">
+                <fieldset>
+                    <div class="control-group form-field clearfix">
+                        <label for="router_name">Router Name*</label>
+                        <span class="help-block"></span>
+                        <div class="input">
+                            <input type="text" name="router" id="router_name" />
+                        </div>
+                    </div>
+                </fieldset>
+	    </div>
+	</div>   		
+	<div class="modal-footer">
+		<p class="mandatoryMess">* Mandatory fields.</p>
+        <input id="create_router_button" class="btn btn-blue btn-create-router pull-right" value="Create router"/>
+        <a id="cancelBtn-router" class="btn secondary cancel close">Cancel</a>
+	</div>
+</form>
+</script>
+
+
+

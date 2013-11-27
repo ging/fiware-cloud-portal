@@ -11,15 +11,19 @@ var EditSubnetView = Backbone.View.extend({
         'click .modal-backdrop': 'close'
     },
 
-    close: function(e) {
-        this.onClose();
-    },
-
-    onClose: function () {
-        $('#edit_subnet').remove();
-        $('.edit-backdrop').remove();
+    onClose: function() {
         this.undelegateEvents();
         this.unbind();
+    },
+
+    close: function(e) {
+        if (e !== undefined) {
+            e.preventDefault();
+        }
+        $('#edit_subnet').remove();
+        $('.modal-backdrop:last').remove();
+        this.onClose();
+        this.model.unbind("sync", this.render, this);
     },
 
     subnetTab: function(e) {
@@ -48,10 +52,10 @@ var EditSubnetView = Backbone.View.extend({
 
     render: function () {
         if ($('#edit_subnet').html() != null) {
-            $('#edit_network').remove();
+            $('#edit_subnet').remove();
             $('.modal-backdrop').remove();
         }
-        $(this.el).append(this._template({model:this.model.attributes}));
+        $(this.el).append(this._template({model:this.model}));
         $('.modal:last').modal();
         return this;
     },

@@ -1,0 +1,60 @@
+<script id="editRouterFormTemplate" type="text/html">
+<div id="edit_router" class="modal hide in" style="display: block; ">
+    <!--
+    Description: Edit Router Form
+    src: templates/forms/editRouter.html
+    -->
+    <div class="modal-header">
+        <a href="#" class="close" data-dismiss="modal">×</a>
+        <h3>Set Gateway</h3>
+    </div>
+
+    <form id="form" class="" action="" method="">
+            <div id="input_gateway" class="tab-pane tab-adjustable active">
+                <div class="modal-body clearfix">
+                    <div class="left">
+                        <fieldset>                      
+                            <div class="control-group form-field clearfix">
+                                <label for="external_network">External Network</label>
+                                <span class="help-block"></span>
+                                <select id="external_network" tabindex="1" class="inline">
+                                    <option value="">Select network</option>
+                                        <%var nets = networks.models; 
+                                        for (var i in nets) {
+                                            if (nets[i].get('router:external')) {
+                                                var network_name = nets[i].get('name');
+                                                var network_id = nets[i].get('id');                                            
+                                        %>
+                                    <option value="<%= network_id%>"><%= network_name%></option>
+                                    <% }} %>
+                                </select>
+                            </div>
+                            <div class="control-group form-field clearfix">
+                                <label for="router-name">Router Name</label>
+                                <span class="help-block"></span>
+                                <p><%= model.get('name')%></p>
+                            </div>
+                            <div class="control-group form-field clearfix">
+                                <label for="router-id">Router ID</label>
+                                <span class="help-block"></span>
+                                <p><%= model.get('id')%></p>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="right">
+                        <h3>Description</h3>
+                        <p>
+                            You can connect a specified external network to the router. The external network is regarded as a default route of the router and the router acts as a gateway for external connectivity.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        
+        <div class="modal-footer">
+            <p class="mandatoryMess">* Mandatory fields.</p>
+            <input id="update_router_button"  class="btn btn-blue btn-update-router pull-right" value="Set Gateway"/>
+            <a id="cancelBtn-router" class="btn secondary cancel close">Cancel</a>
+        </div>
+    </form>
+
+</script>

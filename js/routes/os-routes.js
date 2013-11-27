@@ -25,6 +25,7 @@ var OSRouter = Backbone.Router.extend({
     networks: undefined,
     subnets: undefined,
     ports: undefined,
+    routers: undefined,
 
     currentView: undefined,
 
@@ -59,6 +60,7 @@ var OSRouter = Backbone.Router.extend({
         this.networks = new Networks();
         this.subnets = new Subnets();
         this.ports = new Ports();
+        this.routers = new Routers();
 
         Backbone.wrapError = function(onError, originalModel, options) {
             return function(model, resp) {
@@ -87,6 +89,14 @@ var OSRouter = Backbone.Router.extend({
 
         this.images.bind("error", function(model, error) {
             console.log("Error in images:", error);
+        });
+
+        this.networks.bind("error", function(model, error) {
+            console.log("Error in networks:", error);
+        });
+
+        this.routers.bind("error", function(model, error) {
+            console.log("Error in routers:", error);
         });
 
         Backbone.View.prototype.close = function(){
@@ -148,9 +158,12 @@ var OSRouter = Backbone.Router.extend({
         this.route('objectstorage/containers/:name/', 'consult_container',  this.wrap(this.objectstorage_consult_container, this.checkAuthAndTimers));
 
         this.route('neutron/networks/', 'consult_networks',  this.wrap(this.neutron_consult_networks, this.checkAuthAndTimers, ["networks", "subnets"]));
-        this.route('neutron/networks/:id', 'consult_network_detail',  this.wrap(this.neutron_network_detail, this.checkAuthAndTimers, ["networks", "subnets"]));
-        this.route('neutron/networks/subnets/:id', 'consult_subnet_detail',  this.wrap(this.neutron_subnet_detail, this.checkAuthAndTimers, ["networks", "subnets"]));
-        this.route('neutron/networks/ports/:id', 'consult_port_detail',  this.wrap(this.neutron_port_detail, this.checkAuthAndTimers, ["networks", "subnets"]));
+        this.route('neutron/networks/:id', 'consult_network_detail',  this.wrap(this.neutron_network_detail, this.checkAuthAndTimers, ["subnets", "ports"]));
+        this.route('neutron/networks/subnets/:id', 'consult_subnet_detail',  this.wrap(this.neutron_subnet_detail, this.checkAuthAndTimers, ["subnets"]));
+        this.route('neutron/networks/ports/:id', 'consult_port_detail',  this.wrap(this.neutron_port_detail, this.checkAuthAndTimers, ["ports"]));
+
+        this.route('neutron/routers/', 'consult_routers',  this.wrap(this.neutron_consult_routers, this.checkAuthAndTimers, ["routers"]));
+        this.route('neutron/routers/:id', 'consult_router_detail',  this.wrap(this.neutron_router_detail, this.checkAuthAndTimers, ["ports", "routers"]));
     },
 
     wrap: function(func, wrapper, modelArray) {
@@ -184,6 +197,7 @@ var OSRouter = Backbone.Router.extend({
             this.add_fetch("networks", seconds);
             this.add_fetch("subnets", seconds);
             this.add_fetch("ports", seconds);
+            this.add_fetch("routers", seconds);
             if (this.loginModel.isAdmin()) {
                 console.log("admin");
                 this.add_fetch("projects", seconds);
@@ -402,6 +416,7 @@ var OSRouter = Backbone.Router.extend({
         if (JSTACK.Keystone.getservice("network") !== undefined) {
             tabsArray.push({name: 'Network', type: 'title'});
             tabsArray.push({name: 'Networks', iconcss: "icon_nav-networks", active: false, url: '#neutron/networks/'});
+            tabsArray.push({name: 'Routers', iconcss: "icon_nav-networks", active: false, url: '#neutron/routers/'});
         }
         self.navs = new NavTabModels(tabsArray);
         self.navs.setActive(option);
@@ -541,7 +556,7 @@ var OSRouter = Backbone.Router.extend({
         //self.instancesModel.unbind("change");
         //self.instancesModel.alltenants = false;
         //self.add_fetch(self.instancesModel, 4);
-        var view = new NovaInstancesView({model: self.instancesModel, projects: self.projects, flavors: self.flavors, el: '#content'});
+        var view = new NovaInstancesView({model: self.instancesModel, projects: self.projects, keypairs: self.keypairsModel, flavors: self.flavors, el: '#content'});
         self.newContentView(self,view);
     },
 
@@ -620,6 +635,22 @@ var OSRouter = Backbone.Router.extend({
         var port = new Port();
         port.set({"id": id});
         var view = new PortDetailView({model: port, el: '#content'});
+        self.newContentView(self,view);
+    },
+
+    neutron_consult_routers: function(self) {
+        self.showNovaRoot(self, 'Routers');
+        var tenant_id = localStorage.getItem('tenant-id');
+        var view = new NeutronRoutersView({model: self.routers, tenant_id: tenant_id, networks: self.networks, el: '#content'});
+        self.newContentView(self,view);
+    },
+
+    neutron_router_detail: function(self, id) {
+        self.showNovaRoot(self, 'Router Detail');
+        var router = new Router();
+        var tenant_id = localStorage.getItem('tenant-id');
+        router.set({"id": id});
+        var view = new RouterDetailView({model: router, networks: self.networks, ports: self.ports, subnets: self.subnets, tenant_id: tenant_id, el: '#content'});
         self.newContentView(self,view);
     },
 

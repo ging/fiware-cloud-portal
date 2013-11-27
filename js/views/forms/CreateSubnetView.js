@@ -94,17 +94,17 @@ var CreateSubnetView = Backbone.View.extend({
             if (disable_gateway === false && gateway_ip !== "") {
                 subnet.set({'gateway_ip': gateway_ip});
                 subnet.save(undefined, {success: function(model, response) {
-                    UTILS.Messages.getCallbacks("Subnet "+subnet.get("name") + " created.", "Error creating subnet "+subnet.get("name"), {context: this});   
-                }, error: function(response) {
-                    console.log("error", response);
-                }});  
+                     UTILS.Messages.getCallbacks("Subnet "+subnet.get("name") + " created.", "Error creating subnet "+subnet.get("name"), {context: this});   
+                 }, error: function(response) {
+                     console.log("error", response);
+                 }});  
                 this.close();  
             } else if (disable_gateway === true) {
-                    subnet.save(undefined, {success: function(model, response) {
-                    UTILS.Messages.getCallbacks("Subnet "+subnet.get("name") + " created.", "Error creating subnet "+subnet.get("name"), {context: this});   
-                }, error: function(response) {
-                    console.log("error", response);
-                }});  
+                subnet.save(undefined, {success: function(model, response) {
+                     UTILS.Messages.getCallbacks("Subnet "+subnet.get("name") + " created.", "Error creating subnet "+subnet.get("name"), {context: this});   
+                 }, error: function(response) {
+                     console.log("error", response);
+                 }});  
                 this.close();
             }
             //error msg: Failed to create subnet "2.2.2.2/24" for network "None": Invalid input for operation: Requested subnet with cidr: 2.2.2.2/24 for network: 3d4a5f9b-24ca-431a-a691-c483b419f405 overlaps with another subnet.

@@ -8,8 +8,8 @@ src: templates/root/neutron/subnetDetail.html
         <div class="entity_detail">
             <div id="subnet_details" class="active row-fluid">
                 <div class="status span4">
-                    <%var id = model.id;
-                    var model = model.attributes.subnet;%>
+                    <%var id = model.get('id');
+                    var model = model.get('subnet');%>
                     <h4>Subnet Overview</h4>
                     <hr class="header_rule">
                     <ul>
