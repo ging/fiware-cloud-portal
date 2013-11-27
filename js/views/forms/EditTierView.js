@@ -566,7 +566,7 @@ var EditTierView = Backbone.View.extend({
     onUpdate: function(e){
         var self = this;
         e.preventDefault();
-        var name, flavorReg, key_name, image, public_ip, min, max, initial;
+        var name, flavorReg, key_name, image, public_ip, min, max, initial, region;
 
         name = this.$('input[name=name]').val();
 
@@ -581,6 +581,8 @@ var EditTierView = Backbone.View.extend({
         if ($("#id_keypair option:selected")[0].value !== '') {
             key_name = $("#id_keypair option:selected")[0].value;
         }
+
+        region = $("#id_region option:selected")[0].value;
 
         public_ip = ($('input[name=public_ip]:checked').length > 0);
 
@@ -597,6 +599,7 @@ var EditTierView = Backbone.View.extend({
             image: image,
             icono: icon,
             keypair: key_name,
+            region: region,
             minimumNumberInstances: min,
             maximumNumberInstances: max,
             initialNumberInstances: initial
@@ -688,7 +691,7 @@ var EditTierView = Backbone.View.extend({
             $('.modal-backdrop').remove();
         }
         console.log(this.options.tier);
-        $(this.el).append(this._template({model:this.model, flavors: this.options.flavors, keypairs: this.options.keypairs, images: this.options.images, tier: this.options.tier}));
+        $(this.el).append(this._template({model:this.model, flavors: this.options.flavors, keypairs: this.options.keypairs, images: this.options.images, tier: this.options.tier, regions: this.options.regions}));
         this.tableView = new TableView({
             el: '#installedSoftware-table',
             actionsClass: "actionsSDCTier",

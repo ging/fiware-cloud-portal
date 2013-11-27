@@ -106,7 +106,7 @@ var BlueprintTemplateView = Backbone.View.extend({
                 flavor: this.options.flavors.get(tier.flavour).get("name"),
                 image: image,
                 keypair: tier.keypair,
-                publicIP: tier.floatingip,
+                region: tier.region,
                 products: products
             };
             entries.push(entry);
@@ -140,7 +140,7 @@ var BlueprintTemplateView = Backbone.View.extend({
                 break;
             case 'add':
 
-                subview = new CreateTierView({el: 'body', model: self.model, sdcs: self.options.sdcs, flavors: self.options.flavors, keypairs: self.options.keypairs, securityGroupsModel: self.options.securityGroupsModel, images: self.options.images, networks: self.options.networks, subnets: self.options.subnets, callback: function () {
+                subview = new CreateTierView({el: 'body', model: self.model, sdcs: self.options.sdcs, flavors: self.options.flavors, keypairs: self.options.keypairs, securityGroupsModel: self.options.securityGroupsModel, images: self.options.images, networks: self.options.networks, subnets: self.options.subnets, regions: self.options.loginModel.get("regions"), callback: function () {
                     self.model.fetch({success: function () {
                         self.render();
                     }});
@@ -150,7 +150,7 @@ var BlueprintTemplateView = Backbone.View.extend({
                 break;
             case 'edit':
 
-                subview = new EditTierView({el: 'body', model: self.model, tier: tr, sdcs: self.options.sdcs, flavors: self.options.flavors, keypairs: self.options.keypairs, securityGroupsModel: self.options.securityGroupsModel, images: self.options.images, networks: self.options.networks, subnets: self.options.subnets, callback: function () {
+                subview = new EditTierView({el: 'body', model: self.model, tier: tr, sdcs: self.options.sdcs, flavors: self.options.flavors, keypairs: self.options.keypairs, securityGroupsModel: self.options.securityGroupsModel, images: self.options.images, networks: self.options.networks, subnets: self.options.subnets, regions: self.options.loginModel.get("regions"), callback: function () {
                     self.model.fetch({success: function () {
                         self.render();
                     }});

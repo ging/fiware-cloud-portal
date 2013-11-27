@@ -384,8 +384,8 @@ var OSRouter = Backbone.Router.extend({
             //{name: 'Overview', active: true, url: '#nova/'},
             //{name: 'Virtual Data Centers', active: false, url: '#nova/vdcs/'},
             {name: 'Blueprint', type: 'title'},
-            {name: 'BP Instances',  iconcss: "icon_nav-blueprintInstances", active: false, url: '#nova/blueprints/instances/'},
-            {name: 'BP Templates',  iconcss: "icon_nav-blueprintTemplates", active: false, url: '#nova/blueprints/templates/'},
+            {name: 'Blueprint Instances',  iconcss: "icon_nav-blueprintInstances", css:"small", active: false, url: '#nova/blueprints/instances/'},
+            {name: 'Blueprint Templates',  iconcss: "icon_nav-blueprintTemplates", css:"small", active: false, url: '#nova/blueprints/templates/'},
             {name: 'Region', type: 'title'},
             {type: 'regions'},
             {name: 'Compute', type: 'title'},
@@ -461,7 +461,7 @@ var OSRouter = Backbone.Router.extend({
         self.showNovaRoot(self, 'BP Templates', 'Blueprint Templates / ' + id);
         var bp = new BPTemplate();
         bp.set({'name': id});
-        var view = new BlueprintTemplateView({el: '#content', model: bp, sdcs: self.sdcs, flavors: self.flavors, keypairs: self.keypairsModel, securityGroupsModel: self.securityGroupsModel, images: self.images, networks: self.networks, subnets: self.subnets});
+        var view = new BlueprintTemplateView({el: '#content', model: bp, sdcs: self.sdcs, flavors: self.flavors, keypairs: self.keypairsModel, securityGroupsModel: self.securityGroupsModel, images: self.images, networks: self.networks, subnets: self.subnets, loginModel: self.loginModel});
         self.newContentView(self,view);
     },
 
