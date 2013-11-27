@@ -234,6 +234,11 @@ app.all('/:reg/:service/:v/*', function(req, resp) {
 
     var endp = getEndpoint(req.params.service, req.params.reg);
     var new_url = req.url.split(req.params.v)[1];
+    console.log('REGION: ', req.url, endp, new_url);
+    if (endp.charAt(endp.length-1) === "/") {
+        endp = endp.substring(0, endp.length-1) + "/v2.0";
+    }
+        
     console.log('REGION: ', req.params.reg, endp, new_url);
 
     var options = {
@@ -302,7 +307,7 @@ function getCatalog() {
         port: keystone_config.port,
         path: '/v2.0/tokens',
         method: 'POST',
-        headers: {}
+        headers: {"Content-Type": "application/json"}
     };
 
     var credentials = {
@@ -311,23 +316,23 @@ function getCatalog() {
                         "username" : keystone_config.username,
                         "password" : keystone_config.password
                     },
-                    "tenantId" :  keystone_config.tenantId
+                    "tenantId": keystone_config.tenantId
                 }
             };
 
     sendData("http", options, JSON.stringify(credentials), undefined, function (status, resp) {
         service_catalog = JSON.parse(resp).access.serviceCatalog;
-        //console.log('CAT ', service_catalog);
-    }, function (e) {
-        console.log('Error ', e);
+        console.log('CAT ', getEndpoint("network", "RegionOne"));
+    }, function (e, msg) {
+        console.log('Error ', e, msg);
     });
 }
 
 function getEndpoint (service, region) {
     var serv, endpoint;
     for (var s in service_catalog) {
-        console.log(service_catalog[s].name, service);
-        if (service_catalog[s].name === service) {
+        console.log(service_catalog[s].type, service);
+        if (service_catalog[s].type === service) {
             serv = service_catalog[s];
             break;
         }
@@ -338,7 +343,10 @@ function getEndpoint (service, region) {
             break;
         }
     }
-    return endpoint.publicURL.split('/' + keystone_config.tenantId)[0];
+    if (endpoint.publicURL.match(keystone_config.tenantId)) {
+        return endpoint.publicURL.split('/' + keystone_config.tenantId)[0];
+    }
+    return endpoint.publicURL;
 }
 
 function encrypt(str){

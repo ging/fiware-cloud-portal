@@ -1,9 +1,5 @@
 var config = {};
 
-config.development = {};
-config.production = {};
-config.oauth = {};
-
 config.useIDM = false;
 
 config.oauth = {
