@@ -15,7 +15,7 @@
   $index : 0;
   @each $section in applications, blueprintInstances, blueprintTemplates,
                     instances, images, security, flavors, snapshots,
-                    container, volumes, project, user, quotas, settings, logout {
+                    container, volumes, project, user, quotas, settings, logout, networks, routers {
     a.icon_nav-#{$section} {
         @include nav_icon($index, -25px);
     }

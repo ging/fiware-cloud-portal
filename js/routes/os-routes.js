@@ -416,7 +416,7 @@ var OSRouter = Backbone.Router.extend({
         if (JSTACK.Keystone.getservice("network") !== undefined) {
             tabsArray.push({name: 'Network', type: 'title'});
             tabsArray.push({name: 'Networks', iconcss: "icon_nav-networks", active: false, url: '#neutron/networks/'});
-            tabsArray.push({name: 'Routers', iconcss: "icon_nav-networks", active: false, url: '#neutron/routers/'});
+            tabsArray.push({name: 'Routers', iconcss: "icon_nav-routers", active: false, url: '#neutron/routers/'});
         }
         self.navs = new NavTabModels(tabsArray);
         self.navs.setActive(option);
