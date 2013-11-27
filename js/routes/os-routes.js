@@ -156,13 +156,13 @@ var OSRouter = Backbone.Router.extend({
         this.route('objectstorage/containers/', 'consult_containers',  this.wrap(this.objectstorage_consult_containers, this.checkAuthAndTimers, ["containers"]));
         this.route('objectstorage/containers/:name/', 'consult_container',  this.wrap(this.objectstorage_consult_container, this.checkAuthAndTimers));
 
-        this.route('neutron/networks/', 'consult_networks',  this.wrap(this.neutron_consult_networks, this.checkAuthAndTimers));
-        this.route('neutron/networks/:id', 'consult_network_detail',  this.wrap(this.neutron_network_detail, this.checkAuthAndTimers));
-        this.route('neutron/networks/subnets/:id', 'consult_subnet_detail',  this.wrap(this.neutron_subnet_detail, this.checkAuthAndTimers));
-        this.route('neutron/networks/ports/:id', 'consult_port_detail',  this.wrap(this.neutron_port_detail, this.checkAuthAndTimers));
+        this.route('neutron/networks/', 'consult_networks',  this.wrap(this.neutron_consult_networks, this.checkAuthAndTimers, ["networks"]));
+        this.route('neutron/networks/:id', 'consult_network_detail',  this.wrap(this.neutron_network_detail, this.checkAuthAndTimers, ["subnets", "ports"]));
+        this.route('neutron/networks/subnets/:id', 'consult_subnet_detail',  this.wrap(this.neutron_subnet_detail, this.checkAuthAndTimers, ["subnets"]));
+        this.route('neutron/networks/ports/:id', 'consult_port_detail',  this.wrap(this.neutron_port_detail, this.checkAuthAndTimers, ["ports"]));
 
         this.route('neutron/routers/', 'consult_routers',  this.wrap(this.neutron_consult_routers, this.checkAuthAndTimers, ["routers"]));
-        this.route('neutron/routers/:id', 'consult_router_detail',  this.wrap(this.neutron_router_detail, this.checkAuthAndTimers, ["ports"]));
+        this.route('neutron/routers/:id', 'consult_router_detail',  this.wrap(this.neutron_router_detail, this.checkAuthAndTimers, ["ports", "routers"]));
     },
 
     wrap: function(func, wrapper, modelArray) {
@@ -535,7 +535,7 @@ var OSRouter = Backbone.Router.extend({
         //self.instancesModel.unbind("change");
         //self.instancesModel.alltenants = false;
         //self.add_fetch(self.instancesModel, 4);
-        var view = new NovaInstancesView({model: self.instancesModel, projects: self.projects, flavors: self.flavors, el: '#content'});
+        var view = new NovaInstancesView({model: self.instancesModel, projects: self.projects, keypairs: self.keypairsModel, flavors: self.flavors, el: '#content'});
         self.newContentView(self,view);
     },
 

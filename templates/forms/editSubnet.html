@@ -29,7 +29,7 @@
                                 <label for="subnet-name">Subnet Name</label>
                                 <span class="help-block"></span>
                                 <div class="input">
-                                    <input type="text" name="subnet_name" id="subnet_name" value="<%= model.name%>"/>
+                                    <input type="text" name="subnet_name" id="subnet_name" value="<%= model.get('name')%>"/>
                                 </div>
                             </div>
                             <div class="control-group form-field clearfix">
@@ -41,7 +41,7 @@
                                 <label for="gateway-ip">Gateway IP (optional)</label>
                                 <span class="help-block"></span>
                                 <div class="input">
-                                    <input type="text" name="gateway_ip" id="gateway_ip" value="<%= model.gateway_ip%>"/>
+                                    <input type="text" name="gateway_ip" id="gateway_ip" value="<%= model.get('gateway_ip')%>"/>
                                 </div>
                             </div>
                             <div class="control-group form-field clearfix">

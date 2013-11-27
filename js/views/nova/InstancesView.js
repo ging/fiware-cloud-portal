@@ -130,19 +130,25 @@ var NovaInstancesView = Backbone.View.extend({
         }, {
             name: "Instance Name",
             tooltip: "Server's name",
-            size: "25%",
+            size: "15%",
             hidden_phone: false,
             hidden_tablet: false
         }, {
             name: "IP Address",
             tooltip: "IP Address",
-            size: "15%",
+            size: "10%",
             hidden_phone: true,
             hidden_tablet: false
         }, {
             name: "Size",
             tooltip: "Server's RAM, number of virtual CPUs, and user disk",
             size: "25%",
+            hidden_phone: false,
+            hidden_tablet: false
+        }, {
+            name: "Keypair",
+            tooltip: "ssh credentials for the instance",
+            size: "15%",
             hidden_phone: false,
             hidden_tablet: false
         }, {
@@ -160,7 +166,7 @@ var NovaInstancesView = Backbone.View.extend({
         }, {
             name: "Power State",
             tooltip: "Server's power state",
-            size: "15%",
+            size: "10%",
             hidden_phone: true,
             hidden_tablet: false
         }];
@@ -210,6 +216,8 @@ var NovaInstancesView = Backbone.View.extend({
                     value: address
                 }, {
                     value: flavorlist[instance.get("flavor").id]
+                }, {
+                    value: instance.get("key_name")
                 }, {
                     value: instance.get("status")
                 }, {
