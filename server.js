@@ -322,7 +322,7 @@ function getCatalog() {
 
     sendData("http", options, JSON.stringify(credentials), undefined, function (status, resp) {
         service_catalog = JSON.parse(resp).access.serviceCatalog;
-        console.log('CAT ', getEndpoint("network", "RegionOne"));
+        console.log('CAT ', service_catalog);
     }, function (e, msg) {
         console.log('Error ', e, msg);
     });
