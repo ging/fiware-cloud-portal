@@ -234,12 +234,9 @@ app.all('/:reg/:service/:v/*', function(req, resp) {
 
     var endp = getEndpoint(req.params.service, req.params.reg);
     var new_url = req.url.split(req.params.v)[1];
-    console.log('REGION: ', req.url, endp, new_url);
     if (endp.charAt(endp.length-1) === "/") {
         endp = endp.substring(0, endp.length-1) + "/v2.0";
     }
-        
-    console.log('REGION: ', req.params.reg, endp, new_url);
 
     var options = {
         url: endp + new_url,
@@ -322,7 +319,7 @@ function getCatalog() {
 
     sendData("http", options, JSON.stringify(credentials), undefined, function (status, resp) {
         service_catalog = JSON.parse(resp).access.serviceCatalog;
-        console.log('CAT ', service_catalog);
+        console.log('CATALOG: ', service_catalog);
     }, function (e, msg) {
         console.log('Error ', e, msg);
     });
@@ -331,7 +328,7 @@ function getCatalog() {
 function getEndpoint (service, region) {
     var serv, endpoint;
     for (var s in service_catalog) {
-        console.log(service_catalog[s].type, service);
+        //console.log(service_catalog[s].type, service);
         if (service_catalog[s].type === service) {
             serv = service_catalog[s];
             break;
