@@ -230,34 +230,6 @@ app.all('/keystone-admin/*', function(req, resp) {
     sendData("http", options, req.body, resp);
 });
 
-app.all('/:reg/:service/:v/*', function(req, resp) {
-
-    var endp = getEndpoint(req.params.service, req.params.reg);
-    var new_url = req.url.split(req.params.v)[1];
-    if (endp.charAt(endp.length-1) === "/") {
-        endp = endp.substring(0, endp.length-1) + "/v2.0";
-    }
-
-    var options = {
-        url: endp + new_url,
-        method: req.method,
-        headers: req.headers
-    };
-    sendData("http", options, req.body, resp);
-});
-
-app.all('/user/:token', function(req, resp) {
-    var options = {
-        host: 'account.lab.fi-ware.eu',
-        port: 443,
-        path: '/user?access_token=' + req.params.token,
-        method: 'GET',
-        headers: {}
-    };
-
-    sendData("https", options, undefined, resp);
-});
-
 if (useIDM) {
     app.get('/idm/auth', function(req, res){
 
@@ -296,6 +268,34 @@ if (useIDM) {
         res.send(200);
     });
 }
+
+app.all('/:reg/:service/:v/*', function(req, resp) {
+
+    var endp = getEndpoint(req.params.service, req.params.reg);
+    var new_url = req.url.split(req.params.v)[1];
+    if (endp.charAt(endp.length-1) === "/") {
+        endp = endp.substring(0, endp.length-1) + "/v2.0";
+    }
+
+    var options = {
+        url: endp + new_url,
+        method: req.method,
+        headers: req.headers
+    };
+    sendData("http", options, req.body, resp);
+});
+
+app.all('/user/:token', function(req, resp) {
+    var options = {
+        host: 'account.lab.fi-ware.eu',
+        port: 443,
+        path: '/user?access_token=' + req.params.token,
+        method: 'GET',
+        headers: {}
+    };
+
+    sendData("https", options, undefined, resp);
+});
 
 function getCatalog() {
 
