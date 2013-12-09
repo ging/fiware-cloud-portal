@@ -274,6 +274,7 @@ UTILS.Auth = (function(U, undefined) {
         image.endpoints[0].internalURL = current_region_ + "/image" + image.endpoints[0].internalURL.split('9292')[1];
 
         var objectstorage = JSTACK.Keystone.getservice("object-store");
+        console.log("Object store endpoint", objectstorage.endpoints[0].publicURL);
         objectstorage.endpoints[0].adminURL = current_region_  + "/object-store" + objectstorage.endpoints[0].adminURL.split('8080')[1];
         objectstorage.endpoints[0].publicURL = current_region_  + "/object-store" + objectstorage.endpoints[0].publicURL.split('8080')[1];
         objectstorage.endpoints[0].internalURL = current_region_  + "/object-store" + objectstorage.endpoints[0].internalURL.split('8080')[1];

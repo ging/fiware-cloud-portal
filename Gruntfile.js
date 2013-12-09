@@ -103,6 +103,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-sass');
 
   // Default task.
-  grunt.registerTask('default', ['jshint', 'concat', 'concat:disttest', 'copy', 'sass']);
+  grunt.registerTask('default', ['jshint', 'concat', 'concat:disttest', 'sass', 'copy']);
 
 };

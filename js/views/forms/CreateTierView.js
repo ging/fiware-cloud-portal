@@ -55,7 +55,7 @@ var CreateTierView = Backbone.View.extend({
                 for (var netIdx in nets) {
                     var net = nets[netIdx];
                     if (added[net.networkName] === undefined) {
-                        this.networkList.push({displayName: net.networkName, name: net.networkName});
+                        this.networkList.push({displayName: net.networkName, name: net.networkName, alias: true /* TODO Check if it is not an alias*/});
                         added[net.networkName] = net;
                     }
                 }
@@ -78,9 +78,11 @@ var CreateTierView = Backbone.View.extend({
                         }                                      
                     }                    
                 }
-                var name = network.attributes.name === "" ? "("+network.get("id").slice(0,8)+")" : network.attributes.name;
-                name = name + " (" + subnets + ")";
-                this.networkList.push({displayName: name, name: network.attributes.name, net_id: network.id});
+                if (subnets.length > 0) {
+                    var name = network.attributes.name === "" ? "("+network.get("id").slice(0,8)+")" : network.attributes.name;
+                    name = name + " (" + subnets + ")";
+                    this.networkList.push({displayName: name, name: network.attributes.name, net_id: network.id});
+                }
             }
         }
         
@@ -155,7 +157,31 @@ var CreateTierView = Backbone.View.extend({
                 return true;
             }
         };
+        var connected = function(size, id) {
+            if (oneSelected(size, id)) {
+                return self.addedNetworks[id[0]].connected;
+            }
+            else {
+                return false;
+            }
+        };
+        var disconnected = function(size, id) {
+            if (oneSelected(size, id)) {
+                return !self.addedNetworks[id[0]].connected;
+            }
+            else {
+                return false;
+            }
+        };
         return [{
+            label: "Connect to Internet",
+            action: "connectInternet",
+            activatePattern: disconnected
+        }, {
+            label: "Disconnect from Internet",
+            action: "disconnectInternet",
+            activatePattern: connected
+        }, {
             label: "Remove",
             action: "uninstall",
             activatePattern: groupSelected
@@ -189,7 +215,7 @@ var CreateTierView = Backbone.View.extend({
     getNetHeaders: function() {
         return [{
             name: "Name",
-            tooltip: "Software name",
+            tooltip: "Network name",
             size: "55%",
             hidden_phone: false,
             hidden_tablet: false
@@ -210,10 +236,14 @@ var CreateTierView = Backbone.View.extend({
         var entries = [];
 
         for (var network in this.addedNetworks) {
+            var name = this.addedNetworks[network].displayName;
+            if (this.addedNetworks[network].connected) {
+                name = name + " <span class='network-connected-internet'></span>";
+            }
 
             entries.push(
                 {id: network, cells:[
-                    {value: this.addedNetworks[network].displayName}
+                    {value: name}
                     ]
                 });
 
@@ -295,7 +325,7 @@ var CreateTierView = Backbone.View.extend({
     getNetHeadersNew: function() {
         return [{
             name: "Name",
-            tooltip: "Software name",
+            tooltip: "Network name",
             size: "40%",
             hidden_phone: false,
             hidden_tablet: false
@@ -321,13 +351,14 @@ var CreateTierView = Backbone.View.extend({
             return 'loading';
         }
 
-        console.log("Networks!!!", networks);
-
         for (var network in networks) {
-              entries.push(
-
+            var name = networks[network].displayName;
+            if (networks[network].connected) {
+                name = name + " <span class='network-connected-internet'></span>";
+            }
+            entries.push(
                 {id: network, cells:[
-                {value: networks[network].displayName}]});
+                {value: name}]});
 
         }
 
@@ -359,6 +390,20 @@ var CreateTierView = Backbone.View.extend({
 
     addNewAlias: function() {
         this.networkList = [{name: $("#aliasName").val(), displayName: $("#aliasName").val()}].concat(this.networkList);
+        this.netTableViewNew.render();
+    },
+
+    connectNetworkToInternet: function(id, targetId) {
+        network = this.addedNetworks[id];
+        network.connected = true;
+        this.netTableView.render();
+        this.netTableViewNew.render();
+    },
+
+    disconnectNetworkFromInternet: function(id, targetId) {
+        network = this.addedNetworks[id];
+        network.connected = false;
+        this.netTableView.render();
         this.netTableViewNew.render();
     },
 
@@ -483,6 +528,12 @@ var CreateTierView = Backbone.View.extend({
         var product;
 
         switch (action) {
+            case 'connectInternet':
+                this.connectNetworkToInternet(ids);
+                break;
+            case 'disconnectInternet':
+                this.disconnectNetworkFromInternet(ids);
+                break;
             case 'install':
                 this.installNetwork(ids);
             break;

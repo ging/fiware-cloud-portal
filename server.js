@@ -328,7 +328,6 @@ function getCatalog() {
 function getEndpoint (service, region) {
     var serv, endpoint;
     for (var s in service_catalog) {
-        //console.log(service_catalog[s].type, service);
         if (service_catalog[s].type === service) {
             serv = service_catalog[s];
             break;
