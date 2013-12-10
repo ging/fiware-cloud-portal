@@ -147,12 +147,12 @@ src: templates/root/table.html
                     if (colNum === orderBy.column) {
             %>
 
-                    <img class="header_entry_<%=cid%>" style="width: 15px;margin-left: 15px;cursor:pointer;" src="/images/triangle_active_<%=orderBy.direction%>.png"></img>
+                    <button class="header_entry_<%=cid%> table_icon table_icon_active_<%=orderBy.direction%>"></button>
                     </td>
             <%
                     } else {
             %>
-                    <img class="header_entry_<%=cid%>" style="width: 15px;margin-left: 15px;cursor:pointer;" src="/images/triangle.png"></img>
+                    <button class="header_entry_<%=cid%> table_icon table_icon_inactive"></button>
                     </td>
             <%
                     }

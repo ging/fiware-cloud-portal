@@ -234,7 +234,7 @@ var TableView = Backbone.View.extend({
     onHeaderEntryClick: function(evt) {
         var node = $(evt.target)[0].nodeName;
         var self = this;
-        if (node === "IMG" || node == "DIV") {
+        if (node === "BUTTON" || node == "DIV") {
             var column =  parseInt($(evt.target).parent()[0].id.toString().substring(10), 10);
             //console.log(column);
             if (this.orderBy.column === column) {

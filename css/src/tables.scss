@@ -102,6 +102,35 @@ table form {
   }
 }
 
+.table_icon {
+  border: none;
+  background-color: transparent;
+  width: 17px;
+  height: 15px;
+  margin-top: 5px;
+  margin-left: 5px;
+  cursor:pointer;
+  background-repeat: no-repeat;
+  background-size: contain;
+  &:focus {
+    outline: none;
+    border: none;
+    background-color: transparent;
+  }
+}
+
+.table_icon_inactive {
+   background-image: url("/images/triangle.png");
+}
+
+.table_icon_active_up {
+   background-image: url("/images/triangle_active_up.png");
+}
+
+.table_icon_active_down {
+   background-image: url("/images/triangle_active_down.png");
+}
+
 /* Common to all tables */
 
 .table {
