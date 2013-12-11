@@ -64,16 +64,24 @@
     }
 }
 
+.network-connected-internet {
+    float: right;
+    background-image: url("/ico/internet.gif");
+    background-size: 100% 100%;
+    width: 24px;
+    height: 20px;
+}
+
 .tier-sdc {
     position: relative;
     float: left;
-    height: 200px;
+    height: 185px;
 }
 
 .tier-networks {
     position: relative;
     float: left;
-    height: 200px;  
+    height: 185px;  
 }
 
 .actionsNetTier {

@@ -5,7 +5,10 @@ src: templates/root/nova/blueprint/matrixNet.html
 -->
 <%
 var tiersDtos = _.clone(model.get('tierDtos_asArray'));
-tiersDtos.push({name: "Internet", networkDto_asArray: []});
+if (tiersDtos === undefined) {
+    tiersDtos = [];
+}
+tiersDtos.push({name: "Internet", internet: true, networkDto_asArray: [{internet: true}]});
 var numTiers = tiersDtos.length;
 var totalWidth = 770;
 var totalHeight = 450;
@@ -22,57 +25,67 @@ var height = 100/numTiers;
             <h3>Network Topology in Blueprint <%= model.get("name") %></h3>
         </div>
         <div class="modal-body clearfix matrix_container" style="height: <%=totalHeight%>px;position: relative;width: <%=totalWidth%>px;">
-        	<div class="matrix_column_headers" style="margin-left: 80px; height: 20px;position: relative;width: <%=maxWidth%>px;float: left;">
-			<%
-	        	for (var indexRH in tiersDtos) {
-	            	var tierRH = tiersDtos[indexRH];
-	        %>
-	        	<div class="matrix_column_header" style="height: 20px;float: left;width: <%=width%>%;"><%=tierRH.name%></div>
-	        <%
-	        	}
-	        %>
-        	</div>
+            <div class="matrix_column_headers" style="margin-left: 80px; height: 20px;position: relative;width: <%=maxWidth%>px;float: left;">
+            <%
+                for (var indexRH in tiersDtos) {
+                    var tierRH = tiersDtos[indexRH];
+            %>
+                <div class="matrix_column_header" style="height: 20px;float: left;width: <%=width%>%;"><%=tierRH.name%></div>
+            <%
+                }
+            %>
+            </div>
 
-        	<div class="matrix_row_headers" style="height: <%=maxHeight%>px;position: relative;width: 80px;float: left;">
-			<%
-	        	for (var indexRC in tiersDtos) {
-	            	var tierRC = tiersDtos[indexRC];
-	        %>
-	        	<div class="matrix_row_header" style="height: <%=height%>%;float: left;width: 80px;"><p><%=tierRC.name%></p></div>
-	        <%
-	        	}
-	        %>
-        	</div>
+            <div class="matrix_row_headers" style="height: <%=maxHeight%>px;position: relative;width: 80px;float: left;">
+            <%
+                for (var indexRC in tiersDtos) {
+                    var tierRC = tiersDtos[indexRC];
+            %>
+                <div class="matrix_row_header" style="height: <%=height%>%;float: left;width: 80px;"><p><%=tierRC.name%></p></div>
+            <%
+                }
+            %>
+            </div>
 
-	        <div class="matrix_container" style="height: <%=maxHeight%>px;position: relative;width: <%=maxWidth%>px;float: left;">
-	        <%
-	        	for (var index in tiersDtos) {
-	            	var tierR = tiersDtos[index];
-	        		for (var index2 in tiersDtos) {
-	            		var tierC = tiersDtos[index2];
-	        %>
-	        			<div class="matrix_element_border" style="width: <%=width%>%; height: <%=height%>%; float: left;"><div class="matrix_element">
-						<%
-	        			for (var networkIdx in tierR.networkDto_asArray) {
-	        				var netR = tierR.networkDto_asArray[networkIdx]
-	        				for (var networkIdx2 in tierC.networkDto_asArray) {
-	        					var netC = tierC.networkDto_asArray[networkIdx2];
-	        					console.log(netR, "-", netC);
-	        					if (netR.networkName === netC.networkName) {
-    					%>
-    						<p><%=netR.networkName%></p>
-    					<%      }
-	        				}
-	        			}
-	        			%>
-						</div></div>
-	        <%
-	            } }
-	        %>
+            <div class="matrix_container" style="height: <%=maxHeight%>px;position: relative;width: <%=maxWidth%>px;float: left;">
+            <%
+                for (var index in tiersDtos) {
+                    var tierR = tiersDtos[index];
+                    for (var index2 in tiersDtos) {
+                        var tierC = tiersDtos[index2];
+            %>
+                        <div class="matrix_element_border" style="width: <%=width%>%; height: <%=height%>%; float: left;"><div class="matrix_element">
+                        <%
+                        for (var networkIdx in tierR.networkDto_asArray) {
+                            var netR = tierR.networkDto_asArray[networkIdx]
+                            for (var networkIdx2 in tierC.networkDto_asArray) {
+                                var netC = tierC.networkDto_asArray[networkIdx2];
+                                console.log(netR, "-", netC);
+                                if (netR.networkName === netC.networkName) {
+                        %>
+                                    <p><%=netR.networkName%></p>
+                        <%      
+                                } else if (tierR.internet && netC.connected) {
+                        %>
+                                    <p><%=netC.networkName%></p>
+                        <%
+                                } else if (tierC.internet && netR.connected) {
+                        %>
+                                    <p><%=netR.networkName%></p>
+                        <%
+                                }
+                            }
+                        }
+                        %>
+                        </div></div>
+            <%
+                    } 
+                }
+            %>
 
 
-	        </div>
-	    </div>
+            </div>
+        </div>
         <div class="modal-footer">
             <a id="cancelBtn" class="close btn seconday cancel close" data-dismiss="modal">Ok</a>
         </div>
