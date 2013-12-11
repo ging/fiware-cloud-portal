@@ -28,10 +28,12 @@
                                                 var network_id = networks.models[i].get('id');
                                                 for (var j in subnets.models) {
                                                     if (subnets.models[j].get('network_id') == network_id){
-                                                        var subnet_name = subnets.models[j].get('name') !== "" ? '('+subnets.models[j].get('name')+')' : '('+subnets.models[j].get('id')+')';
+                                                        if (subnets.models[j].get('gateway_ip')) {
+                                                            var subnet_name = subnets.models[j].get('name') !== "" ? '('+subnets.models[j].get('name')+')' : '('+subnets.models[j].get('id')+')';
                                                         var subnet_id = subnets.models[j].get('id');   
                                                         var cidr =  subnets.models[j].get('cidr');                             
-                                                        var net_cidr_subnet = network_name+': '+cidr+ ' ' +subnet_name;                                      
+                                                        var net_cidr_subnet = network_name+': '+cidr+ ' ' +subnet_name;
+                                                        }                                      
                                         %>
                                     <option value="<%= subnet_id%>"><%= net_cidr_subnet%></option>
                                     <% }}}}%>

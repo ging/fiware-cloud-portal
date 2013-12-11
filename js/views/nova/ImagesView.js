@@ -136,12 +136,10 @@ var ImagesView = Backbone.View.extend({
     onLaunch: function(evt) {
         var image = evt.target.value;
         var img = this.model.get(image);
-
         //pendiente de metadato sdc_aware
         img.set({'properties':{}});
         var self = this;
-        console.log('Showing Instance Creation');
-        var subview = new LaunchImageView({el: 'body', images: this.options.images, flavors: this.options.flavors, keypairs: this.options.keypairs, secGroups: this.options.securityGroupsModel, quotas: this.options.quotas, instancesModel: this.options.instancesModel, model: img});
+        var subview = new LaunchImageView({el: 'body', images: this.options.images, flavors: this.options.flavors, keypairs: this.options.keypairs, secGroups: this.options.securityGroupsModel, quotas: this.options.quotas, instancesModel: this.options.instancesModel, networks: this.options.networks, tenant: this.options.tenant, volumes: this.options.volumesModel, ports: this.options.ports, model: img});
         subview.render();
     },
 

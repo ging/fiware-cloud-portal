@@ -10,204 +10,346 @@
     </div>
 
     <form id="form" onSubmit="return false;">
-    <div class="modal-body clearfix">
 
-        <div class="left">
-            <fieldset>
+    <ul id="myTab" class="nav nav-tabs">
+          <li class="active">
+            <a id="details" href="#input_details" data-toggle="tab">Details</a>
+          </li>
+          <li class="">
+            <a id="access_and_security" href="#input_access_and_security" data-toggle="tab">Access & Security</a>
+          </li>
+          <li class="">
+            <a id="networks" href="#input_networks" data-toggle="tab">Networking</a>
+          </li> 
+          <!--<li class="">
+            <a id="volumes" href="#input_volumes" data-toggle="tab">Volume Options</a>
+          </li> -->
+          <li class="">
+            <a id="post-creation" href="#input_post-creation" data-toggle="tab">Post-Creation</a>
+          </li>   
+        </ul>
 
-                <div class="control-group form-field clearfix">
-                    <label for="id_name">Server Name *</label>
+    <div id="input_details" class="tab-pane tab-adjustable active">
+        <div class="modal-body clearfix">
 
-                    <span class="help-block" style="display: none; "></span>
-                    <div class="input">
-                        <input id="id_name" required type="text" name="instance_name" maxlength="80">
+            <div class="left">
+                <fieldset>
+
+                    <div class="control-group form-field clearfix">
+                        <label for="id_name">Instance Name *</label>
+
+                        <span class="help-block" style="display: none; "></span>
+                        <div class="input">
+                            <input id="id_name" required type="text" name="instance_name" maxlength="80">
+                        </div>
+                    </div>
+
+                    <div class="control-group form-field clearfix">
+                        <label for="id_flavor">Flavor</label>
+
+                        <span class="help-block" style="display: none; ">Size of image to launch.</span>
+                        <div class="input">
+                            <select name="flavor" id="id_flavor">
+
+                                <%
+                                for (var index in flavors.models) {
+                                    var flavor = flavors.models[index];
+                                    if (!model.get("properties").sdc_aware || (model.get("properties").sdc_aware && flavor.get("disk") !== 0)) {
+                                %>
+                                <option value="<%=flavor.id%>"><%=flavor.get("name") + " (" + flavor.get("vcpus") + "VCPU / " + flavor.get("disk") + "GB Disk / " + flavor.get("ram") + "MB Ram )" %></option>
+                                <%
+                                    }
+                                }%>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="control-group form-field clearfix">
+                        <label for="id_count">Instance Count *</label>
+
+                        <span class="help-block" style="display: none; ">Number of instances to launch.</span>
+                        <div class="input">
+                            <input type="text" required name="count" value="1" id="id_count">
+                        </div>
+                    </div>
+
+                    <div class="control-group form-field clearfix hide">
+                        <label for="id_volume">Volume or Volume Snapshot</label>
+
+                        <span class="help-block" style="display: none; ">Volume to boot from.</span>
+                        <div class="input">
+                            <select name="volume" id="id_volume">
+                                <option value="" selected="selected">Select Volume</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="control-group form-field clearfix hide">
+                        <label for="id_device_name">Device Name</label>
+
+                        <span class="help-block" style="display: none; ">Volume mount point (e.g. 'vda' mounts at '/dev/vda').</span>
+                        <div class="input">
+                            <input type="text" name="device_name" value="vda" id="id_device_name">
+                        </div>
+                    </div>
+
+                    <div class="control-group form-field clearfix hide">
+                        <label for="id_delete_on_terminate">Delete on Terminate</label>
+
+                        <span class="help-block" style="display: none; ">Delete volume on instance terminate</span>
+                        <div class="input">
+                            <input type="checkbox" name="delete_on_terminate" id="id_delete_on_terminate">
+                        </div>
+                    </div>
+
+                </fieldset>
+            </div>
+            <div class="right">
+                <h3>Description</h3>
+                <p>
+                    Specify the details for launching an instance. The chart below shows the resources used by this project in relation to the project's quotas.
+                </p>
+                <%
+                    var quotaset = quotas.get("quota_set");
+                    var cpus = 0;
+                    var ram = 0;
+                    var disk = 0;
+                    for (var instIdx in instancesModel.models) {
+                        var instance = instancesModel.models[instIdx];
+                        var flavor = flavors.get(instance.get("flavor").id);
+                        cpus = cpus + flavor.get('vcpus');
+                        ram = ram + flavor.get('ram');
+                        disk = disk + flavor.get('disk');
+                    }
+                %>
+                <h3>Project Quotas</h3>
+
+                <div class="quota_title">
+                    <strong>Instance Count <span>(<%=instancesModel.length%>)</span></strong>
+                    <p>
+                        <%= quotaset.instances - instancesModel.length %> Available
+                    </p>
+                </div>
+                <div class="clearfix"></div>
+                <div class="quota_bar">
+                    <div class="progress_bar">
+                        <div class="progress_bar_fill" style="width: <%= 100 * (instancesModel.length) / quotaset.instances %>%"></div>
                     </div>
                 </div>
 
-                <div class="control-group form-field clearfix">
-                    <label for="id_user_data">User Data</label>
-
-                    <span class="help-block" style="display: none; "></span>
-                    <div class="input">
-                        <textarea id="id_user_data" rows="10" cols="40" name="user_data"></textarea>
+                <div class="quota_title">
+                    <strong>VCPUs <span>(<%= cpus %>)</span></strong>
+                    <p>
+                        <%= quotaset.cores - cpus %> Available
+                    </p>
+                </div>
+                <div class="clearfix"></div>
+                <div class="quota_bar">
+                    <div class="progress_bar">
+                        <div class="progress_bar_fill" style="width: <%= 100 * (cpus) / quotaset.cores %>%"></div>
                     </div>
                 </div>
 
-                <div class="control-group form-field clearfix">
-                    <label for="id_flavor">Flavor</label>
+                <div class="quota_title">
+                    <strong>Disk <span>(<%= disk %> GB)</span></strong>
+                    <p>
+                        <%= quotaset.gigabytes - disk %> GB Available
+                    </p>
+                </div>
+                <div class="clearfix"></div>
+                <div class="quota_bar">
+                    <div class="progress_bar">
+                        <div class="progress_bar_fill" style="width: <%= 100 * (disk) / quotaset.gigabytes %>%"></div>
+                    </div>
+                </div>
 
-                    <span class="help-block" style="display: none; ">Size of image to launch.</span>
-                    <div class="input">
-                        <select name="flavor" id="id_flavor">
+                <div class="quota_title">
+                    <strong>Memory <span>(<%= ram %> MB)</span></strong>
+                    <p>
+                        <%= quotaset.ram - ram %> MB Available
+                    </p>
+                </div>
+                <div class="clearfix"></div>
+                <div class="quota_bar">
+                    <div class="progress_bar">
+                        <div class="progress_bar_fill" style="width: <%= 100 * (ram) / quotaset.ram %>%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                            <%
-                            for (var index in flavors.models) {
-                                var flavor = flavors.models[index];
-                                if (!model.get("properties").sdc_aware || (model.get("properties").sdc_aware && flavor.get("disk") !== 0)) {
+    <div id="input_access_and_security" class="tab-pane tab-adjustable fade" style="display: none">
+        <div class="modal-body clearfix">
+            <div class="left">
+                <fieldset>                  
+                    <div class="control-group form-field clearfix">
+                        <label for="id_keypair">Keypair</label>
+
+                        <span class="help-block" style="display: none; ">Which keypair to use for authentication.</span>
+                        <div class="input">
+                            <select name="keypair" id="id_keypair">
+                                <option value="" selected="selected">Select a keypair</option>
+                                <% if (keypairs.size() == 0) { %>
+                                <option value="" selected="selected">No keypairs available.</option>
+                                <% } else {
+                                for (var index in keypairs.models) {
+                                var keypair = keypairs.models[index];
+                                %>
+                                <option value="<%=keypair.get('name')%>"><%= keypair.get("name")%></option>
+                                <%  }
+                                }%>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="control-group form-field clearfix">
+                        <label for="id_security_groups">Security Groups</label>
+
+                        <span class="help-block" style="display: none; ">Launch instance in these security groups.</span>
+                        <div class="input">
+                            <ul>
+                            <%  for (var index in secGroups.models) {
+                                    var sec = secGroups.models[index];
                             %>
-                            <option value="<%=flavor.id%>"><%=flavor.get("name") + " (" + flavor.get("vcpus") + "VCPU / " + flavor.get("disk") + "GB Disk / " + flavor.get("ram") + "MB Ram )" %></option>
+                                <li>
+                                <input style="width: 15px;float:left;" type="checkbox" name="security_groups" value="<%=sec.get('name')%>">
+                                <div style="width: 300px; overflow: hidden; text-overflow: ellipsis"><%=sec.get('name')%></div>
+                                </li>
                             <%
                                 }
-                            }%>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="control-group form-field clearfix">
-                    <label for="id_keypair">Keypair</label>
-
-                    <span class="help-block" style="display: none; ">Which keypair to use for authentication.</span>
-                    <div class="input">
-                        <select name="keypair" id="id_keypair">
-                            <option value="" selected="selected">Select a keypair</option>
-                            <% if (keypairs.size() == 0) { %>
-                            <option value="" selected="selected">No keypairs available.</option>
-                            <% } else {
-                            for (var index in keypairs.models) {
-                            var keypair = keypairs.models[index];
                             %>
-                            <option value="<%=keypair.get('name')%>"><%= keypair.get("name")%></option>
-                            <%  }
-                            }%>
-                        </select>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-
-                <div class="control-group form-field clearfix">
-                    <label for="id_count">Instance Count *</label>
-
-                    <span class="help-block" style="display: none; ">Number of instances to launch.</span>
-                    <div class="input">
-                        <input type="text" required name="count" value="1" id="id_count">
-                    </div>
-                </div>
-
-                <div class="control-group form-field clearfix">
-                    <label for="id_security_groups">Security Groups</label>
-
-                    <span class="help-block" style="display: none; ">Launch instance in these security groups.</span>
-                    <div class="input">
-                        <ul>
-                        <%  for (var index in secGroups.models) {
-                                var sec = secGroups.models[index];
-                        %>
-                            <li>
-                            <input style="width: 15px;float:left;" type="checkbox" name="security_groups" value="<%=sec.get('name')%>">
-                            <div style="width: 300px; overflow: hidden; text-overflow: ellipsis"><%=sec.get('name')%></div>
-                            </li>
-                        <%
-                            }
-                        %>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="control-group form-field clearfix hide">
-                    <label for="id_volume">Volume or Volume Snapshot</label>
-
-                    <span class="help-block" style="display: none; ">Volume to boot from.</span>
-                    <div class="input">
-                        <select name="volume" id="id_volume">
-                            <option value="" selected="selected">Select Volume</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="control-group form-field clearfix hide">
-                    <label for="id_device_name">Device Name</label>
-
-                    <span class="help-block" style="display: none; ">Volume mount point (e.g. 'vda' mounts at '/dev/vda').</span>
-                    <div class="input">
-                        <input type="text" name="device_name" value="vda" id="id_device_name">
-                    </div>
-                </div>
-
-                <div class="control-group form-field clearfix hide">
-                    <label for="id_delete_on_terminate">Delete on Terminate</label>
-
-                    <span class="help-block" style="display: none; ">Delete volume on instance terminate</span>
-                    <div class="input">
-                        <input type="checkbox" name="delete_on_terminate" id="id_delete_on_terminate">
-                    </div>
-                </div>
-
-            </fieldset>
-        </div>
-        <div class="right">
-            <h3>Description</h3>
-            <p>
-                Specify the details for launching an instance. The chart below shows the resources used by this project in relation to the project's quotas.
-            </p>
-            <%
-                var quotaset = quotas.get("quota_set");
-                console.log(instancesModel);
-                var cpus = 0;
-                var ram = 0;
-                var disk = 0;
-                for (var instIdx in instancesModel.models) {
-                    var instance = instancesModel.models[instIdx];
-                    var flavor = flavors.get(instance.get("flavor").id);
-                    cpus = cpus + flavor.get('vcpus');
-                    ram = ram + flavor.get('ram');
-                    disk = disk + flavor.get('disk');
-                }
-            %>
-            <h3>Project Quotas</h3>
-
-            <div class="quota_title">
-                <strong>Instance Count <span>(<%=instancesModel.length%>)</span></strong>
+                </fieldset>  
+            </div>
+            <div class="right">
+                <h3>Description</h3>
                 <p>
-                    <%= quotaset.instances - instancesModel.length %> Available
+                    Control access to your instance via keypairs, security groups, and other mechanisms.
                 </p>
-            </div>
-            <div class="clearfix"></div>
-            <div class="quota_bar">
-                <div class="progress_bar">
-                    <div class="progress_bar_fill" style="width: <%= 100 * (instancesModel.length) / quotaset.instances %>%"></div>
-                </div>
-            </div>
-
-            <div class="quota_title">
-                <strong>VCPUs <span>(<%= cpus %>)</span></strong>
-                <p>
-                    <%= quotaset.cores - cpus %> Available
-                </p>
-            </div>
-            <div class="clearfix"></div>
-            <div class="quota_bar">
-                <div class="progress_bar">
-                    <div class="progress_bar_fill" style="width: <%= 100 * (cpus) / quotaset.cores %>%"></div>
-                </div>
-            </div>
-
-            <div class="quota_title">
-                <strong>Disk <span>(<%= disk %> GB)</span></strong>
-                <p>
-                    <%= quotaset.gigabytes - disk %> GB Available
-                </p>
-            </div>
-            <div class="clearfix"></div>
-            <div class="quota_bar">
-                <div class="progress_bar">
-                    <div class="progress_bar_fill" style="width: <%= 100 * (disk) / quotaset.gigabytes %>%"></div>
-                </div>
-            </div>
-
-            <div class="quota_title">
-                <strong>Memory <span>(<%= ram %> MB)</span></strong>
-                <p>
-                    <%= quotaset.ram - ram %> MB Available
-                </p>
-            </div>
-            <div class="clearfix"></div>
-            <div class="quota_bar">
-                <div class="progress_bar">
-                    <div class="progress_bar_fill" style="width: <%= 100 * (ram) / quotaset.ram %>%"></div>
-                </div>
             </div>
         </div>
-
     </div>
+
+    <div id="input_networks"" class="tab-pane tab-adjustable fade" style="display: none">
+        <div class="modal-body clearfix">
+            <div class="left">
+                <fieldset>                  
+                    <div class="control-group form-field clearfix">
+                    <label for="networks">Available networks</label>
+                        <span class="help-block" style="display: none; ">Launch instance in these security groups.</span>
+                        <div class="input">
+                            <ul>
+                            <%  for (var index in networks.models) {
+                                    var network = networks.models[index];
+                                    var tenant_id = network.get('tenant_id');
+                                    if (tenant_id == tenant) {
+                            %>
+                                <li>
+                                <input style="width: 15px;float:left;" type="checkbox" name="networks" value="<%=network.get('name') === "" ? "("+network.get("id").slice(0,8)+")" : network.get('name')%>">
+                                <div style="width: 300px; overflow: hidden; text-overflow: ellipsis"><%=network.get('name') === "" ? "("+network.get("id").slice(0,8)+")" : network.get('name')%></div>
+                                </li>
+                            <%
+                                }}
+                            %>
+                            </ul>
+                        </div>
+                    </div>
+                </fieldset>  
+            </div>
+            <div class="right">
+                <h3>Description</h3>
+                <p>
+                    Control access to your instance via keypairs, security groups, and other mechanisms.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!--<div id="input_volumes" class="tab-pane tab-adjustable fade" style="display: none">
+        <div class="modal-body clearfix">
+            <div class="left">
+                <fieldset>                  
+                    <div class="control-group form-field clearfix volumeOptionsSelect">
+                        <label for="volume_option">Volume Options</label>
+
+                        <span class="help-block"></span>
+                        <div class="input">
+                            <select name="volume_options" id="volume_options">
+                                <option value="not_volume">Don't boot from volume.</option>
+                                <option value="volume">Boot from volume.</option>
+                                <option value="snapshot">Boot from volume snapshot (creates a new volume).</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="control-group form-field clearfix volume" style="display:none">
+                        <label for="volume">Volume</label>
+
+                        <span class="help-block" style="display: none; "></span>
+                        <div class="input">
+                        <%for (var index in volumes.models) {
+                            var name = volumes.models[index].get("display_name");
+                            var size = volumes.models[index].get("size");%>
+                            <select name="volume_snapshot" id="volume">
+                                <option value="">Select Volume</option>
+                                <option value="<%=name%>"><%=name+" - "+size+" GB (Volume)"%></option>
+                            </select>
+                        <%}%>
+                        </div>
+                    </div>
+                    <div class="control-group form-field clearfix device_name" style="display:none">
+                        <label for="device_name">Device Name</label>
+
+                        <span class="help-block" style="display: none; "></span>
+                        <div class="input">
+                            <input type="text" id="device_name" rows="3" cols="10" name="device_name" value="vda">
+                        </div>
+                    </div>
+                    <div class="control-group form-field clearfix hide delete_on_terminate" style="display:none>
+                        <label for="delete_on_terminate">Delete on Terminate</label>
+
+                        <span class="help-block" style="display: none; ">Delete volume on instance terminate</span>
+                        <div class="input">
+                            <input type="checkbox" id="delete_on_terminate" name="delete_on_terminate">
+                        </div>
+                    </div>
+                </fieldset>  
+            </div>
+            <div class="right">
+                <h3>Description</h3>
+                <p>
+                    You can customize your instance after it's launched using the options available here. The "Customization Script" field is analogous to "User Data" in other systems.
+                </p>
+            </div>
+        </div>
+    </div>-->
+
+    <div id="input_post-creation" class="tab-pane tab-adjustable fade" style="display: none">
+        <div class="modal-body clearfix">
+            <div class="left">
+                <fieldset>                  
+                    <div class="control-group form-field clearfix">
+                        <label for="id_user_data">Customization Script</label>
+
+                        <span class="help-block" style="display: none; "></span>
+                        <div class="input">
+                            <textarea id="id_user_data" rows="3" cols="10" name="user_data"></textarea>
+                        </div>
+                    </div>
+                </fieldset>  
+            </div>
+            <div class="right">
+                <h3>Description</h3>
+                <p>
+                    You can customize your instance after it's launched using the options available here. The "Customization Script" field is analogous to "User Data" in other systems.
+                </p>
+            </div>
+        </div>
+    </div>
+
+
     <div class="modal-footer">
         <p class="mandatoryMess">* Mandatory fields.</p>
         <input type="submit" class="btn btn-blue btn-launch-image pull-right" value="Launch Instance"/>

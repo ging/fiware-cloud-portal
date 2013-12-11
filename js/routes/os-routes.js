@@ -510,7 +510,8 @@ var OSRouter = Backbone.Router.extend({
     nova_images: function(self) {
         self.showNovaRoot(self, 'Images');
         //self.instancesModel.alltenants = false;
-        var view = new ImagesView({model: self.images, volumeSnapshotsModel: self.volumeSnapshotsModel, instancesModel: self.instancesModel, volumesModel: self.volumesModel, flavors: self.flavors, keypairs: self.keypairsModel, securityGroupsModel: self.securityGroupsModel,  quotas: self.quotas, el: '#content'});
+        var tenant = localStorage.getItem('tenant-id');
+        var view = new ImagesView({model: self.images, volumeSnapshotsModel: self.volumeSnapshotsModel, instancesModel: self.instancesModel, volumesModel: self.volumesModel, flavors: self.flavors, keypairs: self.keypairsModel, securityGroupsModel: self.securityGroupsModel,  quotas: self.quotas, networks: self.networks, ports: self.ports, tenant: tenant, el: '#content'});
         self.newContentView(self,view);
     },
 
