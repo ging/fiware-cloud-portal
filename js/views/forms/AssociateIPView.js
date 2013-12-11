@@ -27,12 +27,13 @@ var AssociateIPView = Backbone.View.extend({
     },
 
     allocate: function(e) {
+        console.log(this.options.ip);
         self = this;
         var instance_id = this.$("#instance_switcher option:selected").val();            
         if (instance_id !== "") {
             var inst = self.options.instances.get(instance_id); 
             var instance = inst.get("name");
-            self.model.associate(instance_id, UTILS.Messages.getCallbacks("Successfully associated Floating IP " +this.options.ip+ " with Instance: " +instance));
+            self.model.associate(instance_id, UTILS.Messages.getCallbacks("Successfully associated Floating IP " +self.model.get("ip")+ " with Instance: " +instance));
             self.close();
         }        
     }   

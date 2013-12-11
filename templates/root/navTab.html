@@ -17,7 +17,7 @@ src: templates/root/navTab.html
                                     <ul class="nav nav-tabs">
                                         <% for (var index in models) {
                                         var model = models[index];
-                                        if (model.get('name') == 'Admin' && showAdmin == false)
+                                        if (model.get('name') == 'Admin' && (showAdmin == false || UTILS.Auth.isIDM()))
                                         continue;
                                         %>
                                         <li <% if (model.get('active')) { %> class="active" <% } %> >

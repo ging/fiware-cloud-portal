@@ -198,8 +198,8 @@ var OSRouter = Backbone.Router.extend({
             this.add_fetch("subnets", seconds);
             this.add_fetch("ports", seconds);
             this.add_fetch("routers", seconds);
-            if (this.loginModel.isAdmin()) {
-                console.log("admin");
+            if (this.loginModel.isAdmin() && !UTILS.Auth.isIDM()) {
+                console.log("admin!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 this.add_fetch("projects", seconds);
             }
         }
@@ -298,7 +298,7 @@ var OSRouter = Backbone.Router.extend({
 
     showSysRoot: function(self, option) {
         //this.clear_fetch();
-        if (!this.loginModel.isAdmin()) {
+        if (!this.loginModel.isAdmin() || UTILS.Auth.isIDM()) {
            window.location.href = "#nova";
            return false;
         }
@@ -512,7 +512,8 @@ var OSRouter = Backbone.Router.extend({
     nova_images: function(self) {
         self.showNovaRoot(self, 'Images');
         //self.instancesModel.alltenants = false;
-        var view = new ImagesView({model: self.images, volumeSnapshotsModel: self.volumeSnapshotsModel, instancesModel: self.instancesModel, volumesModel: self.volumesModel, flavors: self.flavors, keypairs: self.keypairsModel, securityGroupsModel: self.securityGroupsModel,  quotas: self.quotas, el: '#content'});
+        var tenant = localStorage.getItem('tenant-id');
+        var view = new ImagesView({model: self.images, volumeSnapshotsModel: self.volumeSnapshotsModel, instancesModel: self.instancesModel, volumesModel: self.volumesModel, flavors: self.flavors, keypairs: self.keypairsModel, securityGroupsModel: self.securityGroupsModel,  quotas: self.quotas, networks: self.networks, ports: self.ports, tenant: tenant, el: '#content'});
         self.newContentView(self,view);
     },
 
