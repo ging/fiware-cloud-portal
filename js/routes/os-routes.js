@@ -292,6 +292,8 @@ var OSRouter = Backbone.Router.extend({
         }
         this.sideBarView.model = self.navs;
         this.sideBarView.render(option, showTenants);
+        // Hack for phones
+        window.scrollTo(0,0);
     },
 
     showSysRoot: function(self, option) {

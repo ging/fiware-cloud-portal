@@ -79,7 +79,6 @@ var ObjectStorageContainerView = Backbone.View.extend({
         var i = 0;
         for (var index in container.get('objects')) {
             var object = container.get('objects')[index];
-	console.log('oo', object);
             var bytes = object.bytes;
             var kbytes, mbytes, gbytes, size;
             if (bytes >= 1024) {
@@ -122,7 +121,6 @@ var ObjectStorageContainerView = Backbone.View.extend({
         if (objectIds.length === 1) {
             object = objectIds[0];
         }
-        console.log(object);
         switch (action) {
             case 'upload':
                 subview = new UploadObjectView({
@@ -133,10 +131,12 @@ var ObjectStorageContainerView = Backbone.View.extend({
                 break;
             case 'download':
                 var options = {};
+                var filename = object;
                 options.callback = function(object) {
                     console.log("Downloaded");
                     var typeMIME, blob, blobURL;
                     var obj = JSON.parse(object);
+                    
                     var byteString;
                     if (obj.valuetransferencoding === "base64") {
                         byteString = atob(obj.value);
@@ -151,8 +151,9 @@ var ObjectStorageContainerView = Backbone.View.extend({
                     }
                     array.push(ab);
                     blob = new Blob(array, {type: obj.mimetype});
-                    blobURL = window.URL.createObjectURL(blob);
-                    window.open(blobURL);
+                    saveAs(blob, filename);
+                    //blobURL = window.URL.createObjectURL(blob);
+                    //window.open(blobURL);
                 };
                 this.model.downloadObject(object, options);
                 break;

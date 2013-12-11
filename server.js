@@ -3,11 +3,12 @@ var express = require('express'),
     https = require('https'),
     crypto = require('crypto'),
     XMLHttpRequest = require("./xmlhttprequest").XMLHttpRequest,
-    OAuth2 = require('./oauth2').OAuth2;
+    OAuth2 = require('./oauth2').OAuth2,
+    config = require('./config');
 
-var oauth_config = require('./config').oauth;
-var useIDM = require('./config').useIDM;
-var keystone_config = require('./config').keystone;
+var oauth_config = config.oauth;
+var useIDM = config.useIDM;
+var keystone_config = config.keystone;
 
 var service_catalog;
 
@@ -205,7 +206,7 @@ function getClientIp(req, headers) {
 app.set('view engine', 'ejs');
 
 app.get('/', function(req, res) {
-  res.render('index', { useIDM: useIDM })
+  res.render('index', { useIDM: useIDM, account_server: oauth_config.account_server })
 });
 
 app.all('/keystone/*', function(req, resp) {
@@ -270,6 +271,7 @@ if (useIDM) {
 }
 
 app.all('/:reg/:service/:v/*', function(req, resp) {
+    console.log("Bien");
 
     var endp = getEndpoint(req.params.service, req.params.reg);
     var new_url = req.url.split(req.params.v)[1];
@@ -277,12 +279,18 @@ app.all('/:reg/:service/:v/*', function(req, resp) {
         endp = endp.substring(0, endp.length-1) + "/v2.0";
     }
 
+    console.log(endp + new_url);
+
     var options = {
         url: endp + new_url,
         method: req.method,
         headers: req.headers
     };
     sendData("http", options, req.body, resp);
+});
+
+app.all('/*', function(req, res) {
+    console.log("req!!!!!!!!!!!!!!!!!", req.url);
 });
 
 app.all('/user/:token', function(req, resp) {
@@ -319,7 +327,7 @@ function getCatalog() {
 
     sendData("http", options, JSON.stringify(credentials), undefined, function (status, resp) {
         service_catalog = JSON.parse(resp).access.serviceCatalog;
-        console.log('CATALOG: ', service_catalog);
+        console.log(JSON.stringify(service_catalog, 4, 4));
     }, function (e, msg) {
         console.log('Error ', e, msg);
     });
@@ -339,8 +347,10 @@ function getEndpoint (service, region) {
             break;
         }
     }
-    if (endpoint.publicURL.match(keystone_config.tenantId)) {
+    if (endpoint.publicURL.match('/' + keystone_config.tenantId)) {
         return endpoint.publicURL.split('/' + keystone_config.tenantId)[0];
+    } else if (endpoint.publicURL.match('/AUTH_' + keystone_config.tenantId)) {
+        return endpoint.publicURL.split('/AUTH_' + keystone_config.tenantId)[0];
     }
     return endpoint.publicURL;
 }
@@ -359,6 +369,15 @@ function decrypt(str){
   return dec;
 }
 
-app.listen(80);
+app.listen(80, undefined, null, function() {
+    console.log("Port 80 opened. Changing to unprivileged user...");
+    try {
+        process.setgid(config.process_user);
+        process.setuid(config.process_group);
+        console.log("The process now runs as user ", config.process_user);
+    } catch (err) {
+        console.log('WARNING: The server has too much privileges. Change config file to set an unprivileged user.');
+    }
+});
 
 getCatalog();

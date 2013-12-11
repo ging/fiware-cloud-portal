@@ -24,7 +24,9 @@ module.exports = function(grunt) {
     },
     uglify: {
       options: {
-        banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+        banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
+        compress: true,
+        mangle: true
       },
       libs: {
         src: ['js/os-utils.js'],
@@ -44,6 +46,10 @@ module.exports = function(grunt) {
       }
     },
     concat: {
+      templates: {
+        src: ['templates/**/*.html'],
+        dest: 'dist/templates.html'
+      },
       libs: {
         src: ['js/os-utils.js'],
         dest: 'dist/libs.js'
@@ -69,10 +75,12 @@ module.exports = function(grunt) {
       main: {
         files: [
           {src: ['lib/**/*'], dest: 'dist/'},
-          {src: ['templates/**/*'], dest: 'dist/'},
           {src: ['locales/**/*'], dest: 'dist/'},
           {src: ['fonts/**/*'], dest: 'dist/'},
-          {src: ['css/**/*'], dest: 'dist/'},
+          {src: ['css/all.css'], dest: 'dist/'},
+          {src: ['css/fonts/**/*'], dest: 'dist/'},
+          {src: ['css/lib/**/*.css'], dest: 'dist/'},
+          {src: ['css/old/**/*.css'], dest: 'dist/'},
           {src: ['ico/**/*'], dest: 'dist/'},
           {src: ['images/**/*'], dest: 'dist/'}
         ]
@@ -84,7 +92,7 @@ module.exports = function(grunt) {
             style: 'compressed'
           },
           files: {
-              'css/style2.css': ['css/src/root.scss', 'css/src/navTab.scss', 'css/src/topBar.scss', 'css/src/sideBar.scss', 'css/src/tables.scss', 'css/src/icons.scss', 'css/src/forms/tiers.scss', 'css/src/blueprint.scss']
+              'css/all.css': ['css/src/all.scss']
           }
       }
     },
@@ -103,6 +111,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-sass');
 
   // Default task.
-  grunt.registerTask('default', ['jshint', 'concat', 'concat:disttest', 'sass', 'copy']);
+  grunt.registerTask('default', ['jshint', 'uglify', 'concat:templates', 'concat:disttest', 'sass', 'copy']);
+  grunt.registerTask('debug', ['jshint', 'concat', 'sass', 'copy']);
 
 };

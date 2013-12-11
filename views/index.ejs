@@ -24,7 +24,7 @@
         <link href='css/old/application.css' media='screen' rel='stylesheet' />
 
         <!-- New CSS -->
-        <link href='css/style2.css' media='screen' rel='stylesheet' />
+        <link href='css/all.css' media='screen' rel='stylesheet' />
 
         <link href="ico/favicon.ico" rel="shortcut icon">
         <link href="ico/apple-touch-icon-144-precomposed.png" sizes="144x144" rel="apple-touch-icon-precomposed">
@@ -48,11 +48,12 @@
         <script type="text/javascript" src="../lib/jquery.selectbox-0.1.3.min.js"></script>
         <script type="text/javascript" src="../lib/spin.min.js"></script>
         <script type="text/javascript" src="../lib/jquery.tinyscrollbar.js"></script>
+        <script type="text/javascript" src="../lib/Blob.js"></script>
+        <script type="text/javascript" src="../lib/FileSaver.js"></script>
         <!--<script type="text/javascript" src="../lib/jquery.qtip.min.js"></script>-->
 
-        <script src="https://account.lab.fi-ware.eu/assets/signOut.js" type="text/javascript"></script>
-
         <% if (useIDM) { %>
+        <script src="<%= account_server %>/assets/signOut.js" type="text/javascript"></script>
 
         <script type="text/javascript">
 
@@ -94,109 +95,7 @@
             $(document).ready(function(){
                 $('.bar').css({width: "0%"});
                 loadTemplates([
-                    'templates/auth/login.html',
-                    'templates/forms/addUserToProject.html',
-                    'templates/forms/updateInstance.html',
-                    'templates/forms/createFlavor.html',
-                    'templates/forms/updateImage.html',
-                    'templates/forms/rebootInstances.html',
-                    'templates/forms/changePassword.html',
-                    'templates/forms/createSnapshot.html',
-                    'templates/forms/createVolumeSnapshot.html',
-                    'templates/forms/createVolume.html',
-                    'templates/forms/editVolumeAttachments.html',
-                    'templates/forms/launchImage.html',
-                    'templates/forms/createContainer.html',
-                    'templates/forms/installSoftware.html',
-                    'templates/forms/copyObject.html',
-                    'templates/forms/uploadObject.html',
-                    'templates/forms/createSecurityGroup.html',
-                    'templates/forms/editSecurityGroupRules.html',
-                    'templates/forms/createKeypair.html',
-                    'templates/forms/createProject.html',
-                    'templates/forms/editProject.html',
-                    'templates/forms/createUser.html',
-                    'templates/forms/editUser.html',
-                    'templates/forms/importKeypair.html',
-                    'templates/forms/downloadKeypair.html',
-                    'templates/forms/editInstanceSoftware.html',
-                    'templates/forms/allocateIP.html',
-                    'templates/forms/associateIP.html',
-                    'templates/forms/modifyUsers.html',
-                    'templates/forms/modifyQuotas.html',
-                    'templates/forms/createBlueprint.html',
-                    'templates/forms/cloneBlueprint.html',
-                    'templates/forms/editBlueprint.html',
-                    'templates/forms/createTier.html',
-                    'templates/forms/createBlueprintInstance.html',
-                    'templates/forms/editTier.html',
-                    'templates/root/nova/blueprint/matrixNet.html',
-                    'templates/root/nova/blueprint/blueprintInstances.html',
-                    "templates/root/nova/blueprint/blueprintInstanceTierInstances.html",
-                    'templates/root/nova/blueprint/blueprintInstance.html',
-                    'templates/root/nova/blueprint/blueprintTemplates.html',
-                    'templates/root/nova/blueprint/blueprintTemplate.html',
-                    'templates/root/nova/blueprint/blueprintTemplatesCatalog.html',
-                    'templates/root/nova/blueprint/blueprintTemplateCatalog.html',
-                    'templates/root/nova/accessAndSecurity.html',
-                    'templates/root/nova/keypairs.html',
-                    'templates/root/nova/securityGroups.html',
-                    'templates/root/nova/floatingIPs.html',
-                    'templates/root/nova/snapshots.html',
-                    'templates/root/nova/snapshots/instanceSnapshots.html',
-                    'templates/root/nova/snapshots/volumeSnapshots.html',
-                    'templates/root/nova/snapshots/instanceSnapshotDetail.html',
-                    'templates/root/nova/snapshots/volumeSnapshotDetail.html',
-                    'templates/root/nova/instances.html',
-                    'templates/root/nova/volumes.html',
-                    'templates/root/nova/instanceDetail.html',
-                    'templates/root/nova/imageDetail.html',
-                    'templates/root/nova/volumeDetail.html',
-                    'templates/root/nova/instanceDetail/log.html',
-                    'templates/root/nova/instanceDetail/overview.html',
-                    'templates/root/nova/instanceDetail/SDC.html',
-                    'templates/root/nova/instanceDetail/VNC.html',
-                    'templates/root/nova/instanceDetail/viewProductAttributes.html',
-                    'templates/root/nova/instanceDetail/editProductAttributes.html',
-                    'templates/root/objectstorage/containers.html',
-                    'templates/root/objectstorage/container.html',
-                    'templates/root/sys/images.html',
-                    'templates/root/sys/services.html',
-                    'templates/root/sys/flavors.html',
-                    'templates/root/sys/projects.html',
-                    'templates/root/sys/users.html',
-                    'templates/root/sys/newUsers.html',
-                    'templates/root/sys/usersForProject.html',
-                    'templates/root/sys/quotas.html',
-                    'templates/root/root.html',
-                    'templates/root/table.html',
-                    'templates/root/table-tiers.html',
-                    'templates/root/navTab.html',
-                    'templates/root/topBar.html',
-                    'templates/root/user.html',
-                    'templates/root/sideBar.html',
-                    'templates/root/confirm.html',
-                    'templates/root/settings.html',
-                    'templates/root/neutron/networks.html',
-                    'templates/forms/createNetwork.html',
-                    'templates/forms/editNetwork.html',
-                    'templates/forms/createSubnet.html',
-                    'templates/root/neutron/networkDetail.html',
-                    'templates/root/neutron/networkOverview.html',
-                    'templates/root/neutron/networkSubnets.html',
-                    'templates/root/neutron/networkPorts.html',
-                    'templates/root/neutron/subnetDetail.html',
-                    'templates/root/neutron/portDetail.html',
-                    'templates/forms/editSubnet.html',
-                    'templates/forms/editPort.html',
-                    'templates/root/neutron/routers.html',
-                    'templates/forms/createRouter.html',
-                    'templates/forms/editRouter.html',
-                    'templates/root/neutron/routerDetail.html',
-                    'templates/root/neutron/routerOverview.html',
-                    'templates/root/neutron/routerInterfaces.html',
-                    'templates/forms/addInterfaceToRouter.html',
-                    'templates/messages.html'
+                    'templates.html'
                 ], function(){
                     $('.bar').css({width: "30%"});
                     console.log("Templates loaded.");
@@ -241,12 +140,12 @@
               <a href="http://lab.fi-ware.eu/" class="logo-header">
                 <img alt="FI-WARE" class="logo" src="images/header/header-logo.png">
               </a>
-              <a href="http://lab.fi-ware.eu/" class="brand">
+              <a href="http://lab.fi-ware.eu/" class="brand hidden-tablet hidden-phone">
                 <span id="logo-fi">FI-</span><span id="logo-ware">WARE</span>
               </a>
             </div>
 
-            <div class="dropdown mobile visible_phone">
+            <div class="dropdown mobile hidden">
               <a href="#" class='dropdown-toggle' data-toggle="dropdown">
                 <i class='arrow-down-settings'></i>
               </a>
@@ -276,7 +175,7 @@
             </div>
 
 
-            <ul class="oil-portal hidden-phone">
+            <ul class="oil-portal hidden-phone hidden-tablet">
               <li class="cloud active">
                   <a href="http://cloud.lab.fi-ware.eu/">
                     Cloud

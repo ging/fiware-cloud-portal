@@ -28,7 +28,30 @@ $menu-tab-color: $blue2;
 
 }
 
+#navtab { 
+    background-color: white;
+    border-bottom-left-radius:14px;
+    border-bottom-right-radius:14px;
+    border-top-left-radius:3px;
+    border-top-right-radius:3px;
+    @media (max-width: $tablet-screen) {
+        background-color: transparent;
+        .navbar .btn-navbar {
+            z-index: 1040;
+            position: fixed;
+            margin-left: 80px;
+            margin-top: 8px;
+        }
+    }
+}
+
 .sidebar-menu {
+    margin-top: 25px;
+
+    @media (max-width: $tablet-screen) {
+        margin-top: 0px;
+        z-index: 1041;
+    }
     .navbar {
         .nav-tabs {
             &>li {
@@ -93,7 +116,7 @@ background-color: rgb(0, 147, 198);
 
 /** line 3578 boostrap.css**/
 .navbar-inner {
-  background-color: #777777;
+  background-color: transparent;
   background-image: none;
   padding-right: 0px;
   padding-left: 0px;

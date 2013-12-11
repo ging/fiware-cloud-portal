@@ -131,7 +131,7 @@ var ObjectStorageContainersView = Backbone.View.extend({
                 subview.render();
                 break;
             case 'list':
-            window.location.href = '#objectstorage/containers/' + container + '/';
+                window.location.href = '#objectstorage/containers/' + container + '/';
                 break;
             case 'upload':
                 subview = new UploadObjectView({

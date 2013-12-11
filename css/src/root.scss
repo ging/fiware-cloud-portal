@@ -22,10 +22,8 @@
   src: url(fonts/DsignesRegular.otf);
 }
 
-.sidebar-menu {
-  margin-top: 25px;
-
-  @media (max-width: $tablet-screen) {
-      margin-top: 0px;
-  }
+#root {
+  height: 100%;
+  min-height: 600px;
+  position: relative;
 }
