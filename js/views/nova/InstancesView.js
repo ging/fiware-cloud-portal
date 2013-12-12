@@ -192,7 +192,6 @@ var NovaInstancesView = Backbone.View.extend({
         };
         // entries: [{id:id, cells: [{value: value, link: link}] }]
         var entries = [];
-        var address = "";
         for (var instance_idx in this.model.models) {
             var instance = this.model.models[instance_idx];
             var addresses;
