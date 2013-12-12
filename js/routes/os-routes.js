@@ -198,8 +198,8 @@ var OSRouter = Backbone.Router.extend({
             this.add_fetch("subnets", seconds);
             this.add_fetch("ports", seconds);
             this.add_fetch("routers", seconds);
-            if (this.loginModel.isAdmin()) {
-                console.log("admin");
+            if (this.loginModel.isAdmin() && !UTILS.Auth.isIDM()) {
+                console.log("admin!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 this.add_fetch("projects", seconds);
             }
         }
@@ -292,11 +292,13 @@ var OSRouter = Backbone.Router.extend({
         }
         this.sideBarView.model = self.navs;
         this.sideBarView.render(option, showTenants);
+        // Hack for phones
+        window.scrollTo(0,0);
     },
 
     showSysRoot: function(self, option) {
         //this.clear_fetch();
-        if (!this.loginModel.isAdmin()) {
+        if (!this.loginModel.isAdmin() || UTILS.Auth.isIDM()) {
            window.location.href = "#nova";
            return false;
         }

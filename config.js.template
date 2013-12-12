@@ -1,5 +1,8 @@
 var config = {};
 
+config.process_user = '';
+config.process_group = '';
+
 config.useIDM = false;
 
 config.oauth = {
