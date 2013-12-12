@@ -194,7 +194,10 @@ var NovaInstancesView = Backbone.View.extend({
         var entries = [];
         var address = "";
         for (var instance_idx in this.model.models) {
-            var instance = this.model.models[instance_idx];            
+            var instance = this.model.models[instance_idx];
+            var addresses;
+            var address = "";
+
             if (JSTACK.Keystone.getservice("network") !== undefined) {
                 if (instance.get("addresses") != null) {
                 addresses = instance.get("addresses");
@@ -205,7 +208,7 @@ var NovaInstancesView = Backbone.View.extend({
                 }
             } else {
                 if ((instance.get("addresses") != null) && (instance.get("addresses")["public"] !== null || instance.get("addresses")["private"] !== null)) {
-                    var addresses = instance.get("addresses")["public"];
+                    addresses = instance.get("addresses")["public"];
                     for (var addr_idx in addresses) {
                         address += addresses[addr_idx].addr + "<br/>";
                     }
