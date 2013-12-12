@@ -196,22 +196,25 @@ var NovaInstancesView = Backbone.View.extend({
             var instance = this.model.models[instance_idx];
 
             var address = "";
-            // if (instance.get("addresses") != null) && (instance.get("addresses")["public"] !== null || instance.get("addresses")["private"] !== null)) {
-            //     var addresses = instance.get("addresses")["public"];
-            //     for (var addr_idx in addresses) {
-            //         address += addresses[addr_idx].addr + "<br/>";
-            //     }
-            //     addresses = instance.get("addresses")["private"];
-            //     for (var addr_idx2 in addresses) {
-            //         address += addresses[addr_idx2].addr + "<br/>";
-            //     }
-            if (instance.get("addresses") != null) {
+            if (JSTACK.Keystone.getservice("network") !== undefined) {
+                if (instance.get("addresses") != null) {
                 var addresses = instance.get("addresses");
-                for (var i in addresses) {
-                    ip = instance.get("addresses")[i][0].addr;
-                    address += ip + "<br/>";
+                    for (var i in addresses) {
+                        ip = instance.get("addresses")[i][0].addr;
+                        address += ip + "<br/>";
+                    }
                 }
-            
+            } else {
+                if ((instance.get("addresses") != null) && (instance.get("addresses")["public"] !== null || instance.get("addresses")["private"] !== null)) {
+                    var addresses = instance.get("addresses")["public"];
+                    for (var addr_idx in addresses) {
+                        address += addresses[addr_idx].addr + "<br/>";
+                    }
+                    addresses = instance.get("addresses")["private"];
+                    for (var addr_idx2 in addresses) {
+                        address += addresses[addr_idx2].addr + "<br/>";
+                    }
+                }
             }
             var entry = {
                 id: instance.get('id'),
