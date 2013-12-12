@@ -76,7 +76,7 @@ src: templates/forms/createNetwork.html
 		                        <label for="network-address">Network Address*</label>
 		                        <span class="help-block"></span>
 		                        <div class="input">
-		                            <input type="text" name="network_address" id="network_address" />
+		                            <input required="" type="text" name="network_address" id="network_address" title="This field is required"/>
 		                        </div>
 		                    </div>
 		                    <div class="control-group form-field clearfix">
@@ -160,7 +160,7 @@ src: templates/forms/createNetwork.html
 		
 		<div class="modal-footer">
 	        <p class="mandatoryMess">* Mandatory fields.</p>
-	        <input id="create_network_button" class="btn btn-blue btn-create-network pull-right" value="Create"/>
+	        <input type="submit" id="create_network_button" class="btn btn-blue btn-create-network pull-right" value="Create"/>
 	        <a id="cancelBtn-network" class="btn secondary cancel close">Cancel</a>
     	</div>
 </form>
