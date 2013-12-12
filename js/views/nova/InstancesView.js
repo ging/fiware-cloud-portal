@@ -192,13 +192,12 @@ var NovaInstancesView = Backbone.View.extend({
         };
         // entries: [{id:id, cells: [{value: value, link: link}] }]
         var entries = [];
+        var address = "";
         for (var instance_idx in this.model.models) {
-            var instance = this.model.models[instance_idx];
-
-            var address = "";
+            var instance = this.model.models[instance_idx];            
             if (JSTACK.Keystone.getservice("network") !== undefined) {
                 if (instance.get("addresses") != null) {
-                var addresses = instance.get("addresses");
+                addresses = instance.get("addresses");
                     for (var i in addresses) {
                         ip = instance.get("addresses")[i][0].addr;
                         address += ip + "<br/>";
