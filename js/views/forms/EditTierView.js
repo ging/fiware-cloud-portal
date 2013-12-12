@@ -50,6 +50,7 @@ var EditTierView = Backbone.View.extend({
         if (this.options.tier.productReleaseDtos_asArray) {
             this.options.tier.productReleaseDtos_asArray.forEach(function(product) {
                 product.name = product.productName;
+                product.description = product.productDescription;
                 self.addedProducts.push(product);
             });
         }
@@ -275,7 +276,8 @@ var EditTierView = Backbone.View.extend({
 
             entries.push(
                 {id: product, cells:[
-                    {value: this.addedProducts[product].name + ' ' + this.addedProducts[product].version}
+                    {value: this.addedProducts[product].name + ' ' + this.addedProducts[product].version, 
+                    tooltip: this.addedProducts[product].description}
                     ]
                 });
 
@@ -296,6 +298,26 @@ var EditTierView = Backbone.View.extend({
         //     label: "Allocate IP to Project",
         //     action: "allocate"
         // }];
+    },
+
+    getNetDropdownButtonsNew: function() {
+        // dropdown_buttons: [{label:label, action: action_name}]
+        var self = this;
+        var oneSelected = function(size, id) {
+            if (size === 1) {
+                return true;
+            }
+        };
+        var groupSelected = function(size, id) {
+            if (size >= 1) {
+                return true;
+            }
+        };
+        return [{
+            label: "Add",
+            action: "install",
+            activatePattern: groupSelected
+        }];
     },
 
     getDropdownButtonsNew: function() {
@@ -377,7 +399,8 @@ var EditTierView = Backbone.View.extend({
               entries.push(
 
                 {id: product, cells:[
-                {value: products[product].name + ' ' + products[product].version}]});
+                {value: products[product].name + ' ' + products[product].version,
+                tooltip: products[product].description}]});
 
         }
         return entries;
@@ -404,7 +427,6 @@ var EditTierView = Backbone.View.extend({
 
     installNetwork: function(id, targetId) {
         network = this.networkList[id];
-        console.log(network);
         var exists = false;
         for (var a in this.addedNetworks) {
             if (this.addedNetworks[a].name === network.name) {
@@ -530,7 +552,6 @@ var EditTierView = Backbone.View.extend({
                 case 'edit':
                     product = this.addedProducts[ids];
                     this.edit = ids;
-                    console.log(product);
                     var productAttributes = product.attributes_asArray;
                     var str='';
                     for (var i in productAttributes) {
@@ -720,7 +741,6 @@ var EditTierView = Backbone.View.extend({
             $('#edit_tier').remove();
             $('.modal-backdrop').remove();
         }
-        console.log(this.options.tier);
         $(this.el).append(this._template({model:this.model, flavors: this.options.flavors, keypairs: this.options.keypairs, images: this.options.images, tier: this.options.tier, regions: this.options.regions}));
         this.tableView = new TableView({
             el: '#installedSoftware-table',

@@ -26,7 +26,7 @@ var LaunchImageView = Backbone.View.extend({
         if ($('#launch_image').html() != null) {
             return;
         }
-        $(this.el).append(this._template({model:this.model, volumes: this.options.volumes, flavors: flavors, keypairs: this.options.keypairs, secGroups: this.options.secGroups, quotas: this.options.quotas, instancesModel: this.options.instancesModel, networks: this.options.networks, ports: this.options.ports, tenant: this.options.tenant}));
+        $(this.el).append(this._template({model:this.model, volumes: this.options.volumes, flavors: flavors, keypairs: this.options.keypairs, secGroups: this.options.secGroups, quotas: this.options.quotas, instancesModel: this.options.instancesModel, networks: this.options.networks, ports: this.options.ports, tenant: this.options.tenant, volumeSnapshots: this.options.volumeSnapshots}));
         $('#launch_image').modal();
         $('.network-sortable').sortable({
             connectWith: '.connected'
@@ -190,9 +190,18 @@ var LaunchImageView = Backbone.View.extend({
         var netws = [];
         var ip_address = [];
         var network_id = "";
+        var block_device_mapping = {};
 
         if ($("#id_keypair option:selected")[0].value !== '') {
             key_name = $("#id_keypair option:selected")[0].value;
+        }
+
+        if ($("#volume option:selected")[0].value !== '') {
+            var volume_id = $("#volume option:selected")[0].value;
+            var device_name = $('input[name=device_name]').val();
+            console.log("volume snapshots", this.options.volumeSnapshots);
+            block_device_mapping.volume_id = volume_id;
+            block_device_mapping.device_name = device_name;
         }
 
         flavorReg = $("#id_flavor option:selected")[0].value;
@@ -217,8 +226,7 @@ var LaunchImageView = Backbone.View.extend({
                 }
             }                      
             netws.push(nets);
-        });
-        console.log('netws', netws);  
+        }); 
 
         var user_data = $('textarea[name=user_data]').val();
         var min_count = $('input[name=count]').val();
@@ -234,6 +242,7 @@ var LaunchImageView = Backbone.View.extend({
         instance.set({"max_count": max_count});
         instance.set({"availability_zone": availability_zone});
         instance.set({"networks": netws});
+        instance.set({"block_device_mapping": block_device_mapping});
 
         instance.save(undefined, UTILS.Messages.getCallbacks("Instance "+instance.get("name") + " launched.", "Error launching instance "+instance.get("name"),
             {context:self, href:"#nova/instances/"}));

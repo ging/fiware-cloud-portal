@@ -139,7 +139,7 @@ var ImagesView = Backbone.View.extend({
         //pendiente de metadato sdc_aware
         img.set({'properties':{}});
         var self = this;
-        var subview = new LaunchImageView({el: 'body', images: this.options.images, flavors: this.options.flavors, keypairs: this.options.keypairs, secGroups: this.options.securityGroupsModel, quotas: this.options.quotas, instancesModel: this.options.instancesModel, networks: this.options.networks, tenant: this.options.tenant, volumes: this.options.volumesModel, ports: this.options.ports, model: img});
+        var subview = new LaunchImageView({el: 'body', images: this.options.images, flavors: this.options.flavors, keypairs: this.options.keypairs, secGroups: this.options.secGroups, quotas: this.options.quotas, instancesModel: this.options.instancesModel, networks: this.options.networks, tenant: this.options.tenant, volumes: this.options.volumesModel, volumeSnapshots: this.options.volumeSnapshotsModel, ports: this.options.ports, model: img});
         subview.render();
     },
 
