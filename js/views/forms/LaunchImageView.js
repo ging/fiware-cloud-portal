@@ -193,7 +193,7 @@ var LaunchImageView = Backbone.View.extend({
         var block_device_mapping = {};
 
         if ($("#id_keypair option:selected")[0].value !== '') {
-            var key_name = $("#id_keypair option:selected")[0].value;
+            key_name = $("#id_keypair option:selected")[0].value;
         }
 
         if ($("#volume option:selected")[0].value !== '') {
