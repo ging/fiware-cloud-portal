@@ -240,18 +240,21 @@
             <div class="left">
                 <fieldset>                  
                     <div class="control-group form-field clearfix">
-                    <label for="networks">Available networks</label>
-                        <span class="help-block" style="display: none; ">Launch instance in these security groups.</span>
+                    <label for="networks">Selected Networks</label>
                         <div class="input">
-                            <ul>
+                            <ul id="network-selected" class="network-sortable connected">
+                            </ul>
+                        </div>
+                    <label for="networks">Available networks</label>
+                        <div class="input">
+                            <ul class="network-sortable connected">
                             <%  for (var index in networks.models) {
                                     var network = networks.models[index];
                                     var tenant_id = network.get('tenant_id');
                                     if (tenant_id == tenant) {
                             %>
                                 <li>
-                                <input style="width: 15px;float:left;" type="checkbox" name="networks" value="<%=network.get('name') === "" ? "("+network.get("id").slice(0,8)+")" : network.get('name')%>">
-                                <div style="width: 300px; overflow: hidden; text-overflow: ellipsis"><%=network.get('name') === "" ? "("+network.get("id").slice(0,8)+")" : network.get('name')%></div>
+                                    <div value="<%=network.get('id')%>" style="width: 300px; overflow: hidden; text-overflow: ellipsis"><%=network.get('name') === "" ? "("+network.get("id").slice(0,8)+")" : network.get('name')%></div>
                                 </li>
                             <%
                                 }}

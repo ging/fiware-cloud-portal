@@ -132,8 +132,8 @@ var ObjectStorageContainerView = Backbone.View.extend({
             case 'download':
                 var options = {};
                 var filename = object;
+                var opt = UTILS.Messages.getCallbacks("File "+filename+ " downloaded.", "File " + filename + " was not downloaded.");
                 options.callback = function(object) {
-                    console.log("Downloaded");
                     var typeMIME, blob, blobURL;
                     var obj = JSON.parse(object);
                     
@@ -151,9 +151,18 @@ var ObjectStorageContainerView = Backbone.View.extend({
                     }
                     array.push(ab);
                     blob = new Blob(array, {type: obj.mimetype});
-                    saveAs(blob, filename);
-                    //blobURL = window.URL.createObjectURL(blob);
-                    //window.open(blobURL);
+                    opt.success();
+                    var view = new ConfirmView({
+                        el: 'body',
+                        title: "File: " + filename,
+                        message: "Click on the button to save the file",
+                        btn_message: "Save " + filename,
+                        onAccept: function() {
+                            saveAs(blob, filename);
+                        }
+                    });
+                    view.render();
+                    
                 };
                 this.model.downloadObject(object, options);
                 break;
