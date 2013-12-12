@@ -96,7 +96,6 @@ var InstanceOverviewView = Backbone.View.extend({
                     var stat = products[product].get('status');
                     console.log(products[product]);
                     if (products[product].get('vm').fqn === id) {// && stat !== 'ERROR' && stat !== 'UNINSTALLED') {
-                        console.log("OK!!!!!!!", products[product]);
                         installedSoftware.push({name: products[product].get('productRelease').product.name,
                                                     version: products[product].get('productRelease').version,
                                                     status: products[product].get('status')

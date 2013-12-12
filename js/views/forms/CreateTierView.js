@@ -259,7 +259,8 @@ var CreateTierView = Backbone.View.extend({
 
             entries.push(
                 {id: product, cells:[
-                    {value: this.addedProducts[product].name + ' ' + this.addedProducts[product].version}
+                    {value: this.addedProducts[product].name + ' ' + this.addedProducts[product].version,
+                    tooltip: this.addedProducts[product].description}
                     ]
                 });
 
@@ -381,7 +382,8 @@ var CreateTierView = Backbone.View.extend({
               entries.push(
 
                 {id: product, cells:[
-                {value: products[product].name + ' ' + products[product].version}]});
+                {value: products[product].name + ' ' + products[product].version, 
+                tooltip: products[product].description}]});
 
         }
         return entries;
