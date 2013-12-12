@@ -26,8 +26,11 @@ var LaunchImageView = Backbone.View.extend({
         if ($('#launch_image').html() != null) {
             return;
         }
-        $(this.el).append(this._template({model:this.model, volumes: this.options.volumes, flavors: flavors, keypairs: this.options.keypairs, secGroups: this.options.secGroups, quotas: this.options.quotas, instancesModel: this.options.instancesModel, networks: this.options.networks, ports: this.options.ports, tenant: this.options.tenant}));
+        $(this.el).append(this._template({model:this.model, volumes: this.options.volumes, flavors: flavors, keypairs: this.options.keypairs, secGroups: this.options.secGroups, quotas: this.options.quotas, instancesModel: this.options.instancesModel, networks: this.options.networks, ports: this.options.ports, tenant: this.options.tenant, volumeSnapshots: this.options.volumeSnapshots}));
         $('#launch_image').modal();
+        $('.network-sortable').sortable({
+            connectWith: '.connected'
+        });
         return this;
     },
 
@@ -187,10 +190,18 @@ var LaunchImageView = Backbone.View.extend({
         var netws = [];
         var ip_address = [];
         var network_id = "";
-        var f_ips = [];
+        var block_device_mapping = {};
 
         if ($("#id_keypair option:selected")[0].value !== '') {
-            key_name = $("#id_keypair option:selected")[0].value;
+            var key_name = $("#id_keypair option:selected")[0].value;
+        }
+
+        if ($("#volume option:selected")[0].value !== '') {
+            var volume_id = $("#volume option:selected")[0].value;
+            var device_name = $('input[name=device_name]').val();
+            console.log("volume snapshots", this.options.volumeSnapshots);
+            block_device_mapping.volume_id = volume_id;
+            block_device_mapping.device_name = device_name;
         }
 
         flavorReg = $("#id_flavor option:selected")[0].value;
@@ -199,27 +210,23 @@ var LaunchImageView = Backbone.View.extend({
             security_groups.push($(this)[0].value);
         });
 
-        $('input[name=networks]:checked').each(function () {
-            for (var index in self.options.networks.models) {
-                if (self.options.networks.models[index].get("name") == $(this)[0].value) {
-                    var chosen_network = self.options.networks.models[index];
-                    network_id = self.options.networks.models[index].get("id");
-                    var nets = {};       
-                    nets.uuid = network_id;    
-                    for (var i in self.options.ports.models) {
-                        if (network_id == self.options.ports.models[i].get("network_id")) {
-                            var fixed_ips = self.options.ports.models[i].get("fixed_ips");
-                            for (var j in fixed_ips) {
-                                f_ips.push(fixed_ips[j].ip_address);
-                                nets.fixed_ips = f_ips; 
-                            }                                    
-                        }
-                    }                      
-                netws.push(nets);
-                console.log('netws', netws);  
+        $('#network-selected li div').each(function() {
+            var network_id = this.getAttribute("value");
+            var chosen_network = self.options.networks.get(network_id);
+            var nets = {};
+            nets.uuid = network_id;
+            var f_ips = [];
+            for (var i in self.options.ports.models) {
+                if (network_id === self.options.ports.models[i].get("network_id")) {
+                    var fixed_ips = self.options.ports.models[i].get("fixed_ips");
+                    for (var j in fixed_ips) {
+                        f_ips.push(fixed_ips[j].ip_address);
+                        nets.fixed_ips = f_ips; 
+                    }                                    
                 }
-            }
-        });
+            }                      
+            netws.push(nets);
+        }); 
 
         var user_data = $('textarea[name=user_data]').val();
         var min_count = $('input[name=count]').val();
@@ -235,6 +242,7 @@ var LaunchImageView = Backbone.View.extend({
         instance.set({"max_count": max_count});
         instance.set({"availability_zone": availability_zone});
         instance.set({"networks": netws});
+        instance.set({"block_device_mapping": block_device_mapping});
 
         instance.save(undefined, UTILS.Messages.getCallbacks("Instance "+instance.get("name") + " launched.", "Error launching instance "+instance.get("name"),
             {context:self, href:"#nova/instances/"}));

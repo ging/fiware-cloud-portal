@@ -23,7 +23,7 @@
           </li> 
           <!--<li class="">
             <a id="volumes" href="#input_volumes" data-toggle="tab">Volume Options</a>
-          </li> -->
+          </li>-->
           <li class="">
             <a id="post-creation" href="#input_post-creation" data-toggle="tab">Post-Creation</a>
           </li>   
@@ -240,18 +240,21 @@
             <div class="left">
                 <fieldset>                  
                     <div class="control-group form-field clearfix">
-                    <label for="networks">Available networks</label>
-                        <span class="help-block" style="display: none; ">Launch instance in these security groups.</span>
+                    <label for="networks">Selected Networks</label>
                         <div class="input">
-                            <ul>
+                            <ul id="network-selected" class="network-sortable connected">
+                            </ul>
+                        </div>
+                    <label for="networks">Available networks</label>
+                        <div class="input">
+                            <ul class="network-sortable connected">
                             <%  for (var index in networks.models) {
                                     var network = networks.models[index];
                                     var tenant_id = network.get('tenant_id');
                                     if (tenant_id == tenant) {
                             %>
                                 <li>
-                                <input style="width: 15px;float:left;" type="checkbox" name="networks" value="<%=network.get('name') === "" ? "("+network.get("id").slice(0,8)+")" : network.get('name')%>">
-                                <div style="width: 300px; overflow: hidden; text-overflow: ellipsis"><%=network.get('name') === "" ? "("+network.get("id").slice(0,8)+")" : network.get('name')%></div>
+                                    <div value="<%=network.get('id')%>" style="width: 300px; overflow: hidden; text-overflow: ellipsis"><%=network.get('name') === "" ? "("+network.get("id").slice(0,8)+")" : network.get('name')%></div>
                                 </li>
                             <%
                                 }}
@@ -270,7 +273,7 @@
         </div>
     </div>
 
-    <!--<div id="input_volumes" class="tab-pane tab-adjustable fade" style="display: none">
+    <div id="input_volumes" class="tab-pane tab-adjustable fade" style="display: none">
         <div class="modal-body clearfix">
             <div class="left">
                 <fieldset>                  
@@ -291,14 +294,14 @@
 
                         <span class="help-block" style="display: none; "></span>
                         <div class="input">
-                        <%for (var index in volumes.models) {
-                            var name = volumes.models[index].get("display_name");
-                            var size = volumes.models[index].get("size");%>
                             <select name="volume_snapshot" id="volume">
                                 <option value="">Select Volume</option>
-                                <option value="<%=name%>"><%=name+" - "+size+" GB (Volume)"%></option>
-                            </select>
-                        <%}%>
+                                <%for (var index in volumes.models) {
+                                var name = volumes.models[index].get("display_name");
+                                var size = volumes.models[index].get("size");%>
+                                <option value="<%=volumes.models[index].get("id")%>"><%=name+" - "+size+" GB (Volume)"%></option>
+                                <%}%>
+                            </select>                        
                         </div>
                     </div>
                     <div class="control-group form-field clearfix device_name" style="display:none">
@@ -326,7 +329,7 @@
                 </p>
             </div>
         </div>
-    </div>-->
+    </div>
 
     <div id="input_post-creation" class="tab-pane tab-adjustable fade" style="display: none">
         <div class="modal-body clearfix">

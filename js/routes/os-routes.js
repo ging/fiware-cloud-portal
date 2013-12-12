@@ -513,7 +513,7 @@ var OSRouter = Backbone.Router.extend({
         self.showNovaRoot(self, 'Images');
         //self.instancesModel.alltenants = false;
         var tenant = localStorage.getItem('tenant-id');
-        var view = new ImagesView({model: self.images, volumeSnapshotsModel: self.volumeSnapshotsModel, instancesModel: self.instancesModel, volumesModel: self.volumesModel, flavors: self.flavors, keypairs: self.keypairsModel, securityGroupsModel: self.securityGroupsModel,  quotas: self.quotas, networks: self.networks, ports: self.ports, tenant: tenant, el: '#content'});
+        var view = new ImagesView({model: self.images, volumeSnapshotsModel: self.volumeSnapshotsModel, instancesModel: self.instancesModel, volumesModel: self.volumesModel, flavors: self.flavors, keypairs: self.keypairsModel, secGroups: self.securityGroupsModel,  quotas: self.quotas, networks: self.networks, ports: self.ports, tenant: tenant, el: '#content'});
         self.newContentView(self,view);
     },
 
@@ -534,7 +534,7 @@ var OSRouter = Backbone.Router.extend({
     nova_snapshots: function(self) {
         self.showNovaRoot(self, 'Snapshots');
         //self.instancesModel.alltenants = false;
-        var view = new NovaSnapshotsView({instanceSnapshotsModel: self.instanceSnapshotsModel, volumeSnapshotsModel: self.volumeSnapshotsModel, instancesModel: self.instancesModel, volumesModel: self.volumesModel, flavors: self.flavors, keypairs: self.keypairsModel, el: '#content'});
+        var view = new NovaSnapshotsView({instanceSnapshotsModel: self.instanceSnapshotsModel, volumeSnapshotsModel: self.volumeSnapshotsModel, instancesModel: self.instancesModel, volumesModel: self.volumesModel, flavors: self.flavors, keypairs: self.keypairsModel, secGroups: self.securityGroupsModel, el: '#content'});
         self.newContentView(self,view);
     },
 

@@ -1,0 +1,53 @@
+#launch_image {
+    .network-sortable {
+        min-height: 83px;
+        margin-bottom: 10px;
+        border: 1px solid #AAA;
+        background-color: #DDD;
+        width: 365px;
+
+        li {
+            cursor: move;
+            list-style: none;
+            border: 1px solid #CCC;
+            border-radius: 5px;
+            background: #F6F6F6;
+            color: #1C94C4;
+            margin: 5px;
+            padding: 5px;
+            height: 22px;
+            margin-left: 16px;
+        }
+        .sortable-placeholder {
+            border: 1px dashed #CCC;
+            background: none;
+        }
+    }
+    #network-selected {
+        counter-reset: v1 0;
+        li {
+            position: relative;
+            div {
+                margin-left: 2em;
+            }
+            &.sortable-placeholder:before {
+                content: none;
+                display: none;
+            }
+            &:before {
+                content: "nic:" counter(v1);
+                counter-increment: v1;
+                display: inline-block;
+                margin-right: 5px;
+                background: #666;
+                color: #fff;
+                font-size: 90%;
+                padding: 0px 4px;
+                vertical-align: middle;
+                border-radius: 2px;
+                position: absolute;
+                left: -1em;
+            }
+        }
+    }
+}
