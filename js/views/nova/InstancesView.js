@@ -206,7 +206,10 @@ var NovaInstancesView = Backbone.View.extend({
                     }
                 }
             } else {
+                console.log('1');
                 if ((instance.get("addresses") != null) && (instance.get("addresses")["public"] !== null || instance.get("addresses")["private"] !== null)) {
+                    console.log('2');
+                    console.log('instance', instance);
                     addresses = instance.get("addresses")["public"];
                     for (var addr_idx in addresses) {
                         address += addresses[addr_idx].addr + "<br/>";
