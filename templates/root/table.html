@@ -95,11 +95,11 @@ src: templates/root/table.html
                 var header = headers[header_idx];
                 if (cell.link) {
         %>
-            <td style="width:<%=header.size%>" class="tip <%=(header.hidden_tablet) ? 'hidden-tablet':''%> <%=(header.hidden_phone) ? 'hidden-phone':''%> entry_<%=cid%> <%= (cell.cssclass) ? cell.cssclass:''%>"><a href="<%=cell.link%>" class="<%= (cell.cssclass) ? cell.cssclass:''%>" data-tooltip="<%= (cell.tooltip) ? cell.tooltip:''%>"><%= cell.value %></a></td>
+            <td style="width:<%=header.size%>" class="<%=(header.hidden_tablet) ? 'hidden-tablet':''%> <%=(header.hidden_phone) ? 'hidden-phone':''%> entry_<%=cid%> <%= (cell.cssclass) ? cell.cssclass:''%> <%if(cell.tooltip){%> tip" data-tooltip="<%=cell.tooltip%>"<%}else{%>"<%}%>><a href="<%=cell.link%>" class="<%= (cell.cssclass) ? cell.cssclass:''%>"><%= cell.value %></a></td>
         <%
                 } else {
         %>
-            <td style="width:<%=header.size%>" class="tip <%=(header.hidden_tablet) ? 'hidden-tablet':''%> <%=(header.hidden_phone) ? 'hidden-phone':''%> entry_<%=cid%> <%= (cell.cssclass) ? cell.cssclass:''%>" data-tooltip="<%= (cell.tooltip) ? cell.tooltip:''%>"><%= cell.value %></td>
+            <td style="width:<%=header.size%>" class="<%=(header.hidden_tablet) ? 'hidden-tablet':''%> <%=(header.hidden_phone) ? 'hidden-phone':''%> entry_<%=cid%> <%= (cell.cssclass) ? cell.cssclass:''%> <%if(cell.tooltip){%> tip" data-tooltip="<%=cell.tooltip%>"<%}else{%>"<%}%>><%= cell.value %></td>
         <%
             }
         %>
