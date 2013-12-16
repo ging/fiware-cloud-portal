@@ -199,7 +199,6 @@ var OSRouter = Backbone.Router.extend({
             this.add_fetch("ports", seconds);
             this.add_fetch("routers", seconds);
             if (this.loginModel.isAdmin() && !UTILS.Auth.isIDM()) {
-                console.log("admin!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 this.add_fetch("projects", seconds);
             }
         }
