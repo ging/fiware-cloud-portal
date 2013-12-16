@@ -27,7 +27,11 @@ var LaunchImageView = Backbone.View.extend({
         if ($('#launch_image').html() != null) {
             return;
         }
-        $(this.el).append(this._template({model:this.model, volumes: this.options.volumes, flavors: flavors, keypairs: this.options.keypairs, secGroups: this.options.secGroups, quotas: this.options.quotas, instancesModel: this.options.instancesModel, networks: this.options.networks, ports: this.options.ports, tenant: this.options.tenant, volumeSnapshots: this.options.volumeSnapshots}));
+        var networks = this.options.networks;
+        if (JSTACK.Keystone.getservice("network") === undefined) {
+            networks = undefined;
+        }
+        $(this.el).append(this._template({model:this.model, volumes: this.options.volumes, flavors: flavors, keypairs: this.options.keypairs, secGroups: this.options.secGroups, quotas: this.options.quotas, instancesModel: this.options.instancesModel, networks: networks, ports: this.options.ports, tenant: this.options.tenant, volumeSnapshots: this.options.volumeSnapshots}));
         $('#launch_image').modal();
         $('.network-sortable').sortable({
             connectWith: '.connected'

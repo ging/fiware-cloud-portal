@@ -19,7 +19,13 @@ var BlueprintTemplateView = Backbone.View.extend({
 
     getMainButtons: function() {
         // main_buttons: [{label:label, url: #url, action: action_name}]
-        return [{label: "Topology", action: "show_nets"}, {label: "Add Tier", action: "add"}];
+        var main_buttons = [];
+        if (JSTACK.Keystone.getservice("network") !== undefined) {
+            main_buttons.push({label: "Topology", action: "show_nets"});
+        }
+
+        main_buttons.push({label: "Add Tier", action: "add"});
+        return main_buttons;
     },
 
     getDropdownButtons: function() {

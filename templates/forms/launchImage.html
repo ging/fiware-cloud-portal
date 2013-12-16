@@ -18,9 +18,11 @@
           <li class="">
             <a id="access_and_security" href="#input_access_and_security" data-toggle="tab">Access & Security</a>
           </li>
+          <% if (networks) {%>
           <li class="">
             <a id="networks" href="#input_networks" data-toggle="tab">Networking</a>
           </li> 
+          <%}%>
           <!--<li class="">
             <a id="volumes" href="#input_volumes" data-toggle="tab">Volume Options</a>
           </li>-->
@@ -106,8 +108,7 @@
                 </div>
                 <div class="right">
                     <h3>Description</h3>
-                    <p>
-                        Specify the details for launching an instance. The chart below shows the resources used by this project in relation to the project's quotas.
+                    <p>Specify the details for launching an instance. The chart below shows the resources used by this project in relation to the project's quotas.
                     </p>
                     <%
                         var quotaset = quotas.get("quota_set");
@@ -246,8 +247,8 @@
                 </div>
             </div>
         </div>
-
-        <div id="input_networks"" class="tab-pane tab-adjustable" style="display: none">
+        <%if (networks) {%>
+        <div id="input_networks" class="tab-pane tab-adjustable" style="display: none">
             <div class="modal-body clearfix">
                 <div class="left">
                     <fieldset>                  
@@ -284,6 +285,7 @@
                 </div>
             </div>
         </div>
+        <%}%>
 
         <div id="input_volumes" class="tab-pane tab-adjustable" style="display: none">
             <div class="modal-body clearfix">

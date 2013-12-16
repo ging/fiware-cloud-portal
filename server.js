@@ -61,7 +61,7 @@ app.configure(function () {
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
     app.use(express.logger());
     app.use(express.static(__dirname + dirName));
-    //app.set('views', __dirname + '/../views/');
+    app.set('views', __dirname + '/views/');
     //disable layout
     //app.set("view options", {layout: false});
 });
