@@ -12,7 +12,8 @@ var LaunchImageView = Backbone.View.extend({
       'click #networks': 'networksTab',
       'click #volumes': 'volumesTab',
       'click #post-creation': 'postCreationTab',
-      'change .volumeOptionsSelect': 'changeVolumeOptions'
+      'change .volumeOptionsSelect': 'changeVolumeOptions',
+      'change .flavorOptionsSelect': 'changeFlavorOptions'
     },
 
     initialize: function() {
@@ -88,76 +89,52 @@ var LaunchImageView = Backbone.View.extend({
 
     },
 
+    changeFlavorOptions: function(e) {
+        var flavor_id = $( "#id_flavor option:selected")[0].value;
+        for (var i in this.options.flavors.models) {
+            if (this.options.flavors.models[i].id === flavor_id) {
+                var flavor = this.options.flavors.models[i];
+                $("#flavor_name").text(flavor.get('name')); 
+                $("#flavor_vcpus").text(flavor.get('vcpus')); 
+                $("#flavor_disk").text(flavor.get('disk')); 
+                $("#flavor_ephemeral").text(flavor.get('OS-FLV-EXT-DATA:ephemeral')); 
+                $("#flavor_disk_total").text(flavor.get("disk")+flavor.get('OS-FLV-EXT-DATA:ephemeral')); 
+                $("#flavor_ram").text(flavor.get('ram'));           
+            }
+        }
+        
+    },
+
     detailsTab: function(e) {
-        if ($('#input_details').hide()) {
-            $('#input_details').show();
-        } 
-        if ($('#input_access_and_security').show()) {
-            $('#input_access_and_security').hide();
-        }   
-        if ($('#input_post-creation').show()) {
-            $('#input_post-creation').hide();
-        } 
-        if ($('#input_networks').show()) {
-            $('#input_networks').hide();
-        }  
-        if ($('#input_volumes').show()) {
-            $('#input_volumes').hide();
-        }  
+        $('#input_details').show();
+        $('#input_access_and_security').hide();
+        $('#input_post-creation').hide();
+        $('#input_volumes').hide();
+        $('#input_networks').hide(); 
     },
 
     accesAndSecurityTab: function(e) {
-        if ($('#input_access_and_security').hide()) {
-            $('#input_access_and_security').show();
-        } 
-        if ($('#input_details').show()) {
-            $('#input_details').hide();
-        } 
-        if ($('#input_post-creation').show()) {
-            $('#input_post-creation').hide();
-        } 
-        if ($('#input_networks').show()) {
-            $('#input_networks').hide();
-        } 
-        if ($('#input_volumes').show()) {
-            $('#input_volumes').hide();
-        }   
+        $('#input_access_and_security').show();
+        $('#input_details').hide();
+        $('#input_post-creation').hide();
+        $('#input_volumes').hide();
+        $('#input_networks').hide(); 
     },
 
     postCreationTab: function(e) {
-        if ($('#input_post-creation').hide()) {
-            $('#input_post-creation').show();
-        } 
-        if ($('#input_details').show()) {
-            $('#input_details').hide();
-        } 
-        if ($('#input_access_and_security').show()) {
-            $('#input_access_and_security').hide();
-        }  
-        if ($('#input_networks').show()) {
-            $('#input_networks').hide();
-        }
-        if ($('#input_volumes').show()) {
-            $('#input_volumes').hide();
-        }  
+        $('#input_post-creation').show();
+        $('#input_details').hide();
+        $('#input_access_and_security').hide();
+        $('#input_volumes').hide();
+        $('#input_networks').hide(); 
     },
 
     networksTab: function(e) {
-        if ($('#input_networks').hide()) {
-            $('#input_networks').show();
-        }
-        if ($('#input_post-creation').show()) {
-            $('#input_post-creation').hide();
-        } 
-        if ($('#input_details').show()) {
-            $('#input_details').hide();
-        } 
-        if ($('#input_access_and_security').show()) {
-            $('#input_access_and_security').hide();
-        }  
-        if ($('#input_volumes').show()) {
-            $('#input_volumes').hide();
-        }  
+        $('#input_networks').show();
+        $('#input_details').hide();
+        $('#input_access_and_security').hide();
+        $('#input_post-creation').hide();
+        $('#input_volumes').hide();  
     },
 
     volumesTab: function(e) {
@@ -244,9 +221,10 @@ var LaunchImageView = Backbone.View.extend({
         instance.set({"networks": netws});
         instance.set({"block_device_mapping": block_device_mapping});
 
+        if (flavorReg !== "") {
         instance.save(undefined, UTILS.Messages.getCallbacks("Instance "+instance.get("name") + " launched.", "Error launching instance "+instance.get("name"),
             {context:self, href:"#nova/instances/"}));
-
+        }
 
         /*instance.save(undefined, {success: function () {
             self.close();

@@ -118,7 +118,8 @@ var EditInstanceSoftwareView = Backbone.View.extend({
                 if (products[product].get('vm').fqn === id) {// && stat !== 'ERROR' && stat !== 'UNINSTALLED') {
                     var name = products[product].get('productRelease').product.name + ' ' + products[product].get('productRelease').version;
                     entries.push({id:products[product].get('name'), cells:[
-                    {value: name},
+                    {value: name,
+                    tooltip: products[product].get('description')},
                     {value: products[product].get('status')}]});
                 }
             }
@@ -179,7 +180,8 @@ var EditInstanceSoftwareView = Backbone.View.extend({
               entries.push(
 
                 {id: product, cells:[
-                {value: products[product].name + ' ' + products[product].version}]});
+                {value: products[product].name + ' ' + products[product].version,
+                tooltip: products[product].description}]});
 
         }
         return entries;
