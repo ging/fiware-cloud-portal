@@ -32,6 +32,7 @@ var LaunchImageView = Backbone.View.extend({
         $('.network-sortable').sortable({
             connectWith: '.connected'
         });
+        this.changeFlavorOptions();
         return this;
     },
 

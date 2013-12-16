@@ -50,7 +50,6 @@
                             <span class="help-block" style="display: none; ">Size of image to launch.</span>
                             <div class="input">
                                 <select name="flavor" id="id_flavor">
-                                    <option value="">Select Flavor</option>
                                     <%                                    
                                     for (var index in flavors.models) {
                                         var flavor = flavors.models[index];
@@ -124,14 +123,14 @@
                         }
                     %>
                     <h3>Flavor Details</h3>
-                    <table class="flavor_table table-striped flavorOptionsSelect">
+                    <table id="flavor_table" class="table-striped flavorOptionsSelect">
                       <tbody>
-                        <tr><td>Name</td><td><span id="flavor_name"></span></td></tr>
-                        <tr><td>VCPUs</td><td><span id="flavor_vcpus"></span></td></tr>
-                        <tr><td>Root Disk</td><td><span id="flavor_disk"></span> GB</td></tr>
-                        <tr><td>Ephemeral Disk</td><td><span id="flavor_ephemeral"></span> GB</td></tr>
-                        <tr><td>Total Disk</td><td><span id="flavor_disk_total"></span> GB</td></tr>
-                        <tr><td>RAM</td><td><span id="flavor_ram"></span> MB</td></tr>
+                        <tr><td style="width:70%;">Name</td><td><span id="flavor_name"></span></td></tr>
+                        <tr><td style="width:70%;">VCPUs</td><td><span id="flavor_vcpus"></span></td></tr>
+                        <tr><td style="width:70%;">Root Disk</td><td><span id="flavor_disk"></span> GB</td></tr>
+                        <tr><td style="width:70%;">Ephemeral Disk</td><td><span id="flavor_ephemeral"></span> GB</td></tr>
+                        <tr><td style="width:70%;">Total Disk</td><td><span id="flavor_disk_total"></span> GB</td></tr>
+                        <tr><td style="width:70%;">RAM</td><td><span id="flavor_ram"></span> MB</td></tr>
                       </tbody>
                     </table>
 
