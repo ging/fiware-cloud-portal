@@ -5,10 +5,10 @@ var ImageVM = Backbone.Model.extend({
                    JSTACK.Glance.getimagedetail(model.get("id"), options.success, options.error);
                    break;
                case "delete":
-                   JSTACK.Nova.deleteimage(model.get("id"), options.success, options.error);
+                   JSTACK.Glance.deleteimage(model.get("id"), options.success, options.error);
                    break;
                case "update":
-                    JSTACK.Nova.updateimage(model.get("id"), model.get("name"), options.success, options.error);
+                    JSTACK.Glance.updateimage(model.get("id"), model.get("name"), model.get("visibility"), undefined, options.success, options.error);
                     break;
            }
    },

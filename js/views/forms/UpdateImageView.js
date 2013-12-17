@@ -29,6 +29,11 @@ var UpdateImageView = Backbone.View.extend({
     onUpdateImage: function(e){
         e.preventDefault();
         this.model.set({"name": this.$('input[name=name]').val()});
+        if ($('#id_public:checked').length === 1) {
+            this.model.set({"visibility": "public"});
+        } else {
+            this.model.set({"visibility": "private"});
+        }
         this.model.save(undefined, UTILS.Messages.getCallbacks("Image "+this.model.get("name") + " updated", "Error updating image "+this.model.get("name"), {context: this}));
     },
 

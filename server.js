@@ -70,7 +70,7 @@ app.use(function (req, res, next) {
     "use strict";
     res.header('Access-Control-Allow-Origin', req.headers.origin);
     res.header('Access-Control-Allow-Methods', 'HEAD, PUT, POST, GET, OPTIONS, DELETE');
-    res.header('Access-Control-Allow-Headers', 'origin, content-type, X-Auth-Token, Tenant-ID');
+    res.header('Access-Control-Allow-Headers', 'origin, content-type, X-Auth-Token, Tenant-ID, x-image-meta-is_public, x-image-meta-name');
     res.header('Access-Control-Allow-Credentials', true);
     console.log("New Request: ", req.method);
     if (req.method == 'OPTIONS') {
@@ -126,10 +126,12 @@ function sendData(port, options, data, res, callBackOK, callbackError) {
             case "user-agent":
                 break;
             default:
+                console.log(headerIdx, options.headers[headerIdx]);
                 xhr.setRequestHeader(headerIdx, options.headers[headerIdx]);
                 break;
         }
     }
+    console.log("Data?", data, data!=="", data !== null);
 
     xhr.onerror = function(error) {
     }
@@ -167,8 +169,9 @@ function sendData(port, options, data, res, callBackOK, callbackError) {
 
     var flag = false;
     console.log("Sending ", options.method, " to: " + url);
-    if (data !== undefined) {
+    if (data !== undefined && data !== null && data !== "") {
         try {
+            console.log("Por aqui 2", data,  data !== undefined, data !== null);
             xhr.send(data);
         } catch (e) {
             //callbackError(e.message);
@@ -176,6 +179,7 @@ function sendData(port, options, data, res, callBackOK, callbackError) {
         }
     } else {
         try {
+            console.log("Por aqui");
             xhr.send();
         } catch (e) {
             //callbackError(e.message);

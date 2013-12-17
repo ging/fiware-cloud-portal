@@ -20,7 +20,37 @@ var ImagesView = Backbone.View.extend({
     },
 
     getDropdownButtons: function() {
-        return [];
+        // dropdown_buttons: [{label:label, action: action_name}]
+        var self = this;
+        var oneSelected = function(size, id) {
+            if (size === 1) {
+                return true;
+            }
+        };
+        var editable = function(size, id) {
+            if (oneSelected(size, id)) {
+                var model = self.model.get(id);
+                var owner = model.get("owner_id") || model.get("owner");
+                if (owner === UTILS.Auth.getCurrentTenant().id && model.get("status") === "active") {
+                    return true;
+                }
+            }
+        };
+        var groupSelected = function(size, id) {
+            if (size >= 1) {
+                return true;
+            }
+        };
+        return [{
+            label: "Edit Image",
+            action: "edit",
+            activatePattern: editable
+        }, {
+            label: "Delete Image",
+            action: "delete",
+            warn: true,
+            activatePattern: editable
+        }];
     },
 
     getHeaders: function() {
@@ -78,6 +108,10 @@ var ImagesView = Backbone.View.extend({
             var disk_format = image.get('disk_format') || '-';
             disk_format = disk_format.toUpperCase();
             i++;
+            var visibility = image.get('visibility');
+            if (visibility === undefined) {
+                visibility = image.get('is_public') ? "public":"private";
+            }
             var entry = {
                 id: image.get('id'),
                 cells: [{
@@ -86,7 +120,7 @@ var ImagesView = Backbone.View.extend({
                 }, {
                     value: image.get("status")
                 }, {
-                    value: image.get('visibility')
+                    value: visibility
                 }, {
                     value: container_format
                 }, {
@@ -115,6 +149,11 @@ var ImagesView = Backbone.View.extend({
         }
         switch (action) {
             case 'edit':
+                subview = new UpdateImageView({
+                    model: img,
+                    el: 'body'
+                });
+                subview.render();
                 break;
             case 'delete':
                 subview = new ConfirmView({

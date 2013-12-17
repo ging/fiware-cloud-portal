@@ -23,6 +23,16 @@ var NovaInstanceSnapshotsView = Backbone.View.extend({
                 return true;
             }
         };
+        var editable = function(size, id) {
+            if (oneSelected(size, id)) {
+                var model = self.model.get(id);
+                var owner = model.get("owner_id") || model.get("metadata").owner_id;
+                console.log(owner, UTILS.Auth.getCurrentTenant().id);
+                if (owner === UTILS.Auth.getCurrentTenant().id && model.get("status").toLowerCase() === "active") {
+                    return true;
+                }
+            }
+        };
         var groupSelected = function(size, id) {
             if (size >= 1) {
                 return true;
@@ -35,7 +45,7 @@ var NovaInstanceSnapshotsView = Backbone.View.extend({
         }, {
             label: "Edit Image",
             action: "edit",
-            activatePattern: oneSelected
+            activatePattern: editable
         }, {
             label: "Delete Snapshots",
             action: "delete",
@@ -86,26 +96,41 @@ var NovaInstanceSnapshotsView = Backbone.View.extend({
         var entries = [];
         for (var index in this.model.models) {
             var image = this.model.models[index];
-            if (image.get('metadata')) {
-                var image_type = image.get('metadata').image_type;
-                if (image_type == "snapshot") {
-                    var entry = {
-                        id: image.get('id'),
-                        cells: [{
-                            value: image.get("name"),
-                            link: "#nova/snapshots/instances/" + image.get("id") + "/detail/"
-                        }, {
-                            value: "Snapshot"
-                        }, {
-                            value: image.get('status').toLowerCase()
-                        }, {
-                            value: "Yes"
-                        }, {
-                            value: "AMI"
-                        }]
-                    };
-                    entries.push(entry);
-                }
+            var entry;
+            if (image.get('image_type') === "snapshot") {
+                entry = {
+                    id: image.get('id'),
+                    cells: [{
+                        value: image.get("name"),
+                        link: "#nova/snapshots/instances/" + image.get("id") + "/detail/"
+                    }, {
+                        value: image.get('image_type')
+                    }, {
+                        value: image.get('status').toLowerCase()
+                    }, {
+                        value: image.get('visibility') === "public" ? "Yes" : "No"
+                    }, {
+                        value: image.get('container_format').toUpperCase()
+                    }]
+                };
+                entries.push(entry);
+            } else if (image.get('metadata').image_type === "snapshot") {
+                entry = {
+                    id: image.get('id'),
+                    cells: [{
+                        value: image.get("name"),
+                        link: "#nova/snapshots/instances/" + image.get("id") + "/detail/"
+                    }, {
+                        value: image.get('metadata').image_type
+                    }, {
+                        value: image.get('status').toLowerCase()
+                    }, {
+                        value: image.get('is_public') ? "Yes" : "No"
+                    }, {
+                        value: (image.get('container_format') || "-").toUpperCase()
+                    }]
+                };
+                entries.push(entry);
             }
         }
         return entries;
