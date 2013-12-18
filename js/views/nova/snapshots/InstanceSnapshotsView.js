@@ -114,7 +114,7 @@ var NovaInstanceSnapshotsView = Backbone.View.extend({
                     }]
                 };
                 entries.push(entry);
-            } else if (image.get('metadata').image_type === "snapshot") {
+            } else if (image.get('metadata') && image.get('metadata').image_type === "snapshot") {
                 entry = {
                     id: image.get('id'),
                     cells: [{
