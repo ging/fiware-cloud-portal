@@ -162,22 +162,22 @@ html, body {
 }
 
 .modal-body {
-  max-height: 450px;
+  max-height: 475px;
 }
 
 @font-face {
     font-family: "Comfortaa_Regular";
-    src: url("assets/fonts/comfortaa_regular-webfont.eot");
-    src: url("assets/fonts/comfortaa_regular-webfont.eot?#iefix") format("embedded-opentype"),
-         url("assets/fonts/comfortaa_regular-webfont.woff") format("woff"),
-         url("assets/fonts/comfortaa_regular-webfont.ttf") format("truetype"),
-         url("assets/fonts/comfortaa_regular-webfont.svg#ComfortaaRegular") format("svg");
+    src: url("fonts/comfortaa_regular-webfont.eot");
+    src: url("fonts/comfortaa_regular-webfont.eot?#iefix") format("embedded-opentype"),
+         url("fonts/comfortaa_regular-webfont.woff") format("woff"),
+         url("fonts/comfortaa_regular-webfont.ttf") format("truetype"),
+         url("fonts/comfortaa_regular-webfont.svg#ComfortaaRegular") format("svg");
 	font-family: "OpenSansRegular";
-    src: url("assets/fonts/opensans-regular-webfont.eot");
-    src: url("assets/fonts/opensans-regular-webfont.eot?#iefix") format("embedded-opentype"),
-         url("assets/fonts/opensans-regular-webfont.woff") format("woff"),
-         url("assets/fonts/opensans-regular-webfont.ttf") format("truetype"),
-         url("assets/fonts/opensans-regular-webfont.svg#OpenSansRegular") format("svg");
+    src: url("fonts/opensans-regular-webfont.eot");
+    src: url("fonts/opensans-regular-webfont.eot?#iefix") format("embedded-opentype"),
+         url("fonts/opensans-regular-webfont.woff") format("woff"),
+         url("fonts/opensans-regular-webfont.ttf") format("truetype"),
+         url("fonts/opensans-regular-webfont.svg#OpenSansRegular") format("svg");
 }
 
 #initbar {
