@@ -137,10 +137,12 @@ var LaunchImageView = Backbone.View.extend({
             var curr_id = '#' + this.steps[this.currentStep].id;
             var next_id = '#' + this.steps[this.currentStep + 1].id;
             var next_tab = next_id + '_tab';
+            var next_line = next_id + '_line';
             
             $(curr_id).hide();
             $(next_id).show();
             $(next_tab).addClass('active');
+            $(next_line).addClass('active');
 
             this.currentStep = this.currentStep + 1;
         }
@@ -160,11 +162,13 @@ var LaunchImageView = Backbone.View.extend({
 
             var curr_id = '#' + this.steps[this.currentStep].id;
             var curr_tab = curr_id + '_tab';
+            var curr_line = curr_id + '_line';
             var prev_id = '#' + this.steps[this.currentStep - 1].id;
             
             $(curr_id).hide();
             $(prev_id).show();
             $(curr_tab).removeClass('active');
+            $(curr_line).removeClass('active');
 
             this.currentStep = this.currentStep - 1;
         }

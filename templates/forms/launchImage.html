@@ -12,8 +12,11 @@
     <form id="form" onSubmit="return false;">
 
     <ul id="launchTab" class="nav nav-tabs">
-          <% for (var s in steps) {%>
-          <li id="<%=steps[s].id%>_tab" class="<%if(s == 0) {%>active<%}%>"><%=parseInt(s)+1%>. <%=steps[s].name%></li> 
+          <% for (var s in steps) {
+            if(s != 0) {%>
+            <span id="<%=steps[s].id%>_line" class="launch_line"></span>
+            <%}%>
+          <li id="<%=steps[s].id%>_tab" class="<%if(s == 0) {%>active<%}%>"><%=parseInt(s)+1%>. <%=steps[s].name%></li>
           <%}%>
           <!--<li class="">
             <a id="volumes" href="#input_volumes" data-toggle="tab">Volume Options</a>
