@@ -98,7 +98,7 @@ var BlueprintTemplateView = Backbone.View.extend({
             if (tier.keypair.toString() === "[object Object]") {
                 tier.keypair = "-";
             }
-            var image = "";
+            var image = "-";
             if (this.options.images.get(tier.image) !== undefined) {
                 image = this.options.images.get(tier.image).get("name");
             }
@@ -109,9 +109,10 @@ var BlueprintTemplateView = Backbone.View.extend({
                 bootValue: tier.initialNumberInstances,
                 name: tier.name,
                 icono: tier.icono,
-                flavor: this.options.flavors.get(tier.flavour).get("name"),
+                flavor: this.options.flavors.get(tier.flavour) ? this.options.flavors.get(tier.flavour).get("name") : "-",
                 image: image,
                 keypair: tier.keypair,
+                publicIP: tier.floatingip,
                 region: tier.region,
                 products: products
             };

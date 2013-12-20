@@ -61,6 +61,7 @@ app.configure(function () {
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
     app.use(express.logger());
     app.use(express.static(__dirname + dirName));
+    app.use('/css', express.static(__dirname + dirName + 'css'));
     app.set('views', __dirname + '/views/');
     //disable layout
     //app.set("view options", {layout: false});
@@ -168,10 +169,8 @@ function sendData(port, options, data, res, callBackOK, callbackError) {
     };
 
     var flag = false;
-    console.log("Sending ", options.method, " to: " + url);
     if (data !== undefined && data !== null && data !== "") {
         try {
-            console.log("Por aqui 2", data,  data !== undefined, data !== null);
             xhr.send(data);
         } catch (e) {
             //callbackError(e.message);
@@ -179,7 +178,6 @@ function sendData(port, options, data, res, callBackOK, callbackError) {
         }
     } else {
         try {
-            console.log("Por aqui");
             xhr.send();
         } catch (e) {
             //callbackError(e.message);
@@ -275,7 +273,6 @@ if (useIDM) {
 }
 
 app.all('/:reg/:service/:v/*', function(req, resp) {
-    console.log("Bien");
 
     var endp = getEndpoint(req.params.service, req.params.reg);
     var new_url = req.url.split(req.params.v)[1];

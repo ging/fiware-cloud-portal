@@ -58,6 +58,7 @@ src: templates/root/table-tiers.html
                     <p><strong>Flavor:</strong> <span><%=entry.flavor%></span></p>
                     <p><strong>Image:</strong> <span><%=entry.image%></span></p>
                     <%if (entry.keypair) {%><p><strong>Keypair:</strong> <span><%=entry.keypair%></span></p><%}%>
+                    <%if (entry.publicIP && JSTACK.Keystone.getservice("network") === undefined) {%><p><strong>Public IP:</strong> <span><%=entry.publicIP%></span></p><%}%>
                     <%if (entry.region) {%><p><strong>Region:</strong> <span><%=entry.region%></span></p><%}%>
                 </div>
                 <div class="tier-icons">

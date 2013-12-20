@@ -127,14 +127,15 @@
                                 </select>
                             </div>
                         </div>
-
-                        <!--<div class="control-group form-field clearfix">
+            <% if (JSTACK.Keystone.getservice("network") === undefined) {%>
+                        <div class="control-group form-field clearfix">
                             <label class="control-label" for="id_public_ip">Public IP:</label>
 
                             <div class="controls">
                                 <input type="checkbox" name="public_ip" <%=(tier.floatingip==='true')?'checked':''%>>
                             </div>
-                        </div>-->
+                        </div>
+           <% } %>
 
                     </fieldset>
                 </div>

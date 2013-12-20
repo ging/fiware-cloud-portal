@@ -77,10 +77,8 @@ module.exports = function(grunt) {
           {src: ['lib/**/*'], dest: 'dist/'},
           {src: ['locales/**/*'], dest: 'dist/'},
           {src: ['fonts/**/*'], dest: 'dist/'},
-          {src: ['css/all.css'], dest: 'dist/'},
+          {src: ['css/**/*.css'], dest: 'dist/'},
           {src: ['css/fonts/**/*'], dest: 'dist/'},
-          {src: ['css/lib/**/*.css'], dest: 'dist/'},
-          {src: ['css/old/**/*.css'], dest: 'dist/'},
           {src: ['ico/**/*'], dest: 'dist/'},
           {src: ['images/**/*'], dest: 'dist/'}
         ]
