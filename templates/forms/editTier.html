@@ -73,7 +73,7 @@
                                         for (var index in images.models) {
                                             
                                             var image = images.models[index];
-                                            if (image.get("properties") !== undefined && image.get("properties").sdc_aware) {
+                                            if ((image.get("properties") !== undefined && image.get("properties").sdc_aware) || image.get("sdc_aware")) {
                                                 sdcImages++;
                                         %>
                                     <option value="<%=image.get('id')%>" <% if (tier.image === image.id) {%> selected <% } %>><%= image.get("name")%></option>
