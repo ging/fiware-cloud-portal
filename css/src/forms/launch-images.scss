@@ -50,4 +50,25 @@
             }
         }
     }
+    .summary_table {
+        width:100%;
+        .warning {
+            color: #c09853;
+        }
+        tr {
+            height: 25px; 
+        }
+        td {
+            &:first-child {
+                width: 20%;
+
+                label {
+                    text-align: right;
+                    margin-bottom: 0px;
+                }
+            }
+
+            padding-left: 10px;
+        }
+    }
 }

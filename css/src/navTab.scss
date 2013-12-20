@@ -280,4 +280,23 @@ margin-bottom: -9px;
 background-color: #000000;
 }
 
+#launchTab > li {
+    text-decoration: none;
+    background-color: white;
+    color: #7B7B7B;
+    text-shadow: none;
+    font-size: 16px;
+    padding-right: 12px;
+    padding-left: 12px;
+    margin-right: 2px;
 
+    .active {
+        color: black;
+    }
+}   
+
+#launchTab > li.active{
+
+    color: black;
+
+}   

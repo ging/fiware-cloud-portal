@@ -3,15 +3,10 @@ var LaunchImageView = Backbone.View.extend({
     _template: _.itemplate($('#launchImageTemplate').html()),
 
     events: {
-      'click #cancelBtn-image': 'close',
+      'click #cancelBtn-image': 'goPrev',
       'click #close-image': 'close',
       'click .modal-backdrop': 'close',
-      'submit #form': 'launch',
-      'click #details' : 'detailsTab',
-      'click #access_and_security' : 'accesAndSecurityTab',
-      'click #networks': 'networksTab',
-      'click #volumes': 'volumesTab',
-      'click #post-creation': 'postCreationTab',
+      'submit #form': 'goNext',
       'change .volumeOptionsSelect': 'changeVolumeOptions',
       'change .flavorOptionsSelect': 'changeFlavorOptions'
     },
@@ -20,18 +15,34 @@ var LaunchImageView = Backbone.View.extend({
         this.options.keypairs.fetch();
         this.options.flavors.fetch();
         this.options.secGroups.fetch();
+
+        this.networks = this.options.networks;
+        this.steps = [
+            {id: 'input_details', name: 'Details'}, 
+            {id: 'input_access_and_security', name: 'Access & Security'}, 
+            {id: 'input_networks', name: 'Networking'},
+            {id: 'input_post-creation', name: 'Post-Creation'},
+            {id: 'input_summary', name: 'Summary'}];
+
+        if (JSTACK.Keystone.getservice("network") === undefined) {
+            this.networks = undefined;
+            this.steps = [
+            {id: 'input_details', name: 'Details'}, 
+            {id: 'input_access_and_security', name: 'Access & Security'}, 
+            {id: 'input_post-creation', name: 'Post-Creation'},
+            {id: 'input_summary', name: 'Summary'}];
+        }
+
+        this.instanceData = {};
+        this.currentStep = 0;
     },
 
     render: function () {
-        var flavors = this.options.flavors;
         if ($('#launch_image').html() != null) {
             return;
         }
-        var networks = this.options.networks;
-        if (JSTACK.Keystone.getservice("network") === undefined) {
-            networks = undefined;
-        }
-        $(this.el).append(this._template({model:this.model, volumes: this.options.volumes, flavors: flavors, keypairs: this.options.keypairs, secGroups: this.options.secGroups, quotas: this.options.quotas, instancesModel: this.options.instancesModel, networks: networks, ports: this.options.ports, tenant: this.options.tenant, volumeSnapshots: this.options.volumeSnapshots}));
+        
+        $(this.el).append(this._template({model:this.model, volumes: this.options.volumes, flavors: this.options.flavors, keypairs: this.options.keypairs, secGroups: this.options.secGroups, quotas: this.options.quotas, instancesModel: this.options.instancesModel, networks: this.networks, ports: this.options.ports, tenant: this.options.tenant, volumeSnapshots: this.options.volumeSnapshots, steps: this.steps}));
         $('#launch_image').modal();
         $('.network-sortable').sortable({
             connectWith: '.connected'
@@ -110,60 +121,57 @@ var LaunchImageView = Backbone.View.extend({
         
     },
 
-    detailsTab: function(e) {
-        $('#input_details').show();
-        $('#input_access_and_security').hide();
-        $('#input_post-creation').hide();
-        $('#input_volumes').hide();
-        $('#input_networks').hide(); 
-    },
+    goNext: function() {
 
-    accesAndSecurityTab: function(e) {
-        $('#input_access_and_security').show();
-        $('#input_details').hide();
-        $('#input_post-creation').hide();
-        $('#input_volumes').hide();
-        $('#input_networks').hide(); 
-    },
+        if (this.currentStep === this.steps.length - 1) {
+            this.launch();
+        } else {
+            if (this.currentStep === 0) {
+                $('#cancelBtn-image').html('Back');
+            }
+            if (this.currentStep === this.steps.length - 2) {
+                $('#nextBtn-image').val('Launch instance');
+                this.makeSummary();
+            }
 
-    postCreationTab: function(e) {
-        $('#input_post-creation').show();
-        $('#input_details').hide();
-        $('#input_access_and_security').hide();
-        $('#input_volumes').hide();
-        $('#input_networks').hide(); 
-    },
+            var curr_id = '#' + this.steps[this.currentStep].id;
+            var next_id = '#' + this.steps[this.currentStep + 1].id;
+            var next_tab = next_id + '_tab';
+            
+            $(curr_id).hide();
+            $(next_id).show();
+            $(next_tab).addClass('active');
 
-    networksTab: function(e) {
-        $('#input_networks').show();
-        $('#input_details').hide();
-        $('#input_access_and_security').hide();
-        $('#input_post-creation').hide();
-        $('#input_volumes').hide();  
-    },
-
-    volumesTab: function(e) {
-        if ($('#input_volumes').hide()) {
-            $('#input_volumes').show();
+            this.currentStep = this.currentStep + 1;
         }
-        if ($('#input_post-creation').show()) {
-            $('#input_post-creation').hide();
-        } 
-        if ($('#input_details').show()) {
-            $('#input_details').hide();
-        } 
-        if ($('#input_access_and_security').show()) {
-            $('#input_access_and_security').hide();
-        }  
-        if ($('#input_networks').show()) {
-            $('#input_networks').hide();
+    }, 
+
+    goPrev: function() {
+
+        if (this.currentStep === 0) {
+            this.close();
+        } else {
+            if (this.currentStep === 1) {
+                $('#cancelBtn-image').html('Cancel');
+            }
+            if (this.currentStep === this.steps.length - 1) {
+                $('#nextBtn-image').val('Next');
+            }
+
+            var curr_id = '#' + this.steps[this.currentStep].id;
+            var curr_tab = curr_id + '_tab';
+            var prev_id = '#' + this.steps[this.currentStep - 1].id;
+            
+            $(curr_id).hide();
+            $(prev_id).show();
+            $(curr_tab).removeClass('active');
+
+            this.currentStep = this.currentStep - 1;
         }
     },
 
-    launch: function(e) {
-        var self = this;
+    makeSummary: function() {
 
-        var instance = new Instance();
         var name = $('input[name=instance_name]').val();
         var imageReg = this.model.id;
         var flavorReg, key_name, availability_zone;
@@ -214,19 +222,50 @@ var LaunchImageView = Backbone.View.extend({
         var min_count = $('input[name=count]').val();
         var max_count = $('input[name=count]').val();
 
-        instance.set({"name": name});
-        instance.set({"imageReg": imageReg});
-        instance.set({"flavorReg": flavorReg});
-        instance.set({"key_name": key_name});
-        instance.set({"user_data": user_data});
-        instance.set({"security_groups": security_groups});
-        instance.set({"min_count": min_count});
-        instance.set({"max_count": max_count});
-        instance.set({"availability_zone": availability_zone});
-        instance.set({"networks": netws});
-        instance.set({"block_device_mapping": block_device_mapping});
+        this.instanceData.name = name;
+        this.instanceData.imageReg = imageReg;
+        this.instanceData.flavorReg = flavorReg;
+        this.instanceData.key_name = key_name;
+        this.instanceData.user_data = user_data;
+        this.instanceData.security_groups = security_groups;
+        this.instanceData.min_count = min_count;
+        this.instanceData.max_count = max_count;
+        this.instanceData.availability_zone = availability_zone;
+        this.instanceData.networks = netws;
+        this.instanceData.block_device_mapping = block_device_mapping;
 
-        if (flavorReg !== "") {
+        $('#sum_instanceName').html(this.instanceData.name);
+        $('#sum_image').html(this.model.get('name'));
+        $('#sum_flavour').html($("#id_flavor option:selected")[0].text);
+        $('#sum_instanceCount').html(this.instanceData.min_count);
+
+        if (this.instanceData.key_name !== undefined) {
+            $('#sum_keypair').html(this.instanceData.key_name);
+            $('#sum_keypair').removeClass('warning');
+        } else {
+            $('#sum_keypair').html('No keypair selected. You will need a keypair to access the instance.');
+            $('#sum_keypair').addClass('warning');
+        }
+    },
+
+    launch: function(e) {
+        var self = this;
+
+        var instance = new Instance();
+        
+        instance.set({"name": this.instanceData.name});
+        instance.set({"imageReg": this.instanceData.imageReg});
+        instance.set({"flavorReg": this.instanceData.flavorReg});
+        instance.set({"key_name": this.instanceData.key_name});
+        instance.set({"user_data": this.instanceData.user_data});
+        instance.set({"security_groups": this.instanceData.security_groups});
+        instance.set({"min_count": this.instanceData.min_count});
+        instance.set({"max_count": this.instanceData.max_count});
+        instance.set({"availability_zone": this.instanceData.availability_zone});
+        instance.set({"networks": this.instanceData.netws});
+        instance.set({"block_device_mapping": this.instanceData.block_device_mapping});
+
+        if (this.instanceData.flavorReg !== "") {
         instance.save(undefined, UTILS.Messages.getCallbacks("Instance "+instance.get("name") + " launched.", "Error launching instance "+instance.get("name"),
             {context:self, href:"#nova/instances/"}));
         }

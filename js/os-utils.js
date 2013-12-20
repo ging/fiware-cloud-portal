@@ -107,7 +107,7 @@ UTILS.Auth = (function(U, undefined) {
 
     var isAdmin = function() {
         var roles = JSTACK.Keystone.params.access.user.roles;
-        console.log("Roels: ", roles);
+        //console.log("Roels: ", roles);
         for (var index in roles) {
             var rol = roles[index];
             if (rol.name === "admin")

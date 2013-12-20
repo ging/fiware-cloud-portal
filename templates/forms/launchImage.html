@@ -11,24 +11,13 @@
 
     <form id="form" onSubmit="return false;">
 
-    <ul id="myTab" class="nav nav-tabs">
-          <li class="active">
-            <a id="details" href="#input_details" data-toggle="tab">Details</a>
-          </li>
-          <li class="">
-            <a id="access_and_security" href="#input_access_and_security" data-toggle="tab">Access & Security</a>
-          </li>
-          <% if (networks) {%>
-          <li class="">
-            <a id="networks" href="#input_networks" data-toggle="tab">Networking</a>
-          </li> 
+    <ul id="launchTab" class="nav nav-tabs">
+          <% for (var s in steps) {%>
+          <li id="<%=steps[s].id%>_tab" class="<%if(s == 0) {%>active<%}%>"><%=parseInt(s)+1%>. <%=steps[s].name%></li> 
           <%}%>
           <!--<li class="">
             <a id="volumes" href="#input_volumes" data-toggle="tab">Volume Options</a>
           </li>-->
-          <li class="">
-            <a id="post-creation" href="#input_post-creation" data-toggle="tab">Post-Creation</a>
-          </li>   
         </ul>
 
     <!--<div id="myTabContent" class="tab-content">-->
@@ -118,9 +107,11 @@
                         for (var instIdx in instancesModel.models) {
                             var instance = instancesModel.models[instIdx];
                             var flavor = flavors.get(instance.get("flavor").id);
-                            cpus = cpus + flavor.get('vcpus');
-                            ram = ram + flavor.get('ram');
-                            disk = disk + flavor.get('disk');
+                            if (flavor) {
+                                cpus = cpus + flavor.get('vcpus');
+                                ram = ram + flavor.get('ram');
+                                disk = disk + flavor.get('disk');
+                            }
                         }
                     %>
                     <h3>Flavor Details</h3>
@@ -367,12 +358,35 @@
                 </div>
             </div>
         </div>
+
+        <div id="input_summary" class="tab-pane tab-adjustable" style="display: none">
+            <div class="modal-body clearfix">
+               
+                <table class="summary_table">
+                  <tbody>
+                    <tr><td><label>Instance Name: </label></td><td><span id="sum_instanceName"></span></td></tr>
+                    <tr><td><label>Image: </label></td><td><span id="sum_image"></span></td></tr>
+                    <tr><td><label>Flavor: </label></td><td><span id="sum_flavour"></span></td></tr>
+                    <tr><td><label>Instance Count: </label></td><td><span id="sum_instanceCount"></span></td></tr>
+                    <tr><td><label>Keypair: </label></td><td><span id="sum_keypair"></span></td></tr>
+                  </tbody>
+                </table>
+                <hr>
+                <table id="summary_warnings" class="summary_table">
+                  <tbody>
+                  <tr><td><label>To access the instance: </label></td><td></td></tr>
+                  <tr><td></td><td>You need to include a security group with port 22 opened to access via SSH.</td></tr>
+                  <tr><td></td><td>You need to assign a floating IP to access from a external network.</td></tr>
+                  </tbody>
+                </table>
+            </div>
+        </div>
     <!--</div>-->
 
 
     <div class="modal-footer">
         <p class="mandatoryMess">* Mandatory fields.</p>
-        <input type="submit" class="btn btn-blue btn-launch-image pull-right" value="Launch Instance"/>
+        <input id="nextBtn-image" type="submit" class="btn btn-blue btn-launch-image pull-right" value="Next"/>
         <a id="cancelBtn-image" class="btn secondary cancel close">Cancel</a>
     </div>
     </form>
