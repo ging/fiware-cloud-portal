@@ -157,6 +157,9 @@ var NovaInstanceSnapshotsView = Backbone.View.extend({
                     flavors: this.options.flavors,
                     keypairs: this.options.keypairs,
                     secGroups: this.options.secGroups,
+                    quotas: this.options.quotas,
+                    instancesModel: this.options.instancesModel,
+                    volumes: this.options.volumes,
                     el: 'body'
                 });
                 subview.render();

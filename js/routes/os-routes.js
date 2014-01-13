@@ -533,7 +533,7 @@ var OSRouter = Backbone.Router.extend({
     nova_snapshots: function(self) {
         self.showNovaRoot(self, 'Snapshots');
         //self.instancesModel.alltenants = false;
-        var view = new NovaSnapshotsView({instanceSnapshotsModel: self.instanceSnapshotsModel, volumeSnapshotsModel: self.volumeSnapshotsModel, instancesModel: self.instancesModel, volumesModel: self.volumesModel, flavors: self.flavors, keypairs: self.keypairsModel, secGroups: self.securityGroupsModel, el: '#content'});
+        var view = new NovaSnapshotsView({instanceSnapshotsModel: self.instanceSnapshotsModel, volumeSnapshotsModel: self.volumeSnapshotsModel, instancesModel: self.instancesModel, volumesModel: self.volumesModel, flavors: self.flavors, keypairs: self.keypairsModel, secGroups: self.securityGroupsModel, quotas: self.quotas, el: '#content'});
         self.newContentView(self,view);
     },
 
