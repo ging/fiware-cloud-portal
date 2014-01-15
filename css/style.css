@@ -967,6 +967,22 @@ width: 100%;
 .progress_bar_fill {
   height: 100%;
   background-color: #666;
+  float: left;
+}
+
+.progress_bar_new {
+  height: 100%;
+  background-color: #468847;
+  width: 0%;
+  -webkit-transition: width 0.6s ease;
+  -moz-transition: width 0.6s ease;
+  -ms-transition: width 0.6s ease;
+  -o-transition: width 0.6s ease;
+  transition: width 0.6s ease;
+  transition-property: width;
+  transition-duration: 0.6s;
+  transition-timing-function: ease;
+  transition-delay: initial;
 }
 
 .quota_title {
@@ -987,7 +1003,7 @@ width: 100%;
 
 .quota_bar {
   height: 15px;
-  margin: -8px 0 8px;
+  margin: 0px 0 8px;
 }
 
 .tab-content {

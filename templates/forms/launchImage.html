@@ -64,7 +64,7 @@
 
                             <span class="help-block" style="display: none; ">Number of instances to launch.</span>
                             <div class="input">
-                                <input type="text" required name="count" value="1" id="id_count">
+                                <input id="icount" type="text" required name="count" value="1" id="id_count" pattern="[1-9]\d{0,1000000}(?!\d)">
                             </div>
                         </div>
 
@@ -104,19 +104,10 @@
                     <p>Specify the details for launching an instance. The chart below shows the resources used by this project in relation to the project's quotas.
                     </p>
                     <%
-                        var quotaset = quotas.get("quota_set");
-                        var cpus = 0;
-                        var ram = 0;
-                        var disk = 0;
-                        for (var instIdx in instancesModel.models) {
-                            var instance = instancesModel.models[instIdx];
-                            var flavor = flavors.get(instance.get("flavor").id);
-                            if (flavor) {
-                                cpus = cpus + flavor.get('vcpus');
-                                ram = ram + flavor.get('ram');
-                                disk = disk + flavor.get('disk');
-                            }
-                        }
+                        var quotaset = quotas.quota_set;
+                        var cpus = quotas.cpus;
+                        var ram = quotas.ram;
+                        var disk = quotas.disk;
                     %>
                     <h3>Flavor Details</h3>
                     <table id="flavor_table" class="table-striped flavorOptionsSelect">
@@ -138,10 +129,10 @@
                             <%= quotaset.instances - instancesModel.length %> Available
                         </p>
                     </div>
-                    <div class="clearfix"></div>
                     <div class="quota_bar">
                         <div class="progress_bar">
                             <div class="progress_bar_fill" style="width: <%= 100 * (instancesModel.length) / quotaset.instances %>%"></div>
+                            <div id="icountbar" class="progress_bar_new"></div>
                         </div>
                     </div>
 
@@ -151,10 +142,10 @@
                             <%= quotaset.cores - cpus %> Available
                         </p>
                     </div>
-                    <div class="clearfix"></div>
                     <div class="quota_bar">
                         <div class="progress_bar">
                             <div class="progress_bar_fill" style="width: <%= 100 * (cpus) / quotaset.cores %>%"></div>
+                            <div id="cpubar" class="progress_bar_new"></div>
                         </div>
                     </div>
 
@@ -164,10 +155,10 @@
                             <%= quotaset.gigabytes - disk %> GB Available
                         </p>
                     </div>
-                    <div class="clearfix"></div>
                     <div class="quota_bar">
                         <div class="progress_bar">
                             <div class="progress_bar_fill" style="width: <%= 100 * (disk) / quotaset.gigabytes %>%"></div>
+                            <div id="diskbar" class="progress_bar_new"></div>
                         </div>
                     </div>
 
@@ -177,10 +168,10 @@
                             <%= quotaset.ram - ram %> MB Available
                         </p>
                     </div>
-                    <div class="clearfix"></div>
                     <div class="quota_bar">
                         <div class="progress_bar">
                             <div class="progress_bar_fill" style="width: <%= 100 * (ram) / quotaset.ram %>%"></div>
+                            <div id="rambar" class="progress_bar_new"></div>
                         </div>
                     </div>
                 </div>
@@ -375,6 +366,14 @@
                     <tr><td><label>Keypair: </label></td><td><span id="sum_keypair"></span></td></tr>
                   </tbody>
                 </table>
+                <div id="quota_error">
+                    <hr>
+                    <table class="summary_table">
+                      <tbody>
+                        <tr><td><label>Error: </label></td><td><span>You have exceeded your quota limit. Check it to launch the instance.</span></td></tr>
+                      </tbody>
+                    </table>
+                </div>
                 <hr>
                 <table id="summary_warnings" class="summary_table">
                   <tbody>

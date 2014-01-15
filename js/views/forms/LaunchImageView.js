@@ -8,7 +8,8 @@ var LaunchImageView = Backbone.View.extend({
       'click .modal-backdrop': 'close',
       'submit #form': 'goNext',
       'change .volumeOptionsSelect': 'changeVolumeOptions',
-      'change .flavorOptionsSelect': 'changeFlavorOptions'
+      'change .flavorOptionsSelect': 'changeFlavorOptions', 
+      'keyup #icount': 'changeICount'
     },
 
     initialize: function() {
@@ -35,6 +36,26 @@ var LaunchImageView = Backbone.View.extend({
 
         this.instanceData = {};
         this.currentStep = 0;
+
+        this.quotas = {};
+        this.quotas.cpus = 0;
+        this.quotas.ram = 0;
+        this.quotas.disk = 0;
+
+        this.quotas.flavor_error = false;
+        this.quotas.count_error = false;
+
+        this.quotas.quota_set = this.options.quotas.get("quota_set");
+
+        for (var instIdx in this.options.instancesModel.models) {
+            var instance = this.options.instancesModel.models[instIdx];
+            var flavor = this.options.flavors.get(instance.get("flavor").id);
+            if (flavor) {
+                this.quotas.cpus = this.quotas.cpus + flavor.get('vcpus');
+                this.quotas.ram = this.quotas.ram + flavor.get('ram');
+                this.quotas.disk = this.quotas.disk + flavor.get('disk');
+            }
+        }
     },
 
     render: function () {
@@ -42,12 +63,13 @@ var LaunchImageView = Backbone.View.extend({
             return;
         }
         
-        $(this.el).append(this._template({model:this.model, volumes: this.options.volumes, flavors: this.options.flavors, keypairs: this.options.keypairs, secGroups: this.options.secGroups, quotas: this.options.quotas, instancesModel: this.options.instancesModel, networks: this.networks, ports: this.options.ports, tenant: this.options.tenant, volumeSnapshots: this.options.volumeSnapshots, steps: this.steps}));
+        $(this.el).append(this._template({model:this.model, volumes: this.options.volumes, flavors: this.options.flavors, keypairs: this.options.keypairs, secGroups: this.options.secGroups, quotas: this.quotas, instancesModel: this.options.instancesModel, networks: this.networks, ports: this.options.ports, tenant: this.options.tenant, volumeSnapshots: this.options.volumeSnapshots, steps: this.steps}));
         $('#launch_image').modal();
         $('.network-sortable').sortable({
             connectWith: '.connected'
         });
         this.changeFlavorOptions();
+        this.changeICount();
         return this;
     },
 
@@ -115,10 +137,64 @@ var LaunchImageView = Backbone.View.extend({
                 $("#flavor_disk").text(flavor.get('disk')); 
                 $("#flavor_ephemeral").text(flavor.get('OS-FLV-EXT-DATA:ephemeral')); 
                 $("#flavor_disk_total").text(flavor.get("disk")+flavor.get('OS-FLV-EXT-DATA:ephemeral')); 
-                $("#flavor_ram").text(flavor.get('ram'));           
+                $("#flavor_ram").text(flavor.get('ram'));   
+
+                var quotaset = this.quotas.quota_set;
+
+                $('#cpubar').css('background-color', '#468847');
+                $('#diskbar').css('background-color', '#468847');
+                $('#rambar').css('background-color', '#468847');
+
+                var cpu_width = 100 * (this.quotas.cpus + flavor.get('vcpus')) / quotaset.cores;
+                var disk_width = 100 * (this.quotas.cpus + flavor.get("disk") + flavor.get('OS-FLV-EXT-DATA:ephemeral')) / quotaset.gigabytes;
+                var mem_width = 100 * (this.quotas.ram + flavor.get('ram')) / quotaset.ram;
+
+                this.quotas.flavor_error = false;
+
+                if (cpu_width > 100) {
+                    cpu_width = 100;
+                    $('#icountbar').css('background-color', '#b94a48');
+                    this.quotas.flavor_error = true;
+                }   
+                if (disk_width > 100) {
+                    disk_width = 100;
+                    $('#diskbar').css('background-color', '#b94a48');
+                    this.quotas.flavor_error = true;
+                }
+                if (mem_width > 100) {
+                    mem_width = 100;
+                    $('#rambar').css('background-color', '#b94a48');
+                    this.quotas.flavor_error = true;
+                }
+
+                $('#cpubar').width(cpu_width + '%');
+                $('#diskbar').width(disk_width + '%');
+                $('#rambar').width(mem_width + '%');
+
             }
         }
-        
+    },
+
+    changeICount: function(e) {
+
+        var count = parseInt($("input:[name=count]").val(), 10);
+        if (isNaN(count)) {
+            count = 0;
+        }
+        var quotaset = this.quotas.quota_set;
+        var width = 100 * (this.options.instancesModel.length + count) / quotaset.instances;
+
+        this.quotas.count_error = false;
+
+        $('#icountbar').css('background-color', '#468847');
+
+        if (width > 100) {
+            width = 100;
+            $('#icountbar').css('background-color', '#b94a48');
+            this.quotas.count_error = true;
+        }   
+
+        $('#icountbar').width(width + '%');
     },
 
     goNext: function() {
@@ -158,6 +234,7 @@ var LaunchImageView = Backbone.View.extend({
             }
             if (this.currentStep === this.steps.length - 1) {
                 $('#nextBtn-image').val('Next');
+                $('#nextBtn-image').attr("disabled", null);
             }
 
             var curr_id = '#' + this.steps[this.currentStep].id;
@@ -249,6 +326,14 @@ var LaunchImageView = Backbone.View.extend({
         } else {
             $('#sum_keypair').html('No keypair selected. You will need a keypair to access the instance.');
             $('#sum_keypair').addClass('warning');
+        }
+
+        $('#quota_error').hide();
+        $('#nextBtn-image').attr("disabled", null);
+        if (this.quotas.count_error || this.quotas.flavor_error) {
+            $('#quota_error').show();
+            $('#nextBtn-image').attr("disabled", "disabled");
+            $('#nextBtn-image').css("background-color", "#0489B7");
         }
     },
 
