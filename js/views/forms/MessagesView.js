@@ -40,7 +40,6 @@ var MessagesView = Backbone.View.extend({
     render: function () {
         var self = this;
         $(this.el).append(this._template({title:this.options.title, state:this.options.state, info:this.options.info, cid: this.cid}));
-        console.log("Rendering, ", ($('.messages').length-1)*(48)+'px');
         $(this.el).animate({scrollTop: ($('.messages').length-1)*(48)+'px'}, 500);
         /*$('.messages').fadeOut(4000, function() {
             self.close();

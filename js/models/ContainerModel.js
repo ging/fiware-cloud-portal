@@ -62,7 +62,6 @@ var Container = Backbone.Model.extend({
                 break;
             case "delete":
                 CDMI.Actions.deletecontainer(model.get('name'), options.success, options.error);
-                console.log(options.success, options.error);
                 break;
             case "create":
                 CDMI.Actions.createcontainer(model.get('name'), options.success, options.error);
@@ -78,13 +77,11 @@ var Container = Backbone.Model.extend({
                     var data_index2 = data.indexOf('data:') + 5;
                     var filedata = data.slice(data_index, data.length);
                     var filetype = data.slice(data_index2, data_index-8);
-                    console.log(data, filetype);
                   CDMI.Actions.uploadobject(model.get('name'), options.objectName, filedata, filetype, options.success, options.error);
                 };
                 reader.readAsDataURL(options.object);
                 break;
             case "downloadObject":
-                console.log("Download object, ", options.success, options.error);
                 CDMI.Actions.downloadobject(model.get('name'), options.objectName, options.success, options.error);
                 break;
             case "deleteObject":
