@@ -58,7 +58,9 @@ UTILS.Auth = (function(U, undefined) {
         var regs = [];
         for (var s in servs) {
             if (servs[s].name === 'nova') {
-                regs.push(servs[s].endpoints[0].region);
+                for (var r in servs[s].endpoints) {
+                    regs.push(servs[s].endpoints[r].region);
+                }
             }
         }
         return regs;
