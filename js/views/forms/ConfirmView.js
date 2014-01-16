@@ -35,7 +35,6 @@ var ConfirmView = Backbone.View.extend({
     },
 
     onAccept: function(e){
-        console.log("Accepted");
         this.close();
         this.options.onAccept();
     },

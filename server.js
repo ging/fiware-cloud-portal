@@ -73,9 +73,7 @@ app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Methods', 'HEAD, PUT, POST, GET, OPTIONS, DELETE');
     res.header('Access-Control-Allow-Headers', 'origin, content-type, X-Auth-Token, Tenant-ID, x-image-meta-is_public, x-image-meta-name');
     res.header('Access-Control-Allow-Credentials', true);
-    console.log("New Request: ", req.method);
     if (req.method == 'OPTIONS') {
-        console.log("CORS request");
         res.statusCode = 200;
         res.header('Content-Length', '0');
         res.send();
@@ -102,7 +100,6 @@ function sendData(port, options, data, res, callBackOK, callbackError) {
               res.setHeader(idx, headers[idx]);
             }
         }
-        console.log("Response: ", status);
         res.send(resp);
     };
 
@@ -127,12 +124,10 @@ function sendData(port, options, data, res, callBackOK, callbackError) {
             case "user-agent":
                 break;
             default:
-                console.log(headerIdx, options.headers[headerIdx]);
                 xhr.setRequestHeader(headerIdx, options.headers[headerIdx]);
                 break;
         }
     }
-    console.log("Data?", data, data!=="", data !== null);
 
     xhr.onerror = function(error) {
     }
