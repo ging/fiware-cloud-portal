@@ -23,7 +23,7 @@ exports.XMLHttpRequest = function() {
   var http = require('http');
   var https = require('https');
 
-  http.globalAgent.maxSockets = 1;
+  http.globalAgent.maxSockets = 5;
 
   // Holds http.js objects
   var client;
