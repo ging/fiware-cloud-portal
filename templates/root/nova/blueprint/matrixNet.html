@@ -8,7 +8,6 @@ var tiersDtos = _.clone(model.get('tierDtos_asArray'));
 if (tiersDtos === undefined) {
     tiersDtos = [];
 }
-tiersDtos.push({name: "Internet", internet: true, networkDto_asArray: [{internet: true}]});
 var numTiers = tiersDtos.length;
 var totalWidth = 770;
 var totalHeight = 450;
@@ -65,15 +64,7 @@ var height = 100/numTiers;
                         %>
                                     <p><%=netR.networkName%></p>
                         <%      
-                                } else if (tierR.internet && netC.connected) {
-                        %>
-                                    <p><%=netC.networkName%></p>
-                        <%
-                                } else if (tierC.internet && netR.connected) {
-                        %>
-                                    <p><%=netR.networkName%></p>
-                        <%
-                                }
+                                } 
                             }
                         }
                         %>

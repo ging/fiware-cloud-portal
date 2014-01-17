@@ -96,6 +96,8 @@ var EditTierView = Backbone.View.extend({
                 }
             }
         }
+
+        this.networkList.push({displayName: "Internet", name: "Internet"});
         
         this.addedNetworks = [];
         var myTier = this.options.tier;
@@ -103,7 +105,7 @@ var EditTierView = Backbone.View.extend({
             var myNets = myTier.networkDto_asArray;
             for (var myNetIdx in myNets) {
                 var myNet = myNets[myNetIdx];
-                this.addedNetworks.push({displayName: myNet.networkName, name: myNet.networkName, alias: true /* TODO Check if it is not an alias*/, connected: false /* TODO Change with values from BP API*/});
+                this.addedNetworks.push({displayName: myNet.networkName, name: myNet.networkName, alias: true /* TODO Check if it is not an alias*/});
             }
         }
     },
@@ -174,31 +176,7 @@ var EditTierView = Backbone.View.extend({
                 return true;
             }
         };
-        var connected = function(size, id) {
-            if (oneSelected(size, id)) {
-                return self.addedNetworks[id[0]].connected;
-            }
-            else {
-                return false;
-            }
-        };
-        var disconnected = function(size, id) {
-            if (oneSelected(size, id)) {
-                return !self.addedNetworks[id[0]].connected;
-            }
-            else {
-                return false;
-            }
-        };
         return [{
-            label: "Connect to Internet",
-            action: "connectInternet",
-            activatePattern: disconnected
-        }, {
-            label: "Disconnect from Internet",
-            action: "disconnectInternet",
-            activatePattern: connected
-        }, {
             label: "Remove",
             action: "uninstall",
             activatePattern: groupSelected
@@ -254,9 +232,6 @@ var EditTierView = Backbone.View.extend({
 
         for (var network in this.addedNetworks) {
             var name = this.addedNetworks[network].displayName;
-            if (this.addedNetworks[network].connected) {
-                name = name + " *";
-            }
 
             entries.push(
                 {id: network, cells:[
@@ -371,9 +346,6 @@ var EditTierView = Backbone.View.extend({
 
         for (var network in networks) {
             var name = networks[network].displayName;
-            if (networks[network].connected) {
-                name = name + " <span class='network-connected-internet'></span>";
-            }
             entries.push(
                 {id: network, cells:[
                 {value: name}]});
@@ -408,20 +380,6 @@ var EditTierView = Backbone.View.extend({
 
     addNewAlias: function() {
         this.networkList = [{name: $("#aliasName").val(), displayName: $("#aliasName").val()}].concat(this.networkList);
-        this.netTableViewNew.render();
-    },
-
-    connectNetworkToInternet: function(id, list) {
-        network = list[id];
-        network.connected = true;
-        this.netTableView.render();
-        this.netTableViewNew.render();
-    },
-
-    disconnectNetworkFromInternet: function(id, list) {
-        network = list[id];
-        network.connected = false;
-        this.netTableView.render();
         this.netTableViewNew.render();
     },
 
@@ -507,12 +465,6 @@ var EditTierView = Backbone.View.extend({
         var product;
 
         switch (action) {
-            case 'connectInternet':
-                this.connectNetworkToInternet(ids, this.addedNetworks);
-                break;
-            case 'disconnectInternet':
-                this.disconnectNetworkFromInternet(ids, this.addedNetworks);
-                break;
             case 'install':
                 this.installNetwork(ids);
             break;
