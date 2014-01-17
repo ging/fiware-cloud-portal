@@ -71,12 +71,18 @@
             padding-left: 10px;
         }
     }
-    #quota_error {
+    #summary_errors {
         display: none;
         color: #b94a48;
         table {
             margin-bottom: 0;
         }
+    }
+    #quota_error {
+        display: none;
+    }
+    #networks_error {
+        display: none;
     }
 }
 

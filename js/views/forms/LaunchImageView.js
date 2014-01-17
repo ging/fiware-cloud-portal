@@ -17,14 +17,6 @@ var LaunchImageView = Backbone.View.extend({
         this.options.flavors.fetch();
         this.options.secGroups.fetch();
 
-        this.networks = this.options.networks;
-        this.steps = [
-            {id: 'input_details', name: 'Details'}, 
-            {id: 'input_access_and_security', name: 'Access & Security'}, 
-            {id: 'input_networks', name: 'Networking'},
-            {id: 'input_post-creation', name: 'Post-Creation'},
-            {id: 'input_summary', name: 'Summary'}];
-
         if (JSTACK.Keystone.getservice("network") === undefined) {
             this.networks = undefined;
             this.steps = [
@@ -32,6 +24,24 @@ var LaunchImageView = Backbone.View.extend({
             {id: 'input_access_and_security', name: 'Access & Security'}, 
             {id: 'input_post-creation', name: 'Post-Creation'},
             {id: 'input_summary', name: 'Summary'}];
+        
+        } else {
+            this.networks = [];
+
+            for (var index in this.options.networks.models) {
+                var network = this.options.networks.models[index];
+                var tenant_id = network.get('tenant_id');
+                if (tenant_id == this.options.tenant) {
+                    this.networks.push(network);
+                }
+            }
+
+            this.steps = [
+                {id: 'input_details', name: 'Details'}, 
+                {id: 'input_access_and_security', name: 'Access & Security'}, 
+                {id: 'input_networks', name: 'Networking'},
+                {id: 'input_post-creation', name: 'Post-Creation'},
+                {id: 'input_summary', name: 'Summary'}];
         }
 
         this.instanceData = {};
@@ -63,7 +73,7 @@ var LaunchImageView = Backbone.View.extend({
             return;
         }
         
-        $(this.el).append(this._template({model:this.model, volumes: this.options.volumes, flavors: this.options.flavors, keypairs: this.options.keypairs, secGroups: this.options.secGroups, quotas: this.quotas, instancesModel: this.options.instancesModel, networks: this.networks, ports: this.options.ports, tenant: this.options.tenant, volumeSnapshots: this.options.volumeSnapshots, steps: this.steps}));
+        $(this.el).append(this._template({model:this.model, volumes: this.options.volumes, flavors: this.options.flavors, keypairs: this.options.keypairs, secGroups: this.options.secGroups, quotas: this.quotas, instancesModel: this.options.instancesModel, networks: this.networks, ports: this.options.ports, volumeSnapshots: this.options.volumeSnapshots, steps: this.steps}));
         $('#launch_image').modal();
         $('.network-sortable').sortable({
             connectWith: '.connected'
@@ -253,6 +263,8 @@ var LaunchImageView = Backbone.View.extend({
 
     makeSummary: function() {
 
+        var self = this;
+
         var name = $('input[name=instance_name]').val();
         var imageReg = this.model.id;
         var flavorReg, key_name, availability_zone;
@@ -328,10 +340,21 @@ var LaunchImageView = Backbone.View.extend({
             $('#sum_keypair').addClass('warning');
         }
 
-        $('#quota_error').hide();
+        $('#summary_errors').hide();
+        $('#quota error').hide();
+        $('#network_error').hide();
         $('#nextBtn-image').attr("disabled", null);
+
         if (this.quotas.count_error || this.quotas.flavor_error) {
+            $('#summary_errors').show();
             $('#quota_error').show();
+            $('#nextBtn-image').attr("disabled", "disabled");
+            $('#nextBtn-image').css("background-color", "#0489B7");
+        }
+
+        if (this.networks && this.networks.length !== 0 && netws.length === 0) {
+            $('#summary_errors').show();
+            $('#network_error').show();
             $('#nextBtn-image').attr("disabled", "disabled");
             $('#nextBtn-image').css("background-color", "#0489B7");
         }

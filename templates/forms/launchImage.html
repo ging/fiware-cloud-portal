@@ -244,19 +244,17 @@
                                 <ul id="network-selected" class="network-sortable connected">
                                 </ul>
                             </div>
-                        <label for="networks">Available networks</label>
+                        <label for="networks">Available Networks</label>
                             <div class="input">
                                 <ul class="network-sortable connected">
-                                <%  for (var index in networks.models) {
-                                        var network = networks.models[index];
-                                        var tenant_id = network.get('tenant_id');
-                                        if (tenant_id == tenant) {
+                                <%  for (var index in networks) {
+                                        var network = networks[index];
                                 %>
                                     <li>
                                         <div value="<%=network.get('id')%>" style="width: 300px; overflow: hidden; text-overflow: ellipsis"><%=network.get('name') === "" ? "("+network.get("id").slice(0,8)+")" : network.get('name')%></div>
                                     </li>
                                 <%
-                                    }}
+                                    }
                                 %>
                                 </ul>
                             </div>
@@ -366,11 +364,12 @@
                     <tr><td><label>Keypair: </label></td><td><span id="sum_keypair"></span></td></tr>
                   </tbody>
                 </table>
-                <div id="quota_error">
+                <div id="summary_errors">
                     <hr>
                     <table class="summary_table">
                       <tbody>
-                        <tr><td><label>Error: </label></td><td><span>You have exceeded your quota limit. Check it to launch the instance.</span></td></tr>
+                        <tr id="quota_error"><td><label>Error: </label></td><td><span>You have exceeded your quota limit. Check it to launch the instance.</span></td></tr>
+                        <tr id="network_error"><td><label>Error: </label></td><td><span>You have to specify at least a network.</span></td></tr>
                       </tbody>
                     </table>
                 </div>
