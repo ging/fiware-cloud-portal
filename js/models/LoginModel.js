@@ -210,6 +210,7 @@ var LoginStatus = Backbone.Model.extend({
       
         this.set('current_region', regionId);
         localStorage.setItem('current_region', regionId);
+        this.trigger('switch-region');
         var subview = new MessagesView({state: "Info", title: "Switched to region " + regionId});
         subview.render();
     },

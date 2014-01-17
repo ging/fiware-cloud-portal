@@ -36,7 +36,8 @@ var OSRouter = Backbone.Router.extend({
     routes: {
         'auth/login': 'login',
         'auth/switch/:id/': 'switchTenant',
-        'auth/logout': 'logout'
+        'auth/logout': 'logout', 
+        'reg/switch/:id/': 'switchRegion'
     },
 
     initialize: function() {
@@ -254,6 +255,17 @@ var OSRouter = Backbone.Router.extend({
             self.navigate(self.rootView.options.next_view, {trigger: true, replace: true});
         });
         this.loginModel.switchTenant(id);
+    },
+
+    switchRegion: function(id) {
+        var self = this;
+        this.loginModel.bind('switch-region', function() {
+            self.loginModel.unbind('switch-region');
+            self.clear_fetch();
+            self.initFetch();
+            self.navigate(self.rootView.options.next_view, {trigger: true, replace: true});
+        });
+        this.loginModel.switchRegion(id);
     },
 
     showSettings: function(self) {

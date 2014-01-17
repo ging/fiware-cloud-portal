@@ -36,7 +36,7 @@ src: templates/root/sideBar.html
                 <% for (var index in loginModel.get('regions')) {
                 var reg = loginModel.get('regions')[index];
                 %>
-                <option value="<%= reg%>"<%
+                <option value="#reg/switch/<%= reg%>/"<%
                 if (loginModel.get("current_region") == reg) {
                 %>selected="selected" <%}%>><%= reg%></option>
                 <%}%>
