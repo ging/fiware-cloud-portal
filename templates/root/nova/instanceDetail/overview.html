@@ -44,12 +44,41 @@ src: templates/root/nova/instanceDetail/overview.html
                     <hr class="header_rule">
                     <ul>
                         <%
-                        for (var i in model.get("addresses").private) {
-                        %>
+                        if (JSTACK.Keystone.getservice("network") !== undefined) {
+                            if (model.get("addresses") != null) {
+                                addresses = model.get("addresses");
+                                for (var i in addresses) {
+                                    var ips = addresses[i];
+                                    for (var j in ips) {
+                                        var ip = ips[j].addr;
+                                         %>
                         <li>
-                            <%=model.get("addresses").private[i].addr%>
+                            <%=ip%>
                         </li>
-                        <% } %>
+                                    <%
+                                    }
+                                }
+                            }
+                        } else {
+                            if ((model.get("addresses") != null) && (model.get("addresses")["public"] !== null || model.get("addresses")["private"] !== null)) {
+                                addresses = model.get("addresses")["public"];
+                                for (var addr_idx in addresses) {
+                                    %>
+                        <li>
+                            <%=addresses[addr_idx].addr%>
+                        </li>
+                                    <%
+                                }
+                                addresses = model.get("addresses")["private"];
+                                for (var addr_idx2 in addresses) {
+                                    %>
+                        <li>
+                            <%=addresses[addr_idx].addr%>
+                        </li>
+                                    <%
+                                }
+                            }
+                        }%>
                     </ul>
                 </div>
 
