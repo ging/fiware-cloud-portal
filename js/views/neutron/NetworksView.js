@@ -31,19 +31,29 @@ var NeutronNetworksView = Backbone.View.extend({
                 return true;
             }
         };
+        var editable = function(size, id) {
+            if (oneSelected(size, id)) {
+                var network = self.model.get(id);
+                var current_tenant_id = self.options.tenant_id;
+                if (current_tenant_id === network.get("tenant_id")) {
+                    return true;
+                }
+            }
+            return false;
+        };
         return [{
             label: "Edit Network",
             action: "update",
-            activatePattern: oneSelected
+            activatePattern: editable
         }, {
             label: "Add Subnet",
             action: "add_subnet",
-            activatePattern: oneSelected
+            activatePattern: editable
         }, {
             label: "Delete Networks",
             action: "delete",
             warn: true,
-            activatePattern: groupSelected
+            activatePattern: editable
         }];
     },
 
@@ -93,12 +103,12 @@ var NeutronNetworksView = Backbone.View.extend({
             var network = this.model.models[index];
             var tenant_id = network.get('tenant_id');
             var subnet_ids = network.get('subnets');
-            if (current_tenant_id == tenant_id) {
+            if (current_tenant_id == tenant_id || network.get("shared") === true) {
                 for (var i in subnet_ids) {
                     sub_id = subnet_ids[i];
                     for (var j in all_subnets) {
                         if (sub_id == all_subnets[j].get('id')) {
-                            var sub_cidr = all_subnets[j].get('name')+" "+all_subnets[j].get('cidr');
+                            var sub_cidr = "<strong>" + all_subnets[j].get('name')+"</strong> "+all_subnets[j].get('cidr');
                             subnets.push(sub_cidr);
                         }                                      
                     }                    
