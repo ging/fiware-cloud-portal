@@ -7,32 +7,6 @@ var OSRouter = Backbone.Router.extend({
     navs:  new NavTabModels([]),
     next: undefined,
 
-    loginModel: undefined,
-    instancesModel: undefined,
-    volumesModel: undefined,
-    volumeSnapshotsModel: undefined,
-    instanceSnapshotsModel: undefined,
-    flavors: undefined,
-    images: undefined,
-    keypairsModel: undefined,
-    projects: undefined,
-    containers: undefined,
-    quotas: undefined,
-    quota: undefined,
-    securityGroupsModel: undefined,
-    floatingIPsModel: undefined,
-    floatingIPPoolsModel: undefined,
-    networks: undefined,
-    subnets: undefined,
-    ports: undefined,
-    routers: undefined,
-
-    currentView: undefined,
-
-    timers: {},
-    backgroundTime: 180,
-    foregroundTime: 5,
-
     routes: {
         'auth/login': 'login',
         'auth/switch/:id/': 'switchTenant',
@@ -41,28 +15,6 @@ var OSRouter = Backbone.Router.extend({
     },
 
     initialize: function() {
-        this.loginModel = new LoginStatus();
-        this.flavors = new Flavors();
-        this.instancesModel = new Instances();
-        this.bpTemplatesModel = new BPTemplates();
-        this.bpInstancesModel = new BPInstances();
-        this.sdcs = new SDCs();
-        this.volumesModel = new Volumes();
-        this.volumeSnapshotsModel = new VolumeSnapshots();
-        this.instanceSnapshotsModel = new InstanceSnapshots();
-        this.images = new Images();
-        this.keypairsModel = new Keypairs();
-        this.projects = new Projects();
-        this.containers = new Containers();
-        this.quotas = new Quota();
-        this.securityGroupsModel = new SecurityGroups();
-        this.floatingIPsModel = new FloatingIPs();
-        this.floatingIPPoolsModel = new FloatingIPPools();
-        this.networks = new Networks();
-        this.subnets = new Subnets();
-        this.ports = new Ports();
-        this.routers = new Routers();
-
         Backbone.wrapError = function(onError, originalModel, options) {
             return function(model, resp) {
               resp = model === originalModel ? resp : model;
@@ -75,30 +27,6 @@ var OSRouter = Backbone.Router.extend({
               }
             };
           };
-
-        this.instancesModel.bind("error", function(model, error) {
-            console.log("Error in instances:", error);
-        });
-
-        this.projects.bind("error", function(model, error) {
-            console.log("Error in projects:", error);
-        });
-
-        this.flavors.bind("error", function(model, error) {
-            console.log("Error in flavors:", error);
-        });
-
-        this.images.bind("error", function(model, error) {
-            console.log("Error in images:", error);
-        });
-
-        this.networks.bind("error", function(model, error) {
-            console.log("Error in networks:", error);
-        });
-
-        this.routers.bind("error", function(model, error) {
-            console.log("Error in routers:", error);
-        });
 
         Backbone.View.prototype.close = function(){
           //this.remove();
@@ -176,35 +104,6 @@ var OSRouter = Backbone.Router.extend({
         };
     },
 
-    initFetch: function() {
-        if (Object.keys(this.timers).length === 0) {
-            this.quotas.set({id: UTILS.Auth.getCurrentTenant().id});
-            var seconds = this.backgroundTime;
-            this.add_fetch("instancesModel", seconds);
-            this.add_fetch("sdcs", seconds);
-            this.add_fetch("bpTemplatesModel", seconds);
-            this.add_fetch("bpInstancesModel", seconds);
-            this.add_fetch("volumesModel", seconds);
-            this.add_fetch("images", seconds);
-            this.add_fetch("quotas", seconds);
-            this.add_fetch("flavors", seconds);
-            this.add_fetch("volumeSnapshotsModel", seconds);
-            this.add_fetch("instanceSnapshotsModel", seconds);
-            this.add_fetch("containers", seconds);
-            this.add_fetch("securityGroupsModel", seconds);
-            this.add_fetch("keypairsModel", seconds);
-            this.add_fetch("floatingIPsModel", seconds);
-            this.add_fetch("floatingIPPoolsModel", seconds);
-            this.add_fetch("networks", seconds);
-            this.add_fetch("subnets", seconds);
-            this.add_fetch("ports", seconds);
-            this.add_fetch("routers", seconds);
-            if (this.loginModel.isAdmin() && !UTILS.Auth.isIDM()) {
-                this.add_fetch("projects", seconds);
-            }
-        }
-    },
-
     checkAuthAndTimers: function() {
 
         var next = arguments[0][0];
@@ -213,8 +112,8 @@ var OSRouter = Backbone.Router.extend({
             window.location.href = "#auth/login";
             return;
         } else {
-            this.initFetch();
-            this.update_fetch(arguments[1], this.foregroundTime, this.backgroundTime);
+            UTILS.GlobalModels.init_fetch();
+            UTILS.GlobalModels.update_fetch(arguments[1]);
         }
         var args = [this].concat(Array.prototype.slice.call(arguments[0], 1));
         if (next) {
@@ -250,8 +149,8 @@ var OSRouter = Backbone.Router.extend({
         var self = this;
         this.loginModel.bind('switch-tenant', function() {
             self.loginModel.unbind('switch-tenant');
-            self.clear_fetch();
-            self.initFetch();
+            UTILS.GlobalModels.clear_fetch();
+            UTILS.GlobalModels.init_fetch();
             self.navigate(self.rootView.options.next_view, {trigger: true, replace: true});
         });
         this.loginModel.switchTenant(id);
@@ -261,8 +160,8 @@ var OSRouter = Backbone.Router.extend({
         var self = this;
         this.loginModel.bind('switch-region', function() {
             self.loginModel.unbind('switch-region');
-            self.clear_fetch();
-            self.initFetch();
+            UTILS.GlobalModels.clear_fetch();
+            UTILS.GlobalModels.init_fetch();
             self.navigate(self.rootView.options.next_view, {trigger: true, replace: true});
         });
         this.loginModel.switchRegion(id);
@@ -285,12 +184,12 @@ var OSRouter = Backbone.Router.extend({
     showRoot: function(self,option) {
         self.rootView.renderRoot();
         if (this.navTabView === undefined) {
-            this.navTabView = new NavTabView({el: '#navtab', model: self.tabs, loginModel: self.loginModel});
+            this.navTabView = new NavTabView({el: '#navtab', model: self.tabs});
         }
         this.navTabView.render();
 
         if (this.topBarView === undefined) {
-            this.topBarView = new TopBarView({el: '#topbar', model: self.top, loginModel: self.loginModel});
+            this.topBarView = new TopBarView({el: '#topbar', model: self.top});
             this.topBarView.render();
         }
         this.topBarView.renderTitle();
@@ -298,7 +197,7 @@ var OSRouter = Backbone.Router.extend({
 
         var showTenants = (self.tabs.getActive() == 'Project');
         if (this.sideBarView === undefined) {
-            this.sideBarView = new SideBarView({el: '#sidebar', model: self.navs, loginModel: self.loginModel});
+            this.sideBarView = new SideBarView({el: '#sidebar', model: self.navs});
             this.sideBarView.el = '#sidebar';
         }
         this.sideBarView.model = self.navs;
@@ -308,7 +207,6 @@ var OSRouter = Backbone.Router.extend({
     },
 
     showSysRoot: function(self, option) {
-        //this.clear_fetch();
         if (!this.loginModel.isAdmin() || UTILS.Auth.isIDM()) {
            window.location.href = "#nova";
            return false;
@@ -343,7 +241,7 @@ var OSRouter = Backbone.Router.extend({
     sys_services: function(self) {
         if (self.showSysRoot(self, 'Services')) {
             var services = new Services();
-            var view = new ServiceView({model: services, el: '#content'});
+            var view = new ServiceView({model: UTILS.GlobalModels.get("services"), el: '#content'});
             self.newContentView(self,view);
             view.render();
         }
@@ -353,14 +251,14 @@ var OSRouter = Backbone.Router.extend({
         if (self.showSysRoot(self, 'Flavors')) {
             self.flavors.unbind("change");
             //self.add_fetch(self.flavors, 4);
-            var view = new FlavorView({model: self.flavors, el: '#content'});
+            var view = new FlavorView({model: UTILS.GlobalModels.get("flavors"), el: '#content'});
             self.newContentView(self,view);
         }
     },
 
     sys_projects: function(self) {
         if (self.showSysRoot(self, 'Projects')) {
-           var view = new ProjectView({model:self.projects, quotas:self.quotas, el: '#content'});
+           var view = new ProjectView({model: UTILS.GlobalModels.get("projects"), el: '#content'});
            self.newContentView(self,view);
         }
     },
@@ -370,7 +268,7 @@ var OSRouter = Backbone.Router.extend({
             var users = new Users();
             users.tenant(tenant_id);
             var all = new Users();
-            var view = new UsersForProjectView({model:users, tenant: tenant_id, tenants: self.projects, users: all, el: '#content'});
+            var view = new UsersForProjectView({model:users, tenant: tenant_id, users: all, el: '#content'});
             self.newContentView(self,view);
         }
     },
@@ -379,8 +277,7 @@ var OSRouter = Backbone.Router.extend({
         if (self.showSysRoot(self, 'Users')) {
             var users = new Users();
             //users.tenant(JSTACK.Keystone.params.access.token.tenant.id);
-            console.log(users);
-            var view = new UserView({model:users, el: '#content', tenants: self.projects});
+            var view = new UserView({model:users, el: '#content'});
             self.newContentView(self,view);
             //view.render();
         }
@@ -388,20 +285,20 @@ var OSRouter = Backbone.Router.extend({
 
     sys_quotas: function(self) {
         if (self.showSysRoot(self, 'Quotas')) {
-            var view = new QuotaView({model:self.quotas, el: '#content'});
+            var view = new QuotaView({model:UTILS.GlobalModels.get("quotas"), el: '#content'});
             self.newContentView(self,view);
             //view.render();
         }
     },
 
-     modify_users: function(self) {
+    modify_users: function(self) {
         self.showNovaRoot(self, 'Users for Project');
+        // TODO Check if this is ok
         var view = new ModifyUsersView({el: '#content', model: users});
         self.newContentView(self,view);
     },
 
     showNovaRoot: function(self, option, title) {
-        //this.clear_fetch();
         if (!title) {
             title = option;
         }
@@ -439,7 +336,7 @@ var OSRouter = Backbone.Router.extend({
 
     blueprint_instances: function(self) {
         self.showNovaRoot(self, 'Blueprint Instances');
-        var view = new BlueprintInstancesView({el: '#content', model: self.bpInstancesModel});
+        var view = new BlueprintInstancesView({el: '#content', model: UTILS.GlobalModels.get("bpInstancesModel")});
         self.newContentView(self,view);
     },
 
@@ -448,7 +345,7 @@ var OSRouter = Backbone.Router.extend({
         bp.set({'blueprintName': id});
         bp.fetch({success: function() {
             self.showNovaRoot(self, 'Blueprint Instances', 'Blueprint Instances / ' + bp.get('blueprintName'));
-            var view = new BlueprintInstanceView({el: '#content', model: bp, flavors: self.flavors, images: self.images});
+            var view = new BlueprintInstanceView({el: '#content', model: bp});
             self.newContentView(self,view);
         }});
     },
@@ -471,7 +368,7 @@ var OSRouter = Backbone.Router.extend({
                         }
                     });
                     self.showNovaRoot(self, 'BP Instances', 'Blueprint Instances / ' + id + ' / ' + tier.name);
-                    var view = new BlueprintInstanceTierInstancesView({model: insts, blueprint: bp, tier: tier, projects: self.projects, flavors: self.flavors, el: '#content'});
+                    var view = new BlueprintInstanceTierInstancesView({model: insts, blueprint: bp, tier: tier, el: '#content'});
                     self.newContentView(self,view);
                 }
             });
@@ -481,7 +378,7 @@ var OSRouter = Backbone.Router.extend({
 
     blueprint_templates: function(self) {
         self.showNovaRoot(self, 'Blueprint Templates');
-        var view = new BlueprintTemplatesView({el: '#content', model: self.bpTemplatesModel});
+        var view = new BlueprintTemplatesView({el: '#content', model: UTILS.GlobalModels.get("bpTemplatesModel")});
         self.newContentView(self,view);
     },
 
@@ -489,19 +386,19 @@ var OSRouter = Backbone.Router.extend({
         self.showNovaRoot(self, 'Blueprint Templates', 'Blueprint Templates / ' + id);
         var bp = new BPTemplate();
         bp.set({'name': id});
-        var view = new BlueprintTemplateView({el: '#content', model: bp, sdcs: self.sdcs, flavors: self.flavors, keypairs: self.keypairsModel, securityGroupsModel: self.securityGroupsModel, images: self.images, networks: self.networks, subnets: self.subnets, loginModel: self.loginModel});
+        var view = new BlueprintTemplateView({el: '#content', model: bp});
         self.newContentView(self,view);
     },
 
     blueprint_templates_catalog: function(self) {
         self.showNovaRoot(self, 'Blueprint Templates', 'Blueprint Templates / Catalog');
-        var view = new BlueprintTemplatesCatalogView({el: '#content', model: self.bpTemplatesModel});
+        var view = new BlueprintTemplatesCatalogView({el: '#content', model: UTILS.GlobalModels.get("bpTemplatesModel")});
         self.newContentView(self,view);
     },
 
     blueprint_template_catalog: function(self, id) {
         self.showNovaRoot(self, 'Blueprint Templates', 'Blueprint Templates / Catalog / ' + id);
-        var view = new BlueprintTemplateCatalogView({el: '#content', model: self.bpTemplatesModel, templateId: id, sdcs: self.sdcs, flavors: self.flavors, keypairs: self.keypairsModel, securityGroupsModel: self.securityGroupsModel, images: self.images});
+        var view = new BlueprintTemplateCatalogView({el: '#content', model: UTILS.GlobalModels.get("bpTemplatesModel"), templateId: id});
         self.newContentView(self,view);
     },
 
@@ -668,44 +565,4 @@ var OSRouter = Backbone.Router.extend({
         self.newContentView(self,view);
     },
 
-    update_fetch: function (modelArray, currentSeconds, backgroundSeconds) {
-
-        var self = this;
-
-        modelArray = modelArray || [];
-
-        if (this.timers.current !== undefined) {
-            this.timers.current.forEach(function(oldModel) {
-                clearInterval(self.timers[oldModel]);
-                self.add_fetch(oldModel, backgroundSeconds);
-            });
-        }
-
-        modelArray.forEach(function(modelName) {
-            clearInterval(self.timers[modelName]);
-            self.add_fetch(modelName, currentSeconds);
-        });
-
-        this.timers.current = modelArray;
-
-    },
-
-    clear_fetch: function() {
-        var self = this;
-        for (var index in this.timers) {
-            var timer_id = this.timers[index];
-            clearInterval(timer_id);
-        }
-        this.timers = {};
-    },
-
-    add_fetch: function(modelName, seconds) {
-        var self = this;
-        this[modelName].fetch();
-        var id = setInterval(function() {
-            self[modelName].fetch();
-        }, seconds*1000);
-
-        this.timers[modelName] = id;
-    }
 });

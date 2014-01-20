@@ -4,6 +4,7 @@ var NavTabView = Backbone.View.extend({
 
     initialize: function() {
         this.model.bind('change:actives', this.render, this);
+        this.options.loginModel = UTILS.GlobalModels.get("loginModel");
     },
 
     render: function () {

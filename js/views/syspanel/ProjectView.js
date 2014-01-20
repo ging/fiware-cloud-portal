@@ -7,6 +7,7 @@ var ProjectView = Backbone.View.extend({
     initialize: function() {
         var self = this;
         this.model.fetch();
+        this.options.quotas = UTILS.GlobalModels.get("quotas");
         this.options.quotas.fetch();
         this.renderFirst();
         this.model.bind("sync", this.render, this);

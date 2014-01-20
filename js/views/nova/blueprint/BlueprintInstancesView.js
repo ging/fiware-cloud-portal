@@ -10,6 +10,8 @@ var BlueprintInstancesView = Backbone.View.extend({
             this.model.unbind("sync");
             this.model.bind("sync", this.render, this);
         }
+        this.options.flavors = UTILS.GlobalModels.get("flavors");
+        this.options.images = UTILS.GlobalModels.get("images");
         this.renderFirst();
     },
 

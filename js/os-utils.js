@@ -8,6 +8,164 @@ UTILS.VERSION = '0.1';
 // the Technical University of Madrid.
 UTILS.AUTHORS = 'GING';
 
+UTILS.GlobalModels = (function(U, undefined) {
+
+    var loginModel,
+        instancesModel,
+        volumesModel,
+        volumeSnapshotsModel,
+        instanceSnapshotsModel,
+        flavors,
+        images,
+        keypairsModel,
+        projects,
+        containers,
+        quotas,
+        quota,
+        securityGroupsModel,
+        floatingIPsModel,
+        floatingIPPoolsModel,
+        networks,
+        subnets,
+        ports,
+        routers;
+
+    var timers = {};
+    var backgroundTime = 180;
+    var foregroundTime = 5;
+
+    var initialize = function() {
+        this.loginModel = new LoginStatus();
+        this.flavors = new Flavors();
+        this.instancesModel = new Instances();
+        this.bpTemplatesModel = new BPTemplates();
+        this.bpInstancesModel = new BPInstances();
+        this.sdcs = new SDCs();
+        this.volumesModel = new Volumes();
+        this.volumeSnapshotsModel = new VolumeSnapshots();
+        this.instanceSnapshotsModel = new InstanceSnapshots();
+        this.images = new Images();
+        this.keypairsModel = new Keypairs();
+        this.projects = new Projects();
+        this.containers = new Containers();
+        this.quotas = new Quota();
+        this.securityGroupsModel = new SecurityGroups();
+        this.floatingIPsModel = new FloatingIPs();
+        this.floatingIPPoolsModel = new FloatingIPPools();
+        this.networks = new Networks();
+        this.subnets = new Subnets();
+        this.ports = new Ports();
+        this.routers = new Routers();
+
+        this.instancesModel.bind("error", function(model, error) {
+            console.log("Error in instances:", error);
+        });
+
+        this.projects.bind("error", function(model, error) {
+            console.log("Error in projects:", error);
+        });
+
+        this.flavors.bind("error", function(model, error) {
+            console.log("Error in flavors:", error);
+        });
+
+        this.images.bind("error", function(model, error) {
+            console.log("Error in images:", error);
+        });
+
+        this.networks.bind("error", function(model, error) {
+            console.log("Error in networks:", error);
+        });
+
+        this.routers.bind("error", function(model, error) {
+            console.log("Error in routers:", error);
+        });
+    };
+
+    var init_fetch = function() {
+        if (Object.keys(this.timers).length === 0) {
+            this.quotas.set({id: UTILS.Auth.getCurrentTenant().id});
+            var seconds = this.backgroundTime;
+            this.add_fetch("instancesModel", seconds);
+            this.add_fetch("sdcs", seconds);
+            this.add_fetch("bpTemplatesModel", seconds);
+            this.add_fetch("bpInstancesModel", seconds);
+            this.add_fetch("volumesModel", seconds);
+            this.add_fetch("images", seconds);
+            this.add_fetch("quotas", seconds);
+            this.add_fetch("flavors", seconds);
+            this.add_fetch("volumeSnapshotsModel", seconds);
+            this.add_fetch("instanceSnapshotsModel", seconds);
+            this.add_fetch("containers", seconds);
+            this.add_fetch("securityGroupsModel", seconds);
+            this.add_fetch("keypairsModel", seconds);
+            this.add_fetch("floatingIPsModel", seconds);
+            this.add_fetch("floatingIPPoolsModel", seconds);
+            this.add_fetch("networks", seconds);
+            this.add_fetch("subnets", seconds);
+            this.add_fetch("ports", seconds);
+            this.add_fetch("routers", seconds);
+            if (this.loginModel.isAdmin() && !UTILS.Auth.isIDM()) {
+                this.add_fetch("projects", seconds);
+            }
+        }
+    };
+
+    var update_fetch = function (modelArray) {
+
+        var self = this;
+
+        modelArray = modelArray || [];
+
+        if (this.timers.current !== undefined) {
+            this.timers.current.forEach(function(oldModel) {
+                clearInterval(self.timers[oldModel]);
+                self.add_fetch(oldModel, self.backgroundTime);
+            });
+        }
+
+        modelArray.forEach(function(modelName) {
+            clearInterval(self.timers[modelName]);
+            self.add_fetch(modelName, self.foregroundTime);
+        });
+
+        this.timers.current = modelArray;
+
+    };
+
+    var clear_fetch = function() {
+        var self = this;
+        for (var index in this.timers) {
+            var timer_id = this.timers[index];
+            clearInterval(timer_id);
+        }
+        this.timers = {};
+    };
+
+    var add_fetch = function(modelName, seconds) {
+        var self = this;
+        this[modelName].fetch();
+        var id = setInterval(function() {
+            self[modelName].fetch();
+        }, seconds*1000);
+
+        this.timers[modelName] = id;
+    };
+
+    var get = function(model) {
+        return this[model];
+    }
+
+    return {
+        initialize: initialize,
+        get: get,
+        init_fetch: init_fetch,
+        clear_fetch: clear_fetch,
+        update_fetch: update_fetch
+    };
+
+})(UTILS);
+
 UTILS.Auth = (function(U, undefined) {
 
     var tenants = [];
