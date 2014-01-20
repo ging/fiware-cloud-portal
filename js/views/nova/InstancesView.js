@@ -199,10 +199,13 @@ var NovaInstancesView = Backbone.View.extend({
 
             if (JSTACK.Keystone.getservice("network") !== undefined) {
                 if (instance.get("addresses") != null) {
-                addresses = instance.get("addresses");
+                    addresses = instance.get("addresses");
                     for (var i in addresses) {
-                        ip = instance.get("addresses")[i][0].addr;
-                        address += ip + "<br/>";
+                        var ips = addresses[i];
+                        for (var j in ips) {
+                            var ip = ips[j].addr;
+                            address += ip + "<br/>";
+                        }
                     }
                 }
             } else {
