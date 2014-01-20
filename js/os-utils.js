@@ -10,151 +10,149 @@ UTILS.AUTHORS = 'GING';
 
 UTILS.GlobalModels = (function(U, undefined) {
 
-    var loginModel,
-        instancesModel,
-        volumesModel,
-        volumeSnapshotsModel,
-        instanceSnapshotsModel,
-        flavors,
-        images,
-        keypairsModel,
-        projects,
-        containers,
-        quotas,
-        quota,
-        securityGroupsModel,
-        floatingIPsModel,
-        floatingIPPoolsModel,
-        networks,
-        subnets,
-        ports,
-        routers;
+    models= {
+        loginModel:undefined,
+        instancesModel: undefined,
+        volumesModel: undefined,
+        volumeSnapshotsModel: undefined,
+        instanceSnapshotsModel: undefined,
+        flavors: undefined,
+        images: undefined,
+        keypairsModel: undefined,
+        projects: undefined,
+        containers: undefined,
+        quotas: undefined,
+        quota: undefined,
+        securityGroupsModel: undefined,
+        floatingIPsModel: undefined,
+        floatingIPPoolsModel: undefined,
+        networks: undefined,
+        subnets: undefined,
+        ports: undefined,
+        routers: undefined
+    };
 
     var timers = {};
     var backgroundTime = 180;
     var foregroundTime = 5;
 
     var initialize = function() {
-        this.loginModel = new LoginStatus();
-        this.flavors = new Flavors();
-        this.instancesModel = new Instances();
-        this.bpTemplatesModel = new BPTemplates();
-        this.bpInstancesModel = new BPInstances();
-        this.sdcs = new SDCs();
-        this.volumesModel = new Volumes();
-        this.volumeSnapshotsModel = new VolumeSnapshots();
-        this.instanceSnapshotsModel = new InstanceSnapshots();
-        this.images = new Images();
-        this.keypairsModel = new Keypairs();
-        this.projects = new Projects();
-        this.containers = new Containers();
-        this.quotas = new Quota();
-        this.securityGroupsModel = new SecurityGroups();
-        this.floatingIPsModel = new FloatingIPs();
-        this.floatingIPPoolsModel = new FloatingIPPools();
-        this.networks = new Networks();
-        this.subnets = new Subnets();
-        this.ports = new Ports();
-        this.routers = new Routers();
+        models.loginModel = new LoginStatus();
+        models.flavors = new Flavors();
+        models.instancesModel = new Instances();
+        models.bpTemplatesModel = new BPTemplates();
+        models.bpInstancesModel = new BPInstances();
+        models.sdcs = new SDCs();
+        models.volumesModel = new Volumes();
+        models.volumeSnapshotsModel = new VolumeSnapshots();
+        models.instanceSnapshotsModel = new InstanceSnapshots();
+        models.images = new Images();
+        models.keypairsModel = new Keypairs();
+        models.projects = new Projects();
+        models.containers = new Containers();
+        models.quotas = new Quota();
+        models.securityGroupsModel = new SecurityGroups();
+        models.floatingIPsModel = new FloatingIPs();
+        models.floatingIPPoolsModel = new FloatingIPPools();
+        models.networks = new Networks();
+        models.subnets = new Subnets();
+        models.ports = new Ports();
+        models.routers = new Routers();
 
-        this.instancesModel.bind("error", function(model, error) {
+        models.instancesModel.bind("error", function(model, error) {
             console.log("Error in instances:", error);
         });
 
-        this.projects.bind("error", function(model, error) {
+        models.projects.bind("error", function(model, error) {
             console.log("Error in projects:", error);
         });
 
-        this.flavors.bind("error", function(model, error) {
+        models.flavors.bind("error", function(model, error) {
             console.log("Error in flavors:", error);
         });
 
-        this.images.bind("error", function(model, error) {
+        models.images.bind("error", function(model, error) {
             console.log("Error in images:", error);
         });
 
-        this.networks.bind("error", function(model, error) {
+        models.networks.bind("error", function(model, error) {
             console.log("Error in networks:", error);
         });
 
-        this.routers.bind("error", function(model, error) {
+        models.routers.bind("error", function(model, error) {
             console.log("Error in routers:", error);
         });
     };
 
     var init_fetch = function() {
-        if (Object.keys(this.timers).length === 0) {
-            this.quotas.set({id: UTILS.Auth.getCurrentTenant().id});
-            var seconds = this.backgroundTime;
-            this.add_fetch("instancesModel", seconds);
-            this.add_fetch("sdcs", seconds);
-            this.add_fetch("bpTemplatesModel", seconds);
-            this.add_fetch("bpInstancesModel", seconds);
-            this.add_fetch("volumesModel", seconds);
-            this.add_fetch("images", seconds);
-            this.add_fetch("quotas", seconds);
-            this.add_fetch("flavors", seconds);
-            this.add_fetch("volumeSnapshotsModel", seconds);
-            this.add_fetch("instanceSnapshotsModel", seconds);
-            this.add_fetch("containers", seconds);
-            this.add_fetch("securityGroupsModel", seconds);
-            this.add_fetch("keypairsModel", seconds);
-            this.add_fetch("floatingIPsModel", seconds);
-            this.add_fetch("floatingIPPoolsModel", seconds);
-            this.add_fetch("networks", seconds);
-            this.add_fetch("subnets", seconds);
-            this.add_fetch("ports", seconds);
-            this.add_fetch("routers", seconds);
-            if (this.loginModel.isAdmin() && !UTILS.Auth.isIDM()) {
-                this.add_fetch("projects", seconds);
+        if (Object.keys(timers).length === 0) {
+            models.quotas.set({id: UTILS.Auth.getCurrentTenant().id});
+            var seconds = backgroundTime;
+            add_fetch("instancesModel", seconds);
+            add_fetch("sdcs", seconds);
+            add_fetch("bpTemplatesModel", seconds);
+            add_fetch("bpInstancesModel", seconds);
+            add_fetch("volumesModel", seconds);
+            add_fetch("images", seconds);
+            add_fetch("quotas", seconds);
+            add_fetch("flavors", seconds);
+            add_fetch("volumeSnapshotsModel", seconds);
+            add_fetch("instanceSnapshotsModel", seconds);
+            add_fetch("containers", seconds);
+            add_fetch("securityGroupsModel", seconds);
+            add_fetch("keypairsModel", seconds);
+            add_fetch("floatingIPsModel", seconds);
+            add_fetch("floatingIPPoolsModel", seconds);
+            add_fetch("networks", seconds);
+            add_fetch("subnets", seconds);
+            add_fetch("ports", seconds);
+            add_fetch("routers", seconds);
+            if (models.loginModel.isAdmin() && !UTILS.Auth.isIDM()) {
+                add_fetch("projects", seconds);
             }
         }
     };
 
     var update_fetch = function (modelArray) {
 
-        var self = this;
-
         modelArray = modelArray || [];
 
-        if (this.timers.current !== undefined) {
-            this.timers.current.forEach(function(oldModel) {
-                clearInterval(self.timers[oldModel]);
-                self.add_fetch(oldModel, self.backgroundTime);
+        if (timers.current !== undefined) {
+            timers.current.forEach(function(oldModel) {
+                clearInterval(timers[oldModel]);
+                add_fetch(oldModel, backgroundTime);
             });
         }
 
         modelArray.forEach(function(modelName) {
-            clearInterval(self.timers[modelName]);
-            self.add_fetch(modelName, self.foregroundTime);
+            clearInterval(timers[modelName]);
+            add_fetch(modelName, foregroundTime);
         });
 
-        this.timers.current = modelArray;
+        timers.current = modelArray;
 
     };
 
     var clear_fetch = function() {
-        var self = this;
-        for (var index in this.timers) {
-            var timer_id = this.timers[index];
+        for (var index in timers) {
+            var timer_id = timers[index];
             clearInterval(timer_id);
         }
-        this.timers = {};
+        timers = {};
     };
 
     var add_fetch = function(modelName, seconds) {
-        var self = this;
-        this[modelName].fetch();
+        models[modelName].fetch();
         var id = setInterval(function() {
-            self[modelName].fetch();
+            models[modelName].fetch();
         }, seconds*1000);
 
-        this.timers[modelName] = id;
+        timers[modelName] = id;
     };
 
     var get = function(model) {
-        return this[model];
-    }
+        return models[model];
+    };
 
     return {
         initialize: initialize,
@@ -241,7 +239,7 @@ UTILS.Auth = (function(U, undefined) {
             compute.endpoints[0].adminURL = current_region_ + "/compute" + compute.endpoints[0].adminURL.split('compute')[1];
             compute.endpoints[0].publicURL = current_region_ + "/compute" + compute.endpoints[0].publicURL.split('compute')[1];
             compute.endpoints[0].internalURL = current_region_ + "/compute" + compute.endpoints[0].internalURL.split('compute')[1];
-        
+
             var volume = JSTACK.Keystone.getservice("volume");
             volume.endpoints[0].adminURL = current_region_ + "/volume" + volume.endpoints[0].adminURL.split('volume')[1];
             volume.endpoints[0].publicURL = current_region_ + "/volume" + volume.endpoints[0].publicURL.split('volume')[1];
@@ -292,7 +290,7 @@ UTILS.Auth = (function(U, undefined) {
             console.log("Authenticated in tenant ", tenant);
 
             changeEndpoints();
-            
+
             callback();
         };
 
@@ -422,7 +420,7 @@ UTILS.Auth = (function(U, undefined) {
         compute.endpoints[0].adminURL = current_region_ + "/compute" + compute.endpoints[0].adminURL.split('8774')[1];
         compute.endpoints[0].publicURL = current_region_ + "/compute" + compute.endpoints[0].publicURL.split('8774')[1];
         compute.endpoints[0].internalURL = current_region_ + "/compute" + compute.endpoints[0].internalURL.split('8774')[1];
-    
+
         var volume = JSTACK.Keystone.getservice("volume");
         volume.endpoints[0].adminURL = current_region_ + "/volume" + volume.endpoints[0].adminURL.split('8776')[1];
         volume.endpoints[0].publicURL = current_region_ + "/volume" + volume.endpoints[0].publicURL.split('8776')[1];

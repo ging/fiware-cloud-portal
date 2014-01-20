@@ -6,6 +6,7 @@ var ObjectStorageContainerView = Backbone.View.extend({
 
     initialize: function() {
         var self = this;
+        this.options.containers = UTILS.GlobalModels.get("containers");
         this.model.unbind("sync");
         this.model.bind("sync", this.render, this);
         this.timer = setInterval(function() {

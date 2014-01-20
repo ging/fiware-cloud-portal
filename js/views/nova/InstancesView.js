@@ -5,6 +5,9 @@ var NovaInstancesView = Backbone.View.extend({
     tableView: undefined,
 
     initialize: function() {
+        this.options.projects = UTILS.GlobalModels.get("projects");
+        this.options.keypairs = UTILS.GlobalModels.get("keypairsModel");
+        this.options.flavors = UTILS.GlobalModels.get("flavors");
         this.model.unbind("sync");
         this.model.bind("sync", this.render, this);
         this.renderFirst();
