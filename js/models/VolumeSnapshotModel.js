@@ -1,5 +1,14 @@
 var VolumeSnapshot = Backbone.Model.extend({
 
+    region: undefined,
+
+    getRegion: function() {
+        if (this.region) {
+            return this.region;
+        }
+        return UTILS.Auth.getCurrentRegion();
+    },
+
     _action:function(method, options) {
         var model = this;
         options = options || {};
@@ -23,15 +32,15 @@ var VolumeSnapshot = Backbone.Model.extend({
     sync: function(method, model, options) {
         switch(method) {
             case "create":
-                JSTACK.Cinder.createsnapshot(model.get("volume_id"), model.get("name"), model.get("description"), options.success, options.error);
+                JSTACK.Cinder.createsnapshot(model.get("volume_id"), model.get("name"), model.get("description"), options.success, options.error, this.getRegion());
                 break;
             case "delete":
-                JSTACK.Cinder.deletesnapshot(model.get("id"), options.success, options.error);
+                JSTACK.Cinder.deletesnapshot(model.get("id"), options.success, options.error, this.getRegion());
                 break;
             case "update":
                 break;
             case "read":
-                JSTACK.Cinder.getsnapshot(model.get("id"), options.success, options.error);
+                JSTACK.Cinder.getsnapshot(model.get("id"), options.success, options.error, this.getRegion());
                 break;
         }
     },
@@ -49,9 +58,18 @@ var VolumeSnapshots = Backbone.Collection.extend({
 
     model: VolumeSnapshot,
 
+    region: undefined,
+
+    getRegion: function() {
+        if (this.region) {
+            return this.region;
+        }
+        return UTILS.Auth.getCurrentRegion();
+    },
+
     sync: function(method, model, options) {
         if(method === "read") {
-            JSTACK.Cinder.getsnapshotlist(true, options.success, options.error);
+            JSTACK.Cinder.getsnapshotlist(true, options.success, options.error, this.getRegion());
         }
     },
 

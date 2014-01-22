@@ -1,5 +1,14 @@
 var SDC = Backbone.Model.extend({
 
+    region: undefined,
+
+    getRegion: function() {
+        if (this.region) {
+            return this.region;
+        }
+        return UTILS.Auth.getCurrentRegion();
+    },
+
     _action:function(method, options) {
         var model = this;
         options = options || {};
@@ -23,17 +32,17 @@ var SDC = Backbone.Model.extend({
     sync: function(method, model, options) {
         switch(method) {
             case "read":
-                ServiceDC.API.getProductInstance(model.get('name'), options.success, options.error);
+                ServiceDC.API.getProductInstance(model.get('name'), options.success, options.error, this.getRegion());
                 break;
             case "create":
-                ServiceDC.API.installProductInstance(model.get('ip'), model.get('fqn'), model.get('product'), options.success, options.error);
+                ServiceDC.API.installProductInstance(model.get('ip'), model.get('fqn'), model.get('product'), options.success, options.error, this.getRegion());
                 break;
             case "delete":
-                ServiceDC.API.uninstallProductInstance(model.get('name'), options.success, options.error);
+                ServiceDC.API.uninstallProductInstance(model.get('name'), options.success, options.error, this.getRegion());
                 break;
             case "update":
                 var att = model.get('productRelease').product.attributes;
-                ServiceDC.API.reconfigureProductInstance(model.get('name'), att, options.success, options.error);
+                ServiceDC.API.reconfigureProductInstance(model.get('name'), att, options.success, options.error, this.getRegion());
                 break;
 
         }
@@ -43,6 +52,15 @@ var SDC = Backbone.Model.extend({
 var SDCs = Backbone.Collection.extend({
 
     model: SDC,
+
+    region: undefined,
+
+    getRegion: function() {
+        if (this.region) {
+            return this.region;
+        }
+        return UTILS.Auth.getCurrentRegion();
+    },
 
     catalogueList: [],
 
@@ -94,16 +112,16 @@ var SDCs = Backbone.Collection.extend({
     sync: function(method, model, options) {
         switch(method) {
             case "read":
-                ServiceDC.API.getProductInstanceList(options.success, options.error);
+                ServiceDC.API.getProductInstanceList(options.success, options.error, this.getRegion());
                 break;
             case 'getCatalogueList':
-                ServiceDC.API.getProductList(options.success, options.error);
+                ServiceDC.API.getProductList(options.success, options.error, this.getRegion());
                 break;
             case 'getCatalogueProductDetails':
-                ServiceDC.API.getProductAttributes(options.id, options.success, options.error);
+                ServiceDC.API.getProductAttributes(options.id, options.success, options.error, this.getRegion());
                 break;
             case 'getCatalogueProductReleases':
-                ServiceDC.API.getProductReleases(options.name, options.success, options.error);
+                ServiceDC.API.getProductReleases(options.name, options.success, options.error, this.getRegion());
                 break;
         }
     },

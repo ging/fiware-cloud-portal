@@ -1,5 +1,14 @@
 var SecurityGroup = Backbone.Model.extend({
 
+    region: undefined,
+
+    getRegion: function() {
+        if (this.region) {
+            return this.region;
+        }
+        return UTILS.Auth.getCurrentRegion();
+    },
+
     _action:function(method, options) {
         var model = this;
         options = options || {};
@@ -49,21 +58,21 @@ var SecurityGroup = Backbone.Model.extend({
     sync: function(method, model, options) {
            switch(method) {
                case "read":
-                   JSTACK.Nova.getsecuritygroupdetail(model.get("id"), options.success, options.error);
+                   JSTACK.Nova.getsecuritygroupdetail(model.get("id"), options.success, options.error, this.getRegion());
                    break;
                case "delete":
-                   JSTACK.Nova.deletesecuritygroup(model.get("id"), options.success, options.error);
+                   JSTACK.Nova.deletesecuritygroup(model.get("id"), options.success, options.error, this.getRegion());
                    break;
                case "create":
                console.log("Creating, ", options.success);
-                   JSTACK.Nova.createsecuritygroup( model.get("name"), model.get("description"), options.success, options.error);
+                   JSTACK.Nova.createsecuritygroup( model.get("name"), model.get("description"), options.success, options.error, this.getRegion());
                    break;
                case "createSecurityGroupRule":
                //console.log(options.ip_protocol, options.from_port, options.to_port, options.cidr, options.group_id, options.parent_group_id);
-                   JSTACK.Nova.createsecuritygrouprule(options.ip_protocol, options.from_port, options.to_port, options.cidr, options.group_id, options.parent_group_id, options.success, options.error);
+                   JSTACK.Nova.createsecuritygrouprule(options.ip_protocol, options.from_port, options.to_port, options.cidr, options.group_id, options.parent_group_id, options.success, options.error, this.getRegion());
                    break;
                 case "deleteSecurityGroupRule":
-                   JSTACK.Nova.deletesecuritygrouprule(options.secGroupRuleId, options.success, options.error);
+                   JSTACK.Nova.deletesecuritygrouprule(options.secGroupRuleId, options.success, options.error, this.getRegion());
                    break;
                 case "getSecurityGroupforServer":
                     mySuccess = function(object) {
@@ -71,7 +80,7 @@ var SecurityGroup = Backbone.Model.extend({
                         obj.object = object;
                         return options.success(obj);
                     };
-                   JSTACK.Nova.getsecuritygroupforserver(options.serverId, mySuccess, options.error);
+                   JSTACK.Nova.getsecuritygroupforserver(options.serverId, mySuccess, options.error, this.getRegion());
                    break;
            }
     },
@@ -88,9 +97,18 @@ var SecurityGroup = Backbone.Model.extend({
 var SecurityGroups = Backbone.Collection.extend({
     model: SecurityGroup,
 
+    region: undefined,
+
+    getRegion: function() {
+        if (this.region) {
+            return this.region;
+        }
+        return UTILS.Auth.getCurrentRegion();
+    },
+
     sync: function(method, model, options) {
         if(method === "read") {
-            JSTACK.Nova.getsecuritygrouplist(options.success, options.error);
+            JSTACK.Nova.getsecuritygrouplist(options.success, options.error, this.getRegion());
         }
     },
 

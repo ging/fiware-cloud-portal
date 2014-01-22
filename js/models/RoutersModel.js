@@ -1,5 +1,14 @@
 var Router = Backbone.Model.extend({
 
+    region: undefined,
+
+    getRegion: function() {
+        if (this.region) {
+            return this.region;
+        }
+        return UTILS.Auth.getCurrentRegion();
+    },
+
     _action:function(method, options) {
         var model = this;
         options = options || {};
@@ -39,22 +48,22 @@ var Router = Backbone.Model.extend({
     sync: function(method, model, options) {
            switch(method) {
               case "read":
-                   JSTACK.Neutron.getrouterdetail(model.get("id"), options.success, options.error);
+                   JSTACK.Neutron.getrouterdetail(model.get("id"), options.success, options.error, this.getRegion());
                    break;
               case "create":
-                   JSTACK.Neutron.createrouter(model.get("name"), model.get("admin_state_up"), model.get("network_id"), model.get("tenant_id"), options.success, options.error);
+                   JSTACK.Neutron.createrouter(model.get("name"), model.get("admin_state_up"), model.get("network_id"), model.get("tenant_id"), options.success, options.error, this.getRegion());
                    break;
               case "delete":
-                   JSTACK.Neutron.deleterouter(model.get("id"), options.success, options.error);
+                   JSTACK.Neutron.deleterouter(model.get("id"), options.success, options.error, this.getRegion());
                    break;
               case "update":
-                    JSTACK.Neutron.updaterouter(model.get("id"), model.get("external_gateway_info:network_id"), model.get("name"), model.get("admin_state_up"), options.success, options.error);
+                    JSTACK.Neutron.updaterouter(model.get("id"), model.get("external_gateway_info:network_id"), model.get("name"), model.get("admin_state_up"), options.success, options.error, this.getRegion());
                     break;
               case "addinterfacetorouter":
-                    JSTACK.Neutron.addinterfacetorouter(options.router_id, options.subnet_id, options.port_id, options.success, options.error);
+                    JSTACK.Neutron.addinterfacetorouter(options.router_id, options.subnet_id, options.port_id, options.success, options.error, this.getRegion());
                     break;
               case "removeinterfacefromrouter":
-                    JSTACK.Neutron.removeinterfacefromrouter(options.router_id, options.port_id, options.subnet_id, options.success, options.error);
+                    JSTACK.Neutron.removeinterfacefromrouter(options.router_id, options.port_id, options.subnet_id, options.success, options.error, this.getRegion());
                     break;
            }
    },
@@ -71,9 +80,18 @@ var Router = Backbone.Model.extend({
 var Routers = Backbone.Collection.extend({
     model: Router,
 
+    region: undefined,
+
+    getRegion: function() {
+        if (this.region) {
+            return this.region;
+        }
+        return UTILS.Auth.getCurrentRegion();
+    },
+
     sync: function(method, model, options) {
         if (method === "read") {
-            JSTACK.Neutron.getrouterslist(options.success, options.error);
+            JSTACK.Neutron.getrouterslist(options.success, options.error, this.getRegion());
         }
     },
 

@@ -6,9 +6,18 @@ var floatingIPPool = Backbone.Model.extend({
 var FloatingIPPools = Backbone.Collection.extend({
     model: floatingIPPool,
 
+    region: undefined,
+
+    getRegion: function() {
+        if (this.region) {
+            return this.region;
+        }
+        return UTILS.Auth.getCurrentRegion();
+    },
+
     sync: function(method, model, options) {
         if (method === "read") {
-            JSTACK.Nova.getfloatingIPpools(options.success, options.error);
+            JSTACK.Nova.getfloatingIPpools(options.success, options.error, this.getRegion());
         }
     },
 

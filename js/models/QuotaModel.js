@@ -1,8 +1,18 @@
 var Quota = Backbone.Model.extend({
+
+    region: undefined,
+
+    getRegion: function() {
+        if (this.region) {
+            return this.region;
+        }
+        return UTILS.Auth.getCurrentRegion();
+    },
+    
     sync: function(method, model, options) {
         switch(method) {
                case "read":
-                   JSTACK.Nova.getquotalist(model.get("id"), options.success, options.error);
+                   JSTACK.Nova.getquotalist(model.get("id"), options.success, options.error, this.getRegion());
                    break;
                 case "update":
                     JSTACK.Nova.updatequota(
@@ -21,7 +31,7 @@ var Quota = Backbone.Model.extend({
                         model.get("security_group_rules"),
                         undefined,
                         options.success,
-                        options.error);
+                        options.error, this.getRegion());
                 break;
        }
     }

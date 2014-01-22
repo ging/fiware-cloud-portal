@@ -4,6 +4,15 @@ var Keypair = Backbone.Model.extend({
       this.id = this.get("name");
     },
 
+    region: undefined,
+
+    getRegion: function() {
+        if (this.region) {
+            return this.region;
+        }
+        return UTILS.Auth.getCurrentRegion();
+    },
+
     _action:function(method, options) {
         var model = this;
         options = options || {};
@@ -33,7 +42,7 @@ var Keypair = Backbone.Model.extend({
     sync: function(method, model, options) {
            switch(method) {
                case "create":
-                   JSTACK.Nova.createkeypair(model.get("name"), model.get("public_key"), options.success, options.error);
+                   JSTACK.Nova.createkeypair(model.get("name"), model.get("public_key"), options.success, options.error, this.getRegion());
                    break;
                case "createkeypair":
                   console.log(model.get("name"), model.get("public_key"));
@@ -45,7 +54,7 @@ var Keypair = Backbone.Model.extend({
                    JSTACK.Nova.createkeypair(model.get("name"), model.get("public_key"), mySuccess);
                    break;
                case "delete":
-                   JSTACK.Nova.deletekeypair(model.get("name"), options.success, options.error);
+                   JSTACK.Nova.deletekeypair(model.get("name"), options.success, options.error, this.getRegion());
                    break;
            }
    }
@@ -54,10 +63,19 @@ var Keypair = Backbone.Model.extend({
 
 var Keypairs = Backbone.Collection.extend({
     model: Keypair,
+    
+    region: undefined,
+
+    getRegion: function() {
+        if (this.region) {
+            return this.region;
+        }
+        return UTILS.Auth.getCurrentRegion();
+    },
 
     sync: function(method, model, options) {
         if (method === "read") {
-            JSTACK.Nova.getkeypairlist(options.success, options.error);
+            JSTACK.Nova.getkeypairlist(options.success, options.error, this.getRegion());
         }
     },
 

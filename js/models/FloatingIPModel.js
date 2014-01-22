@@ -4,6 +4,15 @@ var FloatingIP = Backbone.Model.extend({
         this.id = this.get("id");
     },
 
+    region: undefined,
+
+    getRegion: function() {
+        if (this.region) {
+            return this.region;
+        }
+        return UTILS.Auth.getCurrentRegion();
+    },
+
     _action:function(method, options) {
         var model = this;
         if (options == null) options = {};
@@ -44,19 +53,19 @@ var FloatingIP = Backbone.Model.extend({
            switch(method) {
                case "read":
                console.log("read float model");
-                   JSTACK.Nova.getfloatingIPdetail(model.get("id"), options.success, options.error);
+                   JSTACK.Nova.getfloatingIPdetail(model.get("id"), options.success, options.error, this.getRegion());
                    break;
                case "allocate":
-                   JSTACK.Nova.allocatefloatingIP(options.pool, options.success, options.error);
+                   JSTACK.Nova.allocatefloatingIP(options.pool, options.success, options.error, this.getRegion());
                    break;
                case "associate":
-                   JSTACK.Nova.associatefloatingIP(options.server_id, model.get("ip"), options.success, options.error);
+                   JSTACK.Nova.associatefloatingIP(options.server_id, model.get("ip"), options.success, options.error, this.getRegion());
                    break;
                case "dissasociate":
-                   JSTACK.Nova.disassociatefloatingIP(options.server_id, model.get("ip"), options.success, options.error);
+                   JSTACK.Nova.disassociatefloatingIP(options.server_id, model.get("ip"), options.success, options.error, this.getRegion());
                    break;    
                case "delete":
-                   JSTACK.Nova.releasefloatingIP(model.get("id"), options.success, options.error);
+                   JSTACK.Nova.releasefloatingIP(model.get("id"), options.success, options.error, this.getRegion());
                    break;               
            }
     }
@@ -66,9 +75,18 @@ var FloatingIP = Backbone.Model.extend({
 var FloatingIPs = Backbone.Collection.extend({
     model: FloatingIP,
 
+    region: undefined,
+
+    getRegion: function() {
+        if (this.region) {
+            return this.region;
+        }
+        return UTILS.Auth.getCurrentRegion();
+    },
+
     sync: function(method, model, options) {
         if (method === "read") {
-            JSTACK.Nova.getfloatingIPs(options.success, options.error);
+            JSTACK.Nova.getfloatingIPs(options.success, options.error, this.getRegion());
         }
     },
 

@@ -1,5 +1,14 @@
 var Volume = Backbone.Model.extend({
 
+    region: undefined,
+
+    getRegion: function() {
+        if (this.region) {
+            return this.region;
+        }
+        return UTILS.Auth.getCurrentRegion();
+    },
+
     _action:function(method, options) {
         var model = this;
         options = options || {};
@@ -23,15 +32,15 @@ var Volume = Backbone.Model.extend({
     sync: function(method, model, options) {
         switch(method) {
             case "create":
-                JSTACK.Cinder.createvolume(model.get("size"), model.get("name"), model.get("description"), options.success, options.error);
+                JSTACK.Cinder.createvolume(model.get("size"), model.get("name"), model.get("description"), options.success, options.error, this.getRegion());
                 break;
             case "delete":
-                JSTACK.Cinder.deletevolume(model.get("id"), options.success, options.error);
+                JSTACK.Cinder.deletevolume(model.get("id"), options.success, options.error, this.getRegion());
                 break;
             case "update":
                 break;
             case "read":
-                JSTACK.Cinder.getvolume(model.get("id"), options.success, options.error);
+                JSTACK.Cinder.getvolume(model.get("id"), options.success, options.error, this.getRegion());
                 break;
         }
     },
@@ -49,9 +58,18 @@ var Volumes = Backbone.Collection.extend({
 
     model: Volume,
 
+    region: undefined,
+
+    getRegion: function() {
+        if (this.region) {
+            return this.region;
+        }
+        return UTILS.Auth.getCurrentRegion();
+    },
+
     sync: function(method, model, options) {
         if (method == 'read') {
-            JSTACK.Cinder.getvolumelist(true, options.success, options.error);
+            JSTACK.Cinder.getvolumelist(true, options.success, options.error, this.getRegion());
         }
     },
 

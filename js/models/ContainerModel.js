@@ -20,6 +20,15 @@ var Container = Backbone.Model.extend({
         return xhr;
     },
 
+    region: undefined,
+
+    getRegion: function() {
+        if (this.region) {
+            return this.region;
+        }
+        return UTILS.Auth.getCurrentRegion();
+    },
+
     copyObject: function(currentObject, targetContainer, targetObject, options) {
         console.log("Copy object");
         options = options || {};
@@ -61,13 +70,13 @@ var Container = Backbone.Model.extend({
                 CDMI.Actions.getobjectlist(model.get('name'), mySucess);
                 break;
             case "delete":
-                CDMI.Actions.deletecontainer(model.get('name'), options.success, options.error);
+                CDMI.Actions.deletecontainer(model.get('name'), options.success, options.error, this.getRegion());
                 break;
             case "create":
-                CDMI.Actions.createcontainer(model.get('name'), options.success, options.error);
+                CDMI.Actions.createcontainer(model.get('name'), options.success, options.error, this.getRegion());
                 break;
             case "copyObject":
-                CDMI.Actions.copyobject(model.get('name'), options.currentObject, options.targetContainer, options.targetObject, options.success, options.error);
+                CDMI.Actions.copyobject(model.get('name'), options.currentObject, options.targetContainer, options.targetObject, options.success, options.error, this.getRegion());
                 break;
             case "uploadObject":
                 var reader = new FileReader();
@@ -77,15 +86,15 @@ var Container = Backbone.Model.extend({
                     var data_index2 = data.indexOf('data:') + 5;
                     var filedata = data.slice(data_index, data.length);
                     var filetype = data.slice(data_index2, data_index-8);
-                  CDMI.Actions.uploadobject(model.get('name'), options.objectName, filedata, filetype, options.success, options.error);
+                  CDMI.Actions.uploadobject(model.get('name'), options.objectName, filedata, filetype, options.success, options.error, this.getRegion());
                 };
                 reader.readAsDataURL(options.object);
                 break;
             case "downloadObject":
-                CDMI.Actions.downloadobject(model.get('name'), options.objectName, options.success, options.error);
+                CDMI.Actions.downloadobject(model.get('name'), options.objectName, options.success, options.error, this.getRegion());
                 break;
             case "deleteObject":
-                CDMI.Actions.deleteobject(model.get('name'), options.objectName, options.success, options.error);
+                CDMI.Actions.deleteobject(model.get('name'), options.objectName, options.success, options.error, this.getRegion());
                 break;
         }
     },
@@ -104,9 +113,18 @@ var Container = Backbone.Model.extend({
 var Containers = Backbone.Collection.extend({
     model: Container,
 
+    region: undefined,
+
+    getRegion: function() {
+        if (this.region) {
+            return this.region;
+        }
+        return UTILS.Auth.getCurrentRegion();
+    },
+
     sync: function(method, model, options) {
         if (method === "read") {
-            CDMI.Actions.getcontainerlist(options.success, options.error);
+            CDMI.Actions.getcontainerlist(options.success, options.error, this.getRegion());
         }
     },
 
