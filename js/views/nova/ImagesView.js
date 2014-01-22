@@ -5,9 +5,18 @@ var ImagesView = Backbone.View.extend({
     tableView: undefined,
 
     initialize: function() {
-         this.model.unbind("sync");
-         this.model.bind("sync", this.render, this);
-         this.renderFirst();
+        this.options.volumeSnapshotsModel = UTILS.GlobalModels.get("volumeSnapshotsModel");
+        this.options.instancesModel = UTILS.GlobalModels.get("instancesModel");
+        this.options.volumesModel = UTILS.GlobalModels.get("volumesModel");
+        this.options.flavors = UTILS.GlobalModels.get("flavors");
+        this.options.keypairs = UTILS.GlobalModels.get("keypairsModel");
+        this.options.secGroups = UTILS.GlobalModels.get("securityGroupsModel");
+        this.options.quotas = UTILS.GlobalModels.get("quotas");
+        this.options.networks = UTILS.GlobalModels.get("networks");
+        this.options.ports = UTILS.GlobalModels.get("ports");
+        this.model.unbind("sync");
+        this.model.bind("sync", this.render, this);
+        this.renderFirst();
     },
 
     events: {

@@ -15,6 +15,7 @@ var UsersForProjectView = Backbone.View.extend({
         var self = this;
         this.model.unbind("sync");
         this.model.bind("sync", this.render, this);
+        this.options.tenants = UTILS.GlobalModels.get("projects");
         this.options.users.unbind("reset");
         this.options.users.bind("reset", this.render, this);
         this.renderFirst();

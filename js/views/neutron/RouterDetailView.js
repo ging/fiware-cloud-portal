@@ -6,6 +6,9 @@ var RouterDetailView = Backbone.View.extend({
     routerInterfacesView: undefined,
 
     initialize: function() {
+        this.options.networks = UTILS.GlobalModels.get("networks");
+        this.options.ports = UTILS.GlobalModels.get("ports");
+        this.options.subnets = UTILS.GlobalModels.get("subnets");
         this.render();
         this.routerOverviewView = new RouterOverviewView({model: this.model, networks: this.options.networks, el: '#router_overview'});
         this.routerInterfacesView = new RouterInterfacesView({model: this.model, subnets: this.options.subnets, networks: this.options.networks, ports: this.options.ports, tenant_id: this.options.tenant_id, el: '#interfaces'});

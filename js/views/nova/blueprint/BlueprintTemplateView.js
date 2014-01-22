@@ -6,6 +6,14 @@ var BlueprintTemplateView = Backbone.View.extend({
     sdcs: {},
 
     initialize: function() {
+        this.options.sdcs = UTILS.GlobalModels.get("sdcs");
+        this.options.flavors = UTILS.GlobalModels.get("flavors");
+        this.options.keypairs = UTILS.GlobalModels.get("keypairsModel");
+        this.options.securityGroupsModel = UTILS.GlobalModels.get("securityGroupsModel");
+        this.options.images = UTILS.GlobalModels.get("images");
+        this.options.networks = UTILS.GlobalModels.get("networks");
+        this.options.subnets = UTILS.GlobalModels.get("subnets");
+        this.options.loginModel = UTILS.GlobalModels.get("loginModel");
         if (this.model) {
             this.model.unbind("sync");
             this.model.bind("sync", this.render, this);

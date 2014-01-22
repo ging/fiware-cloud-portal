@@ -5,6 +5,8 @@ var NovaFloatingIPsView = Backbone.View.extend({
     tableView: undefined,
 
     initialize: function() {
+        this.options.pools = UTILS.GlobalModels.get("floatingIPPoolsModel");
+        this.options.instances = UTILS.GlobalModels.get("instancesModel");
         this.model.unbind("sync");
         this.model.bind("sync", this.render, this);
         this.renderFirst();
@@ -33,7 +35,7 @@ var NovaFloatingIPsView = Backbone.View.extend({
             }
         };
         var associateSelected = function(size, ids) {
-            if (size >= 1) {                 
+            if (size >= 1) {
                 for (var id in ids) {
                     var entry = self.model.get(ids[id]);
                     if (entry.get("instance_id") !== null) {
@@ -41,11 +43,11 @@ var NovaFloatingIPsView = Backbone.View.extend({
                     }
                 }
                 return false;
-            } 
+            }
         };
         var disassociateSelected = function(size, ids) {
             if (size === 1) {
-                
+
                 for (var id in ids) {
                     var entry = self.model.get(ids[id]);
                     if (entry.get("instance_id") !== null) {
@@ -60,7 +62,7 @@ var NovaFloatingIPsView = Backbone.View.extend({
 
         btns.push ({
             label: "Associate IP",
-            action: "associate",            
+            action: "associate",
             activatePattern: disassociateSelected
         },  {
             label: "Dissasociate Floating IP",
@@ -84,14 +86,14 @@ var NovaFloatingIPsView = Backbone.View.extend({
             size: "25%",
             hidden_phone: false,
             hidden_tablet: false
-        }, 
+        },
         {
             name: "Instance",
             tooltip: "Instance the IP is attached to",
             size: "35%",
             hidden_phone: true,
             hidden_tablet: false
-        }, 
+        },
         {
             name: "Floating IP Pool",
             tooltip: "Corresponding Floating Pool",
@@ -118,14 +120,14 @@ var NovaFloatingIPsView = Backbone.View.extend({
             if (instance !== undefined) {
                 instance_name = instance.get("name");
             }
-               
+
             var entry = {
                 id: floating_ip.get('id'),
                 cells: [{
                     value: floating_ip.get("ip")
                 }, {
                     value:  instance_name
-                }, {  
+                }, {
                     value: floating_ip.get("pool")
                 }]
             };

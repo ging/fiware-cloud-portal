@@ -8,6 +8,7 @@ var UserView = Backbone.View.extend({
 
     initialize: function() {
         var self = this;
+        this.options.tenants = UTILS.GlobalModels.get("projects");
         this.model.bind("sync", this.render, this);
         this.timer = setInterval(function() {
             self.model.fetch();

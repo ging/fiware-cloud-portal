@@ -5,6 +5,7 @@ var NeutronRoutersView = Backbone.View.extend({
     tableView: undefined,
 
     initialize: function() {
+        this.options.networks = UTILS.GlobalModels.get("networks");
         this.model.unbind("sync");
         this.options.networks.unbind("sync");
         this.model.bind("sync", this.render, this);

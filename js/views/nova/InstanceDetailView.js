@@ -11,10 +11,11 @@ var InstanceDetailView = Backbone.View.extend({
 
     initialize: function() {
 
-        var self = this;
         this.options = this.options || {};
 
-        self.render();
+        this.options.sdcs = UTILS.GlobalModels.get("sdcs");
+
+        this.render();
 
         this.overviewView = new InstanceOverviewView({el: '#instance_details__overview', model: this.model, sdcs: this.options.sdcs});
         this.logView = new InstanceLogView({el: '#instance_details__log', model: this.model});

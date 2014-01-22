@@ -5,6 +5,9 @@ var NovaVolumesView = Backbone.View.extend({
     tableView: undefined,
 
     initialize: function() {
+        this.options.volumeSnapshotsModel = UTILS.GlobalModels.get("volumeSnapshotsModel");
+        this.options.instancesModel = UTILS.GlobalModels.get("instancesModel");
+        this.options.flavors = UTILS.GlobalModels.get("flavors");
         this.model.unbind("sync");
         this.model.bind("sync", this.render, this);
         this.renderFirst();

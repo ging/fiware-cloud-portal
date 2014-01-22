@@ -9,6 +9,11 @@ var BlueprintTemplateCatalogView = Backbone.View.extend({
     initialize: function() {
 
         var self = this;
+        this.options.sdcs = UTILS.GlobalModels.get("sdcs");
+        this.options.flavors = UTILS.GlobalModels.get("flavors");
+        this.options.keypairs = UTILS.GlobalModels.get("keypairsModel");
+        this.options.securityGroupsModel = UTILS.GlobalModels.get("securityGroupsModel");
+        this.options.images = UTILS.GlobalModels.get("images");
         this.model.getCatalogBlueprint({id: this.options.templateId, callback: function (bpTemplate) {
             self.bpTemplate = bpTemplate;
             self.renderFirst();

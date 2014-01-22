@@ -8,6 +8,162 @@ UTILS.VERSION = '0.1';
 // the Technical University of Madrid.
 UTILS.AUTHORS = 'GING';
 
+UTILS.GlobalModels = (function(U, undefined) {
+
+    models= {
+        loginModel:undefined,
+        instancesModel: undefined,
+        volumesModel: undefined,
+        volumeSnapshotsModel: undefined,
+        instanceSnapshotsModel: undefined,
+        flavors: undefined,
+        images: undefined,
+        keypairsModel: undefined,
+        projects: undefined,
+        containers: undefined,
+        quotas: undefined,
+        quota: undefined,
+        securityGroupsModel: undefined,
+        floatingIPsModel: undefined,
+        floatingIPPoolsModel: undefined,
+        networks: undefined,
+        subnets: undefined,
+        ports: undefined,
+        routers: undefined
+    };
+
+    var timers = {};
+    var backgroundTime = 180;
+    var foregroundTime = 5;
+
+    var initialize = function() {
+        models.loginModel = new LoginStatus();
+        models.flavors = new Flavors();
+        models.instancesModel = new Instances();
+        models.bpTemplatesModel = new BPTemplates();
+        models.bpInstancesModel = new BPInstances();
+        models.sdcs = new SDCs();
+        models.volumesModel = new Volumes();
+        models.volumeSnapshotsModel = new VolumeSnapshots();
+        models.instanceSnapshotsModel = new InstanceSnapshots();
+        models.images = new Images();
+        models.keypairsModel = new Keypairs();
+        models.projects = new Projects();
+        models.containers = new Containers();
+        models.quotas = new Quota();
+        models.securityGroupsModel = new SecurityGroups();
+        models.floatingIPsModel = new FloatingIPs();
+        models.floatingIPPoolsModel = new FloatingIPPools();
+        models.networks = new Networks();
+        models.subnets = new Subnets();
+        models.ports = new Ports();
+        models.routers = new Routers();
+
+        models.instancesModel.bind("error", function(model, error) {
+            console.log("Error in instances:", error);
+        });
+
+        models.projects.bind("error", function(model, error) {
+            console.log("Error in projects:", error);
+        });
+
+        models.flavors.bind("error", function(model, error) {
+            console.log("Error in flavors:", error);
+        });
+
+        models.images.bind("error", function(model, error) {
+            console.log("Error in images:", error);
+        });
+
+        models.networks.bind("error", function(model, error) {
+            console.log("Error in networks:", error);
+        });
+
+        models.routers.bind("error", function(model, error) {
+            console.log("Error in routers:", error);
+        });
+    };
+
+    var init_fetch = function() {
+        if (Object.keys(timers).length === 0) {
+            models.quotas.set({id: UTILS.Auth.getCurrentTenant().id});
+            var seconds = backgroundTime;
+            add_fetch("instancesModel", seconds);
+            add_fetch("sdcs", seconds);
+            add_fetch("bpTemplatesModel", seconds);
+            add_fetch("bpInstancesModel", seconds);
+            add_fetch("volumesModel", seconds);
+            add_fetch("images", seconds);
+            add_fetch("quotas", seconds);
+            add_fetch("flavors", seconds);
+            add_fetch("volumeSnapshotsModel", seconds);
+            add_fetch("instanceSnapshotsModel", seconds);
+            add_fetch("containers", seconds);
+            add_fetch("securityGroupsModel", seconds);
+            add_fetch("keypairsModel", seconds);
+            add_fetch("floatingIPsModel", seconds);
+            add_fetch("floatingIPPoolsModel", seconds);
+            add_fetch("networks", seconds);
+            add_fetch("subnets", seconds);
+            add_fetch("ports", seconds);
+            add_fetch("routers", seconds);
+            if (models.loginModel.isAdmin() && !UTILS.Auth.isIDM()) {
+                add_fetch("projects", seconds);
+            }
+        }
+    };
+
+    var update_fetch = function (modelArray) {
+
+        modelArray = modelArray || [];
+
+        if (timers.current !== undefined) {
+            timers.current.forEach(function(oldModel) {
+                clearInterval(timers[oldModel]);
+                add_fetch(oldModel, backgroundTime);
+            });
+        }
+
+        modelArray.forEach(function(modelName) {
+            clearInterval(timers[modelName]);
+            add_fetch(modelName, foregroundTime);
+        });
+
+        timers.current = modelArray;
+
+    };
+
+    var clear_fetch = function() {
+        for (var index in timers) {
+            var timer_id = timers[index];
+            clearInterval(timer_id);
+        }
+        timers = {};
+    };
+
+    var add_fetch = function(modelName, seconds) {
+        models[modelName].fetch();
+        var id = setInterval(function() {
+            models[modelName].fetch();
+        }, seconds*1000);
+
+        timers[modelName] = id;
+    };
+
+    var get = function(model) {
+        return models[model];
+    };
+
+    return {
+        initialize: initialize,
+        get: get,
+        init_fetch: init_fetch,
+        clear_fetch: clear_fetch,
+        update_fetch: update_fetch
+    };
+
+})(UTILS);
+
 UTILS.Auth = (function(U, undefined) {
 
     var tenants = [];
@@ -94,7 +250,7 @@ UTILS.Auth = (function(U, undefined) {
             console.log("Authenticated in tenant ", tenant);
 
             changeEndpoints();
-            
+
             callback();
         };
 
@@ -231,7 +387,7 @@ UTILS.Auth = (function(U, undefined) {
         
             regions_.push(compute.endpoints[e].region);
         }
-    
+
         var volume = JSTACK.Keystone.getservice("volume");
         for (e in volume.endpoints) {
             volume.endpoints[e].adminURL = volume.endpoints[e].region + "/volume" + volume.endpoints[e].adminURL.split('8776')[1];

@@ -5,6 +5,7 @@ var NeutronNetworksView = Backbone.View.extend({
     tableView: undefined,
 
     initialize: function() {
+        this.options.subnets = UTILS.GlobalModels.get("subnets");
         this.model.unbind("sync");
         this.options.subnets.unbind("sync");
         this.model.bind("sync", this.render, this);

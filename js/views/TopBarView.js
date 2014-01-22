@@ -6,6 +6,7 @@ var TopBarView = Backbone.View.extend({
     initialize: function() {
         this.model.bind('change:title', this.renderTitle, this);
         this.model.bind('change:subtitle', this.renderTitle, this);
+        this.options.loginModel = UTILS.GlobalModels.get("loginModel");
         this.options.loginModel.bind('change:username', this.render, this);
     },
 
