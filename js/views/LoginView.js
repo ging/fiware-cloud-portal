@@ -16,7 +16,6 @@ var LoginView = Backbone.View.extend({
     },
 
     onCredentialsSubmit: function(e){
-        console.log('eeeeeeeeeeeeeeeeeeee');
         e.preventDefault();
         this.model.setCredentials(this.$('input[name=username]').val(), this.$('input[name=password]').val());
     },
@@ -27,7 +26,6 @@ var LoginView = Backbone.View.extend({
     },
 
     onLogin: function() {
-        console.log("Checking");
         if (this.model.get('loggedIn')) {
             if (this.options.next_view !== undefined) {
                 window.location.href = "#" + this.options.next_view;
@@ -38,7 +36,6 @@ var LoginView = Backbone.View.extend({
     },
 
     render: function () {
-        console.log("Rendering login");
         var self = this;
         $(this.el).fadeOut('slow', function() {
             $('#root').css('display', 'none');

@@ -67,7 +67,7 @@ var Container = Backbone.Model.extend({
                     cont.objects = objects;
                     return options.success(cont);
                 };
-                CDMI.Actions.getobjectlist(model.get('name'), mySucess);
+                CDMI.Actions.getobjectlist(model.get('name'), mySucess, options.error, this.getRegion());
                 break;
             case "delete":
                 CDMI.Actions.deletecontainer(model.get('name'), options.success, options.error, this.getRegion());

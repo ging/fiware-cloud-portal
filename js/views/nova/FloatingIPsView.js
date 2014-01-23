@@ -183,7 +183,6 @@ var NovaFloatingIPsView = Backbone.View.extend({
     renderFirst: function() {
         $(this.el).empty();
         UTILS.Render.animateRender(this.el, this._template, {models: this.model.models, pools: this.options.pools, instances: this.options.instances});
-        console.log($("#floatingIPs-table").html());
         this.tableView = new TableView({
             model: this.model,
             el: '#floatingIPs-table',
@@ -198,7 +197,6 @@ var NovaFloatingIPsView = Backbone.View.extend({
     },
 
     render: function() {
-        console.log("Render");
         if ($(this.el).html() !== null) {
             this.tableView.render();
         }

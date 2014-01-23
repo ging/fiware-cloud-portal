@@ -246,7 +246,6 @@ UTILS.Auth = (function(U, undefined) {
     function authenticateWithCredentials(username, password, tenant, token, callback, error) {
 
         var _authenticatedWithTenant = function (resp) {
-            console.log(resp);
             console.log("Authenticated in tenant ", tenant);
 
             changeEndpoints();
@@ -381,40 +380,40 @@ UTILS.Auth = (function(U, undefined) {
 
         var compute = JSTACK.Keystone.getservice("compute");
         for (e in compute.endpoints) {
-            compute.endpoints[e].adminURL = compute.endpoints[e].region + "/compute" + compute.endpoints[e].adminURL.split('8774')[1];
-            compute.endpoints[e].publicURL = compute.endpoints[e].region + "/compute" + compute.endpoints[e].publicURL.split('8774')[1];
-            compute.endpoints[e].internalURL = compute.endpoints[e].region + "/compute" + compute.endpoints[e].internalURL.split('8774')[1];
+            compute.endpoints[e].adminURL = compute.endpoints[e].region + "/compute" + compute.endpoints[e].adminURL.replace(/.*:[0-9]*/, "");
+            compute.endpoints[e].publicURL = compute.endpoints[e].region + "/compute" + compute.endpoints[e].publicURL.replace(/.*:[0-9]*/, "");
+            compute.endpoints[e].internalURL = compute.endpoints[e].region + "/compute" + compute.endpoints[e].internalURL.replace(/.*:[0-9]*/, "");
         
             regions_.push(compute.endpoints[e].region);
         }
 
         var volume = JSTACK.Keystone.getservice("volume");
         for (e in volume.endpoints) {
-            volume.endpoints[e].adminURL = volume.endpoints[e].region + "/volume" + volume.endpoints[e].adminURL.split('8776')[1];
-            volume.endpoints[e].publicURL = volume.endpoints[e].region + "/volume" + volume.endpoints[e].publicURL.split('8776')[1];
-            volume.endpoints[e].internalURL = volume.endpoints[e].region + "/volume" + volume.endpoints[e].internalURL.split('8776')[1];
+            volume.endpoints[e].adminURL = volume.endpoints[e].region + "/volume" + volume.endpoints[e].adminURL.replace(/.*:[0-9]*/, "");
+            volume.endpoints[e].publicURL = volume.endpoints[e].region + "/volume" + volume.endpoints[e].publicURL.replace(/.*:[0-9]*/, "");
+            volume.endpoints[e].internalURL = volume.endpoints[e].region + "/volume" + volume.endpoints[e].internalURL.replace(/.*:[0-9]*/, "");
         }
 
         var image = JSTACK.Keystone.getservice("image");
         for (e in image.endpoints) {
-            image.endpoints[e].adminURL = image.endpoints[e].region + "/image" + image.endpoints[e].adminURL.split('9292')[1];
-            image.endpoints[e].publicURL = image.endpoints[e].region + "/image" + image.endpoints[e].publicURL.split('9292')[1];
-            image.endpoints[e].internalURL = image.endpoints[e].region + "/image" + image.endpoints[e].internalURL.split('9292')[1];
+            image.endpoints[e].adminURL = image.endpoints[e].region + "/image" + image.endpoints[e].adminURL.replace(/.*:[0-9]*/, "");
+            image.endpoints[e].publicURL = image.endpoints[e].region + "/image" + image.endpoints[e].publicURL.replace(/.*:[0-9]*/, "");
+            image.endpoints[e].internalURL = image.endpoints[e].region + "/image" + image.endpoints[e].internalURL.replace(/.*:[0-9]*/, "");
         }
 
         var objectstorage = JSTACK.Keystone.getservice("object-store");
         for (e in objectstorage.endpoints) {
-            objectstorage.endpoints[e].adminURL = objectstorage.endpoints[e].region  + "/object-store" + objectstorage.endpoints[e].adminURL.split('8080')[1];
-            objectstorage.endpoints[e].publicURL = objectstorage.endpoints[e].region  + "/object-store" + objectstorage.endpoints[e].publicURL.split('8080')[1];
-            objectstorage.endpoints[e].internalURL = objectstorage.endpoints[e].region  + "/object-store" + objectstorage.endpoints[e].internalURL.split('8080')[1];
+            objectstorage.endpoints[e].adminURL = objectstorage.endpoints[e].region  + "/object-store" + objectstorage.endpoints[e].adminURL.replace(/.*:[0-9]*/, "");
+            objectstorage.endpoints[e].publicURL = objectstorage.endpoints[e].region  + "/object-store" + objectstorage.endpoints[e].publicURL.replace(/.*:[0-9]*/, "");
+            objectstorage.endpoints[e].internalURL = objectstorage.endpoints[e].region  + "/object-store" + objectstorage.endpoints[e].internalURL.replace(/.*:[0-9]*/, "");
         }
 
         var neutron = JSTACK.Keystone.getservice("network");
         if (neutron !== undefined) {
             for (e in neutron.endpoints) {
-                neutron.endpoints[e].adminURL = neutron.endpoints[e].region + "/network" + neutron.endpoints[e].adminURL.split('9696')[1];
-                neutron.endpoints[e].publicURL = neutron.endpoints[e].region + "/network" + neutron.endpoints[e].publicURL.split('9696')[1];
-                neutron.endpoints[e].internalURL = neutron.endpoints[e].region + "/network" + neutron.endpoints[e].internalURL.split('9696')[1];
+                neutron.endpoints[e].adminURL = neutron.endpoints[e].region + "/network" + neutron.endpoints[e].adminURL.replace(/.*:[0-9]*/, "");
+                neutron.endpoints[e].publicURL = neutron.endpoints[e].region + "/network" + neutron.endpoints[e].publicURL.replace(/.*:[0-9]*/, "");
+                neutron.endpoints[e].internalURL = neutron.endpoints[e].region + "/network" + neutron.endpoints[e].internalURL.replace(/.*:[0-9]*/, "");
             }
         }
     }
@@ -678,7 +677,6 @@ UTILS.SM = (function(U, undefined) {
             obj[func] = caller(func);
         }
     }
-    console.log(func);
 
     return obj;
 })(UTILS);

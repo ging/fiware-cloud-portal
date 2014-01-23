@@ -93,7 +93,6 @@ var LoginStatus = Backbone.Model.extend({
                 console.log("Authenticated with token: ", + 24*60*60*1000-(new Date().getTime())-self.get('token-ts'));
                 self.set({username: UTILS.Auth.getName(), tenant: UTILS.Auth.getCurrentTenant()});
                 console.log("New tenant: " + self.attributes.tenant.name);
-                console.log("Info: " + self.attributes);
                 self.set({'tenant': self.attributes.tenant});
                 //console.log("New tenant: " + self.get("name"));
                 UTILS.Auth.getTenants(function(tenants) {
@@ -119,7 +118,6 @@ var LoginStatus = Backbone.Model.extend({
 
     onAccessTokenChange: function (context, access_token) {
         var self = context;
-        console.log('veamos ', (new Date().getTime()), self.get('token-ts'), self.get('token-ex'));
         if (!UTILS.Auth.isAuthenticated() && access_token !== '' && (new Date().getTime()) < self.get('token-ts') + self.get('token-ex')) {
             console.log('autentico con ', this.get('tenant_id'), access_token);
             UTILS.Auth.authenticate(this.get('tenant_id'), access_token, function(tenant) {
