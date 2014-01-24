@@ -45,19 +45,24 @@
                         </div>
 
                         <div class="control-group form-field clearfix">
+                            <label class="control-label" for="id_region">Region:</label>
+
+                            <div class="controls">
+                                <select name="region" id="id_region">
+                                    <% for (var index in regions) {
+                                        var sel = (regions[index] === UTILS.Auth.getCurrentRegion());
+                                    %>
+                                    <option value="<%=regions[index]%>" <%if(sel) {%> selected="selected" <%}%>><%= regions[index]%></option>
+                                    <%}%>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="control-group form-field clearfix">
                             <label class="control-label" for="flavor">Flavor *:</label>
                             <div class="controls">
                                 <select name="flavor" id="id_flavor">
-
-                                    <%
-                                    for (var index in flavors.models) {
-                                        var flavor = flavors.models[index];
-                                        if (flavor.get('disk') !== 0) {
-                                    %>
-                                    <option value="<%=flavor.id%>" <% if (tier.flavour === flavor.get('id')) {%> selected <% } %>><%=flavor.get("name") + " (" + flavor.get("vcpus") + "VCPU / " + flavor.get("disk") + "GB Disk / " + flavor.get("ram") + "MB Ram )" %></option>
-                                    <%
-                                        }
-                                    }%>
+                                    <option value="" selected="selected">Loading ...</option>
                                 </select>
                             </div>
                         </div>
@@ -66,25 +71,7 @@
                             <label class="control-label" for="image">Image *:</label>
                             <div class="controls">
                                 <select name="image" id="id_image">
-                                    <% if (images.size() == 0) { %>
-                                    <option value="" selected="selected">No images available.</option>
-                                    <% } else {
-                                        var sdcImages = 0;
-                                        for (var index in images.models) {
-                                            
-                                            var image = images.models[index];
-                                            if ((image.get("properties") !== undefined && image.get("properties").sdc_aware) || image.get("sdc_aware")) {
-                                                sdcImages++;
-                                        %>
-                                    <option value="<%=image.get('id')%>" <% if (tier.image === image.id) {%> selected <% } %>><%= image.get("name")%></option>
-                                    <%  
-                                            }
-
-                                        }   
-                                        if (sdcImages === 0) { %>
-                                        <option value="" selected="selected">No images available.</option>
-                                    <%  }    
-                                    }%>
+                                    <option value="" selected="selected">Loading ...</option>
                                 </select>
                             </div>
                         </div>
@@ -102,31 +89,11 @@
 
                             <div class="controls">
                                 <select name="keypair" id="id_keypair">
-                                    <!--<option value="" selected="selected">Select a keypair</option>-->
-                                    <% if (keypairs.size() == 0) { %>
-                                    <option value="" selected="selected">No keypairs available.</option>
-                                    <% } else {
-                                    for (var index in keypairs.models) {
-                                    var keypair = keypairs.models[index];
-                                    %>
-                                    <option value="<%=keypair.get('name')%>" <% if (tier.keypair === keypair.get('name')) {%> selected <% } %>><%= keypair.get("name")%></option>
-                                    <%  }
-                                    }%>
+                                    <option value="" selected="selected">Loading ...</option>
                                 </select>
                             </div>
                         </div>
 
-                        <div class="control-group form-field clearfix">
-                            <label class="control-label" for="id_region">Region:</label>
-
-                            <div class="controls">
-                                <select name="region" id="id_region">
-                                    <% for (var index in regions) {%>
-                                    <option value="<%=regions[index]%>"><%= regions[index]%></option>
-                                    <%}%>
-                                </select>
-                            </div>
-                        </div>
             <% if (JSTACK.Keystone.getservice("network") === undefined) {%>
                         <div class="control-group form-field clearfix">
                             <label class="control-label" for="id_public_ip">Public IP:</label>
