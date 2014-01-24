@@ -200,11 +200,12 @@ var EditTierView = Backbone.View.extend({
 
             self.catalogueList = resp;
             self.tableViewNew.render();
-
+            self.tableView.render();
 
         }, error: function (e) {
             self.catalogueList = [];
             self.tableViewNew.render();
+            self.tableView.render();
             console.log(e);
         }});
     },
