@@ -80,13 +80,14 @@ var Container = Backbone.Model.extend({
                 break;
             case "uploadObject":
                 var reader = new FileReader();
+                var self = this;
                 reader.onload = function(event) {
                     var data = event.target.result.toString();
                     var data_index = data.indexOf('base64') + 7;
                     var data_index2 = data.indexOf('data:') + 5;
                     var filedata = data.slice(data_index, data.length);
                     var filetype = data.slice(data_index2, data_index-8);
-                  CDMI.Actions.uploadobject(model.get('name'), options.objectName, filedata, filetype, options.success, options.error, this.getRegion());
+                  CDMI.Actions.uploadobject(model.get('name'), options.objectName, filedata, filetype, options.success, options.error, self.getRegion());
                 };
                 reader.readAsDataURL(options.object);
                 break;
