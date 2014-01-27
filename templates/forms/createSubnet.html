@@ -37,7 +37,7 @@ src: templates/forms/createSubnet.html
 		                        <label for="network-address">Network Address*</label>
 		                        <span class="help-block"></span>
 		                        <div class="input">
-		                            <input type="text" name="network_address" id="network_address" />
+		                            <input type="text" required="" name="network_address" id="network_address" title="This field is required"/>
 		                        </div>
 		                    </div>
 		                    <div class="control-group form-field clearfix">
@@ -54,7 +54,7 @@ src: templates/forms/createSubnet.html
 		                        <label for="gateway-ip">Gateway IP (optional)</label>
 		                        <span class="help-block"></span>
 		                        <div class="input">
-		                            <input type="text" name="gateway_ip" id="gateway_ip" />
+		                            <input type="text" required="" name="gateway_ip" id="gateway_ip" title="In contrarry, please select disable gateway"/>
 		                        </div>
 		                    </div>
 		                    <div class="control-group form-field clearfix">
@@ -84,7 +84,7 @@ src: templates/forms/createSubnet.html
 		                        <label for="enable-dhcp">Enable DHCP</label>
 		                        <span class="help-block"></span>
 		                        <div class="input">
-		                            <input required type="checkbox" checked="checked" name="enable_dhcp" value="" id="enable_dhcp" />
+		                            <input type="checkbox" checked="checked" name="enable_dhcp" value="" id="enable_dhcp" />
 		                        </div>
 		                    </div>
 		                    <div class="control-group form-field clearfix">
@@ -122,7 +122,7 @@ src: templates/forms/createSubnet.html
 		
 		<div class="modal-footer">
 	        <p class="mandatoryMess">* Mandatory fields.</p>
-	        <input id="create_subnet_button"  class="btn btn-blue btn-create-subnet pull-right" value="Create"/>
+	        <input type="submit" id="create_subnet_button"  class="btn btn-blue btn-create-subnet pull-right" value="Create"/>
 	        <a id="cancelBtn-subnet" class="btn secondary cancel close">Cancel</a>
     	</div>
 </form>

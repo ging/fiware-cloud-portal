@@ -30,6 +30,7 @@ var CreateNetworkView = Backbone.View.extend({
     },
 
     close: function(e) {
+        console.log("closing");
         if (e !== undefined) {
             e.preventDefault();
         }
@@ -116,7 +117,7 @@ var CreateNetworkView = Backbone.View.extend({
                     network.save(undefined, {success: function(model, response) {     
                     var network_id = model.attributes.network.id; 
                     subnet.set({'network_id': network_id});              
-                    subnet.save(undefined, UTILS.Messages.getCallbacks("Network "+network.get("name") + " created.", "Error creating network "+network.get("name")), {context: self});   
+                    subnet.save(undefined, UTILS.Messages.getCallbacks("Network "+network.get("name") + " created.", "Error creating network "+network.get("name")), {context: this});   
                     //model.bind("sync", this.render, this);
                     }, error: function(response) {
                         console("error", response);
@@ -126,13 +127,13 @@ var CreateNetworkView = Backbone.View.extend({
                     network.save(undefined, {success: function(model, response) {     
                     var network_id = model.attributes.network.id; 
                     subnet.set({'network_id': network_id});              
-                    subnet.save(undefined, UTILS.Messages.getCallbacks("Network "+network.get("name") + " created.", "Error creating network "+network.get("name")), {context: self});   
+                    subnet.save(undefined, UTILS.Messages.getCallbacks("Network "+network.get("name") + " created.", "Error creating network "+network.get("name")), {context: this});   
                     //model.bind("sync", this.render, this);
                     }, error: function(response) {
                         console("error", response);
                     }});  
                     this.close();  
-                }
+                }  
             }            
 
         } else {

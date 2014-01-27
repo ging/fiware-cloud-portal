@@ -39,7 +39,7 @@ src: templates/forms/createNetwork.html
 		                        <label for="admin-state">Admin State</label>
 		                        <span class="help-block"></span>
 		                        <div class="input">
-		                            <input required type="checkbox" checked="checked" name="admin_state" value="" id="admin_state" />
+		                            <input type="checkbox" checked="checked" name="admin_state" value="" id="admin_state" />
 		                        </div>
 		                    </div>
 		                </fieldset>
@@ -62,7 +62,7 @@ src: templates/forms/createNetwork.html
 		                        <label for="create-subnet">Create Subnet</label>
 		                        <span class="help-block"></span>
 		                        <div class="input">
-		                            <input type="checkbox" checked="checked" name="create_subnet" value="" id="create_subnet" />
+		                            <input type="checkbox" name="create_subnet" value="" id="create_subnet" />
 		                        </div>
 		                    </div>
 		                    <div class="control-group form-field clearfix">
@@ -93,14 +93,14 @@ src: templates/forms/createNetwork.html
 		                        <label for="gateway-ip">Gateway IP (optional)</label>
 		                        <span class="help-block"></span>
 		                        <div class="input">
-		                            <input type="text" name="gateway_ip" id="gateway_ip" />
+		                            <input type="text" required="" name="gateway_ip" id="gateway_ip" title="In contrarry, please select disable gateway"/>
 		                        </div>
 		                    </div>
 		                    <div class="control-group form-field clearfix">
 		                        <label for="disable-gateway">Disable Gateway</label>
 		                        <span class="help-block"></span>
 		                        <div class="input">
-		                            <input type="checkbox" name="disable_gateway" value="" id="disable_gateway" />
+		                            <input type="checkbox" checked="checked" name="disable_gateway" value="" id="disable_gateway" />
 		                        </div>
 		                    </div>
 		                </fieldset>
