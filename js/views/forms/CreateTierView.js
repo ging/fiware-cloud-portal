@@ -20,8 +20,8 @@ var CreateTierView = Backbone.View.extend({
         'click #btn-apply-icon': 'applyIcon',
         'click #btn-show-networks': 'showNetworks',
         'click #btn-hide-networks': 'hideNetworks',
-        'click #addNewAlias': 'addNewAlias'
-        
+        'click #addNewAlias': 'addNewAlias',
+        'change #id_region': 'onRegionChange'
     },
 
     initialize: function() {
@@ -31,18 +31,93 @@ var CreateTierView = Backbone.View.extend({
 
         var self = this;
 
-        this.options.sdcs.getCatalogueListWithReleases({callback: function (resp) {
+        this.editing = -1;
 
-            self.catalogueList = resp;
-            self.tableViewNew.render();
+        this.tmpModels = {
+            images: new Images(),
+            flavors: new Flavors(),
+            keypairs: new Keypairs(),
+            sdcs: new SDCs(),
+            networks: new Networks(),
+            subnets: new Subnets()
+        };
+    },
 
-        }, error: function (e) {
-            self.catalogueList = [];
-            self.tableViewNew.render();
-            console.log(e);
+    updateTmpModels: function(region) {
+
+        var self = this;
+
+        // Update images, flavors and keypairs tmp models
+
+        var image_selector = $("#id_image");
+        var flavor_selector = $("#id_flavor");
+        var keypair_selector = $("#id_keypair");
+
+        image_selector.empty();
+        flavor_selector.empty();
+        keypair_selector.empty();
+
+        image_selector.append(new Option('Loading ...', ''));
+        flavor_selector.append(new Option('Loading ...', ''));
+        keypair_selector.append(new Option('Loading ...', ''));
+
+        this.tmpModels.images.region = region;
+        this.tmpModels.flavors.region = region;
+        this.tmpModels.keypairs.region = region;
+
+        this.tmpModels.images.fetch({success: function(collection) {
+
+            var images = collection.models;
+
+            image_selector.empty();
+
+            var sdcImages = 0;
+            for (var i in images) {
+                if ((images[i].get("properties") !== undefined && images[i].get("properties").sdc_aware) || images[i].get("sdc_aware")) {
+                    sdcImages++;
+                    image_selector.append(new Option(images[i].get("name"), images[i].get('id')));
+                }
+            }  
+
+            if (images.length === 0 || sdcImages === 0) {
+                image_selector.append(new Option('No images available', ''));
+            } 
         }});
 
-        this.addedProducts = [];
+        this.tmpModels.flavors.fetch({success: function(collection) {
+
+            var flavors = collection.models;
+
+            flavor_selector.empty();
+
+            for (var f in flavors) {
+                if (flavors[f].get('disk') !== 0) {
+                    var text = flavors[f].get("name") + " (" + flavors[f].get("vcpus") + "VCPU / " + flavors[f].get("disk") + "GB Disk / " + flavors[f].get("ram") + "MB Ram )";
+                    flavor_selector.append(new Option(text, flavors[f].id));
+                }
+            }
+        }});
+
+        this.tmpModels.keypairs.fetch({success: function(collection) {
+
+            var keypairs = collection.models;
+
+            keypair_selector.empty();
+
+            if (keypairs.length === 0) {
+                keypair_selector.append(new Option('No keypairs available', ''));
+            } else {
+                for (var k in keypairs) {
+                    keypair_selector.append(new Option(keypairs[k].get('name'), keypairs[k].get('name')));
+                }
+            }
+        }});
+
+        // Update networks and subnets tmp model
+
+        this.tmpModels.networks.region = region;
+        this.tmpModels.subnets.region = region;
+
         this.networkList = [];
         var current_tenant_id = JSTACK.Keystone.params.access.token.tenant.id;
 
@@ -62,35 +137,65 @@ var CreateTierView = Backbone.View.extend({
             }
         }
 
-        var all_subnets = this.options.subnets.models;
-        for (var index in this.options.networks.models) {
-            var network = this.options.networks.models[index];
-            var tenant_id = network.get("tenant_id");
-            var subnets = [];
-            var subnet_ids = network.get("subnets");
-            if (current_tenant_id == tenant_id && network.get("router:external") !== true) {
-                for (var i in subnet_ids) {
-                    sub_id = subnet_ids[i];
-                    for (var j in all_subnets) {
-                        if (sub_id == all_subnets[j].id) {
-                            var sub_cidr = all_subnets[j].attributes.name+" "+all_subnets[j].attributes.cidr;
-                            subnets.push(sub_cidr);
-                        }                                      
-                    }                    
-                }
-                if (subnets.length > 0) {
-                    var name = network.attributes.name === "" ? "("+network.get("id").slice(0,8)+")" : network.attributes.name;
-                    name = name + " (" + subnets + ")";
-                    this.networkList.push({displayName: name, name: network.attributes.name, net_id: network.id});
-                }
-            }
-        }
+        this.tmpModels.subnets.fetch({success: function(subnets_collection) {
+            self.tmpModels.networks.fetch({success: function(net_collection) {
 
-        this.networkList.push({displayName: "Internet", name: "Internet"});
-        
-        this.addedNetworks = [];
+                var all_subnets = subnets_collection.models;
+                for (var index in net_collection.models) {
+                    var network = net_collection.models[index];
+                    var tenant_id = network.get("tenant_id");
+                    var subnets = [];
+                    var subnet_ids = network.get("subnets");
+                    if (current_tenant_id == tenant_id && network.get("router:external") !== true) {
+                        for (var i in subnet_ids) {
+                            sub_id = subnet_ids[i];
+                            for (var j in all_subnets) {
+                                if (sub_id == all_subnets[j].id) {
+                                    var sub_cidr = all_subnets[j].attributes.name+" "+all_subnets[j].attributes.cidr;
+                                    subnets.push(sub_cidr);
+                                }                                      
+                            }                    
+                        }
+                        if (subnets.length > 0) {
+                            var name = network.attributes.name === "" ? "("+network.get("id").slice(0,8)+")" : network.attributes.name;
+                            name = name + " (" + subnets + ")";
+                            self.networkList.push({displayName: name, name: network.attributes.name, net_id: network.id});
+                        }
+                    }
+                }
 
-        this.editing = -1;
+                self.networkList.push({displayName: "Internet", name: "Internet"});
+                
+                self.addedNetworks = [];
+
+                self.netTableView.render();
+                self.netTableViewNew.render();
+
+            }});
+        }});
+
+        // Update SDC tmp model
+
+        this.tmpModels.sdcs.region = region;
+
+        this.addedProducts = [];
+
+        this.tmpModels.sdcs.getCatalogueListWithReleases({callback: function (resp) {
+
+            self.catalogueList = resp;
+            self.tableViewNew.render();
+            self.tableView.render();
+
+        }, error: function (e) {
+            self.catalogueList = [];
+            self.tableViewNew.render();
+            self.tableView.render();
+            console.log(e);
+        }});
+    },
+
+    onRegionChange: function(e) {
+        this.updateTmpModels(e.currentTarget.value);
     },
 
     close: function(e) {
@@ -369,7 +474,6 @@ var CreateTierView = Backbone.View.extend({
 
     installSoftware: function(id, targetId) {
         product = this.catalogueList[id];
-        console.log(product);
         var exists = false;
         for (var a in this.addedProducts) {
             if (this.addedProducts[a].name === product.name) {
@@ -388,7 +492,6 @@ var CreateTierView = Backbone.View.extend({
 
     installNetwork: function(id, targetId) {
         network = this.networkList[id];
-        console.log(network);
         var exists = false;
         for (var a in this.addedNetworks) {
             if (this.addedNetworks[a].name === network.name) {
@@ -514,7 +617,6 @@ var CreateTierView = Backbone.View.extend({
             case 'edit':
                 product = this.addedProducts[ids];
                 this.edit = ids;
-                console.log(product);
                 var productAttributes = product.attributes_asArray;
                 var str='';
                 for (var i in productAttributes) {
@@ -727,7 +829,7 @@ var CreateTierView = Backbone.View.extend({
             $('#create_tier').remove();
             $('.modal-backdrop').remove();
         }
-        $(this.el).append(this._template({model:this.model, flavors: this.options.flavors, keypairs: this.options.keypairs, images: this.options.images, regions: this.options.regions}));
+        $(this.el).append(this._template({model:this.model, regions: this.options.regions}));
         this.tableView = new TableView({
             el: '#installedSoftware-table',
             actionsClass: "actionsSDCTier",
@@ -819,6 +921,9 @@ var CreateTierView = Backbone.View.extend({
         this.netTableViewNew.render();
         $('.modal:last').modal();
         this.dial = $(".dial-form").knob();
+
+        this.updateTmpModels(UTILS.Auth.getCurrentRegion());
+
         return this;
     }
 

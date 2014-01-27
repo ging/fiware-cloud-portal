@@ -3,16 +3,11 @@ var BlueprintTemplateView = Backbone.View.extend({
     _template: _.itemplate($('#blueprintTemplateTemplate').html()),
 
     tableView: undefined,
-    sdcs: {},
 
     initialize: function() {
-        this.options.sdcs = UTILS.GlobalModels.get("sdcs");
         this.options.flavors = UTILS.GlobalModels.get("flavors");
-        this.options.keypairs = UTILS.GlobalModels.get("keypairsModel");
         this.options.securityGroupsModel = UTILS.GlobalModels.get("securityGroupsModel");
         this.options.images = UTILS.GlobalModels.get("images");
-        this.options.networks = UTILS.GlobalModels.get("networks");
-        this.options.subnets = UTILS.GlobalModels.get("subnets");
         this.options.loginModel = UTILS.GlobalModels.get("loginModel");
         if (this.model) {
             this.model.unbind("sync");
@@ -155,7 +150,7 @@ var BlueprintTemplateView = Backbone.View.extend({
                 break;
             case 'add':
 
-                subview = new CreateTierView({el: 'body', model: self.model, sdcs: self.options.sdcs, flavors: self.options.flavors, keypairs: self.options.keypairs, securityGroupsModel: self.options.securityGroupsModel, images: self.options.images, networks: self.options.networks, subnets: self.options.subnets, regions: self.options.loginModel.get("regions"), callback: function () {
+                subview = new CreateTierView({el: 'body', model: self.model, securityGroupsModel: self.options.securityGroupsModel, regions: self.options.loginModel.get("regions"), callback: function () {
                     self.model.fetch({success: function () {
                         self.render();
                     }});
@@ -165,7 +160,7 @@ var BlueprintTemplateView = Backbone.View.extend({
                 break;
             case 'edit':
 
-                subview = new EditTierView({el: 'body', model: self.model, tier: tr, sdcs: self.options.sdcs, flavors: self.options.flavors, keypairs: self.options.keypairs, securityGroupsModel: self.options.securityGroupsModel, images: self.options.images, networks: self.options.networks, subnets: self.options.subnets, regions: self.options.loginModel.get("regions"), callback: function () {
+                subview = new EditTierView({el: 'body', model: self.model, tier: tr, securityGroupsModel: self.options.securityGroupsModel, regions: self.options.loginModel.get("regions"), callback: function () {
                     self.model.fetch({success: function () {
                         self.render();
                     }});

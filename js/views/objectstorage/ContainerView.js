@@ -137,6 +137,10 @@ var ObjectStorageContainerView = Backbone.View.extend({
                 options.callback = function(object) {
                     var typeMIME, blob, blobURL;
                     var obj = JSON.parse(object);
+                    // TODO Check why we obtain it as a "double" String
+                    if (typeof obj === "string") {
+                        obj = JSON.parse(obj);
+                    }
                     
                     var byteString;
                     if (obj.valuetransferencoding === "base64") {

@@ -80,7 +80,7 @@ var TableView = Backbone.View.extend({
     },
 
     isDroppable: function() {
-        console.log(this.options.dropable, UTILS.DragDrop.getData("Draggable"));
+        //console.log(this.options.dropable, UTILS.DragDrop.getData("Draggable"));
         if (this.options.sortable || this.options.dropable) {
             if (UTILS.DragDrop.getData("Draggable") ||
                 (!UTILS.DragDrop.getData("Draggable") && 
