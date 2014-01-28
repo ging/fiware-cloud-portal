@@ -41,6 +41,9 @@ var CreateTierView = Backbone.View.extend({
             networks: new Networks(),
             subnets: new Subnets()
         };
+
+        this.addedNetworks = [];
+        this.addedProducts = [];
     },
 
     updateTmpModels: function(region) {

@@ -31,6 +31,9 @@ var EditTierView = Backbone.View.extend({
 
         this.editing = -1;
 
+        this.addedProducts = [];
+        this.addedNetworks = [];
+
         var self = this;
         if (this.options.tier.icono.toString() === "[object Object]") {
             this.options.tier.icono = "";
