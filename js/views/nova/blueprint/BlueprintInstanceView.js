@@ -6,7 +6,8 @@ var BlueprintInstanceView = Backbone.View.extend({
     sdcs: {},
 
     initialize: function() {
-        //console.log('iii', this.model);
+        this.options.images = UTILS.GlobalModels.get("images");
+        this.options.flavors = UTILS.GlobalModels.get("flavors");
         if (this.model) {
             this.model.unbind("sync");
             this.model.bind("sync", this.render, this);
