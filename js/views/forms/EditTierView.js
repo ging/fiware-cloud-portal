@@ -706,7 +706,7 @@ var EditTierView = Backbone.View.extend({
 
         max = this.$('input[name=tier-max-value]').val();
 
-        initial = this.$('input[name=tier-initial-value]').val();
+        initial = this.dial[0].v;
 
         var tier = {
             name: name,
