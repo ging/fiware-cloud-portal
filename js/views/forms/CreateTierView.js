@@ -244,6 +244,8 @@ var CreateTierView = Backbone.View.extend({
             dial.v = '-';
         }
 
+        initial = this.$('input[name=tier-initial-value]').val();
+
         dial._draw();
     },
 
@@ -714,7 +716,7 @@ var CreateTierView = Backbone.View.extend({
 
         max = this.$('input[name=tier-max-value]').val();
 
-        initial = this.$('input[name=tier-initial-value]').val();
+        initial = this.dial[0].v;
 
         var tier = {
             name: name,
@@ -728,7 +730,7 @@ var CreateTierView = Backbone.View.extend({
             maximumNumberInstances: max,
             initialNumberInstances: initial
         };
-        
+
         if (this.addedProducts.length !== 0) {
 
             tier.productReleaseDtos = [];
