@@ -63,7 +63,6 @@ src: templates/root/nova/instanceDetail/overview.html
                             if ((model.get("addresses") != null) && (model.get("addresses")["public"] !== null || model.get("addresses")["private"] !== null)) {
                                 addresses = model.get("addresses")["public"];
                                 for (var addr_idx in addresses) {
-                                    console.log('1', addresses[addr_idx]);
                                     %>
                         <li>
                             <%=addresses[addr_idx].addr%>
@@ -72,7 +71,6 @@ src: templates/root/nova/instanceDetail/overview.html
                                 }
                                 addresses = model.get("addresses")["private"];
                                 for (var addr_idx2 in addresses) {
-                                    console.log('2', addresses[addr_idx]);
                                     %>
                         <li>
                             <%=addresses[addr_idx2].addr%>
