@@ -254,8 +254,12 @@ var TableView = Backbone.View.extend({
     onEntryClick: function(evt) {
         var node = $(evt.target)[0].nodeName;
         var self = this;
+        console.log(evt);
         if (node !== "INPUT" && node !== "LABEL") {
             var parentId = $(evt.target).parent()[0].id;
+            if (node !== "TD") {
+                parentId = $(evt.target).parent().parent()[0].id;
+            }
             var parentEntry = parentId.split("entries__row__")[1];
             var metaKey = evt.metaKey || evt.altKey;
             if (evt.shiftKey && !metaKey) {
