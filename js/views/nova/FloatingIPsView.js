@@ -152,7 +152,7 @@ var NovaFloatingIPsView = Backbone.View.extend({
         }
         switch (action) {
             case 'allocate':
-                subview = new AllocateIPView({el: 'body', pools: this.options.pools});
+                subview = new AllocateIPView({el: 'body', pools: this.options.pools, model: self.model});
                 subview.render();
             break;
             case 'associate':

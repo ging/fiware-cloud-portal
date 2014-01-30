@@ -33,13 +33,13 @@
                 <p>Allocate a floating IP from a given floating ip pool.</p>
                 <h3>Project Quotas</h3>
                 <div class="quota_title">
-                  <strong>Floating IP <span>(0)</span></strong>
-                  <p>10 Available</p>
+                  <strong>Floating IP <span>(<%=used%>)</span></strong>
+                  <p><%=10-used%> Available</p>
                 </div>
                 <div class="clearfix"></div>
                 <div class="quota_bar">
                     <div class="progress_bar">
-                        <div class="progress_bar_fill" style="width: 0%"></div>
+                        <div class="progress_bar_fill" style="width: <%= 100 * (used) / 10 %>%"></div>
                     </div>
                 </div>
             </div>
