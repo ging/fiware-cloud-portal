@@ -330,8 +330,10 @@ var EditInstanceSoftwareView = Backbone.View.extend({
             getHeaders: this.getHeaders,
             getEntries: this.getEntries,
             disableActionButton: true,
-            onDrop: this.onInstalledNetworkDrop,
-            onDrag: this.onInstalledNetworkDrag,
+            dropable: true,
+            draggable: true,
+            onDrop: this.onInstalledSoftwareDrop,
+            onDrag: this.onInstalledSoftwareDrag,
             context: this,
             order: false
         });
@@ -347,6 +349,8 @@ var EditInstanceSoftwareView = Backbone.View.extend({
             getMainButtons: this.getMainButtonsNew,
             getHeaders: this.getHeadersNew,
             getEntries: this.getEntriesNew,
+            dropable: true,
+            draggable: true,
             disableActionButton: true,
             onDrag: this.onCatalogDrag,
             onDrop: this.onCatalogDrop,
