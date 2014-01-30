@@ -188,41 +188,43 @@ var EditInstanceSoftwareView = Backbone.View.extend({
 
     },
 
+    installSoftware: function(ids) {
+        var product = new SDC();
+        var ip = this.options.instanceModel.get("addresses")["private"][0].addr;
+        var fqn = this.options.instanceModel.get("id");
+
+        var name = this.catalogueList[ids[0]].name;
+        var version = this.catalogueList[ids[0]].version;
+
+        product.set({"name": fqn + '_' + name + '_' + version});
+        product.set({"ip": ip});
+        product.set({"product": {name: name, version: version}});
+        product.set({"fqn": fqn});
+
+        product.save(undefined, UTILS.Messages.getCallbacks('Product "' + this.catalogueList[ids[0]].name + '" installing...', 'Error installing product "' + ids[0] + '"', {el: '#log-messages-software'}));
+    },
+
+    uninstallSoftware: function(ids) {
+        var product = this.model.findWhere({name: ids[0]});
+        var pname = product.get('productRelease').product.name;
+        product.destroy(UTILS.Messages.getCallbacks('Product "' + pname + '" uninstalling...', 'Error uninstalling product "' + ids[0] + '"', {el: '#log-messages-software'}));
+    },
+
     onAction: function(action, ids) {
 
         var self = this;
 
-        var product;
-
-        var ip = this.options.instanceModel.get("addresses")["private"][0].addr;
-        var fqn = this.options.instanceModel.get("id");
-
         switch (action) {
             case 'install':
-
-                product = new SDC();
-
-                var name = this.catalogueList[ids[0]].name;
-                var version = this.catalogueList[ids[0]].version;
-
-                product.set({"name": fqn + '_' + name + '_' + version});
-                product.set({"ip": ip});
-                product.set({"product": {name: name, version: version}});
-                product.set({"fqn": fqn});
-
-                product.save(undefined, UTILS.Messages.getCallbacks('Product "' + this.catalogueList[ids[0]].name + '" installed', 'Error installing product "' + ids[0] + '"', {el: '#log-messages-software'}));
+                this.installSoftware(ids);
                 break;
 
             case 'uninstall':
-
-                product = this.model.findWhere({name: ids[0]});
-                var pname = product.get('productRelease').product.name;
-                product.destroy(UTILS.Messages.getCallbacks('Product "' + pname + '" uninstalled', 'Error uninstalling product "' + ids[0] + '"', {el: '#log-messages-software'}));
-
+                this.uninstallSoftware(ids);
                 break;
 
             case 'edit':
-                product = this.addedProducts[ids];
+                var product = this.addedProducts[ids];
                 this.edit = ids;
                 console.log(product);
                 var productAttributes = product.attributes_asArray;
@@ -274,8 +276,6 @@ var EditInstanceSoftwareView = Backbone.View.extend({
             for (var at in this.addedProducts[this.edit].attributes_asArray) {
                 var inp = 'input[name=attr_'+ at+']';
                 this.addedProducts[this.edit].attributes_asArray[at].value = this.$(inp).val();
-
-                console.log('ggg', this.addedProducts);
             }
         }
     },
@@ -290,12 +290,33 @@ var EditInstanceSoftwareView = Backbone.View.extend({
         this.attrsDone();
     },
 
+    onCatalogDrag: function(entryId) {
+        return entryId;
+    },
+
+    onCatalogDrop: function(targetId, entryId) {
+        console.log("Uninstalled:", targetId, entryId);
+        this.uninstallSoftware([entryId]);
+    },
+
+    onInstalledSoftwareDrop: function(targetId, entryId) {
+        console.log("Installing:", targetId, entryId);
+        this.installSoftware([entryId]);
+    },
+
+    onInstalledSoftwareDrag: function(entryId) {
+        return entryId;
+    },
+
+    onInstalledSoftwareMove: function(targetId, entryId) {
+        //this.movingSoftware(entryId, targetId);
+    },
+
     render: function () {
         if ($('#edit_instance_software').html() !== null) {
             $('#edit_instance_software').remove();
             $('.modal-backdrop').remove();
         }
-        
         $(this.el).append(this._template({model:this.model}));
         this.tableView = new TableView({
             el: '#installedInstanceSoftware-table',
@@ -309,6 +330,8 @@ var EditInstanceSoftwareView = Backbone.View.extend({
             getHeaders: this.getHeaders,
             getEntries: this.getEntries,
             disableActionButton: true,
+            onDrop: this.onInstalledNetworkDrop,
+            onDrag: this.onInstalledNetworkDrag,
             context: this,
             order: false
         });
@@ -325,6 +348,8 @@ var EditInstanceSoftwareView = Backbone.View.extend({
             getHeaders: this.getHeadersNew,
             getEntries: this.getEntriesNew,
             disableActionButton: true,
+            onDrag: this.onCatalogDrag,
+            onDrop: this.onCatalogDrop,
             context: this
         });
         this.tableView.render();
