@@ -41,10 +41,11 @@ var CreateRouterView = Backbone.View.extend({
         var router = new Router();
         var name = $('input[name=router]').val();
         
-        router.set({'name': name});
-
-        router.save(undefined, UTILS.Messages.getCallbacks("Router "+router.get("name") + " created.", "Error creating router "+router.get("name")), {context: this}); 
-        this.close();
+        if (name !== "") {
+            router.set({'name': name});
+            router.save(undefined, UTILS.Messages.getCallbacks("Router "+router.get("name") + " created.", "Error creating router "+router.get("name")), {context: this}); 
+            this.close();
+        }
 
         
     }

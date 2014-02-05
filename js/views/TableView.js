@@ -80,7 +80,6 @@ var TableView = Backbone.View.extend({
     },
 
     isDroppable: function() {
-        //console.log(this.options.dropable, UTILS.DragDrop.getData("Draggable"));
         if (this.options.sortable || this.options.dropable) {
             if (UTILS.DragDrop.getData("Draggable") ||
                 (!UTILS.DragDrop.getData("Draggable") && 
@@ -114,7 +113,6 @@ var TableView = Backbone.View.extend({
         var data = UTILS.DragDrop.getData("Data");
         var targetId = item[0].id.split("entries__row__")[1];
         if (this.isDroppable()) {
-            console.log(data);
             if (this.options.sortable && this.cid === UTILS.DragDrop.getData("From")) {
                 this.options.onMove.call(this.options.context, targetId, data);
             } else {
@@ -236,7 +234,6 @@ var TableView = Backbone.View.extend({
         var self = this;
         if (node === "BUTTON" || node == "DIV") {
             var column =  parseInt($(evt.target).parent()[0].id.toString().substring(10), 10);
-            //console.log(column);
             if (this.orderBy.column === column) {
                 if (this.orderBy.direction === 'up') {
                     this.orderBy.direction = 'down';
@@ -256,6 +253,9 @@ var TableView = Backbone.View.extend({
         var self = this;
         if (node !== "INPUT" && node !== "LABEL") {
             var parentId = $(evt.target).parent()[0].id;
+            if (node !== "TD") {
+                parentId = $(evt.target).parent().parent()[0].id;
+            }
             var parentEntry = parentId.split("entries__row__")[1];
             var metaKey = evt.metaKey || evt.altKey;
             if (evt.shiftKey && !metaKey) {

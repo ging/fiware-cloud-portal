@@ -8,7 +8,6 @@ var CreateSubnetView = Backbone.View.extend({
       'click .modal-backdrop': 'close',
       'click #subnet' : 'subnetTab',
       'click #details' : 'subnetDetailTab',
-      'submit #form': 'create',
       'click #create_subnet_button': 'create'
     },
 
@@ -66,7 +65,6 @@ var CreateSubnetView = Backbone.View.extend({
 
     create: function(e) {
         var network_id = this.options.network_id;
-        console.log(network_id);
         var subnet = new Subnet();
         var tenant_id = this.options.tenant_id;
         var subnet_name = $('input[name=subnet_name]').val();

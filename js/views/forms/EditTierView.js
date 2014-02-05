@@ -14,7 +14,7 @@ var EditTierView = Backbone.View.extend({
         'click #cancelBtn': 'close',
         'click .close': 'close',
         'click .modal-backdrop': 'close',
-        'change .tier-values': 'onInput',
+        'keyup .tier-values': 'onInput',
         'click #cancel-attrs': 'cancelAttrs',
         'click #accept-attrs': 'acceptAttrs',
         'click #btn-apply-icon': 'applyIcon',
@@ -30,6 +30,9 @@ var EditTierView = Backbone.View.extend({
         this.options.roles.fetch();
 
         this.editing = -1;
+
+        this.addedProducts = [];
+        this.addedNetworks = [];
 
         var self = this;
         if (this.options.tier.icono.toString() === "[object Object]") {
@@ -234,16 +237,10 @@ var EditTierView = Backbone.View.extend({
         var max = parseInt($('#tier-max-value').val(), 0);
         var dial = this.dial[0];
 
-        if (min > max) {
-            this.$('input[name=tier-max-value]')[0].setCustomValidity("Max value should be greater than min value");
-            return;
-        } else {
-            this.$('input[name=tier-max-value]')[0].setCustomValidity("");
-        }
-
         dial.o.min = min;
         dial.o.max = max;
 
+        dial.cv = dial.o.min;
 
         if (dial.cv > dial.o.max) {
             dial.cv = dial.o.max;
@@ -251,6 +248,18 @@ var EditTierView = Backbone.View.extend({
             dial.cv = dial.o.min;
         }
         dial.v = dial.cv;
+
+        if (min > max) {
+            this.$('input[name=tier-max-value]')[0].setCustomValidity("Max value should be greater than min value");
+            dial.v = '-';
+        } else {
+            this.$('input[name=tier-max-value]')[0].setCustomValidity("");
+        }
+
+        if (isNaN(min) || isNaN(max)) {
+            dial.v = '-';
+        }
+
         dial._draw();
     },
 
@@ -697,7 +706,7 @@ var EditTierView = Backbone.View.extend({
 
         max = this.$('input[name=tier-max-value]').val();
 
-        initial = this.$('input[name=tier-initial-value]').val();
+        initial = this.dial[0].v;
 
         var tier = {
             name: name,
