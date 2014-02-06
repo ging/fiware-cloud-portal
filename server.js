@@ -291,7 +291,7 @@ app.all('/*', function(req, res) {
 
 app.all('/user/:token', function(req, resp) {
     var options = {
-        host: 'account.lab.fi-ware.eu',
+        host: 'account.lab.fi-ware.org',
         port: 443,
         path: '/user?access_token=' + req.params.token,
         method: 'GET',
