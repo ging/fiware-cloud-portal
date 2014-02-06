@@ -29,7 +29,9 @@ var InstanceConnectionView = Backbone.View.extend({
                 }
             } else {
                 if ((self.model.get("addresses") != null) && self.model.get("addresses")["public"] !== null) {
-                    this.public_ip = self.model.get("addresses")["public"][0];
+                    if (self.model.get("addresses")["public"] !== undefined) {
+                        this.public_ip = self.model.get("addresses")["public"][0]; 
+                    }
                 }
             }              
             self.render();
