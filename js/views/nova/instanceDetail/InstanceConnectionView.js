@@ -4,6 +4,10 @@ var InstanceConnectionView = Backbone.View.extend({
 
     vncResp: false,
 
+    events: {
+        'click #vnc-button': 'onVnc'
+    },
+
     initialize: function() {
 
         var self = this;
@@ -30,14 +34,6 @@ var InstanceConnectionView = Backbone.View.extend({
             }              
             self.render();
         }});
-
-        var options = {};
-        // options.callback = function(resp) {
-        //     self.options.vncUrl = resp.console.url.replace("127.0.0.1", "130.206.82.10");
-        //     self.vncResp = true;
-        //     self.render();
-        // };
-        // this.model.vncconsole(options);
     },
 
     onClose: function() {
@@ -50,10 +46,21 @@ var InstanceConnectionView = Backbone.View.extend({
         this.onClose();
     },
 
+    onVnc: function () {
+
+        var options = {};
+        options.callback = function(resp) {
+            var vncUrl = resp.console.url.replace("127.0.0.1", "130.206.82.10");
+            var subview = new VNCView({el: 'body', vncUrl: vncUrl});
+            subview.render();
+        };
+        this.model.vncconsole(options);
+    },
+
     render: function () {
         var self = this;
 
-        var template = self._template({vncUrl: self.options.vncUrl, public_ip: self.public_ip});
+        var template = self._template({vncUrl:undefined, public_ip: self.public_ip});
         $(self.el).empty().html(template);
 
         return this;

@@ -3,18 +3,6 @@
 Description: Instance Detail VNC
 src: templates/root/nova/instanceDetail/instanceConnection.html
 -->
-<!--
-<h3>Instance VNC Console</h3>
-<%
-if (vncUrl === undefined) { %>
-    <img id="vnc_spinner" src="images/spinner2.gif"></img>
-<% } else { %>
-    <p class="alert alert-info">
-        If VNC console is not responding to keyboard input: click the grey status bar below.
-    </p>
-    <iframe src="<%= vncUrl %>" width="1024" height="768"></iframe>
-<% } %>
--->
 <div class="entity_consult">
     <div class="entity_detail">
         <div id="volume_details1" class="active row-fluid">
@@ -35,11 +23,11 @@ if (vncUrl === undefined) { %>
 						<br><br><i>ssh -i my_keypair.pem root@<%=public_ip%></i>
 					</li>
 				</ol>
-                <!--<h5>Windows Putty</h5>
+                <h5>Windows Putty</h5>
                 <ol>
 					<li>Coffee</li>
 					<li>Milk</li>
-				</ol>-->
+				</ol>
 				<%} else {%>
 				<p>You need to associate a Floating IP to this Instance in order to connect via SSH<p>
 				<ol>
@@ -50,11 +38,11 @@ if (vncUrl === undefined) { %>
 				<%}%>
             </div>
 
-            <!--<div class="status span6">
+            <div class="status span6">
                 <h4>Connect to VM display</h4>
                 <hr class="header_rule">
-                
-            </div>-->
+                <input id="vnc-button" type="submit" class="btn btn-blue" value="View display">
+            </div>
 
         </div>
 
