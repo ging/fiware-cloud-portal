@@ -1,0 +1,31 @@
+<script id="vncTemplate" type="text/html">
+<div id="vnc-temp" class="modal hide ">
+    <!--
+    Description: VNC Form
+    src: templates/forms/vnc.html
+    -->
+    <form id="form" onSubmit="return false;">
+        <div class="modal-header">
+            <a id="close" href="#" class="close" data-dismiss="modal">&times;</a>
+            <h3>Virtual Machine Display</h3>
+        </div>
+        <div id="vnc-screen" class="modal-body clearfix">
+        <%
+        if (vncUrl === undefined) { %>
+            <img id="vnc_spinner" src="images/spinner2.gif"></img>
+        <% } else { %>
+            <p class="alert alert-info">
+                If VNC console is not responding to keyboard input: click the grey status bar below.
+            </p>
+            <iframe id="vnc-iframe" src="<%= vncUrl %>" width="100%" height="420px"></iframe>
+        <% } %>
+        </div>
+        <div class="modal-footer">
+            <button id="full-screen-button" class="btn btn-blue" value="Full-screen">
+            <i class="icon-fullscreen" style="margin-right: 10px;"></i> Full-screen </button>
+            <a id="cancelBtn" class="close btn seconday cancel close" data-dismiss="modal">Close</a>
+        </div>
+    </form>
+</div>
+</script>
+
