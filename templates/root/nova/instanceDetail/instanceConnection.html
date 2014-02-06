@@ -23,11 +23,6 @@ src: templates/root/nova/instanceDetail/instanceConnection.html
 						<br><br><i>ssh -i my_keypair.pem root@<%=public_ip%></i>
 					</li>
 				</ol>
-                <h5>Windows Putty</h5>
-                <ol>
-					<li>Coffee</li>
-					<li>Milk</li>
-				</ol>
 				<%} else {%>
 				<p>You need to associate a Floating IP to this Instance in order to connect via SSH<p>
 				<ol>
