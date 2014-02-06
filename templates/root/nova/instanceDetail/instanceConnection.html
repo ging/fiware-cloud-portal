@@ -1,0 +1,68 @@
+<script id="instanceConnectionTemplate" type="text/html">
+<!--
+Description: Instance Detail VNC
+src: templates/root/nova/instanceDetail/instanceConnection.html
+-->
+<!--
+<h3>Instance VNC Console</h3>
+<%
+if (vncUrl === undefined) { %>
+    <img id="vnc_spinner" src="images/spinner2.gif"></img>
+<% } else { %>
+    <p class="alert alert-info">
+        If VNC console is not responding to keyboard input: click the grey status bar below.
+    </p>
+    <iframe src="<%= vncUrl %>" width="1024" height="768"></iframe>
+<% } %>
+-->
+<div class="entity_consult">
+    <div class="entity_detail">
+        <div id="volume_details1" class="active row-fluid">
+            <div class="status span6">
+                <h4>Connect using a SSH client</h4>
+                <hr class="header_rule">
+                <%if (public_ip) {%>
+                <h5>Ubuntu/Mac terminal</h5>
+                <ol>
+					<li>Open the Terminal</li>
+					<li>Locate the keypair asocciate to this Instance when launching it 
+						<br><br><i>my_keypair.pem</i>
+					</li><br>
+					<li>Modify the keypair permissions in order to make it not publicly viewable
+						<br><br><i>chmod 400 my_keypair.pem</i>
+					</li><br>
+					<li>Connect to the Instance using its public IP
+						<br><br><i>ssh -i my_keypair.pem root@<%=public_ip%></i>
+					</li>
+				</ol>
+                <!--<h5>Windows Putty</h5>
+                <ol>
+					<li>Coffee</li>
+					<li>Milk</li>
+				</ol>-->
+				<%} else {%>
+				<p>You need to associate a Floating IP to this Instance in order to connect via SSH<p>
+				<ol>
+					<li>Go to Security -> Floatings IPs</li>
+					<li>If you have not any Floating IP available, allocate a new one to the project</li>
+					<li>Associate a Floating IP to this Instance</li>
+				</ol>
+				<%}%>
+            </div>
+
+            <!--<div class="status span6">
+                <h4>Connect to VM display</h4>
+                <hr class="header_rule">
+                
+            </div>-->
+
+        </div>
+
+        <div id="volume_details2" style="margin-top: 25px;" class="active row-fluid">
+            
+        </div>
+
+    </div>
+</div>
+
+</script>

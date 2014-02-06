@@ -10,7 +10,7 @@ var AllocateIPView = Backbone.View.extend({
     },
 
     render: function () {
-        $(this.el).append(this._template({pools: this.options.pools}));
+        $(this.el).append(this._template({pools: this.options.pools, used: this.model.models.length}));
         $('.modal:last').modal();
         return this;
     },
