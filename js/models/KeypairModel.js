@@ -33,25 +33,10 @@ var Keypair = Backbone.Model.extend({
         return xhr;
     },
 
-     createkeypair: function(name, public_key, options) {
-      console.log("Create keypair");
-      options = options || {};
-      return this._action('createkeypair', options);
-    },
-
     sync: function(method, model, options) {
            switch(method) {
                case "create":
                    JSTACK.Nova.createkeypair(model.get("name"), model.get("public_key"), options.success, options.error, this.getRegion());
-                   break;
-               case "createkeypair":
-                  console.log(model.get("name"), model.get("public_key"));
-                  mySuccess = function(object) {
-                    var obj = {};
-                      obj.object = object;
-                    return options.success(obj);
-                   };
-                   JSTACK.Nova.createkeypair(model.get("name"), model.get("public_key"), mySuccess);
                    break;
                case "delete":
                    JSTACK.Nova.deletekeypair(model.get("name"), options.success, options.error, this.getRegion());

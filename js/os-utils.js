@@ -618,7 +618,7 @@ UTILS.Messages = (function(U, undefined) {
             subview.render();
             $('body').spin("modal");
             if (options.success) {
-                options.success();
+                options.success(resp);
             }
         }, error: function (model, error) {
             check();
