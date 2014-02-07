@@ -11,7 +11,15 @@ var VNCView = Backbone.View.extend({
     },
 
     initialize: function () {
+        var self = this;
+
         $(document).on('webkitfullscreenchange mozfullscreenchange fullscreenchange', this.onFullScreenChanged);
+        var options = {};
+        options.callback = function(resp) {
+            self.vncUrl = resp.console.url.replace("127.0.0.1", "130.206.82.10");
+            self.render();
+        };
+        this.model.vncconsole(options);
     },
 
     close: function (e) {
@@ -48,7 +56,7 @@ var VNCView = Backbone.View.extend({
     },
 
     onFullScreenChanged: function (e) {
-        
+
         var fullscreenElement = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement;
 
         if (fullscreenElement === null) {
@@ -75,7 +83,7 @@ var VNCView = Backbone.View.extend({
             $('#vnc-temp').remove();
             $('.modal-backdrop').remove();
         }
-        $(this.el).append(this._template({vncUrl: this.options.vncUrl}));
+        $(this.el).append(this._template({vncUrl: this.vncUrl}));
         $('.modal:last').modal({keyboard: false});
 
         return this;

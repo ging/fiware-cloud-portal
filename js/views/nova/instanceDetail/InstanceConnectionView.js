@@ -49,20 +49,14 @@ var InstanceConnectionView = Backbone.View.extend({
     },
 
     onVnc: function () {
-
-        var options = {};
-        options.callback = function(resp) {
-            var vncUrl = resp.console.url.replace("127.0.0.1", "130.206.82.10");
-            var subview = new VNCView({el: 'body', vncUrl: vncUrl});
-            subview.render();
-        };
-        this.model.vncconsole(options);
+        var subview = new VNCView({el: 'body', model: this.model});
+        subview.render();
     },
 
     render: function () {
         var self = this;
 
-        var template = self._template({vncUrl:undefined, public_ip: self.public_ip});
+        var template = self._template({public_ip: self.public_ip});
         $(self.el).empty().html(template);
 
         return this;
