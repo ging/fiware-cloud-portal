@@ -54,7 +54,8 @@ html, body {
 
 .entity_consult {
   position: absolute;
-  width: 100%;
+  left: 0px;
+  right: 0px;
   height: 100%;
 }
 
@@ -64,8 +65,19 @@ html, body {
   right: 0px;
   margin-left: 10px;
   margin-right: 10px;
-  top: 51px;
+  top: 5px;
   bottom: 0px;
+  overflow: auto;
+}
+
+.entity_detail_pro {
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  margin-left: 10px;
+  margin-right: 10px;
+  top: 51px;
+  bottom: 10px;
   overflow: auto;
 }
 
