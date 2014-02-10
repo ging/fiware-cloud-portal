@@ -274,19 +274,19 @@ var LaunchImageView = Backbone.View.extend({
         var netws = [];
         var ip_address = [];
         var network_id = "";
-        var block_device_mapping = {};
+        //var block_device_mapping = {};
 
         if ($("#id_keypair option:selected")[0].value !== '') {
             key_name = $("#id_keypair option:selected")[0].value;
         }
 
-        if ($("#volume option:selected")[0].value !== '') {
-            var volume_id = $("#volume option:selected")[0].value;
-            var device_name = $('input[name=device_name]').val();
-            console.log("volume snapshots", this.options.volumeSnapshots);
-            block_device_mapping.volume_id = volume_id;
-            block_device_mapping.device_name = device_name;
-        }
+        // if ($("#volume option:selected")[0].value !== '') {
+        //     var volume_id = $("#volume option:selected")[0].value;
+        //     var device_name = $('input[name=device_name]').val();
+        //     console.log("volume snapshots", this.options.volumeSnapshots);
+        //     block_device_mapping.volume_id = volume_id;
+        //     block_device_mapping.device_name = device_name;
+        // }
 
         flavorReg = $("#id_flavor option:selected")[0].value;
 
@@ -326,7 +326,7 @@ var LaunchImageView = Backbone.View.extend({
         this.instanceData.max_count = max_count;
         this.instanceData.availability_zone = availability_zone;
         this.instanceData.networks = netws;
-        this.instanceData.block_device_mapping = block_device_mapping;
+        //this.instanceData.block_device_mapping = block_device_mapping;
 
         $('#sum_instanceName').html(this.instanceData.name);
         $('#sum_image').html(this.model.get('name'));
@@ -377,6 +377,7 @@ var LaunchImageView = Backbone.View.extend({
         instance.set({"availability_zone": this.instanceData.availability_zone});
         instance.set({"networks": this.instanceData.netws});
         instance.set({"block_device_mapping": this.instanceData.block_device_mapping});
+        instance.set({"metadata": {"region": UTILS.Auth.getCurrentRegion()}});
 
         if (this.instanceData.flavorReg !== "") {
         instance.save(undefined, UTILS.Messages.getCallbacks("Instance "+instance.get("name") + " launched.", "Error launching instance "+instance.get("name"),

@@ -122,7 +122,7 @@ var Instance = Backbone.Model.extend({
             case "create":
                 JSTACK.Nova.createserver(model.get("name"), model.get("imageReg"), model.get("flavorReg"), model.get("key_name"),
                    model.get("user_data"), model.get("security_groups"), model.get("min_count"), model.get("max_count"),
-                   model.get("availability_zone"), model.get("networks"), model.get("block_device_mapping"), options.success, options.error, this.getRegion());
+                   model.get("availability_zone"), model.get("networks"), model.get("block_device_mapping"), model.get("metadata"), options.success, options.error, this.getRegion());
                 break;
             case "delete":
                 JSTACK.Nova.deleteserver(model.get("id"), options.success, options.error, this.getRegion());
