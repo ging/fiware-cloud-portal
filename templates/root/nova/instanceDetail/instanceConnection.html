@@ -1,0 +1,61 @@
+<script id="instanceConnectionTemplate" type="text/html">
+<!--
+Description: Instance Detail VNC
+src: templates/root/nova/instanceDetail/instanceConnection.html
+-->
+<div class="entity_consult">
+    <div class="entity_detail">
+        <div id="conn1" class="active row-fluid">
+            <div class="status span12">
+                <h4>Connect using a SSH client</h4>
+                <hr class="header_rule">
+                <%if (public_ip) {%>
+                <div class="status span5">
+                    <h5>Ubuntu/Mac terminal</h5>
+                    <ol>
+    					<li>Open the Terminal</li>
+    					<li>Locate the keypair asocciate to this Instance when launching it. <p><i>my_keypair.pem</i></p></li>
+    					<li>Modify the keypair permissions in order to make it not publicly viewable.
+    						<p><i>chmod 400 my_keypair.pem</i></p>
+                        </li>
+    					<li>Connect to the Instance using its public IP.
+    						<p><i>ssh -i my_keypair.pem root@<%=public_ip%></i></p>
+    					</li>
+    				</ol>
+                </div>
+                <div class="status span5">
+                    <h5>Windows PuTTY Client</h5>
+                    <ol>
+                        <li>Install PuTTY and PuTTYgen from <a href="http://www.putty.org/">Putty website</a>.</li>
+                        <li>Locate the keypair asocciate to this Instance when launching it. 
+                            <p><i>my_keypair.pem</i></p></li>
+                        <li>Convert your Keypair (.pem) to PPK with PuTTYgen.</li>
+                        <li>Use PuTTY to connect to the Instance using its public IP (<%=public_ip%>)</i> and the new PPK Keypair.
+                        </li>
+                    </ol>
+                </div>
+				<%} else {%>
+				<p>You need to associate a Floating IP to this Instance in order to connect via SSH.<p>
+				<ol>
+					<li>Go to Security -> Floatings IPs</li>
+					<li>If you have not any Floating IP available, allocate a new one to the project.</li>
+					<li>Associate a Floating IP to this Instance.</li>
+				</ol>
+				<%}%>
+            </div>
+
+        </div>
+
+        <div id="conn2" style="margin-top: 25px;" class="active row-fluid">
+            <div class="status span5">
+                <h4>Connect to VM display</h4>
+                <hr class="header_rule">
+                <p>Connect directly to the Virtual Machine display</p>
+                <input id="vnc-button" style="margin-top: 10px;" type="submit" class="btn btn-blue" value="View display">
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</script>

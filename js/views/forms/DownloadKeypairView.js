@@ -3,14 +3,9 @@ var DownloadKeypairView = Backbone.View.extend({
     _template: _.itemplate($('#downloadKeypairFormTemplate').html()),
 
     initialize: function() {
-        this.model.unbind("sync");
-        this.model.bind("sync", this.render, this);
     },
 
     events: {
-      'click #cancelCreateBtn': 'close',
-      'click #close': 'close'
-     // 'click .downloadKeypair': 'downloadKeypair'
     },
 
     render: function () {
@@ -20,11 +15,9 @@ var DownloadKeypairView = Backbone.View.extend({
     },
 
     createKeypair: function(e) {
-        var name = this.model.attributes.name;
-        var mySuccess = function(object) {
-            console.log("Success");
-            var privateKey = object.keypair.private_key;
-            console.log(object.keypair.public_key);
+        var name = this.model.get('name');
+        var mySuccess = function(model) {
+            var privateKey = model.get('private_key');
             var blob, blobURL;
             blob = new Blob([privateKey], { type: "application/x-pem-file" });
             blobURL = window.URL.createObjectURL(blob);
@@ -33,21 +26,9 @@ var DownloadKeypairView = Backbone.View.extend({
 
             $('.downloadKeypair').append("Download Keypair");
             $('.downloadKeypair').attr("href", blobURL);
-            $('.downloadKeypair').attr("download", name+'.pem');
-
-            var subview = new MessagesView({state: "Success", title: "Keypair "+name+" created."});
-            subview.render();
+            $('.downloadKeypair').attr("download", name + '.pem');
         };
-        JSTACK.Nova.createkeypair(name, undefined, mySuccess);
-    },
-
-    close: function(e) {
-        //window.close();
-        this.onClose();
-    },
-
-    onClose: function () {
-        this.undelegateEvents();
-        this.unbind();
+        var callbacks = UTILS.Messages.getCallbacks("Keypair " + name + " created.", "Error creating keypair", {success: mySuccess});
+        this.model.save(undefined, callbacks);
     }
 });

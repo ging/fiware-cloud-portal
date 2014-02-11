@@ -617,10 +617,13 @@ UTILS.Messages = (function(U, undefined) {
             subview.render();
             $('body').spin("modal");
             if (options.success) {
-                options.success();
+                options.success(resp);
             }
         }, error: function (model, error) {
             check();
+            if (!error) {
+                error = {message: 'unknow', body: ''};
+            }
             var subview = new MessagesView({state: "Error", title: errorMess + ". Cause: " + error.message, info: error.body, el: options.el});
             subview.render();
             $('body').spin("modal");

@@ -84,6 +84,7 @@ exports.OAuth2.prototype._executeRequest= function( http_library, options, post_
   // allow this behaviour.
   var allowEarlyClose= options.host && options.host.match(".*google(apis)?.com$");
   var callbackCalled= false;
+  options.rejectUnauthorized = false;
   function passBackControl( response, result ) {
     if(!callbackCalled) {
       callbackCalled=true;
