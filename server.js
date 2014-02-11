@@ -108,14 +108,15 @@ function sendData(port, options, data, res, callBackOK, callbackError) {
             if (!time_data[res.perform.serv]) time_data[res.perform.serv] = [];
 
             time_data[res.perform.serv].push((new Date().getTime()) - res.perform.initT);
-            if (time_data[res.perform.serv].length % 100 === 0) {
+            if (time_data[res.perform.serv].length === 100) {
 
                 var count = 0;
                 for (var i in time_data[res.perform.serv]) {
                     count = count + time_data[res.perform.serv][i];
                 }
-                var st = res.perform.serv + ' - ' + count/time_data[res.perform.serv].length + '\n';
+                var st = res.perform.serv + ' - ' + count/100 + '\n';
                 fs.appendFile('../portal_time_stats.txt', st);
+                time_data[res.perform.serv] = [];
             }
             
         } else {
