@@ -4,7 +4,8 @@ var express = require('express'),
     crypto = require('crypto'),
     XMLHttpRequest = require("./xmlhttprequest").XMLHttpRequest,
     OAuth2 = require('./oauth2').OAuth2,
-    config = require('./config');
+    config = require('./config'), 
+    fs = require('fs');
 
 var oauth_config = config.oauth;
 var useIDM = config.useIDM;
@@ -84,11 +85,13 @@ app.use(function (req, res, next) {
     }
 });
 
+var time_data = {};
+
 function sendData(port, options, data, res, callBackOK, callbackError) {
     var xhr, body, result;
 
     callbackError = callbackError || function(status, resp) {
-        console.log("Error: ", status, resp);
+        //console.log("Error: ", status, resp);
         res.statusCode = status;
         res.send(resp);
     };
@@ -99,6 +102,24 @@ function sendData(port, options, data, res, callBackOK, callbackError) {
             if (idx !== 'Cookie' && idx !== 'User-Agent') {
               res.setHeader(idx, headers[idx]);
             }
+        }
+
+        if (res.perform) {
+            if (!time_data[res.perform.serv]) time_data[res.perform.serv] = [];
+
+            time_data[res.perform.serv].push((new Date().getTime()) - res.perform.initT);
+            if (time_data[res.perform.serv].length % 100 === 0) {
+
+                var count = 0;
+                for (var i in time_data[res.perform.serv]) {
+                    count = count + time_data[res.perform.serv][i];
+                }
+                var st = res.perform.serv + ' - ' + count/time_data[res.perform.serv].length + '\n';
+                fs.appendFile('../portal_time_stats.txt', st);
+            }
+            
+        } else {
+            fs.appendFile('../portal_time_stats.txt', 'REQUEST WITHOUT PERFORMANCE DATA');
         }
         res.send(resp);
     };
@@ -207,6 +228,9 @@ app.get('/', function(req, res) {
 });
 
 app.all('/keystone/*', function(req, resp) {
+
+    resp.perform  = {serv: 'keystone', initT: (new Date()).getTime()};
+
     var options = {
         host: keystone_config.host,
         port: keystone_config.port,
@@ -218,6 +242,9 @@ app.all('/keystone/*', function(req, resp) {
 });
 
 app.all('/keystone-admin/*', function(req, resp) {
+
+    resp.perform  = {serv: 'keystone-admin', initT: (new Date()).getTime()};
+
     var options = {
         host: keystone_config.admin_host,
         port: keystone_config.admin_port,
@@ -269,13 +296,13 @@ if (useIDM) {
 
 app.all('/:reg/:service/:v/*', function(req, resp) {
 
+    resp.perform  = {serv: req.params.service, initT: (new Date()).getTime()};
+
     var endp = getEndpoint(req.params.service, req.params.reg);
     var new_url = req.url.split(req.params.v)[1];
     if (endp.charAt(endp.length-1) === "/") {
         endp = endp.substring(0, endp.length-1) + "/v2.0";
     }
-
-    console.log(endp + new_url);
 
     var options = {
         url: endp + new_url,
@@ -286,10 +313,13 @@ app.all('/:reg/:service/:v/*', function(req, resp) {
 });
 
 app.all('/*', function(req, res) {
-    console.log("req!!!!!!!!!!!!!!!!!", req.url);
+    console.log("------ Unknown request ", req.url);
 });
 
 app.all('/user/:token', function(req, resp) {
+
+    resp.perform  = {serv: 'token', initT: (new Date()).getTime()};
+
     var options = {
         host: 'account.lab.fi-ware.org',
         port: 443,
@@ -323,9 +353,9 @@ function getCatalog() {
 
     sendData("http", options, JSON.stringify(credentials), undefined, function (status, resp) {
         service_catalog = JSON.parse(resp).access.serviceCatalog;
-        console.log(JSON.stringify(service_catalog, 4, 4));
+        console.log('Service catalog: ', JSON.stringify(service_catalog, 4, 4));
     }, function (e, msg) {
-        console.log('Error ', e, msg);
+        console.log('Error getting catalog', e, msg);
     });
 }
 
