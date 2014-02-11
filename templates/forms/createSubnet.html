@@ -10,7 +10,7 @@ src: templates/forms/createSubnet.html
         <h3>Create Subnet</h3>
 </div>
 
-<form id="form" class="" action="" method="">
+<form id="form" onSubmit="return false;">
 
 		<ul id="myTab" class="nav nav-tabs">
 		  <li class="active">
@@ -54,14 +54,14 @@ src: templates/forms/createSubnet.html
 		                        <label for="gateway-ip">Gateway IP (optional)</label>
 		                        <span class="help-block"></span>
 		                        <div class="input">
-		                            <input type="text" required="" name="gateway_ip" id="gateway_ip" title="In contrarry, please select disable gateway"/>
+		                            <input type="text" name="gateway_ip" id="gateway_ip"/>
 		                        </div>
 		                    </div>
 		                    <div class="control-group form-field clearfix">
 		                        <label for="disable-gateway">Disable Gateway</label>
 		                        <span class="help-block"></span>
 		                        <div class="input">
-		                            <input type="checkbox" name="disable_gateway" id="disable_gateway" />
+		                            <input type="checkbox" checked="checked" name="disable_gateway" id="disable_gateway" />
 		                        </div>
 		                    </div>
 		                </fieldset>

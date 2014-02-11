@@ -120,9 +120,9 @@ var Instance = Backbone.Model.extend({
     sync: function(method, model, options) {
         switch(method) {
             case "create":
-                JSTACK.Nova.createserver(model.get("name"), model.get("imageReg"), model.get("flavorReg"), model.get("key_name"),
-                   model.get("user_data"), model.get("security_groups"), model.get("min_count"), model.get("max_count"),
-                   model.get("availability_zone"), model.get("networks"), model.get("block_device_mapping"), options.success, options.error, this.getRegion());
+                JSTACK.Nova.createserver(model.get("source_type"), model.get("name"), model.get("image_id"), model.get("flavor"), model.get("keypair"),
+                   model.get("customization_script"), model.get("groups"), model.get("count"),
+                   model.get("availability_zone"), model.get("network"), model.get("block_device_mapping"), options.success, options.error, this.getRegion());
                 break;
             case "delete":
                 JSTACK.Nova.deleteserver(model.get("id"), options.success, options.error, this.getRegion());

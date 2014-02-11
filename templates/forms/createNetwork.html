@@ -10,8 +10,7 @@ src: templates/forms/createNetwork.html
         <h3>Create Network</h3>
 </div>
 
-<form id="form" class="" action="" method="">
-
+<form id="form" class="" onSubmit="return false;">
 		<ul id="myTab" class="nav nav-tabs">
 		  <li class="active">
 		    <a id="network" href="#input_network" data-toggle="tab">Network</a>
@@ -76,7 +75,7 @@ src: templates/forms/createNetwork.html
 		                        <label for="network-address">Network Address*</label>
 		                        <span class="help-block"></span>
 		                        <div class="input">
-		                            <input required="" type="text" name="network_address" id="network_address" title="This field is required"/>
+		                            <input type="text" name="network_address" id="network_address" title="This field is required"/>
 		                        </div>
 		                    </div>
 		                    <div class="control-group form-field clearfix">
@@ -93,7 +92,7 @@ src: templates/forms/createNetwork.html
 		                        <label for="gateway-ip">Gateway IP (optional)</label>
 		                        <span class="help-block"></span>
 		                        <div class="input">
-		                            <input type="text" required="" name="gateway_ip" id="gateway_ip" title="In contrarry, please select disable gateway"/>
+		                            <input type="text" name="gateway_ip" id="gateway_ip"/>
 		                        </div>
 		                    </div>
 		                    <div class="control-group form-field clearfix">

@@ -9,7 +9,7 @@ var CreateNetworkView = Backbone.View.extend({
       'click #details' : 'subnetDetailTab',
       'click .close': 'close',
       'click .modal-backdrop': 'close',
-      'click #create_network_button': 'create'
+      'submit #form': 'create'
     },
 
     initialize: function() {
@@ -30,7 +30,6 @@ var CreateNetworkView = Backbone.View.extend({
     },
 
     close: function(e) {
-        console.log("closing");
         if (e !== undefined) {
             e.preventDefault();
         }
@@ -77,6 +76,7 @@ var CreateNetworkView = Backbone.View.extend({
     },
 
     create: function(e) {
+        
         var self = this;
         var network = new Network();
         var name = $('input[name=network]').val();
@@ -98,7 +98,6 @@ var CreateNetworkView = Backbone.View.extend({
         network.set({'name': name});
         network.set({'admin_state_up': admin_state});
 
-
         if (create_subnet) {
             subnet.set({'name': subnet_name});
             subnet.set({'name': subnet_name});
@@ -108,7 +107,8 @@ var CreateNetworkView = Backbone.View.extend({
             subnet.set({'enable_dhcp': enable_dhcp});
             subnet.set({'allocation_pools': allocation_pools});
             subnet.set({'dns_nameservers': dns_name_servers});
-            subnet.set({'host_routers': host_routers});            
+            subnet.set({'host_routers': host_routers});    
+     
 
             if (cidr !== "") {
 
@@ -117,29 +117,39 @@ var CreateNetworkView = Backbone.View.extend({
                     network.save(undefined, {success: function(model, response) {     
                     var network_id = model.attributes.network.id; 
                     subnet.set({'network_id': network_id});              
-                    subnet.save(undefined, UTILS.Messages.getCallbacks("Network "+network.get("name") + " created.", "Error creating network "+network.get("name")), {context: this});   
-                    //model.bind("sync", this.render, this);
+                    subnet.save(undefined, UTILS.Messages.getCallbacks("Network "+network.get("name") + " created.", "Error creating network "+network.get("name"), {context: self}));   
                     }, error: function(response) {
                         console("error", response);
                     }});  
-                    this.close();  
                 } else if (disable_gateway === true) {
                     network.save(undefined, {success: function(model, response) {     
                     var network_id = model.attributes.network.id; 
                     subnet.set({'network_id': network_id});              
-                    subnet.save(undefined, UTILS.Messages.getCallbacks("Network "+network.get("name") + " created.", "Error creating network "+network.get("name")), {context: this});   
-                    //model.bind("sync", this.render, this);
+                    subnet.save(undefined, UTILS.Messages.getCallbacks("Network "+network.get("name") + " created.", "Error creating network "+network.get("name"), {context: self}));   
                     }, error: function(response) {
                         console("error", response);
-                    }});  
-                    this.close();  
-                }  
-            }            
+                    }});   
+                }
+
+            } else {
+                // cidr is empty
+                if ($('#input_network').show()) {
+                    $('#input_network').hide();
+                    $('#input_subnet_detail').hide();
+                    $('#input_subnet').show();
+                    $('#myTab a[href="#input_subnet"]').tab('show');
+
+                } else if ($('#input_subnet_detail').show()) {
+                    $('#input_subnet_detail').hide();
+                    $('#input_network').hide();
+                    $('#input_subnet').show();
+                    $('#myTab a[href="#input_subnet"]').tab('show');
+                }
+                
+            }         
 
         } else {
-            network.save(undefined, UTILS.Messages.getCallbacks("Network "+network.get("name") + " created.", "Error creating network "+network.get("name")), {context: this}); 
-            //this.model.bind("sync", this.render, this);
-            this.close();
+            network.save(undefined, UTILS.Messages.getCallbacks("Network "+network.get("name") + " created.", "Error creating network "+network.get("name"), {context: self})); 
         }             
 
         

@@ -6,7 +6,7 @@ var CreateRouterView = Backbone.View.extend({
       'click #cancelBtn-router': 'close',
       'click .close': 'close',
       'click .modal-backdrop': 'close',
-      'click #create_router_button': 'create'
+      'submit #form': 'create'
     },
 
     initialize: function() {
@@ -43,8 +43,7 @@ var CreateRouterView = Backbone.View.extend({
         
         if (name !== "") {
             router.set({'name': name});
-            router.save(undefined, UTILS.Messages.getCallbacks("Router "+router.get("name") + " created.", "Error creating router "+router.get("name")), {context: this}); 
-            this.close();
+            router.save(undefined, UTILS.Messages.getCallbacks("Router "+router.get("name") + " created.", "Error creating router "+router.get("name"), {context: self})); 
         }
 
         

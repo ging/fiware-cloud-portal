@@ -267,9 +267,9 @@ var LaunchImageView = Backbone.View.extend({
         var self = this;
 
         var name = $('input[name=instance_name]').val();
-        var imageReg = this.model.id;
-        var flavorReg, key_name, availability_zone;
-        var security_groups = [];
+        var image_id = this.model.id;
+        var flavor, keypair, availability_zone;
+        var groups = [];
         
         var netws = [];
         var ip_address = [];
@@ -277,55 +277,83 @@ var LaunchImageView = Backbone.View.extend({
         var block_device_mapping = {};
 
         if ($("#id_keypair option:selected")[0].value !== '') {
-            key_name = $("#id_keypair option:selected")[0].value;
+            keypair = $("#id_keypair option:selected")[0].value;
         }
 
         if ($("#volume option:selected")[0].value !== '') {
             var volume_id = $("#volume option:selected")[0].value;
             var device_name = $('input[name=device_name]').val();
+            var volume = $('input[name=volume_snapshot]').val();
+            var delete_on_terminate = $('input[name=delete_on_terminate]').is(':checked') ? "on" : "off";
+            var seleceted_volume = this.options.volumes.get(volume_id);
+            var volume_size = seleceted_volume.get('size');
             console.log("volume snapshots", this.options.volumeSnapshots);
             block_device_mapping.volume_id = volume_id;
             block_device_mapping.device_name = device_name;
+            //block_device_mapping.volume_size = volume_size;
+            console.log(delete_on_terminate);
+            block_device_mapping.delete_on_terminate = delete_on_terminate;
         }
 
-        flavorReg = $("#id_flavor option:selected")[0].value;
+        flavor = $("#id_flavor option:selected")[0].value;
 
         $('input[name=security_groups]:checked').each(function () {
-            security_groups.push($(this)[0].value);
+            groups.push($(this)[0].value);
         });
-
         $('#network-selected li div').each(function() {
             var network_id = this.getAttribute("value");
             var chosen_network = self.options.networks.get(network_id);
             var nets = {};
-            nets.uuid = network_id;
+            //nets.uuid = network_id;
+            //2nd alternative
+            //nets["net-id"] = network_id;
             var f_ips = [];
             for (var i in self.options.ports.models) {
                 if (network_id === self.options.ports.models[i].get("network_id")) {
                     var fixed_ips = self.options.ports.models[i].get("fixed_ips");
                     for (var j in fixed_ips) {
                         f_ips.push(fixed_ips[j].ip_address);
-                        nets.fixed_ips = f_ips; 
+                        //nets.fixed_ips = f_ips; 
+
+                        //1nd alternative:
+                        //----------------
+                        //nics = [{'net-id': '11111111-1111-1111-1111-111111111111',
+                        //'v4-fixed-ip': '10.0.0.7'}]
+                        //nets["v4-fixed-ip"] = f_ips; 
+                        //nets["net-id"] = network_id; 
+
+                        //2nd alternative
+                        //---------------
+                        //networks": [{"uuid": "00000000-0000-0000-0000-000000000000"}, {"uuid": "11111111-1111-1111-1111-111111111111"}]}}'
+                        //nets.uuid = network_id; 
+
+                        //3rd alternative
+                        //---------------
+                        nets = network_id; 
                     }                                    
                 }
             }                      
             netws.push(nets);
+            //netws.push(network_id);
         }); 
 
         var user_data = $('textarea[name=user_data]').val();
-        var min_count = $('input[name=count]').val();
-        var max_count = $('input[name=count]').val();
+        //var min_count = $('input[name=count]').val();
+        //var max_count = $('input[name=count]').val();
+        var instance_count = $('input[name=instance_count]').val();
+        var source_type = "image_id";
 
         this.instanceData.name = name;
-        this.instanceData.imageReg = imageReg;
-        this.instanceData.flavorReg = flavorReg;
-        this.instanceData.key_name = key_name;
-        this.instanceData.user_data = user_data;
-        this.instanceData.security_groups = security_groups;
-        this.instanceData.min_count = min_count;
-        this.instanceData.max_count = max_count;
+        this.instanceData.source_type = source_type;
+        this.instanceData.image_id = image_id;
+        this.instanceData.flavor = flavor;
+        this.instanceData.keypair = keypair;
+        this.instanceData.customization_script = user_data;
+        this.instanceData.groups = groups;
+        this.instanceData.count = instance_count;
+        //this.instanceData.max_count = max_count;
         this.instanceData.availability_zone = availability_zone;
-        this.instanceData.networks = netws;
+        this.instanceData.network = netws;
         this.instanceData.block_device_mapping = block_device_mapping;
 
         $('#sum_instanceName').html(this.instanceData.name);
@@ -365,24 +393,27 @@ var LaunchImageView = Backbone.View.extend({
         var self = this;
 
         var instance = new Instance();
-        
+        instance.set({"source_type": this.instanceData.source_type});
         instance.set({"name": this.instanceData.name});
-        instance.set({"imageReg": this.instanceData.imageReg});
-        instance.set({"flavorReg": this.instanceData.flavorReg});
-        instance.set({"key_name": this.instanceData.key_name});
-        instance.set({"user_data": this.instanceData.user_data});
-        instance.set({"security_groups": this.instanceData.security_groups});
-        instance.set({"min_count": this.instanceData.min_count});
-        instance.set({"max_count": this.instanceData.max_count});
+        instance.set({"image_id": this.instanceData.image_id});
+        instance.set({"flavor": this.instanceData.flavor});
+        instance.set({"keypair": this.instanceData.keypair});
+        instance.set({"customization_script": this.instanceData.customization_script});
+        instance.set({"groups": this.instanceData.groups});
+        instance.set({"count": this.instanceData.count});
+        //instance.set({"max_count": this.instanceData.max_count});
         instance.set({"availability_zone": this.instanceData.availability_zone});
-        instance.set({"networks": this.instanceData.netws});
+        instance.set({"network": this.instanceData.network});
+        //instance.set({"nics": this.instanceData.network});
         instance.set({"block_device_mapping": this.instanceData.block_device_mapping});
+
+        console.log("instance", instance);
 
         if (this.instanceData.flavorReg !== "") {
         instance.save(undefined, UTILS.Messages.getCallbacks("Instance "+instance.get("name") + " launched.", "Error launching instance "+instance.get("name"),
             {context:self, href:"#nova/instances/"}));
         }
-
+        
         /*instance.save(undefined, {success: function () {
             self.close();
             window.location.href = "#nova/instances/";

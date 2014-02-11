@@ -8,7 +8,7 @@ var CreateSubnetView = Backbone.View.extend({
       'click .modal-backdrop': 'close',
       'click #subnet' : 'subnetTab',
       'click #details' : 'subnetDetailTab',
-      'click #create_subnet_button': 'create'
+      'submit #form': 'create'
     },
 
     initialize: function() {
@@ -64,6 +64,8 @@ var CreateSubnetView = Backbone.View.extend({
     },
 
     create: function(e) {
+        console.log("create_subnet");
+        var self = this;
         var network_id = this.options.network_id;
         var subnet = new Subnet();
         var tenant_id = this.options.tenant_id;
@@ -91,21 +93,10 @@ var CreateSubnetView = Backbone.View.extend({
 
             if (disable_gateway === false && gateway_ip !== "") {
                 subnet.set({'gateway_ip': gateway_ip});
-                subnet.save(undefined, {success: function(model, response) {
-                     UTILS.Messages.getCallbacks("Subnet "+subnet.get("name") + " created.", "Error creating subnet "+subnet.get("name"), {context: this});   
-                 }, error: function(response) {
-                     console.log("error", response);
-                 }});  
-                this.close();  
+                subnet.save(undefined, UTILS.Messages.getCallbacks("Subnet "+subnet.get("name") + " created.", "Error creating subnet "+subnet.get("name"), {context: self}));     
             } else if (disable_gateway === true) {
-                subnet.save(undefined, {success: function(model, response) {
-                     UTILS.Messages.getCallbacks("Subnet "+subnet.get("name") + " created.", "Error creating subnet "+subnet.get("name"), {context: this});   
-                 }, error: function(response) {
-                     console.log("error", response);
-                 }});  
-                this.close();
+                subnet.save(undefined, UTILS.Messages.getCallbacks("Subnet "+subnet.get("name") + " created.", "Error creating subnet "+subnet.get("name"), {context: self}));
             }
-            //error msg: Failed to create subnet "2.2.2.2/24" for network "None": Invalid input for operation: Requested subnet with cidr: 2.2.2.2/24 for network: 3d4a5f9b-24ca-431a-a691-c483b419f405 overlaps with another subnet.
         }
     }       
 });

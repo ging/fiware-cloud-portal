@@ -593,9 +593,8 @@ Utils.Me = (function(U, undefined) {
 
 UTILS.Messages = (function(U, undefined) {
     var getCallbacks;
-
+    
     getCallbacks = function (successMess, errorMess, options) {
-
         options = options || {};
 
         var check = function() {
