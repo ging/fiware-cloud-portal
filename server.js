@@ -4,8 +4,7 @@ var express = require('express'),
     crypto = require('crypto'),
     XMLHttpRequest = require("./xmlhttprequest").XMLHttpRequest,
     OAuth2 = require('./oauth2').OAuth2,
-    config = require('./config'), 
-    fs = require('fs');
+    config = require('./config');
 
 var oauth_config = config.oauth;
 var useIDM = config.useIDM;
@@ -85,8 +84,6 @@ app.use(function (req, res, next) {
     }
 });
 
-var time_data = {};
-
 function sendData(port, options, data, res, callBackOK, callbackError) {
     var xhr, body, result;
 
@@ -104,23 +101,10 @@ function sendData(port, options, data, res, callBackOK, callbackError) {
             }
         }
 
-        if (res.perform) {
-            if (!time_data[res.perform.serv]) time_data[res.perform.serv] = [];
-
-            time_data[res.perform.serv].push((new Date().getTime()) - res.perform.initT);
-            if (time_data[res.perform.serv].length === 100) {
-
-                var count = 0;
-                for (var i in time_data[res.perform.serv]) {
-                    count = count + time_data[res.perform.serv][i];
-                }
-                var st = res.perform.serv + ' - ' + count/100 + '\n';
-                fs.appendFile('../portal_time_stats.txt', st);
-                time_data[res.perform.serv] = [];
-            }
-            
-        } else {
-            fs.appendFile('../portal_time_stats.txt', 'REQUEST WITHOUT PERFORMANCE DATA');
+        if (res.time_stats && config.time_stats_logger) {
+            var interT = (new Date().getTime()) - res.time_stats.initT;
+            var st = res.time_stats.serv + ' - ' + interT;
+            console.log('TIME_STAT -- ', st);
         }
         res.send(resp);
     };
@@ -230,7 +214,9 @@ app.get('/', function(req, res) {
 
 app.all('/keystone/*', function(req, resp) {
 
-    resp.perform  = {serv: 'keystone', initT: (new Date()).getTime()};
+    if (config.time_stats_logger) {
+        resp.time_stats  = {serv: 'keystone', initT: (new Date()).getTime()};
+    }
 
     var options = {
         host: keystone_config.host,
@@ -244,7 +230,9 @@ app.all('/keystone/*', function(req, resp) {
 
 app.all('/keystone-admin/*', function(req, resp) {
 
-    resp.perform  = {serv: 'keystone-admin', initT: (new Date()).getTime()};
+    if (config.time_stats_logger) {
+        resp.time_stats  = {serv: 'keystone-admin', initT: (new Date()).getTime()};
+    }
 
     var options = {
         host: keystone_config.admin_host,
@@ -297,7 +285,9 @@ if (useIDM) {
 
 app.all('/:reg/:service/:v/*', function(req, resp) {
 
-    resp.perform  = {serv: req.params.service, initT: (new Date()).getTime()};
+    if (config.time_stats_logger) {
+        resp.time_stats  = {serv: req.params.service, initT: (new Date()).getTime()};
+    }
 
     var endp = getEndpoint(req.params.service, req.params.reg);
     var new_url = req.url.split(req.params.v)[1];
@@ -319,7 +309,9 @@ app.all('/*', function(req, res) {
 
 app.all('/user/:token', function(req, resp) {
 
-    resp.perform  = {serv: 'token', initT: (new Date()).getTime()};
+    if (config.time_stats_logger) {
+        resp.time_stats  = {serv: 'token', initT: (new Date()).getTime()};
+    }
 
     var options = {
         host: 'account.lab.fi-ware.org',

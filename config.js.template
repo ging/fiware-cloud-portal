@@ -22,4 +22,6 @@ config.keystone = {
 	tenantId: ''
 };
 
+config.time_stats_logger = false;
+
 module.exports = config;
