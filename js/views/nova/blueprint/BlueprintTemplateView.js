@@ -210,6 +210,15 @@ var BlueprintTemplateView = Backbone.View.extend({
             color: "#0093C6",
             color2: "#0093C6"
         });
+        function compare(a,b) {
+          if (a.id < b.id)
+             return -1;
+          if (a.id > b.id)
+            return 1;
+          return 0;
+        }
+
+        entries.sort(compare);
         this.tableView.render();
     },
 
