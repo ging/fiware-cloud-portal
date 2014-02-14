@@ -482,7 +482,26 @@ var CreateTierView = Backbone.View.extend({
     },
 
     addNewAlias: function() {
-        this.networkList = [{name: $("#aliasName").val(), displayName: $("#aliasName").val()}].concat(this.networkList);
+        var name = $("#aliasName").val();
+        var exists = false;
+        for (var id in this.networkList) {
+            var net = this.networkList[id];
+            if (net.name === name) {
+                exists = true;
+                continue;
+            }
+        }
+        if (!exists) {
+            for (var a in this.addedNetworks) {
+                if (this.addedNetworks[a].name === name) {
+                    exists = true;
+                    continue;
+                }
+            }
+        }
+        if (!exists) {
+            this.networkList = [{name: name, displayName: name}].concat(this.networkList);
+        }
         this.netTableViewNew.render();
     },
 

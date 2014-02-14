@@ -157,8 +157,8 @@ var EditTierView = Backbone.View.extend({
                         if (subnets.length > 0) {
                             var temp = network.attributes.name === "" ? "("+network.get("id").slice(0,8)+")" : network.attributes.name;
                             var name = temp + " (" + subnets + ")";
-                            added[temp] = name;
-                            self.networkList.push({displayName: name, name: network.attributes.name, net_id: network.id});
+                            added[temp] = {displayName: name, name: network.attributes.name, net_id: network.id};
+                            self.networkList.push(added[temp]);
                         }
                     }
                 }
@@ -170,9 +170,8 @@ var EditTierView = Backbone.View.extend({
                     for (var myNetIdx in myNets) {
                         var myNet = myNets[myNetIdx];
                         var displayName = myNet.networkName;
-                        console.log(myNet, added[myNet.networkName]);
                         if (added[myNet.networkName] !== undefined) {
-                            displayName = added[myNet.networkName];
+                            displayName = added[myNet.networkName].displayName;
                         }
                         self.addedNetworks.push({displayName: displayName, name: myNet.networkName, alias: true /* TODO Check if it is not an alias*/});
                     }
@@ -501,7 +500,26 @@ var EditTierView = Backbone.View.extend({
     },
 
     addNewAlias: function() {
-        this.networkList = [{name: $("#aliasName").val(), displayName: $("#aliasName").val()}].concat(this.networkList);
+        var name = $("#aliasName").val();
+        var exists = false;
+        for (var id in this.networkList) {
+            var net = this.networkList[id];
+            if (net.name === name) {
+                exists = true;
+                continue;
+            }
+        }
+        if (!exists) {
+            for (var a in this.addedNetworks) {
+                if (this.addedNetworks[a].name === name) {
+                    exists = true;
+                    continue;
+                }
+            }
+        }
+        if (!exists) {
+            this.networkList = [{name: name, displayName: name}].concat(this.networkList);
+        }
         this.netTableViewNew.render();
     },
 
