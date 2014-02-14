@@ -80,11 +80,11 @@ var CreateTierView = Backbone.View.extend({
                     sdcImages++;
                     image_selector.append(new Option(images[i].get("name"), images[i].get('id')));
                 }
-            }  
+            }
 
             if (images.length === 0 || sdcImages === 0) {
                 image_selector.append(new Option('No images available', ''));
-            } 
+            }
         }});
 
         this.tmpModels.flavors.fetch({success: function(collection) {
@@ -124,25 +124,9 @@ var CreateTierView = Backbone.View.extend({
         this.networkList = [];
         var current_tenant_id = JSTACK.Keystone.params.access.token.tenant.id;
 
-        var tiers = this.model.get("tierDtos_asArray");
-        var added = {};
-        for (var tierIdx in tiers) {
-            var tier = tiers[tierIdx];
-            if (tier.hasOwnProperty("networkDto_asArray")) {
-                var nets = tier.networkDto_asArray;
-                for (var netIdx in nets) {
-                    var net = nets[netIdx];
-                    if (added[net.networkName] === undefined) {
-                        this.networkList.push({displayName: net.networkName, name: net.networkName, alias: true /* TODO Check if it is not an alias*/});
-                        added[net.networkName] = net;
-                    }
-                }
-            }
-        }
-
         this.tmpModels.subnets.fetch({success: function(subnets_collection) {
             self.tmpModels.networks.fetch({success: function(net_collection) {
-
+                var added = {};
                 var all_subnets = subnets_collection.models;
                 for (var index in net_collection.models) {
                     var network = net_collection.models[index];
@@ -156,20 +140,39 @@ var CreateTierView = Backbone.View.extend({
                                 if (sub_id == all_subnets[j].id) {
                                     var sub_cidr = all_subnets[j].attributes.name+" "+all_subnets[j].attributes.cidr;
                                     subnets.push(sub_cidr);
-                                }                                      
-                            }                    
+                                }
+                            }
                         }
                         if (subnets.length > 0) {
                             var name = network.attributes.name === "" ? "("+network.get("id").slice(0,8)+")" : network.attributes.name;
+                            added[name] = network;
                             name = name + " (" + subnets + ")";
                             self.networkList.push({displayName: name, name: network.attributes.name, net_id: network.id});
                         }
                     }
                 }
 
-                self.networkList.push({displayName: "Internet", name: "Internet"});
-                
                 self.addedNetworks = [];
+
+                var tiers = self.model.get("tierDtos_asArray");
+
+                for (var tierIdx in tiers) {
+                    var tier = tiers[tierIdx];
+                    if (tier.hasOwnProperty("networkDto_asArray")) {
+                        var nets = tier.networkDto_asArray;
+                        for (var netIdx in nets) {
+                            var net = nets[netIdx];
+                            if (added[net.networkName] === undefined) {
+                                self.networkList.push({displayName: net.networkName, name: net.networkName, alias: true /* TODO Check if it is not an alias*/});
+                                added[net.networkName] = net;
+                            }
+                        }
+                    }
+                }
+
+                if (added.Internet === undefined) {
+                    self.networkList.push({displayName: "Internet", name: "Internet"});
+                }
 
                 self.netTableView.render();
                 self.netTableViewNew.render();
@@ -470,7 +473,7 @@ var CreateTierView = Backbone.View.extend({
               entries.push(
 
                 {id: product, cells:[
-                {value: products[product].name + ' ' + products[product].version, 
+                {value: products[product].name + ' ' + products[product].version,
                 tooltip: products[product].description}]});
 
         }
