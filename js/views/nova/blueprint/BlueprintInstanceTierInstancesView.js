@@ -156,7 +156,7 @@ var BlueprintInstanceTierInstancesView = Backbone.View.extend({
             action: "edit",
             activatePattern: oneSelected
         }, {
-            label: "VNC Console",
+            label: "Connect to Instance",
             action: "vnc",
             activatePattern: oneSelected
         }, {
