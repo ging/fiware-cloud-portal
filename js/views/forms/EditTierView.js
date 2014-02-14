@@ -155,11 +155,26 @@ var EditTierView = Backbone.View.extend({
                             }
                         }
                         if (subnets.length > 0) {
-                            var name = network.attributes.name === "" ? "("+network.get("id").slice(0,8)+")" : network.attributes.name;
-                            added[name] = network;
-                            name = name + " (" + subnets + ")";
+                            var temp = network.attributes.name === "" ? "("+network.get("id").slice(0,8)+")" : network.attributes.name;
+                            var name = temp + " (" + subnets + ")";
+                            added[temp] = name;
                             self.networkList.push({displayName: name, name: network.attributes.name, net_id: network.id});
                         }
+                    }
+                }
+
+                self.addedNetworks = [];
+                var myTier = self.options.tier;
+                if (myTier.hasOwnProperty("networkDto_asArray")) {
+                    var myNets = myTier.networkDto_asArray;
+                    for (var myNetIdx in myNets) {
+                        var myNet = myNets[myNetIdx];
+                        var displayName = myNet.networkName;
+                        console.log(myNet, added[myNet.networkName]);
+                        if (added[myNet.networkName] !== undefined) {
+                            displayName = added[myNet.networkName];
+                        }
+                        self.addedNetworks.push({displayName: displayName, name: myNet.networkName, alias: true /* TODO Check if it is not an alias*/});
                     }
                 }
 
@@ -181,17 +196,6 @@ var EditTierView = Backbone.View.extend({
 
                 if (added.Internet === undefined) {
                     self.networkList.push({displayName: "Internet", name: "Internet"});
-                }
-
-                self.addedNetworks = [];
-                var myTier = self.options.tier;
-                if (myTier.hasOwnProperty("networkDto_asArray")) {
-                    var myNets = myTier.networkDto_asArray;
-                    for (var myNetIdx in myNets) {
-                        var myNet = myNets[myNetIdx];
-                        console.log(myNet);
-                        self.addedNetworks.push({displayName: myNet.networkName, name: myNet.networkName, alias: true /* TODO Check if it is not an alias*/});
-                    }
                 }
 
                 self.netTableView.render();
