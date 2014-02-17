@@ -40,7 +40,7 @@ var LaunchImageView = Backbone.View.extend({
                 {id: 'input_details', name: 'Details'}, 
                 {id: 'input_access_and_security', name: 'Access & Security'}, 
                 {id: 'input_networks', name: 'Networking'},
-                {id: 'input_volumes', name: 'Volume Options'},
+                //{id: 'input_volumes', name: 'Volume Options'},
                 {id: 'input_post-creation', name: 'Post-Creation'},
                 {id: 'input_summary', name: 'Summary'}];
         }
