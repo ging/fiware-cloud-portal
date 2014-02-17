@@ -40,7 +40,7 @@ var LaunchImageView = Backbone.View.extend({
                 {id: 'input_details', name: 'Details'}, 
                 {id: 'input_access_and_security', name: 'Access & Security'}, 
                 {id: 'input_networks', name: 'Networking'},
-                //{id: 'input_volumes', name: 'Volume Options'},
+                {id: 'input_volumes', name: 'Volume Options'},
                 {id: 'input_post-creation', name: 'Post-Creation'},
                 {id: 'input_summary', name: 'Summary'}];
         }
@@ -274,13 +274,12 @@ var LaunchImageView = Backbone.View.extend({
         var netws = [];
         var ip_address = [];
         var network_id = "";
-        //var block_device_mapping = {};
+        var block_device_mapping = {};
 
         if ($("#id_keypair option:selected")[0].value !== '') {
             keypair = $("#id_keypair option:selected")[0].value;
         }
 
-<<<<<<< HEAD
         if ($("#volume option:selected")[0].value !== '') {
             var volume_id = $("#volume option:selected")[0].value;
             var device_name = $('input[name=device_name]').val();
@@ -295,15 +294,6 @@ var LaunchImageView = Backbone.View.extend({
             console.log(delete_on_terminate);
             block_device_mapping.delete_on_terminate = delete_on_terminate;
         }
-=======
-        // if ($("#volume option:selected")[0].value !== '') {
-        //     var volume_id = $("#volume option:selected")[0].value;
-        //     var device_name = $('input[name=device_name]').val();
-        //     console.log("volume snapshots", this.options.volumeSnapshots);
-        //     block_device_mapping.volume_id = volume_id;
-        //     block_device_mapping.device_name = device_name;
-        // }
->>>>>>> 0acff6edd508f7220a9305f74e6990c4a2801e87
 
         flavor = $("#id_flavor option:selected")[0].value;
 
@@ -335,7 +325,8 @@ var LaunchImageView = Backbone.View.extend({
                         //2nd alternative
                         //---------------
                         //networks": [{"uuid": "00000000-0000-0000-0000-000000000000"}, {"uuid": "11111111-1111-1111-1111-111111111111"}]}}'
-                        //nets.uuid = network_id; 
+                        //networks["uuid"] = network_id; 
+                        
 
                         //3rd alternative
                         //---------------
@@ -363,13 +354,9 @@ var LaunchImageView = Backbone.View.extend({
         this.instanceData.count = instance_count;
         //this.instanceData.max_count = max_count;
         this.instanceData.availability_zone = availability_zone;
-<<<<<<< HEAD
+
         this.instanceData.network = netws;
         this.instanceData.block_device_mapping = block_device_mapping;
-=======
-        this.instanceData.networks = netws;
-        //this.instanceData.block_device_mapping = block_device_mapping;
->>>>>>> 0acff6edd508f7220a9305f74e6990c4a2801e87
 
         $('#sum_instanceName').html(this.instanceData.name);
         $('#sum_image').html(this.model.get('name'));

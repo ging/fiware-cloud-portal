@@ -15,7 +15,6 @@ var Subnet = Backbone.Model.extend({
                    JSTACK.Neutron.getsubnetdetail(model.get("id"), options.success, options.error, this.getRegion());
                    break;
               case "create":
-              console.log("save subnet");
                    JSTACK.Neutron.createsubnet(model.get("network_id"), model.get("cidr"), model.get("name"), model.get("allocation_pools"), 
                    model.get("tenant_id"), model.get("gateway_ip"), model.get("ip_verion"), model.get("enable_dhcp"), model.get("dns_nameservers"),
                    model.get("host_routers"), options.success, options.error, this.getRegion());

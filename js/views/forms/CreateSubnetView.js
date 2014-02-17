@@ -64,7 +64,6 @@ var CreateSubnetView = Backbone.View.extend({
     },
 
     create: function(e) {
-        console.log("create_subnet");
         var self = this;
         var network_id = this.options.network_id;
         var subnet = new Subnet();
