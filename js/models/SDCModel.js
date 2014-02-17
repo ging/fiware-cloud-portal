@@ -144,6 +144,10 @@ var SDCs = Backbone.Collection.extend({
                 pr.description = products[index].description;
                 pr.attributes_asArray = products[index].attributes_asArray;
                 pr.version = releases[r].version;
+                pr.metadata = {};
+                for (var m in products[index].metadatas_asArray) {
+                    pr.metadata[products[index].metadatas_asArray[m].key] = products[index].metadatas_asArray[m].value;
+                }
                 self.catalogueList.push(pr);
             }
 

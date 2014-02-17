@@ -19,7 +19,7 @@ var EditInstanceSoftwareView = Backbone.View.extend({
         this.options = this.options || {};
 
         var self = this;
-
+        
         this.catalogueList = undefined;
 
         this.model.getCatalogueListWithReleases({callback: function (resp) {
@@ -177,11 +177,24 @@ var EditInstanceSoftwareView = Backbone.View.extend({
         }
 
         for (var product in products) {
-              entries.push(
+            var comp = true;
 
-                {id: product, cells:[
-                {value: products[product].name + ' ' + products[product].version,
-                tooltip: products[product].description}]});
+            if (products[product].metadata.image) {
+                comp = false;
+                var compImages = products[product].metadata.image.split(' ');
+                for (var im in compImages) {
+                    if (compImages[im] === this.options.instanceModel.get('image').id) {
+                        comp = true;
+                    }
+                }
+            } 
+
+            if (comp) {
+                entries.push(
+                    {id: product, cells:[
+                    {value: products[product].name + ' ' + products[product].version,
+                    tooltip: products[product].description}]});
+            }
 
         }
         return entries;
@@ -190,9 +203,14 @@ var EditInstanceSoftwareView = Backbone.View.extend({
 
     installSoftware: function(ids) {
         var product = new SDC();
-        var ip = this.options.instanceModel.get("addresses")["private"][0].addr;
+        var ip;
+        var addrs = this.options.instanceModel.get("addresses");
+        if (JSTACK.Keystone.getservice("network") !== undefined) {
+            ip = addrs[Object.keys(addrs)[0]][0].addr;
+        } else {
+            ip = addrs["private"][0].addr; 
+        }
         var fqn = this.options.instanceModel.get("id");
-
         var name = this.catalogueList[ids[0]].name;
         var version = this.catalogueList[ids[0]].version;
 
