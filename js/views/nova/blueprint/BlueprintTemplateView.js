@@ -146,7 +146,6 @@ var BlueprintTemplateView = Backbone.View.extend({
             tier = tierIds[0];
             this.model.get('tierDtos_asArray').forEach(function(cur) {
                 if (cur.name === tier) {
-                    console.log(cur.name, tier);
                     tr = cur;
                 }
             });

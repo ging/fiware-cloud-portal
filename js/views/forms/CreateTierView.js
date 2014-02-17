@@ -21,7 +21,8 @@ var CreateTierView = Backbone.View.extend({
         'click #btn-show-networks': 'showNetworks',
         'click #btn-hide-networks': 'hideNetworks',
         'click #addNewAlias': 'addNewAlias',
-        'change #id_region': 'onRegionChange'
+        'change #id_region': 'onRegionChange',
+        'change #id_image': 'onImageChange'
     },
 
     initialize: function() {
@@ -85,6 +86,8 @@ var CreateTierView = Backbone.View.extend({
             if (images.length === 0 || sdcImages === 0) {
                 image_selector.append(new Option('No images available', ''));
             }
+
+            self.tableViewNew.render();
         }});
 
         this.tmpModels.flavors.fetch({success: function(collection) {
@@ -202,6 +205,10 @@ var CreateTierView = Backbone.View.extend({
 
     onRegionChange: function(e) {
         this.updateTmpModels(e.currentTarget.value);
+    },
+
+    onImageChange: function(e) {
+        this.tableViewNew.render();
     },
 
     close: function(e) {
@@ -469,14 +476,30 @@ var CreateTierView = Backbone.View.extend({
             return 'loading';
         }
 
-        for (var product in products) {
-              entries.push(
+        var imageId = $("#id_image option:selected")[0].value;
 
-                {id: product, cells:[
-                {value: products[product].name + ' ' + products[product].version,
-                tooltip: products[product].description}]});
+        for (var product in products) {
+            var comp = true;
+
+            if (products[product].metadata.image) {
+                comp = false;
+                var compImages = products[product].metadata.image.split(' ');
+                for (var im in compImages) {
+                    if (compImages[im] === imageId) {
+                        comp = true;
+                    }
+                }
+            } 
+
+            if (comp) {
+                entries.push(
+                    {id: product, cells:[
+                    {value: products[product].name + ' ' + products[product].version,
+                    tooltip: products[product].description}]});
+            }
 
         }
+
         return entries;
 
     },
@@ -719,8 +742,6 @@ var CreateTierView = Backbone.View.extend({
         name = this.$('input[name=name]').val();
 
         flavorReg = $("#id_flavor option:selected")[0].value;
-
-        image = $("#id_image option:selected")[0].value;
 
         image = $("#id_image option:selected")[0].value;
 
