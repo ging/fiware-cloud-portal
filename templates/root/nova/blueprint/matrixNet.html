@@ -15,6 +15,15 @@ var maxWidth = totalWidth-numTiers*10-80;
 var maxHeight = totalHeight-numTiers*10-20;
 var width = 100/numTiers;
 var height = 100/numTiers;
+function compare(a,b) {
+  if (a.name < b.name)
+     return -1;
+  if (a.name > b.name)
+    return 1;
+  return 0;
+}
+
+tiersDtos.sort(compare);
 
 %>
 <div id="matrix_net" class="modal hide " >
@@ -59,18 +68,17 @@ var height = 100/numTiers;
                             var netR = tierR.networkDto_asArray[networkIdx]
                             for (var networkIdx2 in tierC.networkDto_asArray) {
                                 var netC = tierC.networkDto_asArray[networkIdx2];
-                                console.log(netR, "-", netC);
                                 if (netR.networkName === netC.networkName) {
                         %>
                                     <p><%=netR.networkName%></p>
-                        <%      
-                                } 
+                        <%
+                                }
                             }
                         }
                         %>
                         </div></div>
             <%
-                    } 
+                    }
                 }
             %>
 

@@ -120,6 +120,15 @@ var BlueprintInstanceView = Backbone.View.extend({
             };
             entries.push(entry);
         }
+        function compare(a,b) {
+          if (a.id < b.id)
+             return -1;
+          if (a.id > b.id)
+            return 1;
+          return 0;
+        }
+
+        entries.sort(compare);
         return entries;
     },
 
