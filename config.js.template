@@ -3,6 +3,9 @@ var config = {};
 config.process_user = '';
 config.process_group = '';
 
+// lab or idm
+config.version = 'lab';
+
 config.useIDM = false;
 
 config.oauth = {
