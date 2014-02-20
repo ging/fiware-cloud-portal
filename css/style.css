@@ -478,6 +478,14 @@ small {
     width: 90%;
 }*/
 
+.label_check {
+  float: left;
+}
+
+.modal fieldset .form-field input[type="checkbox"] {
+  width: 20px;
+  margin-left: 15px;
+}
 
 .modal fieldset .form-field input,
 .modal fieldset .form-field select,
