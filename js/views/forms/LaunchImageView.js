@@ -274,7 +274,7 @@ var LaunchImageView = Backbone.View.extend({
         var netws = [];
         var ip_address = [];
         var network_id = "";
-        var block_device_mapping = {};
+        var block_device_mapping;
 
         if ($("#id_keypair option:selected")[0].value !== '') {
             keypair = $("#id_keypair option:selected")[0].value;
@@ -287,11 +287,11 @@ var LaunchImageView = Backbone.View.extend({
             var delete_on_terminate = $('input[name=delete_on_terminate]').is(':checked') ? "on" : "off";
             var seleceted_volume = this.options.volumes.get(volume_id);
             var volume_size = seleceted_volume.get('size');
-            console.log("volume snapshots", this.options.volumeSnapshots);
+
+            block_device_mapping = {};
             block_device_mapping.volume_id = volume_id;
             block_device_mapping.device_name = device_name;
             //block_device_mapping.volume_size = volume_size;
-            console.log(delete_on_terminate);
             block_device_mapping.delete_on_terminate = delete_on_terminate;
         }
 
@@ -339,20 +339,17 @@ var LaunchImageView = Backbone.View.extend({
         }); 
 
         var user_data = $('textarea[name=user_data]').val();
-        //var min_count = $('input[name=count]').val();
-        //var max_count = $('input[name=count]').val();
-        var instance_count = $('input[name=instance_count]').val();
-        var source_type = "image_id";
+        var min_count = $('input[name=instance_count]').val();
+        var max_count = $('input[name=instance_count]').val();
 
         this.instanceData.name = name;
-        this.instanceData.source_type = source_type;
         this.instanceData.image_id = image_id;
         this.instanceData.flavor = flavor;
         this.instanceData.keypair = keypair;
-        this.instanceData.customization_script = user_data;
+        this.instanceData.user_data = user_data;
         this.instanceData.groups = groups;
-        this.instanceData.count = instance_count;
-        //this.instanceData.max_count = max_count;
+        this.instanceData.min_count = min_count;
+        this.instanceData.max_count = max_count;
         this.instanceData.availability_zone = availability_zone;
 
         this.instanceData.network = netws;
@@ -395,22 +392,19 @@ var LaunchImageView = Backbone.View.extend({
         var self = this;
 
         var instance = new Instance();
-        instance.set({"source_type": this.instanceData.source_type});
         instance.set({"name": this.instanceData.name});
         instance.set({"image_id": this.instanceData.image_id});
         instance.set({"flavor": this.instanceData.flavor});
         instance.set({"keypair": this.instanceData.keypair});
-        instance.set({"customization_script": this.instanceData.customization_script});
+        instance.set({"user_data": this.instanceData.user_data});
         instance.set({"groups": this.instanceData.groups});
-        instance.set({"count": this.instanceData.count});
-        //instance.set({"max_count": this.instanceData.max_count});
+        instance.set({"min_count": this.instanceData.min_count});
+        instance.set({"max_count": this.instanceData.max_count});
         instance.set({"availability_zone": this.instanceData.availability_zone});
         instance.set({"network": this.instanceData.network});
         //instance.set({"nics": this.instanceData.network});
         instance.set({"block_device_mapping": this.instanceData.block_device_mapping});
         instance.set({"metadata": {"region": UTILS.Auth.getCurrentRegion()}});
-
-        console.log("instance", instance);
 
         if (this.instanceData.flavorReg !== "") {
         instance.save(undefined, UTILS.Messages.getCallbacks("Instance "+instance.get("name") + " launched.", "Error launching instance "+instance.get("name"),
