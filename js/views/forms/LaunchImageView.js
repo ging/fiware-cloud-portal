@@ -363,8 +363,8 @@ var LaunchImageView = Backbone.View.extend({
         $('#sum_flavour').html($("#id_flavor option:selected")[0].text);
         $('#sum_instanceCount').html(this.instanceData.min_count);
 
-        if (this.instanceData.key_name !== undefined) {
-            $('#sum_keypair').html(this.instanceData.key_name);
+        if (this.instanceData.keypair !== undefined) {
+            $('#sum_keypair').html(this.instanceData.keypair);
             $('#sum_keypair').removeClass('warning');
         } else {
             $('#sum_keypair').html('No keypair selected. You will need a keypair to access the instance.');
