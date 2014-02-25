@@ -98,7 +98,7 @@ var NeutronNetworksView = Backbone.View.extend({
     getEntries: function() {
         var all_subnets = this.options.subnets.models;
         var current_tenant_id = this.options.tenant_id;
-        var entries = [];        
+        var entries = [];
         for (var index in this.model.models) {
             var subnets = [];
             var network = this.model.models[index];
@@ -111,9 +111,9 @@ var NeutronNetworksView = Backbone.View.extend({
                         if (sub_id == all_subnets[j].get('id')) {
                             var sub_cidr = "<strong>" + all_subnets[j].get('name')+"</strong> "+all_subnets[j].get('cidr');
                             subnets.push(sub_cidr);
-                        }                                      
-                    }                    
-                }            
+                        }
+                    }
+                }
                 var entry = {
                         id: network.get('id'),
                         cells: [{
@@ -123,9 +123,9 @@ var NeutronNetworksView = Backbone.View.extend({
                             value: subnets
                         }, {
                             value: network.get('shared') ? "Yes" : "No"
-                        }, {  
+                        }, {
                             value: network.get('status')
-                        },  {  
+                        },  {
                             value: network.get('admin_state_up') ? "UP" : "DOWN"
                         }]
                     };
@@ -157,7 +157,7 @@ var NeutronNetworksView = Backbone.View.extend({
                 subview = new CreateSubnetView({
                     el: 'body',
                     model: this.model,
-                    tenant_id: this.options.tenant_id, 
+                    tenant_id: this.options.tenant_id,
                     network_id: this.options.network_id
                 });
                 subview.render();
@@ -177,7 +177,7 @@ var NeutronNetworksView = Backbone.View.extend({
                     onAccept: function() {
                         networkIDs.forEach(function(network) {
                             net = self.model.get(network);
-                            net.destroy(UTILS.Messages.getCallbacks("Network "+net.get("name") + " deleted.", "Error deleting network "+net.get("name"), {context: self}));                       
+                            net.destroy(UTILS.Messages.getCallbacks("Network "+net.get("name") + " deleted.", "Error deleting network "+net.get("name"), {context: self}));
                         });
                     }
                 });
@@ -185,7 +185,7 @@ var NeutronNetworksView = Backbone.View.extend({
                 break;
         }
     },
-   
+
     renderFirst: function() {
         var self = this;
         UTILS.Render.animateRender(this.el, this._template, {
