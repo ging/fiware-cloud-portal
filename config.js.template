@@ -6,9 +6,9 @@ config.process_group = '';
 // nav bar portals
 config.fi-portals = {
     // Mandatory portals
-    'Cloud': 'http://cloud.lab.fi-ware.org/',
-    'Account': 'https://account.lab.fi-ware.org/',
-    'Help&info': 'http://lab.fi-ware.org/'
+    'Cloud': 'http://cloud.lab.fi-ware.org',
+    'Account': 'https://account.lab.fi-ware.org',
+    'Help&info': 'http://lab.fi-ware.org'
     // Another portals
     //,'': ''
 };
