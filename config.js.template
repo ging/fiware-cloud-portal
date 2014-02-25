@@ -3,8 +3,15 @@ var config = {};
 config.process_user = '';
 config.process_group = '';
 
-// lab or testbed
-config.version = 'lab';
+// nav bar portals
+config.fi-portals = {
+    // Mandatory portals
+    'Cloud': 'http://cloud.lab.fi-ware.org/',
+    'Account': 'https://account.lab.fi-ware.org/',
+    'Help&info': 'http://lab.fi-ware.org/'
+    // Another portals
+    //,'': ''
+};
 
 config.useIDM = false;
 

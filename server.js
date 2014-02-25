@@ -209,7 +209,7 @@ function getClientIp(req, headers) {
 app.set('view engine', 'ejs');
 
 app.get('/', function(req, res) {
-  res.render('index', {useIDM: useIDM, account_server: oauth_config.account_server, version: config.version})
+  res.render('index', {useIDM: useIDM, account_server: oauth_config.account_server, portals: config.fiportals});
 });
 
 app.all('/keystone/*', function(req, resp) {

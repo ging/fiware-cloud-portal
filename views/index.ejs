@@ -137,10 +137,10 @@
           <nav class="navbar-inner">
 
             <div class="logo-header">
-              <a href="http://<%=version%>.fi-ware.org/" class="logo-header">
+              <a href="<%=portals['Help&info']%>" class="logo-header">
                 <img alt="FI-WARE" class="logo" src="images/header/header-logo.png">
               </a>
-              <a href="http://<%=version%>.fi-ware.org/" class="brand hidden-tablet hidden-phone">
+              <a href="<%=portals['Help&info']%>" class="brand hidden-tablet hidden-phone">
                 <span id="logo-fi">FI-</span><span id="logo-ware">WARE</span>
               </a>
             </div>
@@ -152,23 +152,27 @@
 
               <ul class="dropdown-menu dropdown-menu-header">
                 <li class="cloud active">
-                  <a href="http://cloud.<%=version%>.fi-ware.org/">
+                  <a href="<%=portals['Cloud']%>">
                     Cloud
                   </a>
                 </li>
+                <%for (var p in portals) {
+                  if (p !== 'Account' && p !== 'Cloud' && p !== 'Help&info') {
+                  %>
                 <li class="store">
-                  <a href="https://store.<%=version%>.fi-ware.org/">
-                    Store
+                  <a href="<%=portals[p]%>">
+                    <%=p%>
                   </a>
                 </li>
-                <li class="mashup">
-                  <a href="https://mashup.<%=version%>.fi-ware.org/">
-                    Mashup
-                  </a>
-                </li>
+                <%}}%>
                 <li class="idm">
-                  <a href="https://account.<%=version%>.fi-ware.org/">
+                  <a href="<%=portals['Account']%>">
                     Account
+                  </a>
+                </li>
+                <li class="help">
+                  <a href="<%=portals['Help&info']%>">
+                    Help&info
                   </a>
                 </li>
               </ul>
@@ -177,27 +181,26 @@
 
             <ul class="oil-portal hidden-phone hidden-tablet">
               <li class="cloud active">
-                  <a href="http://cloud.<%=version%>.fi-ware.org/">
+                  <a href="<%=portals['Cloud']%>">
                     Cloud
                   </a>
                 </li>
+                <%for (var p in portals) {
+                  if (p !== 'Account' && p !== 'Cloud' && p !== 'Help&info') {
+                  %>
                 <li class="store">
-                  <a href="https://store.<%=version%>.fi-ware.org/">
-                    Store
+                  <a href="<%=portals[p]%>">
+                    <%=p%>
                   </a>
                 </li>
-                <li class="mashup">
-                  <a href="https://mashup.<%=version%>.fi-ware.org/">
-                    Mashup
-                  </a>
-                </li>
+                <%}}%>
                 <li class="idm">
-                  <a href="https://account.<%=version%>.fi-ware.org/">
+                  <a href="<%=portals['Account']%>">
                     Account
                   </a>
                 </li>
                 <li class="help">
-                  <a href="http://<%=version%>.fi-ware.org/">
+                  <a href="<%=portals['Help&info']%>">
                     Help&info
                   </a>
                 </li>
@@ -223,7 +226,7 @@
                   </li>
 
                   <li class="settings-menu">
-                    <a href="https://account.<%=version%>.fi-ware.org/settings">
+                    <a href="<%=portals['Account']%>/settings">
                       Settings
                     </a>
                   </li>
