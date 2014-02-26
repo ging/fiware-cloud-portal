@@ -4,7 +4,7 @@ config.process_user = '';
 config.process_group = '';
 
 // nav bar portals
-config.fi-portals = {
+config.fiportals = {
     // Mandatory portals
     'Cloud': 'http://cloud.lab.fi-ware.org',
     'Account': 'https://account.lab.fi-ware.org',

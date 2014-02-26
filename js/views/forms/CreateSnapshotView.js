@@ -21,10 +21,16 @@ var CreateSnapshotView = Backbone.View.extend({
         return this;
     },
 
+    onClose: function () {
+        this.undelegateEvents();
+        this.unbind();
+    },
+
     close: function(e) {
         this.model.unbind("change", this.render, this);
         $('#create_snapshot').remove();
         $('.modal-backdrop').remove();
+        this.onClose();
     },
 
     update: function(e) {
