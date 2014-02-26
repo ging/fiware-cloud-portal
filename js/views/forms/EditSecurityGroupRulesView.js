@@ -73,6 +73,9 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
         var securityGroupRules;
         for (var i in securityGroupsModel.get('rules')) {
             securityGroupRules = securityGroupsModel.get('rules')[i];
+            if (securityGroupRules.from_port === null || securityGroupRules.ip_protocol === null) {
+                continue;
+            }
             var entry = {
                 id: securityGroupRules.id,
                 cells: [{
