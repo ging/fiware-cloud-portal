@@ -264,6 +264,9 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
 
         for (var index in securityGroupsModel.get('rules')) {
             var securityGroupRules = securityGroupsModel.get('rules')[index];
+            if (securityGroupRules.ip_protocol === null) {
+                continue;
+            }
 
             var thisIpProtocol = securityGroupRules.ip_protocol.toUpperCase();
             var thisFromPort = securityGroupRules.from_port;
