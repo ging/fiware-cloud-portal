@@ -11,149 +11,114 @@ src: templates/forms/createNetwork.html
 </div>
 
 <form id="form" class="" onSubmit="return false;">
-		<ul id="myTab" class="nav nav-tabs">
-		  <li class="active">
-		    <a id="network" href="#input_network" data-toggle="tab">Network</a>
-		    </li>
-		  <li class="">
-		    <a id="subnet" href="#input_subnet" data-toggle="tab">Subnet</a>
-		    </li>
-		  <li class="">
-		    <a id="details" href="#input_subnet_detail" data-toggle="tab">Subnet Detail</a>
-		    </li>  
-		</ul>
-			
-			<div id="input_network" class="tab-pane tab-adjustable active">
-			    <div class="modal-body clearfix">
-		            <div class="left">
-		                <fieldset>
-		                    <div class="control-group form-field clearfix">
-		                        <label for="network_name">Network Name</label>
-		                        <span class="help-block"></span>
-		                        <div class="input">
-		                            <input type="text" name="network" value="<%= model.id %>" id="network_name" />
-		                        </div>
-		                    </div>
-		                    <div class="control-group form-field clearfix">
-		                        <label for="admin-state" class="label_check">Admin State</label>
-		                        <span class="help-block"></span>
-		                        <input class="inp_checkbox" type="checkbox" checked="checked" name="admin_state" value="" id="admin_state" />
-		                    </div>
-		                </fieldset>
-		            </div>
-		            <div class="right">
-		                <h3>Description</h3>
-		                <p>
-		                    From here you can create a new network. In addition a subnet associated with the network can be created in the next panel.
-		                </p>
-		            </div>
-			    </div>
-			</div>   
 	
+	<div id="input_network" class="tab-pane tab-adjustable active">
+	    <div id="network_modal" class="modal-body clearfix">
 
-			<div id="input_subnet" class="tab-pane tab-adjustable fade" style="display: none">
-				<div class="modal-body clearfix">
-		            <div class="left">
-		                <fieldset>		            
-		                    <div class="control-group form-field clearfix">
-		                        <label for="create-subnet" class="label_check">Create Subnet</label>
-		                        <span class="help-block"></span>
-		                        <input type="checkbox" name="create_subnet" value="" id="create_subnet" />
-		                    </div>
-		                    <div class="control-group form-field clearfix">
-		                        <label for="subnet-name">Subnet Name</label>
-		                        <span class="help-block"></span>
-		                        <div class="input">
-		                            <input type="text" name="subnet_name" id="subnet_name" />
-		                        </div>
-		                    </div>
-		                    <div class="control-group form-field clearfix">
-		                        <label for="network-address">Network Address*</label>
-		                        <span class="help-block"></span>
-		                        <div class="input">
-		                            <input type="text" name="network_address" id="network_address" title="This field is required"/>
-		                        </div>
-		                    </div>
-		                    <div class="control-group form-field clearfix">
-		                        <label for="ip-version">IP Version</label>
-		                        <span class="help-block"></span>
-		                        <div class="input">
-		                        	<select name="ip_version" id="ip_version">
-		                            	<option value="4">IPv4</option>
-		                            	<option value="6">IPv6</option>
-		                        	</select>
-		                        </div>
-		                    </div>
-		                    <div class="control-group form-field clearfix">
-		                        <label for="gateway-ip">Gateway IP (optional)</label>
-		                        <span class="help-block"></span>
-		                        <div class="input">
-		                            <input type="text" name="gateway_ip" id="gateway_ip"/>
-		                        </div>
-		                    </div>
-		                    <div class="control-group form-field clearfix">
-		                        <label for="disable-gateway" class="label_check">Disable Gateway</label>
-		                        <span class="help-block"></span>
-		                        <input type="checkbox" checked="checked" name="disable_gateway" value="" id="disable_gateway" />
-		                    </div>
-		                </fieldset>
-		            </div>
-		            <div class="right">
-		                <h3>Description</h3>
-		                <p>
-		                    You can create a subnet associated with the new network, in which case "Network Address" must be specified. If you wish to create a network WITHOUT a subnet, uncheck the "Create Subnet" checkbox.
-		                </p>
-		            </div>
-		        </div>
-			</div>
+	    	<div id="net_details">
+	            <div class="left">
+	                <fieldset>
+	                    <div class="control-group form-field clearfix">
+	                        <label for="network_name">Network Name</label>
+	                        <span class="help-block"></span>
+	                        <div class="input">
+	                            <input type="text" name="network" value="<%= model.id %>" id="network_name" />
+	                        </div>
+	                    </div>
+	                    <div class="control-group form-field clearfix">
+	                        <label for="admin-state" class="label_check">Admin State</label>
+	                        <span class="help-block"></span>
+	                        <input class="inp_checkbox" type="checkbox" checked="checked" name="admin_state" value="" id="admin_state" />
+	                    </div>
+	                </fieldset>
+	            </div>
+	            <div class="right">
+	                <h3>Description</h3>
+	                <p>
+	                From here you can create a new network. You can associate a subnet with the network pushing the button below. If you want to associate more subnets you can do once the network is created.
+	                </p>
+	            </div>
+            </div>
 
+            <p id="switch_subnet" class="btn btn-small btn-white" data-i18n="Add subnet">Add subnet</p>     
 
-			<div id="input_subnet_detail" class="tab-pane tab-adjustable fade" style="display: none">
-				<div class="modal-body clearfix">
-		            <div class="left">
-		                <fieldset>		            
-		                    <div class="control-group form-field clearfix">
-		                        <label for="enable-dhcp" class="label_check">Enable DHCP</label>
-		                        <span class="help-block"></span>
-		                        <input required type="checkbox" checked="checked" name="enable_dhcp" value="" id="enable_dhcp" />
-		                    </div>
-		                    <div class="control-group form-field clearfix">
-		                        <label for="allocation-pools">Allocation Pools</label>
-		                        <span class="help-block"></span>
-		                        <div class="input">
-		                            <textarea id="allocation_pools" rows="3" cols="15" name="allocation_pools"></textarea>
-		                        </div>
-		                    </div>
-		                    <div class="control-group form-field clearfix">
-		                        <label for="dns-name-servers">DNS Name Servers</label>
-		                        <span class="help-block"></span>
-		                        <div class="input">
-		                            <textarea id="dns_name_servers" rows="3" cols="15" name="dns_name_servers"></textarea>
-		                        </div>
-		                    </div>
-		                    <div class="control-group form-field clearfix">
-		                        <label for="host-routers">Host Routes</label>
-		                        <span class="help-block"></span>
-		                        <div class="input">
-		                            <textarea id="host_routers" rows="3" cols="15" name="host_routers"></textarea>
-		                        </div>
-		                    </div>
-		                </fieldset>
-		            </div>
-		            <div class="right">
-		                <h3>Description</h3>
-		                <p>
-		                    You can specify additional attributes for the subnet.
-		                </p>
-		            </div>
-				</div>
-			</div>
-		
-		<div class="modal-footer">
-	        <p class="mandatoryMess">* Mandatory fields.</p>
-	        <input type="submit" id="create_network_button" class="btn btn-blue btn-create-network pull-right" value="Create"/>
-	        <a id="cancelBtn-network" class="btn secondary cancel close">Cancel</a>
-    	</div>
+            <div id="subnet_details" class="hide">
+            	<hr class="header_rule">
+	            <div class="left">
+	            	<fieldset>		            
+	                    <div class="control-group form-field clearfix">
+	                        <label for="subnet-name">Subnet Name</label>
+	                        <span class="help-block"></span>
+	                        <div class="input">
+	                            <input type="text" name="subnet_name" id="subnet_name" />
+	                        </div>
+	                    </div>
+	                    <div class="control-group form-field clearfix">
+	                        <label for="network-address">Network Address*</label>
+	                        <span class="help-block"></span>
+	                        <div class="input">
+	                            <input type="text" name="network_address" id="network_address"/>
+	                        </div>
+	                    </div>
+	                    <div class="control-group form-field clearfix">
+	                        <label for="ip-version">IP Version</label>
+	                        <span class="help-block"></span>
+	                        <div class="input">
+	                        	<select name="ip_version" id="ip_version">
+	                            	<option value="4">IPv4</option>
+	                            	<option value="6">IPv6</option>
+	                        	</select>
+	                        </div>
+	                    </div>
+	                    <div class="control-group form-field clearfix">
+	                        <label for="gateway-ip">Gateway IP</label>
+	                        <span class="help-block"></span>
+	                        <div class="input">
+	                            <input type="text" name="gateway_ip" id="gateway_ip"/>
+	                        </div>
+	                    </div>
+	                    <div class="control-group form-field clearfix">
+	                        <label for="enable-dhcp" class="label_check">Enable DHCP</label>
+	                        <span class="help-block"></span>
+	                        <input type="checkbox" checked="checked" name="enable_dhcp" value="" id="enable_dhcp" />
+	                    </div>
+	                </fieldset>
+	            </div>
+	            <div class="right">
+	                <fieldset>
+	                    <div class="control-group form-field clearfix">
+	                        <label for="allocation-pools">Allocation Pools</label>
+	                        <span class="help-block"></span>
+	                        <div class="input">
+	                            <textarea id="allocation_pools" rows="3" cols="15" name="allocation_pools"></textarea>
+	                        </div>
+	                    </div>
+	                    <div class="control-group form-field clearfix">
+	                        <label for="dns-name-servers">DNS Name Servers</label>
+	                        <span class="help-block"></span>
+	                        <div class="input">
+	                            <textarea id="dns_name_servers" rows="3" cols="15" name="dns_name_servers"></textarea>
+	                        </div>
+	                    </div>
+	                    <div class="control-group form-field clearfix">
+	                        <label for="host-routers">Host Routes</label>
+	                        <span class="help-block"></span>
+	                        <div class="input">
+	                            <textarea id="host_routers" rows="3" cols="15" name="host_routers"></textarea>
+	                        </div>
+	                    </div>
+	                </fieldset>
+
+	            </div>
+	        </div>
+	    </div>
+	</div>   
+
+	<div class="modal-footer">
+        <p class="mandatoryMess">* Mandatory fields.</p>
+        <input type="submit" id="create_network_button" class="btn btn-blue btn-create-network pull-right" value="Create"/>
+        <a id="cancelBtn-network" class="btn secondary cancel close">Cancel</a>
+	</div>
 </form>
 
 </script>

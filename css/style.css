@@ -1057,6 +1057,15 @@ width: 100%;
   position: relative;
   height: 100%;
 }
+
+#network_modal {
+  height: 140px;
+}
+
+#net_details {
+  height: 110px;
+}
+
 /*
 input:required:invalid, input:focus:invalid {
   background-image: url(../images/invalid.png);

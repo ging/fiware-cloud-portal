@@ -4,15 +4,14 @@ var CreateNetworkView = Backbone.View.extend({
 
     events: {
       'click #cancelBtn-network': 'close',
-      'click #network' : 'networkTab',
-      'click #subnet' : 'subnetTab',
-      'click #details' : 'subnetDetailTab',
       'click .close': 'close',
       'click .modal-backdrop': 'close',
+      'click #switch_subnet': 'switch_subnet',
       'submit #form': 'create'
     },
 
     initialize: function() {
+        this.add_subnet = false;
     },
 
     render: function () {
@@ -39,119 +38,78 @@ var CreateNetworkView = Backbone.View.extend({
         this.model.unbind("sync", this.render, this);
     },
 
-    networkTab: function(e) {
-        if ($('#input_subnet').show()) {
-            $('#input_subnet').hide();
-        } 
-        if ($('#input_network').hide()) {
-            $('#input_network').show();
-        }  
-        if ($('#input_subnet_detail').show()) {
-            $('#input_subnet_detail').hide();
-        }  
-    },
+    switch_subnet: function(e) {
+        if (this.add_subnet) {
 
-    subnetTab: function(e) {
-        if ($('#input_subnet').hide()) {
-            $('#input_subnet').show();
-        } 
-        if ($('#input_network').show()) {
-            $('#input_network').hide();
-        }  
-        if ($('#input_subnet_detail').show()) {
-            $('#input_subnet_detail').hide();
-        }       
-    },
+            $('#subnet_details').addClass('hide');
+            $('#switch_subnet').html('Add subnet');
+            $('#network_modal').css('height', '140px');
+            document.getElementById('network_address').removeAttribute('required');
 
-    subnetDetailTab: function(e) {
-        if ($('#input_subnet').show()) {
-            $('#input_subnet').hide();
-        } 
-        if ($('#input_network').show()) {
-            $('#input_network').hide();
-        }  
-        if ($('#input_subnet_detail').hide()) {
-            $('#input_subnet_detail').show();
-        }  
+            this.add_subnet = false;
+
+        } else {
+
+            $('#subnet_details').removeClass('hide');
+            $('#switch_subnet').html('Remove subnet');
+            $('#network_modal').css('height', '475px');
+            $('#network_address').attr('required', 'required');
+
+            this.add_subnet = true;
+        }
     },
 
     create: function(e) {
         
         var self = this;
+
         var network = new Network();
         var name = $('input[name=network]').val();
         var admin_state = this.$('input[name=admin_state]').is(':checked');
-        var subnet = new Subnet();
-        var create_subnet = this.$('input[name=create_subnet]').is(':checked');
-        var tenant_id = this.options.tenant_id;
-        var subnet_name = $('input[name=subnet_name]').val();
-        var cidr = $('input[name=network_address]').val();
-        var ip_version = $('input[name=ip_version]').val();
-        var gateway_ip = $('input[name=gateway_ip]').val();
-        var disable_gateway = this.$('input[name=disable_gateway]').is(':checked');
-
-        var enable_dhcp = this.$('input[name=enable_dhcp]').is(':checked');
-        var allocation_pools = $('input[name=allocation_pools]').val();
-        var dns_name_servers = $('input[name=dns_name_servers]').val();
-        var host_routers = $('input[name=host_routers]').val();
-
-        network.set({'name': name});
+        
         network.set({'admin_state_up': admin_state});
 
-        if (create_subnet) {
-            subnet.set({'name': subnet_name});
-            subnet.set({'name': subnet_name});
+        if (name !== "") network.set({'name': name});
+        
+        if (this.add_subnet) {
+
+            var subnet = new Subnet();
+            var tenant_id = this.options.tenant_id;
+            var subnet_name = $('input[name=subnet_name]').val();
+            var cidr = $('input[name=network_address]').val();
+            var ip_version = $('select[name=ip_version]').val();
+            var gateway_ip = $('input[name=gateway_ip]').val();
+
+            var enable_dhcp = this.$('input[name=enable_dhcp]').is(':checked');
+            var allocation_pools = $('textarea[name=allocation_pools]').val();
+            var dns_name_servers = $('textarea[name=dns_name_servers]').val();
+            var host_routers = $('textarea[name=host_routers]').val();
+
+            
             subnet.set({'cidr': cidr});
             subnet.set({'ip_version': ip_version});
             subnet.set({'tenant_id': tenant_id});
             subnet.set({'enable_dhcp': enable_dhcp});
-            subnet.set({'allocation_pools': allocation_pools});
-            subnet.set({'dns_nameservers': dns_name_servers});
-            subnet.set({'host_routers': host_routers});    
-     
 
-            if (cidr !== "") {
+            if (subnet_name !== "") subnet.set({'name': subnet_name});
+            if (gateway_ip !== "") subnet.set({'gateway_ip': gateway_ip});
+            if (allocation_pools !== "") subnet.set({'allocation_pools': allocation_pools});
+            if (dns_name_servers !== "") subnet.set({'dns_nameservers': dns_name_servers});
+            if (host_routers !== "") subnet.set({'host_routers': host_routers});
 
-                if (disable_gateway === false && gateway_ip !== "") {
-                    subnet.set({'gateway_ip': gateway_ip});
-                    network.save(undefined, {success: function(model, response) {     
-                    var network_id = model.attributes.network.id; 
-                    subnet.set({'network_id': network_id});              
-                    subnet.save(undefined, UTILS.Messages.getCallbacks("Network "+network.get("name") + " created.", "Error creating network "+network.get("name"), {context: self}));   
-                    }, error: function(response) {
-                        console("error", response);
-                    }});  
-                } else if (disable_gateway === true) {
-                    network.save(undefined, {success: function(model, response) {     
-                    var network_id = model.attributes.network.id; 
-                    subnet.set({'network_id': network_id});              
-                    subnet.save(undefined, UTILS.Messages.getCallbacks("Network "+network.get("name") + " created.", "Error creating network "+network.get("name"), {context: self}));   
-                    }, error: function(response) {
-                        console("error", response);
-                    }});   
-                }
+            //console.log('CON SUBNET', network.attributes, subnet.attributes);
 
-            } else {
-                // cidr is empty
-                if ($('#input_network').show()) {
-                    $('#input_network').hide();
-                    $('#input_subnet_detail').hide();
-                    $('#input_subnet').show();
-                    $('#myTab a[href="#input_subnet"]').tab('show');
-
-                } else if ($('#input_subnet_detail').show()) {
-                    $('#input_subnet_detail').hide();
-                    $('#input_network').hide();
-                    $('#input_subnet').show();
-                    $('#myTab a[href="#input_subnet"]').tab('show');
-                }
-                
-            }         
+            network.save(undefined, {success: function(model, response) {     
+                var network_id = model.attributes.network.id; 
+                subnet.set({'network_id': network_id});              
+                subnet.save(undefined, UTILS.Messages.getCallbacks("Network " + name + " created.", "Error creating network " + name, {context: self}));   
+            }, error: function(response) {
+                console.log("error", response);
+            }});  
 
         } else {
-            network.save(undefined, UTILS.Messages.getCallbacks("Network "+network.get("name") + " created.", "Error creating network "+network.get("name"), {context: self})); 
+            //console.log('NO SUBNET', network.attributes);
+            network.save(undefined, UTILS.Messages.getCallbacks("Network " + name + " created.", "Error creating network " + name, {context: self})); 
         }             
-
-        
     }
 });
