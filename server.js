@@ -347,8 +347,14 @@ function getCatalog() {
     sendData("http", options, JSON.stringify(credentials), undefined, function (status, resp) {
         service_catalog = JSON.parse(resp).access.serviceCatalog;
         console.log('Service catalog: ', JSON.stringify(service_catalog, 4, 4));
+        setInterval(function() {
+            getCatalog();
+        }, 600000);
     }, function (e, msg) {
         console.log('Error getting catalog', e, msg);
+        setTimeout(function() {
+            getCatalog();
+        }, 10000);
     });
 }
 
