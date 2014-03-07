@@ -207,8 +207,6 @@ var EditTierView = Backbone.View.extend({
 
         // Update SDC tmp model
 
-        this.addedProducts = [];
-
         this.tmpModels.sdcs.getCatalogueListWithReleases({callback: function (resp) {
 
             self.catalogueList = resp;

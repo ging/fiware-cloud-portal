@@ -6,8 +6,6 @@ var EditSubnetView = Backbone.View.extend({
         'click #update_subnet_button': 'onUpdate',
         'click #cancelBtn-subnet': 'close',
         'click #close': 'close',
-        'click #subnet' : 'subnetTab',
-        'click #details' : 'subnetDetailTab',
         'click .modal-backdrop': 'close'
     },
 
@@ -23,31 +21,6 @@ var EditSubnetView = Backbone.View.extend({
         $('#edit_subnet').remove();
         $('.modal-backdrop:last').remove();
         this.onClose();
-        this.model.unbind("sync", this.render, this);
-    },
-
-    subnetTab: function(e) {
-        if ($('#input_subnet').hide()) {
-            $('#input_subnet').show();
-        } 
-        if ($('#input_network').show()) {
-            $('#input_network').hide();
-        }  
-        if ($('#input_subnet_detail').show()) {
-            $('#input_subnet_detail').hide();
-        }       
-    },
-
-    subnetDetailTab: function(e) {
-        if ($('#input_subnet').show()) {
-            $('#input_subnet').hide();
-        } 
-        if ($('#input_network').show()) {
-            $('#input_network').hide();
-        }  
-        if ($('#input_subnet_detail').hide()) {
-            $('#input_subnet_detail').show();
-        }  
     },
 
     render: function () {
@@ -61,35 +34,40 @@ var EditSubnetView = Backbone.View.extend({
     },
 
     onUpdate: function(e){
+        var self = this;
+        
+        var subnet = this.model;
         var subnet_name = $('input[name=subnet_name]').val();
+        //var ip_version = $('select[name=ip_version]').val();
         var gateway_ip = $('input[name=gateway_ip]').val();
-        var disable_gateway = this.$('input[name=disable_gateway]').is(':checked');
+
         var enable_dhcp = this.$('input[name=enable_dhcp]').is(':checked');
-        var dns_name_servers = $('input[name=dns_name_servers]').val();
-        var host_routers = $('input[name=host_routers]').val();
+        var dns_name_servers = $('textarea[name=dns_name_servers]').val();
+        var host_routes = $('textarea[name=host_routes]').val();
 
-        this.model.set({'name': subnet_name});
-        this.model.set({'enable_dhcp': enable_dhcp});
-        this.model.set({'dns_nameservers': dns_name_servers});
-        this.model.set({'host_routers': host_routers});
+        subnet.set({'enable_dhcp': enable_dhcp});
 
-        if (disable_gateway === false && gateway_ip !== "") {
-            this.model.set({'gateway_ip': gateway_ip});
-            this.model.save(undefined, {success: function(model, response) {
-                UTILS.Messages.getCallbacks("Subnet "+subnet_name + " updated.", "Error updating subnet "+subnet_name, {context: this});   
-            }, error: function(response) {
-                console.log("error", response);
-            }});    
-            this.close();  
-        } else if (disable_gateway === true) {
-            this.model.save(undefined, {success: function(model, response) {
-                UTILS.Messages.getCallbacks("Subnet "+subnet_name + " created.", "Error updating subnet "+subnet_name, {context: this});   
-            }, error: function(response) {
-                console.log("error", response);
-            }});  
-            this.close();
+        if (subnet_name !== "") subnet.set({'name': subnet_name});
+        if (gateway_ip !== "") subnet.set({'gateway_ip': gateway_ip});
+
+        if (dns_name_servers !== "") {
+            var dnss = dns_name_servers.split('\n');
+            subnet.set({'dns_nameservers': dnss});
         }
 
+        if (host_routes !== "") {
+            var hosts = [];
+            var lines1 = host_routes.split('\n');
+            for (var l1 in lines1) {
+                var host = {destination: lines1[l1].split(',')[0], nexthop: lines1[l1].split(',')[1]};
+                hosts.push(host);
+            }
+            subnet.set({'host_routes': hosts});
+        }
+
+        console.log('CON SUBNET', subnet.attributes);
+                 
+        subnet.save(undefined, UTILS.Messages.getCallbacks("Subnet " + subnet_name + " updated.", "Error updating subnet " + subnet_name, {context: self, success: self.options.success_callback}));
     }
 
 });

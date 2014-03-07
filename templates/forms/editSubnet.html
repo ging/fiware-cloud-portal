@@ -1,106 +1,85 @@
 <script id="editSubnetFormTemplate" type="text/html">
-<div id="edit_subnet" class="modal hide in" style="display: block; ">
-    <!--
-    Description: Edit Subnet Form
-    src: templates/forms/editSubnet.html
-    -->
-    <div class="modal-header">
-        <a href="#" class="close" data-dismiss="modal">×</a>
-        <h3>Update Subnet</h3>
+<div id="edit_subnet" class="modal hide in" style="display: block; overflow: visible;">
+<!--
+Description: Edit Subnet Form
+src: templates/forms/editSubnet.html
+-->
+<div class="modal-header">
+    <a href="#" class="close" data-dismiss="modal">×</a>
+    <h3>Edit Subnet</h3>
+</div>
+
+<form id="form" onSubmit="return false;">
+
+    <div id="input_subnet" class="tab-pane tab-adjustable active" style="overflow: visible;">
+        <div class="modal-body clearfix">
+            <div class="left">
+                <fieldset>                  
+                    <div class="control-group form-field clearfix">
+                        <label for="subnet-name">Subnet Name</label>
+                        <span class="help-block"></span>
+                        <div class="input">
+                            <input type="text" name="subnet_name" id="subnet_name" value="<%=model.get("name")%>"/>
+                        </div>
+                    </div>
+                    <div class="control-group form-field clearfix">
+                        <label for="enable-dhcp" class="label_check">Enable DHCP</label>
+                        <span class="help-block"></span>
+                        <input type="checkbox" checked="checked" name="enable_dhcp" value="<%=model.get("enable_dhcp")%>" id="enable_dhcp" />
+                    </div>
+                </fieldset>
+            </div>
+            <div class="right">
+                <fieldset>
+                    <div class="control-group form-field clearfix">
+                        <label for="gateway-ip">Gateway IP</label>
+                        <span class="help-block"></span>
+                        <div class="input">
+                            <input type="text" name="gateway_ip" id="gateway_ip" value="<%=model.get("gateway_ip")%>"/>
+                        </div>
+                    </div>
+                    <%
+                    var dn = ''; 
+                    for(var d in model.get("dns_nameservers")) {
+                        dn = dn + model.get("dns_nameservers")[d];
+                        if (d < model.get("dns_nameservers").length - 1) {
+                            dn = dn + '\n';
+                        }
+                    }%>
+                    <div class="control-group form-field clearfix">
+                        <label for="dns-name-servers">DNS Name Servers</label>
+                        <span class="help-block"></span>
+                        <div class="input tip" data-tooltip="One entry per line.">
+                            <textarea id="dns_name_servers" rows="3" cols="15" name="dns_name_servers"><%=dn%></textarea>
+                        </div>
+                    </div>
+                    <%
+                    var ht = ''; 
+                    for(var d in model.get("host_routes")) {
+                        ht = ht + model.get("host_routes")[d].destination + ',' + model.get("host_routes")[d].nexthop;
+                        if (d < model.get("host_routes").length - 1) {
+                            ht = ht + '\n';
+                        }
+                    }%>
+                    <div class="control-group form-field clearfix">
+                        <label for="host-routes">Host Routes</label>
+                        <span class="help-block"></span>
+                        <div class="input tip", data-tooltip="Additional routes announced to the hosts. One entry per line.">
+                            <textarea placeholder="<destination_netw>,<nexthop>" id="host_routes" rows="3" cols="15" name="host_routes"><%=ht%></textarea>
+                        </div>
+                    </div>
+                </fieldset>
+
+            </div>
+        </div>
     </div>
 
-    <form id="form" class="" action="" method="">
-
-        <ul id="myTab" class="nav nav-tabs">
-          <li class="active">
-            <a id="subnet" href="#input_subnet" data-toggle="tab">Subnet</a>
-          </li>
-          <li class="">
-            <a id="details" href="#input_subnet_detail" data-toggle="tab">Subnet Detail</a>
-          </li>  
-        </ul>       
-            
-
-            <div id="input_subnet" class="tab-pane tab-adjustable active">
-                <div class="modal-body clearfix">
-                    <div class="left">
-                        <fieldset>                  
-                            <div class="control-group form-field clearfix">
-                                <label for="subnet-name">Subnet Name</label>
-                                <span class="help-block"></span>
-                                <div class="input">
-                                    <input type="text" name="subnet_name" id="subnet_name" value="<%= model.get('name')%>"/>
-                                </div>
-                            </div>
-                            <div class="control-group form-field clearfix">
-                                <label for="network-address">Network Address</label>
-                                <span class="help-block"></span>
-                                <p><%= model.cidr%></p>
-                            </div>
-                            <div class="control-group form-field clearfix">
-                                <label for="gateway-ip">Gateway IP (optional)</label>
-                                <span class="help-block"></span>
-                                <div class="input">
-                                    <input type="text" name="gateway_ip" id="gateway_ip" value="<%= model.get('gateway_ip')%>"/>
-                                </div>
-                            </div>
-                            <div class="control-group form-field clearfix">
-                                <label for="disable-gateway" class="label_check">Disable Gateway</label>
-                                <span class="help-block"></span>
-                                <input type="checkbox" name="disable_gateway" id="disable_gateway"/>
-                            </div>
-                        </fieldset>
-                    </div>
-                    <div class="right">
-                        <h3>Description</h3>
-                        <p>
-                            You can update a subnet associated with the network. Advanced configuration are available at "Subnet Detail" tab.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-
-            <div id="input_subnet_detail" class="tab-pane tab-adjustable fade" style="display: none">
-                <div class="modal-body clearfix">
-                    <div class="left">
-                        <fieldset>                  
-                            <div class="control-group form-field clearfix">
-                                <label for="enable-dhcp" class="label_check">Enable DHCP</label>
-                                <span class="help-block"></span>
-                                <input required type="checkbox" name="enable_dhcp" value="" id="enable_dhcp" />
-                            </div>
-                            <div class="control-group form-field clearfix">
-                                <label for="dns-name-servers">DNS Name Servers</label>
-                                <span class="help-block"></span>
-                                <div class="input">
-                                    <textarea id="dns_name_servers" rows="3" cols="15" name="dns_name_servers"></textarea>
-                                </div>
-                            </div>
-                            <div class="control-group form-field clearfix">
-                                <label for="host-routers">Host Routes</label>
-                                <span class="help-block"></span>
-                                <div class="input">
-                                    <textarea id="host_routers" rows="3" cols="15" name="host_routers"></textarea>
-                                </div>
-                            </div>
-                        </fieldset>
-                    </div>
-                    <div class="right">
-                        <h3>Description</h3>
-                        <p>
-                            You can specify additional attributes for the subnet.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
         
-        <div class="modal-footer">
-            <p class="mandatoryMess">* Mandatory fields.</p>
-            <input type="submit" id="update_subnet_button"  class="btn btn-blue btn-update-subnet pull-right" value="Update"/>
-            <a id="cancelBtn-subnet" class="btn secondary cancel close">Cancel</a>
-        </div>
-    </form>
+    <div class="modal-footer">
+        <p class="mandatoryMess">* Mandatory fields.</p>
+        <input type="submit" id="update_subnet_button"  class="btn btn-blue btn-update-subnet pull-right" value="Update"/>
+        <a id="cancelBtn-subnet" class="btn secondary cancel close">Cancel</a>
+    </div>
+</form>
 
 </script>

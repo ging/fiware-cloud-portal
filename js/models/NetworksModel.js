@@ -26,12 +26,8 @@ var Network = Backbone.Model.extend({
            }
    },
 
-   parse: function(resp) {
-        if (resp.networks !== undefined) {
-            return resp.networks;
-        } else {
-            return resp;
-        }
+    parse: function(resp) {
+      return resp;
     }
 });
 
@@ -54,7 +50,7 @@ var Networks = Backbone.Collection.extend({
     },
 
     parse: function(resp) {
-        return resp.networks;
+        return resp;
     }
 
 });
