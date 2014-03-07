@@ -77,7 +77,7 @@ var CreateNetworkView = Backbone.View.extend({
             var tenant_id = this.options.tenant_id;
             var subnet_name = $('input[name=subnet_name]').val();
             var cidr = $('input[name=network_address]').val();
-            var ip_version = $('select[name=ip_version]').val();
+            //var ip_version = $('select[name=ip_version]').val();
             var gateway_ip = $('input[name=gateway_ip]').val();
 
             var enable_dhcp = this.$('input[name=enable_dhcp]').is(':checked');
@@ -87,21 +87,44 @@ var CreateNetworkView = Backbone.View.extend({
 
             
             subnet.set({'cidr': cidr});
-            subnet.set({'ip_version': ip_version});
+            subnet.set({'ip_version': '4'});
             subnet.set({'tenant_id': tenant_id});
             subnet.set({'enable_dhcp': enable_dhcp});
 
             if (subnet_name !== "") subnet.set({'name': subnet_name});
             if (gateway_ip !== "") subnet.set({'gateway_ip': gateway_ip});
-            if (allocation_pools !== "") subnet.set({'allocation_pools': allocation_pools});
-            if (dns_name_servers !== "") subnet.set({'dns_nameservers': dns_name_servers});
-            if (host_routers !== "") subnet.set({'host_routers': host_routers});
 
+            if (allocation_pools !== "") {
+                var pools = [];
+                var lines = allocation_pools.split('\n');
+                for (var l in lines) {
+                    var pool = {start: lines[l].split(',')[0], end: lines[l].split(',')[1]};
+                    pools.push(pool);
+                }
+                subnet.set({'allocation_pools': pools});
+            }
+
+            if (dns_name_servers !== "") {
+                var dnss = dns_name_servers.split('\n');
+                subnet.set({'dns_nameservers': dnss});
+            }
+
+            if (host_routers !== "") {
+                var hosts = [];
+                var lines1 = host_routers.split('\n');
+                for (var l1 in lines1) {
+                    var host = {destination: lines1[l1].split(',')[0], nexthop: lines1[l1].split(',')[1]};
+                    hosts.push(host);
+                }
+                subnet.set({'host_routers': hosts});
+            }
+
+        
             //console.log('CON SUBNET', network.attributes, subnet.attributes);
-
+           
             network.save(undefined, {success: function(model, response) {     
                 var network_id = model.attributes.network.id; 
-                subnet.set({'network_id': network_id});              
+                subnet.set({'network_id': network_id});
                 subnet.save(undefined, UTILS.Messages.getCallbacks("Network " + name + " created.", "Error creating network " + name, {context: self}));   
             }, error: function(response) {
                 console.log("error", response);

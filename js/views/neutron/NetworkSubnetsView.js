@@ -6,9 +6,9 @@ var NetworkSubnetsView = Backbone.View.extend({
 
     initialize: function() {
         var self = this;
-        this.model.unbind("sync");
-        this.model.bind("sync", this.render, this);
-        this.model.fetch({success: function() {
+        this.options.subnets.unbind("sync");
+        this.options.subnets.bind("sync", this.render, this);
+        this.options.subnets.fetch({success: function() {
             self.renderFirst();
         }});
     },
@@ -77,8 +77,8 @@ var NetworkSubnetsView = Backbone.View.extend({
 
     getEntries: function() {
         var network_id = this.model.id;
-        var subnets = this.options.subnets.models;       
-        var entries = [];        
+        var subnets = this.options.subnets.models;
+        var entries = [];
         for (var index in subnets) {
             var subnet = subnets[index];
             var subnet_id = subnet.get("id");
@@ -110,7 +110,7 @@ var NetworkSubnetsView = Backbone.View.extend({
             snet = subnetIDs[0];
             subnets = this.options.subnets.models;
             for (var index in subnets) {
-                if (subnets[index].id == snet) {
+                if (subnets[index].id === snet) {
                     s_net = subnets[index];
                 } 
             }
@@ -121,14 +121,24 @@ var NetworkSubnetsView = Backbone.View.extend({
                     el: 'body',
                     model: this.model,
                     tenant_id: this.options.tenant_id,
-                    network_id: this.model.get('id')
+                    network_id: this.model.get('id'),
+                    success_callback: function() {
+                        self.options.subnets.fetch({success: function() {
+                            self.render();
+                        }});
+                    }
                 });
                 subview.render();
                 break;
             case 'update':
                 subview = new EditSubnetView({
-                   el: 'body',
-                   model: s_net
+                    el: 'body',
+                    model: s_net,
+                    success_callback: function() {
+                        self.options.subnets.fetch({success: function() {
+                            self.render();
+                        }});
+                    }
                 });
                 subview.render();
                 break;
@@ -140,7 +150,11 @@ var NetworkSubnetsView = Backbone.View.extend({
                     onAccept: function() {
                         subnetIDs.forEach(function(subnet_id) {
                             var subnet = self.options.subnets.get(subnet_id);
-                            subnet.destroy(UTILS.Messages.getCallbacks("Subnet "+subnet.get("name") + " deleted.", "Error deleting subnet "+subnet.get("name"), {context: self}));                          
+                            subnet.destroy(UTILS.Messages.getCallbacks("Subnet "+subnet.get("name") + " deleted.", "Error deleting subnet "+subnet.get("name"), {context: self, success: function() {
+                                self.options.subnets.fetch({success: function() {
+                                    self.render();
+                                }});
+                            }}));                          
                         });
                     }
                 });
@@ -156,7 +170,6 @@ var NetworkSubnetsView = Backbone.View.extend({
         });
         this.tableView = new TableView({
             model: this.model,
-            subnets: this.options.subnets,
             el: '#subnets',
             onAction: this.onAction,
             getDropdownButtons: this.getDropdownButtons,

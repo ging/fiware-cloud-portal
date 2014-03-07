@@ -1,5 +1,5 @@
 <script id="createNetworkFormTemplate" type="text/html">
-<div id="create_network" class="modal hide in" style="display: block; ">
+<div id="create_network" class="modal hide in" style="display: block; overflow: visible;">
 <!--
 Description: Create Network Form
 src: templates/forms/createNetwork.html
@@ -12,7 +12,7 @@ src: templates/forms/createNetwork.html
 
 <form id="form" class="" onSubmit="return false;">
 	
-	<div id="input_network" class="tab-pane tab-adjustable active">
+	<div id="input_network" class="tab-pane tab-adjustable active" style="overflow: visible;">
 	    <div id="network_modal" class="modal-body clearfix">
 
 	    	<div id="net_details">
@@ -61,6 +61,13 @@ src: templates/forms/createNetwork.html
 	                        </div>
 	                    </div>
 	                    <div class="control-group form-field clearfix">
+	                        <label for="allocation-pools">Allocation Pools</label>
+	                        <span class="help-block"></span>
+	                        <div class="input tip" data-tooltip="IP address allocation pools. One entry per line.">
+	                            <textarea placeholder="<start_ip_address>,<end_ip_address>" id="allocation_pools" rows="3" cols="15" name="allocation_pools"></textarea>
+	                        </div>
+	                    </div>
+	                    <!--<div class="control-group form-field clearfix">
 	                        <label for="ip-version">IP Version</label>
 	                        <span class="help-block"></span>
 	                        <div class="input">
@@ -69,14 +76,7 @@ src: templates/forms/createNetwork.html
 	                            	<option value="6">IPv6</option>
 	                        	</select>
 	                        </div>
-	                    </div>
-	                    <div class="control-group form-field clearfix">
-	                        <label for="gateway-ip">Gateway IP</label>
-	                        <span class="help-block"></span>
-	                        <div class="input">
-	                            <input type="text" name="gateway_ip" id="gateway_ip"/>
-	                        </div>
-	                    </div>
+	                    </div>-->
 	                    <div class="control-group form-field clearfix">
 	                        <label for="enable-dhcp" class="label_check">Enable DHCP</label>
 	                        <span class="help-block"></span>
@@ -86,25 +86,25 @@ src: templates/forms/createNetwork.html
 	            </div>
 	            <div class="right">
 	                <fieldset>
-	                    <div class="control-group form-field clearfix">
-	                        <label for="allocation-pools">Allocation Pools</label>
+	                	<div class="control-group form-field clearfix">
+	                        <label for="gateway-ip">Gateway IP</label>
 	                        <span class="help-block"></span>
 	                        <div class="input">
-	                            <textarea id="allocation_pools" rows="3" cols="15" name="allocation_pools"></textarea>
+	                            <input type="text" name="gateway_ip" id="gateway_ip"/>
 	                        </div>
 	                    </div>
 	                    <div class="control-group form-field clearfix">
 	                        <label for="dns-name-servers">DNS Name Servers</label>
 	                        <span class="help-block"></span>
-	                        <div class="input">
+	                        <div class="input tip" data-tooltip="One entry per line.">
 	                            <textarea id="dns_name_servers" rows="3" cols="15" name="dns_name_servers"></textarea>
 	                        </div>
 	                    </div>
 	                    <div class="control-group form-field clearfix">
 	                        <label for="host-routers">Host Routes</label>
 	                        <span class="help-block"></span>
-	                        <div class="input">
-	                            <textarea id="host_routers" rows="3" cols="15" name="host_routers"></textarea>
+	                        <div class="input tip", data-tooltip="Additional routes announced to the hosts. One entry per line.">
+	                            <textarea placeholder="<destination_netw>,<nexthop>" id="host_routers" rows="3" cols="15" name="host_routers"></textarea>
 	                        </div>
 	                    </div>
 	                </fieldset>

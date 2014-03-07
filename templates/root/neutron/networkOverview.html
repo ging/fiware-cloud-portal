@@ -8,16 +8,14 @@ src: templates/root/neutron/networkOverview.html
         <div class="entity_detail">
             <div id="network_details__overview1" class="active row-fluid">
                 <div class="status span4">
-                    <%var id = model.get('id');
-                      var model = model.get('network');%>
                     <h4>Overview</h4>
                     <hr class="header_rule">
                     <ul>
                         <li>
-                            <strong>Name:</strong>&nbsp;<%= model.name ? model.name : "("+id+")" %>
+                            <strong>Name:</strong>&nbsp;<%= model.name ? model.name : "("+model.id+")" %>
                         </li>
                         <li>
-                            <strong>ID:</strong>&nbsp;<%= id%>
+                            <strong>ID:</strong>&nbsp;<%= model.id%>
                         </li>
                         <li>
                             <strong>Project ID:</strong>&nbsp;<%= model.tenant_id%>
