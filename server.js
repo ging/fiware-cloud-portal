@@ -324,7 +324,7 @@ app.all('/user/:token', function(req, resp) {
     sendData("https", options, undefined, resp);
 });
 
-function getCatalog() {
+function getCatalog(chained) {
 
     var options = {
         host: keystone_config.host,
@@ -347,13 +347,15 @@ function getCatalog() {
     sendData("http", options, JSON.stringify(credentials), undefined, function (status, resp) {
         service_catalog = JSON.parse(resp).access.serviceCatalog;
         console.log('Service catalog: ', JSON.stringify(service_catalog, 4, 4));
-        setInterval(function() {
-            getCatalog();
-        }, 600000);
+        if (chained !== false) {
+            setInterval(function() {
+                getCatalog(false);
+            }, 600000);
+        }
     }, function (e, msg) {
         console.log('Error getting catalog', e, msg);
         setTimeout(function() {
-            getCatalog();
+            getCatalog(true);
         }, 10000);
     });
 }
@@ -405,4 +407,4 @@ app.listen(80, undefined, null, function() {
     }
 });
 
-getCatalog();
+getCatalog(true);
