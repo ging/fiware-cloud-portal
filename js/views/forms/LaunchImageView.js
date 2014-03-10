@@ -38,9 +38,9 @@ var LaunchImageView = Backbone.View.extend({
 
             this.steps = [
                 {id: 'input_details', name: 'Details'}, 
-                {id: 'input_access_and_security', name: 'Access & Security'}, 
-                {id: 'input_networks', name: 'Networking'},
-                //{id: 'input_volumes', name: 'Volume Options'},
+                {id: 'input_access_and_security', name: 'Access&Security'}, 
+                {id: 'input_networks', name: 'Networks'},
+                {id: 'input_volumes', name: 'Volumes'},
                 {id: 'input_post-creation', name: 'Post-Creation'},
                 {id: 'input_summary', name: 'Summary'}];
         }
@@ -73,7 +73,6 @@ var LaunchImageView = Backbone.View.extend({
         if ($('#launch_image').html() != null) {
             return;
         }
-        
         $(this.el).append(this._template({model:this.model, volumes: this.options.volumes, flavors: this.options.flavors, keypairs: this.options.keypairs, secGroups: this.options.secGroups, quotas: this.quotas, instancesModel: this.options.instancesModel, networks: this.networks, ports: this.options.ports, volumeSnapshots: this.options.volumeSnapshots, steps: this.steps}));
         $('#launch_image').modal();
         $('.network-sortable').sortable({
@@ -313,7 +312,6 @@ var LaunchImageView = Backbone.View.extend({
                     var fixed_ips = self.options.ports.models[i].get("fixed_ips");
                     for (var j in fixed_ips) {
                         f_ips.push(fixed_ips[j].ip_address);
-                        //nets.fixed_ips = f_ips; 
 
                         //1nd alternative:
                         //----------------
@@ -325,16 +323,27 @@ var LaunchImageView = Backbone.View.extend({
                         //2nd alternative
                         //---------------
                         //networks": [{"uuid": "00000000-0000-0000-0000-000000000000"}, {"uuid": "11111111-1111-1111-1111-111111111111"}]}}'
-                        //networks["uuid"] = network_id; 
+                        //nets.uuid = network_id; 
                         
 
                         //3rd alternative
                         //---------------
-                        nets = network_id; 
+                        //nets = network_id; 
+
+                         //nets["OS-EXT-IPS:type"] = "fixed"; 
+                         //nets.addr = f_ips; 
+
+                         //4th alternative 
+                         //---------------
+                         //addresses: [{OS-EXT-IPS:type:fixed, addr:[10.0.0.1, 10.0.0.3, 10.0.0.2]}]
+                        //0: {OS-EXT-IPS:type:fixed, addr:[10.0.0.1, 10.0.0.3, 10.0.0.2]}
+                        //OS-EXT-IPS:type: "fixed"
+                        //addr: [10.0.0.1, 10.0.0.3, 10.0.0.2]
                     }                                    
                 }
             }                      
             netws.push(nets);
+            console.log(netws);
             //netws.push(network_id);
         }); 
 
@@ -390,7 +399,6 @@ var LaunchImageView = Backbone.View.extend({
 
     launch: function(e) {
         var self = this;
-
         var instance = new Instance();
         instance.set({"name": this.instanceData.name});
         instance.set({"image_id": this.instanceData.image_id});
@@ -401,15 +409,27 @@ var LaunchImageView = Backbone.View.extend({
         instance.set({"min_count": this.instanceData.min_count});
         instance.set({"max_count": this.instanceData.max_count});
         instance.set({"availability_zone": this.instanceData.availability_zone});
-        instance.set({"network": this.instanceData.network});
+        instance.set({"networks": this.instanceData.network});
         //instance.set({"nics": this.instanceData.network});
         instance.set({"block_device_mapping": this.instanceData.block_device_mapping});
         instance.set({"metadata": {"region": UTILS.Auth.getCurrentRegion()}});
 
-        if (this.instanceData.flavorReg !== "") {
-        instance.save(undefined, UTILS.Messages.getCallbacks("Instance "+instance.get("name") + " launched.", "Error launching instance "+instance.get("name"),
-            {context:self, href:"#nova/instances/"}));
+        if (this.instanceData.block_device_mapping !== undefined) {
+            console.log("inst volumes ", this.instanceData);
+            console.log("instance to save", instance);
+            instance.bootfromvolume(UTILS.Messages.getCallbacks("Instance "+instance.get("name") + " launched.", "Error launching instance "+instance.get("name"),
+             {context:self, href:"#nova/instances/"}));
+
+        } else {
+            console.log("inst no volumes ", this.instanceData);
+            instance.save(undefined, UTILS.Messages.getCallbacks("Instance "+instance.get("name") + " launched.", "Error launching instance "+instance.get("name"),
+             {context:self, href:"#nova/instances/"}));
         }
+
+        // if (this.instanceData.flavorReg !== "") {
+        // instance.save(undefined, UTILS.Messages.getCallbacks("Instance "+instance.get("name") + " launched.", "Error launching instance "+instance.get("name"),
+        //     {context:self, href:"#nova/instances/"}));
+        // }
         
         /*instance.save(undefined, {success: function () {
             self.close();

@@ -29,6 +29,10 @@ var Instance = Backbone.Model.extend({
         return UTILS.Auth.getCurrentRegion();
     },
 
+    bootfromvolume: function(options) {
+        return this._action('boot-from-volume', options);
+    },
+
     createsnapshot: function(options) {
         return this._action('snapshot', options);
     },
@@ -120,9 +124,10 @@ var Instance = Backbone.Model.extend({
     sync: function(method, model, options) {
         switch(method) {
             case "create":
+            console.log("networks in model no volume", model.get("networks"));
                 JSTACK.Nova.createserver(model.get("name"), model.get("image_id"), model.get("flavor"), model.get("keypair"),
                    model.get("user_data"), model.get("groups"), model.get("min_count"), model.get("max_count"),
-                   model.get("availability_zone"), model.get("network"), model.get("block_device_mapping"), model.get("metadata"), options.success, options.error, this.getRegion());
+                   model.get("availability_zone"), model.get("networks"), model.get("block_device_mapping"), model.get("metadata"), options.success, options.error, this.getRegion());
                 break;
             case "delete":
                 JSTACK.Nova.deleteserver(model.get("id"), options.success, options.error, this.getRegion());
@@ -132,6 +137,12 @@ var Instance = Backbone.Model.extend({
                 break;
             case "read":
                 JSTACK.Nova.getserverdetail(model.get("id"), options.success, options.error, this.getRegion());
+                break;
+            case "boot-from-volume":
+            console.log("networks in model with volume", model.get("networks"));
+                JSTACK.Nova.createserverfromvolume(model.get("name"), model.get("image_id"), model.get("flavor"), model.get("keypair"),
+                   model.get("user_data"), model.get("groups"), model.get("min_count"), model.get("max_count"),
+                   model.get("availability_zone"), model.get("networks"), model.get("block_device_mapping"), model.get("metadata"), options.success, options.error, this.getRegion());
                 break;
             case "reboot":
                 if (options.soft !== undefined && options.soft) {

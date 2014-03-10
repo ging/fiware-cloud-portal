@@ -10,7 +10,7 @@ var InstanceDetailView = Backbone.View.extend({
     //softwareView: undefined,
 
     initialize: function() {
-
+        console.log("instance ", this.model);
         this.options = this.options || {};
 
         this.options.sdcs = UTILS.GlobalModels.get("sdcs");
