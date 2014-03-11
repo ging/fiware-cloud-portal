@@ -31,7 +31,7 @@ var LaunchImageView = Backbone.View.extend({
             for (var index in this.options.networks.models) {
                 var network = this.options.networks.models[index];
                 var tenant_id = network.get('tenant_id');
-                if (tenant_id == this.options.tenant) {
+                if (tenant_id == this.options.tenant || network.get('shared')) {
                     this.networks.push(network);
                 }
             }
