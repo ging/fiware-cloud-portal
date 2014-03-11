@@ -304,38 +304,8 @@ var LaunchImageView = Backbone.View.extend({
             var network_id = this.getAttribute("value");
             var chosen_network = self.options.networks.get(network_id);
             var nets = {};
-            //nets.uuid = network_id;
-            //2nd alternative
-            //nets["net-id"] = network_id;
-            var f_ips = [];
-            for (var i in self.options.ports.models) {
-                if (network_id === self.options.ports.models[i].get("network_id")) {
-                    var fixed_ips = self.options.ports.models[i].get("fixed_ips");
-                    for (var j in fixed_ips) {
-                        f_ips.push(fixed_ips[j].ip_address);
-                        //nets.fixed_ips = f_ips; 
-
-                        //1nd alternative:
-                        //----------------
-                        //nics = [{'net-id': '11111111-1111-1111-1111-111111111111',
-                        //'v4-fixed-ip': '10.0.0.7'}]
-                        //nets["v4-fixed-ip"] = f_ips; 
-                        //nets["net-id"] = network_id; 
-
-                        //2nd alternative
-                        //---------------
-                        //networks": [{"uuid": "00000000-0000-0000-0000-000000000000"}, {"uuid": "11111111-1111-1111-1111-111111111111"}]}}'
-                        //networks["uuid"] = network_id; 
-                        
-
-                        //3rd alternative
-                        //---------------
-                        nets = network_id; 
-                    }                                    
-                }
-            }                      
+            nets.uuid = network_id;
             netws.push(nets);
-            //netws.push(network_id);
         }); 
 
         var user_data = $('textarea[name=user_data]').val();
@@ -352,7 +322,7 @@ var LaunchImageView = Backbone.View.extend({
         this.instanceData.max_count = max_count;
         this.instanceData.availability_zone = availability_zone;
 
-        this.instanceData.network = netws;
+        this.instanceData.networks = netws;
         this.instanceData.block_device_mapping = block_device_mapping;
 
         $('#sum_instanceName').html(this.instanceData.name);
@@ -401,7 +371,7 @@ var LaunchImageView = Backbone.View.extend({
         instance.set({"min_count": this.instanceData.min_count});
         instance.set({"max_count": this.instanceData.max_count});
         instance.set({"availability_zone": this.instanceData.availability_zone});
-        instance.set({"network": this.instanceData.network});
+        instance.set({"networks": this.instanceData.networks});
         //instance.set({"nics": this.instanceData.network});
         instance.set({"block_device_mapping": this.instanceData.block_device_mapping});
         instance.set({"metadata": {"region": UTILS.Auth.getCurrentRegion()}});
