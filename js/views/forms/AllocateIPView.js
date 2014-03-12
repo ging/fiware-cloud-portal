@@ -4,7 +4,7 @@ var AllocateIPView = Backbone.View.extend({
 
     events: {
       'click #cancelCreateBtn': 'close',
-      'click #close': 'close',
+      'click .close': 'close',
       'submit #form': 'allocate',
       'click .modal-backdrop': 'close'
     },
