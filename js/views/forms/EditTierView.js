@@ -9,10 +9,10 @@ var EditTierView = Backbone.View.extend({
 
     dial: undefined,
 
+    currentStep: 0,
+
     events: {
-        'submit #form': 'onUpdate',
-        'click #cancelBtn': 'close',
-        'click .close': 'close',
+        'click #close-image': 'close',
         'click .modal-backdrop': 'close',
         'keyup .tier-values': 'onInput',
         'click #cancel-attrs': 'cancelAttrs',
@@ -22,7 +22,9 @@ var EditTierView = Backbone.View.extend({
         'click #btn-hide-networks': 'hideNetworks',
         'click #addNewAlias': 'addNewAlias',
         'change #id_region': 'onRegionChange',
-        'change #id_image': 'onImageChange'
+        'change #id_image': 'onImageChange',
+        'click #cancelBtn-image': 'goPrev',
+        'submit #form': 'goNext'
     },
 
     initialize: function() {
@@ -35,8 +37,13 @@ var EditTierView = Backbone.View.extend({
         this.addedProducts = [];
         this.addedNetworks = [];
 
+        // Here we detect if we want to create a Tier
+        this.options.tier = this.options.tier || {};
+
+        console.log(this.options.tier);
+
         var self = this;
-        if (this.options.tier.icono.toString() === "[object Object]") {
+        if (this.options.tier.icono === undefined || this.options.tier.icono.toString() === "[object Object]") {
             this.options.tier.icono = "";
         }
         if (this.options.tier.productReleaseDtos_asArray) {
@@ -55,6 +62,21 @@ var EditTierView = Backbone.View.extend({
             networks: new Networks(),
             subnets: new Subnets()
         };
+
+        if (JSTACK.Keystone.getservice("network") !== undefined) {
+            this.networks = undefined;
+            this.steps = [
+            {id: 'input_details', name: 'Details'}, 
+            {id: 'software_tab', name: 'Install Software'},
+            {id: 'network_tab', name: 'Connect Network'}
+            ];
+        
+        } else {
+            this.networks = [];
+            this.steps = [
+                {id: 'input_details', name: 'Details'}, 
+                {id: 'software_tab', name: 'Install Software'}                ];
+        }
     },
 
     updateTmpModels: function(region) {
@@ -544,6 +566,24 @@ var EditTierView = Backbone.View.extend({
         this.netTableViewNew.render();
     },
 
+    installSoftware: function(id, targetId) {
+        product = this.catalogueList[id];
+        var exists = false;
+        for (var a in this.addedProducts) {
+            if (this.addedProducts[a].name === product.name) {
+                exists = true;
+                continue;
+            }
+        }
+        if (!exists) {
+            //this.addedProducts.push(product);
+            targetId = targetId || this.addedProducts.length;
+            console.log("Installing on: ", targetId);
+            this.addedProducts.splice(targetId, 0, product);
+            this.tableView.render();
+        }
+    },
+
     installNetwork: function(id, targetId) {
         network = this.networkList[id];
         var exists = false;
@@ -560,6 +600,19 @@ var EditTierView = Backbone.View.extend({
         }
     },
 
+    movingSoftware: function(id, targetId) {
+        var product = this.addedProducts[id];
+        this.addedProducts.splice(id, 1);
+        var offset = 0;
+        if (id < targetId) {
+            offset = 1;
+        }
+        targetId = targetId || this.addedProducts.length - offset;
+        console.log("Moving to: ", targetId);
+        this.addedProducts.splice(targetId, 0, product);
+        this.tableView.render();
+    },
+
     movingNetwork: function(id, targetId) {
         var network = this.addedNetworks[id];
         this.addedNetworks.splice(id, 1);
@@ -570,6 +623,11 @@ var EditTierView = Backbone.View.extend({
         targetId = targetId || this.addedNetworks.length - offset;
         this.addedNetworks.splice(targetId, 0, network);
         this.netTableView.render();
+    },
+
+    uninstallSoftware: function(id) {
+        this.addedProducts.splice(id, 1);
+        this.tableView.render();
     },
 
     uninstallNetwork: function(id) {
@@ -727,7 +785,6 @@ var EditTierView = Backbone.View.extend({
 
     onUpdate: function(e){
         var self = this;
-        e.preventDefault();
         var name, flavorReg, key_name, image, public_ip, min, max, initial, region;
 
         name = this.$('input[name=name]').val();
@@ -796,7 +853,14 @@ var EditTierView = Backbone.View.extend({
             }
         }
 
-        var options = UTILS.Messages.getCallbacks("Tier "+name + " updated.", "Error updating tier "+name, {context: self});
+        var success_mg = "Tier "+name + " created.";
+        var error_msg = "Error creating tier "+name;
+        if (this.options.tier.flavour !== undefined) {
+            success_mg = "Tier "+name + " updated.";
+            error_msg = "Error updating tier "+name;
+        }
+
+        var options = UTILS.Messages.getCallbacks(success_mg, error_msg, {context: self});
 
         options.tier = tier;
 
@@ -806,8 +870,12 @@ var EditTierView = Backbone.View.extend({
             cb2();
             self.options.callback();
         };
-
-        self.model.updateTier(options);
+        if (this.options.tier.flavour !== undefined) {
+            self.model.updateTier(options);
+        } else {
+            self.model.addTier(options);
+        }
+        
     },
 
     applyIcon: function() {
@@ -821,6 +889,30 @@ var EditTierView = Backbone.View.extend({
             this.$('#edit-tier-image').hide();
             this.$('.tier-image-back').show();
         }
+    },
+
+    onCatalogDrag: function(entryId) {
+        console.log("Obtained:", entryId);
+        return entryId;
+    },
+
+    onCatalogDrop: function(targetId, entryId) {
+        console.log("Uninstalled:", targetId, entryId);
+        this.uninstallSoftware(entryId);
+    },
+
+    onInstalledSoftwareDrop: function(targetId, entryId) {
+        console.log("Installing:", targetId, entryId);
+        this.installSoftware(entryId, targetId);
+    },
+
+    onInstalledSoftwareDrag: function(entryId) {
+        return entryId;
+    },
+
+    onInstalledSoftwareMove: function(targetId, entryId) {
+        console.log("Moving:", targetId, entryId);
+        this.movingSoftware(entryId, targetId);
     },
 
     onNewNetworkDrag: function(entryId) {
@@ -847,12 +939,69 @@ var EditTierView = Backbone.View.extend({
         this.movingNetwork(entryId, targetId);
     },
 
+    goNext: function() {
+
+        if (this.currentStep === this.steps.length - 1) {
+            this.onUpdate();
+        } else {
+            if (this.currentStep === 0) {
+                $('#cancelBtn-image').html('Back');
+            }
+            if (this.currentStep === this.steps.length - 2) {
+                if (this.options.tier.flavour !== undefined) {
+                    $('#nextBtn-image').val('Edit tier');
+                } else {
+                    $('#nextBtn-image').val('Create tier');
+                }
+            }
+
+            var curr_id = '#' + this.steps[this.currentStep].id;
+            var next_id = '#' + this.steps[this.currentStep + 1].id;
+            var next_tab = next_id + '_tab';
+            var next_line = next_id + '_line';
+            
+            $(curr_id).hide();
+            $(next_id).show();
+            $(next_tab).addClass('active');
+            $(next_line).addClass('active');
+
+            this.currentStep = this.currentStep + 1;
+        }
+    }, 
+
+    goPrev: function() {
+
+        if (this.currentStep === 0) {
+            this.close();
+        } else {
+            if (this.currentStep === 1) {
+                $('#cancelBtn-image').html('Cancel');
+            }
+            if (this.currentStep === this.steps.length - 1) {
+                $('#nextBtn-image').val('Next');
+                $('#nextBtn-image').attr("disabled", null);
+            }
+
+            var curr_id = '#' + this.steps[this.currentStep].id;
+            var curr_tab = curr_id + '_tab';
+            var curr_line = curr_id + '_line';
+            var prev_id = '#' + this.steps[this.currentStep - 1].id;
+            
+            $(curr_id).hide();
+            $(prev_id).show();
+            $(curr_tab).removeClass('active');
+            $(curr_line).removeClass('active');
+
+            this.currentStep = this.currentStep - 1;
+        }
+    },
+
     render: function () {
         if ($('#edit_tier').html() !== null) {
             $('#edit_tier').remove();
             $('.modal-backdrop').remove();
         }
-        $(this.el).append(this._template({model:this.model, tier: this.options.tier, regions: this.options.regions}));
+        $(this.el).append(this._template({model:this.model, tier: this.options.tier, regions: this.options.regions, steps: this.steps}));
         this.tableView = new TableView({
             el: '#installedSoftware-table',
             actionsClass: "actionsSDCTier",
@@ -866,7 +1015,13 @@ var EditTierView = Backbone.View.extend({
             getEntries: this.getEntries,
             disableActionButton: true,
             context: this,
-            order: false
+            order: false,
+            draggable: true,
+            dropable: true,
+            sortable: true,
+            onDrop: this.onInstalledSoftwareDrop,
+            onDrag: this.onInstalledSoftwareDrag,
+            onMove: this.onInstalledSoftwareMove
         });
 
         this.tableViewNew = new TableView({
@@ -881,7 +1036,11 @@ var EditTierView = Backbone.View.extend({
             getHeaders: this.getHeadersNew,
             getEntries: this.getEntriesNew,
             disableActionButton: true,
-            context: this
+            dropable: true,
+            draggable: true,
+            context: this,
+            onDrag: this.onCatalogDrag,
+            onDrop: this.onCatalogDrop
         });
         this.tableView.render();
         this.tableViewNew.render();

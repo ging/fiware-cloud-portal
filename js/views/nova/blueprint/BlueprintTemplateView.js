@@ -158,7 +158,7 @@ var BlueprintTemplateView = Backbone.View.extend({
                 break;
             case 'add':
 
-                subview = new CreateTierView({el: 'body', model: self.model, securityGroupsModel: self.options.securityGroupsModel, regions: self.options.loginModel.get("regions"), callback: function () {
+                subview = new EditTierView({el: 'body', model: self.model, securityGroupsModel: self.options.securityGroupsModel, regions: self.options.loginModel.get("regions"), callback: function () {
                     self.model.fetch({success: function () {
                         self.render();
                     }});

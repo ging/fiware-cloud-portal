@@ -34,7 +34,7 @@
                 <h3>Project Quotas</h3>
                 <div class="quota_title">
                   <strong>Floating IP <span>(<%=used%>)</span></strong>
-                  <p><%=10-used%> Available</p>
+                  <p><%=quotas.get("quota_set")["floating_ips"]-used%> Available</p>
                 </div>
                 <div class="clearfix"></div>
                 <div class="quota_bar">

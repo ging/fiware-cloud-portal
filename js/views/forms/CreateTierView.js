@@ -9,11 +9,11 @@ var CreateTierView = Backbone.View.extend({
 
     dial: undefined,
 
+    currentStep: 0,
+
     events: {
-        'submit #form': 'onCreate',
-        'click #cancelBtn': 'close',
-        'click .close': 'close',
         'click .modal-backdrop': 'close',
+        'click #close-image': 'close',
         'keyup .tier-values': 'onInput',
         'click #cancel-attrs': 'cancelAttrs',
         'click #accept-attrs': 'acceptAttrs',
@@ -22,7 +22,9 @@ var CreateTierView = Backbone.View.extend({
         'click #btn-hide-networks': 'hideNetworks',
         'click #addNewAlias': 'addNewAlias',
         'change #id_region': 'onRegionChange',
-        'change #id_image': 'onImageChange'
+        'change #id_image': 'onImageChange',
+        'click #cancelBtn-image': 'goPrev',
+        'submit #form': 'goNext'
     },
 
     initialize: function() {
@@ -31,6 +33,21 @@ var CreateTierView = Backbone.View.extend({
         this.options.roles.fetch();
 
         var self = this;
+
+        if (JSTACK.Keystone.getservice("network") !== undefined) {
+            this.networks = undefined;
+            this.steps = [
+            {id: 'input_details', name: 'Details'}, 
+            {id: 'software_tab', name: 'Install Software'},
+            {id: 'network_tab', name: 'Connect Network'}
+            ];
+        
+        } else {
+            this.networks = [];
+            this.steps = [
+                {id: 'input_details', name: 'Details'}, 
+                {id: 'software_tab', name: 'Install Software'}                ];
+        }
 
         this.editing = -1;
 
@@ -736,7 +753,7 @@ var CreateTierView = Backbone.View.extend({
 
     onCreate: function(e){
         var self = this;
-        e.preventDefault();
+
         var name, flavorReg, key_name, image, public_ip, min, max, initial;
 
         name = this.$('input[name=name]').val();
@@ -878,12 +895,65 @@ var CreateTierView = Backbone.View.extend({
         this.movingSoftware(entryId, targetId);
     },
 
+    goNext: function() {
+
+        if (this.currentStep === this.steps.length - 1) {
+            this.onCreate();
+        } else {
+            if (this.currentStep === 0) {
+                $('#cancelBtn-image').html('Back');
+            }
+            if (this.currentStep === this.steps.length - 2) {
+                $('#nextBtn-image').val('Create tier');
+            }
+
+            var curr_id = '#' + this.steps[this.currentStep].id;
+            var next_id = '#' + this.steps[this.currentStep + 1].id;
+            var next_tab = next_id + '_tab';
+            var next_line = next_id + '_line';
+            
+            $(curr_id).hide();
+            $(next_id).show();
+            $(next_tab).addClass('active');
+            $(next_line).addClass('active');
+
+            this.currentStep = this.currentStep + 1;
+        }
+    }, 
+
+    goPrev: function() {
+
+        if (this.currentStep === 0) {
+            this.close();
+        } else {
+            if (this.currentStep === 1) {
+                $('#cancelBtn-image').html('Cancel');
+            }
+            if (this.currentStep === this.steps.length - 1) {
+                $('#nextBtn-image').val('Next');
+                $('#nextBtn-image').attr("disabled", null);
+            }
+
+            var curr_id = '#' + this.steps[this.currentStep].id;
+            var curr_tab = curr_id + '_tab';
+            var curr_line = curr_id + '_line';
+            var prev_id = '#' + this.steps[this.currentStep - 1].id;
+            
+            $(curr_id).hide();
+            $(prev_id).show();
+            $(curr_tab).removeClass('active');
+            $(curr_line).removeClass('active');
+
+            this.currentStep = this.currentStep - 1;
+        }
+    },
+
     render: function () {
         if ($('#create_tier').html() !== null) {
             $('#create_tier').remove();
             $('.modal-backdrop').remove();
         }
-        $(this.el).append(this._template({model:this.model, regions: this.options.regions}));
+        $(this.el).append(this._template({model:this.model, regions: this.options.regions, steps: this.steps}));
         this.tableView = new TableView({
             el: '#installedSoftware-table',
             actionsClass: "actionsSDCTier",
