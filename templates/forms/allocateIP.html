@@ -39,8 +39,8 @@
                 <div class="clearfix"></div>
                 <div class="quota_bar">
                     <div class="progress_bar">
-                        <div class="progress_bar_fill" style="width: <%= 100 * (used) / 10 %>%"></div>
-                        <div id="" class="progress_bar_new" style="width: <%= 100 * (used + 1) / 10 %>%"></div>
+                        <div class="progress_bar_fill" style="width: <%= 100 * (used) / quotas.get("quota_set")["floating_ips"] %>%"></div>
+                        <div id="" class="progress_bar_new" style="width: <%= 100 * (used + 1) / quotas.get("quota_set")["floating_ips"] %>%"></div>
                     </div>
                 </div>
             </div>
