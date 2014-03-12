@@ -14,6 +14,8 @@ var NovaFloatingIPsView = Backbone.View.extend({
 
     getMainButtons: function() {
         var btns = [];
+
+        UTILS.GlobalModels.get("quotas");
         btns.push({
             label:  "Allocate IP to Project",
             action: "allocate"
