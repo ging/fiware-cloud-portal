@@ -473,6 +473,16 @@ small {
     width: 96%;
 }
 
+.modal .full_form label {
+    width: 50%;
+    float: left;
+}
+
+.modal .full_form .input {
+  width: 50%;
+  float: left;
+}
+
 /*.modal .form-field,
 .modal fieldset ul {
     width: 90%;
@@ -483,6 +493,11 @@ small {
 }
 
 .modal fieldset .form-field input[type="checkbox"] {
+  width: 20px;
+  margin-left: 15px;
+}
+
+.modal fieldset .form-field input[type="radio"] {
   width: 20px;
   margin-left: 15px;
 }

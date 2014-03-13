@@ -38,7 +38,8 @@ var CreateTierView = Backbone.View.extend({
             images: new Images(),
             flavors: new Flavors(),
             keypairs: new Keypairs(),
-            sdcs: new SDCs(),
+            sdcs: new Softwares(),
+            sdcCatalog: new SoftwareCatalogs(),
             networks: new Networks(),
             subnets: new Subnets()
         };
@@ -185,18 +186,16 @@ var CreateTierView = Backbone.View.extend({
 
         // Update SDC tmp model
 
-        this.tmpModels.sdcs.region = region;
+        this.tmpModels.sdcCatalog.region = region;
 
         this.addedProducts = [];
 
-        this.tmpModels.sdcs.getCatalogueListWithReleases({callback: function (resp) {
+        this.tmpModels.sdcCatalog.fetch({success: function () {
 
-            self.catalogueList = resp;
             self.tableViewNew.render();
             self.tableView.render();
 
         }, error: function (e) {
-            self.catalogueList = [];
             self.tableViewNew.render();
             self.tableView.render();
             console.log(e);
@@ -360,8 +359,8 @@ var CreateTierView = Backbone.View.extend({
 
             entries.push(
                 {id: product, cells:[
-                    {value: this.addedProducts[product].name + ' ' + this.addedProducts[product].version,
-                    tooltip: this.addedProducts[product].description}
+                    {value: this.addedProducts[product].get('name') + ' ' + this.addedProducts[product].get('version'),
+                    tooltip: this.addedProducts[product].get('description')}
                     ]
                 });
 
@@ -470,7 +469,7 @@ var CreateTierView = Backbone.View.extend({
     getEntriesNew: function() {
         var entries = [];
 
-        var products = this.catalogueList;
+        var products = this.tmpModels.sdcCatalog.models;
 
         if (products === undefined) {
             return 'loading';
@@ -481,9 +480,9 @@ var CreateTierView = Backbone.View.extend({
         for (var product in products) {
             var comp = true;
 
-            if (products[product].metadata.image) {
+            if (products[product].get('metadata').image) {
                 comp = false;
-                var compImages = products[product].metadata.image.split(' ');
+                var compImages = products[product].get('metadata').image.split(' ');
                 for (var im in compImages) {
                     if (compImages[im] === imageId) {
                         comp = true;
@@ -494,8 +493,8 @@ var CreateTierView = Backbone.View.extend({
             if (comp) {
                 entries.push(
                     {id: product, cells:[
-                    {value: products[product].name + ' ' + products[product].version,
-                    tooltip: products[product].description}]});
+                    {value: products[product].get('name') + ' ' + products[product].get('version'),
+                    tooltip: products[product].get('description')}]});
             }
 
         }
@@ -529,10 +528,10 @@ var CreateTierView = Backbone.View.extend({
     },
 
     installSoftware: function(id, targetId) {
-        product = this.catalogueList[id];
+        product = this.tmpModels.sdcCatalog.models[id];
         var exists = false;
         for (var a in this.addedProducts) {
-            if (this.addedProducts[a].name === product.name) {
+            if (this.addedProducts[a].get('name') === product.get('name')) {
                 exists = true;
                 continue;
             }
@@ -778,11 +777,11 @@ var CreateTierView = Backbone.View.extend({
 
             tier.productReleaseDtos = [];
             for (var p in this.addedProducts) {
-                var nP = {productName: this.addedProducts[p].name, version: this.addedProducts[p].version};
+                var nP = {productName: this.addedProducts[p].get('name'), version: this.addedProducts[p].get('version')};
                 if (this.addedProducts[p].attributes_asArray) {
                     nP.attributes = [];
                     for (var at in this.addedProducts[p].attributes_asArray) {
-                        var inp = 'input[name=attr_'+ this.addedProducts[p].name+'_'+ at+']';
+                        var inp = 'input[name=attr_'+ this.addedProducts[p].get('name')+'_'+ at+']';
                         var attrib = {key: this.addedProducts[p].attributes_asArray[at].key, value: this.addedProducts[p].attributes_asArray[at].value};
                         nP.attributes.push(attrib);
                     }

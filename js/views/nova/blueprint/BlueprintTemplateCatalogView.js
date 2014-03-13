@@ -9,7 +9,7 @@ var BlueprintTemplateCatalogView = Backbone.View.extend({
     initialize: function() {
 
         var self = this;
-        this.options.sdcs = UTILS.GlobalModels.get("sdcs");
+        this.options.sdcs = UTILS.GlobalModels.get("softwares");
         this.options.flavors = UTILS.GlobalModels.get("flavors");
         this.options.keypairs = UTILS.GlobalModels.get("keypairsModel");
         this.options.securityGroupsModel = UTILS.GlobalModels.get("securityGroupsModel");
