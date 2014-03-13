@@ -50,7 +50,8 @@ var EditTierView = Backbone.View.extend({
             this.options.tier.productReleaseDtos_asArray.forEach(function(product) {
                 product.name = product.productName;
                 product.description = product.productDescription;
-                self.addedProducts.push(product);
+                var prod = new Software(product);
+                self.addedProducts.push(prod);
             });
         }
 
@@ -566,10 +567,10 @@ var EditTierView = Backbone.View.extend({
     },
 
     installSoftware: function(id, targetId) {
-        product = this.catalogueList[id];
+        product = this.tmpModels.sdcCatalog.models[id];
         var exists = false;
         for (var a in this.addedProducts) {
-            if (this.addedProducts[a].name === product.name) {
+            if (this.addedProducts[a].get('name') === product.name) {
                 exists = true;
                 continue;
             }
@@ -699,23 +700,11 @@ var EditTierView = Backbone.View.extend({
 
             switch (action) {
                 case 'install':
-                    product = this.tmpModels.sdcCatalog.models[id];
-                    var exists = false;
-                    for (var a in this.addedProducts) {
-                        if (this.addedProducts[a].get('name') === product.get('name')) {
-                            exists = true;
-                            continue;
-                        }
-                    }
-                    if (!exists) {
-                        self.addedProducts.push(product);
-                        self.tableView.render();
-                    }
+                    self.installSoftware(ids);
 
                 break;
                 case 'uninstall':
-                    this.addedProducts.splice(ids, 1);
-                    this.tableView.render();
+                    self.uninstallSoftware(ids);
                 break;
                 case 'edit':
                     product = this.addedProducts[ids];

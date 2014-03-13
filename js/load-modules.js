@@ -239,7 +239,6 @@ var loadTemplates = function() {
                     'templates/forms/createSoftware.html',
                     'templates/forms/cloneBlueprint.html',
                     'templates/forms/editBlueprint.html',
-                    'templates/forms/createTier.html',
                     'templates/forms/createBlueprintInstance.html',
                     'templates/forms/editTier.html',
                     'templates/forms/vnc.html',
