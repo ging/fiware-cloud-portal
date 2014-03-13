@@ -54,7 +54,7 @@ var NeutronNetworksView = Backbone.View.extend({
             label: "Delete Networks",
             action: "delete",
             warn: true,
-            activatePattern: groupSelected
+            activatePattern: editable
         }];
     },
 

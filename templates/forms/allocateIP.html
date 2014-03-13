@@ -1,4 +1,12 @@
 <script id="allocateIPFormTemplate" type="text/html">
+
+<%
+var prctg = 100 * (used) / quotas.get("quota_set")["floating_ips"];
+var to_add = 100 * (used + 1) / quotas.get("quota_set")["floating_ips"];
+if (to_add > 100) {
+to_add = 100;
+}
+%>
 <div id="allocate_IP" class="modal hide ">
     <form id="form" onSubmit="return false;">
         <div class="modal-header">
@@ -24,6 +32,8 @@
                             <option value="<%= pool%>"><%= pool%></option>
                             <% } %>
                         </select>
+
+                        <p class="floating_ip_error_msg"><%= (prctg >= 100) ? "ERROR: You exceeded the limit of Floating IPs" : ""%></p>
                         </div>
                     </div>
                  </fieldset>
@@ -34,19 +44,20 @@
                 <h3>Project Quotas</h3>
                 <div class="quota_title">
                   <strong>Floating IP <span>(<%=used%>)</span></strong>
-                  <p><%=10-used%> Available</p>
+                  
+                  <p><%=quotas.get("quota_set")["floating_ips"]-used%> Available</p>
                 </div>
                 <div class="clearfix"></div>
                 <div class="quota_bar">
                     <div class="progress_bar">
-                        <div class="progress_bar_fill" style="width: <%= 100 * (used) / 10 %>%"></div>
-                        <div id="" class="progress_bar_new" style="width: <%= 100 * (used + 1) / 10 %>%"></div>
+                        <div class="progress_bar_fill" style="width: <%= prctg %>%"></div>
+                        <div id="" class="progress_bar_new" style="width: <%= to_add %>%"></div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="modal-footer">
-            <input type="submit" class="btn btn-blue pull-right" value="Allocate IP">
+            <input type="submit" class="btn btn-blue pull-right" value="Allocate IP" <%= (prctg >= 100) ? 'disabled' : ""%> >
             <a id="cancelBtn" class="btn secondary cancel close" data-dismiss="modal">Cancel</a>
         </div>
     </form>

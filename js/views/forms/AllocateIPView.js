@@ -4,13 +4,14 @@ var AllocateIPView = Backbone.View.extend({
 
     events: {
       'click #cancelCreateBtn': 'close',
-      'click #close': 'close',
+      'click .close': 'close',
       'submit #form': 'allocate',
       'click .modal-backdrop': 'close'
     },
 
     render: function () {
-        $(this.el).append(this._template({pools: this.options.pools, used: this.model.models.length}));
+        this.options.quotas = UTILS.GlobalModels.get("quotas");
+        $(this.el).append(this._template({pools: this.options.pools, used: this.model.models.length, quotas: this.options.quotas}));
         $('.modal:last').modal();
         return this;
     },

@@ -95,7 +95,7 @@ var BlueprintInstancesView = Backbone.View.extend({
                 nTiers = bpInstance.get('tierDto_asArray').length;
             }
             var name = bpInstance.get('blueprintName');
-            if (name.toString() === "[object Object]") name = "-";
+            if (name === undefined || name.toString() === "[object Object]") name = "-";
             var entry = {
                 id: index,
                 cells: [{
