@@ -71,9 +71,9 @@ var LaunchImageView = Backbone.View.extend({
 
     render: function () {
         if ($('#launch_image').html() != null) {
-            return;
+            $('#launch_image').remove();
+            $('.modal-backdrop').remove();
         }
-        
         $(this.el).append(this._template({model:this.model, volumes: this.options.volumes, flavors: this.options.flavors, keypairs: this.options.keypairs, secGroups: this.options.secGroups, quotas: this.quotas, instancesModel: this.options.instancesModel, networks: this.networks, ports: this.options.ports, volumeSnapshots: this.options.volumeSnapshots, steps: this.steps}));
         $('#launch_image').modal();
         $('.network-sortable').sortable({
