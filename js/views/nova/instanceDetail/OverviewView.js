@@ -32,7 +32,7 @@ var InstanceOverviewView = Backbone.View.extend({
 
     editSoftware: function(e) {
 
-        var subview = new EditInstanceSoftwareView({el: 'body', model: this.options.sdcs, instanceModel: this.model});
+        var subview = new EditInstanceSoftwareView({el: 'body', model: this.options.sdcs, sdcCatalog: this.options.sdcCatalog, instanceModel: this.model});
         subview.render();
     },
 

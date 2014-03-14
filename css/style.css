@@ -18,6 +18,20 @@ body { min-height: 480px; }
     visibility: hidden; /* ...and hidden. */
     transition: all 0.4s ease-in-out; /* To add some smoothness */
 }
+.draggable_table .tip::after {
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 12px 8px 8px 12px;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
+  color: #FFF;
+  content: attr(data-tooltip);
+  margin-top: -2px;
+  opacity: 0;
+  margin-left: 10px;
+  padding: 2px 7px 3px 14px;
+  position: absolute;
+  visibility: hidden;
+  transition: all 0.4s ease-in-out;
+}
 
 .tip:hover::after {
     opacity: 1; /* Make it visible */
@@ -473,6 +487,16 @@ small {
     width: 96%;
 }
 
+.modal .full_form label {
+    width: 50%;
+    float: left;
+}
+
+.modal .full_form .input {
+  width: 50%;
+  float: left;
+}
+
 /*.modal .form-field,
 .modal fieldset ul {
     width: 90%;
@@ -483,6 +507,11 @@ small {
 }
 
 .modal fieldset .form-field input[type="checkbox"] {
+  width: 20px;
+  margin-left: 15px;
+}
+
+.modal fieldset .form-field input[type="radio"] {
   width: 20px;
   margin-left: 15px;
 }

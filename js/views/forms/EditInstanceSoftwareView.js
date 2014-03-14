@@ -20,19 +20,6 @@ var EditInstanceSoftwareView = Backbone.View.extend({
 
         var self = this;
         
-        this.catalogueList = undefined;
-
-        this.model.getCatalogueListWithReleases({callback: function (resp) {
-
-            self.catalogueList = resp;
-            self.tableViewNew.render();
-
-        }, error: function (e) {
-            self.catalogueList = [];
-            self.tableViewNew.render();
-            console.log(e);
-        }});
-
         self.model.bind("change", self.render, self);
 
         this.editing = -1;
@@ -169,8 +156,8 @@ var EditInstanceSoftwareView = Backbone.View.extend({
 
     getEntriesNew: function() {
         var entries = [];
-
-        var products = this.catalogueList;
+        
+        var products = this.options.sdcCatalog.models;
 
         if (products === undefined) {
             return 'loading';
@@ -179,9 +166,9 @@ var EditInstanceSoftwareView = Backbone.View.extend({
         for (var product in products) {
             var comp = true;
 
-            if (products[product].metadata.image) {
+            if (products[product].get('metadata').image) {
                 comp = false;
-                var compImages = products[product].metadata.image.split(' ');
+                var compImages = products[product].get('metadata').image.split(' ');
                 for (var im in compImages) {
                     if (compImages[im] === this.options.instanceModel.get('image').id) {
                         comp = true;
@@ -192,8 +179,8 @@ var EditInstanceSoftwareView = Backbone.View.extend({
             if (comp) {
                 entries.push(
                     {id: product, cells:[
-                    {value: products[product].name + ' ' + products[product].version,
-                    tooltip: products[product].description}]});
+                    {value: products[product].get('name') + ' ' + products[product].get('version'),
+                    tooltip: products[product].get('description')}]});
             }
 
         }
@@ -202,7 +189,7 @@ var EditInstanceSoftwareView = Backbone.View.extend({
     },
 
     installSoftware: function(ids) {
-        var product = new SDC();
+        var product = new Software();
         var ip;
         var addrs = this.options.instanceModel.get("addresses");
         if (JSTACK.Keystone.getservice("network") !== undefined) {
@@ -211,15 +198,15 @@ var EditInstanceSoftwareView = Backbone.View.extend({
             ip = addrs["private"][0].addr; 
         }
         var fqn = this.options.instanceModel.get("id");
-        var name = this.catalogueList[ids[0]].name;
-        var version = this.catalogueList[ids[0]].version;
+        var name = this.options.sdcCatalog.models[ids[0]].get('name');
+        var version = this.options.sdcCatalog.models[ids[0]].get('version');
 
         product.set({"name": fqn + '_' + name + '_' + version});
         product.set({"ip": ip});
         product.set({"product": {name: name, version: version}});
         product.set({"fqn": fqn});
 
-        product.save(undefined, UTILS.Messages.getCallbacks('Product "' + this.catalogueList[ids[0]].name + '" installing...', 'Error installing product "' + ids[0] + '"', {el: '#log-messages-software'}));
+        product.save(undefined, UTILS.Messages.getCallbacks('Product "' + this.options.sdcCatalog.models[ids[0]].get('name') + '" installing...', 'Error installing product "' + ids[0] + '"', {el: '#log-messages-software'}));
     },
 
     uninstallSoftware: function(ids) {

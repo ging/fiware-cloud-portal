@@ -42,7 +42,8 @@ UTILS.GlobalModels = (function(U, undefined) {
         models.instancesModel = new Instances();
         models.bpTemplatesModel = new BPTemplates();
         models.bpInstancesModel = new BPInstances();
-        models.sdcs = new SDCs();
+        models.softwares = new Softwares();
+        models.softwareCatalogs = new SoftwareCatalogs();
         models.volumesModel = new Volumes();
         models.volumeSnapshotsModel = new VolumeSnapshots();
         models.instanceSnapshotsModel = new InstanceSnapshots();
@@ -89,7 +90,8 @@ UTILS.GlobalModels = (function(U, undefined) {
             models.quotas.set({id: UTILS.Auth.getCurrentTenant().id});
             var seconds = backgroundTime;
             add_fetch("instancesModel", seconds);
-            add_fetch("sdcs", seconds);
+            add_fetch("softwares", seconds);
+            add_fetch("softwareCatalogs", seconds);
             add_fetch("bpTemplatesModel", seconds);
             add_fetch("bpInstancesModel", seconds);
             add_fetch("volumesModel", seconds);
