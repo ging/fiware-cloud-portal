@@ -14,9 +14,9 @@ var FlavorView = Backbone.View.extend({
 
     onClose: function() {
         this.tableView.close();
-        this.model.unbind("sync");
         this.undelegateEvents();
         this.unbind();
+        this.model.unbind("sync", this.render, this);
     },
 
     getMainButtons: function() {
