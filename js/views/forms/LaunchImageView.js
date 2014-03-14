@@ -17,7 +17,7 @@ var LaunchImageView = Backbone.View.extend({
         this.options.flavors.fetch();
         this.options.secGroups.fetch();
 
-        if (JSTACK.Keystone.getendpoint(UTILS.Auth.getCurrentRegion(), "network") !== undefined) {
+        if (JSTACK.Keystone.getendpoint(UTILS.Auth.getCurrentRegion(), "network") === undefined) {
             this.networks = undefined;
             this.steps = [
             {id: 'input_details', name: 'Details'}, 
