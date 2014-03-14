@@ -322,7 +322,7 @@ var OSRouter = Backbone.Router.extend({
             {name: 'Volumes', iconcss: "icon_nav-volumes", active: false, url: '#nova/volumes/'}
 
         ];
-        if (JSTACK.Keystone.getservice("network") !== undefined) {
+        if (JSTACK.Keystone.getendpoint(UTILS.Auth.getCurrentRegion(), "network") !== undefined) {
             tabsArray.push({name: 'Network', type: 'title'});
             tabsArray.push({name: 'Networks', iconcss: "icon_nav-networks", active: false, url: '#neutron/networks/'});
             tabsArray.push({name: 'Routers', iconcss: "icon_nav-routers", active: false, url: '#neutron/routers/'});
