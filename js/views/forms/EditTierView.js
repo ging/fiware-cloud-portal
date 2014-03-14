@@ -65,7 +65,7 @@ var EditTierView = Backbone.View.extend({
             subnets: new Subnets()
         };
 
-        if (JSTACK.Keystone.getservice("network") !== undefined) {
+        if (JSTACK.Keystone.getendpoint(UTILS.Auth.getCurrentRegion(), "network") !== undefined) {
             this.networks = undefined;
             this.steps = [
             {id: 'input_details', name: 'Details'}, 
