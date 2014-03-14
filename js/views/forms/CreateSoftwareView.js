@@ -9,7 +9,7 @@ var CreateSoftwareView = Backbone.View.extend({
       'click #cancelBtn-software': 'close',
       'click .close': 'close',
       'click .modal-backdrop': 'close',
-      'submit #form': 'create',
+      'submit form': 'create',
       'click input[name=so]': 'switchSO'
     },
 
@@ -32,22 +32,6 @@ var CreateSoftwareView = Backbone.View.extend({
         $('.modal-backdrop:last').remove();
         this.onClose();
         this.model.unbind("sync", this.render, this);
-    },
-
-    switchSO: function(e) {
-        var length = $('input[name=so]:checked').length;
-        if (length !== 0) {
-            $('input[name=so]').removeAttr('required');
-            for (var i in $('input[name=so]')) {
-                $('input[name=so]')[i].setCustomValidity('');
-            }
-        } else {
-            $('input[name=so]').attr('required', 'required');
-            for (var j in $('input[name=so]')) {
-                $('input[name=so]')[j].setCustomValidity('Select at least one operating system');
-            }
-        }
-
     },
 
     getDropdownButtons: function() {
@@ -213,11 +197,28 @@ var CreateSoftwareView = Backbone.View.extend({
         this.movingSoftware(entryId, targetId);
     },
 
+    switchSO: function(e) {
+        var length = $('input[name=so]:checked').length;
+        var i;
+    
+        if (length !== 0) {
+            for (i = 0; i < $('input[name=so]').length; i++) {
+                $('input[name=so]')[i].setCustomValidity('');
+            }
+        } else {
+            for (i = 0; i < $('input[name=so]').length; i++) {
+                $('input[name=so]')[i].setCustomValidity('Select at least one operating system');
+            }
+        }
+    },
+
     create: function(e) {
-        
+
+        console.log('CREATE');
+
         var self = this;
 
-        var software = new Software();
+        var software = new SoftwareCatalog();
 
         var name = $('input[name=name]').val();
         var version = $('input[name=version]').val();
@@ -225,24 +226,52 @@ var CreateSoftwareView = Backbone.View.extend({
         var url = $('input[name=url]').val();
         var config_management = $('input[name=config_management]:checked').val();
 
-        //var so = ;
+        var sos = [];
+
+        for (i = 0; i < $('input[name=so]:checked').length; i++) {
+            sos.push($('input[name=so]:checked')[i].value);
+        }
         
         var description = $('textarea[name=description]').val();
-
+        var attributes = $('textarea[name=attributes]').val();
+        var ports = $('input[name=ports]').val();
 
         software.set({'name': name});
         software.set({'version': version});
         software.set({'repo': repo});
         software.set({'url': url});
-        
         software.set({'config_management': config_management});
-
-        software.set({'operating_systems': config_management});
+        software.set({'operating_systems': sos});
 
         if (description !== "") software.set({'description': description});
+
+        if (attributes !== "") {
+            var at = [];
+            var lines = attributes.split('\n');
+            for (var l in lines) {
+                var a = {attribute: lines[l].split(',')[0], value: lines[l].split(',')[1], description: lines[l].split(',')[2]};
+                at.push(a);
+            }
+            software.set({'attributes': at});
+        }
+
+        if (ports !== "") {
+            var port = ports.split(',');
+            software.set({'ports': port});
+        }
         
+        if (this.addedProducts.length !== 0) {
+            var prods = [];
+            var prod; 
+            for (var p in this.addedProducts) {
+                prod = {name: this.addedProducts[p].get('name'), version: this.addedProducts[p].get('version')};
+                prods.push(prod);
+            }
+            software.set({'dependencies': prods});
+        }
+
         console.log('VA', software.attributes);
-        //software.save(undefined, UTILS.Messages.getCallbacks("Software " + name + " created.", "Error creating software " + name, {context: self}));          
+        software.save(undefined, UTILS.Messages.getCallbacks("Software " + name + " created.", "Error creating software " + name, {context: self}));          
     },
 
     renderTables: function () {
@@ -256,6 +285,10 @@ var CreateSoftwareView = Backbone.View.extend({
         }
         $(this.el).append(this._template({model:this.model}));
         $('#create_software').modal();
+
+        for (var i = 0; i < $('input[name=so]').length; i++) {
+            $('input[name=so]')[i].setCustomValidity('Select at least one operating system');
+        }
 
         this.tableView = new TableView({
             el: '#installedSoftware-table',

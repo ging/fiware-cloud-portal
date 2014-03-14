@@ -35,7 +35,11 @@ var SoftwareCatalog = Backbone.Model.extend({
                 
                 break;
             case "create":
-                
+                ServiceDC.API.addRecipe(model.get('name'), model.get('version'), 
+                    model.get('repo'), model.get('url'), model.get('config_management'), 
+                    model.get('operating_systems'), model.get('description'), model.get('attributes'), 
+                    model.get('ports'), model.get('dependencies'), 
+                    options.success, options.error, this.getRegion());
                 break;
             case "delete":
                 
@@ -82,7 +86,6 @@ var SoftwareCatalogs = Backbone.Collection.extend({
         ServiceDC.API.getProductList(function (resp) {
 
             var products = resp.product_asArray;
-
             self.getReleases(products, 0, options.success, options.error);
 
         }, options.error, this.getRegion());
@@ -133,6 +136,17 @@ var SoftwareCatalogs = Backbone.Collection.extend({
                 self.getReleases(products, index, callback, error);
             }
 
-        }, error, this.getRegion());
+        }, function(e) {
+
+            console.log('ERROR getting releases of product: ', products[index].name);
+
+            index ++;
+
+            if (index == products.length) {
+                callback(self.releasesList);
+            } else {
+                self.getReleases(products, index, callback, error);
+            }
+        }, this.getRegion());
     }
 });
