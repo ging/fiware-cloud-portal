@@ -284,15 +284,15 @@ var LaunchImageView = Backbone.View.extend({
             var volume_id = $("#volume option:selected")[0].value;
             var device_name = $('input[name=device_name]').val();
             var volume = $('input[name=volume_snapshot]').val();
-            var delete_on_terminate = $('input[name=delete_on_terminate]').is(':checked') ? "on" : "off";
+            var delete_on_terminate = $('input[name=delete_on_terminate]').is(':checked') ? "1" : "0";
             var seleceted_volume = this.options.volumes.get(volume_id);
             var volume_size = seleceted_volume.get('size');
 
             block_device_mapping = {};
             block_device_mapping.volume_id = volume_id;
             block_device_mapping.device_name = device_name;
-            //block_device_mapping.volume_size = volume_size;
-            block_device_mapping.delete_on_terminate = delete_on_terminate;
+            block_device_mapping.volume_size = volume_size;
+            block_device_mapping.delete_on_termination = delete_on_terminate;
         }
 
         flavor = $("#id_flavor option:selected")[0].value;
