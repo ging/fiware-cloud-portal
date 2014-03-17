@@ -1,4 +1,4 @@
-var SDC = Backbone.Model.extend({
+var Software = Backbone.Model.extend({
 
     region: undefined,
 
@@ -49,9 +49,9 @@ var SDC = Backbone.Model.extend({
     }
 });
 
-var SDCs = Backbone.Collection.extend({
+var Softwares = Backbone.Collection.extend({
 
-    model: SDC,
+    model: Software,
 
     region: undefined,
 
@@ -61,8 +61,6 @@ var SDCs = Backbone.Collection.extend({
         }
         return UTILS.Auth.getCurrentRegion();
     },
-
-    catalogueList: [],
 
     _action: function(method, options) {
         var model = this;
@@ -77,88 +75,17 @@ var SDCs = Backbone.Collection.extend({
         return xhr;
     },
 
-    getCatalogueList: function(options) {
-        options = options || {};
-        return this._action('getCatalogueList', options);
-    },
-
-    getCatalogueListWithReleases: function(options) {
-        var self = this;
-
-        this.getCatalogueList({callback: function (resp) {
-
-            self.catalogueList = [];
-            var products = resp.product_asArray;
-
-            self.getReleases(products, 0, function() {
-                options.callback(self.catalogueList);
-            }, function (e) {
-                options.error(e);
-            });
-
-        }, error: options.error});
-    },
-
-    getCatalogueProductDetails: function(options) {
-        options = options || {};
-        return this._action('getCatalogueProductDetails', options);
-    },
-
-    getCatalogueProductReleases: function(options) {
-        options = options || {};
-        return this._action('getCatalogueProductReleases', options);
-    },
-
     sync: function(method, model, options) {
         switch(method) {
             case "read":
                 ServiceDC.API.getProductInstanceList(options.success, options.error, this.getRegion());
                 break;
-            case 'getCatalogueList':
-                ServiceDC.API.getProductList(options.success, options.error, this.getRegion());
-                break;
-            case 'getCatalogueProductDetails':
-                ServiceDC.API.getProductAttributes(options.id, options.success, options.error, this.getRegion());
-                break;
-            case 'getCatalogueProductReleases':
-                ServiceDC.API.getProductReleases(options.name, options.success, options.error, this.getRegion());
+            case "create":
                 break;
         }
     },
 
     parse: function(resp) {
         return resp;
-    },
-
-    getReleases: function (products, index, callback, error) {
-
-        var self = this;
-
-         this.getCatalogueProductReleases({name: products[index].name, callback: function (resp) {
-
-            var releases = resp.productRelease_asArray;
-
-            for (var r in releases) {
-                var pr = {};
-                pr.name = products[index].name;
-                pr.description = products[index].description;
-                pr.attributes_asArray = products[index].attributes_asArray;
-                pr.version = releases[r].version;
-                pr.metadata = {};
-                for (var m in products[index].metadatas_asArray) {
-                    pr.metadata[products[index].metadatas_asArray[m].key] = products[index].metadatas_asArray[m].value;
-                }
-                self.catalogueList.push(pr);
-            }
-
-            index ++;
-
-            if (index == products.length) {
-                callback();
-            } else {
-                self.getReleases(products, index, callback, error);
-            }
-
-        }, error: error});
     }
 });

@@ -101,12 +101,14 @@ var Container = Backbone.Model.extend({
     },
 
     parse: function(resp) {
-        if (resp.container !== undefined) {
+        if (resp !== undefined && resp.container !== undefined) {
             resp.container.id = resp.container.name;
             return resp.container;
-        } else {
+        } else if (resp !== undefined) {
             resp.id = resp.name;
             return resp;
+        } else {
+            return {};
         }
     }
 });

@@ -209,7 +209,7 @@ function getClientIp(req, headers) {
 app.set('view engine', 'ejs');
 
 app.get('/', function(req, res) {
-  res.render('index', {useIDM: useIDM, account_server: oauth_config.account_server, version: config.version})
+  res.render('index', {useIDM: useIDM, account_server: oauth_config.account_server, portals: config.fiportals});
 });
 
 app.all('/keystone/*', function(req, resp) {
@@ -324,7 +324,7 @@ app.all('/user/:token', function(req, resp) {
     sendData("https", options, undefined, resp);
 });
 
-function getCatalog() {
+function getCatalog(chained) {
 
     var options = {
         host: keystone_config.host,
@@ -347,8 +347,16 @@ function getCatalog() {
     sendData("http", options, JSON.stringify(credentials), undefined, function (status, resp) {
         service_catalog = JSON.parse(resp).access.serviceCatalog;
         console.log('Service catalog: ', JSON.stringify(service_catalog, 4, 4));
+        if (chained !== false) {
+            setInterval(function() {
+                getCatalog(false);
+            }, 600000);
+        }
     }, function (e, msg) {
         console.log('Error getting catalog', e, msg);
+        setTimeout(function() {
+            getCatalog(true);
+        }, 10000);
     });
 }
 
@@ -399,4 +407,4 @@ app.listen(80, undefined, null, function() {
     }
 });
 
-getCatalog();
+getCatalog(true);

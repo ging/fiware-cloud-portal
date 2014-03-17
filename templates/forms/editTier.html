@@ -1,28 +1,33 @@
 <script id="editTierFormTemplate" type="text/html">
-<div id="edit_tier" class="modal hide in" style="display: block; ">
+<div id="edit_tier" class="modal draggable_table hide in" style="display: block; ">
     <!--
     Description: Edit Tier Form
     src: templates/forms/editTier.html
     -->
     <div class="modal-header">
-        <a class="close" data-dismiss="modal">×</a>
-        <h3>Update Tier</h3>
+        <a id="close-image" class="close" data-dismiss="modal">×</a>
+        <h3><%= tier.flavour !== undefined ? "Update" : "Create"%> Tier</h3>
     </div>
 
     <form id="form" onSubmit="return false;" class="form-horizontal">
+        
+        <ul id="createTab" class="nav nav-tabs steps_tab">
+        
+        <% for (var s in steps) {
+            if(s != 0) {%>
+            <span id="<%=steps[s].id%>_line" class="steps_line"></span>
+            <%}%>
+          <li id="<%=steps[s].id%>_tab" class="<%if(s == 0) {%>active<%}%>"><%=parseInt(s)+1%>. <%=steps[s].name%></li>
+          <%}%>
+        </ul>
+        <div id="input_details" class="tab-pane tab-adjustable active in">
         <div class="modal-body clearfix" style="overflow: hidden">
-            <div id="scroll-based-layer" style="overflow: hidden; width: 100%">
-            <div style="
-                    width: 1600px;
-                    height: 250px;
-                ">
-
                 <div class="left form-progress tip" data-tooltip="Modify the minimum and maximum instances number in the textboxes. Drag the white circle to modify the initial instances number." style="position:relative">
                     <div class="progress-wgt">
-                        <input name="tier-initial-value" class="dial-form" data-width="200" data-height="230" data-offset="25" data-min="<%=tier.minimunNumberInstances%>" data-max="<%=tier.maximumNumberInstances%>" data-displayinput="false" data-displayprevious="false" value="<%=tier.initialNumberInstances%>" data-thickness="0.08" data-valuesize="10" data-readonly="false" data-fgcolor="#0093C6" data-bgcolor="#0093C6" data-linecolor="#999">
+                        <input name="tier-initial-value" class="dial-form" data-width="200" data-height="230" data-offset="25" data-min="<%=tier.minimunNumberInstances || 0%>" data-max="<%=tier.maximumNumberInstances || 4%>" data-displayinput="false" data-displayprevious="false" value="<%=tier.initialNumberInstances || 1%>" data-thickness="0.08" data-valuesize="10" data-readonly="false" data-fgcolor="#0093C6" data-bgcolor="#0093C6" data-linecolor="#999">
                         <div class="circle-progress-data">
-                            <input name="tier-max-value" id="tier-max-value" class="tier-max-value tier-values" required value="<%=tier.maximumNumberInstances%>">
-                            <input name="tier-min-value" id="tier-min-value" class="tier-min-value tier-values" required value="<%=tier.minimumNumberInstances%>">
+                            <input name="tier-max-value" id="tier-max-value" class="tier-max-value tier-values" required value="<%=tier.maximumNumberInstances || 4%>">
+                            <input name="tier-min-value" id="tier-min-value" class="tier-min-value tier-values" required value="<%=tier.minimumNumberInstances || 0%>">
                             <span class="tier-image-back">?</span>
                             <div class="image-container">
                                 <table id="wrapper">
@@ -80,7 +85,7 @@
                             <label class="control-label" for="id_icon">Icon:</label>
 
                             <div class="controls">
-                                <input id="icon" type="text" name="icon" maxlength="255" value="<%=tier.icono%>"><a id="btn-apply-icon" class="btn btn-blue">View</a>
+                                <input id="icon" type="text" name="icon" maxlength="255" value="<%=tier.icono%>"><a id="btn-apply-icon" class="btn btn-white">View</a>
                             </div>
                         </div>
 
@@ -94,7 +99,7 @@
                             </div>
                         </div>
 
-            <% if (JSTACK.Keystone.getservice("network") === undefined) {%>
+                        <% if (JSTACK.Keystone.getservice("network") === undefined) {%>
                         <div class="control-group form-field clearfix">
                             <label class="control-label" for="id_public_ip">Public IP:</label>
 
@@ -102,84 +107,87 @@
                                 <input type="checkbox" name="public_ip" <%=(tier.floatingip==='true')?'checked':''%>>
                             </div>
                         </div>
-           <% } %>
-
+                        <% } %>
                     </fieldset>
                 </div>
-                <div id="edit-software-attributes" class="right">
-                        <table id="product_attributes" class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th style="width: 30%;">Attribute</th>
-                                    <th style="width: 30%;">Value</th>
-                                    <th style="width: 40%;">Description</th>
-                                </tr>
-                            </thead>
-                            <tbody id="software-attrs-table">
-                                <tr class="odd empty">
-                                    <td colspan="6">No items to display.</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div class="submodal-footer">
-                            <a id="accept-attrs" class="btn btn-blue pull-right">Accept</a>
-                            <a id="cancel-attrs" class="btn seconday cancel">Cancel</a>
+            </div>
+        </div>
+        <div id="software_tab" class="tab-pane tab-adjustable" style="display: none">
+            <div class="modal-body clearfix">
+                <div id="scroll-based-layer" style="overflow: hidden; width: 100%">
+                        <div style="width: 1600px;height: 320px;">
+
+                            <div class="row-fluid tier-sdc blurable scroll-left">
+                                <div style="height: 100%; position: relative" class="span6">
+                                    <h2 class="tier-sdc-title">Software in Tier</h2>
+                                    <div style="position: absolute; top: 45px; bottom: 0px; width: 100%">
+                                       <div id="installedSoftware-table"></div>
+                                   </div>
+                                </div>
+                                <div style="height: 100%; position: relative" class="span6">
+                                    <h2 class="tier-sdc-title title-catalogue">Software in Catalogue</h2>
+                                    <div style="position: absolute; top: 45px; bottom: 0px; width: 100%">
+                                        <div id="newSoftware-table"></div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        <div id="edit-software-attributes" class="right">
+                            <table id="product_attributes" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 30%;">Attribute</th>
+                                        <th style="width: 30%;">Value</th>
+                                        <th style="width: 40%;">Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="software-attrs-table">
+                                    <tr class="odd empty">
+                                        <td colspan="6">No items to display.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="submodal-footer">
+                                <a id="accept-attrs" class="btn btn-blue pull-right">Accept</a>
+                                <a id="cancel-attrs" class="btn seconday cancel">Cancel</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <% if (JSTACK.Keystone.getservice("network") !== undefined) {%>
-            <a id="btn-hide-networks" class="btn btn-blue btn-network" style="float: left; display: none;">Software</a>
-            <a id="btn-show-networks" class="btn btn-blue btn-network" style="float: right;">Networks</a>
-            <%}%>
+        </div>
+        <div id="network_tab" class="tab-pane tab-adjustable" style="display: none">
+            <div class="modal-body clearfix">
 
-            <div id="scroll-based-layer-networks" style="overflow: hidden; width: 100%">
-                <div style="
-                        width: 1600px;
-                        height: 160px;
-                    ">
+                <div id="scroll-based-layer-networks" style="overflow: hidden; width: 100%">
+                    <div style="width: 1600px;height: 320px;">
 
-                    <div class="row-fluid tier-sdc blurable scroll-left">
-                        <div style="height: 100%; position: relative" class="span6">
-                            <h2 class="tier-sdc-title">Software in Tier</h2>
-                            <div style="position: absolute; top: 45px; bottom: 0px; width: 100%">
-                               <div id="installedSoftware-table"></div>
-                           </div>
-                        </div>
-                        <div style="height: 100%; position: relative" class="span6">
-                            <h2 class="tier-sdc-title title-catalogue">Software in Catalogue</h2>
-                            <div style="position: absolute; top: 45px; bottom: 0px; width: 100%">
-                                <div id="newSoftware-table"></div>
+                        <div class="row-fluid tier-networks blurable scroll-right">
+                            <div style="height: 100%; position: relative" class="span6">
+                                <h2 class="tier-network-title">Connected to Networks</h2>
+                                <div style="position: absolute; top: 45px; bottom: 0px; width: 100%">
+                                   <div id="installedNetwork-table"></div>
+                               </div>
                             </div>
-                        </div>
-
-                    </div>
-
-                    <div class="row-fluid tier-networks blurable scroll-right">
-                        <div style="height: 100%; position: relative" class="span6">
-                            <h2 class="tier-network-title">Connected to Networks</h2>
-                            <div style="position: absolute; top: 45px; bottom: 0px; width: 100%">
-                               <div id="installedNetwork-table"></div>
-                           </div>
-                        </div>
-                        <div style="height: 100%; position: relative" class="span6">
-                            <h2 class="tier-network-title">Available Networks</h2>
-                            <div style="position: absolute; top: 45px; bottom: 0px; width: 100%">
-                                <div id="newNetwork-table"></div>
+                            <div style="height: 100%; position: relative" class="span6">
+                                <h2 class="tier-network-title">Available Networks</h2>
+                                <div style="position: absolute; top: 45px; bottom: 0px; width: 100%">
+                                    <div id="newNetwork-table"></div>
+                                </div>
                             </div>
+
                         </div>
-
                     </div>
-
 
                 </div>
             </div>
 
         </div>
-        <div class="modal-footer blurable">
+        <div class="modal-footer">
             <p class="mandatoryMess">* Mandatory fields.</p>
-            <input type="submit" class="btn btn-blue create-tier pull-right blurable" value="Update Tier"/>
-            <a id="cancelBtn" class="close btn seconday cancel close blurable" data-dismiss="modal">Cancel</a>
+            <input id="nextBtn-image" type="submit" class="btn btn-blue btn-launch-image pull-right" value="Next"/>
+            <a id="cancelBtn-image" class="btn secondary cancel close">Cancel</a>
         </div>
     </form>
 </div>

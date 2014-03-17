@@ -13,11 +13,12 @@ var InstanceDetailView = Backbone.View.extend({
         console.log("instance ", this.model);
         this.options = this.options || {};
 
-        this.options.sdcs = UTILS.GlobalModels.get("sdcs");
+        this.options.sdcs = UTILS.GlobalModels.get("softwares");
+        this.options.sdcCatalog = UTILS.GlobalModels.get("softwareCatalogs");
 
         this.render();
 
-        this.overviewView = new InstanceOverviewView({el: '#instance_details__overview', model: this.model, sdcs: this.options.sdcs});
+        this.overviewView = new InstanceOverviewView({el: '#instance_details__overview', model: this.model, sdcs: this.options.sdcs, sdcCatalog: this.options.sdcCatalog});
         this.logView = new InstanceLogView({el: '#instance_details__log', model: this.model});
         this.vncView = new InstanceConnectionView({el: '#instance_details__vnc', model: this.model});
     

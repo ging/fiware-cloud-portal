@@ -23,11 +23,11 @@
                                         for (var i in networks.models) {
                                             var ten_id = networks.models[i].get('tenant_id');   
 
-                                            if (ten_id == tenant_id && networks.models[i].get('subnets') !== "") {
+                                            if ((ten_id == tenant_id || networks.models[i].get('shared') === true) && networks.models[i].get('subnets') !== "") {
                                                 var network_name = networks.models[i].get('name') !== "" ? '('+networks.models[i].get('name')+')' : '('+networks.models[i].get('id')+')';
                                                 var network_id = networks.models[i].get('id');
                                                 for (var j in subnets.models) {
-                                                    if (subnets.models[j].get('network_id') == network_id){
+                                                    if (subnets.models[j].get('network_id') == network_id) {
                                                         if (subnets.models[j].get('gateway_ip')) {
                                                             var subnet_name = subnets.models[j].get('name') !== "" ? '('+subnets.models[j].get('name')+')' : '('+subnets.models[j].get('id')+')';
                                                         var subnet_id = subnets.models[j].get('id');   

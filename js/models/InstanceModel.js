@@ -154,9 +154,6 @@ var Instance = Backbone.Model.extend({
             case "resize":
                 JSTACK.Nova.resizeserver(model.get("id"), options.flavor.id, options.success, options.error, this.getRegion());
                 break;
-            case "snapshot":
-                JSTACK.Nova.createsnapshot(model.get("id"), model.get("name"), options.success, options.error, this.getRegion());
-                break;
             case "confirm-resize":
                 JSTACK.Nova.confirmresizedserver(model.get("id"), options.success, options.error, this.getRegion());
                 break;

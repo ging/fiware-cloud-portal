@@ -46,7 +46,7 @@ var InstanceSnapshots = Backbone.Collection.extend({
 
     sync: function(method, model, options) {
         if (method === "read") {
-            if (JSTACK.Glance.getVersion() === 2) {
+            if (JSTACK.Glance.getVersion(UTILS.Auth.getCurrentRegion()) === 2) {
               JSTACK.Glance.getimagelist(true, options.success, options.error, this.getRegion());
             } else {
               JSTACK.Nova.getimagelist(true, options.success, options.error, this.getRegion());

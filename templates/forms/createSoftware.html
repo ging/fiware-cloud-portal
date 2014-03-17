@@ -1,0 +1,113 @@
+<script id="createSoftwareFormTemplate" type="text/html">
+<div id="create_software" class="modal draggable_table hide in" style="display: block; overflow: visible;">
+<!--
+Description: Create Software Form
+src: templates/forms/createSoftware.html
+-->
+
+<div class="modal-header">
+        <a href="#" class="close" data-dismiss="modal">&times</a>
+        <h3>Create Software</h3>
+</div>
+
+<form onSubmit="return false;">
+	
+	<div id="input_software" class="tab-pane tab-adjustable active" style="overflow: visible;">
+	    <div id="software_modal" class="modal-body clearfix">
+
+	    	<div id="sft_details" class="full_form">
+                <fieldset>
+                	<div class="control-group form-field clearfix">
+                        <label for="name">Name*</label>
+                        <span class="help-block"></span>
+                        <div class="input">
+                            <input required type="text" name="name"/>
+                        </div>
+                    </div>
+                    <div class="control-group form-field clearfix">
+                        <label for="version">Version*</label>
+                        <span class="help-block"></span>
+                        <div class="input">
+                            <input required type="text" name="version"/>
+                        </div>
+                    </div>
+                     <div class="control-group form-field clearfix">
+                        <label for="repo">Repository*</label>
+                        <span class="help-block"></span>
+                        <div class="input">
+                        	<select name="repo">
+                            	<option value="git">Git</option>
+                            	<option value="svn">SVN</option>
+                        	</select>
+                        </div>
+                    </div>
+                	<div class="control-group form-field clearfix">
+                        <label for="url">Cookbook URL*</label>
+                        <span class="help-block"></span>
+                        <div class="input">
+                            <input required type="text" name="url"/>
+                        </div>
+                    </div>
+                    <div class="control-group form-field clearfix">
+                        <label for="config_manag" class="label_check">Configuration Management*</label>
+                        <span class="help-block"></span>
+                        <input class="inp_checkbox" type="radio" name="config_management" value="chef" checked/> Chef
+                        <input class="inp_checkbox" type="radio" name="config_management" value="puppet"/> Puppet
+                    </div>
+                    <div class="control-group form-field clearfix">
+                        <label for="os" class="label_check">Operating Systems*</label>
+                        <span class="help-block"></span>	
+                        <input class="inp_checkbox" type="checkbox" name="so" value="centos"/> CentOS
+                        <input class="inp_checkbox" type="checkbox" name="so" value="ubuntu"/> Ubuntu
+                    </div>
+                    <div class="control-group form-field clearfix">
+                        <label for="description">Description</label>
+                        <span class="help-block"></span>
+                        <div class="input">
+                            <textarea rows="3" cols="40" name="description"></textarea>
+                        </div>
+                    </div>
+                    <div class="control-group form-field clearfix">
+                        <label for="attributes">Attributes</label>
+                        <span class="help-block"></span>
+                        <div class="input tip" data-tooltip="Attributes for the product. One entry per line.">
+                            <textarea placeholder="<attribute>,<value>,<description>" rows="3" cols="15" name="attributes"></textarea>
+                        </div>
+                    </div>
+                    <div class="control-group form-field clearfix">
+                        <label for="ports">Open Ports</label>
+                        <span class="help-block"></span>
+                        <div class="input tip" data-tooltip="Open ports separated by commas.">
+                            <input type="text" name="ports"/>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="row-fluid dep_table">
+	            <div style="height: 100%; position: relative" class="span6">
+	                <h2 class="tier-sdc-title">Dependencies in Software</h2>
+	                <div style="position: absolute; top: 45px; bottom: 0px; width: 100%">
+	                   <div id="installedSoftware-table"></div>
+	               </div>
+	            </div>
+	            <div style="height: 100%; position: relative" class="span6">
+	                <h2 class="tier-sdc-title title-catalogue">Software in Catalogue</h2>
+	                <div style="position: absolute; top: 45px; bottom: 0px; width: 100%">
+	                    <div id="newSoftware-table"></div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>   
+
+	<div class="modal-footer">
+        <p class="mandatoryMess">* Mandatory fields.</p>
+        <input type="submit" id="create_software_button" class="btn btn-blue pull-right" value="Create"/>
+        <a id="cancelBtn-software" class="btn secondary cancel close">Cancel</a>
+	</div>
+</form>
+
+</script>
+
+
+
