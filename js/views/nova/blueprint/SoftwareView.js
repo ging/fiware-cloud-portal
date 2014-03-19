@@ -94,8 +94,7 @@ var SoftwareView = Backbone.View.extend({
                     value: models[sft].get('version')
                     //link: "#nova/instances/" + instance.id + "/detail"
                 }, {
-                    // TODO ver campo public private
-                    value: 'public'
+                    value: models[sft].get('metadata')['public'] ? 'private' : 'public'
                 }, {
                     value: models[sft].get('description')
                 }]

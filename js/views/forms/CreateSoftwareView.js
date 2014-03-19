@@ -15,6 +15,7 @@ var CreateSoftwareView = Backbone.View.extend({
 
     initialize: function() {
         this.addedProducts = [];
+        this.options.images = UTILS.GlobalModels.get("images");
         this.model.unbind("sync", this.renderTables, this);
         this.model.bind("sync", this.renderTables, this);
     },
@@ -283,7 +284,7 @@ var CreateSoftwareView = Backbone.View.extend({
         if ($('#create_software').html() != null) {
             return;
         }
-        $(this.el).append(this._template({model:this.model}));
+        $(this.el).append(this._template({model:this.model, images: this.options.images}));
         $('#create_software').modal();
 
         for (var i = 0; i < $('input[name=so]').length; i++) {
