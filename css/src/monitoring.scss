@@ -1,0 +1,69 @@
+.speedometer {
+	float: left;
+	padding-top: 60px;
+	padding-left: 35px;
+}
+
+#switch_button {
+	border-top-left-radius: 0px;
+	border-top-right-radius: 0px;
+	position: absolute;
+	right: 0px;
+}
+
+.chart {
+	padding-bottom: 50px;
+	height: 200px;
+}
+
+.chart_name {
+	font-size: 25px;
+	text-align: right;
+	color: #002E67;
+	position: absolute;
+	width: 50px;
+	margin-left: 40px;
+}
+
+.chart_graph {
+	margin-left: 85px;
+	position: absolute;
+	margin-top: 15px;		
+}
+
+.chart_unit {
+	font-size: 60px;
+	color: rgba(127,127,127,0.3);
+	margin-top: 170px;
+	margin-left: 900px;
+	position: absolute;
+	width: 70px;
+}
+
+#graph_buttons {
+	margin-left: 350px;
+	padding-top: 20px;
+	padding-bottom: 30px;
+	width: 310px;
+}
+
+.graph_button {
+	background-color: #099EC6;
+	&.active {
+		background-color: #002E67;
+	}
+}
+
+#day {
+	border-radius: 5px 0 0 5px;
+}
+
+#week {
+	border-radius: 0;
+	margin-left: -2px;
+}
+
+#month {
+	border-radius: 0 5px 5px 0;
+	margin-left: -2px;
+}
