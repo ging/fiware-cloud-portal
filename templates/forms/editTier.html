@@ -99,7 +99,7 @@
                             </div>
                         </div>
 
-                        <% if (JSTACK.Keystone.getservice("network") === undefined) {%>
+                        <% if (JSTACK.Keystone.getendpoint(UTILS.Auth.getCurrentRegion(), "network") === undefined) {%>
                         <div class="control-group form-field clearfix">
                             <label class="control-label" for="id_public_ip">Public IP:</label>
 

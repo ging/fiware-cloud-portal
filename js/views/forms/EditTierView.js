@@ -113,7 +113,11 @@ var EditTierView = Backbone.View.extend({
             for (var i in images) {
                 if ((images[i].get("properties") !== undefined && images[i].get("properties").sdc_aware) || images[i].get("sdc_aware")) {
                     sdcImages++;
-                    image_selector.append(new Option(images[i].get("name"), images[i].get('id')));
+                    if (images[i].get('id') === self.options.tier.image) {
+                         image_selector.append(new Option(images[i].get("name"), images[i].get('id'), true, true));
+                    } else {
+                         image_selector.append(new Option(images[i].get("name"), images[i].get('id')));
+                    }
                 }
             }
 

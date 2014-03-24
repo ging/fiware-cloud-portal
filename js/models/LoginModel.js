@@ -205,7 +205,6 @@ var LoginStatus = Backbone.Model.extend({
     },
 
     switchRegion: function(regionId) {
-
         UTILS.Auth.switchRegion(regionId);
       
         this.set('current_region', regionId);
@@ -218,7 +217,7 @@ var LoginStatus = Backbone.Model.extend({
     updateRegions: function() {
 
         this.set('regions', UTILS.Auth.getRegions());
-        if (this.get('current_region') === undefined) {
+        if (this.get('current_region') === undefined || this.get('regions').indexOf(this.get('current_region')) === -1) {
             this.switchRegion(this.get('regions')[0]);
         }
     },
