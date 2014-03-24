@@ -1,0 +1,66 @@
+<script id="instanceMonitoringTemplate" type="text/html">
+<!--
+Description: Instance monitoring
+src: templates/root/nova/instanceDetail/monitoring.html
+-->
+<div id="consult_monit" class="help_page">
+
+	<button id="switch_button" class="btn btn-small btn-blue btn-main>" data-i18n="Graphs">Graphs</button>
+
+    <div id="speedometer_view" class="entity_consult">
+		<div id="cpu" class="speedometer">
+		</div>
+		<div id="disk" class="speedometer">
+		</div>
+		<div id="mem" class="speedometer">
+		</div>
+	</div>
+
+	<div id="chart_view" class="entity_consult hide">
+		<div id="graph_buttons">
+			<button id="day" class="graph_button btn btn-small btn-blue btn-main active" data-i18n="Last day">Last day</button>
+			<button id="week" class="graph_button btn btn-small btn-blue btn-main" data-i18n="Last week">Last week</button>
+			<button id="month" class="graph_button btn btn-small btn-blue btn-main" data-i18n="Last month">Last month</button>
+		</div>
+		<div id="cpu" class="chart row-fluid">
+			<div class="chart_name">
+			CPU
+			</div>
+			<div class="chart_graph">
+				<canvas id="cpu_chart" width="800" height="150"></canvas>
+			</div>
+			<div class="chart_unit">
+			%
+			</div>
+			
+		</div>
+		<div id="cpu" class="chart row-fluid" >
+			<div class="chart_name">
+			Disk
+			</div>
+			<div class="chart_graph">
+				<canvas id="disk_chart" width="800" height="150"></canvas>
+			</div>
+			<div class="chart_unit">
+			GB
+			</div>
+			
+		</div>
+		<div id="cpu" class="chart row-fluid">
+			<div class="chart_name">
+			RAM
+			</div>
+			<div class="chart_graph">
+				<canvas id="mem_chart" width="800" height="150"></canvas>
+			</div>
+			<div class="chart_unit">
+			MB
+			</div>
+			
+		</div>
+		
+		
+	</div>
+</div>
+
+</script>

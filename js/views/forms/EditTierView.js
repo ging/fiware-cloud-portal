@@ -40,8 +40,6 @@ var EditTierView = Backbone.View.extend({
         // Here we detect if we want to create a Tier
         this.options.tier = this.options.tier || {};
 
-        console.log(this.options.tier);
-
         var self = this;
         if (this.options.tier.icono === undefined || this.options.tier.icono.toString() === "[object Object]") {
             this.options.tier.icono = "";
@@ -523,7 +521,7 @@ var EditTierView = Backbone.View.extend({
         for (var product in products) {
             var comp = true;
 
-            if (products[product].get('metadata').image) {
+            if (typeof products[product].get('metadata').image === 'string') {
                 comp = false;
                 var compImages = products[product].get('metadata').image.split(' ');
                 for (var im in compImages) {

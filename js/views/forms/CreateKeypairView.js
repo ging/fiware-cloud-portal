@@ -35,7 +35,7 @@ var CreateKeypairView = Backbone.View.extend({
     create: function(e) {
         e.preventDefault();
         self = this;
-        var namePattern = /^[a-z0-9_\-]{1,87}$/;
+        var namePattern = /^[A-Za-z0-9_\-]{1,87}$/;
         var name = $('input[name=name]').val();
         var nameOK, subview;
 

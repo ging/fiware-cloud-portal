@@ -390,23 +390,6 @@ small {
     font-size: 24px;
 }
 
-#monitoring {
-  background: #f8f8f8;
-  font-size: 14px;
-  height: 20px;
-  margin: -18px 0 25px;
-  padding: 10px;
-  border: 1px solid #e1e1e1;
-  font-family: "anivers";
-}
-
-#monitoring h3{
-    font-size: 14px;
-    font-weight: normal;
-    float: left;
-    line-height: 18px;
-}
-
 #external_links, #external_links li {
     float: left;
 }

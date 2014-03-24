@@ -56,9 +56,18 @@ src: templates/forms/createSoftware.html
                     </div>
                     <div class="control-group form-field clearfix">
                         <label for="os" class="label_check">Operating Systems*</label>
-                        <span class="help-block"></span>	
-                        <input class="inp_checkbox" type="checkbox" name="so" value="centos"/> CentOS
-                        <input class="inp_checkbox" type="checkbox" name="so" value="ubuntu"/> Ubuntu
+                        <span class="help-block"></span>
+                        <div id="sos_list">
+                        <%
+                        for (var i in images.models) {
+                            if (images.models[i].get('sdc_aware')) {
+                        %>
+                                <input class="inp_checkbox" type="checkbox" name="so" value="<%=images.models[i].id%>"/> <%=images.models[i].get("name")%> </br>
+                        <%
+                            }
+                        }
+                        %>
+                        </div>
                     </div>
                     <div class="control-group form-field clearfix">
                         <label for="description">Description</label>

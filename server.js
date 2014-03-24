@@ -291,9 +291,6 @@ app.all('/:reg/:service/:v/*', function(req, resp) {
 
     var endp = getEndpoint(req.params.service, req.params.reg);
     var new_url = req.url.split(req.params.v)[1];
-    if (endp.charAt(endp.length-1) === "/") {
-        endp = endp.substring(0, endp.length-1) + "/v2.0";
-    }
 
     var options = {
         url: endp + new_url,
@@ -379,7 +376,16 @@ function getEndpoint (service, region) {
     } else if (endpoint.publicURL.match('/AUTH_' + keystone_config.tenantId)) {
         return endpoint.publicURL.split('/AUTH_' + keystone_config.tenantId)[0];
     }
-    return endpoint.publicURL;
+    var end = endpoint.publicURL;
+    
+    if (end.charAt(end.length-1) === "/") {
+        end = end.substring(0, end.length-1);
+    }
+
+    if (service === 'network') {
+        end = end + "/v2.0";
+    }
+    return end;
 }
 
 function encrypt(str){

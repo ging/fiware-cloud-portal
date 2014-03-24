@@ -2,12 +2,10 @@ var InstanceDetailView = Backbone.View.extend({
 
     _template: _.itemplate($('#instanceDetailTemplate').html()),
 
-    sdcTimer: undefined,
-
     overviewView: undefined,
     logView: undefined,
     vncView: undefined,
-    //softwareView: undefined,
+    monitoringView: undefined,
 
     initialize: function() {
 
@@ -21,12 +19,13 @@ var InstanceDetailView = Backbone.View.extend({
         this.overviewView = new InstanceOverviewView({el: '#instance_details__overview', model: this.model, sdcs: this.options.sdcs, sdcCatalog: this.options.sdcCatalog});
         this.logView = new InstanceLogView({el: '#instance_details__log', model: this.model});
         this.vncView = new InstanceConnectionView({el: '#instance_details__vnc', model: this.model});
+        this.monitoringView = new InstanceMonitoringView({el: '#instance_details__monit', model: this.model});
     
         this.delegateEvents({
             'click #overviewBtn': "showOverview",
             'click #instance_vnc': 'showVNC',
             'click #instance_logs': 'showLogs',
-            'click #instance_software': 'showSoftware'
+            'click #instance_monitoring': 'showMonitoring'
         });
 
         this.model.fetch();
@@ -40,11 +39,11 @@ var InstanceDetailView = Backbone.View.extend({
         $('#instance_details__overview').addClass('active');
         $('#instance_details__vnc').removeClass('active');
         $('#instance_details__log').removeClass('active');
-        $('#instance_details__software').removeClass('active');
+        $('#instance_details__monit').removeClass('active');
         $('#overview').addClass('active');
         $('#vnc').removeClass('active');
         $('#log').removeClass('active');
-        $('#software').removeClass('active');
+        $('#monitoring').removeClass('active');
     },
 
     showVNC: function() {
@@ -54,11 +53,11 @@ var InstanceDetailView = Backbone.View.extend({
         $('#instance_details__overview').removeClass('active');
         $('#instance_details__log').removeClass('active');
         $('#instance_details__vnc').addClass('active');
-        $('#instance_details__software').removeClass('active');
+        $('#instance_details__monit').removeClass('active');
         $('#overview').removeClass('active');
         $('#log').removeClass('active');
         $('#vnc').addClass('active');
-        $('#software').removeClass('active');
+        $('#monitoring').removeClass('active');
     },
 
     showLogs: function() {
@@ -68,25 +67,25 @@ var InstanceDetailView = Backbone.View.extend({
         $('#instance_details__overview').removeClass('active');
         $('#instance_details__vnc').removeClass('active');
         $('#instance_details__log').addClass('active');
-        $('#instance_details__software').removeClass('active');
+        $('#instance_details__monit').removeClass('active');
         $('#overview').removeClass('active');
         $('#vnc').removeClass('active');
         $('#log').addClass('active');
-        $('#software').removeClass('active');
+        $('#monitoring').removeClass('active');
     },
 
-    showSoftware: function() {
+    showMonitoring: function() {
         if (this.options) {
-            this.options.subview = "software";
+            this.options.subview = "monitoring";
         }
         $('#instance_details__overview').removeClass('active');
         $('#instance_details__vnc').removeClass('active');
         $('#instance_details__log').removeClass('active');
-        $('#instance_details__software').addClass('active');
+        $('#instance_details__monit').addClass('active');
         $('#overview').removeClass('active');
         $('#vnc').removeClass('active');
         $('#log').removeClass('active');
-        $('#software').addClass('active');
+        $('#monitoring').addClass('active');
     },
 
     onClose: function() {
@@ -96,6 +95,7 @@ var InstanceDetailView = Backbone.View.extend({
         this.overviewView.close();
         this.logView.close();
         this.vncView.close();
+        this.monitoringView.close();
     },
 
     close: function(e) {
@@ -103,11 +103,11 @@ var InstanceDetailView = Backbone.View.extend({
         $('#instance_details__overview').removeClass('active');
         $('#instance_details__log').removeClass('active');
         $('#instance_details__vnc').removeClass('active');
-        $('#instance_details__software').removeClass('active');
+        $('#instance_details__monit').removeClass('active');
         $('#overview').removeClass('active');
         $('#log').removeClass('active');
         $('#vnc').removeClass('active');
-        $('#software').removeClass('active');
+        $('#monitoring').removeClass('active');
         this.onClose();
     },
 
@@ -127,13 +127,13 @@ var InstanceDetailView = Backbone.View.extend({
         } else if (this.options.subview == 'vnc') {
             this.showVNC();
 
-        } else if (this.options.subview == 'software') {
-            this.showSoftware();
+        } else if (this.options.subview == 'monitoring') {
+            this.showMonitoring();
         }
 
         $("#instance_vnc").unbind();
         $("#instance_logs").unbind();
-        $("#instance_software").unbind();
+        $("#instance_monitoring").unbind();
         return this;
     }
 });

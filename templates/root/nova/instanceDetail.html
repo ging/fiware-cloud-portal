@@ -20,7 +20,6 @@ src: templates/root/nova/instanceDetail.html
         </li>
     </ul>
     <% } %>
-    <!--<h2>Instance Detail</h2>-->
         <ul id="instance_details" class="nav nav-tabs">
             <li id="overview" class="<%= (subview == 'overview') ? 'active':'' %>">
                 <a id="overviewBtn" data-i18n="Overview">Overview</a>
@@ -31,8 +30,8 @@ src: templates/root/nova/instanceDetail.html
             <li id="vnc" class="<%= (subview == 'vnc') ? 'active':'' %>">
                 <a id="instance_vnc">Connection</a>
             </li>
-            <!--<li id="software" class="<%= (subview == 'software') ? 'active':'' %>">
-                <a id="instance_software">Software Management</a>
+            <!--<li id="monitoring" class="<%= (subview == 'monitoring') ? 'active':'' %>">
+                <a id="instance_monitoring">Monitoring</a>
             </li>-->
         </ul>
         <div class="tab-content  entity_detail_pro">
@@ -42,8 +41,8 @@ src: templates/root/nova/instanceDetail.html
             </div>
             <div id="instance_details__vnc" class="tab-pane <%= (subview == 'vnc') ? 'active':'' %>">
             </div>
-            <div id="instance_details__software" style="position:relative" class="tab-pane <%= (subview == 'software') ? 'active':'' %>">
-            </div>
+            <!--<div id="instance_details__monit" style="position:relative" class="tab-pane <%= (subview == 'monitoring') ? 'active':'' %>">
+            </div>-->
         </div>
 </div>
 </script>
