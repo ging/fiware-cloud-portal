@@ -10,6 +10,8 @@ var InstanceMonitoringView = Backbone.View.extend({
 
     initialize: function() {
 
+        var self = this;
+
         var com_dataset = {
             fillColor : "rgba(151,187,205,0.5)",
             strokeColor : "#099EC6",
@@ -64,10 +66,24 @@ var InstanceMonitoringView = Backbone.View.extend({
         this.mem_opt.scaleStepWidth = null;
         this.mem_opt.scaleStartValue = null;
 
+        // this.model.fetch({success: function() {
+        //     self.flavor = new Flavor();
+        //     self.flavor.set({id: self.model.get("flavor").id});
+            
+        //     self.flavor.fetch({success: function() {
 
-        // this.render();
-        // this.renderSpeedometers();
-        // this.renderCharts();
+        //         self.render();
+        //         self.renderSpeedometers();
+        //         self.renderCharts();
+
+        //         self.model.getMonitoringStats({callback: function(stats){
+        //             self.updateSpeedometers(stats);
+        //         }});
+
+        //     }});
+
+        // }});
+
     },
 
     switch_view: function (e) {
@@ -99,13 +115,21 @@ var InstanceMonitoringView = Backbone.View.extend({
         this.onClose();
     },
 
+    updateSpeedometers: function (stats) {
+        this.cpu_speed.drawWithInputValue(stats[0].percCPULoad.value);
+        this.disk_speed.drawWithInputValue(stats[0].percDiskUsed.value);
+        this.mem_speed.drawWithInputValue(stats[0].percRAMUsed.value);
+    },
+
     renderSpeedometers: function () {
-        var s = Speedometer({elementId: 'cpu', size: 300, maxVal: 100, name: 'CPU', units: '%'});
-        var s1 = Speedometer({elementId: 'disk', size: 300, maxVal: 20, name: 'DISK', units: 'GB'});
-        var s2 = Speedometer({elementId: 'mem', size: 300, maxVal: 1000, name: 'RAM', units: 'MB'});
-        s.draw();
-        s1.draw();
-        s2.draw();
+
+        console.log('FLA', this.flavor);
+        this.cpu_speed = new Speedometer({elementId: 'cpu', size: 300, maxVal: 100, name: 'CPU', units: '%'});
+        this.disk_speed = new Speedometer({elementId: 'disk', size: 300, maxVal: this.flavor.get('disk'), name: 'DISK', units: 'GB'});
+        this.mem_speed = new Speedometer({elementId: 'mem', size: 300, maxVal: this.flavor.get('ram'), name: 'RAM', units: 'MB'});
+        this.cpu_speed.draw();
+        this.disk_speed.draw();
+        this.mem_speed.draw();
     },
 
     renderCharts: function (scale) {

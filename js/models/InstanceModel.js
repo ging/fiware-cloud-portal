@@ -117,6 +117,13 @@ var Instance = Backbone.Model.extend({
         return this._action('attachedvolumes', options);
     },
 
+    getMonitoringStats: function(options) {
+        if (options === undefined) {
+            options = {};
+        }
+        return this._action('getMonitoringStats', options);
+    },
+
     sync: function(method, model, options) {
         switch(method) {
             case "create":
@@ -181,6 +188,9 @@ var Instance = Backbone.Model.extend({
                 break;
             case "attachedvolumes":
                 JSTACK.Nova.getattachedvolumes(model.get("id"), options.success, options.error, this.getRegion());
+                break;
+            case "getMonitoringStats":
+                Monitoring.API.getVMmeasures(model.get("id"), options.success, options.error, this.getRegion());
                 break;
         }
     },
