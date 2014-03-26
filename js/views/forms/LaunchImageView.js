@@ -157,7 +157,7 @@ var LaunchImageView = Backbone.View.extend({
                 $('#rambar').css('background-color', '#468847');
 
                 var cpu_width = 100 * (this.quotas.cpus + flavor.get('vcpus')) / quotaset.cores;
-                var disk_width = 100 * (this.quotas.cpus + flavor.get("disk") + flavor.get('OS-FLV-EXT-DATA:ephemeral')) / quotaset.gigabytes;
+                var disk_width = 100 * (this.quotas.disk + flavor.get("disk")) / quotaset.gigabytes;
                 var mem_width = 100 * (this.quotas.ram + flavor.get('ram')) / quotaset.ram;
 
                 this.quotas.flavor_error = false;
@@ -196,6 +196,8 @@ var LaunchImageView = Backbone.View.extend({
         var width = 100 * (this.options.instancesModel.length + count) / quotaset.instances;
 
         this.quotas.count_error = false;
+
+        console.log(width, this.options.instancesModel.length, count, quotaset.instances);
 
         $('#icountbar').css('background-color', '#468847');
 
