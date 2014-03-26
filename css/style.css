@@ -87,7 +87,10 @@ body { min-height: 480px; }
 
 @font-face {
   font-family: NeoTechRegular;
-  src: url(fonts/NeoTechStd-Regular.otf);
+  src: url('fonts/NeoTechStd-Regular.eot');
+  src: local('☺'), url('fonts/NeoTechStd-Regular.woff') format('woff'), url('fonts/NeoTechStd-Regular.ttf') format('truetype'), url('fonts/NeoTechStd-Regular.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {

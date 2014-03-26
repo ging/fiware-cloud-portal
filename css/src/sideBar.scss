@@ -1,5 +1,7 @@
 @import "main";
 
+$selector-font-size: 14px;
+
 @mixin sideBarFont {
   font-family: 'Comfortaa';
   font-weight:400;
@@ -34,14 +36,14 @@
     font-family: 'Comfortaa';
     font-weight:400;
     border: none;
-    font-size: 18px;
+    font-size: $selector-font-size;
     color: #00A3D0;
   }
 
   .sbOptions a:link,
   .sbOptions a:visited {
     font-family: 'Comfortaa';
-    font-size: 18px;
+    font-size: $selector-font-size;
     font-weight:400;
     color: $blue4;
     &:hover {
@@ -63,6 +65,7 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     border: 0;
+    font-size: $selector-font-size;
   }
 
   .sbToggle {
@@ -90,14 +93,14 @@
     font-family: 'Comfortaa';
     font-weight:400;
     border: none;
-    font-size: 18px;
+    font-size: $selector-font-size;
     color: #00A3D0;
   }
 
   .sbOptions a:link,
   .sbOptions a:visited {
     font-family: 'Comfortaa';
-    font-size: 18px;
+    font-size: $selector-font-size;
     font-weight:400;
     color: $blue4;
     &:hover {
@@ -119,6 +122,7 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     border: 0;
+    font-size: $selector-font-size;
   }
 
   .sbToggle {
@@ -175,6 +179,7 @@
           @include back_li;
           background-color: white;
           color: #00A3D0;
+          font-weight: bold;
 
           &:hover {
             border: none;
@@ -195,18 +200,24 @@
     padding-top: 0px;
     padding-bottom: 0px;
     padding-left: 15px;
-    height: 34px;
-    line-height: 34px;
+    height: 25px;
+    line-height: 25px;
     text-overflow: ellipsis;
     overflow: hidden;
     .small {
       font-size: 12px;
     }
 
+    &.section {
+      padding-top: 10px;
+    }
+
     & > a {
       padding-bottom: 0px;
       padding-top: 0px;
       padding-left: 0px;
+      font-size: 12px;
+      line-height: 25px;
     }
   }
 }

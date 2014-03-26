@@ -26,7 +26,7 @@ src: templates/root/sideBar.html
     <% for (var index in models) {
     var model = models[index];
     %>
-    <li>
+    <li class="<%= (model.get('type') === 'title') ? 'section': ''%>">
         <% if (model.get('type') === 'title') { %>
         <%= model.get('name') %>
         <% } else if (model.get('type') === 'regions') { %>

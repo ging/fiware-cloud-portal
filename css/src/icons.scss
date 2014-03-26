@@ -1,7 +1,7 @@
 @import "main";
 
 @mixin nav_icon($position, $hover : -25px) {
-    $left: $position * -25px + 1px;
+    $left: $position * -20px;
     &:before {
         background-position: 0px $left;
     }
@@ -17,7 +17,7 @@
                     instances, images, security, flavors, snapshots,
                     container, volumes, project, user, quotas, settings, logout, networks, routers, software {
     a.icon_nav-#{$section} {
-        @include nav_icon($index, -25px);
+        @include nav_icon($index, -20px);
     }
 
     span.icon_nav-#{$section} {
@@ -32,8 +32,9 @@
       content: " ";
       background-image: url("../ico/icon_nav.png");
       font-weight: bold;
-      width: 25px;
-      height: 25px;
+      background-size: 40px;
+      width: 20px;
+      height: 20px;
       display: block;
       float: left;
       margin-right: 10px;

@@ -11,3 +11,10 @@ $gray1: #848484;
 $gray2: #575756;
 
 $tablet-screen: 979px;
+
+body {
+	-webkit-font-smoothing: antialiased;
+	-moz-font-smoothing: antialiased;
+	-o-font-smoothing: antialiased;
+	-ie-font-smoothing: antialiased;
+}
