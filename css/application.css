@@ -101,6 +101,7 @@ html, body {
   height: 100%;
   position: relative;
   margin-top: 45px;
+  bottom: 48px;
 }
 
 /* Wrap text */
@@ -126,9 +127,9 @@ html, body {
 
 #content {
   position: absolute;
-  margin-top: 8px;
+  margin-top: 60px;
   top: 0px;
-  bottom: 100px;
+  bottom: 56px;
   right: 3px;
   left: 0px;
   box-shadow: rgb(211, 211, 211) 0px 0px 10px;
@@ -151,7 +152,7 @@ html, body {
 #logs {
   position: absolute;
   overflow: hidden;
-  bottom: 47px;
+  bottom: 0px;
   height: 48px;
   right: 3px;
   left: 0px;

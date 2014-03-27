@@ -254,7 +254,8 @@ ul.oil-portal li.active {
 }
 
 #oil-nav  ul.nav li a img{
-  width: 24px;
+  width: 20px;
+  vertical-align: top;
 }
 
 #oil-nav  ul.nav li a span{
@@ -325,9 +326,9 @@ ul.oil-portal li.active {
   *margin-right: .3em;
 }
 
-#oil-nav .arrow-down-settings { background-position: -1px -35px; }
+#oil-nav .arrow-down-settings { background-position: 0px -38px; }
 
-#oil-nav .arrow-down-settings:hover { background-position: -1px -5px; }
+#oil-nav .arrow-down-settings:hover { background-position: 0px -8px; }
 
 
 // ----> Idm Header Bar
