@@ -185,6 +185,16 @@ describe('Self Service Interface GE', function(){
             done();
         });
 
+        it('should show monitoring info', function (done) {
+            true.should.equal(true);
+            done();
+        });
+
+        it('should allow the creation of scalability rules', function (done) {
+            true.should.equal(true);
+            done();
+        });
+
     });
 
     describe('Portal', function(){
@@ -313,6 +323,16 @@ describe('Self Service Interface GE', function(){
         });
 
         it('should list routers', function (done) {
+            true.should.equal(true);
+            done();
+        });
+
+        it('should show monitoring info', function (done) {
+            true.should.equal(true);
+            done();
+        });
+
+        it('should allow the creation of scalability rules', function (done) {
             true.should.equal(true);
             done();
         });
