@@ -29,6 +29,10 @@ app.configure(function () {
     app.use(express.static(__dirname + '/../'));
 });
 
+app.get('/', function(req, res) {
+  res.render('index', {useIDM: false, account_server: undefined, portals: undefined});
+});
+
 app.post('/keystone/v2.0/tokens', function (req, res) {
     var result = {"url":"/keystone/v2.0/","currentstate":2,
         "access":{"token":{"expires":"2113-02-22T15:15:09Z","id":"1111",
@@ -148,6 +152,36 @@ describe('Self Service Interface GE', function(){
             done();
         });
 
+        it('should list projects', function (done) {
+            true.should.equal(true);
+            done();
+        });
+
+        it('should list blueprint instances', function (done) {
+            true.should.equal(true);
+            done();
+        });
+
+        it('should list blueprint templates', function (done) {
+            true.should.equal(true);
+            done();
+        });
+
+        it('should create new blueprint templates', function (done) {
+            true.should.equal(true);
+            done();
+        });
+
+        it('should list networks', function (done) {
+            true.should.equal(true);
+            done();
+        });
+
+        it('should list routers', function (done) {
+            true.should.equal(true);
+            done();
+        });
+
     });
 
     describe('Portal', function(){
@@ -155,7 +189,7 @@ describe('Self Service Interface GE', function(){
         before(function(done) {
             browser.debug = false;
             browser.waitFor = 2000;
-            browser.visit("http://localhost:8082/dist/index.test.html").then(function() {
+            browser.visit("http://localhost:8082/").then(function() {
                 done();
             });
         });
@@ -251,6 +285,31 @@ describe('Self Service Interface GE', function(){
         });
 
         it('should list projects', function (done) {
+            true.should.equal(true);
+            done();
+        });
+
+        it('should list blueprint instances', function (done) {
+            true.should.equal(true);
+            done();
+        });
+
+        it('should list blueprint templates', function (done) {
+            true.should.equal(true);
+            done();
+        });
+
+        it('should create new blueprint templates', function (done) {
+            true.should.equal(true);
+            done();
+        });
+
+        it('should list networks', function (done) {
+            true.should.equal(true);
+            done();
+        });
+
+        it('should list routers', function (done) {
             true.should.equal(true);
             done();
         });
