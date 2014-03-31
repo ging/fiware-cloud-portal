@@ -84,6 +84,8 @@ var InstanceMonitoringView = Backbone.View.extend({
 
         // }});
 
+        // TODO: updateSpeedometers() periodically
+
     },
 
     switch_view: function (e) {
@@ -123,7 +125,6 @@ var InstanceMonitoringView = Backbone.View.extend({
 
     renderSpeedometers: function () {
 
-        console.log('FLA', this.flavor);
         this.cpu_speed = new Speedometer({elementId: 'cpu', size: 300, maxVal: 100, name: 'CPU', units: '%'});
         this.disk_speed = new Speedometer({elementId: 'disk', size: 300, maxVal: this.flavor.get('disk'), name: 'DISK', units: 'GB'});
         this.mem_speed = new Speedometer({elementId: 'mem', size: 300, maxVal: this.flavor.get('ram'), name: 'RAM', units: 'MB'});
