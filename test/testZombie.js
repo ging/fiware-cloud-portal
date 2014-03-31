@@ -20,19 +20,22 @@ app.use(function (req, res, next) {
     }
 });
 
-app.use(express.bodyParser());
+//app.use(express.bodyParser());
+app.set('view engine', 'ejs');
 
 app.configure(function () {
     "use strict";
     app.use(express.errorHandler({ dumpExceptions: false, showStack: false }));
-    //app.use(express.logger());
-    app.use(express.static(__dirname + '/../'));
-});
+//    app.use(express.logger());
+    app.use(express.static(__dirname + '/../dist/'));
+    app.use('/css', express.static(__dirname + '/../dist/css'));
+    app.set('views', __dirname + '/../views/');
+    app.set("view options", {layout: true});
 
+});
 app.get('/', function(req, res) {
-  res.render('index', {useIDM: false, account_server: undefined, portals: undefined});
+  res.render('index', {useIDM: false, account_server: {}, portals: []});
 });
-
 app.post('/keystone/v2.0/tokens', function (req, res) {
     var result = {"url":"/keystone/v2.0/","currentstate":2,
         "access":{"token":{"expires":"2113-02-22T15:15:09Z","id":"1111",
@@ -65,11 +68,11 @@ describe('Self Service Interface GE', function(){
     describe('Library', function(){
 
         before(function(done) {
-            //browser.debug = false;
-            //browser.waitFor = 1000;
-            //browser.visit("http://localhost:8082/dist/index.test.html").then(function() {
+            browser.debug = false;
+//            browser.waitFor = 1000;
+//            browser.visit("http://localhost:8082/").then(function() {
                 done();
-            //});
+//            });
         });
 
         it('should authenticate user', function (done) {
@@ -188,7 +191,7 @@ describe('Self Service Interface GE', function(){
 
         before(function(done) {
             browser.debug = false;
-            browser.waitFor = 2000;
+            browser.waitFor = 1000;
             browser.visit("http://localhost:8082/").then(function() {
                 done();
             });
@@ -202,9 +205,9 @@ describe('Self Service Interface GE', function(){
         it('should show the overview page in the portal', function (done) {
             browser.fill("username", "user").fill("password", "pass").pressButton("Sign In", function() {
                 setTimeout(function() {
-                    browser.text("#user_info").should.equal('Logged in as: user Settings Sign Out');
+                    browser.text("#user_info_name").should.equal('user');
                     done();
-                }, 1000);
+                }, 100);
                 //assert.equal(browser.text("h3"), "Log In");
             });
         });
@@ -315,8 +318,10 @@ describe('Self Service Interface GE', function(){
         });
 
         it('should log out', function (done) {
+            //console.log(browser.html());
             browser.clickLink("Sign Out", function() {
                 setTimeout(function() {
+
                     browser.evaluate('$("#auth")[0].style["display"]').should.not.equal("none");
                     done();
                 }, 0);
