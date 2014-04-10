@@ -84,10 +84,17 @@ src: templates/forms/createSoftware.html
                         </div>
                     </div>
                     <div class="control-group form-field clearfix">
-                        <label for="ports">Open Ports</label>
+                        <label for="tcp_ports">Open TCP Ports</label>
                         <span class="help-block"></span>
                         <div class="input tip" data-tooltip="Open ports separated by commas.">
-                            <input type="text" name="ports"/>
+                            <input type="text" name="tcp_ports"/>
+                        </div>
+                    </div>
+                    <div class="control-group form-field clearfix">
+                        <label for="udp_ports">Open UDP Ports</label>
+                        <span class="help-block"></span>
+                        <div class="input tip" data-tooltip="Open ports separated by commas.">
+                            <input type="text" name="udp_ports"/>
                         </div>
                     </div>
                 </fieldset>

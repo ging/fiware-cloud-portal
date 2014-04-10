@@ -60,7 +60,7 @@ var OSRouter = Backbone.Router.extend({
         this.route('nova/blueprints/catalog/', 'blueprint_templates_catalog', this.wrap(this.blueprint_templates_catalog, this.checkAuthAndTimers, ["bpTemplatesModel"]));
         this.route('nova/blueprints/catalog/:id', 'blueprint_template_catalog', this.wrap(this.blueprint_template_catalog, this.checkAuthAndTimers));
 
-        //this.route('nova/software/', 'software', this.wrap(this.software, this.checkAuthAndTimers, ["softwareCatalogs"]));
+        this.route('nova/software/', 'software', this.wrap(this.software, this.checkAuthAndTimers, ["softwareCatalogs"]));
 
         this.route('nova/volumes/', 'volumes', this.wrap(this.nova_volumes, this.checkAuthAndTimers, ["volumesModel"]));
         this.route('nova/volumes/:id/detail', 'consult_volume',  this.wrap(this.consult_volume, this.checkAuthAndTimers));
@@ -311,7 +311,7 @@ var OSRouter = Backbone.Router.extend({
             {name: 'Blueprint', type: 'title'},
             {name: 'Blueprint Instances',  iconcss: "icon_nav-blueprintInstances", css:"small", active: false, url: '#nova/blueprints/instances/'},
             {name: 'Blueprint Templates',  iconcss: "icon_nav-blueprintTemplates", css:"small", active: false, url: '#nova/blueprints/templates/'},
-            //{name: 'Software',  iconcss: "icon_nav-software", css:"small", active: false, url: '#nova/software/'},
+            {name: 'Software',  iconcss: "icon_nav-software", css:"small", active: false, url: '#nova/software/'},
             {name: 'Region', type: 'title'},
             {type: 'regions'},
             {name: 'Compute', type: 'title'},

@@ -38,7 +38,7 @@ var SoftwareCatalog = Backbone.Model.extend({
                 ServiceDC.API.addRecipe(model.get('name'), model.get('version'), 
                     model.get('repo'), model.get('url'), model.get('config_management'), 
                     model.get('operating_systems'), model.get('description'), model.get('attributes'), 
-                    model.get('ports'), model.get('dependencies'), 
+                    model.get('tcp_ports'), model.get('udp_ports'), model.get('dependencies'), 
                     options.success, options.error, this.getRegion());
                 break;
             case "delete":

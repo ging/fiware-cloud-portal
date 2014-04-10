@@ -235,7 +235,8 @@ var CreateSoftwareView = Backbone.View.extend({
         
         var description = $('textarea[name=description]').val();
         var attributes = $('textarea[name=attributes]').val();
-        var ports = $('input[name=ports]').val();
+        var tcp_ports = $('input[name=tcp_ports]').val();
+        var udp_ports = $('input[name=udp_ports]').val();
 
         software.set({'name': name});
         software.set({'version': version});
@@ -256,9 +257,14 @@ var CreateSoftwareView = Backbone.View.extend({
             software.set({'attributes': at});
         }
 
-        if (ports !== "") {
-            var port = ports.split(',');
-            software.set({'ports': port});
+        if (tcp_ports !== "") {
+            var tport = tcp_ports.split(',');
+            software.set({'tcp_ports': tport});
+        }
+
+        if (udp_ports !== "") {
+            var uport = udp_ports.split(',');
+            software.set({'udp_ports': uport});
         }
         
         if (this.addedProducts.length !== 0) {
