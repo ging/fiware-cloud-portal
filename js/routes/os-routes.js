@@ -311,7 +311,7 @@ var OSRouter = Backbone.Router.extend({
             {name: 'Blueprint', type: 'title'},
             {name: 'Blueprint Instances',  iconcss: "icon_nav-blueprintInstances", css:"small", active: false, url: '#nova/blueprints/instances/'},
             {name: 'Blueprint Templates',  iconcss: "icon_nav-blueprintTemplates", css:"small", active: false, url: '#nova/blueprints/templates/'},
-            {name: 'Software',  iconcss: "icon_nav-software", css:"small", active: false, url: '#nova/software/'},
+            //{name: 'Software',  iconcss: "icon_nav-software", css:"small", active: false, url: '#nova/software/'},
             {name: 'Region', type: 'title'},
             {type: 'regions'},
             {name: 'Compute', type: 'title'},
