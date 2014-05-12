@@ -125,9 +125,12 @@ var InstanceMonitoringView = Backbone.View.extend({
     updateSpeedometers: function (stats) {
 
         console.log(stats);
+        var disk = (this.flavor.get('disk') / 100) * stats[0].percDiskUsed.value;
+        var mem = (this.flavor.get('ram') / 100) * stats[0].percRAMUsed.value;
+
         this.cpu_speed.drawWithInputValue(stats[0].percCPULoad.value);
-        //this.disk_speed.drawWithInputValue(stats[0].percDiskUsed.value);
-        this.mem_speed.drawWithInputValue(stats[0].percRAMUsed.value);
+        this.disk_speed.drawWithInputValue(disk);
+        this.mem_speed.drawWithInputValue(mem);
     },
 
     renderSpeedometers: function () {
