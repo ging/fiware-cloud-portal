@@ -66,23 +66,28 @@ var InstanceMonitoringView = Backbone.View.extend({
         this.mem_opt.scaleStepWidth = null;
         this.mem_opt.scaleStartValue = null;
 
-        // this.model.fetch({success: function() {
-        //     self.flavor = new Flavor();
-        //     self.flavor.set({id: self.model.get("flavor").id});
+        this.model.fetch({success: function() {
+            self.flavor = new Flavor();
+            self.flavor.set({id: self.model.get("flavor").id});
             
-        //     self.flavor.fetch({success: function() {
+            self.flavor.fetch({success: function() {
 
-        //         self.render();
-        //         self.renderSpeedometers();
-        //         self.renderCharts();
+                self.render();
+                
+                self.model.getMonitoringStats({callback: function(stats){
+                    if (stats !== undefined) {
+                        $('#error_monit_info').hide();
+                        self.renderSpeedometers();
+                        self.updateSpeedometers(stats);
+                    }
+                    
+                    // self.renderCharts();
+                   
+                }});
 
-        //         self.model.getMonitoringStats({callback: function(stats){
-        //             self.updateSpeedometers(stats);
-        //         }});
+            }});
 
-        //     }});
-
-        // }});
+        }});
 
         // TODO: updateSpeedometers() periodically
 
@@ -118,8 +123,10 @@ var InstanceMonitoringView = Backbone.View.extend({
     },
 
     updateSpeedometers: function (stats) {
+
+        console.log(stats);
         this.cpu_speed.drawWithInputValue(stats[0].percCPULoad.value);
-        this.disk_speed.drawWithInputValue(stats[0].percDiskUsed.value);
+        //this.disk_speed.drawWithInputValue(stats[0].percDiskUsed.value);
         this.mem_speed.drawWithInputValue(stats[0].percRAMUsed.value);
     },
 

@@ -194,6 +194,10 @@ UTILS.Auth = (function(U, undefined) {
         return JSTACK.Keystone.params.token;
     }
 
+    function getAccessToken() {
+        return access_token_;
+    }
+
     function getName() {
         return JSTACK.Keystone.params.access.user.name;
     }
@@ -427,6 +431,7 @@ UTILS.Auth = (function(U, undefined) {
         authenticate: authenticate,
         authenticateWithCredentials: authenticateWithCredentials,
         getToken: getToken,
+        getAccessToken: getAccessToken,
         getName: getName,
         isAuthenticated: isAuthenticated,
         getCurrentTenant: getCurrentTenant,

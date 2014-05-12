@@ -5,7 +5,13 @@ src: templates/root/nova/instanceDetail/monitoring.html
 -->
 <div id="consult_monit" class="help_page">
 
-	<button id="switch_button" class="btn btn-small btn-blue btn-main>" data-i18n="Graphs">Graphs</button>
+	<!--<button id="switch_button" class="btn btn-small btn-blue btn-main>" data-i18n="Graphs">Graphs</button>-->
+
+	<div class="status span12" id="error_monit_info">
+		<h4></h4>
+	    <p>No monitoring data available for this instance</p>
+	</div>
+	
 
     <div id="speedometer_view" class="entity_consult">
 		<div id="cpu" class="speedometer">
