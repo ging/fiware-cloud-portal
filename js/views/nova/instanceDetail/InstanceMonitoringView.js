@@ -125,18 +125,19 @@ var InstanceMonitoringView = Backbone.View.extend({
     updateSpeedometers: function (stats) {
 
         var cpu = Math.round(stats[0].percCPULoad.value);
-        var disk = Math.round((this.flavor.get('disk') / 100) * stats[0].percDiskUsed.value);
+        //var disk = Math.round((this.flavor.get('disk') / 100) * stats[0].percDiskUsed.value);
         var mem = Math.round((this.flavor.get('ram') / 100) * stats[0].percRAMUsed.value);
 
         this.cpu_speed.drawWithInputValue(cpu);
-        this.disk_speed.drawWithInputValue(disk);
+        this.disk_speed.drawWithInputValue(stats[0].percDiskUsed.value);
         this.mem_speed.drawWithInputValue(mem);
     },
 
     renderSpeedometers: function () {
 
         this.cpu_speed = new Speedometer({elementId: 'cpu', size: 300, maxVal: 100, name: 'CPU', units: '%'});
-        this.disk_speed = new Speedometer({elementId: 'disk', size: 300, maxVal: this.flavor.get('disk'), name: 'DISK', units: 'GB'});
+        //this.disk_speed = new Speedometer({elementId: 'disk', size: 300, maxVal: this.flavor.get('disk'), name: 'DISK', units: 'GB'});
+        this.disk_speed = new Speedometer({elementId: 'disk', size: 300, maxVal: 100, name: 'DISK', units: '%'});
         this.mem_speed = new Speedometer({elementId: 'mem', size: 300, maxVal: this.flavor.get('ram'), name: 'RAM', units: 'MB'});
         this.cpu_speed.draw();
         this.disk_speed.draw();
