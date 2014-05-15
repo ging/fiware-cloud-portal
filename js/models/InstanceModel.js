@@ -194,9 +194,9 @@ var Instance = Backbone.Model.extend({
                 if (JSTACK.Keystone.getservice("network") !== undefined) {
                     if (model.get("addresses") != null) {
                         var ips = model.get("addresses")[Object.keys(model.get("addresses"))[0]];
-                        for (p in ips) {
+                        for (var p in ips) {
                             if (ips[p]['OS-EXT-IPS:type'] === 'floating') {
-                                ip = ips[p]['addr'];
+                                ip = ips[p].addr;
                             }
                         }
                     }
