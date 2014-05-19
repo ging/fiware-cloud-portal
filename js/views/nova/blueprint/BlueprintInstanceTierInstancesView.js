@@ -11,7 +11,9 @@ var BlueprintInstanceTierInstancesView = Backbone.View.extend({
         this.model.unbind("sync");
         this.model.bind("sync", this.render, this);
         this.options.projects = UTILS.GlobalModels.get("projects");
-        this.options.flavors = UTILS.GlobalModels.get("flavors");
+        //this.options.flavors = UTILS.GlobalModels.get("flavors");
+        this.options.flavors = new Flavors();
+        this.options.flavors.fetch({success: this.render});
         this.qtip = {
             content: '<input id="instances-to-add" type="test" value="1" class="tier-instances-num"><div class="btns"><a class="btn-plus">+</a><a class="btn-minus">-</a></div> instances <a id="add-instances" class="btn btn-blue btn-small">Add</a>',
             position: {

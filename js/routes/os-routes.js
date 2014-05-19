@@ -356,22 +356,30 @@ var OSRouter = Backbone.Router.extend({
         self.showNovaRoot(self, 'Blueprint Instances', 'Blueprint Instances / ' + id + ' / ' + tier_id);
         var bp = new BPInstance();
         bp.set({'blueprintName': id});
+
         bp.fetch({success: function(instance) {
             var tiers = instance.get('tierDto_asArray');
             tiers.forEach(function(tier) {
                 if (tier.name === tier_id) {
                     var vms = tier.tierInstancePDto_asArray || [];
                     var insts = new Instances();
-                    vms.forEach(function(vm) {
-                        var inst = UTILS.GlobalModels.get("instancesModel").findWhere({name: vm.tierInstanceName});
-                        if (inst) {
-                            inst.set({paasStatus: vm.status});
-                            insts.add(inst);
-                        }
-                    });
-                    self.showNovaRoot(self, 'BP Instances', 'Blueprint Instances / ' + id + ' / ' + tier.name);
-                    var view = new BlueprintInstanceTierInstancesView({model: insts, blueprint: bp, tier: tier, el: '#content'});
-                    self.newContentView(self,view);
+                    var temp = new Instances();
+                    temp.region = tier.region;
+                    insts.region = tier.region;
+                    temp.fetch({success: function(instances) {
+                        vms.forEach(function(vm) {
+                            var inst = temp.findWhere({name: vm.tierInstanceName});
+                            if (inst) {
+                                inst.set({paasStatus: vm.status});
+                                insts.add(inst);
+                            }
+                        });
+                        self.showNovaRoot(self, 'BP Instances', 'Blueprint Instances / ' + id + ' / ' + tier.name);
+                        var view = new BlueprintInstanceTierInstancesView({model: insts, blueprint: bp, tier: tier, el: '#content'});
+                        self.newContentView(self,view);
+                    }});
+                    
+                    return;
                 }
             });
         }

@@ -6,8 +6,22 @@ var BlueprintInstanceView = Backbone.View.extend({
     sdcs: {},
 
     initialize: function() {
-        this.options.images = UTILS.GlobalModels.get("images");
-        this.options.flavors = UTILS.GlobalModels.get("flavors");
+        var regions = UTILS.GlobalModels.get("loginModel").get("regions");
+        this.options.flavors = {};
+        this.options.images = {};
+        for (var idx in regions) {
+            var region = regions[idx];
+            var images = new Images();
+            var flavors = new Flavors();
+            images.region = region;
+            flavors.region = region;
+            images.fetch({success: this.render});
+            flavors.fetch({success: this.render});
+            this.options.flavors[region] = flavors;
+            this.options.images[region] = images;
+        }
+        //this.options.images = UTILS.GlobalModels.get("images");
+        //this.options.flavors = UTILS.GlobalModels.get("flavors");
         if (this.model) {
             this.model.unbind("sync");
             this.model.bind("sync", this.render, this);
@@ -89,6 +103,7 @@ var BlueprintInstanceView = Backbone.View.extend({
             var tier = this.model.get('tierDto_asArray')[index];
 
             var products = [];
+            var region = tier.region;
             for (var p in tier.productReleaseDtos_asArray) {
                 products.push(tier.productReleaseDtos_asArray[p].productName + " " + tier.productReleaseDtos_asArray[p].version);
             }
@@ -101,8 +116,8 @@ var BlueprintInstanceView = Backbone.View.extend({
                 tier.keypair = "-";
             }
             var image = "-";
-            if (this.options.images.get(tier.image) !== undefined) {
-                image = this.options.images.get(tier.image).get("name");
+            if (this.options.images[region].get(tier.image) !== undefined) {
+                image = this.options.images[region].get(tier.image).get("name");
             }
             var entry = {
                 id: tier.name,
@@ -112,7 +127,7 @@ var BlueprintInstanceView = Backbone.View.extend({
                 icono: tier.icono,
                 bootValue: tier.initialNumberInstances,
                 name: tier.name,
-                flavor: this.options.flavors.get(tier.flavour) ? this.options.flavors.get(tier.flavour).get("name") : "-",
+                flavor: this.options.flavors[region].get(tier.flavour) ? this.options.flavors[region].get(tier.flavour).get("name") : "-",
                 image: image,
                 keypair: tier.keypair,
                 publicIP: tier.floatingip,
