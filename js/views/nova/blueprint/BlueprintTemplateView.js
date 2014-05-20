@@ -21,7 +21,7 @@ var BlueprintTemplateView = Backbone.View.extend({
         var self = this;
         var render = function() {
             self.render.apply(self);
-        }
+        };
         for (var idx in regions) {
             var region = regions[idx];
             var images = new Images();
