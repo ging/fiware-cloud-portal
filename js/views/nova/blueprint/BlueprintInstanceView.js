@@ -9,6 +9,14 @@ var BlueprintInstanceView = Backbone.View.extend({
         var regions = UTILS.GlobalModels.get("loginModel").get("regions");
         this.options.flavors = {};
         this.options.images = {};
+        //this.options.images = UTILS.GlobalModels.get("images");
+        //this.options.flavors = UTILS.GlobalModels.get("flavors");
+        if (this.model) {
+            this.model.unbind("sync");
+            this.model.bind("sync", this.render, this);
+        }
+        this.model.fetch();
+        this.renderFirst();
         for (var idx in regions) {
             var region = regions[idx];
             var images = new Images();
@@ -20,14 +28,6 @@ var BlueprintInstanceView = Backbone.View.extend({
             this.options.flavors[region] = flavors;
             this.options.images[region] = images;
         }
-        //this.options.images = UTILS.GlobalModels.get("images");
-        //this.options.flavors = UTILS.GlobalModels.get("flavors");
-        if (this.model) {
-            this.model.unbind("sync");
-            this.model.bind("sync", this.render, this);
-        }
-        this.model.fetch();
-        this.renderFirst();
     },
 
     events: {
