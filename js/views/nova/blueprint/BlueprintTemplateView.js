@@ -24,10 +24,10 @@ var BlueprintTemplateView = Backbone.View.extend({
             var flavors = new Flavors();
             images.region = region;
             flavors.region = region;
-            images.fetch({success: this.render});
-            flavors.fetch({success: this.render});
             this.options.flavors[region] = flavors;
             this.options.images[region] = images;
+            images.fetch({success: this.render});
+            flavors.fetch({success: this.render});
         }
     },
 
