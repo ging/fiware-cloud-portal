@@ -223,6 +223,7 @@ var BlueprintTemplateView = Backbone.View.extend({
     },
 
     renderFirst: function() {
+        console.log("Rendering First");
         UTILS.Render.animateRender(this.el, this._template);
         this.tableView = new TableTiersView({
             model: this.model,
@@ -241,6 +242,7 @@ var BlueprintTemplateView = Backbone.View.extend({
     },
 
     render: function() {
+        console.log("Rendering");
         if ($(this.el).html() !== null) {
             this.tableView.render();
         }
