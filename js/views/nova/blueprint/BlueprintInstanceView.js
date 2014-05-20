@@ -9,14 +9,18 @@ var BlueprintInstanceView = Backbone.View.extend({
         var regions = UTILS.GlobalModels.get("loginModel").get("regions");
         this.options.flavors = {};
         this.options.images = {};
+        var self = this;
+        var render = function() {
+            self.render.apply(self);
+        };
         for (var idx in regions) {
             var region = regions[idx];
             var images = new Images();
             var flavors = new Flavors();
             images.region = region;
             flavors.region = region;
-            images.fetch({success: this.render});
-            flavors.fetch({success: this.render});
+            images.fetch({success: render});
+            flavors.fetch({success: render});
             this.options.flavors[region] = flavors;
             this.options.images[region] = images;
         }
