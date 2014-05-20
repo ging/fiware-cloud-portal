@@ -271,15 +271,17 @@ var BlueprintInstanceTierInstancesView = Backbone.View.extend({
             var instance = this.model.models[instance_idx];
 
             var address = "";
+            var addresses;
 
-            if (instance.get("addresses") != null && (instance.get("addresses")["public"] !== null || instance.get("addresses")["private"] !== null)) {
-                var addresses = instance.get("addresses")["public"];
-                for (var addr_idx in addresses) {
-                    address += addresses[addr_idx].addr + "<br/>";
-                }
-                addresses = instance.get("addresses")["private"];
-                for (var addr_idx2 in addresses) {
-                    address += addresses[addr_idx2].addr + "<br/>";
+            if (instance.get("addresses") !== null) {
+                var networks = instance.get("addresses");
+                for (var net in networks) {
+                    if (networks.hasOwnProperty(net)) {
+                        addresses = networks[net];
+                        for (var addr_idx in addresses) {
+                            address += addresses[addr_idx].addr + "<br/>";
+                        }
+                    }
                 }
             }
             var entry = {
