@@ -18,6 +18,10 @@ var BlueprintTemplateView = Backbone.View.extend({
         }
         this.model.fetch();
         this.renderFirst();
+        var self = this;
+        var render = function() {
+            self.render.apply(self);
+        }
         for (var idx in regions) {
             var region = regions[idx];
             var images = new Images();
@@ -26,8 +30,8 @@ var BlueprintTemplateView = Backbone.View.extend({
             flavors.region = region;
             this.options.flavors[region] = flavors;
             this.options.images[region] = images;
-            images.fetch({success: this.render});
-            flavors.fetch({success: this.render});
+            images.fetch({success: render});
+            flavors.fetch({success: render});
         }
     },
 
@@ -223,7 +227,6 @@ var BlueprintTemplateView = Backbone.View.extend({
     },
 
     renderFirst: function() {
-        console.log("Rendering First");
         UTILS.Render.animateRender(this.el, this._template);
         this.tableView = new TableTiersView({
             model: this.model,
@@ -242,8 +245,7 @@ var BlueprintTemplateView = Backbone.View.extend({
     },
 
     render: function() {
-        console.log("Rendering");
-        if ($(this.el).html() !== null) {
+        if (this.tableView !== undefined) {
             this.tableView.render();
         }
         return this;
