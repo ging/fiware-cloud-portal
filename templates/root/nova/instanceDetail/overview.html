@@ -109,6 +109,20 @@ src: templates/root/nova/instanceDetail/overview.html
                         <li>
                             <strong>Image Name: </strong>&nbsp;<a href="#nova/images/<%=image.get("id")%>"><%=image.get("name")%></a>
                         </li>
+                        <% 
+                        var metadata = model.get("metadata");
+                        if (model.has("metadata")) {
+                            for (var key in metadata) {
+                                if (metadata.hasOwnProperty(key)) {
+                        %>
+                        <li>
+                            <strong><%=key%>: </strong>&nbsp;<%= metadata[key]%>
+                        </li>
+                        <%
+                                }
+                            }
+                        }
+                        %>
                     </ul>
                 </div>
                 <div class="specs span4">
