@@ -115,6 +115,8 @@ function sendData(port, options, data, res, callBackOK, callbackError) {
     if (options.headers["content-type"]) {
         xhr.setRequestHeader("Content-Type", options.headers["content-type"]);
     }
+    xhr.setRequestHeader("Connection", "Keep-Alive");
+
     for (var headerIdx in options.headers) {
         switch (headerIdx) {
             // Unsafe headers

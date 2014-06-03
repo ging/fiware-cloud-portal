@@ -13,7 +13,15 @@
 
 var Url = require("url")
   , spawn = require("child_process").spawn
-  , fs = require('fs');
+  , fs = require('fs')
+  , Agent = require('agentkeepalive');
+
+GLOBAL.keepaliveAgent = GLOBAL.keepaliveAgent || new Agent({
+  maxSockets: 100,
+  maxFreeSockets: 100,
+  keepAlive: true,
+  keepAliveMsecs: 15000 // keepalive for 30 seconds
+});
 
 exports.XMLHttpRequest = function() {
   /**
@@ -53,7 +61,6 @@ exports.XMLHttpRequest = function() {
     "accept-encoding",
     "access-control-request-headers",
     "access-control-request-method",
-    "connection",
     "content-length",
     "content-transfer-encoding",
     "cookie",
@@ -372,7 +379,8 @@ exports.XMLHttpRequest = function() {
       path: uri,
       method: settings.method,
       headers: headers,
-      agent: http.globalAgent
+//      agent: http.globalAgent
+      agent: GLOBAL.keepaliveAgent
     };
 
     // Reset error flag
@@ -421,6 +429,10 @@ exports.XMLHttpRequest = function() {
         });
       }).on('error', function(error) {
         self.handleError(error);
+      });
+
+      request.setTimeout(1000, function() {
+        self.handleError();
       });
 
       // Node 0.4 and later won't accept empty data. Make sure it's needed.
