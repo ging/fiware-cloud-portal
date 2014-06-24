@@ -19,9 +19,7 @@ var BlueprintInstanceView = Backbone.View.extend({
             var flavors = new Flavors();
             images.region = region;
             flavors.region = region;
-            images.fetch({success: function () {
-
-            }});
+            images.fetch({success: render});
             flavors.fetch({success: render});
             this.options.flavors[region] = flavors;
             this.options.images[region] = images;
