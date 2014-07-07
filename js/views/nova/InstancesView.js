@@ -273,7 +273,7 @@ var NovaInstancesView = Backbone.View.extend({
                 window.location.href = '#nova/instances/' + instance + '/detail?view=vnc';
                 break;
             case 'log':
-                window.location.href = 'nova/instances/' + instance + '/detail?view=log';
+                window.location.href = '#nova/instances/' + instance + '/detail?view=log';
                 break;
             case 'snapshot':
                 subview = new CreateSnapshotView({
