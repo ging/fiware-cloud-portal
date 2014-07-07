@@ -117,6 +117,13 @@ var Instance = Backbone.Model.extend({
         return this._action('attachedvolumes', options);
     },
 
+    getsecuritygroup: function(options) {
+        if (options === undefined) {
+            options = {};
+        }
+        return this._action('getsecuritygroup', options);
+    },
+
     getMonitoringStats: function(options) {
         if (options === undefined) {
             options = {};
@@ -188,6 +195,9 @@ var Instance = Backbone.Model.extend({
                 break;
             case "attachedvolumes":
                 JSTACK.Nova.getattachedvolumes(model.get("id"), options.success, options.error, this.getRegion());
+                break;
+            case "getsecuritygroup":
+                JSTACK.Nova.getsecuritygroupforserver(model.get("id"), options.success, options.error, this.getRegion());
                 break;
             case "getMonitoringStats":
                 var ip;

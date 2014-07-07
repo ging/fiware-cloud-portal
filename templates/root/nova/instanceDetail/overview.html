@@ -129,9 +129,14 @@ src: templates/root/nova/instanceDetail/overview.html
                     <h4>Volumes</h4>
                     <hr class="header_rule">
                     <ul>
-                        <li>
-                            <em>No volumes attached.</em>
+                        <%
+                         for (var idx in volumes) {
+                        %>
+                        <li style="width: 300px; overflow: hidden; text-overflow: ellipsis">
+                            <%=volumes[idx].device%>
                         </li>
+
+                        <%}%>
                     </ul>
                 </div>
 
