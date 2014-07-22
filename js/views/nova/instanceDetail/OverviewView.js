@@ -22,12 +22,18 @@ var InstanceOverviewView = Backbone.View.extend({
         this.options.sdcs.fetch();
 
         var options = {};
-        options.callback = function(resp) {
+        options.callback_sec = function(resp) {
             self.options.security_groups = resp;
             self.security_groupsResp = true;
             self.checkAll();
         };
-        JSTACK.Nova.getsecuritygroupforserver(self.model.id, options.callback);
+        this.model.getsecuritygroup({callback: options.callback_sec});
+
+        options.callback_vol = function(resp) {
+            self.options.volumes = resp;
+            self.checkAll();
+        };
+        this.model.attachedvolumes({callback: options.callback_vol});
     },
 
     editSoftware: function(e) {
@@ -110,7 +116,13 @@ var InstanceOverviewView = Backbone.View.extend({
             security_groups = self.options.security_groups.security_groups;
         }
 
-        var template = self._template({security_groups: security_groups, model:self.model, flavor:self.options.flavor, image:self.options.image, installedSoftware: installedSoftware});
+        var volumes;
+
+        if (self.options.volumes) {
+            volumes = self.options.volumes.volumeAttachments;
+        }
+
+        var template = self._template({security_groups: security_groups, volumes: volumes, model:self.model, flavor:self.options.flavor, image:self.options.image, installedSoftware: installedSoftware});
         $(self.el).empty().html(template);
 
         return this;

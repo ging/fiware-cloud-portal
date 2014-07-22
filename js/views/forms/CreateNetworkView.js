@@ -44,6 +44,7 @@ var CreateNetworkView = Backbone.View.extend({
             $('#subnet_details').addClass('hide');
             $('#switch_subnet').html('Add subnet');
             $('#network_modal').css('height', '140px');
+            document.getElementById('network_address').removeAttribute('pattern');
             document.getElementById('network_address').removeAttribute('required');
 
             this.add_subnet = false;
@@ -53,6 +54,9 @@ var CreateNetworkView = Backbone.View.extend({
             $('#subnet_details').removeClass('hide');
             $('#switch_subnet').html('Remove subnet');
             $('#network_modal').css('height', '475px');
+
+            var reg = new RegExp();
+            $('#network_address').attr('pattern', '^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(\\d|[1-2]\\d|3[0-2]))$');
             $('#network_address').attr('required', 'required');
 
             this.add_subnet = true;
