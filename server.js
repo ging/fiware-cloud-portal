@@ -11,7 +11,7 @@ var useIDM = config.useIDM;
 var keystone_config = config.keystone;
 
 var service_catalog;
-
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 if (useIDM) {
     var oauth_client = new OAuth2(oauth_config.client_id,
                     oauth_config.client_secret,
@@ -164,6 +164,7 @@ function sendData(port, options, data, res, callBackOK, callbackError) {
             // In case of error it sends an error message to `callbackError`.
             default:
             if (callbackError)
+                console.log("Error sending req to ", url, " - ", xhr.status);
                 callbackError(xhr.status, xhr.responseText);
             }
         }
@@ -291,13 +292,16 @@ app.all('/:reg/:service/:v/*', function(req, resp) {
 
     var endp = getEndpoint(req.params.service, req.params.reg);
     var new_url = req.url.split(req.params.v)[1];
-
+    var isSecure = endp.indexOf("https://") === 0;
     var options = {
         url: endp + new_url,
         method: req.method,
-        headers: req.headers
+        headers: req.headers,
+        rejectUnauthorized: false,
+        requestCert: false
     };
-    sendData("http", options, req.body, resp);
+    var protocol = isSecure ? "https": "http";
+    sendData(protocol, options, req.body, resp);
 });
 
 app.all('/*', function(req, res) {

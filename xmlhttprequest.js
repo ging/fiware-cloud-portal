@@ -24,6 +24,7 @@ exports.XMLHttpRequest = function() {
   var https = require('https');
 
   http.globalAgent.maxSockets = 5;
+  https.globalAgent.maxSockets = 5;
 
   // Holds http.js objects
   var client;
@@ -372,6 +373,8 @@ exports.XMLHttpRequest = function() {
       path: uri,
       method: settings.method,
       headers: headers,
+      rejectUnauthorized: false,
+      requestCert: true,
       agent: http.globalAgent
     };
 
@@ -388,7 +391,7 @@ exports.XMLHttpRequest = function() {
 
       // As per spec, this is called here for historical reasons.
       self.dispatchEvent("readystatechange");
-
+      if (ssl) options.agent = https.globalAgent;
       // Create the request
       request = doRequest(options, function(resp) {
         response = resp;
