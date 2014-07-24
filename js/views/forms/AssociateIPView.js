@@ -61,7 +61,7 @@ var AssociateIPView = Backbone.View.extend({
                 }
             }
         } else {
-            html += "<option value="">Select IP to associate with</option>";
+            html += '<option value="">Select IP to associate with</option>';
         }
 
         $('#instance_ip_pool').html(html);
