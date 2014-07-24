@@ -31,7 +31,7 @@ var AssociateIPView = Backbone.View.extend({
         var html = '';
         var instance_id = this.$("#instance_switcher option:selected").val();
         var instance = this.options.instances.get(instance_id);
-        var addr;
+        var addr, addresses;
         if ((instance.get("addresses") != null) && (instance.get("addresses")["public"] !== null || instance.get("addresses")["private"] !== null)) {
             addresses = instance.get("addresses")["public"];
             for (var addr_idx in addresses) {
