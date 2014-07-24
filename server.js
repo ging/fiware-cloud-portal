@@ -15,10 +15,10 @@ var service_catalog;
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 if (config.http_port === undefined || config.http_port === null) {
-    console.err("HTTP port was not provided. Please, fill config.http_port in the configuration file");
+    console.log("HTTP port was not provided. Please, fill config.http_port in the configuration file");
     process.exit(1);
 } else if (config.https === undefined || config.https === null) {
-    console.err("HTTPS was not enabled or disabled. Please, fill config.https in the configuration file");
+    console.log("HTTPS was not enabled or disabled. Please, fill config.https in the configuration file");
     process.exit(1);
 }
 
