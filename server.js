@@ -43,6 +43,7 @@ app.use (function(req, res, next) {
     if (config.https.enabled && req.protocol !== "https") {
         var fullUrl = 'https://' + req.get('host') + ':' + config.https.port + req.originalUrl;
         res.redirect(fullUrl);
+        return;
     }
 
     var data='';
