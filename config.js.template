@@ -13,8 +13,20 @@ config.fiportals = {
     //,'': ''
 };
 
+// Mandatory. TCP port to bind the server to
+config.http_port = 80;
+
+// Set this var to undefined if you don't want the server to listen on HTTPS
+config.https = {
+    enabled: false,
+    cert_file: 'ssl/cert.pem',
+    key_file: 'ssl/key.pem',
+    port: 443
+};
+
 config.useIDM = false;
 
+// OAuth configuration. Only set this configuration if useIDM is true.
 config.oauth = {
 	account_server: '',
     client_id: '',
@@ -22,6 +34,7 @@ config.oauth = {
     callbackURL: ''
 };
 
+// Keystone configuration.
 config.keystone = {
 	host: '',
 	port: ,
