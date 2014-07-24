@@ -1,4 +1,5 @@
 var express = require('express'),
+    fs = require('fs'),
     http = require('http'),
     https = require('https'),
     crypto = require('crypto'),
@@ -11,7 +12,7 @@ var useIDM = config.useIDM;
 var keystone_config = config.keystone;
 
 var service_catalog;
-
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 if (useIDM) {
     var oauth_client = new OAuth2(oauth_config.client_id,
                     oauth_config.client_secret,
@@ -38,6 +39,12 @@ app.use(express.session({
 //app.use(express.bodyParser());
 
 app.use (function(req, res, next) {
+    // Filter unsecure requests.
+    if (config.https.enabled && req.protocol !== "https") {
+        var fullUrl = 'https://' + req.get('host') + ':' + config.https.port + req.originalUrl;
+        res.redirect(fullUrl);
+    }
+
     var data='';
     req.setEncoding('utf8');
     req.on('data', function(chunk) { 
@@ -166,6 +173,7 @@ function sendData(port, options, data, res, callBackOK, callbackError) {
             // In case of error it sends an error message to `callbackError`.
             default:
             if (callbackError)
+                console.log("Error sending req to ", url, " - ", xhr.status);
                 callbackError(xhr.status, xhr.responseText);
             }
         }
@@ -293,13 +301,16 @@ app.all('/:reg/:service/:v/*', function(req, resp) {
 
     var endp = getEndpoint(req.params.service, req.params.reg);
     var new_url = req.url.split(req.params.v)[1];
-
+    var isSecure = endp.indexOf("https://") === 0;
     var options = {
         url: endp + new_url,
         method: req.method,
-        headers: req.headers
+        headers: req.headers,
+        rejectUnauthorized: false,
+        requestCert: false
     };
-    sendData("http", options, req.body, resp);
+    var protocol = isSecure ? "https": "http";
+    sendData(protocol, options, req.body, resp);
 });
 
 app.all('/*', function(req, res) {
@@ -404,8 +415,28 @@ function decrypt(str){
   return dec;
 }
 
-app.listen(80, undefined, null, function() {
-    console.log("Port 80 opened. Changing to unprivileged user...");
+if (config.http_port === undefined || config.http_port === null) {
+    console.err("HTTP port was not provided. Please, fill config.http_port in the configuration file");
+    process.exit(1);
+}
+
+app.listen(config.http_port, undefined, null, function() {
+
+    // Listen on HTTPS port. We need to have cert and key files to serve HTML files on SSL.
+    if (config.https.enabled === true) {
+        // This line is from the Node.js HTTPS documentation.
+        var options = {
+          key: fs.readFileSync(config.https.key_file),
+          cert: fs.readFileSync(config.https.cert_file)
+        };
+
+        https.createServer( options, function(req,res)
+        {
+            app.handle( req, res );
+        } ).listen( config.https.port );
+    }
+
+    console.log("Port ", config.http_port, " opened. Changing to unprivileged user...");
     try {
         process.setgid(config.process_user);
         process.setuid(config.process_group);
@@ -414,5 +445,7 @@ app.listen(80, undefined, null, function() {
         console.log('WARNING: The server has too much privileges. Change config file to set an unprivileged user.');
     }
 });
+
+
 
 getCatalog(true);

@@ -22,6 +22,12 @@ GLOBAL.keepaliveAgent = GLOBAL.keepaliveAgent || new Agent({
   keepAlive: true,
   keepAliveMsecs: 15000 // keepalive for 30 seconds
 });
+GLOBAL.keepaliveSecureAgent = GLOBAL.keepaliveSecureAgent || new Agent({
+  maxSockets: 100,
+  maxFreeSockets: 100,
+  keepAlive: true,
+  keepAliveMsecs: 15000 // keepalive for 30 seconds
+});
 
 exports.XMLHttpRequest = function() {
   /**
@@ -32,6 +38,7 @@ exports.XMLHttpRequest = function() {
   var https = require('https');
 
   http.globalAgent.maxSockets = 5;
+  https.globalAgent.maxSockets = 5;
 
   // Holds http.js objects
   var client;
@@ -379,7 +386,8 @@ exports.XMLHttpRequest = function() {
       path: uri,
       method: settings.method,
       headers: headers,
-//      agent: http.globalAgent
+      rejectUnauthorized: false,
+      requestCert: true,
       agent: GLOBAL.keepaliveAgent
     };
 
@@ -396,7 +404,7 @@ exports.XMLHttpRequest = function() {
 
       // As per spec, this is called here for historical reasons.
       self.dispatchEvent("readystatechange");
-
+      if (ssl) options.agent = https.keepaliveSecureAgent;
       // Create the request
       request = doRequest(options, function(resp) {
         response = resp;
