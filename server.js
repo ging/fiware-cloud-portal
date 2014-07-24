@@ -13,6 +13,15 @@ var keystone_config = config.keystone;
 
 var service_catalog;
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
+if (config.http_port === undefined || config.http_port === null) {
+    console.err("HTTP port was not provided. Please, fill config.http_port in the configuration file");
+    process.exit(1);
+} else if (config.https === undefined || config.https === null) {
+    console.err("HTTPS was not enabled or disabled. Please, fill config.https in the configuration file");
+    process.exit(1);
+}
+
 if (useIDM) {
     var oauth_client = new OAuth2(oauth_config.client_id,
                     oauth_config.client_secret,
@@ -414,11 +423,6 @@ function decrypt(str){
   var dec = decipher.update(str,'hex','utf8');
   dec += decipher.final('utf8');
   return dec;
-}
-
-if (config.http_port === undefined || config.http_port === null) {
-    console.err("HTTP port was not provided. Please, fill config.http_port in the configuration file");
-    process.exit(1);
 }
 
 app.listen(config.http_port, undefined, null, function() {
