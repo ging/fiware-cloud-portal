@@ -58,7 +58,7 @@ var AssociateIPView = Backbone.View.extend({
                 }
             }
         }
-        
+
         $('#instance_ip_pool').html(html);
     },
 
@@ -66,10 +66,14 @@ var AssociateIPView = Backbone.View.extend({
         console.log(this.options.ip);
         self = this;
         var instance_id = this.$("#instance_switcher option:selected").val();
+        var address = this.$("#instance_ip_pool option:selected").val();
+        if (address === "") {
+            address == undefined;
+        }
         if (instance_id !== "") {
             var inst = self.options.instances.get(instance_id); 
             var instance = inst.get("name");
-            self.model.associate(instance_id, UTILS.Messages.getCallbacks("Successfully associated Floating IP " +self.model.get("ip")+ " with Instance: " +instance));
+            self.model.associate(instance_id, address, UTILS.Messages.getCallbacks("Successfully associated Floating IP " +self.model.get("ip")+ " with Instance: " +instance));
             self.close();
         }        
     }   

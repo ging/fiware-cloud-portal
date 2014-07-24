@@ -35,10 +35,11 @@ var FloatingIP = Backbone.Model.extend({
       return this._action('allocate', options);
     },
 
-    associate: function(server_id, options) {
+    associate: function(server_id, fixed_address, options) {
       console.log("associate");
       options = options || {};
       options.server_id = server_id;
+      options.fixed_address = fixed_address;
       return this._action('associate', options);
     },
 
@@ -59,7 +60,7 @@ var FloatingIP = Backbone.Model.extend({
                    JSTACK.Nova.allocatefloatingIP(options.pool, options.success, options.error, this.getRegion());
                    break;
                case "associate":
-                   JSTACK.Nova.associatefloatingIP(options.server_id, model.get("ip"), options.success, options.error, this.getRegion());
+                   JSTACK.Nova.associatefloatingIP(options.server_id, model.get("ip"), options.fixed_address, options.success, options.error, this.getRegion());
                    break;
                case "dissasociate":
                    JSTACK.Nova.disassociatefloatingIP(options.server_id, model.get("ip"), options.success, options.error, this.getRegion());
