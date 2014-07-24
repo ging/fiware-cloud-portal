@@ -68,7 +68,7 @@ var AssociateIPView = Backbone.View.extend({
         var instance_id = this.$("#instance_switcher option:selected").val();
         var address = this.$("#instance_ip_pool option:selected").val();
         if (address === "") {
-            address == undefined;
+            address = undefined;
         }
         if (instance_id !== "") {
             var inst = self.options.instances.get(instance_id); 
