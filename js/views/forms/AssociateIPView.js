@@ -39,7 +39,7 @@ var AssociateIPView = Backbone.View.extend({
                 for (var i in addresses) {
                     var ips = addresses[i];
                     for (var j in ips) {
-                        if (ops[j]["OS-EXT-IPS:type"] !== "floating") {
+                        if (ips[j]["OS-EXT-IPS:type"] !== "floating") {
                             addr = ips[j].addr;
                             html += '<option value="'+ addr + '">'+addr+'</option>"';
                         }
