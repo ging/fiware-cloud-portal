@@ -431,8 +431,8 @@ exports.XMLHttpRequest = function() {
         self.handleError(error);
       });
 
-      request.setTimeout(1000, function() {
-        self.handleError();
+      request.setTimeout(10000, function() {
+        self.handleError("timeout");
       });
 
       // Node 0.4 and later won't accept empty data. Make sure it's needed.
@@ -495,8 +495,10 @@ exports.XMLHttpRequest = function() {
    */
   this.handleError = function(error) {
     this.status = 503;
-    this.statusText = error;
-    this.responseText = error.stack;
+    if (error !== undefined) {
+       this.statusText = error;
+       this.responseText = error.stack;
+    }
     errorFlag = true;
     setState(this.DONE);
   };
