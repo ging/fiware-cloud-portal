@@ -199,6 +199,7 @@
                                     <%  }
                                     }%>
                                 </select>
+
                             </div>
                         </div>
 
@@ -207,7 +208,7 @@
 
                             <span class="help-block" style="display: none; ">Launch instance in these security groups.</span>
                             <div class="input">
-                                <ul>
+                                <ul id="security_groups_list">
                                 <%  for (var index in secGroups.models) {
                                         var sec = secGroups.models[index];
                                 %>
@@ -221,6 +222,7 @@
                                     }
                                 %>
                                 </ul>
+                                <input id="add-sec-group" type="button" class="btn btn-blue" value="Add new Security Group">
                             </div>
                         </div>
                     </fieldset>  
@@ -362,6 +364,7 @@
                     <tr><td><label>Flavor: </label></td><td><span id="sum_flavour"></span></td></tr>
                     <tr><td><label>Instance Count: </label></td><td><span id="sum_instanceCount"></span></td></tr>
                     <tr><td><label>Keypair: </label></td><td><span id="sum_keypair"></span></td></tr>
+                    <tr><td><label>Security Group: </label></td><td><span id="sum_secgroup"></span></td></tr>
                   </tbody>
                 </table>
                 <div id="summary_errors">

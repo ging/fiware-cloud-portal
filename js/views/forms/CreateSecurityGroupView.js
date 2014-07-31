@@ -3,24 +3,24 @@ var CreateSecurityGroupView = Backbone.View.extend({
     _template: _.itemplate($('#createSecurityGroupFormTemplate').html()),
 
     events: {
-      'click #cancelBtn': 'close',
-      'click #close': 'close',
-      'submit #form': 'createSecurityGroup',
-      'click .modal-backdrop': 'close',
+      'click #create_security_group #cancelBtn': 'close',
+      'click #create_security_group #close': 'close',
+      'submit #create_security_group #form': 'createSecurityGroup',
+      'click .modal-backdrop:last': 'close',
       'click #name': 'showTooltipName',
       'input input': 'onInput'
     },
 
-    render: function () {
+    render: function (options) {
         $(this.el).append(this._template({securityGroupsModel: this.model}));
-        $('.modal:last').modal();
+        $('#create_security_group').modal(options);
         return this;
     },
 
     close: function(e) {
         this.model.unbind("change", this.render, this);
+        $('#create_security_group + .modal-backdrop:last').remove();
         $('#create_security_group').remove();
-        $('.modal-backdrop').remove();
         this.onClose();
     },
 
@@ -70,10 +70,22 @@ var CreateSecurityGroupView = Backbone.View.extend({
             }
             var newSecurityGroup = new SecurityGroup();
             newSecurityGroup.set({'name': name, 'description': description});
-            newSecurityGroup.save(undefined, UTILS.Messages.getCallbacks("Security group "+name + " created.", "Error creating security group "+name, {context: self}));
+            newSecurityGroup.save(undefined, UTILS.Messages.getCallbacks("Security group "+name + " created.", "Error creating security group "+name, {context: self, success: function() {
+                if (self.options.callback !== undefined) {
+                    self.options.callback(true);
+                }    
+            }, error: function() {
+                if (self.options.callback !== undefined) {
+                    self.options.callback(false);
+                }  
+            }}));
+            
         } else {
             subview = new MessagesView({state: "Error", title: "Wrong values for Security Group. Please try again."});
             subview.render();
+            if (self.options.callback !== undefined) {
+                self.options.callback(false);
+            }
             self.close();
         }
     }
