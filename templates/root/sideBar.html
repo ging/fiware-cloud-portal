@@ -32,7 +32,7 @@ src: templates/root/sideBar.html
         <% } else if (model.get('type') === 'regions') { %>
 
         <div class="region_switch">
-            <select id="region_switcher" tabindex="1" class="inline">
+            <select id="region_switcher" tabindex="1" class="chosen-select">
                 <% for (var index in loginModel.get('regions')) {
                 var reg = loginModel.get('regions')[index];
                 %>
@@ -41,7 +41,7 @@ src: templates/root/sideBar.html
                 %>selected="selected" <%}%>><%= reg%></option>
                 <%}%>
             </select>
-        </div
+        </div>
         <% } else { %>
         
         <!--<span class="icon <%=model.get('iconcss')%> <% if(model.get('active')) { %>active<% } %>"/>!--><a href="<%= model.get('url') %>" <% if(model.get('active')) { %> class="active <%=model.get('css')%> <%=model.get('iconcss')%>" <% } else { %>class="<%=model.get('css')%> <%=model.get('iconcss')%>" <% } %> tabindex='1' data-i18n="<%= model.get('name') %>"><%= model.get('name') %></a>
