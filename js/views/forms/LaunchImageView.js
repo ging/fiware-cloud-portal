@@ -391,10 +391,24 @@ var LaunchImageView = Backbone.View.extend({
             $('#nextBtn-image').attr("disabled", "disabled");
             $('#nextBtn-image').css("background-color", "#0489B7");
         }
+
+        // TODO: check if it really exists. OJO: puede que sea llamada asíncrona (quizá hay que hacerla antes de cargar esta vista). 
+        // var monitoring_network = true;
+
+        // if (!monitoring_network) {
+        //     $('#summary_monitoring_true').addClass('hide');
+        //     $('#summary_monitoring_false').removeClass('hide');
+        // }
     },
 
     launch: function(e) {
         var self = this;
+
+        // var create_monit_network = $("input[name='create_monit_network']").prop('checked');
+
+        // if (create_monit_network) {
+        //     // TODO: create monitoring network
+        // }
 
         var instance = new Instance();
         instance.set({"name": this.instanceData.name});
