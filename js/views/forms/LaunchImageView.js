@@ -17,7 +17,7 @@ var LaunchImageView = Backbone.View.extend({
         this.options.keypairs.fetch();
         this.options.flavors.fetch();
         this.options.secGroups.fetch();
-
+        
         if (JSTACK.Keystone.getendpoint(UTILS.Auth.getCurrentRegion(), "network") === undefined) {
             this.networks = undefined;
             this.steps = [
@@ -235,8 +235,21 @@ var LaunchImageView = Backbone.View.extend({
         $('#icountbar').width(width + '%');
     },
 
-    goNext: function() {
+    checkNetworks: function() {
+        if (JSTACK.Keystone.getendpoint(UTILS.Auth.getCurrentRegion(), "network") !== undefined) {
+            var compiled = _.template($('#cloud_init_template').html());
+            var num_interfaces = $('#network-selected li div').length;
+            var data = "";
+            if (num_interfaces > 0) {
+                data = compiled({num_interfaces: num_interfaces});
+            }
+            console.log(data);
+            $("#id_user_data").val(data);
+        }
+    },
 
+    goNext: function() {
+        this.checkNetworks();
         if (this.currentStep === this.steps.length - 1) {
             this.launch();
         } else {
@@ -263,7 +276,7 @@ var LaunchImageView = Backbone.View.extend({
     }, 
 
     goPrev: function() {
-
+        this.checkNetworks();
         if (this.currentStep === 0) {
             this.close();
         } else {
