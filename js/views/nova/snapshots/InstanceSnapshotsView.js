@@ -115,22 +115,26 @@ var NovaInstanceSnapshotsView = Backbone.View.extend({
                 };
                 entries.push(entry);
             } else if (image.get('metadata') && image.get('metadata').image_type === "snapshot") {
-                entry = {
-                    id: image.get('id'),
-                    cells: [{
-                        value: image.get("name"),
-                        link: "#nova/snapshots/instances/" + image.get("id") + "/detail/"
-                    }, {
-                        value: image.get('metadata').image_type
-                    }, {
-                        value: image.get('status').toLowerCase()
-                    }, {
-                        value: image.get('is_public') ? "Yes" : "No"
-                    }, {
-                        value: (image.get('container_format') || "-").toUpperCase()
-                    }]
-                };
-                entries.push(entry);
+                if (image.get('metadata').owner_id !== JSTACK.Keystone.params.access.token.tenant.id && !image.get('is_public')) {
+                    continue;
+                } else {
+                    entry = {
+                        id: image.get('id'),
+                        cells: [{
+                            value: image.get("name"),
+                            link: "#nova/snapshots/instances/" + image.get("id") + "/detail/"
+                        }, {
+                            value: image.get('metadata').image_type
+                        }, {
+                            value: image.get('status').toLowerCase()
+                        }, {
+                            value: image.get('is_public') ? "Yes" : "No"
+                        }, {
+                            value: (image.get('container_format') || "-").toUpperCase()
+                        }]
+                    };
+                    entries.push(entry);
+                }
             }
         }
         return entries;
