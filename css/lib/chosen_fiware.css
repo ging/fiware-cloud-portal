@@ -306,9 +306,14 @@ padding: 5px 0 5px 3px;
 
 .chosen-container-active.chosen-with-drop .chosen-single div b {
   /*background-position: -100px 2px;*/
-  background: url('/ico/click_open.png') no-repeat;
-  margin-top: 7px;
-  margin-left: -10px;
+  background: url('/ico/click.png') no-repeat;
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  transform: rotate(180deg);
+  margin-top: -5px;
+  margin-left: -11px;
   display: block;
   height: 100%;
   outline: medium none;
