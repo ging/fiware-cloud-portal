@@ -53,7 +53,7 @@ src: templates/root/nova/instanceDetail/overview.html
                                         var ip = ips[j].addr;
                                          %>
                         <li>
-                            <%=ip%>
+                            <em><%=i%></em>: <%=ip%>
                         </li>
                                     <%
                                     }
@@ -65,7 +65,7 @@ src: templates/root/nova/instanceDetail/overview.html
                                 for (var addr_idx in addresses) {
                                     %>
                         <li>
-                            <%=addresses[addr_idx].addr%>
+                            <em>Public</em>: <%=addresses[addr_idx].addr%>
                         </li>
                                     <%
                                 }
@@ -73,7 +73,7 @@ src: templates/root/nova/instanceDetail/overview.html
                                 for (var addr_idx2 in addresses) {
                                     %>
                         <li>
-                            <%=addresses[addr_idx2].addr%>
+                            <em>Private</em>: <%=addresses[addr_idx2].addr%>
                         </li>
                                     <%
                                 }

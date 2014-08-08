@@ -1,0 +1,31 @@
+<script id="cloud_init_template" type="text/plain"># This script automatically installs network interfaces in the instance.
+# You can modify it, but be careful not to change network configuration.
+write_files: 
+- encoding: b64
+  content: |<%
+var data = "auto lo \n"; 
+data += "iface lo inet loopback\n";
+for (var h = 0; h < num_interfaces; h++) {
+data += " auto eth"+h+" \n"; 
+data += " iface eth" + h + "  inet dhcp\n";
+}%>
+    <%=btoa(data)%>
+  path: /etc/network/interfaces
+
+<% for (var i = 0; i<num_interfaces; i++) {
+%>- content: |
+    DEVICE="eth<%=i%>"
+    NM_CONTROLLED="yes"
+    ONBOOT="yes"
+    BOOTPROTO="dhcp"
+    TYPE="Ethernet"
+  path: /etc/sysconfig/network-scripts/ifcfg-eth<%=i%>
+  permissions: '460'
+<% } %>
+bootcmd: 
+  - ifup eth0
+<% for (var j=1; j<num_interfaces; j++) { 
+%>  - ifup eth<%=j%><% 
+} 
+%>
+</script>

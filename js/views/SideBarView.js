@@ -18,11 +18,18 @@ var SideBarView = Backbone.View.extend({
                 window.location = val;
             }
         });
-        $("#region_switcher").selectbox({
-            onChange: function (val, inst) {
+               
+        $('.chosen-select' ).chosen().change(function(){
+            val = $('.chosen-select').chosen().val();
+                console.log("region: ", val);
                 window.location = val;
-            }
-        });
+            });
+        
+        // $("#region_switcher").selectbox({
+        //     onChange: function (val, inst) {
+        //         window.location = val;
+        //     }
+        // });
     }
 
 });

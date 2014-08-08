@@ -13,13 +13,13 @@
                     <input type="hidden" name="tenant_name" value="demo" id="id_tenant_name">
                     <div class="control-group form-field clearfix">
 
-                        <label for="id_floating_ip">Floating IP</label>
+                        <label for="id_floating_ip">Associate Floating IP:</label>
                         <span class="help-block" style="display: none;"></span>
                         <div class="input">
                         <input readonly="readonly" type="text" name="floating_ip" value="<%= model.get("ip")%>" id="id_floating_ip">
                         </div>
 
-                        <label for="id_pool">Instance</label>
+                        <label for="id_pool">to instance:</label>
                         <span class="help-block" style="display: none;"></span>
                         <div class="input">
 
@@ -33,6 +33,15 @@
                             <option value="<%= id%>"><%= instance%></option>
                             <% }%>
 
+                        </select>
+                        </div>
+
+                        <label for="id_pool">and to IP Address:</label>
+                        <span class="help-block" style="display: none;"></span>
+                        <div class="input">
+
+                        <select id="instance_ip_pool" tabindex="1" class="inline">
+                            <option value="">Select IP to associate with</option>
                         </select>
                         </div>
                     </div>

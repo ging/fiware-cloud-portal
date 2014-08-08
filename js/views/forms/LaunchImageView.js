@@ -3,20 +3,21 @@ var LaunchImageView = Backbone.View.extend({
     _template: _.itemplate($('#launchImageTemplate').html()),
 
     events: {
-      'click #cancelBtn-image': 'goPrev',
-      'click #close-image': 'close',
-      'click .modal-backdrop': 'close',
-      'submit #form': 'goNext',
-      'change .volumeOptionsSelect': 'changeVolumeOptions',
-      'change .flavorOptionsSelect': 'changeFlavorOptions', 
-      'keyup #icount': 'changeICount'
+      'click #cancelBtn-image':                 'goPrev',
+      'click #close-image':                     'close',
+      'click .modal-backdrop':                  'close',
+      'click #add-sec-group':                   'onCreateSecurityGroup',
+      'submit #launch_image  #form':            'goNext',
+      'change .volumeOptionsSelect':            'changeVolumeOptions',
+      'change .flavorOptionsSelect':            'changeFlavorOptions', 
+      'keyup #icount':                          'changeICount'
     },
 
     initialize: function() {
         this.options.keypairs.fetch();
         this.options.flavors.fetch();
         this.options.secGroups.fetch();
-
+        
         if (JSTACK.Keystone.getendpoint(UTILS.Auth.getCurrentRegion(), "network") === undefined) {
             this.networks = undefined;
             this.steps = [
@@ -72,7 +73,7 @@ var LaunchImageView = Backbone.View.extend({
     render: function () {
         if ($('#launch_image').html() != null) {
             $('#launch_image').remove();
-            $('.modal-backdrop').remove();
+            $('#launch_image + .modal-backdrop').remove();
         }
         $(this.el).append(this._template({model:this.model, volumes: this.options.volumes, flavors: this.options.flavors, keypairs: this.options.keypairs, secGroups: this.options.secGroups, quotas: this.quotas, instancesModel: this.options.instancesModel, networks: this.networks, ports: this.options.ports, volumeSnapshots: this.options.volumeSnapshots, steps: this.steps}));
         $('#launch_image').modal();
@@ -84,6 +85,16 @@ var LaunchImageView = Backbone.View.extend({
         return this;
     },
 
+    updateSecGroups: function() {
+        var html = '';
+        for (var index in this.options.secGroups.models) {
+            var sec = this.options.secGroups.models[index];
+            html += '<li><p><input style="width: 15px;float:left;" type="checkbox" name="security_groups" value="' + sec.get('name') + '">';
+            html += '<div style="width: 300px; overflow: hidden; text-overflow: ellipsis">'+sec.get('name')+'</div></p></li>';
+        }
+        $('ul#security_groups_list').html(html);
+    },
+
     onClose: function() {
         this.undelegateEvents();
         this.unbind();
@@ -93,10 +104,24 @@ var LaunchImageView = Backbone.View.extend({
         if (e !== undefined) {
             e.preventDefault();
         }
+        if (this.options.subview !== undefined) {
+            this.options.subview.close();
+            this.options.subview = undefined;
+        }
+        $('#launch_image  + .modal-backdrop').remove();
         $('#launch_image').remove();
-        $('.modal-backdrop:last').remove();
         this.onClose();
         this.model.unbind("sync", this.render, this);
+    },
+
+    onCreateSecurityGroup: function() {
+        var self = this;
+        this.options.subview = new CreateSecurityGroupView({el: 'body', model: this.model, callback: function() {
+            self.options.secGroups.fetch({success: function() {
+                self.updateSecGroups();
+            }});
+        }});
+        this.options.subview.render({backdrop: false});
     },
 
     changeVolumeOptions: function(e) {
@@ -210,8 +235,21 @@ var LaunchImageView = Backbone.View.extend({
         $('#icountbar').width(width + '%');
     },
 
-    goNext: function() {
+    checkNetworks: function() {
+        if (JSTACK.Keystone.getendpoint(UTILS.Auth.getCurrentRegion(), "network") !== undefined) {
+            var compiled = _.template($('#cloud_init_template').html());
+            var num_interfaces = $('#network-selected li div').length;
+            var data = "";
+            if (num_interfaces > 0) {
+                data = compiled({num_interfaces: num_interfaces});
+            }
+            console.log(data);
+            $("#id_user_data").val(data);
+        }
+    },
 
+    goNext: function() {
+        this.checkNetworks();
         if (this.currentStep === this.steps.length - 1) {
             this.launch();
         } else {
@@ -238,7 +276,7 @@ var LaunchImageView = Backbone.View.extend({
     }, 
 
     goPrev: function() {
-
+        this.checkNetworks();
         if (this.currentStep === 0) {
             this.close();
         } else {
@@ -340,6 +378,14 @@ var LaunchImageView = Backbone.View.extend({
             $('#sum_keypair').addClass('warning');
         }
 
+        if (this.instanceData.groups.length > 0) {
+            $('#sum_secgroup').html(this.instanceData.keypair);
+            $('#sum_secgroup').removeClass('warning');
+        } else {
+            $('#sum_secgroup').html('No security group selected. You will need a security group to access the instance.');
+            $('#sum_secgroup').addClass('warning');
+        }
+
         $('#summary_errors').hide();
         $('#quota error').hide();
         $('#network_error').hide();
@@ -358,10 +404,24 @@ var LaunchImageView = Backbone.View.extend({
             $('#nextBtn-image').attr("disabled", "disabled");
             $('#nextBtn-image').css("background-color", "#0489B7");
         }
+
+        // TODO: check if it really exists. OJO: puede que sea llamada asíncrona (quizá hay que hacerla antes de cargar esta vista). 
+        // var monitoring_network = true;
+
+        // if (!monitoring_network) {
+        //     $('#summary_monitoring_true').addClass('hide');
+        //     $('#summary_monitoring_false').removeClass('hide');
+        // }
     },
 
     launch: function(e) {
         var self = this;
+
+        // var create_monit_network = $("input[name='create_monit_network']").prop('checked');
+
+        // if (create_monit_network) {
+        //     // TODO: create monitoring network
+        // }
 
         var instance = new Instance();
         instance.set({"name": this.instanceData.name});
