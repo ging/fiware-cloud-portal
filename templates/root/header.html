@@ -9,8 +9,10 @@ src: templates/root/header.html
     <div class="big-tittle">
         <h2 data-i18n="<%= get('title') %>"><%= get('title') %> <% if (has('subtitle')) { %><small><%= get('subtitle') %></small><% } %></h2>
     </div>
-    <div class="logo">
-        <div class="logotext"></div>
+    <div class="logo-header">
+        <a href="http://lab.fi-ware.org" class="brand">
+            <img alt="FI-LAB" class="fiware-logo" src="/assets/Fi-lab-15197ad8322f8b1560d2296b2084db77.png">
+        </a>
     </div>
     <div class="menu-header">
         <span data-i18n="Logged in as">Logged in as</span>: <%= get('username') %> <a href="#settings/" data-i18n="Settings">Settings</a>

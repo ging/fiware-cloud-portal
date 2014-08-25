@@ -43,10 +43,10 @@ header#oil-nav {
         margin-top: 0px;
       }
       .brand {
-        padding: 0;
+        margin: 0 0 0 -8px !important;
+        padding: 0 !important;
         width: auto;
         float: left;
-        margin: 12px 0 0 3px;
         font-size: 23px;
         color: #555;
         font-family: "NeoTechRegular";
@@ -62,12 +62,15 @@ header#oil-nav {
         }
 
         .fiware-logo {
-          width: 97px;
+          width: 158px !important;
+          margin-left: 0px;
+          margin-left: 0px;
+          margin-top: 2px;
         }
 
         a{
           font-size: 34px;
-          color: #555;
+          color: #FFFFFF;
 
           &:hover{
             text-decoration: none;
@@ -138,8 +141,8 @@ header#oil-nav {
   //  float: left;
   //  margin: 0 0 10px 25px;
   margin: 0 0 10px 25px;
-  line-height: 21px;
-  font-size: 13px;
+  font-size: 14px;
+  line-height: 20px;
   width: 465px;
   height: 36px;
   padding: 0px;
@@ -149,11 +152,13 @@ header#oil-nav {
   display: inline-block;
   li{
     display: inline-block;
-    padding: 14px 18px 9px;
+    padding: 12px 18px 8px;
+    margin-left: 0px;
+    margin-top: 2px;
 
     &:hover {
       background-color: rgba(152, 152, 152, 0.1);
-      height: 14px;
+      height: 18px;
       color: #049cdb;
     }
 
