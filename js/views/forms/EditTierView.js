@@ -570,6 +570,7 @@ var EditTierView = Backbone.View.extend({
 
     installSoftware: function(id, targetId) {
         product = this.tmpModels.sdcCatalog.models[id];
+
         var exists = false;
         for (var a in this.addedProducts) {
             if (this.addedProducts[a].get('name') === product.name) {
@@ -711,7 +712,7 @@ var EditTierView = Backbone.View.extend({
                 case 'edit':
                     product = this.addedProducts[ids];
                     this.edit = ids;
-                    var productAttributes = product.attributes_asArray;
+                    var productAttributes = product.get('attributes_asArray');
                     var str='';
                     for (var i in productAttributes) {
                         attr = productAttributes[i];
