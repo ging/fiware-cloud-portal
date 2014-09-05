@@ -243,7 +243,6 @@ var LaunchImageView = Backbone.View.extend({
             if (num_interfaces > 0) {
                 data = compiled({num_interfaces: num_interfaces});
             }
-            console.log(data);
             $("#id_user_data").val(data);
         }
     },
