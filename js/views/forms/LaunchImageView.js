@@ -238,7 +238,7 @@ var LaunchImageView = Backbone.View.extend({
         $('#icountbar').width(width + '%');
     },
 
-    changeUserData: function() 
+    changeUserData: function() {
         this.user_data_edited = true;
     },
 
