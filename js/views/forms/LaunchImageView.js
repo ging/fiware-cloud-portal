@@ -10,13 +10,16 @@ var LaunchImageView = Backbone.View.extend({
       'submit #launch_image  #form':            'goNext',
       'change .volumeOptionsSelect':            'changeVolumeOptions',
       'change .flavorOptionsSelect':            'changeFlavorOptions', 
-      'keyup #icount':                          'changeICount'
+      'keyup #icount':                          'changeICount',
+      'change #id_user_data':                   'changeUserData'
     },
 
     initialize: function() {
         this.options.keypairs.fetch();
         this.options.flavors.fetch();
         this.options.secGroups.fetch();
+
+        this.user_data_edited = false;
         
         if (JSTACK.Keystone.getendpoint(UTILS.Auth.getCurrentRegion(), "network") === undefined) {
             this.networks = undefined;
@@ -235,15 +238,21 @@ var LaunchImageView = Backbone.View.extend({
         $('#icountbar').width(width + '%');
     },
 
+    changeUserData: function() 
+        this.user_data_edited = true;
+    },
+
     checkNetworks: function() {
-        if (JSTACK.Keystone.getendpoint(UTILS.Auth.getCurrentRegion(), "network") !== undefined) {
-            var compiled = _.template($('#cloud_init_template').html());
-            var num_interfaces = $('#network-selected li div').length;
-            var data = "";
-            if (num_interfaces > 0) {
-                data = compiled({num_interfaces: num_interfaces});
+        if (!this.user_data_edited) {
+            if (JSTACK.Keystone.getendpoint(UTILS.Auth.getCurrentRegion(), "network") !== undefined) {
+                var compiled = _.template($('#cloud_init_template').html());
+                var num_interfaces = $('#network-selected li div').length;
+                var data = "";
+                if (num_interfaces > 0) {
+                    data = compiled({num_interfaces: num_interfaces});
+                }
+                $("#id_user_data").val(data);
             }
-            $("#id_user_data").val(data);
         }
     },
 
@@ -438,7 +447,7 @@ var LaunchImageView = Backbone.View.extend({
         instance.set({"metadata": {"region": UTILS.Auth.getCurrentRegion()}});
 
         if (this.instanceData.flavorReg !== "") {
-        instance.save(undefined, UTILS.Messages.getCallbacks("Instance "+instance.get("name") + " launched.", "Error launching instance "+instance.get("name"),
+            instance.save(undefined, UTILS.Messages.getCallbacks("Instance "+instance.get("name") + " launched.", "Error launching instance "+instance.get("name"),
             {context:self, href:"#nova/instances/"}));
         }
         
