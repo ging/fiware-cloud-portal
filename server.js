@@ -120,7 +120,7 @@ function sendData(port, options, data, res, callBackOK, callbackError) {
 
         if (res.time_stats && config.time_stats_logger) {
             var interT = (new Date().getTime()) - res.time_stats.initT;
-            var st = res.time_stats.serv + ' - ' + interT;
+            var st = res.time_stats.reg + ' - ' + res.time_stats.serv + ' - ' + interT;
             console.log('TIME_STAT -- ', st);
         }
         res.send(resp);
@@ -306,7 +306,7 @@ if (useIDM) {
 app.all('/:reg/:service/:v/*', function(req, resp) {
 
     if (config.time_stats_logger) {
-        resp.time_stats  = {serv: req.params.service, initT: (new Date()).getTime()};
+        resp.time_stats  = {serv: req.params.service, reg:req.params.reg, initT: (new Date()).getTime()};
     }
 
     var endp = getEndpoint(req.params.service, req.params.reg);
