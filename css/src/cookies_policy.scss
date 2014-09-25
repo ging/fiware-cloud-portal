@@ -1,0 +1,33 @@
+/* COOKIES BANNER */
+
+#cookie-law { 
+  background: rgba(44,44,44,0.9);
+  position: absolute;
+  z-index: 1040;
+  bottom: 0;
+  left: 0;
+}
+ 
+#cookie-law p { 
+  color: white;
+  padding: 10px;
+  font-size: 15px;
+  line-height: 19px;
+  text-align: center;
+  margin: 0;
+  margin-left: 100px;
+  margin-right: 100px;
+  margin-bottom: 0;
+}
+
+#cookie-law a { 
+  color: white;
+  font-weight: bold;
+}
+
+#close-cookie-banner {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  font-weight: bold;
+}
