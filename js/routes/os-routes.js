@@ -320,8 +320,7 @@ var OSRouter = Backbone.Router.extend({
             {name: 'Flavors', iconcss: "icon_nav-flavors", active: false, url: '#nova/flavors/'},
             {name: 'Security', iconcss: "icon_nav-security", active: false, url: '#nova/access_and_security/'},
             {name: 'Snapshots', iconcss: "icon_nav-snapshots", active: false, url: '#nova/snapshots/'},
-            {name: 'Storage', type: 'title'},
-
+            {name: 'Storage', type: 'title'}
         ];
         
         if (JSTACK.Keystone.getendpoint(UTILS.Auth.getCurrentRegion(), "object-store") !== undefined) {
