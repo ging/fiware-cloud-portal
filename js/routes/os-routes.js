@@ -319,14 +319,16 @@ var OSRouter = Backbone.Router.extend({
             {name: 'Images', iconcss: "icon_nav-images", active: false, url: '#nova/images/'},
             {name: 'Flavors', iconcss: "icon_nav-flavors", active: false, url: '#nova/flavors/'},
             {name: 'Security', iconcss: "icon_nav-security", active: false, url: '#nova/access_and_security/'},
-            {name: 'Snapshots', iconcss: "icon_nav-snapshots", active: false, url: '#nova/snapshots/'}       
+            {name: 'Snapshots', iconcss: "icon_nav-snapshots", active: false, url: '#nova/snapshots/'},
+            {name: 'Storage', type: 'title'},
+
         ];
         
         if (JSTACK.Keystone.getendpoint(UTILS.Auth.getCurrentRegion(), "object-store") !== undefined) {
-            tabsArray.push({name: 'Storage', type: 'title'});
             tabsArray.push({name: 'Containers', iconcss: "icon_nav-container", active: false, url: '#objectstorage/containers/'});
-            tabsArray.push({name: 'Volumes', iconcss: "icon_nav-volumes", active: false, url: '#nova/volumes/'});
         }
+
+        tabsArray.push({name: 'Volumes', iconcss: "icon_nav-volumes", active: false, url: '#nova/volumes/'});
 
         if (JSTACK.Keystone.getendpoint(UTILS.Auth.getCurrentRegion(), "network") !== undefined) {
             tabsArray.push({name: 'Network', type: 'title'});
