@@ -107,6 +107,11 @@ function sendData(port, options, data, res, callBackOK, callbackError) {
     callbackError = callbackError || function(status, resp) {
         //console.log("Error: ", status, resp);
         res.statusCode = status;
+        if (res.time_stats && config.time_stats_logger) {
+            var interT = (new Date().getTime()) - res.time_stats.initT;
+            var st = res.time_stats.reg + ' - ' + res.time_stats.serv + ' - ' + interT + ' - ERROR - ' + status;
+            console.log('TIME_STAT -- ', st);
+        }
         res.send(resp);
     };
     callBackOK = callBackOK || function(status, resp, headers) {
