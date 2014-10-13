@@ -34,7 +34,7 @@ UTILS.GlobalModels = (function(U, undefined) {
 
     var timers = {};
     var backgroundTime = 180;
-    var foregroundTime = 5;
+    var foregroundTime = 7;
 
     var initialize = function() {
         models.loginModel = new LoginStatus();
