@@ -47,7 +47,18 @@ app.use(express.session({
 
 //app.use(express.bodyParser());
 
+
+
 app.use (function(req, res, next) {
+
+    if (req.path === '/vnc_display') {
+        var url = req.cookies['vnc_url'];
+        delete req.cookies['vnc_url'];
+        res.clearCookie('vnc_url');
+        res.render('vnc', {vncUrl: url});
+        return;
+    }
+
     // Filter unsecure requests.
     if (config.https.enabled && req.protocol !== "https") {
         var fullUrl = 'https://' + req.get('host') + ':' + config.https.port + req.originalUrl;
@@ -235,6 +246,13 @@ app.set('view engine', 'ejs');
 
 app.get('/', function(req, res) {
   res.render('index', {useIDM: useIDM, account_server: oauth_config.account_server, portals: config.fiportals});
+});
+
+app.get('/vnc', function(req, res) {
+
+    res.cookie('vnc_url', req.query.url);
+    var fullUrl = 'http://' + req.get('host') + ':' + config.http_port + '/vnc_display';
+    res.redirect(fullUrl);
 });
 
 app.all('/keystone/*', function(req, resp) {

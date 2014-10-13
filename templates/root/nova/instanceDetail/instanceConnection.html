@@ -51,7 +51,14 @@ src: templates/root/nova/instanceDetail/instanceConnection.html
                 <h4>Connect to VM display</h4>
                 <hr class="header_rule">
                 <p>Connect directly to the Virtual Machine display</p>
-                <input id="vnc-button" style="margin-top: 10px;" type="submit" class="btn btn-white" value="View display">
+
+                <button id="vnc-button" style="margin-top: 10px; width: 120px; height: 25px;" class="btn btn-white"> 
+                <%if (vncUrl) {%>
+                    View display
+                <%} else {%>
+                    Loading... 
+                <%}%>
+                </button>
             </div>
         </div>
 
