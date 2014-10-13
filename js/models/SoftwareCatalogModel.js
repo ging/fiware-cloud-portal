@@ -78,15 +78,34 @@ var SoftwareCatalogs = Backbone.Collection.extend({
         return xhr;
     },
 
+    // getCatalogueListWithReleases: function(options) {
+    //     var self = this;
+
+    //     self.releasesList = [];
+
+    //     ServiceDC.API.getProductList(function (resp) {
+
+    //         var products = resp.product_asArray;
+    //         self.getReleases(products, 0, options.success, options.error);
+
+    //     }, options.error, this.getRegion());
+    // },
+
     getCatalogueListWithReleases: function(options) {
         var self = this;
 
         self.releasesList = [];
 
-        ServiceDC.API.getProductList(function (resp) {
+        ServiceDC.API.getProductAndReleaseList(function (resp) {
 
-            var products = resp.product_asArray;
-            self.getReleases(products, 0, options.success, options.error);
+            var list = [];
+
+            for (var p in resp) {
+                resp[p].product.version = resp[p].version;
+                list.push(resp[p].product);
+            }
+
+            options.success(list);
 
         }, options.error, this.getRegion());
     },

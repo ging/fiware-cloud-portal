@@ -166,9 +166,9 @@ var EditInstanceSoftwareView = Backbone.View.extend({
         for (var product in products) {
             var comp = true;
 
-            if (products[product].get('metadata').image) {
+            if (products[product].get('metadatas').image) {
                 comp = false;
-                var compImages = products[product].get('metadata').image.split(' ');
+                var compImages = products[product].get('metadatas').image.split(' ');
                 for (var im in compImages) {
                     if (compImages[im] === this.options.instanceModel.get('image').id) {
                         comp = true;

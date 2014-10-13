@@ -521,9 +521,9 @@ var EditTierView = Backbone.View.extend({
         for (var product in products) {
             var comp = true;
 
-            if (typeof products[product].get('metadata').image === 'string') {
+            if (products[product].get('metadatas') && typeof products[product].get('metadatas').image === 'string') {
                 comp = false;
-                var compImages = products[product].get('metadata').image.split(' ');
+                var compImages = products[product].get('metadatas').image.split(' ');
                 for (var im in compImages) {
                     if (compImages[im] === imageId) {
                         comp = true;

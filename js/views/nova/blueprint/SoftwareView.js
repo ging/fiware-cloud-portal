@@ -84,8 +84,10 @@ var SoftwareView = Backbone.View.extend({
         var entries = [];
         var models = this.model.models;
         for (var sft in models) {
+            var pub = 'private';
+            if (models[sft].get('metadatas') && models[sft].get('metadatas')['public']) pub = 'public';
             var desc = models[sft].get('description');
-            if (desc.toString() === "[object Object]") {
+            if (!desc || desc.toString() === "[object Object]") {
                 desc = "-";
             }
             var entry = {
@@ -98,7 +100,7 @@ var SoftwareView = Backbone.View.extend({
                     value: models[sft].get('version')
                     //link: "#nova/instances/" + instance.id + "/detail"
                 }, {
-                    value: models[sft].get('metadata')['public'] ? 'private' : 'public'
+                    value: pub
                 }, {
                     value: desc
                 }]
