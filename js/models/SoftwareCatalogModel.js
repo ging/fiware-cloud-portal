@@ -102,7 +102,20 @@ var SoftwareCatalogs = Backbone.Collection.extend({
 
             for (var p in resp) {
                 resp[p].product.version = resp[p].version;
+
+                var meta = {};
+                
+                for (var m in resp[p].product.metadatas_asArray) {
+                    meta[resp[p].product.metadatas_asArray[m].key] = resp[p].product.metadatas_asArray[m].value;
+                }
+
+                delete resp[p].product.metadatas_asArray;
+                delete resp[p].product.metadatas;
+
+                resp[p].product.metadatas = meta;
+
                 list.push(resp[p].product);
+
             }
 
             options.success(list);

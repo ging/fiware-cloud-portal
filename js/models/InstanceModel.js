@@ -201,7 +201,7 @@ var Instance = Backbone.Model.extend({
                 break;
             case "getMonitoringStats":
                 var ip;
-                if (JSTACK.Keystone.getservice("network") !== undefined) {
+                if (JSTACK.Keystone.getendpoint(UTILS.Auth.getCurrentRegion(), "network") !== undefined) {
                     if (model.get("addresses") != null) {
                         var ips = model.get("addresses")[Object.keys(model.get("addresses"))[0]];
                         for (var p in ips) {
