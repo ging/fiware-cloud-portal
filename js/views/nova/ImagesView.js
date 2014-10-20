@@ -67,7 +67,13 @@ var ImagesView = Backbone.View.extend({
         return [{
             name: "Name",
             tooltip: "Image's name",
-            size: "35%",
+            size: "26%",
+            hidden_phone: false,
+            hidden_tablet: false
+        }, {
+            name: "Type",
+            tooltip: "Image's category",
+            size: "15%",
             hidden_phone: false,
             hidden_tablet: false
         }, {
@@ -85,19 +91,19 @@ var ImagesView = Backbone.View.extend({
         }, {
             name: "Container Format",
             tooltip: "Image's container format",
-            size: "15%",
+            size: "13%",
             hidden_phone: false,
             hidden_tablet: false
         }, {
             name: "Disk Format",
             tooltip: "Image's disk format",
-            size: "15%",
+            size: "13%",
             hidden_phone: false,
             hidden_tablet: false
         }, {
             name: "Actions",
             tooltip: "Actions",
-            size: "15%",
+            size: "13%",
             hidden_phone: false,
             hidden_tablet: false,
             order: "none"
@@ -126,6 +132,8 @@ var ImagesView = Backbone.View.extend({
                 cells: [{
                     value: image.get("name"),
                     link: "#nova/images/" + image.id
+                }, {
+                    value: image.get("properties").type ? image.get("properties").type:  "~"
                 }, {
                     value: image.get("status")
                 }, {
@@ -205,6 +213,7 @@ var ImagesView = Backbone.View.extend({
             getEntries: this.getEntries,
             context: this
         });
+        this.tableView.orderBy = {column: 1, direction: 'down'};
         this.tableView.render();
     },
 
