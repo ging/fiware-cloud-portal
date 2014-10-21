@@ -11,8 +11,6 @@ var CloneBlueprintView = Backbone.View.extend({
 
     initialize: function() {
         this.options = this.options || {};
-        this.options.roles = new Roles();
-        this.options.roles.fetch();
     },
 
     close: function(e) {
