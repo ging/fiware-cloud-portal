@@ -12,31 +12,34 @@ var FloatingIP = Backbone.Model.extend({
         }
         return UTILS.Auth.getCurrentRegion();
     },
-
+    
     _action:function(method, options) {
         var model = this;
-        if (options == null) options = {};
+        options = options || {};
+        var error = options.error;
         options.success = function(resp) {
-
             model.trigger('sync', model, resp, options);
-            if (options.callback !== undefined) {
+            if (options.callback!==undefined) {
                 options.callback(resp);
             }
         };
+        options.error = function(resp) {
+            model.trigger('error', model, resp, options);
+            if (error!==undefined) {
+                error(model, resp);
+            }
+        };
         var xhr = (this.sync || Backbone.sync).call(this, method, this, options);
-
         return xhr;
     },
 
     allocate: function(pool, options) {
-      console.log("allocate");
       options = options || {};
       options.pool = pool;
       return this._action('allocate', options);
     },
 
     associate: function(server_id, fixed_address, options) {
-      console.log("associate");
       options = options || {};
       options.server_id = server_id;
       options.fixed_address = fixed_address;
@@ -44,7 +47,6 @@ var FloatingIP = Backbone.Model.extend({
     },
 
     dissasociate: function(server_id, options) {
-      console.log("dissasociate");
       options = options || {};
       options.server_id = server_id;
       return this._action('dissasociate', options);
@@ -53,7 +55,6 @@ var FloatingIP = Backbone.Model.extend({
     sync: function(method, model, options) {
            switch(method) {
                case "read":
-               console.log("read float model");
                    JSTACK.Nova.getfloatingIPdetail(model.get("id"), options.success, options.error, this.getRegion());
                    break;
                case "allocate":

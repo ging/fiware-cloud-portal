@@ -31,7 +31,7 @@ var AllocateIPView = Backbone.View.extend({
         self = this;
         var pool = this.$("#pool_switcher option:selected").val();
         var newIP = new FloatingIP();
-        newIP.allocate(pool, UTILS.Messages.getCallbacks("Successfully allocated floating IP"));
+        newIP.allocate(pool, UTILS.Messages.getCallbacks("Successfully allocated floating IP", "Error allocating IP address"));
         self.close();
     }
 
