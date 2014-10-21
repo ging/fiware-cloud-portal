@@ -387,7 +387,12 @@ var LaunchImageView = Backbone.View.extend({
         }
 
         if (this.instanceData.groups.length > 0) {
-            $('#sum_secgroup').html(this.instanceData.keypair);
+            var secs = '';
+            for (var s in this.instanceData.groups) {
+                secs = secs + this.instanceData.groups[s] + ', ';
+            }
+            secs = secs.substring(0, secs.length - 2);
+            $('#sum_secgroup').html(secs);
             $('#sum_secgroup').removeClass('warning');
         } else {
             $('#sum_secgroup').html('No security group selected. You will need a security group to access the instance.');
