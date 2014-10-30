@@ -3,17 +3,12 @@ var BlueprintTemplateCatalogView = Backbone.View.extend({
     _template: _.itemplate($('#blueprintTemplateCatalogTemplate').html()),
 
     tableView: undefined,
-    sdcs: {},
     bpTemplate: {},
 
     initialize: function() {
 
         var self = this;
-        this.options.sdcs = UTILS.GlobalModels.get("softwares");
-        this.options.flavors = UTILS.GlobalModels.get("flavors");
-        this.options.keypairs = UTILS.GlobalModels.get("keypairsModel");
-        this.options.securityGroupsModel = UTILS.GlobalModels.get("securityGroupsModel");
-        this.options.images = UTILS.GlobalModels.get("images");
+        
         this.model.getCatalogBlueprint({id: this.options.templateId, callback: function (bpTemplate) {
             self.bpTemplate = bpTemplate;
             self.renderFirst();
@@ -21,6 +16,25 @@ var BlueprintTemplateCatalogView = Backbone.View.extend({
             console.log('Error getting catalog bp detail');
         }});
 
+        var render = function() {
+            self.render.apply(self);
+        };
+
+        this.options.flavors = {};
+        this.options.images = {};
+        var regions = UTILS.GlobalModels.get("loginModel").get("regions");
+
+        for (var idx in regions) {
+            var region = regions[idx];
+            var images = new Images();
+            var flavors = new Flavors();
+            images.region = region;
+            flavors.region = region;
+            this.options.flavors[region] = flavors;
+            this.options.images[region] = images;
+            images.fetch({success: render});
+            flavors.fetch({success: render});
+        }
     },
 
     events: {
@@ -89,15 +103,25 @@ var BlueprintTemplateCatalogView = Backbone.View.extend({
                 products.push(tier.productReleaseDtos_asArray[p].productName + " " + tier.productReleaseDtos_asArray[p].version);
             }
 
-            console.log(tier);
+            var region = tier.region;
+
+            var image = "-";
+            if (this.options.images[region] !== undefined && this.options.images[region].get(tier.image) !== undefined) {
+                image = this.options.images[region].get(tier.image).get("name");
+            }
+
+            var flavor = "-";
+            if (this.options.flavors[region] !== undefined && this.options.flavors[region].get(tier.flavour) !== undefined) {
+                flavor = this.options.flavors[region].get(tier.flavour).get("name");
+            }
             var entry = {
                 id: tier.name,
                 minValue: tier.minimumNumberInstances,
                 maxValue: tier.maximumNumberInstances,
                 bootValue: tier.initialNumberInstances,
                 name: tier.name,
-                flavor: this.options.flavors.get(tier.flavour).get("name"),
-                image: this.options.images.get(tier.image).get("name"),
+                flavor: flavor,
+                image: image,
                 products: products,
                 icon: tier.icono
             };
@@ -156,7 +180,13 @@ var BlueprintTemplateCatalogView = Backbone.View.extend({
             color2: "#95C11F"
         });
         this.tableView.render();
-    }
+    },
 
+    render: function() {
+        if (this.tableView !== undefined) {
+            this.tableView.render();
+        }
+        return this;
+    }
 
 });
