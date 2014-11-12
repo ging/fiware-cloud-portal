@@ -262,6 +262,7 @@ var NovaInstancesView = Backbone.View.extend({
             instance = instanceIds[0];
             inst = this.model.get(instance);
         }
+        console.log('ACTIOOOOOOOOOOOn', action, instance);
         switch (action) {
             case 'edit':
                 subview = new UpdateInstanceView({

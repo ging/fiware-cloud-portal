@@ -5,7 +5,8 @@ var UpdateInstanceView = Backbone.View.extend({
     events: {
         'submit #update_instance_form': 'update',
         'click #cancelBtn': 'close',
-        'click #close': 'close'
+        'click #close': 'close',
+        'click .modal-backdrop': 'close'
     },
 
     initialize: function() {
