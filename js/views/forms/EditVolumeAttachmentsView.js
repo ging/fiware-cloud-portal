@@ -40,21 +40,20 @@ var EditVolumeAttachmentsView = Backbone.View.extend({
         console.log("Detaching " + instance);
         var self = this;
         var subview = new ConfirmView({el: 'body', title: "Detach Volume", btn_message: "Detach Volume", style: "top: 80px; display: block; z-index: 10501010;", onAccept: function() {
-            self.options.instances.get(instance).detachvolume({volume_id: self.model.id});
-            var subview2 = new MessagesView({state: "Success", title: "Volume "+name+" detached."});
-            subview2.render();
+            var cbs = UTILS.Messages.getCallbacks("Volume detached", "Error detaching volume", {context: self});
+            self.options.instances.get(instance).detachvolume({volume_id: self.model.id, success: cbs.success, error: cbs.error});
         }});
         subview.render();
         //this.close();
     },
 
     attach: function(e) {
+        var self = this;
         var instance = $('select[id=id_instance]').val();
         var device = $('input[name=device]').val();
-        this.options.instances.get(instance).attachvolume({volume_id: this.model.id, device:device});
-        var subview = new MessagesView({state: "Success", title: "Volume "+name+" attached."});
-        subview.render();
-        this.close();
+
+        var cbs = UTILS.Messages.getCallbacks("Volume attached", "Error ataching volume", {context: self});
+        this.options.instances.get(instance).attachvolume({volume_id: this.model.id, device:device, success: cbs.success, error: cbs.error});
     },
 
     detachGroup: function(evt) {
@@ -65,9 +64,8 @@ var EditVolumeAttachmentsView = Backbone.View.extend({
             attachments.each(function () {
                     var instance = $(this).val();
                     var inst = self.options.instances.get(instance);
-                    self.options.instances.get(instance).detachvolume({volume_id: self.model.id});
-                    var subview2 = new MessagesView({state: "Success", title: "Volumes "+inst.get("name")+" detached."});
-                    subview2.render();
+                    var cbs = UTILS.Messages.getCallbacks("Volumes detached", "Error detaching volumes", {context: self});
+                    self.options.instances.get(instance).detachvolume({volume_id: self.model.id, success: cbs.success, error: cbs.error});
             });
         }});
         subview.render();
