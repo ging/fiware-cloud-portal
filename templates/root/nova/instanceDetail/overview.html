@@ -92,7 +92,7 @@ src: templates/root/nova/instanceDetail/overview.html
                         <%
                          for (var idx in security_groups) {
                         %>
-                        <li style="width: 300px; overflow: hidden; text-overflow: ellipsis">
+                        <li style="width: 300px; overflow: hidden; text-overflow: ellipsis" class="tip" data-tooltip="<%=security_groups[idx].name%>">
                             <%=security_groups[idx].name%>
                         </li>
 
