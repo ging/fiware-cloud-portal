@@ -45,7 +45,7 @@
                         <div class="control-group form-field clearfix">
                             <label class="control-label" for="name">Name *:</label>
                             <div class="controls">
-                                <input required id="name" type="text" name="name" maxlength="255" value="<%=tier.name%>"  pattern="^[\S]*$" title="This field can not contain spaces">
+                                <input required id="name" type="text" name="name" maxlength="255" value="<%=tier.name%>"  pattern="^[a-zA-Z0-9]+$" title="This field can only contain letters and numbers">
                             </div>
                         </div>
 
