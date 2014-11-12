@@ -227,7 +227,8 @@ var NovaInstancesView = Backbone.View.extend({
                 id: instance.get('id'),
                 cells: [{
                     value: instance.get("name"),
-                    link: "#nova/instances/" + instance.id + "/detail"
+                    link: "#nova/instances/" + instance.id + "/detail",
+                    tooltip: instance.get("name")
                 }, {
                     value: address
                 }, {
