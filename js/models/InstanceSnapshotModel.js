@@ -15,7 +15,7 @@ var InstanceSnapshot = Backbone.Model.extend({
                    JSTACK.Glance.getimagedetail(model.get("id"), options.success, options.error, this.getRegion());
                    break;
                case "delete":
-                   JSTACK.Glance.deleteimage(model.get("id"), options.success, options.error, this.getRegion());
+                   JSTACK.Nova.deleteimage(model.get("id"), options.success, options.error, this.getRegion());
                    break;
                case "update":
                     JSTACK.Glance.updateimage(model.get("id"), model.get("name"), model.get("visibility"), undefined, options.success, options.error, this.getRegion());
