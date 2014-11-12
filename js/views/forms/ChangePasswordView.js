@@ -36,11 +36,9 @@ var ChangePasswordView = Backbone.View.extend({
     },
 
     update: function(e) {
+        var self = this;
         var password = $('input[name=instance_password]').val();
-        this.model.changepassword(password);
-        var subview = new MessagesView({state: "Success", title: "Password changed."});
-        subview.render();
-        this.close();
+        this.model.changepassword(password, UTILS.Messages.getCallbacks("Password changed", "Error changing password", {context: self}));
     }
 
 });
