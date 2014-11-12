@@ -179,6 +179,7 @@ var TableView = Backbone.View.extend({
     },
 
     onContextMenuBtn: function(evt) {
+
         evt.preventDefault();
         var btn_idx = $(evt.target)[0].id.split("_" + this.cid)[0];
         var btn = this.getDropdownButtons()[btn_idx];
@@ -195,7 +196,12 @@ var TableView = Backbone.View.extend({
 
     onContextMenu: function(evt) {
         evt.preventDefault();
-        var entry = $(evt.target).parent()[0].id.split("entries__row__")[1];
+        var entry;
+        if ($(evt.target).parent().prop("tagName") === 'TR') {
+            entry = $(evt.target).parent()[0].id.split("entries__row__")[1];
+        } else {
+            entry = $(evt.target).parent().parent()[0].id.split("entries__row__")[1];
+        }
         this.onEntryClick(evt);
         var self = this;
         $("#context-menu-" + this.cid).attr("data-id", entry);
