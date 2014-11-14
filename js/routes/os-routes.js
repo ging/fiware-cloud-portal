@@ -159,13 +159,17 @@ var OSRouter = Backbone.Router.extend({
         UTILS.GlobalModels.get("loginModel").switchTenant(id);
     },
 
-    switchRegion: function(id) {
+    switchRegion: function(id, goal_path) {
         var self = this;
         UTILS.GlobalModels.get("loginModel").bind('switch-region', function() {
             UTILS.GlobalModels.get("loginModel").unbind('switch-region');
             UTILS.GlobalModels.clear_fetch();
             UTILS.GlobalModels.init_fetch();
-            self.navigate(self.rootView.options.next_view, {trigger: true, replace: true});
+            if (goal_path) {
+                window.location.href = goal_path;
+            } else {
+                self.navigate(self.rootView.options.next_view, {trigger: true, replace: true});
+            }
         });
         UTILS.GlobalModels.get("loginModel").switchRegion(id);
     },
@@ -211,7 +215,22 @@ var OSRouter = Backbone.Router.extend({
 
     showSysRoot: function(self, option) {
         if (!UTILS.GlobalModels.get("loginModel").isAdmin() || UTILS.Auth.isIDM()) {
-           window.location.href = "#nova";
+
+            var goal_path = checkCookie('goal_path');
+            var goal_region = checkCookie('goal_region');
+            eraseCookie('goal_path');
+            eraseCookie('goal_region');
+
+            if (goal_path == null || goal_path === '') {
+                window.location.href = "#nova";
+            } else {
+                if (goal_region) {
+                    this.switchRegion(goal_region, goal_path);
+                } else {
+                    window.location.href = goal_path;
+                }
+            }
+           
            return false;
         }
         self.top.set({"title":option});

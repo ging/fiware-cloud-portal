@@ -63,12 +63,21 @@
         <script src="<%= account_server %>/assets/signOut.js" type="text/javascript"></script>
 
         <script type="text/javascript">
-
             var regex = new RegExp("[\\#&]token=([^&#]*)");
             var token = regex.exec(location.hash);
 
             if (token === null) {
-                window.location.href = '/idm/auth';
+
+              createCookie('goal_path', location.hash, 1);
+
+              var parts = location.hash.split('&reg=');
+
+              if (parts.length > 1) {
+                createCookie('goal_path', parts[0], 1);
+                createCookie('goal_region', parts[1], 1);
+              }
+
+              window.location.href = '/idm/auth';
             }
         </script>
 

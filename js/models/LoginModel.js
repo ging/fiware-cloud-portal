@@ -35,10 +35,10 @@ var LoginStatus = Backbone.Model.extend({
             if (token !== null) {
                 var regex1 = new RegExp("[\\&]expires=([^&#]*)");
                 var expires = regex1.exec(location.hash);
-                console.log('en URL', token[1], expires[1]);
+                console.log('URL', token[1], expires[1]);
 
                 if (localStorage.getItem('tenant_id')) {
-                    console.log('TENANT en localStorage: ', localStorage.getItem('tenant_id'));
+                    console.log('TENANT localStorage: ', localStorage.getItem('tenant_id'));
                     self.set({tenant_id: localStorage.getItem('tenant_id')});
                 }
                 self.setAccessToken(token[1], expires[1]);
@@ -119,7 +119,7 @@ var LoginStatus = Backbone.Model.extend({
     onAccessTokenChange: function (context, access_token) {
         var self = context;
         if (!UTILS.Auth.isAuthenticated() && access_token !== '' && (new Date().getTime()) < self.get('token-ts') + self.get('token-ex')) {
-            console.log('autentico con ', this.get('tenant_id'), access_token);
+            console.log('Auth with ', this.get('tenant_id'), access_token);
             UTILS.Auth.authenticate(this.get('tenant_id'), access_token, function(tenant) {
                 console.log("Authenticated with token: ", + self.get('token-ex') - (new Date().getTime())-self.get('token-ts'));
                 //console.log("New tenant: " + self.attributes.tenant.name);
