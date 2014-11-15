@@ -394,12 +394,14 @@ UTILS.Auth = (function(U, undefined) {
         }
 
         var volume = JSTACK.Keystone.getservice("volume");
-        for (e in volume.endpoints) {
-            volume.endpoints[e].adminURL = volume.endpoints[e].region + "/volume" + volume.endpoints[e].adminURL.replace(/.*:[0-9]*/, "");
-            volume.endpoints[e].publicURL = volume.endpoints[e].region + "/volume" + volume.endpoints[e].publicURL.replace(/.*:[0-9]*/, "");
-            volume.endpoints[e].internalURL = volume.endpoints[e].region + "/volume" + volume.endpoints[e].internalURL.replace(/.*:[0-9]*/, "");
+        if (volume !== undefined) {
+            for (e in volume.endpoints) {
+                volume.endpoints[e].adminURL = volume.endpoints[e].region + "/volume" + volume.endpoints[e].adminURL.replace(/.*:[0-9]*/, "");
+                volume.endpoints[e].publicURL = volume.endpoints[e].region + "/volume" + volume.endpoints[e].publicURL.replace(/.*:[0-9]*/, "");
+                volume.endpoints[e].internalURL = volume.endpoints[e].region + "/volume" + volume.endpoints[e].internalURL.replace(/.*:[0-9]*/, "");
+            }
         }
-
+        
         var image = JSTACK.Keystone.getservice("image");
         for (e in image.endpoints) {
             image.endpoints[e].adminURL = image.endpoints[e].region + "/image" + image.endpoints[e].adminURL.replace(/.*:[0-9]*/, "");
@@ -408,10 +410,12 @@ UTILS.Auth = (function(U, undefined) {
         }
 
         var objectstorage = JSTACK.Keystone.getservice("object-store");
-        for (e in objectstorage.endpoints) {
-            objectstorage.endpoints[e].adminURL = objectstorage.endpoints[e].region  + "/object-store" + objectstorage.endpoints[e].adminURL.replace(/.*:[0-9]*/, "");
-            objectstorage.endpoints[e].publicURL = objectstorage.endpoints[e].region  + "/object-store" + objectstorage.endpoints[e].publicURL.replace(/.*:[0-9]*/, "");
-            objectstorage.endpoints[e].internalURL = objectstorage.endpoints[e].region  + "/object-store" + objectstorage.endpoints[e].internalURL.replace(/.*:[0-9]*/, "");
+        if (objectstorage !== undefined) {
+            for (e in objectstorage.endpoints) {
+                objectstorage.endpoints[e].adminURL = objectstorage.endpoints[e].region  + "/object-store" + objectstorage.endpoints[e].adminURL.replace(/.*:[0-9]*/, "");
+                objectstorage.endpoints[e].publicURL = objectstorage.endpoints[e].region  + "/object-store" + objectstorage.endpoints[e].publicURL.replace(/.*:[0-9]*/, "");
+                objectstorage.endpoints[e].internalURL = objectstorage.endpoints[e].region  + "/object-store" + objectstorage.endpoints[e].internalURL.replace(/.*:[0-9]*/, "");
+            }
         }
 
         var neutron = JSTACK.Keystone.getservice("network");
