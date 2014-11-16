@@ -144,7 +144,7 @@ html, body {
   overflow: hidden;
 }
 
-#log-messages-software {
+.log-messages-modal {
   height: 48px;
   overflow: hidden;
 }

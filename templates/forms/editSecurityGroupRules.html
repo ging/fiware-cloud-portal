@@ -5,20 +5,16 @@
     src: templates/forms/createSecurityGroup.html
     -->
     <form id="rulesForm" onSubmit="return false;">
-    <div class="modal-header">
-        <a id="closeModal" href="#" class="close" data-dismiss="modal">&times;</a>
-        <h3>Edit Security Group Rules</h3>
-    </div>
-    <div id="messHeader" class="modal-body clearfix">
+        <div class="modal-header">
+            <a id="closeModal" href="#" class="close" data-dismiss="modal">&times;</a>
+            <h3>Edit Security Group Rules</h3>
+        </div>
 
-    <%
+        <div id="messHeader" class="modal-body clearfix">
 
-    var securityGroupsModel = model.get(securityGroupId);
+            <%var securityGroupsModel = model.get(securityGroupId);%>
 
-    console.log("rules", securityGroupsModel.get('rules'));
-
-    %>
-    	   <div class='table_header'><h3 class='table_title'>Security Group Rules</h3></div>
+    	    <div class='table_header'><h3 class='table_title'>Security Group Rules</h3></div>
 
             <div id="edit_security_group_rules"></div>
 
@@ -76,12 +72,14 @@
         	 </fieldset>
 
        	</div>
+
+        <div class="log-messages-modal" id="log-messages-rules"></div>
+
         <div class="modal-footer">
             <p class="mandatoryMess">* Mandatory fields.</p>
             <input type="submit" class="btn btn-blue pull-right" name='<%= securityGroupsModel.get('id')%>' value="Add Rule">
             <a id="cancel" class="close btn seconday cancel close" data-dismiss="modal">Close</a>
         </div>
     </form>
-
 </div>
 </script>

@@ -98,10 +98,12 @@ var BlueprintTemplateView = Backbone.View.extend({
     getActionButtons: function() {
         return [{
             icon: "fi-icon-edit",
-            action: "edit"
+            action: "edit",
+            tooltip: "Edit tier"
             }, {
             icon: "fi-icon-delete",
-            action: "delete"
+            action: "delete",
+            tooltip: "Delete tier"
             }];
     },
 

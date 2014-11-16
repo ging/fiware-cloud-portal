@@ -7,7 +7,6 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
     events: {
         'click #closeModal': 'close',
         'click #deleteRuleBtn': 'deleteRule',
-        'click #deleteRulesBtn': 'deleteRules',
         'click #cancel': 'close',
         'submit #rulesForm': 'createRule',
         'click .editSecGroup': 'close',
@@ -15,8 +14,7 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
         'click #to_port': 'showTooltipToPort',
         'click #cidr': 'showTooltipCidr',
         'change .secGroupSelect': 'dissapearCIDR',
-        'change .IPProtocolSelect': 'changeInputs',
-        'change .checkbox_sec_group_rule': 'enableDisableDeleteButton'
+        'change .IPProtocolSelect': 'changeInputs'
     },
 
     initialize: function() {
@@ -87,7 +85,7 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
                 }, {
                     value: securityGroupRules.group.name !== undefined ? securityGroupRules.group.name : securityGroupRules.ip_range.cidr+" (CIDR)"
                 }, {
-                    value: '<button id="deleteRuleBtn" value="' + securityGroupRules.id + '" class="ajax-modal btn btn-small btn-blue btn-delete btn-danger"  data-i18n="Delete Rule">Delete Rule</button>'
+                    value: '<button type="button" id="deleteRuleBtn" value="' + securityGroupRules.id + '" class="ajax-modal btn btn-small btn-blue btn-delete btn-danger"  data-i18n="Delete Rule">Delete Rule</button>'
                 }]
             };
             entries.push(entry);
@@ -192,45 +190,19 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
                                 self.autoRender();
                                 var subview2 = new MessagesView({
                                     state: "Success",
-                                    title: "Security Group Rule deleted."
+                                    title: "Security Group Rule deleted.",
+                                    el: "#log-messages-rules"
                                 });
                                 subview2.render();
                             }, error: function(model, resp) {
                                 var subview3 = new MessagesView({
-                                    state: "Error", title: "Error deleting security group rule. Cause: " + resp.message, info: resp.body});
+                                    state: "Error", title: "Error deleting security group rule. Cause: " + resp.message, info: resp.body,
+                                    el: "#log-messages-rules"
+                                });
                                 subview3.render();
                             }
                         });
                     }
-                });
-            }
-        });
-        subview.render();
-    },
-
-    deleteRules: function(e) {
-        var self = this;
-        var subview = new ConfirmView({
-            el: 'body',
-            title: "Delete Security Group Rules",
-            btn_message: "Delete Security Group Rules",
-            onAccept: function() {
-                $(".checkbox_sec_group_rule:checked").each(function() {
-                    var secGroupRuleId = $(this).val();
-                    var securityGroupsModel = self.model.get(self.options.securityGroupId);
-
-                    securityGroupsModel.deleteSecurityGroupRule(secGroupRuleId, {
-                        callback: function(resp) {
-                            securityGroupsModel.fetch({
-                                success: function(resp) {
-                                    self.autoRender();
-                                    var subview3 = new MessagesView({
-                                        state: "Error", title: "Error deleting security group rule. Cause: " + resp.message, info: resp.body});
-                                    subview3.render();
-                                }
-                            });
-                        }
-                    });
                 });
             }
         });
@@ -279,7 +251,8 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
                 if ((sourceGroup == thisSourceGroup) || (cidr == thisCidr)) {
                     subview = new MessagesView({
                         state: "Error",
-                        title: "Security Group Rule already exists. Please try again."
+                        title: "Security Group Rule already exists. Please try again.",
+                        el: "#log-messages-rules"
                     });
                     subview.render();
                     return false;
@@ -297,13 +270,16 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
                                 self.autoRender();
                                 subview = new MessagesView({
                                     state: "Success",
-                                    title: "Security group rule created."
+                                    title: "Security group rule created.",
+                                    el: "#log-messages-rules"
                                 });
                                 subview.render();
                             },
                             error: function(model, resp) {
                                 var subview3 = new MessagesView({
-                                    state: "Error", title: "Error creating security group rule. Cause: " + resp.message, info: resp.body});
+                                    state: "Error", title: "Error creating security group rule. Cause: " + resp.message, info: resp.body,
+                                    el: "#log-messages-rules"
+                                });
                                 subview3.render();
                             }
                         });
@@ -317,12 +293,15 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
                                 self.autoRender();
                                 subview = new MessagesView({
                                     state: "Success",
-                                    title: "Security group rule created."
+                                    title: "Security group rule created.",
+                                    el: "#log-messages-rules"
                                 });
                                 subview.render();
                             }, error: function(model, resp) {
                                 var subview3 = new MessagesView({
-                                    state: "Error", title: "Error creating security group rule. Cause: " + resp.message, info: resp.body});
+                                    state: "Error", title: "Error creating security group rule. Cause: " + resp.message, info: resp.body,
+                                    el: "#log-messages-rules"
+                                });
                                 subview3.render();
                             }
                         });
@@ -334,17 +313,10 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
         } else {
             subview = new MessagesView({
                 state: "Error",
-                title: "Wrong input values for Security Group Rule. Please try again."
+                title: "Wrong input values for Security Group Rule. Please try again.",
+                el: "#log-messages-rules"
             });
             subview.render();
-        }
-    },
-
-    enableDisableDeleteButton: function(e) {
-        if ($(".checkbox_sec_group_rule:checked").size() > 0) {
-            $("#deleteRulesBtn").attr("disabled", false);
-        } else {
-            $("#deleteRulesBtn").attr("disabled", true);
         }
     }
 });

@@ -66,7 +66,7 @@ src: templates/root/table-tiers.html
                         for (var action_idx in actions) {
                             var action = actions[action_idx];
                     %>
-                        <button id="<%=action_idx%>_<%=cid%>_actions" class="fi-icon-actions-<%=cid%> fi-icon-actions <%= action.icon%>"/>
+                        <button id="<%=action_idx%>_<%=cid%>_actions" class="tip fi-icon-actions-<%=cid%> fi-icon-actions <%= action.icon%>" data-tooltip="<%=action.tooltip%>"/>
                     <% } %>
                 </div>
             </td>
