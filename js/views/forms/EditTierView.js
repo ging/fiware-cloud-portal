@@ -714,10 +714,48 @@ var EditTierView = Backbone.View.extend({
                     var str='';
                     for (var i in productAttributes) {
                         attr = productAttributes[i];
-                        str += '<tr id="sec_groups__row__" class="ajax-update status_down"><td>'+attr.key+'</td><td><input type="text" name="attr_'+i+'" value="'+attr.value+'""></td><td>'+attr.description+'</td></tr>';
+                        if (attr.type === 'ip') {
+
+                            str += 
+                            '<tr id="sec_groups__row__" class="ajax-update status_down">' +
+                                '<td>' + attr.key + '</td>' +
+                                '<td>' +
+                                    '<select name="attr_' + i + '">';
+
+                                    for (var t in this.model.get('tierDtos_asArray')) {
+                                        var ti = this.model.get('tierDtos_asArray')[t];
+                                        if (attr.value === ti.name) {
+                                            str += '<option selected value="' + ti.name + '">Tier ' + ti.name + ' IP address</option>';
+                                        } else {
+                                            str += '<option value="' + ti.name + '">Tier ' + ti.name + ' IP address</option>';
+                                        }
+                                    }
+                                        
+                            str +=                                   
+                                    '</select>' +
+                                '</td>' +
+                                '<td>' + attr.description + '</td>' +
+                            '</tr>';
+
+                        } else {
+                            str += 
+                            '<tr id="sec_groups__row__" class="ajax-update status_down">' +
+                                '<td>' + attr.key + '</td>' +
+                                '<td>' +
+                                    '<input type="text" name="attr_' + i + '" value="' + attr.value + '"">' +
+                                '</td>' +
+                                '<td>' + attr.description + '</td>' +
+                            '</tr>';
+                            
+                        }
                     }
                     if (str === '') {
-                        str = '<tr id="sec_groups__row__" class="ajax-update status_down"><td></td><td style="text-align: center;">No items to display</td><td></td></tr>';
+                        str = 
+                        '<tr id="sec_groups__row__" class="ajax-update status_down">' +
+                            '<td></td>' +
+                            '<td style="text-align: center;">No items to display</td>' +
+                            '<td></td>' +
+                        '</tr>';
 
                     }
                     $('#software-attrs-table').html(str);
@@ -752,11 +790,17 @@ var EditTierView = Backbone.View.extend({
             $('.blurable').unbind("click", false);
         });
 
-        if (this.addedProducts[this.edit].attributes_asArray) {
+        var atts = this.addedProducts[this.edit].get('attributes_asArray');
 
-            for (var at in this.addedProducts[this.edit].attributes_asArray) {
-                var inp = 'input[name=attr_'+ at+']';
-                this.addedProducts[this.edit].attributes_asArray[at].value = this.$(inp).val();
+        if (atts) {
+            for (var at in atts) {
+                var inp;
+                if (atts[at].type === 'ip') {
+                    inp = 'select[name=attr_'+ at+']';
+                } else {
+                    inp = 'input[name=attr_'+ at+']';
+                }
+                atts[at].value = this.$(inp).val();
             }
         }
     },
