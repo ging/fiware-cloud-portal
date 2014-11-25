@@ -8,7 +8,7 @@ var BlueprintTemplateView = Backbone.View.extend({
         var regions = UTILS.GlobalModels.get("loginModel").get("regions");
         this.options.flavors = {};
         this.options.images = {};
-                //this.options.flavors = UTILS.GlobalModels.get("flavors");
+        //this.options.flavors = UTILS.GlobalModels.get("flavors");
         this.options.securityGroupsModel = UTILS.GlobalModels.get("securityGroupsModel");
         //this.options.images = UTILS.GlobalModels.get("images");
         this.options.loginModel = UTILS.GlobalModels.get("loginModel");
@@ -18,21 +18,6 @@ var BlueprintTemplateView = Backbone.View.extend({
         }
         this.model.fetch();
         this.renderFirst();
-        var self = this;
-        var render = function() {
-            self.render.apply(self);
-        };
-        for (var idx in regions) {
-            var region = regions[idx];
-            var images = new Images();
-            var flavors = new Flavors();
-            images.region = region;
-            flavors.region = region;
-            this.options.flavors[region] = flavors;
-            this.options.images[region] = images;
-            images.fetch({success: render});
-            flavors.fetch({success: render});
-        }
     },
 
     events: {
@@ -108,6 +93,10 @@ var BlueprintTemplateView = Backbone.View.extend({
     },
 
     getEntries: function() {
+        var self = this;
+        var render = function() {
+            self.render.apply(self);
+        };
         var entries = [];
         var i = 0;
         for (var index in this.model.get('tierDtos_asArray')) {
@@ -121,15 +110,28 @@ var BlueprintTemplateView = Backbone.View.extend({
             if (tier.keypair.toString() === "[object Object]") {
                 tier.keypair = "-";
             }
-            var image = "-";
-            if (this.options.images[region] !== undefined && this.options.images[region].get(tier.image) !== undefined) {
+
+            var image = "Loading...";
+            if (!this.options.images[region]) {
+                var images = new Images();
+                images.region = region;
+                this.options.images[region] = images;
+                images.fetch({success: render});
+                
+            } else if (this.options.images[region].get(tier.image)){
                 image = this.options.images[region].get(tier.image).get("name");
             }
 
-            var flavor = "-";
-            if (this.options.flavors[region] !== undefined && this.options.flavors[region].get(tier.flavour) !== undefined) {
+            var flavor = "Loading...";
+            if (!this.options.flavors[region]) {
+                var flavors = new Flavors();
+                flavors.region = region;
+                this.options.flavors[region] = flavors;
+                flavors.fetch({success: render});
+            } else if (this.options.flavors[region].get(tier.flavour)) {
                 flavor = this.options.flavors[region].get(tier.flavour).get("name");
             }
+
             var entry = {
                 id: tier.name,
                 minValue: tier.minimumNumberInstances,
@@ -229,28 +231,27 @@ var BlueprintTemplateView = Backbone.View.extend({
     },
 
     renderFirst: function() {
-        UTILS.Render.animateRender(this.el, this._template);
-        this.tableView = new TableTiersView({
-            model: this.model,
-            el: '#blueprint-template-table',
-            onAction: this.onAction,
-            getDropdownButtons: this.getDropdownButtons,
-            getMainButtons: this.getMainButtons,
-            getActionButtons: this.getActionButtons,
-            getHeaders: this.getHeaders,
-            getEntries: this.getEntries,
-            context: this,
-            color: "#0093C6",
-            color2: "#0093C6"
-        });
-        this.tableView.render();
+        $(this.el).html('<p style="padding:50px;">Loading...</p>');
     },
 
     render: function() {
-        if (this.tableView !== undefined) {
-            this.tableView.render();
+        if (this.tableView === undefined) {
+            UTILS.Render.animateRender(this.el, this._template);
+            this.tableView = new TableTiersView({
+                model: this.model,
+                el: '#blueprint-template-table',
+                onAction: this.onAction,
+                getDropdownButtons: this.getDropdownButtons,
+                getMainButtons: this.getMainButtons,
+                getActionButtons: this.getActionButtons,
+                getHeaders: this.getHeaders,
+                getEntries: this.getEntries,
+                context: this,
+                color: "#0093C6",
+                color2: "#0093C6"
+            });
         }
-        return this;
+        this.tableView.render();
     }
 
 });

@@ -11,30 +11,15 @@ var BlueprintTemplateCatalogView = Backbone.View.extend({
         
         this.model.getCatalogBlueprint({id: this.options.templateId, callback: function (bpTemplate) {
             self.bpTemplate = bpTemplate;
-            self.renderFirst();
+            self.render();
         }, error: function (e) {
             console.log('Error getting catalog bp detail');
         }});
 
-        var render = function() {
-            self.render.apply(self);
-        };
-
         this.options.flavors = {};
         this.options.images = {};
-        var regions = UTILS.GlobalModels.get("loginModel").get("regions");
 
-        for (var idx in regions) {
-            var region = regions[idx];
-            var images = new Images();
-            var flavors = new Flavors();
-            images.region = region;
-            flavors.region = region;
-            this.options.flavors[region] = flavors;
-            this.options.images[region] = images;
-            images.fetch({success: render});
-            flavors.fetch({success: render});
-        }
+        this.renderFirst();
     },
 
     events: {
@@ -93,6 +78,10 @@ var BlueprintTemplateCatalogView = Backbone.View.extend({
     },
 
     getEntries: function() {
+        var self = this;
+        var render = function() {
+            self.render.apply(self);
+        };
         var entries = [];
         var i = 0;
         for (var index in this.bpTemplate.tierDtos_asArray) {
@@ -105,15 +94,27 @@ var BlueprintTemplateCatalogView = Backbone.View.extend({
 
             var region = tier.region;
 
-            var image = "-";
-            if (this.options.images[region] !== undefined && this.options.images[region].get(tier.image) !== undefined) {
+            var image = "Loading...";
+            if (!this.options.images[region]) {
+                var images = new Images();
+                images.region = region;
+                this.options.images[region] = images;
+                images.fetch({success: render});
+                
+            } else if (this.options.images[region].get(tier.image)){
                 image = this.options.images[region].get(tier.image).get("name");
             }
 
-            var flavor = "-";
-            if (this.options.flavors[region] !== undefined && this.options.flavors[region].get(tier.flavour) !== undefined) {
+            var flavor = "Loading...";
+            if (!this.options.flavors[region]) {
+                var flavors = new Flavors();
+                flavors.region = region;
+                this.options.flavors[region] = flavors;
+                flavors.fetch({success: render});
+            } else if (this.options.flavors[region].get(tier.flavour)) {
                 flavor = this.options.flavors[region].get(tier.flavour).get("name");
             }
+
             var entry = {
                 id: tier.name,
                 minValue: tier.minimumNumberInstances,
@@ -166,27 +167,26 @@ var BlueprintTemplateCatalogView = Backbone.View.extend({
     },
 
     renderFirst: function() {
-        UTILS.Render.animateRender(this.el, this._template);
-        this.tableView = new TableTiersView({
-            model: this.model,
-            el: '#blueprint-templateCatalog-table',
-            onAction: this.onAction,
-            getDropdownButtons: this.getDropdownButtons,
-            getMainButtons: this.getMainButtons,
-            getHeaders: this.getHeaders,
-            getEntries: this.getEntries,
-            context: this,
-            color: "#95C11F",
-            color2: "#95C11F"
-        });
-        this.tableView.render();
+        $(this.el).html('<p style="padding:50px;">Loading...</p>');
     },
 
     render: function() {
-        if (this.tableView !== undefined) {
-            this.tableView.render();
-        }
-        return this;
+        if (this.tableView === undefined) {
+            UTILS.Render.animateRender(this.el, this._template);
+            this.tableView = new TableTiersView({
+                model: this.model,
+                el: '#blueprint-templateCatalog-table',
+                onAction: this.onAction,
+                getDropdownButtons: this.getDropdownButtons,
+                getMainButtons: this.getMainButtons,
+                getHeaders: this.getHeaders,
+                getEntries: this.getEntries,
+                context: this,
+                color: "#95C11F",
+                color2: "#95C11F"
+            });
+        } 
+        this.tableView.render();
     }
 
 });
