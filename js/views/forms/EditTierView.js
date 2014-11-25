@@ -61,20 +61,7 @@ var EditTierView = Backbone.View.extend({
             subnets: new Subnets()
         };
 
-        if (JSTACK.Keystone.getendpoint(UTILS.Auth.getCurrentRegion(), "network") !== undefined) {
-            this.networks = undefined;
-            this.steps = [
-            {id: 'input_details', name: 'Details'}, 
-            {id: 'software_tab', name: 'Install Software'},
-            {id: 'network_tab', name: 'Connect Network'}
-            ];
-        
-        } else {
-            this.networks = [];
-            this.steps = [
-                {id: 'input_details', name: 'Details'}, 
-                {id: 'software_tab', name: 'Install Software'}                ];
-        }
+        this.current_region = UTILS.Auth.getCurrentRegion();
     },
 
     updateTmpModels: function(region) {
@@ -244,7 +231,8 @@ var EditTierView = Backbone.View.extend({
     },
 
     onRegionChange: function(e) {
-        this.updateTmpModels(e.currentTarget.value);
+        this.current_region = e.currentTarget.value;
+        this.render();
     },
 
     onImageChange: function(e) {
@@ -1034,7 +1022,25 @@ var EditTierView = Backbone.View.extend({
             $('#edit_tier').remove();
             $('.modal-backdrop').remove();
         }
-        $(this.el).append(this._template({model:this.model, tier: this.options.tier, regions: this.options.regions, steps: this.steps}));
+
+
+        if (JSTACK.Keystone.getendpoint(this.current_region, "network") !== undefined) {
+            this.networks = undefined;
+            this.steps = [
+            {id: 'input_details', name: 'Details'}, 
+            {id: 'software_tab', name: 'Install Software'},
+            {id: 'network_tab', name: 'Connect Network'}
+            ];
+        
+        } else {
+            this.networks = [];
+            this.steps = [
+                {id: 'input_details', name: 'Details'}, 
+                {id: 'software_tab', name: 'Install Software'}                ];
+        }
+
+
+        $(this.el).append(this._template({model:this.model, tier: this.options.tier, regions: this.options.regions, steps: this.steps, current_region: this.current_region}));
         this.tableView = new TableView({
             el: '#installedSoftware-table',
             actionsClass: "actionsSDCTier",
@@ -1128,7 +1134,7 @@ var EditTierView = Backbone.View.extend({
         this.dial = $(".dial-form").knob();
         this.applyIcon();
 
-        this.updateTmpModels(UTILS.Auth.getCurrentRegion());
+        this.updateTmpModels(this.current_region);
 
         return this;
     }

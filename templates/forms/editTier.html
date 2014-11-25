@@ -55,7 +55,7 @@
                             <div class="controls">
                                 <select name="region" id="id_region">
                                     <% for (var index in regions) {
-                                        var sel = (regions[index] === UTILS.Auth.getCurrentRegion());
+                                        var sel = (regions[index] === current_region);
                                     %>
                                     <option value="<%=regions[index]%>" <%if(sel) {%> selected="selected" <%}%>><%= regions[index]%></option>
                                     <%}%>
@@ -99,7 +99,7 @@
                             </div>
                         </div>
 
-                        <% if (JSTACK.Keystone.getendpoint(UTILS.Auth.getCurrentRegion(), "network") === undefined) {%>
+                        <% if (JSTACK.Keystone.getendpoint(current_region, "network") === undefined) {%>
                         <div class="control-group form-field clearfix">
                             <label class="control-label" for="id_public_ip">Public IP:</label>
 
