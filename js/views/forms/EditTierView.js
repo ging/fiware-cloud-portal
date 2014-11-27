@@ -702,7 +702,7 @@ var EditTierView = Backbone.View.extend({
                     var str='';
                     for (var i in productAttributes) {
                         attr = productAttributes[i];
-                        if (attr.type === 'ip') {
+                        if (attr.type === 'IP' || atts[at].type === 'IPALL') {
 
                             str += 
                             '<tr id="sec_groups__row__" class="ajax-update status_down">' +
@@ -783,7 +783,7 @@ var EditTierView = Backbone.View.extend({
         if (atts) {
             for (var at in atts) {
                 var inp;
-                if (atts[at].type === 'ip') {
+                if (atts[at].type === 'IP' || atts[at].type === 'IPALL') {
                     inp = 'select[name=attr_'+ at+']';
                 } else {
                     inp = 'input[name=attr_'+ at+']';
