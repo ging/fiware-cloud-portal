@@ -357,7 +357,7 @@ app.all('/user/:token', function(req, resp) {
     }
 
     var options = {
-        host: 'account.lab.fi-ware.org',
+        host: 'account.lab.fiware.org',
         port: 443,
         path: '/user?access_token=' + req.params.token,
         method: 'GET',
