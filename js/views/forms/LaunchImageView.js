@@ -243,16 +243,21 @@ var LaunchImageView = Backbone.View.extend({
     },
 
     checkNetworks: function() {
+        var data = '#cloud-config\n' + 
+                    '#\n' + 
+                    '# This script automatically installs DEM component in the instance.\n' + 
+                    '# You can modify it, but be careful not to change this configuration.\n' + 
+                    'runcmd:\n' + 
+                    '     - curl -L -s -k https://xifisvn.esl.eng.it/wp3/software/DEM_Adapter/install.sh | bash';
         if (!this.user_data_edited) {
             if (JSTACK.Keystone.getendpoint(UTILS.Auth.getCurrentRegion(), "network") !== undefined) {
                 var compiled = _.template($('#cloud_init_template').html());
                 var num_interfaces = $('#network-selected li div').length;
-                var data = "";
                 if (num_interfaces > 0) {
                     data = compiled({num_interfaces: num_interfaces});
                 }
-                $("#id_user_data").val(data);
             }
+            $("#id_user_data").val(data);
         }
     },
 
