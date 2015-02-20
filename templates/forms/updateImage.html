@@ -55,11 +55,23 @@
                         </div>
                     </div>
                     <div class="control-group form-field clearfix">
+                        <label for="id_disk_format">Visibility</label>
+                        <span class="help-block"></span>
+                        <div class="input">
+                            <p><% if ((model.get("visibility") === "public") || model.get("is_public") === true){%>
+                                Public
+                                <%}
+                            else {%>
+                                Private
+                            <%}%></p>
+                        </div>
+                    </div>
+                    <!--<div class="control-group form-field clearfix">
                         <label for="id_public">Public</label>
                         <div class="input">
                           <input type="checkbox" name="public" id="id_public" style="width:initial" <% if ((model.get("visibility") === "public") || model.get("is_public") === true){%>checked<%}%>>
                         </div>
-                      </div>
+                      </div>-->
                 </fieldset>
             </div>
             <div class="right">
