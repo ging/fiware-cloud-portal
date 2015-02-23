@@ -5,7 +5,8 @@ var express = require('express'),
     crypto = require('crypto'),
     XMLHttpRequest = require("./xmlhttprequest").XMLHttpRequest,
     OAuth2 = require('./oauth2').OAuth2,
-    config = require('./config');
+    config = require('./config')
+    cluster = require ('cluster');
 
 var oauth_config = config.oauth;
 var useIDM = config.useIDM;
@@ -389,7 +390,7 @@ function getCatalog(chained) {
 
     sendData("http", options, JSON.stringify(credentials), undefined, function (status, resp) {
         service_catalog = JSON.parse(resp).access.serviceCatalog;
-        console.log('Service catalog: ', JSON.stringify(service_catalog, 4, 4));
+        //console.log('Service catalog: ', JSON.stringify(service_catalog, 4, 4));
         if (chained !== false) {
             setInterval(function() {
                 getCatalog(false);
@@ -448,32 +449,46 @@ function decrypt(str){
   return dec;
 }
 
-app.listen(config.http_port, undefined, null, function() {
+var available_cores = require('os').cpus().length;
+var cores_to_use = config.max_cores || 1;
 
-    // Listen on HTTPS port. We need to have cert and key files to serve HTML files on SSL.
-    if (config.https.enabled === true) {
-        // This line is from the Node.js HTTPS documentation.
-        var options = {
-          key: fs.readFileSync(config.https.key_file),
-          cert: fs.readFileSync(config.https.cert_file)
-        };
+if (config.max_cores === 0 || config.max_cores > available_cores) {
+    cores_to_use = available_cores;
+}
 
-        https.createServer( options, function(req,res)
-        {
-            app.handle( req, res );
-        } ).listen( config.https.port );
+if (cluster.isMaster) {
+    for (var i = 0; i < cores_to_use; i++) {
+        cluster.fork();
     }
+} else {
 
-    console.log("Port ", config.http_port, " opened. Changing to unprivileged user...");
-    try {
-        process.setgid(config.process_user);
-        process.setuid(config.process_group);
-        console.log("The process now runs as user ", config.process_user);
-    } catch (err) {
-        console.log('WARNING: The server has too much privileges. Change config file to set an unprivileged user.');
-    }
-});
+    app.listen(config.http_port, undefined, null, function() {
+
+        // Listen on HTTPS port. We need to have cert and key files to serve HTML files on SSL.
+        if (config.https.enabled === true) {
+            // This line is from the Node.js HTTPS documentation.
+            var options = {
+              key: fs.readFileSync(config.https.key_file),
+              cert: fs.readFileSync(config.https.cert_file)
+            };
+
+            https.createServer( options, function(req,res)
+            {
+                app.handle( req, res );
+            } ).listen( config.https.port );
+        }
+
+        console.log("Port ", config.http_port, " opened. Changing to unprivileged user...");
+        try {
+            process.setgid(config.process_user);
+            process.setuid(config.process_group);
+            console.log("The process now runs as user ", config.process_user);
+        } catch (err) {
+            console.log('WARNING: The server has too much privileges. Change config file to set an unprivileged user.');
+        }
+    });
 
 
 
-getCatalog(true);
+    getCatalog(true);
+}

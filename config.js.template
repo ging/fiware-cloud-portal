@@ -47,4 +47,8 @@ config.keystone = {
 
 config.time_stats_logger = false;
 
+// Number of cores to use
+// If set to 0 or to a higher number than the max available, it uses all of them.
+config.max_cores = 1;
+
 module.exports = config;
