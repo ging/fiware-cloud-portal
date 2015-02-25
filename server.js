@@ -250,9 +250,8 @@ app.get('/', function(req, res) {
 });
 
 app.get('/vnc', function(req, res) {
-
     res.cookie('vnc_url', req.query.url);
-    var fullUrl = 'http://' + req.get('host') + '/vnc_display';
+    var fullUrl = 'http://cloud.lab.fiware.org/vnc_display';
     res.redirect(fullUrl);
 });
 
