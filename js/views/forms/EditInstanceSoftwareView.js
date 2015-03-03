@@ -194,7 +194,8 @@ var EditInstanceSoftwareView = Backbone.View.extend({
         var product = new Software();
         var ip;
         var addrs = this.options.instanceModel.get("addresses");
-        if (JSTACK.Keystone.getservice("network") !== undefined) {
+
+        if (JSTACK.Keystone.getendpoint(UTILS.Auth.getCurrentRegion(), "network") !== undefined) {
             ip = addrs[Object.keys(addrs)[0]][0].addr;
         } else {
             ip = addrs["private"][0].addr; 

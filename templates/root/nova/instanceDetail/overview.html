@@ -44,7 +44,7 @@ src: templates/root/nova/instanceDetail/overview.html
                     <hr class="header_rule">
                     <ul>
                         <%
-                        if (JSTACK.Keystone.getservice("network") !== undefined) {
+                        if (JSTACK.Keystone.getendpoint(UTILS.Auth.getCurrentRegion(), "network") !== undefined) {
                             if (model.get("addresses") != null) {
                                 addresses = model.get("addresses");
                                 for (var i in addresses) {

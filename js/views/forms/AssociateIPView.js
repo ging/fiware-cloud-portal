@@ -33,7 +33,7 @@ var AssociateIPView = Backbone.View.extend({
         var instance = this.options.instances.get(instance_id);
         var addr, addresses;
         if (instance !== undefined) {
-            if (JSTACK.Keystone.getservice("network") !== undefined) {
+            if (JSTACK.Keystone.getendpoint(UTILS.Auth.getCurrentRegion(), "network") !== undefined) {
                 if (instance.get("addresses") != null) {
                     addresses = instance.get("addresses");
                     for (var i in addresses) {

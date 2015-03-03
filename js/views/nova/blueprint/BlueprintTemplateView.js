@@ -26,7 +26,7 @@ var BlueprintTemplateView = Backbone.View.extend({
     getMainButtons: function() {
         // main_buttons: [{label:label, url: #url, action: action_name}]
         var main_buttons = [];
-        if (JSTACK.Keystone.getservice("network") !== undefined) {
+        if (JSTACK.Keystone.getendpoint(UTILS.Auth.getCurrentRegion(), "network") !== undefined) {
             main_buttons.push({label: "Topology", action: "show_nets"});
         }
 

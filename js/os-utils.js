@@ -390,7 +390,7 @@ UTILS.Auth = (function(U, undefined) {
             compute.endpoints[e].publicURL = compute.endpoints[e].region + "/compute" + compute.endpoints[e].publicURL.replace(/.*:[0-9]*/, "");
             compute.endpoints[e].internalURL = compute.endpoints[e].region + "/compute" + compute.endpoints[e].internalURL.replace(/.*:[0-9]*/, "");
         
-            regions_.push(compute.endpoints[e].region);
+            if (!compute.endpoints[e].hidden) regions_.push(compute.endpoints[e].region);
         }
 
         var volume = JSTACK.Keystone.getservice("volume");

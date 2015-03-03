@@ -200,7 +200,7 @@ var NovaInstancesView = Backbone.View.extend({
             var addresses;
             var address = "";
 
-            if (JSTACK.Keystone.getservice("network") !== undefined) {
+            if (JSTACK.Keystone.getendpoint(UTILS.Auth.getCurrentRegion(), "network") !== undefined) {
                 if (instance.get("addresses") != null) {
                     addresses = instance.get("addresses");
                     for (var i in addresses) {

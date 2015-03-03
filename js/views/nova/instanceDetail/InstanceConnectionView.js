@@ -16,7 +16,7 @@ var InstanceConnectionView = Backbone.View.extend({
 
         this.model.fetch({success: function(model){
             self.public_ip = false;
-            if (JSTACK.Keystone.getservice("network") !== undefined) {
+            if (JSTACK.Keystone.getendpoint(UTILS.Auth.getCurrentRegion(), "network") !== undefined) {
                 if (model.get("addresses") != null) {
                     var addresses = model.get("addresses");
                     for (var i in addresses) {
