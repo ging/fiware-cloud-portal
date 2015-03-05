@@ -41,6 +41,11 @@
                         <li>
                             <strong>ID:</strong>&nbsp;<%= model.get('id')%>
                         </li>
+                        <%if(model.get('nid')) {%>
+                        <li>
+                            <strong>GE ID:</strong>&nbsp;<%= model.get('nid')%>
+                        </li>
+                        <%}%>
                     </ul>
                 </div>
                 <div class="status span4">
