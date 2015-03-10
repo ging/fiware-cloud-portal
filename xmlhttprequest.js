@@ -404,7 +404,9 @@ exports.XMLHttpRequest = function() {
 
       // As per spec, this is called here for historical reasons.
       self.dispatchEvent("readystatechange");
-      if (ssl) options.agent = https.keepaliveSecureAgent;
+      if (ssl) { 
+        options.agent = GLOBAL.keepaliveSecureAgent;
+      }
       // Create the request
       request = doRequest(options, function(resp) {
         response = resp;
