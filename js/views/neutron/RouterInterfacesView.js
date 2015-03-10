@@ -8,6 +8,8 @@ var RouterInterfacesView = Backbone.View.extend({
         var self = this;
         this.model.unbind("sync");
         this.model.bind("sync", this.render, this);
+        this.options.ports.unbind("sync");
+        this.options.ports.bind("sync", this.render, this);
         this.model.fetch({success: function() {
             self.renderFirst();
         }});
