@@ -14,7 +14,8 @@
 var Url = require("url")
   , spawn = require("child_process").spawn
   , fs = require('fs')
-  , Agent = require('agentkeepalive');
+  , Agent = require('agentkeepalive')
+  , HttpsAgent = require('agentkeepalive').HttpsAgent;
 
 GLOBAL.keepaliveAgent = GLOBAL.keepaliveAgent || new Agent({
   maxSockets: 100,
@@ -22,7 +23,8 @@ GLOBAL.keepaliveAgent = GLOBAL.keepaliveAgent || new Agent({
   keepAlive: true,
   keepAliveMsecs: 15000 // keepalive for 30 seconds
 });
-GLOBAL.keepaliveSecureAgent = GLOBAL.keepaliveSecureAgent || new Agent({
+
+GLOBAL.keepaliveSecureAgent = GLOBAL.keepaliveSecureAgent || new HttpsAgent({
   maxSockets: 100,
   maxFreeSockets: 100,
   keepAlive: true,
@@ -407,7 +409,7 @@ exports.XMLHttpRequest = function() {
       if (ssl) { 
         options.agent = GLOBAL.keepaliveSecureAgent;
       }
-      // Create the request
+      // Create the requests
       request = doRequest(options, function(resp) {
         response = resp;
         response.setEncoding("utf8");
