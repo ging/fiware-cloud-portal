@@ -468,7 +468,8 @@ var OSRouter = Backbone.Router.extend({
         self.showNovaRoot(self, 'Images');
         var image = new ImageVM();
         image.set({"id": id});
-        var view = new ConsultImageDetailView({model: image, el: '#content'});
+        var tenant = localStorage.getItem('tenant-id');
+        var view = new ConsultImageDetailView({model: image, el: '#content', tenant: tenant});
          self.newContentView(self,view);
     },
 
