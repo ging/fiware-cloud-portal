@@ -497,8 +497,9 @@ var EditTierView = Backbone.View.extend({
         var entries = [];
 
         var products = this.tmpModels.sdcCatalog.models;
+        console.log('pppp ', products);
 
-        if (products === undefined) {
+        if (products.length === 0) {
             return 'loading';
         }
 
@@ -702,7 +703,7 @@ var EditTierView = Backbone.View.extend({
                     var str='';
                     for (var i in productAttributes) {
                         attr = productAttributes[i];
-                        if (attr.type === 'IP' || atts[at].type === 'IPALL') {
+                        if (attr.type === 'IP' || attr.type === 'IPALL') {
 
                             str += 
                             '<tr id="sec_groups__row__" class="ajax-update status_down">' +
