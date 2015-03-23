@@ -497,7 +497,6 @@ var EditTierView = Backbone.View.extend({
         var entries = [];
 
         var products = this.tmpModels.sdcCatalog.models;
-        console.log('pppp ', products);
 
         if (products.length === 0) {
             return 'loading';
@@ -851,11 +850,13 @@ var EditTierView = Backbone.View.extend({
             tier.productReleaseDtos = [];
             for (var p in this.addedProducts) {
                 var nP = {productName: this.addedProducts[p].get('name'), version: this.addedProducts[p].get('version')};
-                if (this.addedProducts[p].attributes_asArray) {
+
+                var attrs = this.addedProducts[p].get('attributes_asArray');
+                if (attrs) {
                     nP.attributes = [];
-                    for (var at in this.addedProducts[p].attributes_asArray) {
+                    for (var at in attrs) {
                         var inp = 'input[name=attr_'+ this.addedProducts[p].get('name')+'_'+ at+']';
-                        var attrib = {key: this.addedProducts[p].attributes_asArray[at].key, value: this.addedProducts[p].attributes_asArray[at].value};
+                        var attrib = {key: attrs[at].key, value: attrs[at].value};
                         nP.attributes.push(attrib);
                     }
                 }
