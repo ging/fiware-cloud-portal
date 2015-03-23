@@ -144,12 +144,28 @@ UTILS.GlobalModels = (function(U, undefined) {
     };
 
     var add_fetch = function(modelName, seconds) {
-        models[modelName].fetch();
+        send_fetch(modelName);
         var id = setInterval(function() {
-            models[modelName].fetch();
+            send_fetch(modelName);
         }, seconds*1000);
 
         timers[modelName] = id;
+    };
+
+    var send_fetch = function (modelName) {
+        if (modelName === 'networks' || modelName === 'subnets' || modelName === 'ports' || modelName === 'routers') {
+            if (JSTACK.Keystone.getendpoint(UTILS.Auth.getCurrentRegion(), "network") !== undefined ) {
+                models[modelName].fetch();
+            }
+            
+        } else if (modelName === 'containers') {
+            if (JSTACK.Keystone.getendpoint(UTILS.Auth.getCurrentRegion(), "object-store") !== undefined ) {
+                models[modelName].fetch();
+            }
+
+        } else {
+            models[modelName].fetch();
+        }
     };
 
     var get = function(model) {
