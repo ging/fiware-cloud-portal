@@ -1,3 +1,5 @@
+# FI-WARE Cloud Portal
+
 # A JavaScript implementation of OpenStack Horizon component 
 
 This is a web portal developed using only in JavaScript, based on OpenStack Horizon.
@@ -17,20 +19,73 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ## Installation Guide
 
-<pre>
-sudo apt-get install make g++
-sudo apt-get install python-software-properties
-sudo add-apt-repository ppa:chris-lea/node.js
-sudo apt-get update
-sudo apt-get install nodejs npm git ruby1.9.3‏
+<ol>
+	<li>Install necessary components:</li>
+	<pre>
+		sudo apt-get install make g++
+		sudo apt-get install python-software-properties
+		sudo add-apt-repository ppa:chris-lea/node.js
+		sudo apt-get update
+		sudo apt-get install nodejs npm git ruby1.9.3‏
 
-sudo gem install sass
+		sudo gem install sass
+	</pre>
 
-git clone git://github.com/ging/fi-ware-cloud-portal.git
+	<li>Clone the repository to your workspace and change to the <code>fi-ware-cloud-portal</code> new directory</li>
+	<pre>
+		git clone git://github.com/ging/fi-ware-cloud-portal.git
 
-cd fi-ware-cloud-portal
+		cd fi-ware-cloud-portal
+	</pre>
 
-npm install
+	<li>Copy <code>config.js.template</code> to <code>config.js</code> in <code>fi-ware-cloud-portal</code> directory</li>
+	<pre>
+		cp config.js.template config.js
+	</pre>
 
-npm test
-</pre>
+	<li>Log in Cloud Portal (https://account.lab.fiware.org/) and head to your account details </li>
+	
+	<p> </p>
+	
+	<li>Register a new application and bind it to your localhost</li>
+	<img src= "https://github.com/ging/fi-ware-cloud-portal/blob/master/images/register_app.png"/>
+
+	<li>Modify <code>config.js</code> file with the correct configuration and save changes</li>
+	<pre>
+	// Mandatory. TCP port to bind the server to
+	config.http_port = 80;
+	
+	config.useIDM = false;
+
+	// OAuth configuration. Only set this configuration if useIDM is true.
+	config.oauth = {
+		account_server: 'https://account.lab.fiware.org',
+	    client_id: '',
+	    client_secret: '',
+	    callbackURL: ''
+	};
+
+	// Keystone configuration.
+	config.keystone = {
+		host: 'cloud.lab.fiware.org',
+		port: 4730,
+		admin_host: 'cloud.lab.fiware.org',
+		admin_port: 4731, 
+		username: '', 
+		password: '',
+		tenantId: ''
+	};
+	</pre>
+	<blockquote>Note: You can set a different TCP port, but you will have to indicate that change in the application configuration and the <code>config.js</code> file.</blockquote> 
+
+	<li>Install dependencies using npm and grunt and finally run the server</li>
+	<pre>
+		sudo npm install
+
+		./node_modules/grunt-cli/bin/grunt debug
+
+		sudo node server.js
+
+	</pre>
+	
+</ol>
