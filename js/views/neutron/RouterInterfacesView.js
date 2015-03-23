@@ -83,13 +83,14 @@ var RouterInterfacesView = Backbone.View.extend({
         var subnets = this.options.subnets.models;  
         var ports = this.options.ports.models;   
         var router_id = this.model.get('id');  
-        var entries = [];        
+        var entries = [];
+        //console.log('va ', ports, router_id);
         for (var index in ports) {
             var fixed_ips = [];
             var port = ports[index];
             var port_device_id = port.get("device_id");
             if (port_device_id == router_id) {
-                if (port.get('device_owner') == 'network:router_interface' || port.get('device_owner') == 'network:router_gateway') {
+                //if (port.get('device_owner') == 'network:router_interface' || port.get('device_owner') == 'network:router_gateway') {
                     f_ips = port.get('fixed_ips');
                     for (var i in f_ips) {
                         fixed_ips.push(f_ips[i].ip_address);
@@ -104,13 +105,14 @@ var RouterInterfacesView = Backbone.View.extend({
                             }, {  
                                 value: port.get('status')
                             },  {  
-                                value: port.get('device_owner') == 'network:router_interface' ? "Internal Interface" : "External Gateway"
+                                //value: port.get('device_owner') == 'network:router_interface' ? "Internal Interface" : "External Gateway"
+                                value: port.get('device_owner').substring(8)
                             },  {  
                                 value: port.get('admin_state_up') ? "UP" : "DOWN"
                             }]
                         };
                     entries.push(entry);
-                }
+               //}
             }
         }
         return entries;
