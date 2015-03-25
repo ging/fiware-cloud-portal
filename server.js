@@ -246,7 +246,7 @@ function getClientIp(req, headers) {
 app.set('view engine', 'ejs');
 
 app.get('/', function(req, res) {
-  res.render('index', {useIDM: useIDM, account_server: oauth_config.account_server, portals: config.fiportals});
+  res.render('index', {useIDM: useIDM, account_server: oauth_config.account_server, portals: config.fiportals, keystone_version: keystone_config.version});
 });
 
 app.get('/vnc', function(req, res) {
@@ -298,6 +298,8 @@ if (useIDM) {
             req.cookies.oauth_token = undefined;
         }
 
+        console.log('++++ ', req.cookies);
+
         if(!req.cookies.oauth_token) {
             var path = oauth_client.getAuthorizeUrl();
             res.redirect(path);
@@ -308,10 +310,12 @@ if (useIDM) {
     });
 
     app.get('/login', function(req, res){
+
        
         oauth_client.getOAuthAccessToken(
             req.query.code,
             function (e, results){
+                console.log('///////// ', results);
                 res.cookie('oauth_token', encrypt(results.access_token));
                 res.cookie('expires_in', results.expires_in);
                 res.redirect("/#token=" + results.access_token + "&expires=" + results.expires_in);
@@ -372,23 +376,55 @@ function getCatalog(chained) {
     var options = {
         host: keystone_config.host,
         port: keystone_config.port,
-        path: '/v2.0/tokens',
+        path: keystone_config.version === 3 ? '/v3/auth/tokens' : '/v2.0/tokens',
         method: 'POST',
         headers: {"Content-Type": "application/json"}
     };
 
-    var credentials = {
-                "auth" : {
-                    "passwordCredentials" : {
-                        "username" : keystone_config.username,
-                        "password" : keystone_config.password
-                    },
-                    "tenantId": keystone_config.tenantId
+    if (keystone_config.version === 3) {
+
+        var credentials = {
+            "auth": {
+                "identity": {
+                    "methods": [
+                        "password"
+                    ],
+                    "password": {
+                        "user": {
+                            "domain": {
+                                "id": "default"
+                            },
+                            "name": keystone_config.username,
+                            "password": keystone_config.password
+                        }
+                    }
                 }
-            };
+            }
+        };
+
+    } else {
+        var credentials = {
+            "auth" : {
+                "passwordCredentials" : {
+                    "username" : keystone_config.username,
+                    "password" : keystone_config.password
+                },
+                "tenantId": keystone_config.tenantId
+            }
+        };        
+    }
+
 
     sendData("http", options, JSON.stringify(credentials), undefined, function (status, resp) {
-        service_catalog = JSON.parse(resp).access.serviceCatalog;
+
+
+        if (keystone_config.version === 3) {
+            service_catalog = JSON.parse(resp).token.catalog;
+            console.log('Service catalog: ', JSON.stringify(service_catalog, 4, 4));
+
+        } else {
+            service_catalog = JSON.parse(resp).access.serviceCatalog;
+        }
         //console.log('Service catalog: ', JSON.stringify(service_catalog, 4, 4));
         if (chained !== false) {
             setInterval(function() {

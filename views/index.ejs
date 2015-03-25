@@ -126,8 +126,11 @@
                                         $('.bar').css({width: "100%"});
                                         $('#initbar').hide();
                                         host = document.URL.match(/(http.?:\/\/[^\/]*)\/.*/)[1];
+                                        <%if (keystone_version === 3) {%>
+                                        UTILS.Auth.initialize(host + "/keystone/v3/", host + "/keystone-admin/v3/", <%= useIDM %>);
+                                        <%} else {%>
                                         UTILS.Auth.initialize(host + "/keystone/v2.0/", host + "/keystone-admin/v2.0/", <%= useIDM %>);
-                                        //UTILS.Auth.initialize("http://mcu5.dit.upm.es:5000/v2.0/");
+                                        <%}%>
                                         var fiRouter = new OSRouter();
                                         Backbone.history.start();
                                     })

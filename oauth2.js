@@ -132,7 +132,8 @@ exports.OAuth2.prototype.getOAuthAccessToken= function(code, callback) {
 
   var post_headers= {
        'Authorization': this.buildAuthHeader(),
-       'Content-Type': 'application/x-www-form-urlencoded'
+       'Content-Type': 'application/x-www-form-urlencoded',
+       'Content-Length': post_data.length
    };
 
   this._request("POST", this._getAccessTokenUrl(), post_headers, post_data, null, function(error, data, response) {
