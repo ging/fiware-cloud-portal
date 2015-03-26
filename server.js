@@ -441,24 +441,40 @@ function getCatalog(chained) {
 
 function getEndpoint (service, region) {
     var serv, endpoint;
+
+    
+
+
     for (var s in service_catalog) {
         if (service_catalog[s].type === service) {
             serv = service_catalog[s];
             break;
         }
     }
-    for (var e in serv.endpoints) {
-        if (serv.endpoints[e].region === region) {
-            endpoint = serv.endpoints[e];
-            break;
+
+    if (keystone_config.version === 3) {
+        for (var e in serv.endpoints) {
+            if (serv.endpoints[e].region === region && serv.endpoints[e].interface === 'public') {
+                endpoint = serv.endpoints[e].url;
+                break;
+            }
+        }
+    } else {
+        for (var e in serv.endpoints) {
+            if (serv.endpoints[e].region === region) {
+                endpoint = serv.endpoints[e].publicURL;
+                break;
+            }
         }
     }
-    if (endpoint.publicURL.match('/' + keystone_config.tenantId)) {
-        return endpoint.publicURL.split('/' + keystone_config.tenantId)[0];
-    } else if (endpoint.publicURL.match('/AUTH_' + keystone_config.tenantId)) {
-        return endpoint.publicURL.split('/AUTH_' + keystone_config.tenantId)[0];
+    console.log('************************', endpoint);
+
+    if (endpoint.match('/' + keystone_config.tenantId)) {
+        return endpoint.split('/' + keystone_config.tenantId)[0];
+    } else if (endpoint.match('/AUTH_' + keystone_config.tenantId)) {
+        return endpoint.split('/AUTH_' + keystone_config.tenantId)[0];
     }
-    var end = endpoint.publicURL;
+    var end = endpoint;
     
     if (end.charAt(end.length-1) === "/") {
         end = end.substring(0, end.length-1);
