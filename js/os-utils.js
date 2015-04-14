@@ -221,6 +221,7 @@ UTILS.Auth = (function(U, undefined) {
     function getTenants(callback, access_token) {
         if (U.Auth.isIDM() && access_token) {
             JSTACK.Keystone.params.access_token = access_token;
+            if(JSTACK.Keystone.params.version !== 3) JSTACK.Keystone.params.token = access_token;
         } else {
             JSTACK.Keystone.params.access_token = getAccessToken();
         }
