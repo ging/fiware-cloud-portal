@@ -233,6 +233,14 @@ UTILS.Auth = (function(U, undefined) {
     };
 
     var getRegions = function() {
+        
+        // ambos inclusive
+        var minId = -1;
+        var maxId = -1;
+
+        if (JSTACK.Keystone.params.access.user.actorId >= minId && JSTACK.Keystone.params.access.user.actorId <= maxId) {
+            return ['Spain2'];
+        }
         return regions_;
     };
 
