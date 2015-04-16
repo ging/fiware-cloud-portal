@@ -228,6 +228,15 @@ UTILS.Auth = (function(U, undefined) {
         return JSTACK.Keystone.gettenants(callback, false);
     }
 
+    function check_user() {
+        var resp = $.ajax({
+            type: "GET",
+            url: 'http://terms.lab.fiware.org/api/v1/accepted?version=1.1&userid=' + JSTACK.Keystone.params.access.user.actorId,
+            async: false
+        }).responseText;
+        console.log('vooooy', resp);
+    }
+
     var getCurrentTenant = function() {
         return JSTACK.Keystone.params.access.token.tenant;
     };
@@ -235,10 +244,9 @@ UTILS.Auth = (function(U, undefined) {
     var getRegions = function() {
         
         // ambos inclusive
-        var minId = -1;
-        var maxId = -1;
+        var minId = 13692;
 
-        if (JSTACK.Keystone.params.access.user.actorId >= minId && JSTACK.Keystone.params.access.user.actorId <= maxId) {
+        if (JSTACK.Keystone.params.access.user.actorId >= minId) {
             return ['Spain2'];
         }
         return regions_;
@@ -352,6 +360,8 @@ UTILS.Auth = (function(U, undefined) {
         var _authenticatedWithTenant = function (resp) {
             console.log("Authenticated for tenant ", tenant_);
             console.log("Token: ", JSTACK.Keystone.params.access.token.id);
+
+            //check_user();
 
             changeEndpoints();
 
