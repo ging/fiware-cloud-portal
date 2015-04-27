@@ -41,7 +41,7 @@ var EditVolumeAttachmentsView = Backbone.View.extend({
         var self = this;
         var subview = new ConfirmView({el: 'body', title: "Detach Volume", btn_message: "Detach Volume", style: "top: 80px; display: block; z-index: 10501010;", onAccept: function() {
             var cbs = UTILS.Messages.getCallbacks("Volume detached", "Error detaching volume", {context: self});
-            self.options.instances.get(instance).detachvolume({volume_id: self.model.id, success: cbs.success, error: cbs.error});
+            self.options.instances.get(instance).detachvolume({volume_id: self.model.id, callback: cbs.success, error: cbs.error});
         }});
         subview.render();
         //this.close();
@@ -53,7 +53,10 @@ var EditVolumeAttachmentsView = Backbone.View.extend({
         var device = $('input[name=device]').val();
 
         var cbs = UTILS.Messages.getCallbacks("Volume attached", "Error ataching volume", {context: self});
-        this.options.instances.get(instance).attachvolume({volume_id: this.model.id, device:device, success: cbs.success, error: cbs.error});
+        if (instance === '') {
+            cbs.error(undefined, {message: 'You have to select an instance'});    
+        }
+        this.options.instances.get(instance).attachvolume({volume_id: this.model.id, device:device, callback: cbs.success, error: cbs.error});
     },
 
     detachGroup: function(evt) {
@@ -65,7 +68,7 @@ var EditVolumeAttachmentsView = Backbone.View.extend({
                     var instance = $(this).val();
                     var inst = self.options.instances.get(instance);
                     var cbs = UTILS.Messages.getCallbacks("Volumes detached", "Error detaching volumes", {context: self});
-                    self.options.instances.get(instance).detachvolume({volume_id: self.model.id, success: cbs.success, error: cbs.error});
+                    self.options.instances.get(instance).detachvolume({volume_id: self.model.id, callback: cbs.success, error: cbs.error});
             });
         }});
         subview.render();
