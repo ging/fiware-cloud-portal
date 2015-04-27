@@ -209,7 +209,8 @@ var EditInstanceSoftwareView = Backbone.View.extend({
         product.set({"product": {name: name, version: version}});
         product.set({"fqn": fqn});
 
-        product.save(undefined, UTILS.Messages.getCallbacks('Product "' + this.options.sdcCatalog.models[ids[0]].get('name') + '" installing...', 'Error installing product "' + ids[0] + '"', {el: '#log-messages-software'}));
+
+        product.save(undefined, UTILS.Messages.getCallbacks('Product "' + this.options.sdcCatalog.models[ids[0]].get('name') + '" installing...', 'Error installing product "' + name + '"', {el: '#log-messages-software'}));
     },
 
     uninstallSoftware: function(ids) {
