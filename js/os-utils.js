@@ -229,12 +229,19 @@ UTILS.Auth = (function(U, undefined) {
     }
 
     function check_user() {
-        var resp = $.ajax({
+
+        $.ajax({
             type: "GET",
-            url: 'http://terms.lab.fiware.org/api/v1/accepted?version=1.1&userid=' + JSTACK.Keystone.params.access.user.actorId,
-            async: false
-        }).responseText;
-        console.log('vooooy', resp);
+            url: 'terms_app/api/v1/accepted?version=1.1&userid=' + JSTACK.Keystone.params.access.user.id,
+            async: true
+        }).done(function(data) {
+            if (!data) {
+                $('#my_mo_modal').modal();
+            }
+        }).error(function(xhr, status) {
+            $('#my_mo_modal').modal();
+        });
+
     }
 
     var getCurrentTenant = function() {
@@ -361,7 +368,7 @@ UTILS.Auth = (function(U, undefined) {
             console.log("Authenticated for tenant ", tenant_);
             console.log("Token: ", JSTACK.Keystone.params.access.token.id);
 
-            //check_user();
+            check_user();
 
             changeEndpoints();
 

@@ -255,6 +255,19 @@ app.get('/vnc', function(req, res) {
     res.redirect(fullUrl);
 });
 
+app.all('/terms_app/*', function(req, res) {
+    var options = {
+        host: 'terms.lab.fiware.org',
+        port: 80,
+        path: req.url.split('terms_app')[1],
+        method: req.method,
+        headers: getClientIp(req, req.headers)
+    };
+    console.log(options);
+    sendData("http", options, undefined, res);
+});
+
+
 app.all('/keystone/*', function(req, resp) {
 
     if (config.time_stats_logger) {
