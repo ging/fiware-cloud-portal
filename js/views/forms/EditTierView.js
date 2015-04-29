@@ -782,13 +782,13 @@ var EditTierView = Backbone.View.extend({
 
         if (atts) {
             for (var at in atts) {
-                var inp;
+                var val;
                 if (atts[at].type === 'IP' || atts[at].type === 'IPALL') {
-                    inp = 'select[name=attr_'+ at+']';
+                    val = atts[at].type + '(' + this.$('select[name=attr_'+ at+']').val() + ')';
                 } else {
-                    inp = 'input[name=attr_'+ at+']';
+                    this.$('input[name=attr_'+ at+']').val();
                 }
-                atts[at].value = this.$(inp).val();
+                atts[at].value = val;
             }
         }
     },

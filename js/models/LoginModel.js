@@ -137,8 +137,14 @@ var LoginStatus = Backbone.Model.extend({
                 });
                 self.updateRegions();
             }, function(msg) {
-                console.log("Error authenticating with token");
-                UTILS.Auth.logout();
+                if (msg === -1) {
+                    window.location.href = '#not_auth';
+                    console.log("Error authenticating ... no tenants");
+                } else {
+                    console.log("Error authenticating with token");
+                    UTILS.Auth.logout();
+                }
+                    
             });
         } else {
             console.log("Not logged In");
