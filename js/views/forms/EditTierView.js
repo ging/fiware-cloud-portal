@@ -786,7 +786,7 @@ var EditTierView = Backbone.View.extend({
                 if (atts[at].type === 'IP' || atts[at].type === 'IPALL') {
                     val = atts[at].type + '(' + this.$('select[name=attr_'+ at+']').val() + ')';
                 } else {
-                    this.$('input[name=attr_'+ at+']').val();
+                    val = this.$('input[name=attr_'+ at+']').val();
                 }
                 atts[at].value = val;
             }
