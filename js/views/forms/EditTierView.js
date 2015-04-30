@@ -702,6 +702,7 @@ var EditTierView = Backbone.View.extend({
                     var str='';
                     for (var i in productAttributes) {
                         attr = productAttributes[i];
+                        if (attr.description === undefined) attr.description = '-';
                         if (attr.type === 'IP' || attr.type === 'IPALL') {
 
                             str += 
@@ -856,7 +857,7 @@ var EditTierView = Backbone.View.extend({
                     nP.attributes = [];
                     for (var at in attrs) {
                         var inp = 'input[name=attr_'+ this.addedProducts[p].get('name')+'_'+ at+']';
-                        var attrib = {key: attrs[at].key, value: attrs[at].value};
+                        var attrib = {key: attrs[at].key, value: attrs[at].value, type: attrs[at].type};
                         nP.attributes.push(attrib);
                     }
                 }
