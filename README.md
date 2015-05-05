@@ -28,7 +28,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 		sudo apt-get update
 		sudo apt-get install nodejs npm git ruby1.9.3‏
 
-		sudo gem install sass
+		sudo gem install sass -v 3.2.12
 	</pre>
 
 	<li>Clone the repository to your workspace and change to the <code>fi-ware-cloud-portal</code> new directory</li>
