@@ -131,6 +131,13 @@ var Instance = Backbone.Model.extend({
         return this._action('getMonitoringStats', options);
     },
 
+    getHistoricMonitoringStats: function(options) {
+        if (options === undefined) {
+            options = {};
+        }
+        return this._action('getHistoricMonitoringStats', options);
+    },
+
     sync: function(method, model, options) {
         switch(method) {
             case "create":
@@ -216,6 +223,9 @@ var Instance = Backbone.Model.extend({
                 //     }
                 // }
                 Monitoring.API.getVMmeasures(model.get("id"), options.success, options.error, this.getRegion());
+                break;
+            case "getHistoricMonitoringStats":
+                Monitoring.API.getHistoricVMmeasures(model.get("id"), options.success, options.error, this.getRegion());
                 break;
         }
     },

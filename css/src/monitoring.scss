@@ -4,11 +4,14 @@
 	padding-left: 35px;
 }
 
-#switch_button {
-	border-top-left-radius: 0px;
-	border-top-right-radius: 0px;
+#panel_buttons {
 	position: absolute;
 	right: 0px;
+}
+
+#panel_buttons .btn {
+	border-top-left-radius: 0px;
+	border-top-right-radius: 0px;
 }
 
 .chart {

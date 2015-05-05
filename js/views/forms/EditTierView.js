@@ -383,6 +383,9 @@ var EditTierView = Backbone.View.extend({
         var entries = [];
 
         for (var product in this.addedProducts) {
+            if (this.addedProducts[product].get('name') === 'testingpuppet') {
+                console.log(this.addedProducts[product]);
+            }
 
             entries.push(
                 {id: product, cells:[
@@ -506,6 +509,10 @@ var EditTierView = Backbone.View.extend({
 
         for (var product in products) {
             var comp = true;
+
+            if (products[product].get('name') === 'testingpuppet') {
+                console.log('aaaa', products[product]);
+            }
 
             if (products[product].get('metadatas') && typeof products[product].get('metadatas').image === 'string') {
                 comp = false;
