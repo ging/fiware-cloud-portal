@@ -226,7 +226,9 @@ UTILS.Auth = (function(U, undefined) {
         } else {
             JSTACK.Keystone.params.access_token = getAccessToken();
         }
-        return JSTACK.Keystone.gettenants(callback, false);
+        return JSTACK.Keystone.gettenants(callback, false, function (e) {
+            logout();
+        });
     }
 
     var getCurrentTenant = function() {
