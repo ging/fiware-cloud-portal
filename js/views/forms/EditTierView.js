@@ -157,7 +157,7 @@ var EditTierView = Backbone.View.extend({
                     var tenant_id = network.get("tenant_id");
                     var subnets = [];
                     var subnet_ids = network.get("subnets");
-                    if (current_tenant_id == tenant_id && network.get("router:external") !== true) {
+                    if ((current_tenant_id == tenant_id && network.get("router:external") !== true) || network.get('shared') === true) {
                         for (var i in subnet_ids) {
                             sub_id = subnet_ids[i];
                             for (var j in all_subnets) {
@@ -509,10 +509,6 @@ var EditTierView = Backbone.View.extend({
 
         for (var product in products) {
             var comp = true;
-
-            if (products[product].get('name') === 'testingpuppet') {
-                console.log('aaaa', products[product]);
-            }
 
             if (products[product].get('metadatas') && typeof products[product].get('metadatas').image === 'string') {
                 comp = false;
