@@ -263,7 +263,6 @@ app.all('/terms_app/*', function(req, res) {
         method: req.method,
         headers: getClientIp(req, req.headers)
     };
-    console.log(options);
     sendData("http", options, undefined, res);
 });
 
@@ -311,8 +310,6 @@ if (useIDM) {
             req.cookies.oauth_token = undefined;
         }
 
-        console.log('++++ ', req.cookies);
-
         if(!req.cookies.oauth_token) {
             var path = oauth_client.getAuthorizeUrl();
             res.redirect(path);
@@ -328,7 +325,6 @@ if (useIDM) {
         oauth_client.getOAuthAccessToken(
             req.query.code,
             function (e, results){
-                console.log('///////// ', results);
                 res.cookie('oauth_token', encrypt(results.access_token));
                 res.cookie('expires_in', results.expires_in);
                 res.redirect("/#token=" + results.access_token + "&expires=" + results.expires_in);
@@ -437,7 +433,7 @@ function getCatalog(chained) {
 
         if (keystone_config.version === 3) {
             service_catalog = JSON.parse(resp).token.catalog;
-            console.log('Service catalog: ', JSON.stringify(service_catalog, 4, 4));
+            //console.log('Service catalog: ', JSON.stringify(service_catalog, 4, 4));
 
         } else {
             service_catalog = JSON.parse(resp).access.serviceCatalog;
@@ -484,7 +480,6 @@ function getEndpoint (service, region) {
             }
         }
     }
-    console.log('************************', endpoint);
 
     if (endpoint.match('/' + keystone_config.tenantId)) {
         return endpoint.split('/' + keystone_config.tenantId)[0];
