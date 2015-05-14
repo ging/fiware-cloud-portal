@@ -149,6 +149,8 @@
                         </div>
                     </div>
 
+                    <% if (quotaset.gigabytes) { %>
+
                     <div class="quota_title">
                         <strong>Disk <span>(<%= disk %> GB)</span></strong>
                         <p>
@@ -161,6 +163,8 @@
                             <div id="diskbar" class="progress_bar_new"></div>
                         </div>
                     </div>
+
+                    <% } %>
 
                     <div class="quota_title">
                         <strong>Memory <span>(<%= ram %> MB)</span></strong>
