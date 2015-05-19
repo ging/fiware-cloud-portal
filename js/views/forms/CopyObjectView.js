@@ -48,7 +48,7 @@ var CopyObjectView = Backbone.View.extend({
             } else {
                 targetObject = e.target.value;
             }
-            subview = new MessagesView({state: "Success", title: "Object " + targetObject + " copied to conatainer " + targetContainer});
+            subview = new MessagesView({state: "Success", title: "Object " + targetObject + " copied to container " + targetContainer});
             subview.render();
         }
         self.model.copyObject(currentObject, targetContainer, targetObject);
