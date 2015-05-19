@@ -67,16 +67,16 @@ var Container = Backbone.Model.extend({
                     cont.objects = objects;
                     return options.success(cont);
                 };
-                CDMI.Actions.getobjectlist(model.get('name'), mySucess, options.error, this.getRegion());
+                JSTACK.Swift.getobjectlist(model.get('name'), mySucess, options.error, this.getRegion());
                 break;
             case "delete":
-                CDMI.Actions.deletecontainer(model.get('name'), options.success, options.error, this.getRegion());
+                JSTACK.Swift.deletecontainer(model.get('name'), options.success, options.error, this.getRegion());
                 break;
             case "create":
-                CDMI.Actions.createcontainer(model.get('name'), options.success, options.error, this.getRegion());
+                JSTACK.Swift.createcontainer(model.get('name'), options.success, options.error, this.getRegion());
                 break;
             case "copyObject":
-                CDMI.Actions.copyobject(model.get('name'), options.currentObject, options.targetContainer, options.targetObject, options.success, options.error, this.getRegion());
+                JSTACK.Swift.copyobject(model.get('name'), options.currentObject, options.targetContainer, options.targetObject, options.success, options.error, this.getRegion());
                 break;
             case "uploadObject":
                 var reader = new FileReader();
@@ -87,15 +87,15 @@ var Container = Backbone.Model.extend({
                     var data_index2 = data.indexOf('data:') + 5;
                     var filedata = data.slice(data_index, data.length);
                     var filetype = data.slice(data_index2, data_index-8);
-                  CDMI.Actions.uploadobject(model.get('name'), options.objectName, filedata, filetype, options.success, options.error, self.getRegion());
+                  JSTACK.Swift.uploadobject(model.get('name'), options.objectName, filedata, filetype, options.success, options.error, self.getRegion());
                 };
                 reader.readAsDataURL(options.object);
                 break;
             case "downloadObject":
-                CDMI.Actions.downloadobject(model.get('name'), options.objectName, options.success, options.error, this.getRegion());
+                JSTACK.Swift.downloadobject(model.get('name'), options.objectName, options.success, options.error, this.getRegion());
                 break;
             case "deleteObject":
-                CDMI.Actions.deleteobject(model.get('name'), options.objectName, options.success, options.error, this.getRegion());
+                JSTACK.Swift.deleteobject(model.get('name'), options.objectName, options.success, options.error, this.getRegion());
                 break;
         }
     },
@@ -127,7 +127,7 @@ var Containers = Backbone.Collection.extend({
 
     sync: function(method, model, options) {
         if (method === "read") {
-            CDMI.Actions.getcontainerlist(options.success, options.error, this.getRegion());
+            JSTACK.Swift.getcontainerlist(options.success, options.error, this.getRegion());
         }
     },
 

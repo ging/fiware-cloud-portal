@@ -135,8 +135,9 @@ var ObjectStorageContainerView = Backbone.View.extend({
                 var filename = object;
                 var opt = UTILS.Messages.getCallbacks("File "+filename+ " downloaded.", "File " + filename + " was not downloaded.");
                 options.callback = function(object) {
+                    console.log('callback', object);
                     var typeMIME, blob, blobURL;
-                    var obj = JSON.parse(object);
+                    var obj = object;
                     // TODO Check why we obtain it as a "double" String
                     if (typeof obj === "string") {
                         obj = JSON.parse(obj);
