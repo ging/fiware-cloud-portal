@@ -5,7 +5,6 @@ var InstanceMonitoringView = Backbone.View.extend({
 
     events: {
         'click #switch_button': 'switch_view',
-        'click #refresh_button': 'refresh_stats',
         'click .graph_button': 'switch_chart'
     },
 
@@ -49,8 +48,6 @@ var InstanceMonitoringView = Backbone.View.extend({
             onAnimationComplete : null
         };
 
-        this.historic_data = undefined;
-
         this.cpu_dataset = {datasets: [jQuery.extend({}, com_dataset)]};
         this.cpu_opt = jQuery.extend({}, com_opt);
         this.cpu_opt.scaleSteps = null;
@@ -83,27 +80,17 @@ var InstanceMonitoringView = Backbone.View.extend({
                         self.renderSpeedometers();
                         self.updateSpeedometers(stats);
                     }
-                }});
-
-                self.model.getHistoricMonitoringStats({callback: function(stats){
-                    if (stats !== undefined) {
-                        self.historic_data = stats;
-                        self.renderCharts('day');
-                    }
+                    
+                    // self.renderCharts();
+                   
                 }});
 
             }});
 
         }});
-    },
 
-    refresh_stats: function () {
-        var self = this;
-        self.model.getMonitoringStats({callback: function(stats){
-            if (stats !== undefined) {
-                self.updateSpeedometers(stats);
-            }
-        }});
+        // TODO: updateSpeedometers() periodically
+
     },
 
     switch_view: function (e) {
@@ -138,20 +125,19 @@ var InstanceMonitoringView = Backbone.View.extend({
     updateSpeedometers: function (stats) {
 
         var cpu = Math.round(stats[0].percCPULoad.value);
-        var disk = Math.round((this.flavor.get('disk') / 100) * stats[0].percDiskUsed.value);
+        //var disk = Math.round((this.flavor.get('disk') / 100) * stats[0].percDiskUsed.value);
         var mem = Math.round((this.flavor.get('ram') / 100) * stats[0].percRAMUsed.value);
 
         this.cpu_speed.drawWithInputValue(cpu);
-        //this.disk_speed.drawWithInputValue(stats[0].percDiskUsed.value);
-        this.disk_speed.drawWithInputValue(disk);
+        this.disk_speed.drawWithInputValue(stats[0].percDiskUsed.value);
         this.mem_speed.drawWithInputValue(mem);
     },
 
     renderSpeedometers: function () {
 
         this.cpu_speed = new Speedometer({elementId: 'cpu', size: 300, maxVal: 100, name: 'CPU', units: '%'});
-        this.disk_speed = new Speedometer({elementId: 'disk', size: 300, maxVal: this.flavor.get('disk'), name: 'DISK', units: 'GB'});
-        //this.disk_speed = new Speedometer({elementId: 'disk', size: 300, maxVal: 100, name: 'DISK', units: '%'});
+        //this.disk_speed = new Speedometer({elementId: 'disk', size: 300, maxVal: this.flavor.get('disk'), name: 'DISK', units: 'GB'});
+        this.disk_speed = new Speedometer({elementId: 'disk', size: 300, maxVal: 100, name: 'DISK', units: '%'});
         this.mem_speed = new Speedometer({elementId: 'mem', size: 300, maxVal: this.flavor.get('ram'), name: 'RAM', units: 'MB'});
         this.cpu_speed.draw();
         this.disk_speed.draw();
@@ -160,90 +146,31 @@ var InstanceMonitoringView = Backbone.View.extend({
 
     renderCharts: function (scale) {
 
-        console.log('RENDER ', scale, this.historic_data);
-
-        if (this.historic_data) {
-
-        }
-
-        var labels = [];
-        var cpu_data = [];
-        var mem_data = [];
-        var disk_data = [];
-
-        var now;
+        var labels;
 
         switch (scale) {
             case 'day':
-
-                now = new Date().getHours();
-
-                for (var h = now - 24; h <= now; h = h + 3) {
-                    if (h < 0) {
-                        labels.push(24 + h + ':00');
-                    } else {
-                        labels.push(h + ':00');
-                    }
-
-                }
-                for (var i = this.historic_data.length - 24; i <= this.historic_data.length; i = i +3) {
-                    if (this.historic_data[i]) {
-                        cpu_data.push(this.historic_data[i].percCPULoad.value);
-                        disk_data.push(Math.round((this.flavor.get('disk') / 100) * this.historic_data[i].percDiskUsed.value));
-                        mem_data.push(Math.round((this.flavor.get('ram') / 100) * this.historic_data[i].percRAMUsed.value));
-                    } else {
-                        cpu_data.push(0);
-                        mem_data.push(0);
-                        disk_data.push(0);
-                    }
-                }
+                labels = ["12:00","13:00","14:00","15:00","16:00","17:00","18:00"];
                 break;
             case 'week':
-                now = new Date().getDay();
-                var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-
-                for (var d = now - 6; d <= now; d++) {
-                    if (d < 0) {
-                        labels.push(days[days.length + d]);
-                    } else {
-                        labels.push(days[d]);
-                    }
-
-                }
-                // for (var i = this.historic_data.length - 24; i <= this.historic_data.length; i = i +3) {
-                //     if (this.historic_data[i]) {
-                //         cpu_data.push(this.historic_data[i].percCPULoad.value);
-                //         disk_data.push(Math.round((this.flavor.get('disk') / 100) * this.historic_data[i].percDiskUsed.value));
-                //         mem_data.push(Math.round((this.flavor.get('ram') / 100) * this.historic_data[i].percRAMUsed.value));
-                //     } else {
-                //         cpu_data.push(0);
-                //         mem_data.push(0);
-                //         disk_data.push(0);
-                //     }
-                // }
+                labels = ["Monday","Tuesday","Wendesday","April","May","June","July"];
                 break;
             case 'month':
-                // now = new Date().getDate();
-
-                // for (var d = now - 6; d <= now; d++) {
-                //     if (d < 0) {
-                //         labels.push(days[days.length + d]);
-                //     } else {
-                //         labels.push(days[d]);
-                //     }
-
-                // }
+                labels = ["03/01","03/01","03/01","03/01","03/01","03/01","03/01"];
+                break;
+            default:
+                labels = ["12:00","13:00","14:00","15:00","16:00","17:00","18:00"];
                 break;
         }
 
         this.cpu_dataset.labels = labels;
-        this.cpu_dataset.datasets[0].data = cpu_data;
+        this.cpu_dataset.datasets[0].data = [28,48,40,19,96,27,100];
 
         this.disk_dataset.labels = labels;
-        this.disk_dataset.datasets[0].data = disk_data;
+        this.disk_dataset.datasets[0].data = [28,48,40,19,96,27,100];
 
         this.mem_dataset.labels = labels;
-        this.mem_dataset.datasets[0].data = mem_data;
+        this.mem_dataset.datasets[0].data = [28,48,40,19,96,27,100];
         
         var cpu_ctx = document.getElementById("cpu_chart").getContext("2d");
         var cpu_chart = new Chart(cpu_ctx).Line(this.cpu_dataset, this.cpu_opt);

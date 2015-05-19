@@ -137,14 +137,8 @@ var LoginStatus = Backbone.Model.extend({
                 });
                 self.updateRegions();
             }, function(msg) {
-                if (msg === -1) {
-                    window.location.href = '#not_auth';
-                    console.log("Error authenticating ... no tenants");
-                } else {
-                    console.log("Error authenticating with token");
-                    UTILS.Auth.logout();
-                }
-                    
+                console.log("Error authenticating with token");
+                UTILS.Auth.logout();
             });
         } else {
             console.log("Not logged In");
@@ -200,14 +194,13 @@ var LoginStatus = Backbone.Model.extend({
             });
         } else {
             UTILS.Auth.switchTenant(tenantID, this.get('access_token'), function(tenant) {
-                self.set({username: UTILS.Auth.getName(), tenant_id: tenant.id});
-                localStorage.setItem('tenant_id', tenant.id);
-                localStorage.setItem('tenant-id', tenant.id);
-                self.updateRegions();
-                self.trigger('switch-tenant');
-                var subview = new MessagesView({state: "Info", title: "Connected to project " + tenant.name + " (ID " + tenant.id + ")"});
-                subview.render();
-            });
+            self.set({username: UTILS.Auth.getName(), tenant_id: tenant.id});
+            localStorage.setItem('tenant_id', tenant.id);
+            localStorage.setItem('tenant-id', tenant.id);
+            self.trigger('switch-tenant');
+            var subview = new MessagesView({state: "Info", title: "Connected to project " + tenant.name + " (ID " + tenant.id + ")"});
+            subview.render();
+        });
         }
     },
 

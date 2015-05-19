@@ -38,6 +38,7 @@ var OSRouter = Backbone.Router.extend({
         };
 
         this.rootView = new RootView({model:UTILS.GlobalModels.get("loginModel"), auth_el: '#auth', root_el: '#root'});
+
         this.route('', 'init', this.wrap(this.init, this.checkAuthAndTimers));
         this.route('#', 'init', this.wrap(this.init, this.checkAuthAndTimers));
 

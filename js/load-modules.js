@@ -94,6 +94,7 @@ var loadViews = function() {
                 "js/views/forms/CreateKeypairView.js",
                 "js/views/forms/ImportKeypairView.js",
                 "js/views/forms/DownloadKeypairView.js",
+                "js/views/forms/DownloadOpenrcView.js",
                 "js/views/forms/AllocateIPView.js",
                 "js/views/forms/AssociateIPView.js",
                 "js/views/forms/InstallSoftwareView.js",
@@ -179,6 +180,7 @@ var loadUtils = function() {
         });
 };
 
+// Eliminada librería cdmi
 var loadLibraries = function() {
     custom_require([   "lib/backbone.js",
                 "lib/jstack.js",
@@ -193,7 +195,6 @@ var loadLibraries = function() {
                 "lib/xml2json.js",
                 "lib/sdc.js",
                 "lib/bp.js",
-                "lib/cdmi.js",
                 "lib/ovf.js",
                 "lib/speedometer.js",
                 "http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"
@@ -227,6 +228,7 @@ var loadTemplates = function() {
                     'templates/forms/createKeypair.html',
                     'templates/forms/importKeypair.html',
                     'templates/forms/downloadKeypair.html',
+                    'templates/forms/downloadOpenrc.html',
                     'templates/forms/editInstanceSoftware.html',
                     'templates/forms/allocateIP.html',
                     'templates/forms/associateIP.html',

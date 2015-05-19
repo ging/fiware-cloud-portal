@@ -167,17 +167,9 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
         if ($('.IPProtocolSelect :selected').val() == 'ICMP') {
             $("label[for='from_port']").text("Type");
             $("label[for='to_port']").text("Code");
-            $("#from_port").prop('max', 255);
-            $("#from_port").prop('min', 0);
-            $("#to_port").prop('max', 15);
-            $("#to_port").prop('min', 0);
         } else {
-            $("label[for='from_port']").text("From Port*");
-            $("label[for='to_port']").text("To Port*");
-            $("#from_port").prop('max', 65535);
-            $("#from_port").prop('min', -1);
-            $("#to_port").prop('max', 65535);
-            $("#to_port").prop('min', -1);
+            $("label[for='from_port']").text("From Port");
+            $("label[for='to_port']").text("To Port");
         }
     },
 

@@ -219,16 +219,13 @@ UTILS.Auth = (function(U, undefined) {
     }
 
     function getTenants(callback, access_token) {
-        console.log('GET TENANTS', access_token);
         if (U.Auth.isIDM() && access_token) {
             JSTACK.Keystone.params.access_token = access_token;
             if(JSTACK.Keystone.params.version !== 3) JSTACK.Keystone.params.token = access_token;
         } else {
             JSTACK.Keystone.params.access_token = getAccessToken();
         }
-        return JSTACK.Keystone.gettenants(callback, false, function (e) {
-            logout();
-        });
+        return JSTACK.Keystone.gettenants(callback, false);
     }
 
     var getCurrentTenant = function() {
@@ -236,19 +233,6 @@ UTILS.Auth = (function(U, undefined) {
     };
 
     var getRegions = function() {
-        
-        // if (JSTACK.Keystone.params.access.user.cloud_role === 'trial') {
-        //     return ['Spain2'];
-        // } else if (JSTACK.Keystone.params.access.user.cloud_role === 'community') {
-        //     return [JSTACK.Keystone.params.access.user.default_region];
-        // }
-
-        // ambos inclusive
-        var minId = 13693;
-
-        if (JSTACK.Keystone.params.access.user.actorId >= minId) {
-            return ['Spain2'];
-        }
         return regions_;
     };
 
@@ -357,26 +341,9 @@ UTILS.Auth = (function(U, undefined) {
 
         var tenant_ = tenant;
 
-        var check_user = function () {
-
-            $.ajax({
-                type: "GET",
-                url: 'terms_app/api/v1/accepted?version=1.1&userid=' + JSTACK.Keystone.params.access.user.id,
-                async: true
-            }).done(function(data) {
-                if (!data) {
-                    $('#my_mo_modal').modal();
-                }
-            }).error(function(xhr, status) {
-                $('#my_mo_modal').modal();
-            });
-        };
-
         var _authenticatedWithTenant = function (resp) {
             console.log("Authenticated for tenant ", tenant_);
             console.log("Token: ", JSTACK.Keystone.params.access.token.id);
-
-            check_user();
 
             changeEndpoints();
 
@@ -386,22 +353,13 @@ UTILS.Auth = (function(U, undefined) {
         };
 
         var _tryTenant = function(tenants) {
-
             if (tenants.length > 0) {
-                if (!tenant_ || tenants.indexOf(tenant_) !== -1) {
-                    tenant_ = tenants.pop().id;
-                }
+                tenant_ = tenant_ || tenants.pop().id;
                 console.log("Authenticating for tenant " + tenant_);
-                JSTACK.Keystone.authenticate(undefined, undefined, access_token, tenant_, _authenticatedWithTenant, _credError);
+                JSTACK.Keystone.authenticate(undefined, undefined, access_token, tenant_, _authenticatedWithTenant, _error);
             } else {
-
-                $('#no_orgs_modal').on('hide.bs.modal', function (e) {
-                    window.location.href = "https://account.lab.fiware.org";
-                });
-                $('#no_orgs_modal').modal();
-
                 console.log("Error authenticating");
-                error(-1);
+                error("No tenant");
             }
         };
 
@@ -414,13 +372,24 @@ UTILS.Auth = (function(U, undefined) {
             error(msg);
         };
 
+        var _error = function() {
+            _tryTenant();
+        };
+
         var _credError = function() {
             error("Bad credentials");
         };
 
-        getTenants(function (resp) {
-            _tryTenant(resp.tenants);
-        }, access_token_);
+        if (tenant_ !== undefined) {
+            console.log("Authenticating with tenant");
+            JSTACK.Keystone.authenticate(undefined, undefined, access_token, tenant_, _authenticatedWithTenant, _credError);
+        } else {
+            console.log("Authenticating without tenant");
+            getTenants(function (resp) {
+                tenants = resp.tenants;
+                _tryTenant(tenants);
+            }, access_token_);
+        }
 
     }
 

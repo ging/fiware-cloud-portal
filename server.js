@@ -255,18 +255,6 @@ app.get('/vnc', function(req, res) {
     res.redirect(fullUrl);
 });
 
-app.all('/terms_app/*', function(req, res) {
-    var options = {
-        host: 'terms.lab.fiware.org',
-        port: 80,
-        path: req.url.split('terms_app')[1],
-        method: req.method,
-        headers: getClientIp(req, req.headers)
-    };
-    sendData("http", options, undefined, res);
-});
-
-
 app.all('/keystone/*', function(req, resp) {
 
     if (config.time_stats_logger) {
@@ -310,6 +298,8 @@ if (useIDM) {
             req.cookies.oauth_token = undefined;
         }
 
+        console.log('++++ ', req.cookies);
+
         if(!req.cookies.oauth_token) {
             var path = oauth_client.getAuthorizeUrl();
             res.redirect(path);
@@ -325,6 +315,7 @@ if (useIDM) {
         oauth_client.getOAuthAccessToken(
             req.query.code,
             function (e, results){
+                console.log('///////// ', results);
                 res.cookie('oauth_token', encrypt(results.access_token));
                 res.cookie('expires_in', results.expires_in);
                 res.redirect("/#token=" + results.access_token + "&expires=" + results.expires_in);
@@ -343,10 +334,6 @@ app.all('/:reg/:service/:v/*', function(req, resp) {
 
     if (config.time_stats_logger) {
         resp.time_stats  = {serv: req.params.service, reg:req.params.reg, initT: (new Date()).getTime()};
-    }
-
-    if (req.params.service === 'monitoring') {
-        req.params.reg = 'Spain2';
     }
 
     var endp = getEndpoint(req.params.service, req.params.reg);
@@ -433,12 +420,12 @@ function getCatalog(chained) {
 
         if (keystone_config.version === 3) {
             service_catalog = JSON.parse(resp).token.catalog;
-            //console.log('Service catalog: ', JSON.stringify(service_catalog, 4, 4));
+            console.log('Service catalog: ', JSON.stringify(service_catalog, 4, 4));
 
         } else {
             service_catalog = JSON.parse(resp).access.serviceCatalog;
         }
-        //console.log('Service catalog: ', JSON.stringify(service_catalog, 4, 4));
+        console.log('Service catalog: ', JSON.stringify(service_catalog, 4, 4));
         if (chained !== false) {
             setInterval(function() {
                 getCatalog(false);
@@ -480,6 +467,7 @@ function getEndpoint (service, region) {
             }
         }
     }
+    console.log('************************', endpoint);
 
     if (endpoint.match('/' + keystone_config.tenantId)) {
         return endpoint.split('/' + keystone_config.tenantId)[0];

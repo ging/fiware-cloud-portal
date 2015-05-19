@@ -157,7 +157,7 @@ var EditTierView = Backbone.View.extend({
                     var tenant_id = network.get("tenant_id");
                     var subnets = [];
                     var subnet_ids = network.get("subnets");
-                    if ((current_tenant_id == tenant_id && network.get("router:external") !== true) || network.get('shared') === true) {
+                    if (current_tenant_id == tenant_id && network.get("router:external") !== true) {
                         for (var i in subnet_ids) {
                             sub_id = subnet_ids[i];
                             for (var j in all_subnets) {
@@ -383,9 +383,6 @@ var EditTierView = Backbone.View.extend({
         var entries = [];
 
         for (var product in this.addedProducts) {
-            if (this.addedProducts[product].get('name') === 'testingpuppet') {
-                console.log(this.addedProducts[product]);
-            }
 
             entries.push(
                 {id: product, cells:[
@@ -705,7 +702,6 @@ var EditTierView = Backbone.View.extend({
                     var str='';
                     for (var i in productAttributes) {
                         attr = productAttributes[i];
-                        if (attr.description === undefined) attr.description = '-';
                         if (attr.type === 'IP' || attr.type === 'IPALL') {
 
                             str += 
@@ -786,13 +782,13 @@ var EditTierView = Backbone.View.extend({
 
         if (atts) {
             for (var at in atts) {
-                var val;
+                var inp;
                 if (atts[at].type === 'IP' || atts[at].type === 'IPALL') {
-                    val = atts[at].type + '(' + this.$('select[name=attr_'+ at+']').val() + ')';
+                    inp = 'select[name=attr_'+ at+']';
                 } else {
-                    val = this.$('input[name=attr_'+ at+']').val();
+                    inp = 'input[name=attr_'+ at+']';
                 }
-                atts[at].value = val;
+                atts[at].value = this.$(inp).val();
             }
         }
     },
@@ -860,7 +856,7 @@ var EditTierView = Backbone.View.extend({
                     nP.attributes = [];
                     for (var at in attrs) {
                         var inp = 'input[name=attr_'+ this.addedProducts[p].get('name')+'_'+ at+']';
-                        var attrib = {key: attrs[at].key, value: attrs[at].value, type: attrs[at].type};
+                        var attrib = {key: attrs[at].key, value: attrs[at].value};
                         nP.attributes.push(attrib);
                     }
                 }
