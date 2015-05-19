@@ -1,0 +1,50 @@
+<script id="downloadOpenrcFormTemplate" type="text/html">
+<div id="download_openrc" class="modal hide in" style="top: 107px; display: block; ">
+    <!--
+    Description: Download Openrc file Form
+    src: templates/forms/downloadOpenrc.html
+    -->
+
+    <div class="modal-header">
+        <a id="close" href="#" class="close" data-dismiss="modal">×</a>
+        <h3>Authentication Info</h3>
+    </div>
+    <form id="download_openrc_form" onSubmit="return false;" >
+        <div class="modal-body clearfix">
+            <div class="left">
+                <h3>Credentials</h3>
+                <br>
+                <p>
+                User name: <strong><%=  username %></strong>
+                </p>
+                <p>
+                Tenant name: <strong><%= tenant_name %></strong>
+                </p>
+                <p>
+                Tenant id: <strong><%=tenant_id%></strong>
+                </p>
+                <p>
+                Region: <strong><%= current_region %></strong>
+                </p>
+            </div>
+            <div class="right">
+                <h3>Description</h3>
+                <p>
+                The information shown here refers to the main variables of authentication required to access Openstack services from the console.
+                </p>
+                The openrc file is already configured to run directly on your console and start executing OpenStack services associated commands.
+                <p>
+
+                </p>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <input type="submit" class="btn btn-blue pull-right" value="Download openrc file"/>
+            
+            <!-- Hay que cambiar la url a la que dirige el cancel -->
+            <a href="#syspanel" id="cancelBtn" class="btn secondary cancel close">Cancel</a>
+        </div>
+    </form>
+</div>
+</script>

@@ -16,11 +16,11 @@ var ProjectView = Backbone.View.extend({
 
     getMainButtons: function() {
         // main_buttons: [{label:label, url: #url, action: action_name}]
-        // return [{
-        //     label:  "Create New Project",
-        //     action:    "create"
-        // }];
-        return [];
+         return [{
+             label:  "Download openrc",
+             action:    "download"
+         }];
+        //return [];
     },
 
     getDropdownButtons: function() {
@@ -108,6 +108,10 @@ var ProjectView = Backbone.View.extend({
             proj = this.model.get(project);
         }
         switch (action) {
+            case 'download':
+                subview = new DownloadOpenrcView({el: 'body'});
+                subview.render();
+                break;
             case 'edit':
                 subview = new EditProjectView({el: 'body', model:proj});
                 subview.render();
