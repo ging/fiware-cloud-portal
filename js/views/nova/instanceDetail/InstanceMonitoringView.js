@@ -79,17 +79,21 @@ var InstanceMonitoringView = Backbone.View.extend({
                 
                 self.model.getMonitoringStats({callback: function(stats){
                     if (stats !== undefined) {
-                        $('#error_monit_info').hide();
                         self.renderSpeedometers();
                         self.updateSpeedometers(stats);
+                        $('#error_monit_info').hide();
+                        $('#refresh_button').prop('disabled', false);
                     }
                 }});
 
                 self.model.getHistoricMonitoringStats({callback: function(stats){
-                    if (stats !== undefined) {
+                    if (stats !== undefined && stats.length > 0) {
+                        $('#switch_button').prop('disabled', false);
+                        $('#switch_button').html('Graphs');
                         self.historic_data = stats;
                         self.renderCharts('day');
-                    }
+                    } 
+                }, error: function () {
                 }});
 
             }});
