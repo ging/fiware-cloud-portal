@@ -30,16 +30,33 @@ var DownloadOpenrcView = Backbone.View.extend({
         $(this.el).append(this._template({  username: UTILS.Auth.getName(),
                                             tenant_name: tenant.name,
                                             tenant_id: tenant.id,
-                                            current_region: UTILS.Auth.getCurrentRegion()
+                                            current_region: UTILS.Auth.getCurrentRegion(),
+                                            auth_url: JSTACK.Keystone.params.adminUrl
+
         }));
-        console.log(UTILS.Auth.getCurrentTenant());
+        //console.log(UTILS.Auth.getCurrentTenant());
         $('.modal:last').modal();
         return this;
     },
 
     onSubmit: function(e){
         e.preventDefault();
-        var subview;
+        var subview, tenant, blob, filename;
+        
+        tenant = UTILS.Auth.getCurrentTenant();
+        openrc = [];
+
+        openrc.push('export OS_USERNAME=' + UTILS.Auth.getName() + '\n');
+        openrc.push('export OS_PASSWORD= \n');
+        openrc.push('export OS_TENANT_NAME=' + tenant.name + '\n');
+        openrc.push('export OS_REGION_NAME=' + UTILS.Auth.getCurrentRegion() + '\n');
+        openrc.push('export OS_AUTH_URL=' + JSTACK.Keystone.params.adminUrl);
+
+        filename = UTILS.Auth.getName() + '-openrc';
+
+        blob = new Blob(openrc, {type: 'text/plain'});
+
+        saveAs(blob, filename);
 
         subview = new MessagesView({state: "Success", title: "Openrc file downloaded"});
         subview.render();
