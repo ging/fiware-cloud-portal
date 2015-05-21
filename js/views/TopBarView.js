@@ -27,4 +27,5 @@ var TopBarView = Backbone.View.extend({
         $('#page-title').html(html);
         return this;
     }
+
 });

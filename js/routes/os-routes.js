@@ -44,8 +44,6 @@ var OSRouter = Backbone.Router.extend({
 
         this.route('home/', 'home', this.wrap(this.init, this.checkAuthAndTimers));
 
-        this.route('credentials/', 'credentials', this.wrap(this.downloadCredentials, this.checkAuthAndTimers));
-
         this.route('syspanel', 'syspanel', this.wrap(this.sys_projects, this.checkAuthAndTimers, ["projects"]));
         this.route('syspanel/', 'syspanel', this.wrap(this.sys_projects, this.checkAuthAndTimers, ["projects"]));
 
@@ -134,13 +132,6 @@ var OSRouter = Backbone.Router.extend({
         }
 
         self.currentView = view;
-
-    },
-
-    downloadCredentials: function(self) {
-
-        var subview = new DownloadOpenrcView({el: 'body'});
-        subview.render();
 
     },
 
