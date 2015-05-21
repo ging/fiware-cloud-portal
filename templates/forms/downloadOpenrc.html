@@ -6,7 +6,7 @@
     -->
 
     <div class="modal-header">
-        <a id="close" href="#home/" class="close" data-dismiss="modal">×</a>
+        <a id="close" href="#" class="close" data-dismiss="modal">×</a>
         <h3>Authentication Info</h3>
     </div>
     <form id="download_openrc_form" onSubmit="return false;" >
@@ -21,7 +21,7 @@
                 Tenant name: <strong><%= tenant_name %></strong>
                 </p>
                 <p>
-                Tenant id: <strong><%=tenant_id%></strong>
+                Tenant id: <strong><%= tenant_id %></strong>
                 </p>
                 <p>
                 Region: <strong><%= current_region %></strong>
@@ -33,10 +33,16 @@
             <div class="right">
                 <h3>Description</h3>
                 <p>
-                The information shown here refers to the main variables of authentication required to access Openstack services from the console.
+                The information shown here, refers to the main variables of authentication required to access Openstack services from the console.
                 </p>
-                The openrc file is already configured to run directly on your console and start executing OpenStack services associated commands.
+                How to:
                 <p>
+                <ul>
+                    <li>1. Download your openrc file.</li>
+                    <li>2. Edit the file configuring your OS_PASSWORD variable.</li>
+                    <li>3. Source openrc file in your console.</li>
+                    <li>4. Start working!.</li>
+                </ul>
 
                 </p>
             </div>
@@ -46,7 +52,7 @@
             <input type="submit" class="btn btn-blue pull-right" value="Download openrc file"/>
             
             <!-- Hay que cambiar la url a la que dirige el cancel -->
-            <a href="#home/" id="cancelBtn" class="btn secondary cancel close">Cancel</a>
+            <a href="#" id="cancelBtn" class="btn secondary cancel close" data-dismiss="modal">Cancel</a>
         </div>
     </form>
 </div>
