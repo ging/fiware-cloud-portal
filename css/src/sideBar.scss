@@ -17,6 +17,22 @@ $selector-font-size: 14px;
   @include sideBarFont;
 }
 
+.download_openrc {
+  padding-top: 30px;
+  width: 90%;
+  padding-left: 15px;
+}
+
+.openrc_button {
+  font-family: 'Comfortaa';
+  font-weight:400;
+  border: none;
+  font-size: $selector-font-size;
+  color: $blue2;
+  background:none;
+  border:none;
+}
+
 .tenant_id {
   padding-bottom: 0px;
   width: 90%;
