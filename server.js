@@ -100,7 +100,7 @@ app.use(function (req, res, next) {
     "use strict";
     res.header('Access-Control-Allow-Origin', req.headers.origin);
     res.header('Access-Control-Allow-Methods', 'HEAD, PUT, POST, GET, OPTIONS, DELETE');
-    res.header('Access-Control-Allow-Headers', 'origin, content-type, X-Auth-Token, Tenant-ID, x-image-meta-is_public, x-image-meta-name');
+    res.header('Access-Control-Allow-Headers', 'origin, content-type, X-Subject-Token, X-Auth-Token, Tenant-ID, x-image-meta-is_public, x-image-meta-name');
     res.header('Access-Control-Allow-Credentials', true);
     if (req.method == 'OPTIONS') {
         res.statusCode = 200;
