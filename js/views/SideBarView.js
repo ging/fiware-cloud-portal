@@ -25,7 +25,7 @@ var SideBarView = Backbone.View.extend({
                 window.location = val;
             });
 
-        $('#project_info').on('click', this.openModal);
+        $('.btn-openrc').on('click', this.openModal);
         
         // $("#region_switcher").selectbox({
         //     onChange: function (val, inst) {

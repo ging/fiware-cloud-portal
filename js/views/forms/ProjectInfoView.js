@@ -1,16 +1,16 @@
 var DownloadOpenrcView = Backbone.View.extend({
 
-    _template: _.itemplate($('#downloadOpenrcFormTemplate').html()),
+    _template: _.itemplate($('#projectInfoFormTemplate').html()),
 
     events: {
-        'submit #download_openrc_form': 'onSubmit',
+        'submit #project_info_form': 'onSubmit',
         'click #cancelBtn': 'close',
         'click #close': 'close',
         'click .modal-backdrop': 'close'
     },
 
     close: function(e) {
-        $('#download_openrc').remove();
+        $('#project_info').remove();
         $('.modal-backdrop').remove();
         this.onClose();
     },
@@ -21,8 +21,8 @@ var DownloadOpenrcView = Backbone.View.extend({
     },
 
     render: function () {
-        if ($('#download_openrc').html() != null) {
-            $('#download_openrc').remove();
+        if ($('#project_info').html() != null) {
+            $('#project_info').remove();
             $('.modal-backdrop').remove();
         }
         var tenant = UTILS.Auth.getCurrentTenant();
