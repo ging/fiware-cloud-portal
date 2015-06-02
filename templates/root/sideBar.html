@@ -4,9 +4,6 @@ Description: Side Bar
 src: templates/root/sideBar.html
 -->
 <div class="menuv">
-    <div id="sideBarTitle" class="sideBarTitle" data-i18n="<%= title %>">
-        <%=title%>
-    </div>
 
     <% if (showTenants) { %>
     <div class="tenant_switch">
@@ -20,6 +17,7 @@ src: templates/root/sideBar.html
             <%}%>
         </select>
     </div>
+    <button onclick="" class="btn btn-default btn-openrc" id="project_info"> <i class="icon-info-sign"></i><span>Proyect info</span></button>
     <% } %>
 </div>
 <ul class="main_nav">
@@ -52,8 +50,6 @@ src: templates/root/sideBar.html
 </ul>
 </section>
 
-<div class="download_openrc">
-        <button onclick="" class="openrc_button" id="openrc_file" >Download Openrc File </button>
-</div>
+
 
 </script>
