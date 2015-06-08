@@ -119,7 +119,11 @@ var EditTierView = Backbone.View.extend({
             for (var f in flavors) {
                 if (flavors[f].get('disk') !== 0) {
                     var text = flavors[f].get("name") + " (" + flavors[f].get("vcpus") + "VCPU / " + flavors[f].get("disk") + "GB Disk / " + flavors[f].get("ram") + "MB Ram )";
-                    flavor_selector.append(new Option(text, flavors[f].id));
+                    if (flavors[f].id === self.options.tier.flavour) {
+                        flavor_selector.append(new Option(text, flavors[f].id, true, true));
+                    } else {
+                        flavor_selector.append(new Option(text, flavors[f].id));
+                    }
                 }
             }
         }});
