@@ -225,7 +225,7 @@ var LaunchImageView = Backbone.View.extend({
 
         this.quotas.count_error = false;
 
-        console.log(width, this.options.instancesModel.length, count, quotaset.instances);
+        //console.log(width, this.options.instancesModel.length, count, quotaset.instances);
 
         $('#icountbar').css('background-color', '#468847');
 
