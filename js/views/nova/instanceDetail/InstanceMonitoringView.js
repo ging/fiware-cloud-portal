@@ -266,6 +266,31 @@ var InstanceMonitoringView = Backbone.View.extend({
 
             this.mem_dataset.labels = labels;
             this.mem_dataset.datasets[0].data = mem_data;
+
+            var max = _.max(this.disk_dataset.datasets[0].data);
+            var min = _.min(this.disk_dataset.datasets[0].data);
+            if (max === min) {
+                this.disk_opt.scaleOverride = true;
+                this.disk_opt.scaleSteps = 5;
+                this.disk_opt.scaleStepWidth = 1;
+                this.disk_opt.scaleStartValue = max - 3;
+            }
+            max = _.max(this.cpu_dataset.datasets[0].data);
+            min = _.min(this.cpu_dataset.datasets[0].data);
+            if (max === min) {
+                this.cpu_opt.scaleOverride = true;
+                this.cpu_opt.scaleSteps = 5;
+                this.cpu_opt.scaleStepWidth = 1;
+                this.cpu_opt.scaleStartValue = max - 3;
+            }
+            max = _.max(this.mem_dataset.datasets[0].data);
+            min = _.min(this.mem_dataset.datasets[0].data);
+            if (max === min) {
+                this.mem_opt.scaleOverride = true;
+                this.mem_opt.scaleSteps = 5;
+                this.mem_opt.scaleStepWidth = 1;
+                this.mem_opt.scaleStartValue = max - 3;
+            }
             
             var cpu_ctx = document.getElementById("cpu_chart").getContext("2d");
             var cpu_chart = new Chart(cpu_ctx).Line(this.cpu_dataset, this.cpu_opt);
