@@ -203,12 +203,13 @@ var EditInstanceSoftwareView = Backbone.View.extend({
         var fqn = this.options.instanceModel.get("id");
         var name = this.options.sdcCatalog.models[ids[0]].get('name');
         var version = this.options.sdcCatalog.models[ids[0]].get('version');
+        var hostname = this.options.instanceModel.get('name');
 
         product.set({"name": fqn + '_' + name + '_' + version});
         product.set({"ip": ip});
         product.set({"product": {name: name, version: version}});
         product.set({"fqn": fqn});
-
+        product.set({"hostname": hostname});
 
         product.save(undefined, UTILS.Messages.getCallbacks('Product "' + this.options.sdcCatalog.models[ids[0]].get('name') + '" installing...', 'Error installing product "' + name + '"', {el: '#log-messages-software'}));
     },

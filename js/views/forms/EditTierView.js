@@ -735,14 +735,13 @@ var EditTierView = Backbone.View.extend({
 
                         } else {
                             str += 
-                            '<tr id="sec_groups__row__" class="ajax-update status_down">' +
-                                '<td>' + attr.key + '</td>' +
-                                '<td>' +
-                                    '<input type="text" name="attr_' + i + '" value="' + attr.value + '"">' +
-                                '</td>' +
-                                '<td>' + attr.description + '</td>' +
-                            '</tr>';
-                            
+                            "<tr id='sec_groups__row__' class='ajax-update status_down'>" +
+                                "<td>" + attr.key + "</td>" +
+                                "<td>" +
+                                    "<input type='text' name='attr_" + i + "' value='" + attr.value + "'>" +
+                                "</td>" +
+                                "<td>" + attr.description + "</td>" +
+                            "</tr>";
                         }
                     }
                     if (str === '') {

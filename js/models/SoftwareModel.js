@@ -35,7 +35,7 @@ var Software = Backbone.Model.extend({
                 ServiceDC.API.getProductInstance(model.get('name'), options.success, options.error, this.getRegion());
                 break;
             case "create":
-                ServiceDC.API.installProductInstance(model.get('ip'), model.get('fqn'), model.get('product'), options.success, options.error, this.getRegion());
+                ServiceDC.API.installProductInstance(model.get('ip'), model.get('fqn'), model.get('product'), model.get('hostname'), options.success, options.error, this.getRegion());
                 break;
             case "delete":
                 ServiceDC.API.uninstallProductInstance(model.get('name'), options.success, options.error, this.getRegion());
