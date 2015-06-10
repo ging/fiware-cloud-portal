@@ -718,6 +718,9 @@ var EditTierView = Backbone.View.extend({
                                 '<td>' +
                                     '<select name="attr_' + i + '">';
 
+                                    var my_name = this.$('input[name=name]').val();
+                                    var im_new = true;
+
                                     for (var t in this.model.get('tierDtos_asArray')) {
                                         var ti = this.model.get('tierDtos_asArray')[t];
                                         if (attr.value === ti.name) {
@@ -725,6 +728,13 @@ var EditTierView = Backbone.View.extend({
                                         } else {
                                             str += '<option value="' + ti.name + '">Tier ' + ti.name + ' IP address</option>';
                                         }
+                                        if (ti.name === my_name) {
+                                            im_new = false;
+                                        }
+                                    }
+
+                                    if (im_new) {
+                                        str += '<option value="' + my_name + '">Tier ' + my_name + ' IP address</option>';
                                     }
                                         
                             str +=                                   
