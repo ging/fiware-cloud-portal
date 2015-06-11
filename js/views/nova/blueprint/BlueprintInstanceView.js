@@ -139,7 +139,8 @@ var BlueprintInstanceView = Backbone.View.extend({
                 image: image,
                 keypair: tier.keypair,
                 publicIP: tier.floatingip,
-                products: products
+                products: products,
+                region: region
             };
             entries.push(entry);
         }
