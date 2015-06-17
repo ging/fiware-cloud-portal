@@ -30,6 +30,20 @@ var InstanceLogView = Backbone.View.extend({
         this.onClose();
     },
 
+    changeOutput: function(length) {
+
+        var options = {} || options;
+
+        options.length = length;
+        options.callback = function(resp) {
+            self.options.logs = resp.output;
+            self.logResp = true;
+            self.render();
+        };
+
+        this.model.consoleoutput(options);
+    },
+
     render: function () {
         var self = this;
 

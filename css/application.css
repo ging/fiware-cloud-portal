@@ -141,17 +141,17 @@ html, body {
 
 #log-messages {
   height: 48px;
-  overflow: hidden;
+  overflow: scroll;
 }
 
 .log-messages-modal {
   height: 48px;
-  overflow: hidden;
+  overflow: scroll;
 }
 
 #logs {
   position: absolute;
-  overflow: hidden;
+  overflow: scroll;
   bottom: 0px;
   height: 48px;
   right: 3px;
