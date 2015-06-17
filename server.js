@@ -12,7 +12,7 @@ var oauth_config = config.oauth;
 var useIDM = config.useIDM;
 var keystone_config = config.keystone;
 
-var service_catalog;
+var service_catalog, my_token;
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 if (config.http_port === undefined || config.http_port === null) {
@@ -273,6 +273,11 @@ app.all('/keystone/*', function(req, resp) {
         resp.time_stats  = {serv: 'keystone', initT: (new Date()).getTime()};
     }
 
+    if (req.url.split('keystone')[1] === '/v3/auth/tokens' && req.method === 'GET') {
+        req.headers['x-subject-token'] = req.headers['x-auth-token'];
+        req.headers['x-auth-token'] = my_token;
+    }
+
     var options = {
         host: keystone_config.host,
         port: keystone_config.port,
@@ -428,11 +433,12 @@ function getCatalog(chained) {
     }
 
 
-    sendData("http", options, JSON.stringify(credentials), undefined, function (status, resp) {
+    sendData("http", options, JSON.stringify(credentials), undefined, function (status, resp, headers) {
 
 
         if (keystone_config.version === 3) {
             service_catalog = JSON.parse(resp).token.catalog;
+            my_token = headers['x-subject-token'];
             //console.log('Service catalog: ', JSON.stringify(service_catalog, 4, 4));
 
         } else {
