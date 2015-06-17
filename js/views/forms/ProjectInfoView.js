@@ -25,13 +25,20 @@ var DownloadOpenrcView = Backbone.View.extend({
             $('#project_info').remove();
             $('.modal-backdrop').remove();
         }
-        var tenant = UTILS.Auth.getCurrentTenant();
 
-        $(this.el).append(this._template({  username: UTILS.Auth.getName(),
+        var name = UTILS.Auth.getName();
+        var tenant = UTILS.Auth.getCurrentTenant();
+        var region = UTILS.Auth.getCurrentRegion();
+        var url = JSTACK.Keystone.params.adminUrl;
+
+        console.log('admincURL: ', url);
+        console.log('other url: ', JSTACK.Keystone.params.url);
+
+        $(this.el).append(this._template({  username: name,
                                             tenant_name: tenant.name,
                                             tenant_id: tenant.id,
-                                            current_region: UTILS.Auth.getCurrentRegion(),
-                                            auth_url: JSTACK.Keystone.params.adminUrl
+                                            current_region: region,
+                                            auth_url: url
 
         }));
         //console.log(UTILS.Auth.getCurrentTenant());
@@ -41,18 +48,21 @@ var DownloadOpenrcView = Backbone.View.extend({
 
     onSubmit: function(e){
         e.preventDefault();
-        var subview, tenant, blob, filename;
+        var subview, name, tenant, region, url, blob, filename;
         
+        name = UTILS.Auth.getName();
         tenant = UTILS.Auth.getCurrentTenant();
+        region = UTILS.Auth.getCurrentRegion();
+        url = JSTACK.Keystone.params.adminUrl;
         openrc = [];
 
-        openrc.push('export OS_USERNAME=' + UTILS.Auth.getName() + '\n');
+        openrc.push('export OS_USERNAME=' + name + '\n');
         openrc.push('export OS_PASSWORD= \n');
         openrc.push('export OS_TENANT_NAME=' + tenant.name + '\n');
-        openrc.push('export OS_REGION_NAME=' + UTILS.Auth.getCurrentRegion() + '\n');
-        openrc.push('export OS_AUTH_URL=' + JSTACK.Keystone.params.adminUrl);
+        openrc.push('export OS_REGION_NAME=' + region + '\n');
+        openrc.push('export OS_AUTH_URL=' + url);
 
-        filename = UTILS.Auth.getName() + '-openrc';
+        filename = name + '-openrc';
 
         blob = new Blob(openrc, {type: 'text/plain'});
 
