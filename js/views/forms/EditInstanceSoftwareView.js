@@ -103,7 +103,7 @@ var EditInstanceSoftwareView = Backbone.View.extend({
             for (var product in products) {
                 var stat = products[product].get('status');
                 if (products[product].get('vm').fqn === id) {// && stat !== 'ERROR' && stat !== 'UNINSTALLED') {
-                    var name = products[product].get('productRelease').product.name + ' ' + products[product].get('productRelease').version;
+                    var name = products[product].get('product').name + ' ' + products[product].get('product').version;
                     entries.push({id:products[product].get('name'), cells:[
                     {value: name,
                     tooltip: products[product].get('description')},
