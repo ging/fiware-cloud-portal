@@ -928,4 +928,22 @@ margin-left: 0px;
 
   .btn-openrc:hover i,
   .btn-openrc:hover span{
-  color: #00A3D0;}
+  color: #00A3D0;
+}
+
+#set-log-input {
+  margin-left: 646px;
+  margin-top: 10px;
+  height: 16px;
+  width: 75px;
+  text-align: -webkit-right;
+  font-family: -webkit-body;
+  font-size: smaller;
+}
+
+.set-log-label {
+  display: block;
+  margin-bottom: -5px;
+  margin-top: 14px;
+  margin-left: 840px;
+}
