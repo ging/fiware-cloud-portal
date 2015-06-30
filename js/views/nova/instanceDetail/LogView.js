@@ -38,8 +38,10 @@ var InstanceLogView = Backbone.View.extend({
         e.preventDefault();
 
         var options = {} || options;
-        console.log(this.$('input[name=set-log]').val());
         var lines = this.$('input[name=set-log]').val();
+
+        lines = parseInt(lines, 10);
+        //console.log('Set lines to display: ',lines);
 
         if (0 < lines <= 1000) {
 
