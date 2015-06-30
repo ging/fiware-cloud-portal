@@ -29,16 +29,13 @@ var DownloadOpenrcView = Backbone.View.extend({
         var name = UTILS.Auth.getName();
         var tenant = UTILS.Auth.getCurrentTenant();
         var region = UTILS.Auth.getCurrentRegion();
-        var url = JSTACK.Keystone.params.adminUrl;
-
-        console.log('admincURL: ', url);
-        console.log('other url: ', JSTACK.Keystone.params.url);
+        var url = JSTACK.Keystone.getendpoint(region, 'identity');
 
         $(this.el).append(this._template({  username: name,
                                             tenant_name: tenant.name,
                                             tenant_id: tenant.id,
                                             current_region: region,
-                                            auth_url: url
+                                            auth_url: url.publicURL
 
         }));
         //console.log(UTILS.Auth.getCurrentTenant());
@@ -53,14 +50,14 @@ var DownloadOpenrcView = Backbone.View.extend({
         name = UTILS.Auth.getName();
         tenant = UTILS.Auth.getCurrentTenant();
         region = UTILS.Auth.getCurrentRegion();
-        url = JSTACK.Keystone.params.adminUrl;
+        url = JSTACK.Keystone.getendpoint(region, 'identity');
         openrc = [];
 
         openrc.push('export OS_USERNAME=' + name + '\n');
         openrc.push('export OS_PASSWORD= \n');
         openrc.push('export OS_TENANT_NAME=' + tenant.name + '\n');
         openrc.push('export OS_REGION_NAME=' + region + '\n');
-        openrc.push('export OS_AUTH_URL=' + url);
+        openrc.push('export OS_AUTH_URL=' + url.publicURL);
 
         filename = name + '-openrc';
 
