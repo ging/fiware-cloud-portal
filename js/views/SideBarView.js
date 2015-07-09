@@ -21,9 +21,9 @@ var SideBarView = Backbone.View.extend({
                
         $('.chosen-select' ).chosen().change(function(){
             val = $('.chosen-select').chosen().val();
-                console.log("region: ", val);
-                window.location = val;
-            });
+            console.log("region: ", val);
+            window.location = val;
+        });
         
         // $("#region_switcher").selectbox({
         //     onChange: function (val, inst) {
