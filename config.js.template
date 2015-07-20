@@ -37,10 +37,10 @@ config.oauth = {
 // Keystone configuration.
 config.keystone = {
 	host: '',
-	port: ,
+	port: '',
 	admin_host: '',
-	admin_port: , 
-	username: '', 
+	admin_port: '', 
+	username: '',
 	password: '',
 	tenantId: ''
 };
