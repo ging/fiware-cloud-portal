@@ -91,6 +91,7 @@ var loadViews = function() {
                 "js/views/forms/UploadObjectView.js",
                 "js/views/forms/CreateSecurityGroupView.js",
                 "js/views/forms/EditSecurityGroupRulesView.js",
+                "js/views/forms/DownloadOpenrcView.js",
                 "js/views/forms/CreateKeypairView.js",
                 "js/views/forms/ImportKeypairView.js",
                 "js/views/forms/DownloadKeypairView.js",
@@ -193,7 +194,6 @@ var loadLibraries = function() {
                 "lib/xml2json.js",
                 "lib/sdc.js",
                 "lib/bp.js",
-                "lib/cdmi.js",
                 "lib/ovf.js",
                 "lib/speedometer.js",
                 "http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"
@@ -237,6 +237,7 @@ var loadTemplates = function() {
                     'templates/forms/editUser.html',
                     'templates/forms/modifyUsers.html',
                     'templates/forms/createBlueprint.html',
+                    'templates/forms/downloadOpenrc.html',
                     'templates/forms/createSoftware.html',
                     'templates/forms/cloneBlueprint.html',
                     'templates/forms/editBlueprint.html',

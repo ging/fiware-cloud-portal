@@ -1,0 +1,59 @@
+<script id="projectInfoFormTemplate" type="text/html">
+<div id="project_info" class="modal hide in" style="top: 107px; display: block; ">
+    <!--
+    Description: Download Openrc file Form
+    src: templates/forms/downloadOpenrc.html
+    -->
+
+    <div class="modal-header">
+        <a id="close" href="#" class="close" data-dismiss="modal">×</a>
+        <h3>Project Info</h3>
+    </div>
+    <form id="project_info_form" onSubmit="return false;" >
+        <div class="modal-body clearfix">
+            <div class="left">
+                <h3>Credentials</h3>
+                <br>
+                <p>
+                User name: <strong><%=  username %></strong>
+                </p>
+                <p>
+                Tenant name: <strong><%= tenant_name %></strong>
+                </p>
+                <p>
+                Tenant id: <strong><%= tenant_id %></strong>
+                </p>
+                <p>
+                Region: <strong><%= current_region %></strong>
+                </p>
+                <p>
+                Authentication URL: <strong><%= auth_url %></strong>
+                </p>
+            </div>
+            <div class="right">
+                <h3>Description</h3>
+                <p>
+                The information shown here, refers to the main variables of authentication required to access Openstack services from the console.
+                </p>
+                How to:
+                <p>
+                <ul>
+                    <li>1. Download your openrc file.</li>
+                    <li>2. Edit the file configuring your OS_PASSWORD variable.</li>
+                    <li>3. Source openrc file in your console.</li>
+                    <li>4. Start working!.</li>
+                </ul>
+
+                </p>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <input type="submit" class="btn btn-blue pull-right" value="Download openrc file"/>
+            
+            <!-- Hay que cambiar la url a la que dirige el cancel -->
+            <a href="#" id="cancelBtn" class="btn secondary cancel close" data-dismiss="modal">Cancel</a>
+        </div>
+    </form>
+</div>
+</script>

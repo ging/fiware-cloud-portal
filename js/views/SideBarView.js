@@ -24,12 +24,18 @@ var SideBarView = Backbone.View.extend({
             console.log("region: ", val);
             window.location = val;
         });
+
+        $('.btn-openrc').on('click', this.openModal);
         
         // $("#region_switcher").selectbox({
         //     onChange: function (val, inst) {
         //         window.location = val;
         //     }
         // });
-    }
+    },
 
+    openModal: function() {
+        var subview = new DownloadOpenrcView({el: 'body'});
+        subview.render();
+    }
 });

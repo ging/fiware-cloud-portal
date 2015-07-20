@@ -5,6 +5,17 @@ src: templates/root/nova/instanceDetail/log.html
 -->
 <div class="clearfix">
     <h3 class="pull-left">Instance Console Log</h3>
+
+
+    <form id='set_log_form' class="pull-right" onSubmit="return false;">
+
+    	<label for="set-log-input">Set the number of lines to display</label>
+    	<div id="log-input-fields">
+			<input id ='log-input' name='set-log' type ='number' placeholder='max. 1000'/>
+			<input id ='log-button' class="btn btn-small btn-blue btn-main>" data-i18n="Done" type='submit' value = 'Refresh'/>
+    	</div>
+	</form>
+
 </div>
 <pre class="logs"><%= logs %></pre>
 

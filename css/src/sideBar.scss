@@ -17,6 +17,61 @@ $selector-font-size: 14px;
   @include sideBarFont;
 }
 
+.btn-openrc{
+  width: 100%;
+  background: transparent none repeat scroll 0% 0%;
+  border: medium none;
+  box-shadow: none;
+  text-align: left;
+  font-size: 12px;
+  padding-left: 14px;
+  color: rgb(123, 123, 123);
+}
+
+.btn-openrc i{
+  font-size: 20px;
+  margin-right: 12px;
+  margin-left: 4px;
+  display: inline;
+  float: left;
+  color: rgb(206, 206, 206);
+}
+
+
+.btn-openrc span{
+  float: left;
+  margin-top: 2px;
+  text-align: left;
+  font-size: 12px;
+  color: #7B7B7B;
+}
+
+.btn-openrc:hover{
+  background-color: transparent;
+  color: #00A3D0;
+}
+
+  .btn-openrc:hover i,
+  .btn-openrc:hover span{
+  color: #00A3D0;
+}
+
+.download_openrc {
+  padding-top: 30px;
+  width: 90%;
+  padding-left: 15px;
+}
+
+.openrc_button {
+  font-family: 'Comfortaa';
+  font-weight:400;
+  border: none;
+  font-size: $selector-font-size;
+  color: $blue2;
+  background:none;
+  border:none;
+}
+
 .tenant_id {
   padding-bottom: 0px;
   width: 90%;

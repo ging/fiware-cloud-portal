@@ -1,60 +1,3 @@
-header#oil-nav {
-  height: 42px !important;
-  background-color: #f1f1f2 !important;
-}
-ul.oil-portal li.active {
-  box-shadow: none !important;
-}
-
-header#oil-nav ul.oil-portal {
-  height: 42px !important;
-  margin-left: -3px !important;
-}
-
-header#oil-nav ul.oil-portal li a{
-  font-family: NeoTechRegular;
-}
-header#oil-nav nav.navbar-inner .logo-header .brand img{
-  margin-top: 5px !important;
-  margin-left: -6px; !important
-}
-header#oil-nav ul.oil-portal li.active a{
-  color: #193B6B;
-}
-
-header#oil-nav ul.oil-portal li {
-  padding: 15px 18px 8px !important;
-  margin: 0 !important;
-}
-
-header#oil-nav nav.navbar-inner .nav-user {
-  margin-top: 4px !important;
-}
-
-footer .menu {
-  text-align: left !important;
-  padding: 0 15px;
-  font-family: arial;
-  font-size: 13px;
-  border-top: 1px solid #48b9c9;
-}
-
-.footer-ot{
-  border-top: 1px solid #F2E826;
-  border-bottom: 1px solid #193B6B;
-  height: 1px;
-}
-.footer-ot .menu{
-  padding-top: 10px;
-}
-
-.container-view {
-  bottom: 40px !important;
-}
-.footer {
-  height: 40px !important;
-}
-
 /*!
  * Fi-ware web style
  *
@@ -198,17 +141,17 @@ html, body {
 
 #log-messages {
   height: 48px;
-  overflow: hidden;
+  overflow: scroll;
 }
 
 .log-messages-modal {
   height: 48px;
-  overflow: hidden;
+  overflow: scroll;
 }
 
 #logs {
   position: absolute;
-  overflow: hidden;
+  overflow: scroll;
   bottom: 0px;
   height: 48px;
   right: 3px;
@@ -235,35 +178,6 @@ html, body {
   max-height: 475px;
 }
 
-
-/*************______________typography___*******/
-
-
-@font-face {
-  font-family: "NeoTechRegular";
-  font-style: normal;
-  src: url('fonts/neotechstd/neotechstd-regular.eot');
-    src: url('fonts/neotechstd/neotechstd-regular.eot') format('embedded-opentype'),
-         url('fonts/neotechstd/neotechstd-regular.woff') format('woff'),
-         url('fonts/neotechstd/neotechstd-regular.ttf') format('truetype'),
-         url('fonts/neotechstd/neotechstd-regular.svg#NeoTechStdMedium') format('svg');
-}
-
-
-@font-face {
-  font-family: "NeoTechMedium";
-  font-style: normal;
-  src: url('fonts/neotechstd/neotechstd-medium.eot');
-    src: url('fonts/neotechstd/neotechstd-medium.eot') format('embedded-opentype'),
-         url('fonts/neotechstd/neotechstd-medium.woff') format('woff'),
-         url('fonts/neotechstd/neotechstd-medium.ttf') format('truetype'),
-         url('fonts/neotechstd/neotechstd-medium.svg#NeoTechStdMedium') format('svg');
-}
-
-
-
-
-
 @font-face {
     font-family: "Comfortaa_Regular";
     src: url("fonts/comfortaa_regular-webfont.eot");
@@ -271,7 +185,7 @@ html, body {
          url("fonts/comfortaa_regular-webfont.woff") format("woff"),
          url("fonts/comfortaa_regular-webfont.ttf") format("truetype"),
          url("fonts/comfortaa_regular-webfont.svg#ComfortaaRegular") format("svg");
-	font-family: "OpenSansRegular";
+  font-family: "OpenSansRegular";
     src: url("fonts/opensans-regular-webfont.eot");
     src: url("fonts/opensans-regular-webfont.eot?#iefix") format("embedded-opentype"),
          url("fonts/opensans-regular-webfont.woff") format("woff"),
@@ -333,22 +247,22 @@ html, body {
   margin-left:13px;
   margin-right:12px;
   font-size:16px; }
-  #sidebar{margin-bottom: -10px;
+  #sidebar{margin-bottom: -10px;padding-top: 10px;
 }
 
 .boxy-grey {
-	background-color: #333333;
+  background-color: #333333;
     border-radius: 6px;
     float: right;
     font-size: 12px;
     height: 66px;
     margin-top: 72px;
-	margin-left:-20px;
+  margin-left:-20px;
     width: 332px;
-	padding-top:4px;
-	padding-right:6px;
-	padding-left:28px;
-	margin-bottom: 10px;
+  padding-top:4px;
+  padding-right:6px;
+  padding-left:28px;
+  margin-bottom: 10px;
 }
 .ellipsis{
   overflow: hidden;
@@ -371,21 +285,21 @@ max-width: 120px;}
 .menuv{background-color: white}
 
 .text-index-xl a :hover {
-	color:#fff;
+  color:#fff;
     text-shadow:#f5f5f5 0px -2px 2px;
-	}
+  }
 .text-index-l a :hover {
-	color:#fff;
+  color:#fff;
     text-shadow:#f5f5f5 0px -2px 2px;
-	}
+  }
 .text-index-m a :hover {
-	color:#fff;
+  color:#fff;
     text-shadow:#f5f5f5 0px -2px 2px;
-	}
+  }
 .text-index-s a :hover {
-	color:#fff;
+  color:#fff;
     text-shadow:#f5f5f5 0px -2px 2px;
-	}
+  }
 
 .comfortaa{font-family:"comfortaa"}
 .form-buttons{ padding-top:15px; padding-right:30px; padding-bottom:10px; float:right;}
@@ -975,4 +889,29 @@ box-sizing: border-box;
 [class*="span"] {
 
 margin-left: 0px;
+}
+
+#set_log_form {
+  margin-top: 25px;
+}
+
+#log-input-fields {
+  position: relative;
+  height: 30px;
+}
+
+#log-input {
+  position: absolute;
+  right: 90px;
+  width: 75px;
+  text-align: -webkit-right;
+  font-family: -webkit-body;
+  font-size: smaller;
+  height: 13px;
+}
+
+#log-button {
+
+  position: absolute;
+  right: 0px;
 }

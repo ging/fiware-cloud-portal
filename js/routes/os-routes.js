@@ -2,7 +2,7 @@ var OSRouter = Backbone.Router.extend({
 
     rootView: undefined,
 
-    tabs: new NavTabModels([{name: 'Project', active: false, url: '#nova'}, {name: 'Admin', active: true, url: '#syspanel'}]),
+    tabs: new NavTabModels([{name: 'Menu', active: false, url: '#nova'}, {name: 'Admin', active: true, url: '#syspanel'}]),
     top: new TopBarModel({title:'Overview:', subtitle: ''}),
     navs:  new NavTabModels([]),
     next: undefined,
@@ -202,7 +202,7 @@ var OSRouter = Backbone.Router.extend({
         this.topBarView.renderTitle();
 
 
-        var showTenants = (self.tabs.getActive() == 'Project');
+        var showTenants = (self.tabs.getActive() == 'Menu');
         if (this.sideBarView === undefined) {
             this.sideBarView = new SideBarView({el: '#sidebar', model: self.navs});
             this.sideBarView.el = '#sidebar';
@@ -356,8 +356,8 @@ var OSRouter = Backbone.Router.extend({
         
         self.navs = new NavTabModels(tabsArray);
         self.navs.setActive(option);
-        self.tabs.setActive('Project');
-        self.showRoot(self, 'Project Name');
+        self.tabs.setActive('Menu');
+        self.showRoot(self, 'Project');
     },
 
     blueprint_instances: function(self) {
