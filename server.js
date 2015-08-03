@@ -354,6 +354,7 @@ app.all('/:reg/:service/:v/*', function(req, resp) {
         req.params.reg = 'Spain2';
     }
 
+
     var endp = getEndpoint(req.params.service, req.params.reg);
     var new_url = req.url.split(req.params.v)[1];
     var isSecure = endp.indexOf("https://") === 0;
@@ -500,6 +501,9 @@ function getEndpoint (service, region) {
 
     if (service === 'network') {
         end = end + "/v2.0";
+    }
+    if (service === 'application_catalog') {
+        end = end + "/v1";
     }
     return end;
 }

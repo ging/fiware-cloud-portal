@@ -95,7 +95,7 @@ var BlueprintTemplatesView = Backbone.View.extend({
                 id: index,
                 cells: [{
                     value: name,
-                    link: "#nova/blueprints/templates/" + template.get('name')
+                    link: "#nova/blueprints/templates/" + template.id
                 }, {
                     value: template.get('description')
                 }, {
