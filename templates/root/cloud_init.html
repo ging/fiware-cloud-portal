@@ -25,9 +25,11 @@ data += " iface eth" + h + "  inet dhcp\n";
   permissions: '460'
 <% } %>
 bootcmd: 
+  - ifdown eth0
   - ifup eth0
 <% for (var j=1; j<num_interfaces; j++) { 
-%>  - ifup eth<%=j%><% 
+%>- ifdown eth<%=j%>
+  - ifup eth<%=j%><% 
 }}%>
 
 # Start DEM monitoring
