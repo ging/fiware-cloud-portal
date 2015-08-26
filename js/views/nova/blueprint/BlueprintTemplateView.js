@@ -133,7 +133,7 @@ var BlueprintTemplateView = Backbone.View.extend({
             }
 
             var entry = {
-                id: tier.name,
+                id: tier.id,
                 minValue: tier.minimumNumberInstances,
                 maxValue: tier.maximumNumberInstances,
                 bootValue: tier.initialNumberInstances,
@@ -210,6 +210,7 @@ var BlueprintTemplateView = Backbone.View.extend({
                     btn_message: "Delete Tier",
                     onAccept: function() {
                         tierIds.forEach(function(tier) {
+                            console.log('Deleting', tier);
                             var options = UTILS.Messages.getCallbacks("Tier deleted", "Error deleting Tier.");
                             options.tier = tier;
                             var cb = options.callback;
