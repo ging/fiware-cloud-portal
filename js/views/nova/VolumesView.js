@@ -157,7 +157,7 @@ var NovaVolumesView = Backbone.View.extend({
                 subview.render();
                 break;
             case 'snapshot':
-                subview = new CreateVolumeSnapshotView({el: 'body', model: volume});
+                subview = new CreateVolumeSnapshotView({el: 'body', volume_id: volume});
                 subview.render();
                 break;
             case 'delete':

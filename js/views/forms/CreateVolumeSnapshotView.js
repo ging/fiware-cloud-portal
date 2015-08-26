@@ -37,7 +37,7 @@ var CreateVolumeSnapshotView = Backbone.View.extend({
         var description = $('textarea[name=description]').val();
         var snapshot = new VolumeSnapshot();
         //this.options.volumeSnapshotsModel = new VolumeSnapshot();
-        snapshot.set({volume_id: this.model.id, name: name, description: description});
+        snapshot.set({volume_id: this.options.volume_id, name: name, description: description});
         snapshot.save(undefined, UTILS.Messages.getCallbacks("Volume snapshot "+ name + " created.", "Error creating volume snapshot "+ name, {context: this}));
     }
 
