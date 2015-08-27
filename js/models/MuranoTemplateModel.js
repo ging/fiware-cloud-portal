@@ -47,7 +47,7 @@
 //     sync: function(method, model, options) {
 //         switch(method) {
 //             case "read":
-//                 JSTACK.Murano.getBlueprintTemplate(model.get('name'), options.success, options.error, this.getRegion());
+//                 JSTACK.Murano.getBlueprintTemplate(model.id, options.success, options.error, this.getRegion());
 //                 break;
 //             case "create":
 //                 JSTACK.Murano.createBlueprintTemplate(model.toJSON(), options.success, options.error, this.getRegion());
@@ -58,13 +58,13 @@
 //             case "update":
 //                 break;
 //             case "addTier":
-//                 JSTACK.Murano.createBlueprintTemplateTier(model.get('name'), options.tier, options.success, options.error, this.getRegion());
+//                 JSTACK.Murano.createBlueprintTemplateTier(model.id, options.tier, options.success, options.error, this.getRegion());
 //                 break;
 //             case "updateTier":
-//                 JSTACK.Murano.updateBlueprintTemplateTier(model.get('name'), options.tier, options.success, options.error, this.getRegion());
+//                 JSTACK.Murano.updateBlueprintTemplateTier(model.id, options.tier, options.success, options.error, this.getRegion());
 //                 break;
 //             case "deleteTier":
-//                 JSTACK.Murano.deleteBlueprintTemplateTier(model.get('name'), options.tier, options.success, options.error, this.getRegion());
+//                 JSTACK.Murano.deleteBlueprintTemplateTier(model.id, options.tier, options.success, options.error, this.getRegion());
 //                 break;
 //         }
 //     },
