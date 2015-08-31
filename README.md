@@ -99,6 +99,8 @@ Self Service Interfaces GE is a GUI to facilitate the access to Openstack servic
 <a name="def-advanced"></a>
 ## Advanced Documentation
 
+You can read this advanced documentation in [Read the Docs Cloud Portal project](http://fi-ware-cloud-portal.readthedocs.org/) 
+
 - [How to run tests](https://github.com/ging/fi-ware-cloud-portal/tree/master/doc/admin_guide.md#end-to-end-testing)
 - [User & Programmers Manual](https://github.com/ging/fi-ware-cloud-portal/tree/master/doc/user_guide.md)
 - [Installation & Administration Guide](https://github.com/ging/fi-ware-cloud-portal/tree/master/doc/admin_guide.md)
