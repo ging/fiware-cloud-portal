@@ -96,12 +96,12 @@ A JavaScript implementation of OpenStack Horizon component. This is a web portal
 
 Self Service Interfaces GE is a GUI to facilitate the access to Openstack services and other FIWARE GEs APIs. So it has not an API specification.
 
-<a name="def-api"></a>
+<a name="def-advanced"></a>
 ## Advanced Documentation
 
-- [How to run tests](https://github.com/ging/fi-ware-cloud-porta/tree/master/docs/)
-- [User & Programmers Manual](https://github.com/ging/fi-ware-cloud-porta/tree/master/docs/)
-- [Installation & Administration Guide](https://github.com/ging/fi-ware-cloud-porta/tree/master/docs/)
+- [How to run tests](https://github.com/ging/fi-ware-cloud-portal/tree/master/doc/admin_guide.md#end-to-end-testing)
+- [User & Programmers Manual](https://github.com/ging/fi-ware-cloud-portal/tree/master/doc/user_guide.md)
+- [Installation & Administration Guide](https://github.com/ging/fi-ware-cloud-portal/tree/master/doc/admin_guide.md)
 
 <a name="def-license"></a>
 ## License
