@@ -10,6 +10,10 @@ The Self Services Interfaces is divided in two parts: User Portal and Toolkit.
 
 - The Toolkit is aimed for administrators and experienced users and it consist of various scripts that permit to perform the same actions the user portal does and some more advanced options.
 
+## Source code
+
+You can find the source code of this project and the basic documentation in [GitHub](https://github.com/ging/fi-ware-cloud-portal)
+
 ## Documentation  
 
   - [User & Programmers Manual](user_guide.md)
