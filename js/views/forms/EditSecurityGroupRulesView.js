@@ -58,7 +58,7 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
             hidden_tablet: false
         }, {
             name: "Action",
-            tooltip: "",
+            tooltip: "Available actions",
             size: "20%",
             hidden_phone: false,
             hidden_tablet: false
