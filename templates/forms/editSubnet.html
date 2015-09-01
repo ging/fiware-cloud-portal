@@ -25,7 +25,7 @@ src: templates/forms/editSubnet.html
                     <div class="control-group form-field clearfix">
                         <label for="enable-dhcp" class="label_check">Enable DHCP</label>
                         <span class="help-block"></span>
-                        <input type="checkbox" checked="checked" name="enable_dhcp" value="<%=model.get("enable_dhcp")%>" id="enable_dhcp" />
+                        <input type="checkbox" <%if(model.get('enable_dhcp')){%>checked="checked"<%}%> name="enable_dhcp" value="<%=model.get("enable_dhcp")%>" id="enable_dhcp" />
                     </div>
                 </fieldset>
             </div>
