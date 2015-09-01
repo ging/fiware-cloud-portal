@@ -49,9 +49,23 @@ src: templates/root/nova/volumeDetail.html
                     <h4>Attachments</h4>
                     <hr class="header_rule">
                     <ul>
+                    <%
+                    if (model.get("attachments").length === 0) {
+                    %>
                         <li>
-                            <em>Not attached<% console.log(model) %></em>
+                            <em>Not attached</em>
                         </li>
+                    <%
+                    } else {
+                        for (var a in model.get("attachments")) {
+                    %>
+                        <li>
+                            Attached to <em><%=model.get("attachments")[a].server_id%></em> in <em><%=model.get("attachments")[a].device%></em>
+                        </li>
+                    <%
+                        }
+                    }
+                    %>
                     </ul>
                 </div>
             </div>
