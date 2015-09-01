@@ -63,6 +63,8 @@ var EditSubnetView = Backbone.View.extend({
                 hosts.push(host);
             }
             subnet.set({'host_routes': hosts});
+        } else {
+            subnet.set({'host_routes': []});
         }
 
         console.log('CON SUBNET', subnet.attributes);
