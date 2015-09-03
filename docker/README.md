@@ -34,7 +34,7 @@ Where the different params mean:
 
 * -d indicates that the container runs as a daemon
 * --name is the name of the new container (you can use the name you want)
-* -v stablishes a relation between a local folder (in your host computer) and a container's folder. In this case it is used to pass to the container the configuration file that PEP Proxy needs to work. `host_config_file` has to be the location of a local file with that configuration following the [config template](https://github.com/ging/fi-ware-cloud-portal/blob/master/config.js.template).
+* -v stablishes a relation between a local folder (in your host computer) and a container's folder. In this case it is used to pass to the container the configuration file that Cloud Portal needs to work. `host_config_file` has to be the location of a local file with that configuration following the [config template](https://github.com/ging/fi-ware-cloud-portal/blob/master/config.js.template).
 * -p stablishes a relation between a local port and a container's port. You can use the port you want in `host_port` but `container_port` has to be the same that you have set in `config.app_port` in your config file. If you have set `config.https` to `true` you have to use here the https port.
 * the last param is the name of the image
 
