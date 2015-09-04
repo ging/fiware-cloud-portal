@@ -132,8 +132,8 @@ var NovaFloatingIPsView = Backbone.View.extend({
             }
 
             var fixed_ip = floating_ip.get("fixed_ip");
-            if (fixed_ip === undefined) fixed_ip = '-';
-            
+            if (fixed_ip === null) fixed_ip = '-';
+
             var entry = {
                 id: floating_ip.get('id'),
                 cells: [{
