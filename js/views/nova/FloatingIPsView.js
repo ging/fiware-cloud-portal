@@ -40,7 +40,7 @@ var NovaFloatingIPsView = Backbone.View.extend({
             if (size >= 1) {
                 for (var id in ids) {
                     var entry = self.model.get(ids[id]);
-                    if (entry.get("instance_id") !== null) {
+                    if (entry.get("instance_id") !== null || entry.get("fixed_ip") !== null) {
                         return true;
                     }
                 }
@@ -52,7 +52,7 @@ var NovaFloatingIPsView = Backbone.View.extend({
 
                 for (var id in ids) {
                     var entry = self.model.get(ids[id]);
-                    if (entry.get("instance_id") !== null) {
+                    if (entry.get("instance_id") !== null || entry.get("fixed_ip") !== null) {
                         return false;
                     }
                 }
@@ -92,14 +92,21 @@ var NovaFloatingIPsView = Backbone.View.extend({
         {
             name: "Instance",
             tooltip: "Instance the IP is attached to",
-            size: "35%",
+            size: "25%",
+            hidden_phone: true,
+            hidden_tablet: false
+        },
+        {
+            name: "Fixed Address",
+            tooltip: "Fixed address the IP is attached to",
+            size: "20%",
             hidden_phone: true,
             hidden_tablet: false
         },
         {
             name: "Floating IP Pool",
             tooltip: "Corresponding Floating Pool",
-            size: "35%",
+            size: "25%",
             hidden_phone: false,
             hidden_tablet: false
         }];
@@ -117,8 +124,10 @@ var NovaFloatingIPsView = Backbone.View.extend({
         for (var index in this.model.models) {
             var floating_ip = this.model.models[index];
             var instance_id = floating_ip.get("instance_id");
+            var fixed_ip = floating_ip.get("fixed_ip");
             var instance = this.options.instances.get(instance_id);
             var instance_name = "-";
+
             if (instance !== undefined) {
                 instance_name = instance.get("name");
             }
@@ -130,6 +139,8 @@ var NovaFloatingIPsView = Backbone.View.extend({
                 }, {
                     value:  instance_name
                 }, {
+                    value:  fixed_ip
+                },{
                     value: floating_ip.get("pool")
                 }]
             };
