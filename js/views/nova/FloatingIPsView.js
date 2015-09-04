@@ -124,7 +124,6 @@ var NovaFloatingIPsView = Backbone.View.extend({
         for (var index in this.model.models) {
             var floating_ip = this.model.models[index];
             var instance_id = floating_ip.get("instance_id");
-            var fixed_ip = floating_ip.get("fixed_ip");
             var instance = this.options.instances.get(instance_id);
             var instance_name = "-";
 
@@ -132,6 +131,9 @@ var NovaFloatingIPsView = Backbone.View.extend({
                 instance_name = instance.get("name");
             }
 
+            var fixed_ip = floating_ip.get("fixed_ip");
+            if (fixed_ip === undefined) fixed_ip = '-';
+            
             var entry = {
                 id: floating_ip.get('id'),
                 cells: [{
