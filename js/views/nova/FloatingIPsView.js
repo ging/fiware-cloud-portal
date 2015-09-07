@@ -123,17 +123,41 @@ var NovaFloatingIPsView = Backbone.View.extend({
         var entries = [];
         for (var index in this.model.models) {
             var floating_ip = this.model.models[index];
+            
+            var instance, instance_name;
             var instance_id = floating_ip.get("instance_id");
-            var instance = this.options.instances.get(instance_id);
-            var instance_name = "-";
-
-            if (instance !== undefined) {
-                instance_name = instance.get("name");
-            }
-
             var fixed_ip = floating_ip.get("fixed_ip");
-            if (fixed_ip === null) fixed_ip = '-';
+            
 
+            if (fixed_ip === null) {
+                // Not associated
+                instance_name = "-";
+                fixed_ip = '-';
+            } else if (fixed_ip !== null && instance_id !== null){
+
+                instance_name = '-';
+                instance = this.options.instances.get(instance_id);
+                
+                if (instance !== undefined) {
+                    instance_name = instance.get("name");
+                }
+            } else if (fixed_ip !== null && instance_id === null) {
+                // Bug in Neutron, let's try to find the assiciated instance it in instances model
+                instance_name = '-';
+
+                for (var i in this.options.instances.models) {
+                    var adds = this.options.instances.models[i].get('addresses');
+
+                    for (var a in adds) {
+                        for (var itf in adds[a]) {
+                            if (adds[a][itf].addr === fixed_ip) {
+                                instance_name = this.options.instances.models[i].get('name');
+                            }
+                        }
+                    }
+                }
+            }
+            
             var entry = {
                 id: floating_ip.get('id'),
                 cells: [{
@@ -187,7 +211,23 @@ var NovaFloatingIPsView = Backbone.View.extend({
                 subview = new ConfirmView({el: 'body', title: "Confirm Dissasociate IPs", btn_message: "Dissasociate IPs", onAccept: function() {
                     floatingIds.forEach(function(floating) {
                         floa = self.model.get(floating);
-                        floa.dissasociate(floa.get("instance_id"), UTILS.Messages.getCallbacks("Successfully disassociated Floating IP " + floa.get("ip"), "Error releasing floating IP " + floa.get("ip")));
+                        var inst_id = floa.get("instance_id");
+
+                        if (inst_id === null) {
+                            for (var i in self.options.instances.models) {
+                                var adds = self.options.instances.models[i].get('addresses');
+
+                                for (var a in adds) {
+                                    for (var itf in adds[a]) {
+                                        if (adds[a][itf].addr === floa.get('fixed_ip')) {
+                                            inst_id = self.options.instances.models[i].id;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        floa.dissasociate(inst_id, UTILS.Messages.getCallbacks("Successfully disassociated Floating IP " + floa.get("ip"), "Error releasing floating IP " + floa.get("ip")));
                     });
                 }});
                 subview.render();
