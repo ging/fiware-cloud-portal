@@ -16,6 +16,9 @@
 
 This project is part of [FIWARE](http://fiware.org). You will find more information abour this FIWARE GE [here](http://catalogue.fiware.org/enablers/self-service-interfaces-cloud-portal).
 
+- You will find the source code of this project in GitHub [here](https://github.com/ging/fiware-idm)
+- You will find the documentation of this project in Read the Docs [here](http://fiware-idm.readthedocs.org/)
+
 A JavaScript implementation of OpenStack Horizon component. This is a web portal developed using only in JavaScript, based on OpenStack Horizon.
 
 <a name="def-build"></a>
@@ -108,11 +111,9 @@ Self Service Interfaces GE is a GUI to facilitate the access to Openstack servic
 <a name="def-advanced"></a>
 ## Advanced Documentation
 
-You can read this advanced documentation in [Read the Docs Cloud Portal project](http://fiware-cloud-portal.readthedocs.org/) 
-
-- [How to run tests](https://github.com/ging/fiware-cloud-portal/tree/master/doc/admin_guide.md#end-to-end-testing)
-- [User & Programmers Manual](https://github.com/ging/fiware-cloud-portal/tree/master/doc/user_guide.md)
-- [Installation & Administration Guide](https://github.com/ging/fiware-cloud-portal/tree/master/doc/admin_guide.md)
+- [How to run tests](http://fiware-cloud-portal.readthedocs.org/en/latest/admin_guide#end-to-end-testing)
+- [User & Programmers Manual](http://fiware-cloud-portal.readthedocs.org/en/latest/user_guide/)
+- [Installation & Administration Guide](http://fiware-cloud-portal.readthedocs.org/en/latest/admin_guide/)
 
 <a name="def-license"></a>
 ## License
