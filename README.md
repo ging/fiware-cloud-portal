@@ -98,7 +98,7 @@ A JavaScript implementation of OpenStack Horizon component. This is a web portal
 We also provide a Docker image to facilitate you the building of this GE.
 
 - [Here](https://github.com/ging/fi-ware-cloud-portal/tree/master/docker) you will find the Dockerfile and the documentation explaining how to use it.
-- In [Docker Hub](https://hub.docker.com/r/aalonsog/fi-ware-cloud-portal/) you will find the public image.
+- In [Docker Hub](https://hub.docker.com/r/ging/fi-ware-cloud-portal/) you will find the public image.
 
 <a name="def-api"></a>
 ## API Overview

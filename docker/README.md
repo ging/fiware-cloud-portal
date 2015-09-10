@@ -56,9 +56,9 @@ To stop the container:
 
 ## Run the container from the last release in Docker Hub
 
-You can also run the container from the [image we provide](https://hub.docker.com/r/aalonsog/cloud-portal/) in Docker Hub. In this case you have only to execute the run command. But now the image name is aalonsog/cloud-portal:*version* where `version` is the release you want to use:
+You can also run the container from the [image we provide](https://hub.docker.com/r/ging/cloud-portal/) in Docker Hub. In this case you have only to execute the run command. But now the image name is ging/cloud-portal:*version* where `version` is the release you want to use:
 
-	sudo docker run -d --name cloud-portal-container -v [host_config_file]:/opt/fi-ware-cloud-portal/config.js -p [host_port]:[container_port] aalonsog/cloud-portal
+	sudo docker run -d --name cloud-portal-container -v [host_config_file]:/opt/fi-ware-cloud-portal/config.js -p [host_port]:[container_port] ging/cloud-portal
 
 > **Note**
 > If you do not specify a version you are pulling from `latest` by default.
