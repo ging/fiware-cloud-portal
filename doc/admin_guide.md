@@ -64,10 +64,10 @@ It supports daily user operations, such as start and stop instances, list images
 
 The following steps need to be performed to get the Cloud Portal up and running:
 
-- Download the Cloud Portal, using [GitHub](http://github.com/ging/fi-ware-cloud-portal).
+- Download the Cloud Portal, using [GitHub](http://github.com/ging/fiware-cloud-portal).
 
 <pre>
- git clone https://github.com/ging/fi-ware-cloud-portal.git portal
+ git clone https://github.com/ging/fiware-cloud-portal.git portal
 </pre>
 
 - Install all required libraries using NPM.

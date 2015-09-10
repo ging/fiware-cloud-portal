@@ -1,7 +1,7 @@
 {
-  "name": "fi-ware-cloud-portal",
+  "name": "fiware-cloud-portal",
   "version": "0.1.5",
-  "description": "Self Service Interface GE for FI-Ware Cloud",
+  "description": "Self Service Interface GE for FIWARE Cloud",
   "author": "GING DIT UPM <jcervino@dit.upm.es>",
   "devDependencies": {
     "mocha": "1.8.1",
@@ -22,7 +22,7 @@
   "preferGlobal": true,
   "repository": {
     "type": "git",
-    "url": "http://github.com/ging/fi-ware-cloud-portal.git"
+    "url": "http://github.com/ging/fiware-cloud-portal.git"
   },
   "contributors": [
     {

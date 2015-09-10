@@ -12,7 +12,7 @@ The Self Services Interfaces is divided in two parts: User Portal and Toolkit.
 
 ## Source code
 
-You can find the source code of this project and the basic documentation in [GitHub](https://github.com/ging/fi-ware-cloud-portal)
+You can find the source code of this project and the basic documentation in [GitHub](https://github.com/ging/fiware-cloud-portal)
 
 ## Documentation  
 

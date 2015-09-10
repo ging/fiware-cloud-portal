@@ -33,14 +33,14 @@ A JavaScript implementation of OpenStack Horizon component. This is a web portal
 		sudo gem install sass -v 3.2.12
 	</pre>
 
-	<li>Clone the repository to your workspace and change to the <code>fi-ware-cloud-portal</code> new directory</li>
+	<li>Clone the repository to your workspace and change to the <code>fiware-cloud-portal</code> new directory</li>
 	<pre>
-		git clone git://github.com/ging/fi-ware-cloud-portal.git
+		git clone git://github.com/ging/fiware-cloud-portal.git
 
-		cd fi-ware-cloud-portal
+		cd fiware-cloud-portal
 	</pre>
 
-	<li>Copy <code>config.js.template</code> to <code>config.js</code> in <code>fi-ware-cloud-portal</code> directory</li>
+	<li>Copy <code>config.js.template</code> to <code>config.js</code> in <code>fiware-cloud-portal</code> directory</li>
 	<pre>
 		cp config.js.template config.js
 	</pre>
@@ -50,7 +50,7 @@ A JavaScript implementation of OpenStack Horizon component. This is a web portal
 	<p> </p>
 	
 	<li>Register a new application and bind it to your localhost</li>
-	<img src= "https://github.com/ging/fi-ware-cloud-portal/blob/master/images/register_app.png"/>
+	<img src= "https://github.com/ging/fiware-cloud-portal/blob/master/images/register_app.png"/>
 
 	<li>Modify <code>config.js</code> file with the correct configuration and save changes</li>
 	<pre>
@@ -97,8 +97,8 @@ A JavaScript implementation of OpenStack Horizon component. This is a web portal
 
 We also provide a Docker image to facilitate you the building of this GE.
 
-- [Here](https://github.com/ging/fi-ware-cloud-portal/tree/master/docker) you will find the Dockerfile and the documentation explaining how to use it.
-- In [Docker Hub](https://hub.docker.com/r/ging/fi-ware-cloud-portal/) you will find the public image.
+- [Here](https://github.com/ging/fiware-cloud-portal/tree/master/docker) you will find the Dockerfile and the documentation explaining how to use it.
+- In [Docker Hub](https://hub.docker.com/r/ging/fiware-cloud-portal/) you will find the public image.
 
 <a name="def-api"></a>
 ## API Overview
@@ -108,11 +108,11 @@ Self Service Interfaces GE is a GUI to facilitate the access to Openstack servic
 <a name="def-advanced"></a>
 ## Advanced Documentation
 
-You can read this advanced documentation in [Read the Docs Cloud Portal project](http://fi-ware-cloud-portal.readthedocs.org/) 
+You can read this advanced documentation in [Read the Docs Cloud Portal project](http://fiware-cloud-portal.readthedocs.org/) 
 
-- [How to run tests](https://github.com/ging/fi-ware-cloud-portal/tree/master/doc/admin_guide.md#end-to-end-testing)
-- [User & Programmers Manual](https://github.com/ging/fi-ware-cloud-portal/tree/master/doc/user_guide.md)
-- [Installation & Administration Guide](https://github.com/ging/fi-ware-cloud-portal/tree/master/doc/admin_guide.md)
+- [How to run tests](https://github.com/ging/fiware-cloud-portal/tree/master/doc/admin_guide.md#end-to-end-testing)
+- [User & Programmers Manual](https://github.com/ging/fiware-cloud-portal/tree/master/doc/user_guide.md)
+- [Installation & Administration Guide](https://github.com/ging/fiware-cloud-portal/tree/master/doc/admin_guide.md)
 
 <a name="def-license"></a>
 ## License

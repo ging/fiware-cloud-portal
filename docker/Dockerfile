@@ -13,11 +13,11 @@ RUN sudo apt-get update && \
 	sudo gem install sass -v 3.2.12 -y
 
 # Download latest version of the code and install npm dependencies
-RUN git clone https://github.com/ging/fi-ware-cloud-portal.git && \
-	cd fi-ware-cloud-portal && \
+RUN git clone https://github.com/ging/fiware-cloud-portal.git && \
+	cd fiware-cloud-portal && \
 	npm install && \
 	./node_modules/grunt-cli/bin/grunt
 
 # Run Cloud Portal
-WORKDIR /opt/fi-ware-cloud-portal
+WORKDIR /opt/fiware-cloud-portal
 CMD ["sudo", "node", "server.js"]

@@ -24,7 +24,7 @@ The User Portal is a [Backbone](http://backbonejs.org)-based Web client-side HTM
 
 The design perspective of the User Portal is the following. There is one implementation that follows exactly the same functionality and design pattern of the OpenStack Dashboard. It is aimed for all use-case and third-party projects that want to use it as an independent component. 
 
-The other implementation is build upon the same methodology. However, apart from the basic functionality, it is designed to further extend the functionality of the OpenStack Dashboard and offer advanced interaction with the Service Manager GE, the Resource Manager GE, Object Storage GE and Cloud Proxy GE. Some of the new operations will include: creation and management of vApps, VDC, possibility to create elasticity rules and display monitoring statistics etc. The design would be changed according the new functionalities and style guide requirements of the FI-Ware project. The audience of this second implementation is the Cloud Hosting architecture adopters who would choose the User Portal as integral part of the architecture, to manage resources and platform components in coordination with the rest of the GEs.
+The other implementation is build upon the same methodology. However, apart from the basic functionality, it is designed to further extend the functionality of the OpenStack Dashboard and offer advanced interaction with the Service Manager GE, the Resource Manager GE, Object Storage GE and Cloud Proxy GE. Some of the new operations will include: creation and management of vApps, VDC, possibility to create elasticity rules and display monitoring statistics etc. The design would be changed according the new functionalities and style guide requirements of the FIWARE project. The audience of this second implementation is the Cloud Hosting architecture adopters who would choose the User Portal as integral part of the architecture, to manage resources and platform components in coordination with the rest of the GEs.
 
 ### Basic Use Case
 
@@ -35,7 +35,7 @@ Next we present the steps a user should do to launch his first Instance and acce
 [Figure 1](#def-fig1) shows the initial login page on the Cloud Portal. Once the user obtains his credentials he can enter the Cloud Portal page.
 
 <a name="def-fig1"></a>
-![](https://raw.githubusercontent.com/ging/fi-ware-cloud-portal/master/doc/resources/login.png)
+![](https://raw.githubusercontent.com/ging/fiware-cloud-portal/master/doc/resources/login.png)
 <p align="center">Figure 1: User Portal Login Page<p>
 
 
@@ -46,7 +46,7 @@ Once the user has logged in, he is redirected to the main panel of his account. 
 To access the VM you will need a Keypair. Clicking on *Security->Keypairs->Create Keypair* you can create and download it ([Figure 2](#def-fig2)).
 
 <a name="def-fig2"></a>
-![](https://raw.githubusercontent.com/ging/fi-ware-cloud-portal/master/doc/resources/keypair.png)
+![](https://raw.githubusercontent.com/ging/fiware-cloud-portal/master/doc/resources/keypair.png)
 <p align="center">Figure 2: Creating a Keypair<p>
 
 #### Images List
@@ -54,7 +54,7 @@ To access the VM you will need a Keypair. Clicking on *Security->Keypairs->Creat
 Clicking on *Launch New Instance* he will retreieve the list of images availables ([Figure 3](#def-fig3)). The user can choose an image type and launch an instance out of that image. 
 
 <a name="def-fig3"></a>
-![](https://raw.githubusercontent.com/ging/fi-ware-cloud-portal/master/doc/resources/images.png)
+![](https://raw.githubusercontent.com/ging/fiware-cloud-portal/master/doc/resources/images.png)
 <p align="center">Figure 3: Images List<p>
 
 
@@ -63,7 +63,7 @@ Clicking on *Launch New Instance* he will retreieve the list of images available
 [Figure 4](#def-fig4) shows the wizard that appears when the user want to launch an instance. Following the steps he will launch the selected image as a VM.
 
 <a name="def-fig4"></a>
-![](https://raw.githubusercontent.com/ging/fi-ware-cloud-portal/master/doc/resources/wizard.png)
+![](https://raw.githubusercontent.com/ging/fiware-cloud-portal/master/doc/resources/wizard.png)
 <p align="center">Figure 4: Launch Instance<p>
 
 #### Edit Security
@@ -73,7 +73,7 @@ Once the VM is launched, to access it via SSH protocol you need to open port 22.
 [Figure 5](#def-fig5) shows the window in which you can edit the rules for a chosen security group. 
 
 <a name="def-fig5"></a>
-![](https://raw.githubusercontent.com/ging/fi-ware-cloud-portal/master/doc/resources/rules.png)
+![](https://raw.githubusercontent.com/ging/fiware-cloud-portal/master/doc/resources/rules.png)
 <p align="center">Figure 5: Edit Security Group Rule<p>
 
 You have also to assign a public IP to the VM. This way it will be accesible from the Internet. You have to allocate a new Floating IP using *Security->FloatingIPs->Allocate IP to Project* and the assign it to the VM you have just launched.
@@ -83,5 +83,5 @@ You have also to assign a public IP to the VM. This way it will be accesible fro
 Now you can connect to the VM following the instructions in *Connection* tab of the VM as [Figure 6](#def-fig6) shown.
 
 <a name="def-fig6"></a>
-![](https://raw.githubusercontent.com/ging/fi-ware-cloud-portal/master/doc/resources/connect.png)
+![](https://raw.githubusercontent.com/ging/fiware-cloud-portal/master/doc/resources/connect.png)
 <p align="center">Figure 6: Instance Connection<p>
