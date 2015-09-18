@@ -9,7 +9,7 @@ Both options require that you have [docker](https://docs.docker.com/installation
 
 ## Build your own image and run the container from it
 
-You have to download the [Cloud Portal's code](https://github.com/ging/fiware-cloud-portal) from GitHub and navigate to `docker` directory. There, to compile your own image just run:
+You have to download the [Cloud Portal's code](https://github.com/ging/fiware-cloud-portal) from GitHub and navigate to `extras/docker` directory. There, to compile your own image just run:
 
 	sudo docker build -t cloud-portal-image .
 
