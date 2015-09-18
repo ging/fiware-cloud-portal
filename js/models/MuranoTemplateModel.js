@@ -47,18 +47,97 @@
 //     sync: function(method, model, options) {
 //         switch(method) {
 //             case "read":
-//                 JSTACK.Murano.getBlueprintTemplate(model.id, options.success, options.error, this.getRegion());
+// 				JSTACK.Murano.getTemplate(model.id, function(result) {
+
+// 					result.tierDtos_asArray = result.services;
+// 					for (var s in result.services) {
+// 						result.services[s].keypair = result.services[s].instance.keypair;
+// 						result.services[s].flavour = result.services[s].instance.flavor;
+// 						result.services[s].image = result.services[s].instance.image;
+
+// 						// TODO: Cuál es el id de un service????
+// 						result.services[s].id = result.services[s]['?'].id;
+// 					}
+// 					delete result.services;
+// 					options.success(result);
+
+// 				}, options.error, this.getRegion());
+
 //                 break;
 //             case "create":
-//                 JSTACK.Murano.createBlueprintTemplate(model.toJSON(), options.success, options.error, this.getRegion());
+//                 JSTACK.Murano.createTemplate(model.toJSON().name, options.success, options.error, this.getRegion());
 //                 break;
 //             case "delete":
-//                 JSTACK.Murano.deleteBlueprintTemplate(model.id, options.success, options.error, this.getRegion());
+//                 JSTACK.Murano.deleteTemplate(model.id, options.success, options.error, this.getRegion());
 //                 break;
 //             case "update":
 //                 break;
 //             case "addTier":
-//                 JSTACK.Murano.createBlueprintTemplateTier(model.id, options.tier, options.success, options.error, this.getRegion());
+
+
+//                 var tier = options.tier;
+//                 var instance_id = JSTACK.Utils.guid();
+
+//                 var instance = {
+//                     "flavor": tier.flavour, 
+//                     "keypair": tier.keypair, 
+//                     "image": tier.image, 
+//                     "?": {
+//                         "type": "io.murano.resources.ConfLangInstance",         
+//                         "id":  instance_id
+//                     }, 
+//                     "name": tier.name
+//                 };
+
+//                 if (tier.networkDto) {
+//                     instance.networks = {
+//                         "useFlatNetwork": false, 
+//                         "primaryNetwork": null, 
+//                         "useEnvironmentNetwork": false, 
+//                         "customNetworks": []
+//                     };
+
+//                     var net;
+
+//                     for (var n in tier.networkDto) {
+//                         if (tier.networkDto[n].networkId) {
+//                             // Network exists in Openstack
+//                             net = {
+//                                 "internalNetworkName": tier.networkDto[n].networkName, 
+//                                 "?": {
+//                                     "type": "io.murano.resources.ExistingNeutronNetwork", 
+//                                     "id": tier.networkDto[n].networkId
+//                                 }
+//                             };
+
+//                             instance.networks.customNetworks.push(net);
+
+//                         } else {
+//                             // New network created using an alias
+//                             net = {
+//                                 "autoUplink": true, 
+//                                 "name": tier.networkDto[n].networkName, 
+//                                 "?": {
+//                                     "type": "io.murano.resources.NeutronNetworkBase", 
+//                                     "id": JSTACK.Utils.guid()
+//                                 }, 
+//                                 "autogenerateSubnet": true
+//                             };
+
+//                             instance.networks.customNetworks.push(net);
+//                         }
+//                     }
+//                 }
+
+//                 var services = tier.productReleaseDtos;
+
+//                 console.log('services', services);
+
+//                 if (services) {
+//                     this.createServices(0, services, model.id, instance, instance_id, options.success, options.error);
+//                 } else {
+//                     options.error('No services selected');
+//                 }
 //                 break;
 //             case "updateTier":
 //                 JSTACK.Murano.updateBlueprintTemplateTier(model.id, options.tier, options.success, options.error, this.getRegion());
@@ -67,6 +146,26 @@
 //                 JSTACK.Murano.deleteBlueprintTemplateTier(model.id, options.tier, options.success, options.error, this.getRegion());
 //                 break;
 //         }
+//     },
+
+//     createServices: function (index, services, template_id, instance, instance_id, callback, error) {
+
+//         var self = this;
+
+//         if (index === services.length) {
+//             callback();
+//             return;
+//         }
+
+//         var inst;
+
+//         if (index === 0) inst = instance;
+//         else inst = instance_id;
+
+//         JSTACK.Murano.createService(template_id, services[index].info, inst, function () {
+//             self.createServices(++index, services, template_id, instance, instance_id, callback, error);
+//         }, error, this.getRegion());
+
 //     },
 
 //     parse: function(resp) {
@@ -126,7 +225,7 @@
 //             case "read":
 //                 // BlueprintCatalogue not available yet
 //                 //this.fetchCollection(options);
-//                 JSTACK.Murano.getBlueprintTemplateList(options.success, options.error, this.getRegion());
+//                 JSTACK.Murano.getTemplateList(options.success, options.error, this.getRegion());
 //                 break;
 //             case 'getCatalogBlueprint':
 //                 JSTACK.Murano.getBlueprintCatalog(options.id, options.success, options.error);

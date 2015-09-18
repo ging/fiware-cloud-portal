@@ -391,9 +391,11 @@ var EditTierView = Backbone.View.extend({
                 console.log(this.addedProducts[product]);
             }
 
+            var version = this.addedProducts[product].get('version') || '';
+
             entries.push(
                 {id: product, cells:[
-                    {value: this.addedProducts[product].get('name') + ' ' + this.addedProducts[product].get('version'),
+                    {value: this.addedProducts[product].get('name') + ' ' + version,
                     tooltip: this.addedProducts[product].get('description')}
                     ]
                 });
@@ -524,10 +526,12 @@ var EditTierView = Backbone.View.extend({
                 }
             } 
 
+            var version = products[product].get('version') || '';
+
             if (comp) {
                 entries.push(
                     {id: product, cells:[
-                    {value: products[product].get('name') + ' ' + products[product].get('version'),
+                    {value: products[product].get('name') + ' ' + version,
                     tooltip: products[product].get('description')}]});
             }
 
@@ -866,7 +870,7 @@ var EditTierView = Backbone.View.extend({
 
             tier.productReleaseDtos = [];
             for (var p in this.addedProducts) {
-                var nP = {productName: this.addedProducts[p].get('name'), version: this.addedProducts[p].get('version')};
+                var nP = {productName: this.addedProducts[p].get('name'), version: this.addedProducts[p].get('version'), info: this.addedProducts[p].attributes};
 
                 var attrs = this.addedProducts[p].get('attributes_asArray');
                 if (attrs) {
