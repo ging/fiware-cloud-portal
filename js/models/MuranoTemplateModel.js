@@ -49,16 +49,41 @@
 //             case "read":
 // 				JSTACK.Murano.getTemplate(model.id, function(result) {
 
-// 					result.tierDtos_asArray = result.services;
-// 					for (var s in result.services) {
-// 						result.services[s].keypair = result.services[s].instance.keypair;
-// 						result.services[s].flavour = result.services[s].instance.flavor;
-// 						result.services[s].image = result.services[s].instance.image;
+//                     console.log(result);
 
-// 						// TODO: Cuál es el id de un service????
-// 						result.services[s].id = result.services[s]['?'].id;
+// 					result.tierDtos_asArray = [];
+
+// 					for (var s in result.services) {
+//                         // new tier
+//                         if (typeof(result.services[s].instance) !== 'string') {
+
+//                             var inst = result.services[s].instance['?'];
+                            
+//                             var tier = {
+//                                 id: inst.id,
+//                                 name: result.services[s].instance.flavor,
+//                                 flavour: result.services[s].instance.flavor,
+//                                 image: result.services[s].instance.image,
+//                                 keypair: result.services[s].instance.keypair,
+//                                 productReleaseDtos_asArray: [{productName: result.services[s].name, version: ''}]
+
+//                             };
+//                             result.tierDtos_asArray.push(tier);
+//                         }
 // 					}
-// 					delete result.services;
+
+//                     for (var s1 in result.services) {
+//                         // product of already registered tier
+//                         if (typeof(result.services[s1].instance) === 'string') {
+//                             for (var t in result.tierDtos_asArray) {
+//                                 if (result.tierDtos_asArray[t].id === result.services[s1].instance) {
+//                                     var prod = {productName: result.services[s1].name, version: ''};
+//                                     result.tierDtos_asArray[t].productReleaseDtos_asArray.push(prod);
+//                                 }
+//                             }
+//                         }
+//                     }
+
 // 					options.success(result);
 
 // 				}, options.error, this.getRegion());
