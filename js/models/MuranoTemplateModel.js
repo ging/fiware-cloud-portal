@@ -47,13 +47,13 @@
 //     sync: function(method, model, options) {
 //         switch(method) {
 //             case "read":
-// 				JSTACK.Murano.getTemplate(model.id, function(result) {
+//				JSTACK.Murano.getTemplate(model.id, function(result) {
 
 //                     console.log(result);
 
-// 					result.tierDtos_asArray = [];
+//					result.tierDtos_asArray = [];
 
-// 					for (var s in result.services) {
+//                  for (var s in result.services) {
 //                         // new tier
 //                         if (typeof(result.services[s].instance) !== 'string') {
 
@@ -70,7 +70,7 @@
 //                             };
 //                             result.tierDtos_asArray.push(tier);
 //                         }
-// 					}
+//					}
 
 //                     for (var s1 in result.services) {
 //                         // product of already registered tier
@@ -84,9 +84,9 @@
 //                         }
 //                     }
 
-// 					options.success(result);
+//					options.success(result);
 
-// 				}, options.error, this.getRegion());
+//				}, options.error, this.getRegion());
 
 //                 break;
 //             case "create":

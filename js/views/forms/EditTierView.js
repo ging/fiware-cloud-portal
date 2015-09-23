@@ -567,20 +567,26 @@ var EditTierView = Backbone.View.extend({
 
     installSoftware: function(id, targetId) {
         product = this.tmpModels.sdcCatalog.models[id];
+        var self = this;
 
         var exists = false;
-        for (var a in this.addedProducts) {
-            if (this.addedProducts[a].get('name') === product.name) {
+        for (var a in self.addedProducts) {
+            if (self.addedProducts[a].get('name') === product.get('name')) {
                 exists = true;
                 continue;
             }
         }
         if (!exists) {
-            //this.addedProducts.push(product);
-            targetId = targetId || this.addedProducts.length;
-            console.log("Installing on: ", targetId);
-            this.addedProducts.splice(targetId, 0, product);
-            this.tableView.render();
+            //self.addedProducts.push(product);
+            product.fetch({success: function (resp) {
+                targetId = targetId || self.addedProducts.length;
+                console.log("Installing on: ", targetId);
+                self.addedProducts.splice(targetId, 0, product);
+                self.tableView.render();
+
+            }, error: function (e) {
+
+            }});
         }
     },
 

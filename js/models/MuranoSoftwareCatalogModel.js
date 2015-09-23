@@ -32,7 +32,11 @@
 //     sync: function(method, model, options) {
 //         switch(method) {
 //             case "read":
-                
+//				console.log('getting package ', model);
+//				options.success();
+//      //            JSTACK.Murano.getPackage(model.id, function (result) {
+//		//options.success(result);
+//      //            }, options.error, this.getRegion());
 //                 break;
 //             case "create":
 //                 ServiceDC.API.addRecipe(model.get('name'), model.get('version'), 
@@ -81,7 +85,7 @@
 //     sync: function(method, model, options) {
 //         switch(method) {
 //             case 'read':
-//                 JSTACK.Murano.getServiceCatalogue(options.success, options.error, this.getRegion());
+//                 JSTACK.Murano.getPackages(options.success, options.error, this.getRegion());
 //                 break;
 //             case 'create':
 //                 break;
