@@ -9,11 +9,13 @@ end
 
 bash :get_system do
   code <<-EOH
-    cd /opt && \
+    sudo cd /opt && \
     sudo git clone https://github.com/ging/fiware-cloud-portal.git && \
-    cd #{node['fiware-cloud-portal'][:app_dir]} && \
+    sudo cd #{node['fiware-cloud-portal'][:app_dir]} && \
+    sudo mkdir $HOME/.npm && \
+    sudo chown -R $(whoami) "$HOME/.npm" && \
     sudo npm install && \
-    ./node_modules/grunt-cli/bin/grunt && \
+    sudo ./node_modules/grunt-cli/bin/grunt && \
     sudo cp config.js.template config.js
   EOH
 end
