@@ -199,6 +199,7 @@ var loadLibraries = function() {
                 "lib/bp.js",
                 "lib/ovf.js",
                 "lib/speedometer.js",
+                "lib/sanity.js",
                 "http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"
 
             ], function(someModule) {

@@ -189,6 +189,7 @@ UTILS.Auth = (function(U, undefined) {
     var regions_;
     var current_region_;
     var is_idm_ = false;
+    var regions_sanity_ = {};
 
     function initialize(url, adminUrl, isIDM) {
         JSTACK.Keystone.init(url, adminUrl);
@@ -250,6 +251,26 @@ UTILS.Auth = (function(U, undefined) {
             return ['Spain2'];
         }
         return regions_;
+    };
+
+    var updateRegionsStatus = function(callback, error) {
+
+        var regions = getRegions();
+
+        for (var r in regions) {
+            Sanity.API.getNodeStatus(regions[r], updateRegionStatus, undefined);
+        }
+    };
+
+    function updateRegionStatus(region, sanity) {
+        var status = 'down';
+        if (sanity === 'OK') status = 'up';
+        else if (sanity === 'POK') status = 'mid';
+        regions_sanity_[region] = status;
+    }
+
+    var getRegionStatus = function (region) {
+        return regions_sanity_[region];
     };
 
     var getCurrentRegion = function() {
@@ -544,6 +565,8 @@ UTILS.Auth = (function(U, undefined) {
         getCurrentTenant: getCurrentTenant,
         getTenants: getTenants,
         getRegions: getRegions,
+        updateRegionsStatus: updateRegionsStatus,
+        getRegionStatus: getRegionStatus,
         getCurrentRegion: getCurrentRegion,
         switchRegion: switchRegion,
         switchTenant: switchTenant,

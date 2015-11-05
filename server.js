@@ -266,6 +266,18 @@ app.all('/terms_app/*', function(req, res) {
     sendData("http", options, undefined, res);
 });
 
+app.all('/NGSI10/*', function(req, res) {
+
+    var options = {
+        host: 'fi-health.lab.fiware.org',
+        port: 1026,
+        path: req.path,
+        method: req.method,
+        headers: getClientIp(req, req.headers)
+    };
+    sendData("http", options, req.body, res);
+});
+
 
 app.all('/keystone/*', function(req, resp) {
 
@@ -353,7 +365,6 @@ app.all('/:reg/:service/:v/*', function(req, resp) {
     if (req.params.service === 'monitoring') {
         req.params.reg = 'Spain2';
     }
-
 
     var endp = getEndpoint(req.params.service, req.params.reg);
     var new_url = req.url.split(req.params.v)[1];
