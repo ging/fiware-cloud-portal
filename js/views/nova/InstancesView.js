@@ -46,7 +46,7 @@ var NovaInstancesView = Backbone.View.extend({
             if (size >= 1) {
                 for (var id in ids) {
                     var entry = self.model.get(ids[id]);
-                    if (entry.get("status") === "PAUSED" || entry.get("status") === "SUSPENDED") {
+                    if (entry.get("status") === "PAUSED" || entry.get("status") === "SUSPENDED" || entry.get("status") === "SHUTOFF") {
                         return false;
                     }
                 }
@@ -69,6 +69,17 @@ var NovaInstancesView = Backbone.View.extend({
                 for (var id in ids) {
                     var entry = self.model.get(ids[id]);
                     if (entry.get("status") !== "SUSPENDED") {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        };
+        var stoppedSelected = function(size, ids) {
+            if (size >= 1) {
+                for (var id in ids) {
+                    var entry = self.model.get(ids[id]);
+                    if (entry.get("status") !== "SHUTOFF") {
                         return false;
                     }
                 }
@@ -108,6 +119,14 @@ var NovaInstancesView = Backbone.View.extend({
             action: "resume",
             activatePattern: suspendedSelected
         }, {
+            label: "Stop Instance",
+            action: "stop",
+            activatePattern: activeGroupSelected
+        }, {
+            label: "Start Instance",
+            action: "start",
+            activatePattern: stoppedSelected
+        },{
             label: "Change Password",
             action: "password",
             warn: true,
@@ -314,6 +333,34 @@ var NovaInstancesView = Backbone.View.extend({
                         instanceIds.forEach(function(instance) {
                             inst = self.model.get(instance);
                             inst.unpauseserver(UTILS.Messages.getCallbacks("Instance "+inst.get("name") + " unpaused.", "Error unpausing instance "+inst.get("name")));
+                        });
+                    }
+                });
+                subview.render();
+                break;
+            case 'stop':
+                subview = new ConfirmView({
+                    el: 'body',
+                    title: "Stop Instances",
+                    btn_message: "Stop Instances",
+                    onAccept: function() {
+                        instanceIds.forEach(function(instance) {
+                            inst = self.model.get(instance);
+                            inst.stopserver(UTILS.Messages.getCallbacks("Instance "+inst.get("name") + " stopped.", "Error stopping instance "+inst.get("name")));
+                        });
+                    }
+                });
+                subview.render();
+                break;
+            case 'start':
+                subview = new ConfirmView({
+                    el: 'body',
+                    title: "Start Instances",
+                    btn_message: "Start Instances",
+                    onAccept: function() {
+                        instanceIds.forEach(function(instance) {
+                            inst = self.model.get(instance);
+                            inst.startserver(UTILS.Messages.getCallbacks("Instance "+inst.get("name") + " started.", "Error starting instance "+inst.get("name")));
                         });
                     }
                 });

@@ -33,6 +33,14 @@ var Instance = Backbone.Model.extend({
         return this._action('snapshot', options);
     },
 
+    stopserver: function(options) {
+        return this._action('stop', options);
+    },
+
+    startserver: function(options) {
+        return this._action('start', options);
+    },
+
     pauseserver: function(options) {
         return this._action('pause', options);
     },
@@ -169,6 +177,12 @@ var Instance = Backbone.Model.extend({
                 break;
             case "revert-resize":
                 JSTACK.Nova.revertresizedserver(model.get("id"), options.success, options.error, this.getRegion());
+                break;
+            case "stop":
+                JSTACK.Nova.stopserver(model.get("id"), options.success, options.error, this.getRegion());
+                break;
+            case "start":
+                JSTACK.Nova.startserver(model.get("id"), options.success, options.error, this.getRegion());
                 break;
             case "pause":
                 JSTACK.Nova.pauseserver(model.get("id"), options.success, options.error, this.getRegion());
