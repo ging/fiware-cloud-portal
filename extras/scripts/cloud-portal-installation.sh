@@ -9,14 +9,13 @@ sudo apt-get update && \
 	sudo gem install sass -v 3.2.12 -y && \
 
 # Download Release 4.4 of the code and install npm dependencies
-git clone --branch 4.4 https://github.com/ging/fi-ware-cloud-portal.git && \
+git clone --branch 4.4.1 https://github.com/ging/fi-ware-cloud-portal.git && \
 	cd fi-ware-cloud-portal && \
 	npm install && \
 	./node_modules/grunt-cli/bin/grunt
 
-sudo npm install forever -g
-
 # config.js should be configured when the instance is up and running
 cp config.js.template config.js
 
-sudo forever start server.js
+# create upstart task
+sudo cp extras/scripts/cloud-portal.conf /etc/init/cloud-portal.conf
