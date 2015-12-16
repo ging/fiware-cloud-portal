@@ -9,8 +9,8 @@ sudo apt-get update && \
 	sudo gem install sass -v 3.2.12 -y && \
 
 # Download Release 4.4 of the code and install npm dependencies
-git clone --branch 4.4.1 https://github.com/ging/fi-ware-cloud-portal.git && \
-	cd fi-ware-cloud-portal && \
+git clone --branch 4.4.1 https://github.com/ging/fiware-cloud-portal.git && \
+	cd fiware-cloud-portal && \
 	npm install && \
 	./node_modules/grunt-cli/bin/grunt
 
