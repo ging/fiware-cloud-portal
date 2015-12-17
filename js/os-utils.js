@@ -265,7 +265,7 @@ UTILS.Auth = (function(U, undefined) {
     function updateRegionStatus(region, sanity) {
         var status = 'down';
         if (sanity === 'OK') status = 'up';
-        else if (sanity === 'POK') status = 'mid';
+        else if (sanity === 'POK' || sanity === 'N/A') status = 'mid';
         regions_sanity_[region] = status;
     }
 

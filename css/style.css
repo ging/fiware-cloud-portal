@@ -1093,7 +1093,7 @@ input:required:valid {
   background-repeat: no-repeat;
 }
 */
-.status_point {
+#region_switcher_chosen .status_point {
   width: 8px;
   height: 8px;
   border-radius: 50%;
@@ -1102,14 +1102,18 @@ input:required:valid {
   float: left;
 }
 
-.status_point.mid {
+#region_switcher_chosen .mid .status_point {
   background: #d7be35;
 }
 
-.status_point.up {
+#region_switcher_chosen .up .status_point {
   background: #2d9a56;
 }
 
-.status_point.down {
+#region_switcher_chosen .down .status_point {
   background: #ca3334;
+}
+
+#region_switcher_chosen li.down {
+  /*cursor: no-drop;*/
 }
