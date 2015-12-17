@@ -138,7 +138,12 @@ var EditTierView = Backbone.View.extend({
                 keypair_selector.append(new Option('No keypairs available', ''));
             } else {
                 for (var k in keypairs) {
-                    keypair_selector.append(new Option(keypairs[k].get('name'), keypairs[k].get('name')));
+                    if(keypairs[k].get('name') === self.options.tier.keypair) {
+                        keypair_selector.append(new Option(keypairs[k].get('name'), keypairs[k].get('name'), true, true));
+                    } else {
+                        keypair_selector.append(new Option(keypairs[k].get('name'), keypairs[k].get('name')));
+
+                    }
                 }
             }
         }});
