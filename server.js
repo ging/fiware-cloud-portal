@@ -371,7 +371,7 @@ app.all('/:reg/:service/:v/*', function(req, resp) {
     var isSecure = endp.indexOf("https://") === 0;
 
     // This murano request needs admin rights
-    if (req.url.split('application_catalog')[1] === '/v1/catalog/packages' && req.method === 'GET') {
+    if (req.url.split('application-catalog')[1] === '/v1/catalog/packages' && req.method === 'GET') {
         req.headers['x-auth-token'] = my_token;
     }
     
@@ -519,7 +519,7 @@ function getEndpoint (service, region) {
     if (service === 'network') {
         end = end + "/v2.0";
     }
-    if (service === 'application_catalog') {
+    if (service === 'application-catalog') {
         end = end + "/v1";
     }
     return end;

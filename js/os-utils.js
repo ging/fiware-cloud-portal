@@ -496,10 +496,10 @@ UTILS.Auth = (function(U, undefined) {
                 }
             }
 
-            murano = JSTACK.Keystone.getservice("application_catalog");
+            murano = JSTACK.Keystone.getservice("application-catalog");
             if (murano !== undefined) {
                 for (e in murano.endpoints) {
-                    murano.endpoints[e].url = murano.endpoints[e].region + "/application_catalog/v1" + murano.endpoints[e].url.replace(/.*:[0-9]*/, "");
+                    murano.endpoints[e].url = murano.endpoints[e].region + "/application-catalog/v1" + murano.endpoints[e].url.replace(/.*:[0-9]*/, "");
                 }
             }
 
