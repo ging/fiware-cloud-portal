@@ -453,7 +453,7 @@ UTILS.Auth = (function(U, undefined) {
         console.log("Changing endpoint URLS to ", host);
 
         regions_ = [];
-        var e, compute, volume, image, objectstorage, neutron, murano;
+        var e, compute, volume, image, objectstorage, neutron, murano, security;
 
         if (JSTACK.Keystone.params.version === 3) {
             compute = JSTACK.Keystone.getservice("compute");
@@ -500,6 +500,13 @@ UTILS.Auth = (function(U, undefined) {
             if (murano !== undefined) {
                 for (e in murano.endpoints) {
                     murano.endpoints[e].url = murano.endpoints[e].region + "/application-catalog/v1" + murano.endpoints[e].url.replace(/.*:[0-9]*/, "");
+                }
+            }
+
+            security = JSTACK.Keystone.getservice("security");
+            if (security !== undefined) {
+                for (e in security.endpoints) {
+                    security.endpoints[e].url = security.endpoints[e].region + "/security" + security.endpoints[e].url.replace(/.*:[0-9]*/, "");
                 }
             }
 

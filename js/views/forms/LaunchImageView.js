@@ -15,6 +15,7 @@ var LaunchImageView = Backbone.View.extend({
     },
 
     initialize: function() {
+        var self = this;
         this.options.keypairs.fetch();
         this.options.flavors.fetch();
         this.options.secGroups.fetch();
@@ -71,6 +72,14 @@ var LaunchImageView = Backbone.View.extend({
                 this.quotas.disk = this.quotas.disk + flavor.get('disk');
             }
         }
+
+        JSTACK.Aiakos.getGPG(function(gpg){
+            self.gpgKey = gpg;
+        }, function(error){}, UTILS.Auth.getCurrentRegion());
+
+        JSTACK.Aiakos.getSSH(function(ssh){
+            self.sshKey = ssh;
+        }, function(error){}, UTILS.Auth.getCurrentRegion());
     },
 
     render: function () {
@@ -249,7 +258,7 @@ var LaunchImageView = Backbone.View.extend({
             if (JSTACK.Keystone.getendpoint(UTILS.Auth.getCurrentRegion(), "network") !== undefined) {
                 num_interfaces = $('#network-selected li div').length;
             }
-            data = compiled({num_interfaces: num_interfaces});
+            data = compiled({num_interfaces: num_interfaces, ssh: this.sshKey, gpg: this.gpgKey});
             $("#id_user_data").val(data);
         }
     },
