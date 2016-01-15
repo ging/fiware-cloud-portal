@@ -251,6 +251,15 @@ var LaunchImageView = Backbone.View.extend({
         this.user_data_edited = true;
     },
 
+    indent: function (str, numOfIndents, opt_spacesPerIndent) {
+      str = str.replace(/^(?=.)/gm, new Array(numOfIndents + 1).join('\t'));
+      numOfIndents = new Array(opt_spacesPerIndent + 1 || 0).join(' '); // re-use
+      return opt_spacesPerIndent ? str.replace(/^\t+/g, function(tabs) {
+            return tabs.replace(/./g, numOfIndents);
+        })
+        : str;
+    },
+
     checkNetworks: function() {
         if (!this.user_data_edited) {
             var compiled = _.template($('#cloud_init_template').html());
@@ -258,7 +267,7 @@ var LaunchImageView = Backbone.View.extend({
             if (JSTACK.Keystone.getendpoint(UTILS.Auth.getCurrentRegion(), "network") !== undefined) {
                 num_interfaces = $('#network-selected li div').length;
             }
-            data = compiled({num_interfaces: num_interfaces, ssh: this.sshKey, gpg: this.gpgKey});
+            data = compiled({num_interfaces: num_interfaces, ssh: this.sshKey, gpg: this.indent(this.gpgKey, 1)});
             $("#id_user_data").val(data);
         }
     },
