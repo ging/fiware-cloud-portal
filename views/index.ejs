@@ -317,5 +317,26 @@ Thanks</p>
             </div><!-- /.modal-content -->
           </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
+
+        <div id="no_sanity_modal" style="top: 20%; display: none;" class="modal fade">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only"></span></button>
+                <h3>Warning!</h3>
+              </div>
+              <div class="modal-body">
+The region you are trying to access has not passed the last Sanity Checks of FIWARE Lab. Some of the available services in the region could not work as expected. <br><br>
+Are you sure you want to continue?<br><br>
+Note: You can check the details about the Sanity Checks <a target="_blank" href="https://fi-health.lab.fiware.org/">here</a>.</p>
+
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button id="accept_region_modal_button" type="button" class="btn btn-blue">Continue</button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
     </body>
 </html>
