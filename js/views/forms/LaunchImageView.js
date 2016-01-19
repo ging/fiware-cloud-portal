@@ -253,6 +253,7 @@ var LaunchImageView = Backbone.View.extend({
 
     indent: function (str, numOfIndents, opt_spacesPerIndent) {
       //str = str.replace(/^(?=.)/gm, new Array(numOfIndents + 1).join('\t'));
+      str = str || '';
       return str.replace(/^(?=.)/gm, new Array(numOfIndents + 1).join('      '));
       //numOfIndents = new Array(opt_spacesPerIndent + 1 || 0).join(' '); // re-use
       // return opt_spacesPerIndent ? str.replace(/^\t+/g, function(tabs) {
