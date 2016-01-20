@@ -112,16 +112,15 @@
 //                 JSTACK.Murano.getBlueprintInstanceList(options.success, options.error, this.getRegion());
 //                 break;
 //             case 'getTask':
-//                 JSTACK.Murano.getTask(options.taskId, function (resp) {
-//                     var message = 'Blueprint Instance ' + resp.environment + ' status.';
-//                     message += '<br><br>Description: ' + resp.description;
-//                     message += '<br><br>Status: ' + resp._status;
-//                     if (resp.error) {
-//                         message += '<br><br>Error: ' + resp.error._message;
-//                     }
+//                 //JSTACK.Murano.getTask(options.taskId, function (resp) {
+//                     var message = 'Blueprint Instance ' + model.models[0].get('name') + ' status.';
+//                     message += '<br><br>Status: ' + model.models[0].get('status');
+//                     // if (resp.error) {
+//                     //     message += '<br><br>Error: ' + resp.error._message;
+//                     // }
 //                     options.success(message);
 
-//                 }, options.error, this.getRegion());
+//                 //}, options.error, this.getRegion());
 //                 break;
 //             case 'getCatalogueProductDetails':
 //                 // ServiceDC.API.getProductAttributes(options.id, options.success, options.error, this.getRegion());

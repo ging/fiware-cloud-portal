@@ -172,7 +172,7 @@ var BlueprintTemplateView = Backbone.View.extend({
         if (tierIds.length === 1) {
             tier = tierIds[0];
             this.model.get('tierDtos_asArray').forEach(function(cur) {
-                if (cur.name === tier) {
+                if (cur.id === tier) {
                     tr = cur;
                 }
             });
@@ -236,6 +236,7 @@ var BlueprintTemplateView = Backbone.View.extend({
     },
 
     render: function() {
+        $('#page-title').children().html('Blueprint Templates / ' + this.model.get('name'));
         if (this.tableView === undefined) {
             UTILS.Render.animateRender(this.el, this._template);
             this.tableView = new TableTiersView({

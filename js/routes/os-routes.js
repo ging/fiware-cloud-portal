@@ -417,7 +417,7 @@ var OSRouter = Backbone.Router.extend({
     },
 
     blueprint_template: function(self, id) {
-        self.showNovaRoot(self, 'Blueprint Templates', 'Blueprint Templates / ' + id);
+        self.showNovaRoot(self, 'Blueprint Templates', 'Blueprint Templates / ');
         var bp = new BPTemplate();
         bp.set({'name': id});
         bp.set({'id': id});
