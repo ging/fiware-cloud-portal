@@ -407,6 +407,8 @@ app.all('/user/:token', function(req, resp) {
     sendData("https", options, undefined, resp);
 });
 
+var catalog_interval;
+
 function getCatalog(chained) {
 
     var options = {
@@ -453,7 +455,6 @@ function getCatalog(chained) {
 
     sendData("http", options, JSON.stringify(credentials), undefined, function (status, resp, headers) {
 
-
         if (keystone_config.version === 3) {
             service_catalog = JSON.parse(resp).token.catalog;
             my_token = headers['x-subject-token'];
@@ -464,12 +465,13 @@ function getCatalog(chained) {
         }
         //console.log('Service catalog: ', JSON.stringify(service_catalog, 4, 4));
         if (chained !== false) {
-            setInterval(function() {
+            catalog_interval = setInterval(function() {
                 getCatalog(false);
             }, 600000);
         }
     }, function (e, msg) {
         console.log('Error getting catalog', e, msg);
+        clearInterval(catalog_interval);
         setTimeout(function() {
             getCatalog(true);
         }, 10000);
@@ -478,10 +480,7 @@ function getCatalog(chained) {
 
 function getEndpoint (service, region) {
     var serv, endpoint;
-
     
-
-
     for (var s in service_catalog) {
         if (service_catalog[s].type === service) {
             serv = service_catalog[s];
