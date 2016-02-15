@@ -64,6 +64,11 @@ var NovaVolumesView = Backbone.View.extend({
                 label: "Create Snapshot",
                 action: "snapshot",
                 activatePattern: attachSelected
+            //Add when cinder v2 is available (for volume backups)
+            /*}, {
+                label: "Create Backup",
+                action: "backup",
+                activatePattern: attachSelected*/
             }, {
                 label: "Delete Volumes",
                 action: "delete",
@@ -158,6 +163,10 @@ var NovaVolumesView = Backbone.View.extend({
                 break;
             case 'snapshot':
                 subview = new CreateVolumeSnapshotView({el: 'body', volume_id: volume});
+                subview.render();
+                break;
+            case 'backup':
+                subview = new CreateVolumeBackupView({el: 'body', volume_id: volume});
                 subview.render();
                 break;
             case 'delete':

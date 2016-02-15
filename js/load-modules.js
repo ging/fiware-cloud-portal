@@ -70,6 +70,7 @@ var loadViews = function() {
                 "js/views/nova/snapshots/InstanceSnapshotsView.js",
                 "js/views/nova/snapshots/VolumeSnapshotsView.js",
                 "js/views/nova/snapshots/VolumeSnapshotDetailView.js",
+                "js/views/nova/snapshots/VolumeBackupsView.js",
                 "js/views/nova/snapshots/InstanceSnapshotDetailView.js",
                 "js/views/objectstorage/ContainersView.js",
                 "js/views/objectstorage/ContainerView.js",

@@ -16,6 +16,7 @@ UTILS.GlobalModels = (function(U, undefined) {
         volumesModel: undefined,
         volumeSnapshotsModel: undefined,
         instanceSnapshotsModel: undefined,
+        volumeBackupsModel: undefined,
         flavors: undefined,
         images: undefined,
         keypairsModel: undefined,
@@ -47,6 +48,7 @@ UTILS.GlobalModels = (function(U, undefined) {
         models.volumesModel = new Volumes();
         models.volumeSnapshotsModel = new VolumeSnapshots();
         models.instanceSnapshotsModel = new InstanceSnapshots();
+        models.volumeBackupsModel = new VolumeBackups();
         models.images = new Images();
         models.keypairsModel = new Keypairs();
         models.projects = new Projects();
@@ -100,6 +102,8 @@ UTILS.GlobalModels = (function(U, undefined) {
             add_fetch("flavors", seconds);
             add_fetch("volumeSnapshotsModel", seconds);
             add_fetch("instanceSnapshotsModel", seconds);
+            // Add when cinder v2 is available (for volume backups)
+            //add_fetch("volumeBackupsModel", seconds);
             add_fetch("containers", seconds);
             add_fetch("securityGroupsModel", seconds);
             add_fetch("keypairsModel", seconds);

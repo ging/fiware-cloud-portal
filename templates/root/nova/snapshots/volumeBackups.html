@@ -1,0 +1,63 @@
+<script id="novaVolumeBackupsTemplate" type="text/html">
+<!--
+Description: Volume Backups
+src: templates/root/nova/backups/volumeBackups.html
+-->
+    <div id="volume-backups-table"></div>
+    <!--
+    <div class='table_header'>
+        <div class="table_actions clearfix">
+            <button id="volume_backups_delete" class='btn btn-small btn-danger btn-delete-group' disabled=true name="action" value="volume_backups__delete" type="submit" data-i18n="Delete Volume Backups">
+                Delete Volume Backups
+            </button>
+        </div>
+    </div>
+    <table id="volume_backups_head" class="table table-bordered table-striped table-header">
+        <thead>
+            <tr>
+                <td style="width:5%" class="multi_select_column">
+                    <input type="checkbox" class="checkbox checkbox_all">
+                </td>
+                <td style="width:15%" class="tip" data-tooltip="Volume backup's name.">Name</td>
+                <td style="width:20%" class="hidden-phone tip" data-tooltip="Volume backup's description.">Description</td>
+                <td style="width:10%" class="tip" data-tooltip="Size of the volume backup.">Size</td>
+                <td style="width:15%" class="tip" data-tooltip="Current volume backup's status (available, none, ...).">Status</td>
+                <td style="width:10%" class="tip" data-tooltip="Identifier of the corresponding Volume.">Volume ID</td>
+                <td style="width:25%" class="actions_column hidden-phone">Actions</td>
+            </tr>
+        </thead>
+    </table>
+    <div class="scrollable">
+        <table id="volume_backups" class="table table-without-margins table-bordered without-borders table-striped table-scrolled">
+            <tbody>
+                <%  var volBackup = models[index];
+                for (var index in models) {
+                var volBackup = models[index];
+                %>
+                <tr id="volume_backups__row__<%= models.length %>" class="">
+                    <td style="width:5%" class="multi_select_column">
+                        <input type="checkbox" name="object_ids" class="checkbox checkbox_volumes" id="checkbox_<%= volBackup.get('id')%>" value="<%= volBackup.get('id')%>" />
+                    </td>
+                    <td style="width:15%" class=""><a href="#nova/images_and_backups/<%= volBackup.get('id')%>"><%= volBackup.get('display_name')%></a></td>
+                    <td style="width:20%" class="hidden-phone"><%=volBackup.get('display_description')%></td>
+                    <td style="width:10%" class=""><%=volBackup.get('size')+" GB"%></td>
+                    <td style="width:15%" class=""><%=volBackup.get('status')%></td>
+                    <td style="width:10%" class=""><%=volBackup.get('volume_id')%></td>
+                    <td style="width:25%" class="actions_column hidden-phone">
+                    <button id="volume_backup__action_delete" class="ajax-modal btn btn-small btn-danger btn-delete-volume" value="<%= volBackup.get('id')%>" name="action" type="submit" data-i18n="Delete Volume Backup">
+                        Delete Volume Backup
+                    </button></td>
+                </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+    <table id="volume_backups_foot" class="table-foot table table-bordered table-striped table-without-margins">
+        <tfoot>
+            <tr>
+                <td colspan="7"><span class="blue"><%=UTILS.i18n.pluralise("Displaying %s item", "Displaying %s items", models.length)%></span></td>
+                </td>
+        </tfoot>
+    </table>
+    -->
+</script>
