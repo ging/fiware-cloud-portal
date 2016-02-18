@@ -362,7 +362,7 @@ app.all('/:reg/:service/:v/*', function(req, resp) {
         resp.time_stats  = {serv: req.params.service, reg:req.params.reg, initT: (new Date()).getTime()};
     }
 
-    if (req.params.service === 'monitoring') {
+    if (req.params.service === 'monitoring' || req.params.service === 'support') {
         req.params.reg = 'Spain2';
     }
 

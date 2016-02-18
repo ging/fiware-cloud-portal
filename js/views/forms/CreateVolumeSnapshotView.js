@@ -4,7 +4,7 @@ var CreateVolumeSnapshotView = Backbone.View.extend({
 
     events: {
       'click #cancelBtn': 'close',
-      'click #close': 'close',
+      'click .close': 'close',
       'click #createBtn': 'create',
       'click .modal-backdrop': 'close'
     },
