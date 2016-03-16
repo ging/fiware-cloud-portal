@@ -1,5 +1,10 @@
 # Self Services Interfaces - Cloud Portal
 
+[![License badge](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Documentation badge](https://img.shields.io/badge/docs-stable-brightgreen.svg?style=flat)](http://fiware-cloud-portal.readthedocs.org/en/stable/)
+[![Docker badge](https://img.shields.io/docker/pulls/fiware/cloud-portal.svg)](https://hub.docker.com/r/fiware/cloud-portal/)
+[![Support badge]( https://img.shields.io/badge/support-sof-yellowgreen.svg)](http://stackoverflow.com/questions/tagged/fiware)
+
 + [Introduction](#def-introduction)
 + [How to Build & Install](#def-build)
     - [Docker](#def-docker)
@@ -8,12 +13,6 @@
 + [License](#def-license)
 
 ---
-
-[![License badge](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Documentation badge](https://img.shields.io/badge/docs-stable-brightgreen.svg?style=flat)](http://fiware-cloud-portal.readthedocs.org/en/stable/)
-[![Docker badge](https://img.shields.io/docker/pulls/fiware/cloud-portal.svg)](https://hub.docker.com/r/fiware/cloud-portal/)
-[![Support badge]( https://img.shields.io/badge/support-sof-yellowgreen.svg)](http://stackoverflow.com/questions/tagged/fiware)
-
 <br>
 
 <a name="def-introduction"></a>
