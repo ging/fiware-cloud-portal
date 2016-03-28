@@ -16,8 +16,9 @@ var NovaSnapshotsView = Backbone.View.extend({
         this.options.keypairs = UTILS.GlobalModels.get("keypairsModel");
         this.options.secGroups = UTILS.GlobalModels.get("securityGroupsModel");
         this.options.quotas = UTILS.GlobalModels.get("quotas");
+        this.options.networks = UTILS.GlobalModels.get("networks");
         this.render();
-        this.instanceSnapshotsView = new NovaInstanceSnapshotsView({model: this.options.instanceSnapshotsModel, quotas:this.options.quotas, instancesModel: this.options.instancesModel, flavors: this.options.flavors, keypairs: this.options.keypairs, secGroups: this.options.secGroups, volumes: this.options.volumesModel, el: '#instance_snapshots'});
+        this.instanceSnapshotsView = new NovaInstanceSnapshotsView({model: this.options.instanceSnapshotsModel, quotas:this.options.quotas, instancesModel: this.options.instancesModel, flavors: this.options.flavors, keypairs: this.options.keypairs, secGroups: this.options.secGroups, volumes: this.options.volumesModel, networks: this.options.networks, el: '#instance_snapshots'});
         this.volumeSnapshotsView = new NovaVolumeSnapshotsView({model: this.options.volumeSnapshotsModel, instancesModel: this.options.instancesModel, volumesModel: this.options.volumesModel, flavors: this.options.flavors, secGroups: this.options.secGroups, el: '#volume_snapshots'});
         this.volumeBackupsView = new VolumeBackupsView({model: this.options.volumeBackupsModel, volumesModel: this.options.volumesModel, el: '#volume_backups'});
     },
