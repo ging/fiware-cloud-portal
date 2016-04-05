@@ -16,7 +16,7 @@
     "grunt-contrib-copy": "~0.4.0",
     "grunt-contrib-jshint": "~0.1.1",
     "grunt-contrib-clean": "~0.4.0",
-    "grunt-contrib-sass": "~0.3.0",
+    "grunt-contrib-sass": "git+https://github.com/gruntjs/grunt-contrib-sass.git#e85ee70ccb8839867172b57ca1378293291f8037",
     "agentkeepalive": "0.2.2"
   },
   "preferGlobal": true,

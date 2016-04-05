@@ -374,6 +374,11 @@ app.all('/:reg/:service/:v/*', function(req, resp) {
     if (req.url.split('application-catalog')[1] === '/v1/catalog/packages' && req.method === 'GET') {
         req.headers['x-auth-token'] = my_token;
     }
+
+    //For ceph endpoints
+    if (req.params.v === 'swift') {
+        new_url = req.url.split('swift/v1')[1];
+    }
     
     var options = {
         url: endp + new_url,
