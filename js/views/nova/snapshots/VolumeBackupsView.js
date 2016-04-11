@@ -99,7 +99,7 @@ var VolumeBackupsView = Backbone.View.extend({
                     onAccept: function() {
                         backupIds.forEach(function(backup) {
                             backupModel = self.model.get(backup);
-                            backupModel.destroy(UTILS.Messages.getCallbacks("Backup " + backupModel.get("name") + " deleted", "Error deleting backup " + snap.get("name")));
+                            backupModel.destroy(UTILS.Messages.getCallbacks("Backup " + backupModel.get("name") + " deleted", "Error deleting backup " + backupModel.get("name")));
                         });
                     }
                 });
