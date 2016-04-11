@@ -29,6 +29,10 @@ var VolumeBackup = Backbone.Model.extend({
         return xhr;
     },
 
+    restore: function(options) {
+        return this._action('restore', options);
+    },
+
     sync: function(method, model, options) {
         switch(method) {
             case "create":
@@ -37,7 +41,8 @@ var VolumeBackup = Backbone.Model.extend({
             case "delete":
                 JSTACK.Cinder.deletebackup(model.get("id"), options.success, options.error, this.getRegion());
                 break;
-            case "update":
+            case "restore":
+                JSTACK.Cinder.restorebackup(model.get("id"), options.success, options.error, this.getRegion());
                 break;
             case "read":
                 JSTACK.Cinder.getbackup(model.get("id"), options.success, options.error, this.getRegion());

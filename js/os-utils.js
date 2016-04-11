@@ -103,7 +103,7 @@ UTILS.GlobalModels = (function(U, undefined) {
             add_fetch("volumeSnapshotsModel", seconds);
             add_fetch("instanceSnapshotsModel", seconds);
             // Add when cinder v2 is available (for volume backups)
-            //add_fetch("volumeBackupsModel", seconds);
+            add_fetch("volumeBackupsModel", seconds);
             add_fetch("containers", seconds);
             add_fetch("securityGroupsModel", seconds);
             add_fetch("keypairsModel", seconds);
@@ -457,7 +457,7 @@ UTILS.Auth = (function(U, undefined) {
         console.log("Changing endpoint URLS to ", host);
 
         regions_ = [];
-        var e, compute, volume, image, objectstorage, neutron, murano, security;
+        var e, compute, volume, volumev2, image, objectstorage, neutron, murano, security;
 
         if (JSTACK.Keystone.params.version === 3) {
             compute = JSTACK.Keystone.getservice("compute");

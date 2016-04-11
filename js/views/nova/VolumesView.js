@@ -65,10 +65,10 @@ var NovaVolumesView = Backbone.View.extend({
                 action: "snapshot",
                 activatePattern: attachSelected
             //Add when cinder v2 is available (for volume backups)
-            /*}, {
+            }, {
                 label: "Create Backup",
                 action: "backup",
-                activatePattern: attachSelected*/
+                activatePattern: attachSelected
             }, {
                 label: "Delete Volumes",
                 action: "delete",
@@ -122,7 +122,7 @@ var NovaVolumesView = Backbone.View.extend({
             var entry = {
                 id: volume.get('id'),
                 cells: [{
-                    value: volume.get("display_name"),
+                    value: volume.get("name") ? volume.get("name") : volume.get('display_name'),
                     link: "#nova/volumes/" + volume.get("id") + "/detail"
                 }, {
                     value: (volume.get("display_description") !== '' && volume.get('display_description')!== null) ? volume.get("display_description"):'-'

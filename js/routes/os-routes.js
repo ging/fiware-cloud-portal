@@ -76,10 +76,10 @@ var OSRouter = Backbone.Router.extend({
         this.route('nova/flavors/', 'flavors',  this.wrap(this.nova_flavors, this.checkAuthAndTimers, ["flavors"]));
 
         // Add when cinder v2 is available (for volume backups)
-        //this.route('nova/snapshots/', 'snapshots', this.wrap(this.nova_snapshots, this.checkAuthAndTimers, ["volumeSnapshotsModel", "instanceSnapshotsModel", "volumeBackupsModel"]));
-        this.route('nova/snapshots/', 'snapshots', this.wrap(this.nova_snapshots, this.checkAuthAndTimers, ["volumeSnapshotsModel", "instanceSnapshotsModel"]));
+        this.route('nova/snapshots/', 'snapshots', this.wrap(this.nova_snapshots, this.checkAuthAndTimers, ["volumeSnapshotsModel", "instanceSnapshotsModel", "volumeBackupsModel"]));
         this.route('nova/snapshots/instances/:id/detail/', 'instance_snapshot', this.wrap(this.instance_snapshot, this.checkAuthAndTimers));
         this.route('nova/snapshots/volumes/:id/detail/', 'volume_snapshot', this.wrap(this.volume_snapshot, this.checkAuthAndTimers));
+        this.route('nova/backups/volumes/:id/detail/', 'volume_backup', this.wrap(this.volume_backup, this.checkAuthAndTimers));
 
         this.route('syspanel/services/', 'services',  this.wrap(this.sys_services, this.checkAuthAndTimers));
         this.route('syspanel/flavors/', 'flavors',  this.wrap(this.sys_flavors, this.checkAuthAndTimers, ["flavors"]));
@@ -501,6 +501,14 @@ var OSRouter = Backbone.Router.extend({
         var snapshot = new VolumeSnapshot();
         snapshot.set({"id": id});
         var view = new NovaVolumeSnapshotDetailView({model: snapshot, el: '#content'});
+        self.newContentView(self, view);
+    },
+
+    volume_backup: function(self, id) {
+        self.showNovaRoot(self, 'Backups');
+        var backup = new VolumeBackup();
+        backup.set({"id": id});
+        var view = new NovaVolumeBackupDetailView({model: backup, el: '#content'});
         self.newContentView(self, view);
     },
 
