@@ -49,8 +49,6 @@
 //             case "read":
 //                  JSTACK.Murano.getTemplate(model.id, function(result) {
 
-//                     console.log(result);
-
 //                  result.tierDtos_asArray = [];
 
 //                  for (var s in result.services) {
@@ -156,8 +154,6 @@
 
 //                 var services = tier.productReleaseDtos;
 
-//                 console.log('services', services);
-
 //                 if (services) {
 //                     this.createServices(0, services, model.id, instance, instance_id, options.success, options.error);
 //                 } else {
@@ -187,7 +183,9 @@
 //         if (index === 0) inst = instance;
 //         else inst = instance_id;
 
-//         JSTACK.Murano.createService(template_id, services[index].info, inst, function () {
+//         var ser = services[index];
+
+//         JSTACK.Murano.createService(template_id, ser.info, inst, function () {
 //             self.createServices(++index, services, template_id, instance, instance_id, callback, error);
 //         }, error, this.getRegion());
 

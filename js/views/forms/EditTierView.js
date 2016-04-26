@@ -914,7 +914,7 @@ var EditTierView = Backbone.View.extend({
             success_mg = "Tier "+name + " updated.";
             error_msg = "Error updating tier "+name;
         }
-
+        
         var options = UTILS.Messages.getCallbacks(success_mg, error_msg, {context: self});
 
         options.tier = tier;

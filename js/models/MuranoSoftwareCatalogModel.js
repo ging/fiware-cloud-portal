@@ -32,10 +32,9 @@
 //     sync: function(method, model, options) {
 //         switch(method) {
 //             case "read":
-//				console.log('getting package ', model);
-//				options.success();
+//              options.success();
 //      //            JSTACK.Murano.getPackage(model.id, function (result) {
-//		//options.success(result);
+//      //options.success(result);
 //      //            }, options.error, this.getRegion());
 //                 break;
 //             case "create":
@@ -85,7 +84,26 @@
 //     sync: function(method, model, options) {
 //         switch(method) {
 //             case 'read':
-//                 JSTACK.Murano.getPackages(options.success, options.error, this.getRegion());
+//                 JSTACK.Murano.getPackages(function(packages) {
+//                     for (var p in packages) {
+//                         var attributes = [];
+//                         for (var t in packages[p].tags) {
+//                             if (packages[p].tags[t].split('attributes=').length > 1) {
+//                                 var attr = packages[p].tags[t].split('attributes=')[1].split(';');
+//                                 for (var a = 0; a < attr.length - 1; a++) {
+//                                     var at = {};
+//                                     at.key = attr[a].split(':')[0];
+//                                     at.value = attr[a].split(':')[1];
+//                                     at.description = '';
+//                                     attributes.push(at);
+//                                 }
+
+//                             }
+//                         }
+//                         packages[p].attributes_asArray = attributes;
+//                     }
+//                     options.success(packages);
+//                 }, options.error, this.getRegion());
 //                 break;
 //             case 'create':
 //                 break;
