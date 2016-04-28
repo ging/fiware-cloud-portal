@@ -7,4 +7,4 @@ site_dir: html
 theme: readthedocs
 extra_css: ["https://fiware.org/style/fiware_readthedocs.css"]
 pages:
-  - "Home": "../README.md"
+  - '../README.md'
