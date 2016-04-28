@@ -2,9 +2,7 @@ site_name: Fiware-Cloud-Portal
 site_url: http://fiware-cloud-portal.readthedocs.org
 repo_url: https://github.com/ging/fiware-cloud-portal
 site_description: Cloud Portal Documentation
-docs_dir: doc
+docs_dir: .
 site_dir: html
 theme: readthedocs
 extra_css: ["https://fiware.org/style/fiware_readthedocs.css"]
-pages:
-  - '../README.md'
