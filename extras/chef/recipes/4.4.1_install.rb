@@ -1,6 +1,6 @@
 #
-# Cookbook Name:: cloud-portal
-# Recipe:: configure
+# Cookbook Name:: cloud_portal
+# Recipe:: install
 #
 # Copyright 2015, GING, ETSIT, UPM
 #
@@ -16,7 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+node.set['cloud_portal']['version'] = '4.4.1'
 
-node.set['cloud-portal']['version'] = '0.0.1'
-
-include_recipe 'cloud-portal::configure'
+include_recipe 'cloud_portal::install'

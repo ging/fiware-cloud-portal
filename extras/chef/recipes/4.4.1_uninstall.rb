@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: cloud-portal
+# Cookbook Name:: cloud_portal
 # Recipe:: uninstall
 #
 # Copyright 2015, GING, ETSIT, UPM
@@ -17,4 +17,4 @@
 # limitations under the License.
 #
 
-include_recipe 'cloud-portal::uninstall'
+include_recipe 'cloud_portal::uninstall'

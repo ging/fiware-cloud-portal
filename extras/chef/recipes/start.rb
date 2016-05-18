@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: cloud-portal
+# Cookbook Name:: cloud_portal
 # Recipe:: start
 #
 # Copyright 2015, GING, ETSIT, UPM
@@ -17,8 +17,6 @@
 # limitations under the License.
 #
 
-execute 'stop cloud-portal' do
-  user 'root'
-  command "pkill -f 'node server.js'"
-  ignore_failure true
+service 'cloud-portal' do
+  action :start
 end

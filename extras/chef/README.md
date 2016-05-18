@@ -12,7 +12,7 @@ Chef must be installed.
 Attributes
 ==========
 
-node[cloud-portal]['app_dir'] contains the path to install
+node[cloud_portal]['app_dir'] contains the path to install
 
 Usage
 =====

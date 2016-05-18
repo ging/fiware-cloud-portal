@@ -2,6 +2,6 @@
 # attributes to be applied to nodes that run this cookbook.
 
 # Set a default name
-default['cloud-portal'][:install_dir] = '/opt/cloud-portal'
+default['cloud_portal'][:install_dir] = '/home/ubuntu/fiware-cloud-portal'
 
 # For further information, see the Chef documentation (http://docs.getchef.com/essentials_cookbook_attribute_files.html).

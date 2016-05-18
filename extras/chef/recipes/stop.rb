@@ -1,6 +1,6 @@
 #
-# Cookbook Name:: cloud-portal
-# Recipe:: stop
+# Cookbook Name:: cloud_portal
+# Recipe:: start
 #
 # Copyright 2015, GING, ETSIT, UPM
 #
@@ -17,4 +17,6 @@
 # limitations under the License.
 #
 
-include_recipe 'cloud-portal::stop'
+service 'cloud-portal' do
+  action :stop
+end

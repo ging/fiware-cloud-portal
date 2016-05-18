@@ -1,1 +1,0 @@
-include_recipe 'cloud-portal::0.0.1_install'

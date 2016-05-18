@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: cloud-portal
+# Cookbook Name:: cloud_portal
 # Recipe:: install
 #
 # Copyright 2015, GING, ETSIT, UPM
@@ -17,17 +17,27 @@
 # limitations under the License.
 #
 
-INSTALL_DIR = "#{node['cloud-portal'][:install_dir]}"
+INSTALL_DIR = "#{node['cloud_portal'][:install_dir]}"
 
-include_recipe 'cloud-portal::stop'
-include_recipe 'cloud-portal::uninstall'
+include_recipe 'cloud_portal::stop'
+include_recipe 'cloud_portal::uninstall'
 
-# Checking OS compatibility for cloud-portal
+# Checking OS compatibility for cloud_portal
 if node['platform'] != 'ubuntu'
   log '*** Sorry, but the chef validator requires a ubuntu OS ***'
 end
 return if node['platform'] != 'ubuntu'
 
+# predepends
+pkg_depends = value_for_platform_family(
+    'default' => %w(make g++ software-properties-common python-software-properties)
+)
+
+pkg_depends.each do |pkg|
+  package pkg do
+    action :install
+  end
+end
 # Update the sources list
 include_recipe 'apt'
 
@@ -35,9 +45,9 @@ apt_repository 'node.js' do
   uri 'ppa:chris-lea/node.js'
   distribution node['lsb']['codename']
 end
-
+# postdepends
 pkg_depends = value_for_platform_family(
-    'default' => %w(make g++ software-properties-common python-software-properties nodejs git ruby1.9.1)
+    'default' => %w(nodejs git ruby1.9.1)
 )
 
 pkg_depends.each do |pkg|
@@ -60,7 +70,7 @@ execute 'github_download' do
   cwd INSTALL_DIR
   user 'root'
   action :run
-  command 'git clone https://github.com/ging/fiware-cloud-portal.git .'
+  command 'git clone --branch 4.4.1 https://github.com/ging/fiware-cloud-portal.git .'
 end
 
 execute 'install_node_modules' do
@@ -81,5 +91,5 @@ end
 
 
 
-include_recipe 'cloud-portal::configure'
-include_recipe 'cloud-portal::start'
+include_recipe 'cloud_portal::configure'
+include_recipe 'cloud_portal::start'

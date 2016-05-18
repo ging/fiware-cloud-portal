@@ -1,6 +1,6 @@
 #
-# Cookbook Name:: cloud-portal
-# Recipe:: install
+# Cookbook Name:: cloud_portal
+# Recipe:: uninstall
 #
 # Copyright 2015, GING, ETSIT, UPM
 #
@@ -16,6 +16,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-node.set['cloud-portal']['version'] = '0.0.1'
 
-include_recipe 'cloud-portal::install'
+include_recipe 'cloud_portal::stop'
+
+INSTALL_DIR = "#{node['cloud_portal'][:install_dir]}"
+
+directory INSTALL_DIR do
+  not_if { !::File.exists?(INSTALL_DIR) }
+  owner 'root'
+  group 'root'
+  action :delete
+  recursive true
+end

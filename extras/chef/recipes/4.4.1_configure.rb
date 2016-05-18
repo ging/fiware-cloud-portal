@@ -1,6 +1,6 @@
 #
-# Cookbook Name:: cloud-portal
-# Recipe:: start
+# Cookbook Name:: cloud_portal
+# Recipe:: configure
 #
 # Copyright 2015, GING, ETSIT, UPM
 #
@@ -16,12 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-INSTALL_DIR = "#{node['cloud-portal'][:install_dir]}"
 
-bash 'start cloud-portal' do
-  user 'root'
-  cwd INSTALL_DIR
-  code <<-EOH
-    node server.js &
-  EOH
-end
+node.set['cloud_portal']['version'] = '4.4.1'
+
+include_recipe 'cloud_portal::configure'

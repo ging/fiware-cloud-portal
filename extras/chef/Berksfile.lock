@@ -1,0 +1,19 @@
+DEPENDENCIES
+  apt
+  build-essential
+  cloud_portal
+    path: .
+    metadata: true
+  poise-python
+
+GRAPH
+  apt (2.9.2)
+  build-essential (2.2.4)
+  cloud_portal (4.4.1)
+    apt (>= 0.0.0)
+  poise (2.4.0)
+  poise-languages (1.2.0)
+    poise (~> 2.3)
+  poise-python (1.1.1)
+    poise (~> 2.0)
+    poise-languages (~> 1.2)

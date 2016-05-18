@@ -1,6 +1,6 @@
 #
-# Cookbook Name:: cloud-portal
-# Recipe:: configure
+# Cookbook Name:: cloud_portal
+# Recipe:: stop
 #
 # Copyright 2015, GING, ETSIT, UPM
 #
@@ -17,13 +17,4 @@
 # limitations under the License.
 #
 
-INSTALL_DIR = node['cloud-portal'][:install_dir]
-## Creating keyrock config file
-remote_file "Copy service file" do
-  path "#{INSTALL_DIR}/config.js"
-  source "file://#{INSTALL_DIR}/config.js.template"
-  owner 'root'
-  group 'root'
-  mode 0755
-  not_if { ::File.exists?("#{INSTALL_DIR}/config.js") }
-end
+include_recipe 'cloud_portal::stop'
