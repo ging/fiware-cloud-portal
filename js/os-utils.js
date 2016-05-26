@@ -254,7 +254,7 @@ UTILS.Auth = (function(U, undefined) {
         if (JSTACK.Keystone.params.access.user.actorId >= minId) {
             return ['Spain2'];
         }
-        return regions_;
+        return regions_.sort();
     };
 
     var updateRegionsStatus = function(callback, error) {
