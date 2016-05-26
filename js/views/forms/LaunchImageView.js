@@ -7,6 +7,7 @@ var LaunchImageView = Backbone.View.extend({
       'click #close-image':                     'close',
       'click .modal-backdrop':                  'close',
       'click #add-sec-group':                   'onCreateSecurityGroup',
+      'click #add-keypair':                     'onCreateKeypair',
       'submit #launch_image  #form':            'goNext',
       'change .volumeOptionsSelect':            'changeVolumeOptions',
       'change .flavorOptionsSelect':            'changeFlavorOptions', 
@@ -107,6 +108,19 @@ var LaunchImageView = Backbone.View.extend({
         $('ul#security_groups_list').html(html);
     },
 
+    updateKeypairs: function(new_kp) {
+        var html = '';
+        for (var index in this.options.keypairs.models) {
+            var kp = this.options.keypairs.models[index];
+            html += '<option value="' + kp.get('name') + '"';
+            if (kp.get('name') === new_kp.get('name')) {
+                html += 'selected="selected"';
+            }
+            html += '>' + kp.get('name') + '</option>';
+        }
+        $('#id_keypair').html(html);
+    },
+
     onClose: function() {
         this.undelegateEvents();
         this.unbind();
@@ -131,6 +145,16 @@ var LaunchImageView = Backbone.View.extend({
         this.options.subview = new CreateSecurityGroupView({el: 'body', model: this.model, callback: function() {
             self.options.secGroups.fetch({success: function() {
                 self.updateSecGroups();
+            }});
+        }});
+        this.options.subview.render({backdrop: false});
+    },
+
+    onCreateKeypair: function() {
+        var self = this;
+        this.options.subview = new CreateKeypairView({el: 'body', model: this.model, callback: function(new_kp) {
+            self.options.keypairs.fetch({success: function() {
+                self.updateKeypairs(new_kp);
             }});
         }});
         this.options.subview.render({backdrop: false});

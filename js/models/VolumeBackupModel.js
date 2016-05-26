@@ -73,7 +73,6 @@ var VolumeBackups = Backbone.Collection.extend({
     },
 
     sync: function(method, model, options) {
-        console.log('eieieiieiei');
         if(method === "read") {
             JSTACK.Cinder.getbackuplist(options.success, options.error, this.getRegion());
         }

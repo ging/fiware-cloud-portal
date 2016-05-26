@@ -49,15 +49,36 @@ var CreateKeypairView = Backbone.View.extend({
                     return;
                 }
             }
+            var mySuccess = function(model) {
+                var privateKey = model.get('private_key');
+                self.blob = new Blob([privateKey], { type: "application/x-pem-file" });
+                self.blobURL = window.URL.createObjectURL(self.blob);
 
-        window.location.href = '#nova/access_and_security/keypairs/'+name+'/download/';
+                //window.open(blobURL, 'Save Keypair','width=0,height=0');
+
+                $('.downloadKeypair').append("Download Keypair");
+                $('.downloadKeypair').attr("href", self.blobURL);
+                $('.downloadKeypair').attr("download", name + '.pem');
+                $('.downloadKeypair').on("click", function() {
+                    if (window.navigator.msSaveOrOpenBlob) {
+                        window.navigator.msSaveOrOpenBlob(self.blob, name + ".pem");
+                    }
+                });
+                if (self.options.callback !== undefined) {
+                    self.options.callback(model);
+                }    
+            };
+            var callbacks = UTILS.Messages.getCallbacks("Keypair " + name + " created.", "Error creating keypair", {success: mySuccess});
+            var keypair = new Keypair();
+            keypair.set({'name': name});
+            keypair.save(undefined, callbacks);
 
         } else {
             subview = new MessagesView({state: "Error", title: "Wrong values for Keypair. Please try again."});
             subview.render();
         }
 
-        self.close();
+        $('#createBtn1').hide();
+        $('#cancelBtn1').text('Close');
     }
-
 });
