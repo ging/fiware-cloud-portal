@@ -84,4 +84,10 @@
     #networks_error {
         display: none;
     }
+    #security_groups_list {
+        max-height: 200px;
+        overflow-y: scroll;
+        margin-bottom: 10px;
+        background-color: rgba(0, 163, 208, 0.1);
+    }
 }
