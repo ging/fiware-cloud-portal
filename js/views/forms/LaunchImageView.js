@@ -491,7 +491,14 @@ var LaunchImageView = Backbone.View.extend({
         instance.set({"networks": this.instanceData.networks});
         //instance.set({"nics": this.instanceData.network});
         instance.set({"block_device_mapping": this.instanceData.block_device_mapping});
-        instance.set({"metadata": {"region": UTILS.Auth.getCurrentRegion()}});
+        
+        var metadata = {"region": UTILS.Auth.getCurrentRegion()};
+
+        if (this.model.get('properties').nid) {
+            metadata.nid = this.model.get('properties').nid;
+        }
+
+        instance.set({"metadata": metadata});
 
         if (this.instanceData.flavorReg !== "") {
             instance.save(undefined, UTILS.Messages.getCallbacks("Instance "+instance.get("name") + " launched.", "Error launching instance "+instance.get("name"),
