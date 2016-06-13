@@ -22,6 +22,8 @@ var LaunchImageView = Backbone.View.extend({
         this.options.secGroups.fetch();
 
         this.user_data_edited = false;
+
+        console.log('IMAGE', this.model);
         
         if (JSTACK.Keystone.getendpoint(UTILS.Auth.getCurrentRegion(), "network") === undefined) {
             this.networks = undefined;
@@ -494,7 +496,7 @@ var LaunchImageView = Backbone.View.extend({
         
         var metadata = {"region": UTILS.Auth.getCurrentRegion()};
 
-        if (this.model.get('properties').nid) {
+        if (this.model.get('properties') && this.model.get('properties').nid) {
             metadata.nid = this.model.get('properties').nid;
         }
 
