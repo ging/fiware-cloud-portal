@@ -67,7 +67,12 @@ var Container = Backbone.Model.extend({
                     cont.objects = objects;
                     return options.success(cont);
                 };
-                JSTACK.Swift.getobjectlist(model.get('name'), mySucess, options.error, this.getRegion());
+                // trick for supporting Ceph regions
+                var ceph = false;
+                if (this.getRegion() === 'Zurich2') {
+                    ceph = true;
+                }
+                JSTACK.Swift.getobjectlist(model.get('name'), mySucess, options.error, this.getRegion(), ceph);
                 break;
             case "delete":
                 JSTACK.Swift.deletecontainer(model.get('name'), options.success, options.error, this.getRegion());
