@@ -53,7 +53,7 @@ var CreateSubnetView = Backbone.View.extend({
 
         subnet.set({'network_id': network_id});    
         subnet.set({'cidr': cidr});
-        subnet.set({'ip_version': '4'});
+        subnet.set({'ip_version': subnet.prefix_ip_version(cidr)});
         subnet.set({'tenant_id': tenant_id});
         subnet.set({'enable_dhcp': enable_dhcp});
 
