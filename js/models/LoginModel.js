@@ -126,6 +126,11 @@ var LoginStatus = Backbone.Model.extend({
                 //self.set({'tenant': self.attributes.tenant});
                 //console.log("New tenant: " + self.get("name"));
                 self.set({username: UTILS.Auth.getName()});
+                UTILS.Auth.checkGravatar(function (gravatar) {
+                    if (gravatar) {
+                        self.set({gravatar: md5(UTILS.Auth.getName())});
+                    }
+                });
                 UTILS.Auth.getTenants(function(tenants) {
                     self.set({tenant_id: tenant.id});
                     self.set({tenants: tenants.tenants});

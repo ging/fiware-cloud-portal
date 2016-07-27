@@ -2,7 +2,11 @@
 <ul class="nav pull-right nav-user">
   <li>
     <a href="#">
+      <% if (get('gravatar')) { %>
+      <img src="https://www.gravatar.com/avatar/<%=get('gravatar')%>">
+      <%} else {%>
       <img src="images/header/user.png">
+      <%}%>
       <span class="name">
         <%= get('username') %>
       </span>

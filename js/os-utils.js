@@ -308,6 +308,25 @@ UTILS.Auth = (function(U, undefined) {
         }
     };
 
+    var checkGravatar = function (callback) {
+
+        var token = UTILS.Auth.getAccessToken();
+
+        $.ajax({
+            type: "GET",
+            url: 'https://account.lab.fiware.org/user?access_token=' + token,
+            async: true
+        }).done(function(data) {
+            if (!data) {
+                callback(false);
+            } else {
+                callback(JSON.parse(data.isGravatarEnabled));
+            }
+        }).error(function(xhr, status) {
+            callback(false);
+        });
+    };
+
 
     function authenticateWithCredentials(username, password, tenant, token, callback, error) {
 
@@ -582,7 +601,8 @@ UTILS.Auth = (function(U, undefined) {
         switchRegion: switchRegion,
         switchTenant: switchTenant,
         isAdmin: isAdmin,
-        isIDM: isIDM
+        isIDM: isIDM,
+        checkGravatar: checkGravatar
     };
 
 })(UTILS);

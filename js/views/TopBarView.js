@@ -8,11 +8,13 @@ var TopBarView = Backbone.View.extend({
         this.model.bind('change:subtitle', this.renderTitle, this);
         this.options.loginModel = UTILS.GlobalModels.get("loginModel");
         this.options.loginModel.bind('change:username', this.render, this);
+        this.options.loginModel.bind('change:gravatar', this.render, this);
     },
     
     render: function () {
         var self = this;
         this.model.set({'username': this.options.loginModel.get('username')});
+        this.model.set({'gravatar': this.options.loginModel.get('gravatar')});
         $(self.el).empty().html(self._template(self.model));
         $('#oil-nav .navbar-inner').append(self._templateUser(self.model));
         return this;
