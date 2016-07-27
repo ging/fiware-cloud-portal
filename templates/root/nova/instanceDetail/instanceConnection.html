@@ -19,7 +19,7 @@ src: templates/root/nova/instanceDetail/instanceConnection.html
     						<p><i>chmod 400 my_keypair.pem</i></p>
                         </li>
     					<li>Connect to the Instance using its public IP.
-    						<p><i>ssh -i my_keypair.pem root@<%=public_ip%></i></p>
+    						<p><i>ssh -i my_keypair.pem <user>@<%=public_ip%></i></p>
     					</li>
     				</ol>
                 </div>
