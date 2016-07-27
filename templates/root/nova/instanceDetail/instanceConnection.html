@@ -18,8 +18,8 @@ src: templates/root/nova/instanceDetail/instanceConnection.html
     					<li>Modify the keypair permissions in order to make it not publicly viewable.
     						<p><i>chmod 400 my_keypair.pem</i></p>
                         </li>
-    					<li>Connect to the Instance using its public IP.
-    						<p><i>ssh -i my_keypair.pem <user>@<%=public_ip%></i></p>
+    					<li>Connect to the Instance using its public IP and the appropiate username depending on the VM SO (ubuntu, centos, ...).
+    						<p><i>ssh -i my_keypair.pem user_name@<%=public_ip%></i></p>
     					</li>
     				</ol>
                 </div>
