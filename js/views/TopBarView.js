@@ -16,6 +16,7 @@ var TopBarView = Backbone.View.extend({
         this.model.set({'username': this.options.loginModel.get('username')});
         this.model.set({'gravatar': this.options.loginModel.get('gravatar')});
         $(self.el).empty().html(self._template(self.model));
+        $("userbar").html('');
         $('#oil-nav .navbar-inner').append(self._templateUser(self.model));
         return this;
     },
