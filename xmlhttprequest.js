@@ -376,7 +376,7 @@ exports.XMLHttpRequest = function() {
       if (!headers["Content-Type"]) {
         headers["Content-Type"] = "text/plain;charset=UTF-8";
       }
-    } else if (settings.method === "POST" || settings.method === "PUT") {
+    } else if (settings.method === "POST" || settings.method === "PUT" || settings.method === "DELETE") {
       // For a post with no data set Content-Length: 0.
       // This is required by buggy servers that don't meet the specs.
       headers["Content-Length"] = 0;
