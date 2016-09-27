@@ -15,6 +15,7 @@ RUN sudo apt-get update && \
 # Download latest version of the code and install npm dependencies
 RUN git clone https://github.com/ging/fiware-cloud-portal.git && \
 	cd fiware-cloud-portal && \
+	git checkout tags/5.4 && \
 	npm install && \
 	./node_modules/grunt-cli/bin/grunt
 
