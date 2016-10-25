@@ -109,7 +109,16 @@
 //     sync: function(method, model, options) {
 //         switch(method) {
 //             case "read":
-//                 JSTACK.Murano.getBlueprintInstanceList(options.success, options.error, this.getRegion());
+//                 JSTACK.Murano.getBlueprintInstanceList(function (instances) {
+//                      var owned_instances = [];
+//                     for (var t in instances) {
+//                             instances[t].description = instances[t].description_text;
+//                         if (UTILS.Auth.getCurrentTenant().id === instances[t].tenant_id) {
+//                             owned_instances.push(instances[t]);
+//                         }
+//                     }
+//                     options.success(owned_instances);
+//                 }, options.error, this.getRegion());
 //                 break;
 //             case 'getTask':
 //                 //JSTACK.Murano.getTask(options.taskId, function (resp) {

@@ -248,7 +248,16 @@
 //             case "read":
 //                 // BlueprintCatalogue not available yet
 //                 //this.fetchCollection(options);
-//                 JSTACK.Murano.getTemplateList(options.success, options.error, this.getRegion());
+//                 JSTACK.Murano.getTemplateList(function (templates) {
+//                     var owned_templates = [];
+//                     for (var t in templates) {
+//                             templates[t].description = templates[t].description_text;
+//                         if (UTILS.Auth.getCurrentTenant().id === templates[t].tenant_id) {
+//                             owned_templates.push(templates[t]);
+//                         }
+//                     }
+//                     options.success(owned_templates);
+//                 }, options.error, this.getRegion());
 //                 break;
 //             case 'getCatalogBlueprint':
 //                 JSTACK.Murano.getBlueprintCatalog(options.id, options.success, options.error);
