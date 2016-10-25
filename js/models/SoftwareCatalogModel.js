@@ -32,8 +32,8 @@
 //     sync: function(method, model, options) {
 //         switch(method) {
 //             case "read":
-// 					// Using SDC we already have all the needed info. This is thougth for murano
-// 					options.success();
+//              // Using SDC we already have all the needed info. This is thougth for murano
+//                  options.success();
 //                 break;
 //             case "create":
 //                 ServiceDC.API.addRecipe(model.get('name'), model.get('version'), 
