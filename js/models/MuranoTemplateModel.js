@@ -88,7 +88,7 @@ var BPTemplate = Backbone.Model.extend({
 
                 break;
             case "create":
-                JSTACK.Murano.createTemplate(model.toJSON().name, options.success, options.error, this.getRegion());
+                JSTACK.Murano.createTemplate(model.toJSON().name, model.toJSON().description, options.success, options.error, this.getRegion());
                 break;
             case "delete":
                 JSTACK.Murano.deleteTemplate(model.id, options.success, options.error, this.getRegion());
