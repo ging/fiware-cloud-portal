@@ -49,7 +49,7 @@ var BPInstance = Backbone.Model.extend({
                 JSTACK.Murano.getBlueprintInstance(model.get('blueprintName'), options.success, options.error, this.getRegion());
                 break;
             case "create":
-                JSTACK.Murano.launchBlueprintInstance(model.get('environmentDto').id, model.get('blueprintName'), options.success, options.error, this.getRegion());
+                JSTACK.Murano.launchBlueprintInstance(model.get('environmentDto').id, model.get('blueprintName'), model.get('description'), options.success, options.error, this.getRegion());
                 break;
             case "delete":
                 JSTACK.Murano.stopBlueprintInstance(model.id, options.success, options.error, this.getRegion());
