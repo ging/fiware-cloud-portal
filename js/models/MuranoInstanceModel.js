@@ -107,6 +107,9 @@ var BPInstances = Backbone.Collection.extend({
     },
 
     sync: function(method, model, options) {
+
+        var self = this;
+        
         switch(method) {
             case "read":
                 JSTACK.Murano.getBlueprintInstanceList(function (instances) {
@@ -117,7 +120,7 @@ var BPInstances = Backbone.Collection.extend({
                             owned_instances.push(instances[t]);
                         }
                     }
-                    options.success(owned_instances);
+                    self.getInstanceTiers(0, owned_instances, options.success, options.error);
                 }, options.error, this.getRegion());
                 break;
             case 'getTask':
@@ -136,6 +139,44 @@ var BPInstances = Backbone.Collection.extend({
                 break;
         }
     },
+
+    getInstanceTiers: function (index, instances, callback, error) {
+
+        var self = this;
+
+        if (index === instances.length) {
+            callback(instances);
+            return;
+        }
+
+        JSTACK.Murano.getBlueprintInstance(instances[index].id, function(result) {
+
+            instances[index].tierDto_asArray = [];
+            for (var s in result.services) {
+                // new tier
+                if (typeof(result.services[s].instance) !== 'string') {
+
+                    var inst = result.services[s].instance['?'];
+                    
+                    var tier = {
+                        id: inst.id,
+                        name: result.services[s].instance.flavor,
+                        flavour: result.services[s].instance.flavor,
+                        image: result.services[s].instance.image,
+                        keypair: result.services[s].instance.keypair,
+                        productReleaseDtos_asArray: [{productName: result.services[s].name, version: ''}]
+
+                    };
+                    instances[index].tierDto_asArray.push(tier);
+                }
+            }
+
+            self.getInstanceTiers(++index, instances, callback, error);
+
+        }, error, this.getRegion());
+
+    },
+
 
     parse: function(resp) {
         return resp;

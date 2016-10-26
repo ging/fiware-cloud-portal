@@ -47,11 +47,10 @@ var BPTemplate = Backbone.Model.extend({
     sync: function(method, model, options) {
         switch(method) {
             case "read":
-                 JSTACK.Murano.getTemplate(model.id, function(result) {
+                JSTACK.Murano.getTemplate(model.id, function(result) {
 
-                 result.tierDtos_asArray = [];
-
-                 for (var s in result.services) {
+                    result.tierDtos_asArray = [];
+                    for (var s in result.services) {
                         // new tier
                         if (typeof(result.services[s].instance) !== 'string') {
 
@@ -68,7 +67,7 @@ var BPTemplate = Backbone.Model.extend({
                             };
                             result.tierDtos_asArray.push(tier);
                         }
-                 }
+                    }
 
                     for (var s1 in result.services) {
                         // product of already registered tier
@@ -84,7 +83,7 @@ var BPTemplate = Backbone.Model.extend({
 
                      options.success(result);
 
-                 }, options.error, this.getRegion());
+                }, options.error, this.getRegion());
 
                 break;
             case "create":
@@ -244,6 +243,7 @@ var BPTemplates = Backbone.Collection.extend({
     },
 
     sync: function(method, model, options) {
+        var self = this;
         switch(method) {
             case "read":
                 // BlueprintCatalogue not available yet
@@ -251,18 +251,55 @@ var BPTemplates = Backbone.Collection.extend({
                 JSTACK.Murano.getTemplateList(function (templates) {
                     var owned_templates = [];
                     for (var t in templates) {
-                            templates[t].description = templates[t].description_text;
                         if (UTILS.Auth.getCurrentTenant().id === templates[t].tenant_id) {
+                            templates[t].description = templates[t].description_text;
                             owned_templates.push(templates[t]);
                         }
                     }
-                    options.success(owned_templates);
+                    self.getTemplateTiers(0, owned_templates, options.success, options.error);
                 }, options.error, this.getRegion());
                 break;
             case 'getCatalogBlueprint':
                 JSTACK.Murano.getBlueprintCatalog(options.id, options.success, options.error);
                 break;
         }
+    },
+
+    getTemplateTiers: function (index, templates, callback, error) {
+
+        var self = this;
+
+        if (index === templates.length) {
+            callback(templates);
+            return;
+        }
+
+        JSTACK.Murano.getTemplate(templates[index].id, function(result) {
+
+            templates[index].tierDtos_asArray = [];
+            for (var s in result.services) {
+                // new tier
+                if (typeof(result.services[s].instance) !== 'string') {
+
+                    var inst = result.services[s].instance['?'];
+                    
+                    var tier = {
+                        id: inst.id,
+                        name: result.services[s].instance.flavor,
+                        flavour: result.services[s].instance.flavor,
+                        image: result.services[s].instance.image,
+                        keypair: result.services[s].instance.keypair,
+                        productReleaseDtos_asArray: [{productName: result.services[s].name, version: ''}]
+
+                    };
+                    templates[index].tierDtos_asArray.push(tier);
+                }
+            }
+
+            self.getTemplateTiers(++index, templates, callback, error);
+
+        }, error, this.getRegion());
+
     },
 
     parse: function(resp) {
