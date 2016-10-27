@@ -249,14 +249,14 @@ var BPTemplates = Backbone.Collection.extend({
                 // BlueprintCatalogue not available yet
                 //this.fetchCollection(options);
                 JSTACK.Murano.getTemplateList(function (templates) {
-                    var owned_templates = [];
+                    var owned_or_public_templates = [];
                     for (var t in templates) {
-                        if (UTILS.Auth.getCurrentTenant().id === templates[t].tenant_id) {
+                        if (UTILS.Auth.getCurrentTenant().id === templates[t].tenant_id || templates[t].is_public) {
                             templates[t].description = templates[t].description_text;
-                            owned_templates.push(templates[t]);
+                            owned_or_public_templates.push(templates[t]);
                         }
                     }
-                    self.getTemplateTiers(0, owned_templates, options.success, options.error);
+                    self.getTemplateTiers(0, owned_or_public_templates, options.success, options.error);
                 }, options.error, this.getRegion());
                 break;
             case 'getCatalogBlueprint':
@@ -270,7 +270,18 @@ var BPTemplates = Backbone.Collection.extend({
         var self = this;
 
         if (index === templates.length) {
-            callback(templates);
+            var owned_templates = [];
+            self.catalogList = [];
+
+            for (var t in templates) {
+                if (UTILS.Auth.getCurrentTenant().id === templates[t].tenant_id) {
+                    owned_templates.push(templates[t]);
+                }
+                if (templates[t].is_public) {
+                    self.catalogList.push(templates[t]);
+                }
+            }
+            callback(owned_templates);
             return;
         }
 
