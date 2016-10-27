@@ -434,7 +434,7 @@ var OSRouter = Backbone.Router.extend({
     },
 
     blueprint_template_catalog: function(self, id) {
-        self.showNovaRoot(self, 'Blueprint Templates', 'Blueprint Templates / Catalog / ' + id);
+        self.showNovaRoot(self, 'Blueprint Templates', 'Blueprint Templates / Catalog / ');
         var view = new BlueprintTemplateCatalogView({el: '#content', model: UTILS.GlobalModels.get("bpTemplatesModel"), templateId: id});
         self.newContentView(self,view);
     },

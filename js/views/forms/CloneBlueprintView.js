@@ -55,8 +55,6 @@ var CloneBlueprintView = Backbone.View.extend({
             }
         }
 
-        console.log(bp);
-
         bp.save(undefined, callbacks);
     }
 });

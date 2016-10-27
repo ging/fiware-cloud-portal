@@ -72,8 +72,6 @@ var BlueprintTemplatesCatalogView = Backbone.View.extend({
     getEntries: function() {
         var entries = [];
 
-        console.log('ei', this.model.catalogList);
-
         for (var index in this.model.catalogList) {
             var template = this.model.catalogList[index];
             var nTiers = 0;
@@ -84,7 +82,7 @@ var BlueprintTemplatesCatalogView = Backbone.View.extend({
                 id: index,
                 cells: [{
                     value: template.name,
-                    link: "#nova/blueprints/catalog/" + template.name
+                    link: "#nova/blueprints/catalog/" + template.id
                 }, {
                     value: template.description
                 }, {
@@ -108,7 +106,6 @@ var BlueprintTemplatesCatalogView = Backbone.View.extend({
         if (blueprintIds.length === 1) {
             blueprint = blueprintIds[0];
             bp = this.model.catalogList[blueprint];
-            console.log(bp);
         }
         switch (action) {
             case 'clone':

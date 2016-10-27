@@ -45,49 +45,26 @@ var BPTemplate = Backbone.Model.extend({
     },
 
     sync: function(method, model, options) {
+        var self = this;
         switch(method) {
             case "read":
-                JSTACK.Murano.getTemplate(model.id, function(result) {
-
-                    result.tierDtos_asArray = [];
-                    for (var s in result.services) {
-                        // new tier
-                        if (typeof(result.services[s].instance) !== 'string') {
-
-                            var inst = result.services[s].instance['?'];
-                            
-                            var tier = {
-                                id: inst.id,
-                                name: result.services[s].instance.flavor,
-                                flavour: result.services[s].instance.flavor,
-                                image: result.services[s].instance.image,
-                                keypair: result.services[s].instance.keypair,
-                                productReleaseDtos_asArray: [{productName: result.services[s].name, version: ''}]
-
-                            };
-                            result.tierDtos_asArray.push(tier);
-                        }
-                    }
-
-                    for (var s1 in result.services) {
-                        // product of already registered tier
-                        if (typeof(result.services[s1].instance) === 'string') {
-                            for (var t in result.tierDtos_asArray) {
-                                if (result.tierDtos_asArray[t].id === result.services[s1].instance) {
-                                    var prod = {productName: result.services[s1].name, version: ''};
-                                    result.tierDtos_asArray[t].productReleaseDtos_asArray.push(prod);
-                                }
-                            }
-                        }
-                    }
-
-                     options.success(result);
-
-                }, options.error, this.getRegion());
-
+                this.getTemplate(model.id, options.success, options.error, this.getRegion());
                 break;
             case "create":
-                JSTACK.Murano.createTemplate(model.toJSON().name, model.toJSON().description, options.success, options.error, this.getRegion());
+                JSTACK.Murano.createTemplate(model.toJSON().name, model.toJSON().description, function (resp) {
+                    if (model.toJSON().tierDtos && model.toJSON().tierDtos.length !== 0) {
+                        for (var t in model.toJSON().tierDtos) {
+                            var tier = model.toJSON().tierDtos[t];
+
+                            tier.productReleaseDtos = tier.productReleaseDtos_asArray;
+
+                            self.createTier(resp.id, tier, function() {
+                                console.log('Created tier', tier.name);
+                            }, options.error);
+                        }
+                    }
+                    options.success(resp);
+                }, options.error, this.getRegion());
                 break;
             case "delete":
                 JSTACK.Murano.deleteTemplate(model.id, options.success, options.error, this.getRegion());
@@ -95,69 +72,7 @@ var BPTemplate = Backbone.Model.extend({
             case "update":
                 break;
             case "addTier":
-
-
-                var tier = options.tier;
-                var instance_id = JSTACK.Utils.guid();
-
-                var instance = {
-                    "flavor": tier.flavour, 
-                    "keypair": tier.keypair, 
-                    "image": tier.image, 
-                    "?": {
-                        "type": "io.murano.resources.ConfLangInstance",         
-                        "id":  instance_id
-                    }, 
-                    "name": tier.name
-                };
-
-                if (tier.networkDto) {
-                    instance.networks = {
-                        "useFlatNetwork": false, 
-                        "primaryNetwork": null, 
-                        "useEnvironmentNetwork": false, 
-                        "customNetworks": []
-                    };
-
-                    var net;
-
-                    for (var n in tier.networkDto) {
-                        if (tier.networkDto[n].networkId) {
-                            // Network exists in Openstack
-                            net = {
-                                "internalNetworkName": tier.networkDto[n].networkName, 
-                                "?": {
-                                    "type": "io.murano.resources.ExistingNeutronNetwork", 
-                                    "id": tier.networkDto[n].networkId
-                                }
-                            };
-
-                            instance.networks.customNetworks.push(net);
-
-                        } else {
-                            // New network created using an alias
-                            net = {
-                                "autoUplink": true, 
-                                "name": tier.networkDto[n].networkName, 
-                                "?": {
-                                    "type": "io.murano.resources.NeutronNetworkBase", 
-                                    "id": JSTACK.Utils.guid()
-                                }, 
-                                "autogenerateSubnet": true
-                            };
-
-                            instance.networks.customNetworks.push(net);
-                        }
-                    }
-                }
-
-                var services = tier.productReleaseDtos;
-
-                if (services) {
-                    this.createServices(0, services, model.id, instance, instance_id, options.success, options.error);
-                } else {
-                    options.error('No services selected');
-                }
+                this.createTier(model.id, options.tier, options.success, options.error);    
                 break;
             case "updateTier":
                 JSTACK.Murano.updateBlueprintTemplateTier(model.id, options.tier, options.success, options.error, this.getRegion());
@@ -166,6 +81,124 @@ var BPTemplate = Backbone.Model.extend({
                 JSTACK.Murano.deleteBlueprintTemplateTier(model.id, options.tier, options.success, options.error, this.getRegion());
                 break;
         }
+    },
+
+    getTemplate: function (id, success, error, region) {
+        JSTACK.Murano.getTemplate(id, function(result) {
+
+            var info;
+
+            result.tierDtos_asArray = [];
+            for (var s in result.services) {
+                // new tier
+                if (typeof(result.services[s].instance) !== 'string') {
+
+                    var inst = result.services[s].instance['?'];
+
+                    info = {
+                        id: result.services[s]['?'].id,
+                        name: result.services[s].name,
+                        fully_qualified_name: result.services[s]['?'].type
+                    };
+                    
+                    var tier = {
+                        id: inst.id,
+                        name: result.services[s].instance.name,
+                        flavour: result.services[s].instance.flavor,
+                        image: result.services[s].instance.image,
+                        keypair: result.services[s].instance.keypair,
+                        productReleaseDtos_asArray: [{productName: result.services[s].name, version: '', info: info}]
+
+                    };
+                    result.tierDtos_asArray.push(tier);
+                }
+            }
+
+            for (var s1 in result.services) {
+                // product of already registered tier
+                if (typeof(result.services[s1].instance) === 'string') {
+                    for (var t in result.tierDtos_asArray) {
+                        if (result.tierDtos_asArray[t].id === result.services[s1].instance) {
+                            info = {
+                                id: result.services[s]['?'].id,
+                                name: result.services[s].name,
+                                fully_qualified_name: result.services[s]['?'].type
+                            };
+                            var prod = {productName: result.services[s1].name, version: '', info: info};
+                            result.tierDtos_asArray[t].productReleaseDtos_asArray.push(prod);
+                        }
+                    }
+                }
+            }
+
+            success(result);
+
+        }, error, region);
+    },
+
+    createTier: function (template_id, tier, success, error) {
+
+        var instance_id = JSTACK.Utils.guid();
+
+        var instance = {
+            "flavor": tier.flavour, 
+            "keypair": tier.keypair, 
+            "image": tier.image, 
+            "?": {
+                "type": "io.murano.resources.ConfLangInstance",         
+                "id":  instance_id
+            }, 
+            "name": tier.name
+        };
+
+        if (tier.networkDto) {
+            instance.networks = {
+                "useFlatNetwork": false, 
+                "primaryNetwork": null, 
+                "useEnvironmentNetwork": false, 
+                "customNetworks": []
+            };
+
+            var net;
+
+            for (var n in tier.networkDto) {
+                if (tier.networkDto[n].networkId) {
+                    // Network exists in Openstack
+                    net = {
+                        "internalNetworkName": tier.networkDto[n].networkName, 
+                        "?": {
+                            "type": "io.murano.resources.ExistingNeutronNetwork", 
+                            "id": tier.networkDto[n].networkId
+                        }
+                    };
+
+                    instance.networks.customNetworks.push(net);
+
+                } else {
+                    // New network created using an alias
+                    net = {
+                        "autoUplink": true, 
+                        "name": tier.networkDto[n].networkName, 
+                        "?": {
+                            "type": "io.murano.resources.NeutronNetworkBase", 
+                            "id": JSTACK.Utils.guid()
+                        }, 
+                        "autogenerateSubnet": true
+                    };
+
+                    instance.networks.customNetworks.push(net);
+                }
+            }
+        }
+
+        var services = tier.productReleaseDtos;
+
+        if (services) {
+            this.createServices(0, services, template_id, instance, instance_id, success, error);
+        } else {
+            options.error('No services selected');
+        }
+
     },
 
     createServices: function (index, services, template_id, instance, instance_id, callback, error) {
@@ -226,28 +259,15 @@ var BPTemplates = Backbone.Collection.extend({
 
     getCatalogBlueprint: function(options) {
         options = options || {};
-        return this._action('getCatalogBlueprint', options);
-    },
-
-    fetchCollection: function(options) {
-
-        var self = this;
-
-        JSTACK.Murano.getBlueprintCatalogList(function (resp) {
-            JSTACK.Murano.getBlueprintTemplateList(function (resp2) {
-                self.catalogList = resp;
-                options.success(resp2);
-            }, options.error);
-
-        }, options.error);
+        var bp = new BPTemplate();
+        bp.set({'id': options.id});
+        return bp._action('read', options);
     },
 
     sync: function(method, model, options) {
         var self = this;
         switch(method) {
             case "read":
-                // BlueprintCatalogue not available yet
-                //this.fetchCollection(options);
                 JSTACK.Murano.getTemplateList(function (templates) {
                     var owned_or_public_templates = [];
                     for (var t in templates) {
@@ -260,7 +280,7 @@ var BPTemplates = Backbone.Collection.extend({
                 }, options.error, this.getRegion());
                 break;
             case 'getCatalogBlueprint':
-                JSTACK.Murano.getBlueprintCatalog(options.id, options.success, options.error);
+                // JSTACK.Murano.getBlueprintCatalog(options.id, options.success, options.error);
                 break;
         }
     },
@@ -285,32 +305,12 @@ var BPTemplates = Backbone.Collection.extend({
             return;
         }
 
-        JSTACK.Murano.getTemplate(templates[index].id, function(result) {
+        var bp = new BPTemplate();
 
-            templates[index].tierDtos_asArray = [];
-            for (var s in result.services) {
-                // new tier
-                if (typeof(result.services[s].instance) !== 'string') {
-
-                    var inst = result.services[s].instance['?'];
-                    
-                    var tier = {
-                        id: inst.id,
-                        name: result.services[s].instance.flavor,
-                        flavour: result.services[s].instance.flavor,
-                        image: result.services[s].instance.image,
-                        keypair: result.services[s].instance.keypair,
-                        productReleaseDtos_asArray: [{productName: result.services[s].name, version: ''}]
-
-                    };
-                    templates[index].tierDtos_asArray.push(tier);
-                }
-            }
-
+        bp.getTemplate(templates[index].id, function(result) {
+            templates[index] = result;
             self.getTemplateTiers(++index, templates, callback, error);
-
         }, error, this.getRegion());
-
     },
 
     parse: function(resp) {

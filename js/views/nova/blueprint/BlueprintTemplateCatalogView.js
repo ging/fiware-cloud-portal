@@ -171,6 +171,7 @@ var BlueprintTemplateCatalogView = Backbone.View.extend({
     },
 
     render: function() {
+        $('#page-title').children().html('Blueprint Templates / Catalog / ' + this.bpTemplate.name);
         if (this.tableView === undefined) {
             UTILS.Render.animateRender(this.el, this._template);
             this.tableView = new TableTiersView({
