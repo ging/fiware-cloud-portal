@@ -52,15 +52,17 @@ var BPTemplate = Backbone.Model.extend({
                 break;
             case "create":
                 JSTACK.Murano.createTemplate(model.toJSON().name, model.toJSON().description, function (resp) {
+
                     if (model.toJSON().tierDtos && model.toJSON().tierDtos.length !== 0) {
+                        var created_callback = function () {
+                            console.log('Tier created for cloning');
+                        };
                         for (var t in model.toJSON().tierDtos) {
                             var tier = model.toJSON().tierDtos[t];
 
                             tier.productReleaseDtos = tier.productReleaseDtos_asArray;
 
-                            self.createTier(resp.id, tier, function() {
-                                console.log('Created tier', tier.name);
-                            }, options.error);
+                            self.createTier(resp.id, tier, created_callback, options.error);
                         }
                     }
                     options.success(resp);
