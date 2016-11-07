@@ -50,14 +50,14 @@ var DownloadOpenrcView = Backbone.View.extend({
         name = UTILS.Auth.getName();
         tenant = UTILS.Auth.getCurrentTenant();
         region = UTILS.Auth.getCurrentRegion();
-        url = JSTACK.Keystone.getendpoint(region, 'identity');
+        url = JSTACK.Comm.getEndpoint(JSTACK.Keystone.getservice("identity"), UTILS.Auth.getCurrentRegion(),  'publicURL');
         openrc = [];
 
         openrc.push('export OS_USERNAME=' + name + '\n');
         openrc.push('export OS_PASSWORD= \n');
-        openrc.push('export OS_TENANT_NAME=' + tenant.name + '\n');
+        openrc.push('export OS_TENANT_NAME="' + tenant.name + '"\n');
         openrc.push('export OS_REGION_NAME=' + region + '\n');
-        openrc.push('export OS_AUTH_URL=' + url.publicURL);
+        openrc.push('export OS_AUTH_URL=' + url);
 
         filename = name + '-openrc';
 
