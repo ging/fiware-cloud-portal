@@ -184,7 +184,7 @@ The Diagnosis Procedures are the first steps that a System Administrator will ta
 
 ### Remote Service Access
 
-Verify that 2.5MB of disk space is left using the UNIX command 'df'
+Please make sure port 80 is accessible (port 443 in SSL mode).
 
 ### Resource consumption
 
