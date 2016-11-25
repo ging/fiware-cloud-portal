@@ -74,7 +74,7 @@ var BPTemplate = Backbone.Model.extend({
             case "update":
                 break;
             case "addTier":
-                this.createTier(model.id, options.tier, options.success, options.error);    
+                this.createTier(model.id, options.tier, options.success, options.error);
                 break;
             case "updateTier":
                 JSTACK.Murano.updateBlueprintTemplateTier(model.id, options.tier, options.success, options.error, this.getRegion());
@@ -102,7 +102,7 @@ var BPTemplate = Backbone.Model.extend({
                         name: result.services[s].name,
                         fully_qualified_name: result.services[s]['?'].type
                     };
-                    
+
                     var tier = {
                         id: inst.id,
                         name: result.services[s].instance.name,
@@ -143,21 +143,21 @@ var BPTemplate = Backbone.Model.extend({
         var instance_id = JSTACK.Utils.guid();
 
         var instance = {
-            "flavor": tier.flavour, 
-            "keypair": tier.keypair, 
-            "image": tier.image, 
+            "flavor": tier.flavour,
+            "keypair": tier.keypair,
+            "image": tier.image,
             "?": {
-                "type": "io.murano.resources.ConfLangInstance",         
+                "type": "io.murano.resources.ConfLangInstance",
                 "id":  instance_id
-            }, 
+            },
             "name": tier.name
         };
 
         if (tier.networkDto) {
             instance.networks = {
-                "useFlatNetwork": false, 
-                "primaryNetwork": null, 
-                "useEnvironmentNetwork": false, 
+                "useFlatNetwork": false,
+                "primaryNetwork": null,
+                "useEnvironmentNetwork": false,
                 "customNetworks": []
             };
 
@@ -167,9 +167,9 @@ var BPTemplate = Backbone.Model.extend({
                 if (tier.networkDto[n].networkId) {
                     // Network exists in Openstack
                     net = {
-                        "internalNetworkName": tier.networkDto[n].networkName, 
+                        "internalNetworkName": tier.networkDto[n].networkName,
                         "?": {
-                            "type": "io.murano.resources.ExistingNeutronNetwork", 
+                            "type": "io.murano.resources.ExistingNeutronNetwork",
                             "id": tier.networkDto[n].networkId
                         }
                     };
@@ -179,12 +179,12 @@ var BPTemplate = Backbone.Model.extend({
                 } else {
                     // New network created using an alias
                     net = {
-                        "autoUplink": true, 
-                        "name": tier.networkDto[n].networkName, 
+                        "autoUplink": true,
+                        "name": tier.networkDto[n].networkName,
                         "?": {
-                            "type": "io.murano.resources.NeutronNetworkBase", 
+                            "type": "io.murano.resources.NeutronNetworkBase",
                             "id": JSTACK.Utils.guid()
-                        }, 
+                        },
                         "autogenerateSubnet": true
                     };
 
@@ -273,8 +273,8 @@ var BPTemplates = Backbone.Collection.extend({
                 JSTACK.Murano.getTemplateList(function (templates) {
                     var owned_or_public_templates = [];
                     for (var t in templates) {
+                        templates[t].description = templates[t].description_text;
                         if (UTILS.Auth.getCurrentTenant().id === templates[t].tenant_id || templates[t].is_public) {
-                            templates[t].description = templates[t].description_text;
                             owned_or_public_templates.push(templates[t]);
                         }
                     }
@@ -310,6 +310,7 @@ var BPTemplates = Backbone.Collection.extend({
         var bp = new BPTemplate();
 
         bp.getTemplate(templates[index].id, function(result) {
+            result.description = result.description_text;
             templates[index] = result;
             self.getTemplateTiers(++index, templates, callback, error);
         }, error, this.getRegion());
