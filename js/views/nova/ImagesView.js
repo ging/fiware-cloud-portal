@@ -127,13 +127,16 @@ var ImagesView = Backbone.View.extend({
             if (visibility === undefined) {
                 visibility = image.get('is_public') ? "public":"private";
             }
+            console.log('va', image);
+            var type = "~";
+            if (image.get("properties") && image.get("properties").type) type = image.get("properties").type;
             var entry = {
                 id: image.get('id'),
                 cells: [{
                     value: image.get("name"),
                     link: "#nova/images/" + image.id
                 }, {
-                    value: image.get("properties").type ? image.get("properties").type:  "~"
+                    value: type
                 }, {
                     value: image.get("status")
                 }, {
