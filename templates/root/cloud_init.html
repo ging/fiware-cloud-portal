@@ -32,10 +32,6 @@ bootcmd:
   - ifup eth<%=j%><% 
 }}%>
 
-# Start DEM monitoring
-runcmd:
-     - curl -L -s -k https://xifisvn.esl.eng.it/wp3/software/DEM_Adapter/install.sh | bash
-
 # FIWARE Support
 fiware-support:
    sshkey: <%=ssh%>
