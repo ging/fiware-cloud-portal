@@ -84,7 +84,6 @@ var RouterInterfacesView = Backbone.View.extend({
         var ports = this.options.ports.models;   
         var router_id = this.model.get('id');  
         var entries = [];
-        //console.log('va ', ports, router_id);
         for (var index in ports) {
             var fixed_ips = [];
             var port = ports[index];

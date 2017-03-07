@@ -127,7 +127,6 @@ var ImagesView = Backbone.View.extend({
             if (visibility === undefined) {
                 visibility = image.get('is_public') ? "public":"private";
             }
-            console.log('va', image);
             var type = "~";
             if (image.get("properties") && image.get("properties").type) type = image.get("properties").type;
             var entry = {

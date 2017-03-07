@@ -277,7 +277,6 @@ var CreateSoftwareView = Backbone.View.extend({
             software.set({'dependencies': prods});
         }
 
-        console.log('VA', software.attributes);
         software.save(undefined, UTILS.Messages.getCallbacks("Software " + name + " created.", "Error creating software " + name, {context: self}));          
     },
 
