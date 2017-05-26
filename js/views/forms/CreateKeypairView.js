@@ -4,7 +4,7 @@ var CreateKeypairView = Backbone.View.extend({
 
     events: {
       'click #cancelCreateBtn': 'close',
-      'click #close': 'close',
+      'click .close': 'close',
       'submit #create_keypair_form': 'create',
       'click .modal-backdrop': 'close',
       'click #name': 'showTooltipName'
