@@ -1,3 +1,8 @@
+***********************************
+Important information
+***********************************
+This is an archive of the code repository for the previous Cloud Portal GE. Currently the GE is supported by the official Openstack Horizon project. You can customize the Horizon portal with FIWARE styles following the instructions at: https://github.com/ging/fiware-cloud-portal-theme
+
 # Self Services Interfaces - Cloud Portal
 
 [![License badge](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
