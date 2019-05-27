@@ -1,0 +1,150 @@
+<html>
+<header><title>FIWARE</title></header>
+<body>
+<img alt="FI-LAB" class="fiware-logo" src="images/header/header-logo.png" height="50" width="50" align="left"><h2><font color='1EAABD' align="middle">FIWARE HELP INDEX</font></h2>
+<br>
+
+
+<form method="get" action="http://www.google.com.com/search">
+<div style="border:2px  black;padding:4px;width:15em;">
+<table border="0" align="center" cellpadding="0">
+<tr><td>
+<input type="text"   name="q" size="25" style="color:#808080;"
+maxlength="255" value="Google Search"
+onfocus="if(this.value==this.defaultValue)this.value=''; this.style.color='black';" onblur="if(this.value=='')this.value=this.defaultValue; "/>
+<input type="submit" value="Go!" />
+<input type="hidden" name="sitesearch" value="google.com" /></td></tr>
+</table>
+</div>
+</form>
+
+
+<br>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {box-sizing: border-box}
+body {font-family: "Verdana Italic", sans-serif;}
+
+/* Style the tab */
+.tab {
+  float: left;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+  width: 30%;
+  height: 300px;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  display: block;
+  background-color: inherit;
+  color: black;
+  padding: 22px 16px;
+  width: 50%;
+  border: none;
+  outline: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current "tab button" class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  float: left;
+  padding: 0px 12px;
+  border: 1px solid #ccc;
+  width: 30%;
+  border-left: none;
+  height: 300px;
+  display: none;
+}
+
+/* Clear floats after the tab */
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+
+}
+</style>
+
+<div class="tab">
+  <h3>
+  <a href="https://edu.fiware.org/course/view.php?id=152" class="tablinks" onmouseover="openCity(event, 'Event3')">FIWARE for Smart Cities</a>
+  </h3>
+
+
+  <h3>
+  <a href="https://docplayer.net/10763679-Pasquale-vitale-engineering-ingegneria-informatica-fiware-lab-cloud-portal.html" class="tablinks" onmouseover="openCity(event, 'Event4')">FIWARE LAB Tour Guide</a>
+  </h3>
+
+  <h3>
+  <a href="https://help.github.com/" class="tablinks" onmouseover="openCity(event, 'Event5')">Github Help</a>
+  </h3>
+
+  <h3>
+  <a href="https://github.com/search" class="tablinks" onmouseover="openCity(event, 'Event1')">Github Repository Search</a>
+  </h3>
+
+  <h3>
+  <a href="https://www.tutorialspoint.com/docker/docker_overview.htm" class="tablinks" onmouseover="openCity(event, 'Event2')">Docker Help</a>
+  </h3>
+</div>
+
+<div id="Event3" class="tabcontent">
+  <h3>FIWARE E-Learning Course</h3>
+  <p>This eLearning course is created for anybody interested in FIWARE, Smart City projects or who is considering to work with Open Data.
+It is intended to be a quickstart guide with different content sections in each of the modules, for both, people with general interest and also the technical people.</p>
+</div>
+
+<div id="Event4" class="tabcontent">
+  <h3>FIWARE for Smart Cities</h3>
+  <p>This course module will present the general functionality of the FIWARE Lab cloud, based on the market leading Open Source cloud platform OpenStack. It will be the learner's starting point for the technical instructions.</p>
+</div>
+
+<div id="Event5" class="tabcontent">
+  <h3>Github Help</h3>
+  <p> You can search for help topics related to github repository. This page also provides help on Setup of Github account and how to use Git. For any doubt related to Github refer above link.</p>
+</div>
+
+
+<div id="Event1" class="tabcontent">
+  <h3>Github Respository Search</h3>
+  <p>  You can search for repositories on GitHub and narrow the results using these repository search qualifiers in any combination.</p>
+</div>
+
+<div id="Event2" class="tabcontent">
+  <h3>Docker Help</h3>
+  <p>  This tutorial explains the various aspects of the Docker Container service.Starting with the basics of Docker which focuses on the installation and configuration of Docker, it gradually moves on to advanced topics such as Networking and Registries.The last few chapters of this tutorial cover the development aspects of Docker and how you can get up and running on the development environments using Docker Containers.</p>
+</div>
+
+<div class="clearfix"></div>
+
+<script>
+function openCity(evt, cityName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+</script>
+
+</body>
+</html>
